@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hardware · AeroSense · NTHU iGEM 2026</title>
+  <meta name="description" content="AeroSense portable optical readout hardware: need, requirements, architecture, open design conflicts, PCB provenance, verification status, and reproducibility gaps.">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/main.js" defer></script>
+  <script src="js/glossary.js" defer></script>
+  <script src="js/search.js" defer></script>
+</head>
+<body class="page-hardware">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="reading-progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html">
+        <img class="brand__logo" src="logo/logo.jpg" width="44" height="44" alt="AeroSense">
+        <span class="brand__text">
+          <span class="brand__name">AeroSense</span>
+          <span class="brand__meta">NTHU · iGEM 2026</span>
+        </span>
+      </a>
+      <div class="header-tools">
+        <a class="btn-search" href="index.html#site-map" aria-haspopup="dialog" aria-controls="project-search">Project Search</a>
+        <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      </div>
+      <nav class="site-nav" id="site-nav" aria-label="Primary">
+        <ul class="nav-root">
+          <li>
+            <a href="index.html">Home</a>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Project</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-project">Project</button>
+            <ul class="nav-submenu" id="submenu-project">
+              <li><a href="description.html">Description</a></li>
+              <li><a href="contribution.html">Contribution</a></li>
+              <li><a href="engineering.html">Engineering</a></li>
+              <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Team</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-team">Team</button>
+            <ul class="nav-submenu" id="submenu-team">
+              <li><a href="members.html">Members</a></li>
+              <li><a href="attributions.html">Attributions</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Lab</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-lab">Lab</button>
+            <ul class="nav-submenu" id="submenu-lab">
+              <li><a href="parts.html">Parts</a></li>
+              <li><a href="design.html">Design</a></li>
+              <li><a href="experiments.html">Experiments</a></li>
+              <li><a href="notebook.html">Notebook</a></li>
+              <li><a href="results.html">Results</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Dry Lab</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-drylab">Dry Lab</button>
+            <ul class="nav-submenu" id="submenu-drylab">
+              <li><a href="model.html">Model</a></li>
+              <li><a href="hardware.html" aria-current="page">Hardware</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Human Practices</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-hp">Human Practices</button>
+            <ul class="nav-submenu" id="submenu-hp">
+              <li><a href="human-practices.html">Integrated Human Practices</a></li>
+              <li><a href="education.html">Education</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <dialog class="search-dialog" id="project-search" aria-labelledby="search-title">
+    <div class="search-dialog__panel">
+      <div class="search-dialog__header">
+        <h2 id="search-title">Project Search</h2>
+        <button type="button" class="search-dialog__close" data-search-close>Close</button>
+      </div>
+      <form class="search-dialog__form" role="search" action="index.html#site-map" method="get">
+        <label for="project-search-input">Search the AeroSense wiki</label>
+        <p id="project-search-instructions" class="search-dialog__hint">Type keywords from page titles and sections. Results stay on this site. No remote requests are made. Arrow keys move through results; Enter opens; Escape closes.</p>
+        <div class="search-dialog__field">
+          <input id="project-search-input" type="search" name="q" placeholder="e.g. HEK293T, Orco, hardware" autocomplete="off" aria-describedby="project-search-instructions project-search-count" aria-controls="project-search-results">
+          <button type="button" class="search-dialog__clear" data-search-clear hidden>Clear</button>
+        </div>
+        <div class="search-dialog__actions">
+          <button type="submit">Search</button>
+          <button type="button" data-search-close>Close</button>
+        </div>
+      </form>
+      <p id="project-search-count" class="search-dialog__count" aria-live="polite" aria-atomic="true">0 results</p>
+      <div id="project-search-results" class="search-dialog__results" role="listbox" aria-labelledby="search-title"></div>
+    </div>
+  </dialog>
+
+  <div class="shell shell--with-toc">
+    <div class="page-main-column">
+      <main id="main">
+        <header class="page-hero" data-reveal>
+          <nav aria-label="Breadcrumb">
+            <ol class="breadcrumb">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="hardware.html">Dry Lab</a></li>
+              <li aria-current="page">Hardware</li>
+            </ol>
+          </nav>
+          <span class="page-kicker">13 / Dry Lab</span>
+          <h1>Hardware</h1>
+          <p class="page-purpose">Portable optical readout for a living-cell sensing platform</p>
+          <span class="status-label status-label--planned">Design in conflict · PCB drafts exist · no bench-validated instrument published</span>
+        </header>
+
+        <article class="page-article prose">
+          <section class="section-block" id="the-need" data-reveal>
+            <h2>The need</h2>
+            <div class="evidence-status" data-status="planned">
+              <span class="evidence-status__label">Status</span>
+              <span class="evidence-status__value">Planned</span>
+            </div>
+            <p>
+              AeroSense’s wet-lab track expresses insect
+              <dfn class="term" data-term="or" tabindex="0">olfactory receptors (ORs)</dfn>
+              with Orco and reports activity through GCaMP-class fluorescence
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-chen-2013" id="cite-chen-2013-a" aria-describedby="cite-preview-chen-2013">[1]</a>
+                <span class="cite-preview" id="cite-preview-chen-2013" role="tooltip">Chen et al., 2013 — full entry in References &amp; Credits.</span>
+              </span>.
+              That fluorescence must be converted into documented digital time series that the
+              <a href="model.html">Model</a>
+              interface can consume without silent rescaling (see
+              <a href="design.html#interfaces">Design · Interfaces with Model and Hardware</a>).
+            </p>
+            <p>
+              <strong>Problem the hardware is intended to solve (lab workflow):</strong> dependence on shared microscopy or plate-reader setups for every receptor-array readout, with acquisition settings that are hard to version alongside living samples and model feature extraction.
+            </p>
+            <p>
+              <strong>Users / workflows affected (intended):</strong> wet-lab operators running agonist / VOC assays; dry-lab members who need provenance-labeled fluorescence features; future builders who would reproduce a portable optical stack. Field or clinical deployment need is
+              <strong>not</strong>
+              claimed here: the
+              <a href="human-practices.html">Integrated Human Practices</a>
+              page still lacks published stakeholder evidence for deployment requirements.
+            </p>
+            <p class="notice">
+              This page prioritizes need, conflicts, iteration status, and reproducibility over renders. Attractive CAD or marketing language is not evidence of a working instrument.
+            </p>
+          </section>
+
+          <section class="section-block" id="open-conflicts" data-reveal>
+            <h2>Open design conflicts</h2>
+            <p>
+              Proposal text, a Chinese compact design report in the team PCB archive, and the current KiCad project do not agree on several critical parts. This page does
+              <strong>not</strong>
+              silently pick a winner. Architecture diagrams use generic block labels until a single schematic/BOM revision is frozen and published here.
+            </p>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Open hardware design conflicts">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Topic</th>
+                    <th scope="col">Source A</th>
+                    <th scope="col">Source B / C</th>
+                    <th scope="col">Page treatment</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>TIA op-amp</td>
+                    <td>Compact design report intends <strong>LMP7721</strong> (footprints/datasheet present in archive)</td>
+                    <td>Current KiCad <code>final.kicad_sch</code> / <code>BOM.csv</code>: U3 Value <code>TIA</code>, datasheet link <strong>NE5534</strong>. Earlier <code>final v1</code> used <strong>LM358</strong>. <strong>OPA192</strong> was not found in searched proposal, BOM, or current schematic.</td>
+                    <td>Label: “TIA stage” — part identity unresolved</td>
+                  </tr>
+                  <tr>
+                    <td>ADC identity</td>
+                    <td>Current BOM U6: <strong>ADS8866IDGS</strong></td>
+                    <td><code>final v1</code>: <strong>MCP3204</strong>. Current schematic still carries mismatched library symbol text <strong>MCP3423x-xUN</strong> (ERC warning). BOM datasheet URL for U6 points to an unrelated Microchip document.</td>
+                    <td>Label: “ADC stage” — freeze required</td>
+                  </tr>
+                  <tr>
+                    <td>Voltage reference</td>
+                    <td>BOM U2: <strong>LTC6655BHMS8-2.5</strong></td>
+                    <td>ERC reports symbol <strong>ADR4525</strong> mismatch / wrong datasheet URL in BOM row</td>
+                    <td>Label: “2.5 V reference” — part identity unresolved</td>
+                  </tr>
+                  <tr>
+                    <td>MCU / host</td>
+                    <td>Proposal: <strong>Arduino</strong> control + <strong>Raspberry Pi</strong> inference (+ camera)</td>
+                    <td>Current KiCad: on-board <strong>ESP32-WROOM-32E</strong> (U1) plus <strong>2×20</strong> header (J1) with Pi-side power nets. No Arduino symbol in current schematic.</td>
+                    <td>Roles kept distinct; neither stack claimed finished</td>
+                  </tr>
+                  <tr>
+                    <td>Optical detector</td>
+                    <td>Proposal portable stages describe <strong>camera</strong> imaging</td>
+                    <td>KiCad / design report: <strong>photodiode</strong> path (D1 footprint <code>XDCR_VEMD5060X01</code>)</td>
+                    <td>Primary engineering cycles track photodiode path; camera remains a superseded/alternate proposal concept until revived with evidence</td>
+                  </tr>
+                  <tr>
+                    <td>Excitation wavelength</td>
+                    <td>Legacy landing copy: <strong>488 nm</strong> LED</td>
+                    <td>Compact design report: <strong>470 nm</strong> Würth LED family; current BOM LEDs are generic <code>D_LED1…4</code> without a locked MPN on this wiki</td>
+                    <td>Label: “blue excitation LED” — λ not frozen on wiki</td>
+                  </tr>
+                  <tr>
+                    <td>FDM / DLIA</td>
+                    <td>Wiki glossary defines
+                      <dfn class="term" data-term="fdm" tabindex="0">FDM</dfn>
+                      /
+                      <dfn class="term" data-term="dlia" tabindex="0">DLIA</dfn>
+                    </td>
+                    <td>Design report discusses LED modulation / digital lock-in conceptually; channel carrier frequencies are <span class="placeholder-field">not published</span></td>
+                    <td>Concept only — no observed separation metrics</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section-block" id="system-requirements" data-reveal>
+            <h2>System requirements</h2>
+            <p>
+              Acceptance numbers appear only when a unit, method/source, revision, and evidence status can be stated. Empty cells stay empty.
+            </p>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="System requirements">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Requirement</th>
+                    <th scope="col">Rationale</th>
+                    <th scope="col">Target / acceptance</th>
+                    <th scope="col">Verification method</th>
+                    <th scope="col">Source</th>
+                    <th scope="col">Evidence status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Report GCaMP-class fluorescence as a documented optical quantity</td>
+                    <td>Living-cell OR assays need a reproducible intensity / ΔF-class readout</td>
+                    <td><span class="placeholder-field">Numeric gate not frozen</span></td>
+                    <td><a href="experiments.html#exp-as-08">EXP-AS-08</a> dark/blank + reference calibration (planned)</td>
+                    <td>Design interfaces; Description hardware layer</td>
+                    <td>Target · Planned</td>
+                  </tr>
+                  <tr>
+                    <td>Reject excitation bleed-through at the detector</td>
+                    <td>Blue excitation can swamp emission without filtering / geometry control</td>
+                    <td><span class="placeholder-field">Filter OD / bleed ratio not published</span></td>
+                    <td>Optical leakage test (see Verification)</td>
+                    <td>Engineering <a href="engineering.html#hw-optical-c1">hw-optical-c1</a></td>
+                    <td>Target · Planned</td>
+                  </tr>
+                  <tr>
+                    <td>Export provenance-labeled digital time series</td>
+                    <td>Model must know whether hardware already scaled the data</td>
+                    <td>Provenance flag required; silent rescaling forbidden</td>
+                    <td>File/metadata review against Design contract</td>
+                    <td><a href="design.html#interfaces">Design interfaces</a></td>
+                    <td>Target · Planned</td>
+                  </tr>
+                  <tr>
+                    <td>Multi-channel optical path with stated isolation</td>
+                    <td>Receptor arrays need more than one fluorescence channel over time</td>
+                    <td>KiCad presently shows four LED drive channels; isolation target <span class="placeholder-field">unset</span></td>
+                    <td>Cross-talk matrix (planned)</td>
+                    <td>Engineering <a href="engineering.html#hw-pcb-c1">hw-pcb-c1</a>; KiCad LED nets</td>
+                    <td>Target · Planned</td>
+                  </tr>
+                  <tr>
+                    <td>Versioned hardware + firmware identity on every run</td>
+                    <td>Integration assays are meaningless without revision IDs</td>
+                    <td>Revision string + firmware hash recorded in notebook</td>
+                    <td><a href="experiments.html#exp-as-08">EXP-AS-08</a> step 1</td>
+                    <td>Experiments scaffold</td>
+                    <td>Target · Planned</td>
+                  </tr>
+                  <tr>
+                    <td>Portable instrument (size / mass / power)</td>
+                    <td>Often claimed for field use</td>
+                    <td><span class="placeholder-field">Enclosure dimensions, mass, and power budget not published</span>. PCB outline alone is not portability evidence.</td>
+                    <td>Use test with measured dimensions/weight/power</td>
+                    <td>—</td>
+                    <td>Not claimed</td>
+                  </tr>
+                  <tr>
+                    <td>Low cost</td>
+                    <td>Common project goal</td>
+                    <td><span class="placeholder-field">No dated priced BOM</span></td>
+                    <td>Priced BOM with date/currency</td>
+                    <td>—</td>
+                    <td>Not claimed</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section-block" id="architecture" data-reveal>
+            <h2>Architecture</h2>
+            <p>
+              <span class="stage-tag stage-tag--proposed">Current design revision</span>
+              No frozen public hardware revision ID is published on this wiki. Team-local KiCad exports use working labels such as <code>Schematic_R0.pdf</code> / <code>PCB_Layout_Review_R0</code>; those filenames are inventory tags, not an accepted release.
+            </p>
+            <figure class="wiki-figure" data-reveal>
+              <div class="wiki-figure__media">
+                <svg viewBox="0 0 820 420" role="img" aria-label="Block diagram from VOC or sample input through cell chamber, excitation, fluorescence collection, photodiode, TIA, ADC, microcontroller, edge computer, and digital output. Component part numbers intentionally generic because designs conflict.">
+                  <rect width="820" height="420" fill="#f5f5f1"/>
+                  <g font-family="Georgia, serif" font-size="12" fill="#0a0a0a">
+                    <rect x="20" y="40" width="120" height="54" fill="#fff" stroke="#333"/>
+                    <text x="80" y="62" text-anchor="middle">Sample / VOC</text>
+                    <text x="80" y="80" text-anchor="middle">input</text>
+
+                    <rect x="170" y="40" width="130" height="54" fill="#fff" stroke="#333"/>
+                    <text x="235" y="62" text-anchor="middle">Cell chamber</text>
+                    <text x="235" y="80" text-anchor="middle">(living cells)</text>
+
+                    <rect x="330" y="20" width="140" height="40" fill="#fff" stroke="#333"/>
+                    <text x="400" y="45" text-anchor="middle">Excitation optics</text>
+
+                    <rect x="330" y="74" width="140" height="40" fill="#fff" stroke="#333"/>
+                    <text x="400" y="99" text-anchor="middle">Emission path / filter</text>
+
+                    <rect x="500" y="40" width="120" height="54" fill="#fff" stroke="#333"/>
+                    <text x="560" y="62" text-anchor="middle">Photodiode</text>
+                    <text x="560" y="80" text-anchor="middle">collection</text>
+
+                    <rect x="650" y="40" width="140" height="54" fill="#fff" stroke="#333"/>
+                    <text x="720" y="62" text-anchor="middle">TIA stage</text>
+                    <text x="720" y="80" text-anchor="middle">(part TBD)</text>
+
+                    <rect x="650" y="130" width="140" height="54" fill="#fff" stroke="#333"/>
+                    <text x="720" y="152" text-anchor="middle">ADC stage</text>
+                    <text x="720" y="170" text-anchor="middle">(part TBD)</text>
+
+                    <rect x="400" y="130" width="200" height="54" fill="#fff" stroke="#333"/>
+                    <text x="500" y="152" text-anchor="middle">Microcontroller</text>
+                    <text x="500" y="170" text-anchor="middle">(ESP32 candidate)</text>
+
+                    <rect x="170" y="130" width="180" height="54" fill="#fff" stroke="#333"/>
+                    <text x="260" y="152" text-anchor="middle">Edge computer host</text>
+                    <text x="260" y="170" text-anchor="middle">(Pi-class candidate)</text>
+
+                    <rect x="20" y="130" width="120" height="54" fill="#fff" stroke="#333"/>
+                    <text x="80" y="152" text-anchor="middle">Digital output</text>
+                    <text x="80" y="170" text-anchor="middle">/ model handoff</text>
+
+                    <text x="410" y="240" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="11" fill="#555555">Solid arrows = intended signal / sample flow · dashed = alternate proposal concepts not frozen</text>
+
+                    <rect x="20" y="270" width="780" height="120" fill="#fff" stroke="#888" stroke-dasharray="4 3"/>
+                    <text x="40" y="295" font-family="ui-monospace, Consolas, monospace" font-size="11" fill="#555555">ALTERNATE / SUPERSEDED CONCEPTS (proposal) — not shown as current KiCad truth</text>
+                    <text x="40" y="320">Camera imaging path instead of photodiode</text>
+                    <text x="40" y="342">Arduino as real-time controller instead of on-board ESP32 module</text>
+                    <text x="40" y="364">Field life-support / UV-C / battery tiers without published enclosure evidence</text>
+                  </g>
+                  <g stroke="#333" fill="none" stroke-width="1.5">
+                    <path d="M140 67 H170"/>
+                    <path d="M300 67 H330"/>
+                    <path d="M400 60 V40"/>
+                    <path d="M470 40 H500"/>
+                    <path d="M470 94 H500"/>
+                    <path d="M620 67 H650"/>
+                    <path d="M720 94 V130"/>
+                    <path d="M650 157 H600"/>
+                    <path d="M400 157 H350"/>
+                    <path d="M170 157 H140"/>
+                  </g>
+                </svg>
+              </div>
+              <figcaption>
+                <span class="wiki-figure__num">Figure H1.</span>
+                <span class="wiki-figure__title">Intended portable readout chain</span>
+                <p class="wiki-figure__explain">Concept illustration for information architecture. It is not a measured optical layout and not a fabricated assembly photo.</p>
+                <ul class="wiki-figure__meta">
+                  <li><span class="wiki-figure__badge">Illustrative</span></li>
+                  <li><strong>Source:</strong> Local SVG created for the AeroSense wiki Hardware page (team-generated concept diagram).</li>
+                  <li><strong>Evidence status:</strong> Planned / proposed architecture — not bench data.</li>
+                  <li><strong>Creator / license:</strong> NTHU AeroSense; reuse under the site CC BY 4.0 terms once published. No third-party asset adapted.</li>
+                  <li><strong>Underlying data:</strong> Not applicable — no measured dataset is shown.</li>
+                  <li>Revision: unfrozen</li>
+                </ul>
+              </figcaption>
+            </figure>
+          </section>
+
+          <section class="section-block" id="physical-stack" data-reveal>
+            <h2>Physical stack</h2>
+            <p>
+              The team proposal describes a multi-layer chamber concept. That geometry is
+              <strong>proposed</strong>, not evidenced as a fabricated enclosure on this wiki (no published STL/STEP enclosure package).
+            </p>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Physical stack proposed versus fabricated">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Layer</th>
+                    <th scope="col">Proposal intent</th>
+                    <th scope="col">Fabricated / published status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Inlet / diffusion</td>
+                    <td>Gas path with membrane / filtration concepts (e.g. PDMS + PTFE ideas in proposal tiers)</td>
+                    <td><span class="placeholder-field">No verified fabricated fluidic stack published</span></td>
+                  </tr>
+                  <tr>
+                    <td>Living-cell chamber</td>
+                    <td>HEK-based sensing volume with environmental support concepts</td>
+                    <td>Biology proceeds on labware first; portable chamber not validated here</td>
+                  </tr>
+                  <tr>
+                    <td>Optical / mixed-signal board</td>
+                    <td>Excitation + detection electronics</td>
+                    <td>Team-local KiCad project exists (<code>final.kicad_pcb</code> outline ~65 mm × 56 mm). Not a claim that a populated board passed optical tests.</td>
+                  </tr>
+                  <tr>
+                    <td>Thermal isolation / ventilation</td>
+                    <td>Heaters, insulation, fans in proposal tiers</td>
+                    <td><span class="placeholder-field">Pending BOM freeze</span> (see Safety heaters row)</td>
+                  </tr>
+                  <tr>
+                    <td>Compute / power</td>
+                    <td>Host compute + controller + supply</td>
+                    <td>Schematic candidates: ESP32 module, 2×20 host header, DC/DC and LDO parts — roles not user-tested as a portable pack</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section-block" id="optical-design" data-reveal>
+            <h2>Optical design</h2>
+            <div class="evidence-status" data-status="planned">
+              <span class="evidence-status__label">Status</span>
+              <span class="evidence-status__value">Planned</span>
+            </div>
+            <ul>
+              <li><strong>Excitation:</strong> blue LED illumination matched to GCaMP-class excitation is intended. Exact peak wavelength is conflicted (legacy 488 nm copy vs design-report 470 nm vs unlocked BOM LED MPNs).</li>
+              <li><strong>Geometry:</strong> design-report discussion uses side-view LED concepts with a photodiode collector; no measured ray-trace evidence is published, and simulated paths are not treated as data.</li>
+              <li><strong>Emission filtering:</strong> required to reject excitation bleed-through; filter part numbers / OD <span class="placeholder-field">not published</span>.</li>
+              <li><strong>Photodiode collection:</strong> current KiCad footprint library points at Vishay VEMD5060X01-class PD package for D1; optical alignment jig <span class="placeholder-field">unpublished</span>.</li>
+              <li><strong>Ambient-light control:</strong> light-tight enclosure planned; no light-leak test log.</li>
+              <li><strong>Cross-talk risks:</strong> four LED channels on the board draft can electrically or optically couple; isolation unmeasured.</li>
+              <li><strong>Calibration:</strong> scaffolded in <a href="experiments.html#exp-as-08">EXP-AS-08</a> (dark/blank, optional reference emitter).</li>
+            </ul>
+            <p class="notice">
+              Performance classes on this page:
+              <span class="stage-tag">Target</span>
+              <span class="stage-tag">Simulated</span>
+              <span class="stage-tag">Bench-tested</span>
+              <span class="stage-tag">Integrated</span>
+              — only Target currently applies to optical numbers; no Simulated/Bench-tested/Integrated optical results are published.
+            </p>
+          </section>
+
+          <section class="section-block" id="analog-chain" data-reveal>
+            <h2>Analog and mixed-signal chain</h2>
+            <p>
+              Intended chain: photodiode photocurrent →
+              <dfn class="term" data-term="tia" tabindex="0">TIA</dfn>
+              → reference / anti-alias conditioning →
+              <dfn class="term" data-term="adc" tabindex="0">ADC</dfn>.
+              Component names below are taken from the latest team-local KiCad/BOM export audited for this page and remain subject to the conflict table.
+            </p>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Analog and mixed-signal chain">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Stage</th>
+                    <th scope="col">Latest schematic / BOM note</th>
+                    <th scope="col">Values present in export</th>
+                    <th scope="col">Evidence status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Photodiode</td>
+                    <td>D1 Value <code>PD</code>, footprint <code>XDCR_VEMD5060X01</code></td>
+                    <td>Package class identified; optical responsivity not bench-logged here</td>
+                    <td>Schematic draft</td>
+                  </tr>
+                  <tr>
+                    <td>TIA</td>
+                    <td>U3 Value <code>TIA</code>; datasheet property points to NE5534; design report intends LMP7721</td>
+                    <td>Feedback network export includes <code>R_F_MAIN</code> 100 MΩ and <code>C_F_MAIN</code> 2.2 pF class parts — treat as draft, not measured noise design</td>
+                    <td>Conflict · not frozen</td>
+                  </tr>
+                  <tr>
+                    <td>Reference</td>
+                    <td>U2 BOM: LTC6655 2.5 V; ERC symbol text ADR4525</td>
+                    <td>2.5 V class reference intended</td>
+                    <td>Conflict · not frozen</td>
+                  </tr>
+                  <tr>
+                    <td>ADC</td>
+                    <td>U6 BOM: ADS8866IDGS; schematic also carries MCP3423 symbol text</td>
+                    <td>16-bit SAR candidate in BOM naming</td>
+                    <td>Conflict · not frozen</td>
+                  </tr>
+                  <tr>
+                    <td>LED drive</td>
+                    <td>D5–D8 LEDs; Q1–Q4 AO3400A-class FET drives; gate/series resistors exported</td>
+                    <td>Four channels in BOM</td>
+                    <td>Schematic draft</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="notice">
+              A wiki-hosted, team-approved schematic PDF is still required before this section can name a single authoritative BOM line for the TIA and ADC. Do not treat datasheet URLs inside the CSV as validated references when they point to the wrong vendor document.
+            </p>
+          </section>
+
+          <section class="section-block" id="multiplexing" data-reveal>
+            <h2>Multiplexing and signal processing</h2>
+            <p>
+              Wiki scaffolding uses
+              <dfn class="term" data-term="fdm" tabindex="0">frequency-division multiplexing (FDM)</dfn>
+              and
+              <dfn class="term" data-term="dlia" tabindex="0">digital lock-in amplification (DLIA)</dfn>
+              as explanatory labels for separating multiple LED-driven optical channels in frequency space. The compact design report discusses LED modulation and digital lock-in as a capability direction.
+            </p>
+            <ul>
+              <li><strong>Channel frequencies:</strong> <span class="placeholder-field">Not published for a current firmware revision</span>.</li>
+              <li><strong>Sampling requirements:</strong> must satisfy Nyquist relative to chosen carriers once frequencies exist; ADC candidate and clocking not frozen.</li>
+              <li><strong>Filter logic:</strong> conceptual digital lock-in / band isolation — no firmware listing on this wiki.</li>
+              <li><strong>Expected vs observed separation:</strong> expected only as engineering intent; observed separation <strong>not measured</strong> on published Results.</li>
+            </ul>
+            <p class="notice">
+              Multiplexing language here explains a planned approach. It does not claim superior noise performance, mixture discrimination, or low-power edge inference.
+            </p>
+          </section>
+
+          <section class="section-block" id="pcb-design" data-reveal>
+            <h2>PCB design</h2>
+            <div class="evidence-status" data-status="in-progress">
+              <span class="evidence-status__label">Status</span>
+              <span class="evidence-status__value">In development</span>
+            </div>
+            <p>
+              The following inventory was verified against the team-local PCB archive outside this wiki tree (KiCad / BOM / DRC–ERC files held by the hardware team; not published as wiki downloads yet).
+              Files are
+              <strong>not</strong>
+              offered as downloads from this page until they are published under the team GitLab / wiki static rules with an approved license.
+            </p>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="PCB design inventory">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Item</th>
+                    <th scope="col">Verified record</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Board revision label</td>
+                    <td>Working tags <code>Schematic_R0.pdf</code>, <code>PCB_Layout_Review_R0/</code>; earlier tree <code>final v1/</code>. No frozen wiki revision string.</td>
+                  </tr>
+                  <tr>
+                    <td>Schematic</td>
+                    <td>Team-local <code>final.kicad_sch</code> (+ PDF export name <code>Schematic_R0.pdf</code>)</td>
+                  </tr>
+                  <tr>
+                    <td>Layout</td>
+                    <td>Team-local <code>final.kicad_pcb</code>; outline approximately <strong>65 mm × 56 mm</strong> (Edge.Cuts). Inner layers <code>In1.Cu</code> / <code>In2.Cu</code> present (four-layer class layout).</td>
+                  </tr>
+                  <tr>
+                    <td>Stack-up</td>
+                    <td>Layer PDFs exist under <code>PCB_Layout_Review_R0/</code>; formal fabricator stack-up note <span class="placeholder-field">not published on wiki</span></td>
+                  </tr>
+                  <tr>
+                    <td>Grounding / guard</td>
+                    <td>Schematic includes guard-related nets/pins on the TIA symbol; strategy not documented in an English app-note on this wiki</td>
+                  </tr>
+                  <tr>
+                    <td>Connector / power</td>
+                    <td>J1 2×20 header; ESP32 module; DC/DC value <code>TSR 1-2433</code> (ERC also flags AMS1117 symbol mismatch); LDO <code>LP5907MFX-3.3</code>; Pi-side bulk input capacitors present in BOM</td>
+                  </tr>
+                  <tr>
+                    <td>DRC</td>
+                    <td><code>DRC.rpt</code> dated <strong>2026-08-02</strong>: <strong>73 violations</strong> reported (clearance, solder-mask bridge, starved thermal, and related). Not manufacturing-ready on that report alone.</td>
+                  </tr>
+                  <tr>
+                    <td>ERC</td>
+                    <td><code>ERC.rpt</code> dated <strong>2026-08-02</strong>: <strong>7 errors</strong> and <strong>11 warnings</strong> in the audited file (power-pin drive, pin-type conflicts, footprint library / symbol mismatches).</td>
+                  </tr>
+                  <tr>
+                    <td>Fabrication files</td>
+                    <td>Team-local <code>Layout.zip</code>, gerbers under <code>final v1/</code>, review PDFs. <span class="placeholder-field">No wiki download link</span></td>
+                  </tr>
+                  <tr>
+                    <td>Known review items</td>
+                    <td>Resolve TIA/ADC/reference symbol↔BOM mismatches; fix wrong datasheet URLs; clear DRC/ERC; publish one supersession note for <code>final v1</code> → current.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section-block" id="firmware-data-path" data-reveal>
+            <h2>Firmware and data path</h2>
+            <div class="empty-state" role="status">
+              <h3 class="empty-state__title">No versioned firmware published on this wiki</h3>
+              <p>
+                Intended functions include LED timing/modulation, ADC acquisition, optional lock-in processing, calibration constants, error handling, and host communication. None of these have a public, versioned source link from this page.
+              </p>
+            </div>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Firmware and data path status">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Function</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Timing / LED control</td>
+                    <td><span class="placeholder-field">Unpublished</span> — ESP32 GPIOs are candidates in hardware, not a firmware claim</td>
+                  </tr>
+                  <tr>
+                    <td>Acquisition</td>
+                    <td><span class="placeholder-field">Unpublished</span></td>
+                  </tr>
+                  <tr>
+                    <td>Lock-in processing</td>
+                    <td>Concept only</td>
+                  </tr>
+                  <tr>
+                    <td>Calibration storage</td>
+                    <td>Planned via EXP-AS-08 logs</td>
+                  </tr>
+                  <tr>
+                    <td>Error handling</td>
+                    <td><span class="placeholder-field">Unpublished</span></td>
+                  </tr>
+                  <tr>
+                    <td>Communication</td>
+                    <td>Keep ESP32 on-board link and Raspberry Pi–class host roles distinct; protocol <span class="placeholder-field">unset</span></td>
+                  </tr>
+                  <tr>
+                    <td>Versioned source</td>
+                    <td>Team GitLab home: <a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer">gitlab.igem.org/2026/nthu</a> — not a claim that firmware is already released there</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section-block" id="mechanical-fluidic-thermal" data-reveal>
+            <h2>Mechanical, fluidic, and thermal design</h2>
+            <ul>
+              <li><strong>Chamber / membrane / tubing:</strong> proposed in multi-tier hardware concepts; no leak-tested portable chamber evidence on Results.</li>
+              <li><strong>Enclosure:</strong> light-tight and containment functions planned; CAD package not published on this wiki.</li>
+              <li><strong>Leakage:</strong> Safety lists pressure/tubing and enclosure-failure hazards as Planned.</li>
+              <li><strong>Maintainability:</strong> not evidenced (tool access, consumable swap, sterilization cycle).</li>
+              <li><strong>Temperature control:</strong> proposal/legacy copy mention incubator or heater setpoints; AeroSense wiki does not treat those numbers as verified hardware performance. Safety: heaters pending BOM freeze.</li>
+              <li><strong>Cell viability constraints:</strong> portable life-support is a deployment concept only; wet-lab assays remain the evidenced biology venue until integration passes EXP-AS-08 gates.</li>
+            </ul>
+          </section>
+
+          <section class="section-block" id="engineering-iterations" data-reveal>
+            <h2>Engineering iterations</h2>
+            <p>
+              Special-award iteration requires Design → Build → Test → Learn evidence. Current Engineering cycles are planned scaffolds, not closed loops.
+            </p>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Engineering iterations linked to Hardware">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Iteration</th>
+                    <th scope="col">Design</th>
+                    <th scope="col">Build</th>
+                    <th scope="col">Test</th>
+                    <th scope="col">Learn / Change</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><a href="engineering.html#hw-optical-c1">hw-optical-c1</a> · Optical path</td>
+                    <td>Requirement written (filter + PD path)</td>
+                    <td class="placeholder-field">Incomplete</td>
+                    <td class="placeholder-field">Incomplete</td>
+                    <td class="placeholder-field">Incomplete</td>
+                  </tr>
+                  <tr>
+                    <td><a href="engineering.html#hw-pcb-c1">hw-pcb-c1</a> · PCB / signal chain</td>
+                    <td>Requirement written (TIA/ADC/multiplex)</td>
+                    <td class="placeholder-field">Incomplete on Engineering evidence rail (KiCad drafts exist locally but are not attached as cycle evidence)</td>
+                    <td class="placeholder-field">Incomplete</td>
+                    <td class="placeholder-field">Incomplete</td>
+                  </tr>
+                  <tr>
+                    <td><a href="engineering.html#integration-c1">integration-c1</a></td>
+                    <td>Cross-track handoff requirement</td>
+                    <td class="placeholder-field">Incomplete</td>
+                    <td class="placeholder-field">Incomplete</td>
+                    <td class="placeholder-field">Incomplete</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>
+              Historical PCB trees (<code>final v1</code> → current <code>final</code>) show part churn (LM358/MCP3204 → NE5534-labeled TIA/ADS8866 BOM naming). That churn is design history, not a completed Learn stage with bench metrics.
+            </p>
+          </section>
+
+          <section class="section-block" id="verification" data-reveal>
+            <h2>Verification</h2>
+            <p>
+              Test matrix for a future instrument revision. No generated example results are filled in.
+            </p>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Hardware verification matrix">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Test</th>
+                    <th scope="col">Class</th>
+                    <th scope="col">Method (planned)</th>
+                    <th scope="col">Result</th>
+                    <th scope="col">Link</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Optical leakage / bleed-through</td>
+                    <td>Target</td>
+                    <td>Dark enclosure + excitation-on emission path measurement</td>
+                    <td><span class="placeholder-field">Unpublished</span></td>
+                    <td><a href="results.html#res-EXP-AS-08">res-EXP-AS-08</a></td>
+                  </tr>
+                  <tr>
+                    <td>Noise floor</td>
+                    <td>Target</td>
+                    <td>Dark current / electronic noise histogram</td>
+                    <td><span class="placeholder-field">Unpublished</span></td>
+                    <td><a href="engineering.html#hw-pcb-c1">hw-pcb-c1</a></td>
+                  </tr>
+                  <tr>
+                    <td>Linearity</td>
+                    <td>Target</td>
+                    <td>Reference emitter or attenuator sweep</td>
+                    <td><span class="placeholder-field">Unpublished</span></td>
+                    <td><a href="experiments.html#exp-as-08">EXP-AS-08</a></td>
+                  </tr>
+                  <tr>
+                    <td>Channel cross-talk</td>
+                    <td>Target</td>
+                    <td>One-channel-on matrix across four LED drives</td>
+                    <td><span class="placeholder-field">Unpublished</span></td>
+                    <td><a href="engineering.html#hw-pcb-c1">hw-pcb-c1</a></td>
+                  </tr>
+                  <tr>
+                    <td>Thermal stability</td>
+                    <td>Target</td>
+                    <td>Temperature soak of electronics / chamber once thermal BOM exists</td>
+                    <td><span class="placeholder-field">Unpublished</span></td>
+                    <td><a href="safety-and-security.html#hardware-hazards">Hardware hazards</a></td>
+                  </tr>
+                  <tr>
+                    <td>Timing</td>
+                    <td>Target</td>
+                    <td>LED/ADC timestamp alignment log</td>
+                    <td><span class="placeholder-field">Unpublished</span></td>
+                    <td>Firmware release pending</td>
+                  </tr>
+                  <tr>
+                    <td>Electrical safety</td>
+                    <td>Target</td>
+                    <td>Insulation / supply-limit checklist</td>
+                    <td><span class="placeholder-field">Unpublished</span></td>
+                    <td><a href="safety-and-security.html#hardware-hazards">Hardware hazards</a></td>
+                  </tr>
+                  <tr>
+                    <td>Fluidic leakage</td>
+                    <td>Target</td>
+                    <td>Pressure / dye leak check before VOC runs</td>
+                    <td><span class="placeholder-field">Unpublished</span></td>
+                    <td>Safety pressure/tubing row</td>
+                  </tr>
+                  <tr>
+                    <td>Repeatability</td>
+                    <td>Target</td>
+                    <td>Repeated calibration runs (count pending SOP)</td>
+                    <td><span class="placeholder-field">Unpublished</span></td>
+                    <td><a href="experiments.html#exp-as-08">EXP-AS-08</a></td>
+                  </tr>
+                  <tr>
+                    <td>Wet integration</td>
+                    <td>Target</td>
+                    <td>Only after calibration gates; living-sample handoff</td>
+                    <td><span class="placeholder-field">Unpublished</span></td>
+                    <td><a href="engineering.html#integration-c1">integration-c1</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section-block" id="user-testing" data-reveal>
+            <h2>User testing and feedback</h2>
+            <div class="empty-state" role="status">
+              <h3 class="empty-state__title">No user testing records published</h3>
+              <p>
+                This page does not invent operators, reviewers, quotes, or usability findings. When testing occurs, record who used or reviewed the hardware, the task, the observation, the design change, and the evidence link (Notebook / Engineering / HP).
+              </p>
+            </div>
+            <p>
+              Stakeholder deployment needs remain open on
+              <a href="human-practices.html">Integrated Human Practices</a>.
+            </p>
+          </section>
+
+          <section class="section-block" id="build-it-yourself" data-reveal>
+            <h2>Build it yourself</h2>
+            <div class="evidence-status" data-status="in-progress">
+              <span class="evidence-status__label">Status</span>
+              <span class="evidence-status__value">In development</span>
+            </div>
+            <p>
+              Contribution package
+              <a href="contribution.html#pkg-hardware">pkg-hardware</a>
+              is In development. The checklist below states what exists locally versus what is missing for a reproducible public release. There are
+              <strong>no fake download buttons</strong>.
+            </p>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Build it yourself checklist">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Deliverable</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>BOM</td>
+                    <td>Team-local <code>BOM.csv</code> exists (quantities/footprints). Part conflicts unresolved. <span class="placeholder-field">No priced BOM / currency / date for cost claims</span></td>
+                  </tr>
+                  <tr>
+                    <td>CAD (enclosure / chamber)</td>
+                    <td><span class="placeholder-field">Not published on this wiki</span></td>
+                  </tr>
+                  <tr>
+                    <td>Schematic / PCB</td>
+                    <td>Team-local KiCad + review PDFs exist; not linked as wiki static assets yet</td>
+                  </tr>
+                  <tr>
+                    <td>Firmware</td>
+                    <td><span class="placeholder-field">Not published</span></td>
+                  </tr>
+                  <tr>
+                    <td>Assembly / calibration steps</td>
+                    <td>Scaffold only: <a href="experiments.html#exp-as-08">EXP-AS-08</a></td>
+                  </tr>
+                  <tr>
+                    <td>Required tools</td>
+                    <td><span class="placeholder-field">Pending freeze</span> (reflow/optical bench list)</td>
+                  </tr>
+                  <tr>
+                    <td>Cost basis / date</td>
+                    <td><span class="placeholder-field">None</span> — do not claim low cost</td>
+                  </tr>
+                  <tr>
+                    <td>License</td>
+                    <td>Wiki prose: <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">CC BY 4.0</a>. Hardware file license for KiCad/firmware <span class="placeholder-field">pending release packaging</span></td>
+                  </tr>
+                  <tr>
+                    <td>Known limitations</td>
+                    <td>Open conflicts above; DRC/ERC unclean; no bench optical validation; camera vs photodiode still conceptually unresolved at proposal level</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section-block" id="safety-deployment" data-reveal>
+            <h2>Safety and responsible deployment</h2>
+            <p>
+              Optical, electrical, thermal, fluidic, UV, and enclosure hazards for the proposed device are inventoried on
+              <a href="safety-and-security.html#hardware-hazards">Safety &amp; Security · Hardware and physical hazards</a>.
+              Do not energize uncovered UV modules, treat blue excitation as an eye hazard until enclosure controls are tested, and do not present field deployment as ready without containment and user-testing evidence.
+            </p>
+          </section>
+        </article>
+      </main>
+
+      <nav class="page-turn" aria-label="Page">
+        <a class="page-turn__prev" href="model.html"><span class="page-turn__dir">Previous</span><span class="page-turn__title">Model</span></a>
+        <a class="page-turn__next" href="human-practices.html"><span class="page-turn__dir">Next</span><span class="page-turn__title">Integrated Human Practices</span></a>
+      </nav>
+
+      <section class="references" aria-labelledby="references-heading" id="references" data-reveal>
+        <h2 id="references-heading">References &amp; Credits</h2>
+        <ol class="ref-list">
+          <li id="ref-chen-2013">
+            <span class="ref-authors">Chen, T.-W., Wardill, T. J., Sun, Y., Pulver, S. R., Renninger, S. L., Baohan, A., Schreiter, E. R., Kerr, R. A., Orger, M. B., Jayaraman, V., Looger, L. L., Svoboda, K., &amp; Kim, D. S.</span>
+            <span class="ref-year">(2013).</span>
+            <span class="ref-title">Ultrasensitive fluorescent proteins for imaging neuronal activity.</span>
+            <span class="ref-venue"><i>Nature</i>, <span class="ref-volume">499</span>(7458), 295–300.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/nature12354" rel="noopener noreferrer">10.1038/nature12354</a>.</span>
+            <a class="ref-backlink" href="#cite-chen-2013-a">Back to citation</a>
+          </li>
+        </ol>
+        <ul class="credit-list">
+          <li>Related wiki page (not a reference): <a href="design.html#interfaces">Design · Interfaces with Model and Hardware</a>.</li>
+          <li>Team-local hardware provenance (not a paper): KiCad <code>final.kicad_sch</code> / <code>final.kicad_pcb</code>, <code>BOM.csv</code>, <code>DRC.rpt</code>, <code>ERC.rpt</code>, and compact fluorescence-module design report PDF — not published as wiki downloads.</li>
+          <li>Architecture figure is a local concept SVG, not experimental data. No third-party team hardware files were copied into this wiki page. Component MPNs remain unresolved where conflicts are listed.</li>
+        </ul>
+      </section>
+    </div>
+
+    <details class="page-toc" open>
+      <summary class="toc__summary"><span class="toc__label">On this page</span></summary>
+      <nav aria-label="Table of contents">
+        <ol>
+          <li><a href="#the-need"><span class="tech-label">01</span> The need</a></li>
+          <li><a href="#open-conflicts"><span class="tech-label">02</span> Open conflicts</a></li>
+          <li><a href="#system-requirements"><span class="tech-label">03</span> System requirements</a></li>
+          <li><a href="#architecture"><span class="tech-label">04</span> Architecture</a></li>
+          <li><a href="#physical-stack"><span class="tech-label">05</span> Physical stack</a></li>
+          <li><a href="#optical-design"><span class="tech-label">06</span> Optical design</a></li>
+          <li><a href="#analog-chain"><span class="tech-label">07</span> Analog chain</a></li>
+          <li><a href="#multiplexing"><span class="tech-label">08</span> Multiplexing</a></li>
+          <li><a href="#pcb-design"><span class="tech-label">09</span> PCB design</a></li>
+          <li><a href="#firmware-data-path"><span class="tech-label">10</span> Firmware</a></li>
+          <li><a href="#mechanical-fluidic-thermal"><span class="tech-label">11</span> Mechanical / fluidic / thermal</a></li>
+          <li><a href="#engineering-iterations"><span class="tech-label">12</span> Engineering iterations</a></li>
+          <li><a href="#verification"><span class="tech-label">13</span> Verification</a></li>
+          <li><a href="#user-testing"><span class="tech-label">14</span> User testing</a></li>
+          <li><a href="#build-it-yourself"><span class="tech-label">15</span> Build it yourself</a></li>
+          <li><a href="#safety-deployment"><span class="tech-label">16</span> Safety</a></li>
+          <li><a href="#references"><span class="tech-label">Ref</span> References &amp; Credits</a></li>
+        </ol>
+      </nav>
+    </details>
+  </div>
+
+  <a class="back-to-top" href="#main">Back to top</a>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p class="footer-mission">AeroSense is developing a bio-digital olfactory sensing platform that pairs living-cell receptor arrays with edge-capable computational models for complex odor recognition.</p>
+
+      <p class="footer-sitemap-title" id="site-map-label">Site map</p>
+      <div class="footer-grid" id="site-map" aria-labelledby="site-map-label">
+        <div class="footer-col">
+          <h2>Project</h2>
+          <ul>
+            <li><a href="description.html">Description</a></li>
+            <li><a href="contribution.html">Contribution</a></li>
+            <li><a href="engineering.html">Engineering</a></li>
+            <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2>Team</h2>
+          <ul>
+            <li><a href="members.html">Members</a></li>
+            <li><a href="attributions.html">Attributions</a></li>
+          </ul>
+          <h2>Lab</h2>
+          <ul>
+            <li><a href="parts.html">Parts</a></li>
+            <li><a href="design.html">Design</a></li>
+            <li><a href="experiments.html">Experiments</a></li>
+            <li><a href="notebook.html">Notebook</a></li>
+            <li><a href="results.html">Results</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2>Dry Lab</h2>
+          <ul>
+            <li><a href="model.html">Model</a></li>
+            <li><a href="hardware.html">Hardware</a></li>
+          </ul>
+          <h2>Human Practices</h2>
+          <ul>
+            <li><a href="human-practices.html">Integrated Human Practices</a></li>
+            <li><a href="education.html">Education</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-meta">
+        <ul class="footer-contacts">
+          <li><a href="https://www.linkedin.com/company/aerosensebio/" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><a href="https://www.instagram.com/igem_tsinghua/" rel="noopener noreferrer">Instagram</a></li>
+          <li><a href="mailto:aerosensebio@gmail.com">aerosensebio@gmail.com</a></li>
+        </ul>
+        <ul class="footer-legal">
+          <li><a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer">Source on GitLab</a></li>
+          <li>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">Creative Commons Attribution 4.0 International</a></li>
+          <li><a href="attributions.html#responsible-ai">Attributions &amp; Responsible AI</a></li>
+        </ul>
+        <p class="footer-copy">© 2026 NTHU · AeroSense</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

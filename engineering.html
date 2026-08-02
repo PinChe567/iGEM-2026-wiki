@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Engineering Success · AeroSense · NTHU iGEM 2026</title>
+  <meta name="description" content="Silver Engineering Success page for AeroSense: Design–Build–Test–Learn cycles with evidence. Incomplete cycles are labeled honestly until team records exist.">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/main.js" defer></script>
+  <script src="js/glossary.js" defer></script>
+  <script src="js/search.js" defer></script>
+</head>
+<body class="page-engineering">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="reading-progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html">
+        <img class="brand__logo" src="logo/logo.jpg" width="44" height="44" alt="AeroSense">
+        <span class="brand__text">
+          <span class="brand__name">AeroSense</span>
+          <span class="brand__meta">NTHU · iGEM 2026</span>
+        </span>
+      </a>
+      <div class="header-tools">
+        <a class="btn-search" href="index.html#site-map" aria-haspopup="dialog" aria-controls="project-search">Project Search</a>
+        <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      </div>
+      <nav class="site-nav" id="site-nav" aria-label="Primary">
+        <ul class="nav-root">
+          <li>
+            <a href="index.html">Home</a>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Project</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-project">Project</button>
+            <ul class="nav-submenu" id="submenu-project">
+              <li><a href="description.html">Description</a></li>
+              <li><a href="contribution.html">Contribution</a></li>
+              <li><a href="engineering.html" aria-current="page">Engineering</a></li>
+              <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Team</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-team">Team</button>
+            <ul class="nav-submenu" id="submenu-team">
+              <li><a href="members.html">Members</a></li>
+              <li><a href="attributions.html">Attributions</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Lab</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-lab">Lab</button>
+            <ul class="nav-submenu" id="submenu-lab">
+              <li><a href="parts.html">Parts</a></li>
+              <li><a href="design.html">Design</a></li>
+              <li><a href="experiments.html">Experiments</a></li>
+              <li><a href="notebook.html">Notebook</a></li>
+              <li><a href="results.html">Results</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Dry Lab</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-drylab">Dry Lab</button>
+            <ul class="nav-submenu" id="submenu-drylab">
+              <li><a href="model.html">Model</a></li>
+              <li><a href="hardware.html">Hardware</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Human Practices</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-hp">Human Practices</button>
+            <ul class="nav-submenu" id="submenu-hp">
+              <li><a href="human-practices.html">Integrated Human Practices</a></li>
+              <li><a href="education.html">Education</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <dialog class="search-dialog" id="project-search" aria-labelledby="search-title">
+    <div class="search-dialog__panel">
+      <div class="search-dialog__header">
+        <h2 id="search-title">Project Search</h2>
+        <button type="button" class="search-dialog__close" data-search-close>Close</button>
+      </div>
+      <form class="search-dialog__form" role="search" action="index.html#site-map" method="get">
+        <label for="project-search-input">Search the AeroSense wiki</label>
+        <p id="project-search-instructions" class="search-dialog__hint">Type keywords from page titles and sections. Results stay on this site. No remote requests are made. Arrow keys move through results; Enter opens; Escape closes.</p>
+        <div class="search-dialog__field">
+          <input id="project-search-input" type="search" name="q" placeholder="e.g. HEK293T, Orco, hardware" autocomplete="off" aria-describedby="project-search-instructions project-search-count" aria-controls="project-search-results">
+          <button type="button" class="search-dialog__clear" data-search-clear hidden>Clear</button>
+        </div>
+        <div class="search-dialog__actions">
+          <button type="submit">Search</button>
+          <button type="button" data-search-close>Close</button>
+        </div>
+      </form>
+      <p id="project-search-count" class="search-dialog__count" aria-live="polite" aria-atomic="true">0 results</p>
+      <div id="project-search-results" class="search-dialog__results" role="listbox" aria-labelledby="search-title"></div>
+    </div>
+  </dialog>
+
+  <div class="shell shell--with-toc">
+    <div class="page-main-column">
+      <main id="main">
+        <header class="page-hero" data-reveal>
+          <nav aria-label="Breadcrumb">
+            <ol class="breadcrumb">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="description.html">Project</a></li>
+              <li aria-current="page">Engineering</li>
+            </ol>
+          </nav>
+          <span class="page-kicker">03 / Project</span>
+          <h1>Engineering Success</h1>
+          <p class="page-purpose">Traces decisions, tests, failures, and design changes across AeroSense subsystems.</p>
+          <p class="page-lede">
+            Silver Engineering Success requires at least one real Design → Build → Test → Learn iteration with evidence.
+            A proposal schedule or generic DBTL description is not enough. Cycles without recorded tests stay planned or incomplete.
+          </p>
+          <span class="status-label status-label--planned">No complete evidenced cycle published yet</span>
+        </header>
+
+        <article class="page-article prose">
+          <section class="section-block" id="how-to-read" data-reveal>
+            <h2>How to read this page</h2>
+            <ul class="dbtl-legend" aria-label="Engineering page legend">
+              <li>
+                <span class="dbtl-legend__mark dbtl-legend__mark--design" aria-hidden="true"></span>
+                <strong>Design</strong> — requirement and rationale for a changeable technical choice.
+              </li>
+              <li>
+                <span class="dbtl-legend__mark dbtl-legend__mark--build" aria-hidden="true"></span>
+                <strong>Build</strong> — construct, protocol, code, or hardware that was actually implemented.
+              </li>
+              <li>
+                <span class="dbtl-legend__mark dbtl-legend__mark--test" aria-hidden="true"></span>
+                <strong>Test</strong> — controls, measurements, and a link to real evidence (figure, notebook, dataset, protocol, or hardware record).
+              </li>
+              <li>
+                <span class="dbtl-legend__mark dbtl-legend__mark--learn" aria-hidden="true"></span>
+                <strong>Learn</strong> — interpretation of the test, including failure or uncertainty.
+              </li>
+              <li>
+                <span class="dbtl-legend__mark dbtl-legend__mark--decision" aria-hidden="true"></span>
+                <strong>Decision / Change</strong> — what the team changed next, or why no change was made.
+              </li>
+              <li>
+                <span class="dbtl-legend__mark dbtl-legend__mark--evidence" aria-hidden="true"></span>
+                <strong>Evidence</strong> — a resolving link to primary records. Placeholder wiki scaffolding alone is not evidence.
+              </li>
+              <li>
+                <span class="dbtl-legend__mark dbtl-legend__mark--status" aria-hidden="true"></span>
+                <strong>Status</strong> — Planned, Incomplete, In progress, or Complete (complete only when Design through Change are evidenced).
+              </li>
+            </ul>
+            <p class="notice">
+              This page is distinct from
+              <a href="contribution.html">Contribution</a>:
+              Engineering documents AeroSense’s own iterations; Contribution documents packages reusable by others.
+            </p>
+          </section>
+
+          <section class="section-block" id="cycle-overview" data-reveal>
+            <h2>Cycle overview</h2>
+            <p>
+              Compact matrix of planned technical tracks. Status values reflect published wiki evidence only—not proposal intent.
+            </p>
+            <div class="table-scroll req-table-wrap" tabindex="0" role="region" aria-label="Engineering cycle overview matrix">
+              <table class="goal-table req-table eng-overview-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Subsystem</th>
+                    <th scope="col">Cycle</th>
+                    <th scope="col">Design question</th>
+                    <th scope="col">Test evidence</th>
+                    <th scope="col">Change made</th>
+                    <th scope="col">Current status</th>
+                    <th scope="col">Anchor</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Living-cell sensor</td>
+                    <td>C1</td>
+                    <td>Can selected OR/Orco constructs report agonist-dependent calcium signals in HEK293T?</td>
+                    <td>None published</td>
+                    <td>None recorded</td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                    <td><a href="#bio-c1">#bio-c1</a></td>
+                  </tr>
+                  <tr>
+                    <td>Fluorescence assay</td>
+                    <td>C1</td>
+                    <td>Which control matrix (VUAA1, vehicle, receptor omission) makes fluorescence interpretable?</td>
+                    <td>None published</td>
+                    <td>None recorded</td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                    <td><a href="#bio-assay-c1">#bio-assay-c1</a></td>
+                  </tr>
+                  <tr>
+                    <td>Model pipeline</td>
+                    <td>C1</td>
+                    <td>Do AL-inspired and MB-inspired stages improve separation over a simple baseline?</td>
+                    <td>None published</td>
+                    <td>None recorded</td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                    <td><a href="#model-c1">#model-c1</a></td>
+                  </tr>
+                  <tr>
+                    <td>Optical hardware</td>
+                    <td>C1</td>
+                    <td>Can a filtered photodiode path acquire usable fluorescence-class signals on the bench?</td>
+                    <td>None published</td>
+                    <td>None recorded</td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                    <td><a href="#hw-optical-c1">#hw-optical-c1</a></td>
+                  </tr>
+                  <tr>
+                    <td>PCB / signal chain</td>
+                    <td>C1</td>
+                    <td>Does the TIA/ADC / multiplex path meet noise and crosstalk needs for multi-channel readout?</td>
+                    <td>None published</td>
+                    <td>None recorded</td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                    <td><a href="#hw-pcb-c1">#hw-pcb-c1</a></td>
+                  </tr>
+                  <tr>
+                    <td>System integration</td>
+                    <td>C1</td>
+                    <td>Can a wet-lab measurement hand off to model analysis and hardware acquisition under one documented run?</td>
+                    <td>None published</td>
+                    <td>None recorded</td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                    <td><a href="#integration-c1">#integration-c1</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section-block" id="completed-cycle" data-reveal>
+            <h2>Completed engineering cycle</h2>
+            <div class="content-needed-panel" role="status">
+              <p class="content-needed-panel__kicker">Strongest complete iteration · content needed</p>
+              <h3>No fully evidenced Design → Build → Test → Learn cycle is available yet</h3>
+              <p>
+                Judges looking for a complete Silver Engineering Success story will not find one on this page today.
+                <a href="results.html">Results</a>,
+                <a href="notebook.html">Notebook</a>, and
+                <a href="experiments.html">Experiments</a>
+                are still scaffolding and do not contain dated test records, figures, or datasets that close a cycle.
+              </p>
+              <p>
+                When the team supplies one complete cycle, place it here first: Design question, Build artifacts, Test with evidence links, Learn (including failure), and the concrete Change that followed.
+              </p>
+              <ul class="content-needed-panel__checklist">
+                <li>Required: implemented Build (not only a plan)</li>
+                <li>Required: Test evidence link that resolves to a primary record</li>
+                <li>Required: Learn that states what changed next, or why nothing changed</li>
+                <li>Forbidden: inventing a neat cycle from the proposal schedule</li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="section-block" id="biological-cycles" data-reveal>
+            <h2>Biological sensing cycles</h2>
+            <p>
+              Planned design questions for the living-cell track. Build, Test, Learn, and Change remain incomplete until team records exist.
+              Literature that informs the design intent includes heterologous insect OR panels in mammalian cells
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023" aria-describedby="cite-preview-zboray-2023">[1]</a>
+                <span class="cite-preview" id="cite-preview-zboray-2023" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span>
+              </span>
+              and VUAA1 as an Orco-family agonist for functional controls
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-jones-2011" id="cite-jones-2011" aria-describedby="cite-preview-jones-2011">[2]</a>
+                <span class="cite-preview" id="cite-preview-jones-2011" role="tooltip">Jones et al., 2011 — full entry in References &amp; Credits.</span>
+              </span>.
+              Citations are not AeroSense test evidence.
+            </p>
+
+            <article class="eng-cycle" id="bio-c1" data-cycle-status="planned">
+              <header class="eng-cycle__header">
+                <h3>Cycle C1 · Living-cell sensor</h3>
+                <div class="evidence-status" data-status="planned">
+                  <span class="evidence-status__label">Status</span>
+                  <span class="evidence-status__value">Planned</span>
+                </div>
+              </header>
+              <div class="eng-cycle__layout">
+                <ol class="eng-cycle__stages">
+                  <li class="eng-stage" data-stage="design">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Design</h4>
+                    <p><strong>Requirement:</strong> Co-express selected <dfn class="term" data-term="drosophila" tabindex="0"><i>Drosophila</i></dfn> OR(s) with <dfn class="term" data-term="orco" tabindex="0">Orco</dfn> and a <dfn class="term" data-term="gcamp6" tabindex="0">GCaMP6</dfn> reporter in <dfn class="term" data-term="hek293t" tabindex="0">HEK293T</dfn> so odorant or agonist exposure can be read optically.</p>
+                    <p><strong>Rationale:</strong> Establish a living sensor element whose function can be tested with genetic and vehicle controls before VOC panel work.</p>
+                  </li>
+                  <li class="eng-stage" data-stage="build">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Build</h4>
+                    <p class="placeholder-field">Incomplete — record constructs, cloning steps, or transfection batch actually implemented.</p>
+                  </li>
+                  <li class="eng-stage" data-stage="test">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Test</h4>
+                    <p class="placeholder-field">Incomplete — controls, measurements, and primary evidence required.</p>
+                    <p>
+                      Planned evidence anchors (no primary records yet):
+                      <a href="experiments.html#exp-as-01">EXP-AS-01</a>,
+                      <a href="experiments.html#exp-as-02">EXP-AS-02</a>,
+                      <a href="notebook.html#nb-EXP-AS-01">Notebook · EXP-AS-01</a>,
+                      <a href="results.html#res-EXP-AS-01">Results · EXP-AS-01</a>.
+                    </p>
+                  </li>
+                  <li class="eng-stage" data-stage="learn">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Learn</h4>
+                    <p class="placeholder-field">Incomplete — interpretation, failure, or uncertainty after a real test.</p>
+                  </li>
+                  <li class="eng-stage" data-stage="change">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Change</h4>
+                    <p class="placeholder-field">Incomplete — state the next design change and why, or why no change was made.</p>
+                  </li>
+                </ol>
+                <aside class="eng-cycle__rail" aria-label="Evidence rail">
+                  <h4>Evidence rail</h4>
+                  <p>No primary evidence attached.</p>
+                  <ul>
+                    <li>Figure: none</li>
+                    <li>Notebook entry: <a href="notebook.html#nb-EXP-AS-01">nb-EXP-AS-01</a> (slot only)</li>
+                    <li>Dataset: none</li>
+                    <li>Protocol record: <a href="experiments.html#exp-as-01">EXP-AS-01</a> / <a href="experiments.html#exp-as-02">EXP-AS-02</a></li>
+                  </ul>
+                </aside>
+              </div>
+            </article>
+
+            <article class="eng-cycle" id="bio-assay-c1" data-cycle-status="planned">
+              <header class="eng-cycle__header">
+                <h3>Cycle C1 · Fluorescence assay controls</h3>
+                <div class="evidence-status" data-status="planned">
+                  <span class="evidence-status__label">Status</span>
+                  <span class="evidence-status__value">Planned</span>
+                </div>
+              </header>
+              <div class="eng-cycle__layout">
+                <ol class="eng-cycle__stages">
+                  <li class="eng-stage" data-stage="design">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Design</h4>
+                    <p><strong>Requirement:</strong> Define a control matrix that separates Orco-dependent responses from reporter-only or vehicle effects.</p>
+                    <p><strong>Rationale:</strong> Without <dfn class="term" data-term="vuaa1" tabindex="0">VUAA1</dfn>, vehicle, and omission controls, fluorescence changes cannot support engineering claims.</p>
+                  </li>
+                  <li class="eng-stage" data-stage="build">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Build</h4>
+                    <p class="placeholder-field">Incomplete — protocol version actually run (not only drafted).</p>
+                  </li>
+                  <li class="eng-stage" data-stage="test">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Test</h4>
+                    <p class="placeholder-field">Incomplete — primary assay evidence required.</p>
+                    <p>
+                      Planned evidence anchors:
+                      <a href="experiments.html#exp-as-03">EXP-AS-03</a>,
+                      <a href="experiments.html#control-matrix">Control matrix</a>,
+                      <a href="notebook.html#nb-EXP-AS-03">Notebook · EXP-AS-03</a>,
+                      <a href="results.html#res-EXP-AS-03">Results · EXP-AS-03</a>.
+                    </p>
+                  </li>
+                  <li class="eng-stage" data-stage="learn">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Learn</h4>
+                    <p class="placeholder-field">Incomplete</p>
+                  </li>
+                  <li class="eng-stage" data-stage="change">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Change</h4>
+                    <p class="placeholder-field">Incomplete</p>
+                  </li>
+                </ol>
+                <aside class="eng-cycle__rail" aria-label="Evidence rail">
+                  <h4>Evidence rail</h4>
+                  <p>No primary evidence attached.</p>
+                  <p>Related scaffolds: <a href="experiments.html#exp-as-03">EXP-AS-03</a> · <a href="design.html#functional-validation">Design · Functional validation</a></p>
+                </aside>
+              </div>
+            </article>
+          </section>
+
+          <section class="section-block" id="model-cycles" data-reveal>
+            <h2>Model cycles</h2>
+            <p>
+              Model engineering must show how data or experiments changed preprocessing, architecture, parameters, validation, or interpretation.
+              Detail pages:
+              <a href="model.html">Model</a>,
+              <a href="results.html">Results</a>.
+            </p>
+
+            <article class="eng-cycle" id="model-c1" data-cycle-status="planned">
+              <header class="eng-cycle__header">
+                <h3>Cycle C1 · AL / MB-inspired pipeline vs baseline</h3>
+                <div class="evidence-status" data-status="planned">
+                  <span class="evidence-status__label">Status</span>
+                  <span class="evidence-status__value">Planned</span>
+                </div>
+              </header>
+              <div class="eng-cycle__layout">
+                <ol class="eng-cycle__stages">
+                  <li class="eng-stage" data-stage="design">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Design</h4>
+                    <p><strong>Requirement:</strong> Compare a documented AL-inspired contrast step and MB-inspired sparse projection against a simpler baseline on provenance-labeled fluorescence features.</p>
+                    <p><strong>Rationale:</strong> Engineering success needs evidence that a modeling choice was tested and then kept, revised, or rejected—not only described.</p>
+                  </li>
+                  <li class="eng-stage" data-stage="build">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Build</h4>
+                    <p class="placeholder-field">Incomplete — code revision or notebook actually executed.</p>
+                  </li>
+                  <li class="eng-stage" data-stage="test">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Test</h4>
+                    <p class="placeholder-field">Incomplete — metrics table / figure required on Results or Model.</p>
+                    <p>
+                      Planned evidence anchors:
+                      <a href="model.html#validation">Model · Validation</a>,
+                      <a href="experiments.html#exp-as-07">EXP-AS-07</a>,
+                      <a href="notebook.html#nb-EXP-AS-07">Notebook · EXP-AS-07</a>,
+                      <a href="results.html#model-results">Results · Model</a>.
+                    </p>
+                  </li>
+                  <li class="eng-stage" data-stage="learn">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Learn</h4>
+                    <p class="placeholder-field">Incomplete</p>
+                  </li>
+                  <li class="eng-stage" data-stage="change">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Change</h4>
+                    <p class="placeholder-field">Incomplete — e.g. parameter change, architecture drop, or “no change” with reason.</p>
+                  </li>
+                </ol>
+                <aside class="eng-cycle__rail" aria-label="Evidence rail">
+                  <h4>Evidence rail</h4>
+                  <p>No primary evidence attached.</p>
+                  <p>Related scaffolding: <a href="model.html#al-inspired">Model · AL</a> · <a href="model.html#mb-inspired">Model · MB</a> · <a href="results.html#model-results">Results · Model</a></p>
+                </aside>
+              </div>
+            </article>
+          </section>
+
+          <section class="section-block" id="hardware-cycles" data-reveal>
+            <h2>Hardware cycles</h2>
+            <p>
+              Hardware iterations may cover geometry, optics, electronics, PCB, firmware, thermal design, or enclosure—only with real photos, files, or bench records.
+              Detail page:
+              <a href="hardware.html">Hardware</a>.
+            </p>
+
+            <article class="eng-cycle" id="hw-optical-c1" data-cycle-status="planned">
+              <header class="eng-cycle__header">
+                <h3>Cycle C1 · Optical path</h3>
+                <div class="evidence-status" data-status="planned">
+                  <span class="evidence-status__label">Status</span>
+                  <span class="evidence-status__value">Planned</span>
+                </div>
+              </header>
+              <div class="eng-cycle__layout">
+                <ol class="eng-cycle__stages">
+                  <li class="eng-stage" data-stage="design">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Design</h4>
+                    <p><strong>Requirement:</strong> Excitation, emission filtering, and photodiode collection that can report a fluorescence-class calibration signal without unacceptable excitation bleed-through.</p>
+                    <p><strong>Rationale:</strong> Portable readout is useless for engineering claims until the optical path is tested on the bench.</p>
+                  </li>
+                  <li class="eng-stage" data-stage="build">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Build</h4>
+                    <p class="placeholder-field">Incomplete — assembly revision actually built.</p>
+                  </li>
+                  <li class="eng-stage" data-stage="test">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Test</h4>
+                    <p class="placeholder-field">Incomplete — dark/noise/filter validation record required.</p>
+                    <p>
+                      Planned evidence anchors:
+                      <a href="hardware.html#optical-design">Hardware · Optical design</a>,
+                      <a href="hardware.html#verification">Hardware · Verification</a>,
+                      <a href="experiments.html#exp-as-08">EXP-AS-08</a>,
+                      <a href="results.html#hardware-results">Results · Hardware</a>.
+                    </p>
+                  </li>
+                  <li class="eng-stage" data-stage="learn">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Learn</h4>
+                    <p class="placeholder-field">Incomplete</p>
+                  </li>
+                  <li class="eng-stage" data-stage="change">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Change</h4>
+                    <p class="placeholder-field">Incomplete</p>
+                  </li>
+                </ol>
+                <aside class="eng-cycle__rail" aria-label="Evidence rail">
+                  <h4>Evidence rail</h4>
+                  <p>No photos, CAD, or bench logs attached.</p>
+                  <p>Related scaffolding: <a href="hardware.html#optical-design">Optical design</a> · <a href="notebook.html#nb-EXP-AS-08">Notebook · EXP-AS-08</a></p>
+                </aside>
+              </div>
+            </article>
+
+            <article class="eng-cycle" id="hw-pcb-c1" data-cycle-status="planned">
+              <header class="eng-cycle__header">
+                <h3>Cycle C1 · PCB / signal chain</h3>
+                <div class="evidence-status" data-status="planned">
+                  <span class="evidence-status__label">Status</span>
+                  <span class="evidence-status__value">Planned</span>
+                </div>
+              </header>
+              <div class="eng-cycle__layout">
+                <ol class="eng-cycle__stages">
+                  <li class="eng-stage" data-stage="design">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Design</h4>
+                    <p><strong>Requirement:</strong> Photodiode →
+                    <dfn class="term" data-term="tia" tabindex="0">TIA</dfn>
+                    →
+                    <dfn class="term" data-term="adc" tabindex="0">ADC</dfn>
+                    / multiplex path with stated noise and channel-isolation targets.</p>
+                    <p><strong>Rationale:</strong> Ordering parts or drawing a schematic is not a cycle until a board or breadboard revision is tested and learned from.</p>
+                  </li>
+                  <li class="eng-stage" data-stage="build">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Build</h4>
+                    <p class="placeholder-field">Incomplete — PCB revision, firmware build, or breadboard under test.</p>
+                  </li>
+                  <li class="eng-stage" data-stage="test">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Test</h4>
+                    <p class="placeholder-field">Incomplete — board or breadboard measurement required.</p>
+                    <p>
+                      Planned evidence anchors:
+                      <a href="hardware.html#analog-chain">Hardware · Analog chain</a>,
+                      <a href="hardware.html#pcb-design">Hardware · PCB design</a>,
+                      <a href="hardware.html#verification">Hardware · Verification</a>,
+                      <a href="results.html#hardware-results">Results · Hardware</a>.
+                    </p>
+                  </li>
+                  <li class="eng-stage" data-stage="learn">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Learn</h4>
+                    <p class="placeholder-field">Incomplete</p>
+                  </li>
+                  <li class="eng-stage" data-stage="change">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Change</h4>
+                    <p class="placeholder-field">Incomplete</p>
+                  </li>
+                </ol>
+                <aside class="eng-cycle__rail" aria-label="Evidence rail">
+                  <h4>Evidence rail</h4>
+                  <p>No primary evidence attached.</p>
+                  <p>Related scaffolding: <a href="hardware.html#pcb-design">PCB design</a> · <a href="experiments.html#exp-as-08">EXP-AS-08</a></p>
+                </aside>
+              </div>
+            </article>
+          </section>
+
+          <section class="section-block" id="integration-cycle" data-reveal>
+            <h2>Integration cycle</h2>
+            <p>
+              Integration means documented handoffs among wet lab, model, and hardware.
+              Subsystem tests alone must not be described as end-to-end integration.
+            </p>
+
+            <article class="eng-cycle" id="integration-c1" data-cycle-status="planned">
+              <header class="eng-cycle__header">
+                <h3>Cycle C1 · Cross-track handoff</h3>
+                <div class="evidence-status" data-status="planned">
+                  <span class="evidence-status__label">Status</span>
+                  <span class="evidence-status__value">Planned</span>
+                </div>
+              </header>
+              <div class="eng-cycle__layout">
+                <ol class="eng-cycle__stages">
+                  <li class="eng-stage" data-stage="design">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Design</h4>
+                    <p><strong>Requirement:</strong> One documented run path: biological measurement → feature file → model evaluation, and/or the same assay on portable optical acquisition.</p>
+                    <p><strong>Rationale:</strong> AeroSense is a three-layer platform; engineering integration must show interfaces, not only parallel progress.</p>
+                  </li>
+                  <li class="eng-stage" data-stage="build">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Build</h4>
+                    <p class="placeholder-field">Incomplete — interface contract or joint protocol actually used.</p>
+                  </li>
+                  <li class="eng-stage" data-stage="test">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Test</h4>
+                    <p class="placeholder-field">Incomplete — joint run evidence required; do not mark complete from subsystem tests alone.</p>
+                    <p>
+                      Planned evidence anchors:
+                      <a href="results.html#integrated-system">Results · Integrated system</a>,
+                      <a href="experiments.html#exp-as-07">EXP-AS-07</a>,
+                      <a href="experiments.html#exp-as-08">EXP-AS-08</a>,
+                      <a href="model.html#inputs-outputs">Model · Inputs and outputs</a>,
+                      <a href="hardware.html#firmware-data-path">Hardware · Firmware and data path</a>.
+                    </p>
+                  </li>
+                  <li class="eng-stage" data-stage="learn">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Learn</h4>
+                    <p class="placeholder-field">Incomplete</p>
+                  </li>
+                  <li class="eng-stage" data-stage="change">
+                    <h4><span class="eng-stage__mark" aria-hidden="true"></span>Change</h4>
+                    <p class="placeholder-field">Incomplete</p>
+                  </li>
+                </ol>
+                <aside class="eng-cycle__rail" aria-label="Evidence rail">
+                  <h4>Evidence rail</h4>
+                  <p>No integration evidence attached.</p>
+                  <p>Related scaffolding: <a href="results.html#integrated-system">Integrated-system evidence</a> · <a href="design.html#interfaces">Design · Interfaces</a></p>
+                </aside>
+              </div>
+            </article>
+          </section>
+
+          <section class="section-block" id="failure-recovery" data-reveal>
+            <h2>Failure and recovery</h2>
+            <p>
+              Candid failures are part of Engineering Success. Rows appear only when the team supplies a real insufficient attempt with evidence.
+            </p>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Failure and recovery table">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Failed / insufficient attempt</th>
+                    <th scope="col">Evidence</th>
+                    <th scope="col">Root-cause hypothesis</th>
+                    <th scope="col">Corrective action</th>
+                    <th scope="col">Retest</th>
+                    <th scope="col">Unresolved risk</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="6">
+                      <span class="placeholder-field">No failure records published yet — do not invent rows from the proposal timeline.</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section-block" id="decision-ledger" data-reveal>
+            <h2>Decision ledger</h2>
+            <p>
+              Dated decisions only. Empty until the team provides real dates, owners, and evidence considered.
+            </p>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Decision ledger table">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Decision</th>
+                    <th scope="col">Evidence considered</th>
+                    <th scope="col">Owner</th>
+                    <th scope="col">Downstream pages affected</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="5">
+                      <span class="placeholder-field">No dated engineering decisions recorded on this wiki yet.</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section-block" id="what-we-learned" data-reveal>
+            <h2>What we learned</h2>
+            <p class="notice">
+              Specific lessons will be listed only when they follow from evidenced Test and Learn blocks above.
+              Generic teamwork statements are not used as substitutes.
+            </p>
+            <ul class="limitation-list">
+              <li>No evidenced engineering lessons are publishable yet because no complete cycle has closed.</li>
+              <li>Scaffolding insight for judges: proposal schedules and component orders are not Learn steps without a recorded test.</li>
+            </ul>
+          </section>
+        </article>
+      </main>
+
+      <nav class="page-turn" aria-label="Page">
+        <a class="page-turn__prev" href="contribution.html"><span class="page-turn__dir">Previous</span><span class="page-turn__title">Contribution</span></a>
+        <a class="page-turn__next" href="safety-and-security.html"><span class="page-turn__dir">Next</span><span class="page-turn__title">Safety &amp; Security</span></a>
+      </nav>
+
+      <section class="references" aria-labelledby="references-heading" id="references" data-reveal>
+        <h2 id="references-heading">References &amp; Credits</h2>
+        <ol class="ref-list">
+          <li id="ref-zboray-2023">
+            <span class="ref-authors">Zboray, K., Toth, A. V., Miskolczi, T. D., Pesti, K., Casanova, E., Kreidl, E., Mike, A., Szenes, Á., Sági, L., &amp; Lukacs, P.</span>
+            <span class="ref-year">(2023).</span>
+            <span class="ref-title">High-throughput ligand profile characterization in novel cell lines expressing seven heterologous insect olfactory receptors for the detection of volatile plant biomarkers.</span>
+            <span class="ref-venue"><i>Scientific Reports</i>, <span class="ref-volume">13</span>, Article 21757.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/s41598-023-47455-4" rel="noopener noreferrer">10.1038/s41598-023-47455-4</a>.</span>
+            <a class="ref-backlink" href="#cite-zboray-2023">Back to citation</a>
+          </li>
+          <li id="ref-jones-2011">
+            <span class="ref-authors">Jones, P. L., Pask, G. M., Rinker, D. C., &amp; Zwiebel, L. J.</span>
+            <span class="ref-year">(2011).</span>
+            <span class="ref-title">Functional agonism of insect odorant receptor ion channels.</span>
+            <span class="ref-venue"><i>Proceedings of the National Academy of Sciences of the United States of America</i>, <span class="ref-volume">108</span>(21), 8821–8825.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1073/pnas.1102425108" rel="noopener noreferrer">10.1073/pnas.1102425108</a>.</span>
+            <a class="ref-backlink" href="#cite-jones-2011">Back to citation</a>
+          </li>
+        </ol>
+        <ul class="credit-list">
+          <li>Literature citations above inform planned Design rationales only; they are not AeroSense Build/Test records.</li>
+          <li>No experimental figures or hardware photos are credited here because none are published on this page.</li>
+        </ul>
+      </section>
+    </div>
+
+    <details class="page-toc" open>
+      <summary class="toc__summary"><span class="toc__label">On this page</span></summary>
+      <nav aria-label="Table of contents">
+        <ol>
+          <li><a href="#how-to-read"><span class="tech-label">01</span> How to read</a></li>
+          <li><a href="#cycle-overview"><span class="tech-label">02</span> Cycle overview</a></li>
+          <li><a href="#completed-cycle"><span class="tech-label">03</span> Completed cycle</a></li>
+          <li><a href="#biological-cycles"><span class="tech-label">04</span> Biological cycles</a></li>
+          <li><a href="#model-cycles"><span class="tech-label">05</span> Model cycles</a></li>
+          <li><a href="#hardware-cycles"><span class="tech-label">06</span> Hardware cycles</a></li>
+          <li><a href="#integration-cycle"><span class="tech-label">07</span> Integration</a></li>
+          <li><a href="#failure-recovery"><span class="tech-label">08</span> Failure and recovery</a></li>
+          <li><a href="#decision-ledger"><span class="tech-label">09</span> Decision ledger</a></li>
+          <li><a href="#what-we-learned"><span class="tech-label">10</span> What we learned</a></li>
+          <li><a href="#references"><span class="tech-label">Ref</span> References &amp; Credits</a></li>
+        </ol>
+      </nav>
+    </details>
+  </div>
+
+  <a class="back-to-top" href="#main">Back to top</a>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p class="footer-mission">AeroSense is developing a bio-digital olfactory sensing platform that pairs living-cell receptor arrays with edge-capable computational models for complex odor recognition.</p>
+
+      <p class="footer-sitemap-title" id="site-map-label">Site map</p>
+      <div class="footer-grid" id="site-map" aria-labelledby="site-map-label">
+        <div class="footer-col">
+          <h2>Project</h2>
+          <ul>
+            <li><a href="description.html">Description</a></li>
+            <li><a href="contribution.html">Contribution</a></li>
+            <li><a href="engineering.html">Engineering</a></li>
+            <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2>Team</h2>
+          <ul>
+            <li><a href="members.html">Members</a></li>
+            <li><a href="attributions.html">Attributions</a></li>
+          </ul>
+          <h2>Lab</h2>
+          <ul>
+            <li><a href="parts.html">Parts</a></li>
+            <li><a href="design.html">Design</a></li>
+            <li><a href="experiments.html">Experiments</a></li>
+            <li><a href="notebook.html">Notebook</a></li>
+            <li><a href="results.html">Results</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2>Dry Lab</h2>
+          <ul>
+            <li><a href="model.html">Model</a></li>
+            <li><a href="hardware.html">Hardware</a></li>
+          </ul>
+          <h2>Human Practices</h2>
+          <ul>
+            <li><a href="human-practices.html">Integrated Human Practices</a></li>
+            <li><a href="education.html">Education</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-meta">
+        <ul class="footer-contacts">
+          <li><a href="https://www.linkedin.com/company/aerosensebio/" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><a href="https://www.instagram.com/igem_tsinghua/" rel="noopener noreferrer">Instagram</a></li>
+          <li><a href="mailto:aerosensebio@gmail.com">aerosensebio@gmail.com</a></li>
+        </ul>
+        <ul class="footer-legal">
+          <li><a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer">Source on GitLab</a></li>
+          <li>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">Creative Commons Attribution 4.0 International</a></li>
+          <li><a href="attributions.html#responsible-ai">Attributions &amp; Responsible AI</a></li>
+        </ul>
+        <p class="footer-copy">© 2026 NTHU · AeroSense</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Biological Design · AeroSense · NTHU iGEM 2026</title>
+  <meta name="description" content="Biological sensing design for AeroSense: living-cell OR/Orco/GCaMP interface, construct strategy, validation design, and interfaces to Model and Hardware. Design intent only — not a claim of completed assays.">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/main.js" defer></script>
+  <script src="js/glossary.js" defer></script>
+  <script src="js/search.js" defer></script>
+</head>
+<body class="page-design">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="reading-progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html">
+        <img class="brand__logo" src="logo/logo.jpg" width="44" height="44" alt="AeroSense">
+        <span class="brand__text">
+          <span class="brand__name">AeroSense</span>
+          <span class="brand__meta">NTHU · iGEM 2026</span>
+        </span>
+      </a>
+      <div class="header-tools">
+        <a class="btn-search" href="index.html#site-map" aria-haspopup="dialog" aria-controls="project-search">Project Search</a>
+        <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      </div>
+      <nav class="site-nav" id="site-nav" aria-label="Primary">
+        <ul class="nav-root">
+          <li>
+            <a href="index.html">Home</a>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Project</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-project">Project</button>
+            <ul class="nav-submenu" id="submenu-project">
+              <li><a href="description.html">Description</a></li>
+              <li><a href="contribution.html">Contribution</a></li>
+              <li><a href="engineering.html">Engineering</a></li>
+              <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Team</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-team">Team</button>
+            <ul class="nav-submenu" id="submenu-team">
+              <li><a href="members.html">Members</a></li>
+              <li><a href="attributions.html">Attributions</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Lab</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-lab">Lab</button>
+            <ul class="nav-submenu" id="submenu-lab">
+              <li><a href="parts.html">Parts</a></li>
+              <li><a href="design.html" aria-current="page">Design</a></li>
+              <li><a href="experiments.html">Experiments</a></li>
+              <li><a href="notebook.html">Notebook</a></li>
+              <li><a href="results.html">Results</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Dry Lab</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-drylab">Dry Lab</button>
+            <ul class="nav-submenu" id="submenu-drylab">
+              <li><a href="model.html">Model</a></li>
+              <li><a href="hardware.html">Hardware</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Human Practices</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-hp">Human Practices</button>
+            <ul class="nav-submenu" id="submenu-hp">
+              <li><a href="human-practices.html">Integrated Human Practices</a></li>
+              <li><a href="education.html">Education</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <dialog class="search-dialog" id="project-search" aria-labelledby="search-title">
+    <div class="search-dialog__panel">
+      <div class="search-dialog__header">
+        <h2 id="search-title">Project Search</h2>
+        <button type="button" class="search-dialog__close" data-search-close>Close</button>
+      </div>
+      <form class="search-dialog__form" role="search" action="index.html#site-map" method="get">
+        <label for="project-search-input">Search the AeroSense wiki</label>
+        <p id="project-search-instructions" class="search-dialog__hint">Type keywords from page titles and sections. Results stay on this site. No remote requests are made. Arrow keys move through results; Enter opens; Escape closes.</p>
+        <div class="search-dialog__field">
+          <input id="project-search-input" type="search" name="q" placeholder="e.g. HEK293T, Orco, hardware" autocomplete="off" aria-describedby="project-search-instructions project-search-count" aria-controls="project-search-results">
+          <button type="button" class="search-dialog__clear" data-search-clear hidden>Clear</button>
+        </div>
+        <div class="search-dialog__actions">
+          <button type="submit">Search</button>
+          <button type="button" data-search-close>Close</button>
+        </div>
+      </form>
+      <p id="project-search-count" class="search-dialog__count" aria-live="polite" aria-atomic="true">0 results</p>
+      <div id="project-search-results" class="search-dialog__results" role="listbox" aria-labelledby="search-title"></div>
+    </div>
+  </dialog>
+
+  <div class="shell shell--with-toc">
+    <div class="page-main-column">
+      <main id="main">
+        <header class="page-hero" data-reveal>
+          <nav aria-label="Breadcrumb">
+            <ol class="breadcrumb">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="parts.html">Lab</a></li>
+              <li aria-current="page">Design</li>
+            </ol>
+          </nav>
+          <span class="page-kicker">08 / Lab</span>
+          <h1>Biological Design</h1>
+          <p class="page-purpose">Engineering a living-cell interface for odorant response</p>
+          <p class="page-lede">
+            This page explains the proposed wet-lab sensing architecture and the reasoning behind it.
+            It is not a Methods protocol and does not claim that planned constructs or assays are already completed.
+            Execution belongs on <a href="experiments.html">Experiments</a>; measured evidence belongs on <a href="results.html">Results</a>.
+          </p>
+          <span class="status-label status-label--planned">Design intent · not completed validation</span>
+        </header>
+
+        <article class="page-article prose">
+          <section class="section-block" id="design-question" data-reveal>
+            <h2>Design question</h2>
+            <p>
+              Can selected <dfn class="term" data-term="drosophila" tabindex="0"><i>Drosophila</i></dfn>
+              <dfn class="term" data-term="or" tabindex="0">olfactory receptors (ORs)</dfn>
+              co-expressed with
+              <dfn class="term" data-term="orco" tabindex="0">Orco</dfn>
+              in
+              <dfn class="term" data-term="hek293t" tabindex="0">HEK293T</dfn>
+              cells report odorant- or agonist-dependent calcium changes as optical
+              <dfn class="term" data-term="gcamp6" tabindex="0">GCaMP6</dfn>
+              fluorescence that is usable by AeroSense’s computational and hardware layers?
+            </p>
+            <p>
+              The wet-lab system must produce, for each stimulus condition, a documented fluorescence time series (or derived response features) with enough metadata that
+              <a href="model.html">Model</a>
+              can form receptor-response vectors and
+              <a href="hardware.html">Hardware</a>
+              can eventually acquire comparable optical signals under stated constraints.
+              Until those data exist, the design below remains a proposed interface, not a measured sensing platform.
+            </p>
+          </section>
+
+          <section class="section-block" id="design-requirements" data-reveal>
+            <h2>Design requirements</h2>
+            <p>
+              Requirements state what the biological interface must enable. Numeric acceptance criteria appear only when the team supplies them.
+              Proposal schedule targets are not copied here as pass/fail thresholds.
+            </p>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Biological design requirements">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Requirement</th>
+                    <th scope="col">Design intent</th>
+                    <th scope="col">Team-supplied acceptance criterion</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Specificity</td>
+                    <td>Responses should depend on the intended OR/Orco combination, not on reporter-only or vehicle artifacts</td>
+                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
+                    <td>Open</td>
+                  </tr>
+                  <tr>
+                    <td>Measurable dynamic response</td>
+                    <td>Agonist or <dfn class="term" data-term="voc" tabindex="0">VOC</dfn> exposure should produce a time-resolved fluorescence change suitable for feature extraction</td>
+                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
+                    <td>Open</td>
+                  </tr>
+                  <tr>
+                    <td>Appropriate controls</td>
+                    <td>Vehicle, expression, incomplete receptor, and Orco-family agonist controls are defined before VOC claims</td>
+                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
+                    <td>Open</td>
+                  </tr>
+                  <tr>
+                    <td>Repeatability</td>
+                    <td>Biological and technical replicate policy is fixed before comparing conditions</td>
+                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
+                    <td>Open</td>
+                  </tr>
+                  <tr>
+                    <td>Optical-readout compatibility</td>
+                    <td>Excitation/emission and dynamic range are compatible with microscopy now and with the portable optical path later</td>
+                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
+                    <td>Open</td>
+                  </tr>
+                  <tr>
+                    <td>Containment</td>
+                    <td>HEK293T and cloning hosts are used only under institutional biosafety practice</td>
+                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED: BSL / SOP citation]</span></td>
+                    <td>See <a href="safety-and-security.html">Safety &amp; Security</a></td>
+                  </tr>
+                  <tr>
+                    <td>Data handoff</td>
+                    <td>Exported matrices include fluorescence units, timing, stimulus IDs, and normalization notes for Model</td>
+                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED: file schema]</span></td>
+                    <td>Open — see <a href="#interfaces">Interfaces</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section-block" id="architecture" data-reveal>
+            <h2>System architecture</h2>
+            <p>
+              The proposed living-cell interface co-delivers a selected OR with Orco and a calcium reporter in HEK293T, then reads activation optically.
+              Published heterologous insect-OR panels that used HEK cells, Orco, and GCaMP6 for VOC profiling motivate this layered design
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023-a" aria-describedby="cite-preview-zboray-2023">[1]</a>
+                <span class="cite-preview" id="cite-preview-zboray-2023" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span>
+              </span>.
+              Orco’s role as a conserved co-receptor in insect OR cation channels is supported by structural work
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-butterwick-2018" id="cite-butterwick-2018" aria-describedby="cite-preview-butterwick-2018">[2]</a>
+                <span class="cite-preview" id="cite-preview-butterwick-2018" role="tooltip">Butterwick et al., 2018 — full entry in References &amp; Credits.</span>
+              </span>.
+            </p>
+
+            <figure class="wiki-figure" id="fig-bio-architecture">
+              <div class="wiki-figure__media">
+                <svg viewBox="0 0 720 300" role="img" aria-label="Proposed biological sensing architecture: VOC or agonist, optional OBP, OR with Orco in HEK293T, GCaMP6 fluorescence, then export to model and hardware.">
+                  <text x="360" y="24" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="12" fill="#555555" letter-spacing="1">Proposed biological interface</text>
+
+                  <rect x="24" y="48" width="120" height="88" fill="none" stroke="#0a0a0a" stroke-width="2"></rect>
+                  <text x="84" y="84" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0a0a0a">Stimulus</text>
+                  <text x="84" y="108" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#333333">VOC / agonist</text>
+
+                  <rect x="168" y="48" width="120" height="88" fill="none" stroke="#888888" stroke-width="2" stroke-dasharray="4 3"></rect>
+                  <text x="228" y="84" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0a0a0a">OBP</text>
+                  <text x="228" y="108" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#555555">Optional</text>
+
+                  <rect x="312" y="40" width="168" height="104" fill="none" stroke="#0a0a0a" stroke-width="2"></rect>
+                  <text x="396" y="72" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0a0a0a">HEK293T host</text>
+                  <text x="396" y="96" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#333333">Selected OR + Orco</text>
+                  <text x="396" y="118" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#333333">Essential core</text>
+
+                  <rect x="504" y="48" width="192" height="88" fill="none" stroke="#0a0a0a" stroke-width="2"></rect>
+                  <text x="600" y="84" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0a0a0a">GCaMP6 readout</text>
+                  <text x="600" y="108" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#333333">Optical calcium report</text>
+
+                  <path d="M144 92 H168" stroke="#0a0a0a" stroke-width="2" fill="none"></path>
+                  <path d="M288 92 H312" stroke="#0a0a0a" stroke-width="2" fill="none"></path>
+                  <path d="M480 92 H504" stroke="#0a0a0a" stroke-width="2" fill="none"></path>
+
+                  <rect x="120" y="188" width="200" height="72" fill="none" stroke="#0a0a0a" stroke-width="2"></rect>
+                  <text x="220" y="220" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0a0a0a">Export to Model</text>
+                  <text x="220" y="242" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#333333">Time series / features</text>
+
+                  <rect x="400" y="188" width="200" height="72" fill="none" stroke="#0a0a0a" stroke-width="2"></rect>
+                  <text x="500" y="220" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0a0a0a">Hardware path</text>
+                  <text x="500" y="242" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#333333">Later optical acquisition</text>
+
+                  <path d="M600 136 V168 H220 V188" stroke="#0a0a0a" stroke-width="2" fill="none"></path>
+                  <path d="M600 168 H500 V188" stroke="#0a0a0a" stroke-width="2" fill="none"></path>
+
+                  <text x="360" y="288" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="11" fill="#555555">Concept illustration — not experimental data</text>
+                </svg>
+              </div>
+              <figcaption>
+                <span class="wiki-figure__num">Figure 1.</span>
+                <span class="wiki-figure__title"> Proposed biological sensing architecture.</span>
+                <p class="wiki-figure__explain">Essential core: selected OR, Orco, HEK293T host, and GCaMP6 optical report. Dashed OBP box is an optional hypothesis, not a required subsystem.</p>
+                <ul class="wiki-figure__meta">
+                  <li><span class="wiki-figure__badge">Concept illustration — not experimental data</span></li>
+                  <li><strong>Source:</strong> Local SVG created for the AeroSense design page.</li>
+                  <li><strong>Evidence status:</strong> Planned / proposed architecture.</li>
+                  <li><strong>License / attribution:</strong> Created for NTHU AeroSense wiki; reuse under site CC BY 4.0 terms once published.</li>
+                </ul>
+              </figcaption>
+            </figure>
+
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Essential components versus options">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Element</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Class</th>
+                    <th scope="col">Decision basis</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Selected <i>Drosophila</i> OR</td>
+                    <td>Ligand-tuned recognition</td>
+                    <td>Essential (once panel approved)</td>
+                    <td>Design question + literature panels
+                      <span class="cite-wrap">
+                        <a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023-b" aria-describedby="cite-preview-zboray-2023">[1]</a>
+                        <span class="cite-preview" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span>
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Orco</td>
+                    <td>Co-receptor for functional OR channels</td>
+                    <td>Essential</td>
+                    <td>Structural / channel context
+                      <span class="cite-wrap">
+                        <a class="cite" href="#ref-butterwick-2018" id="cite-butterwick-2018-b" aria-describedby="cite-preview-butterwick-2018">[2]</a>
+                        <span class="cite-preview" role="tooltip">Butterwick et al., 2018 — full entry in References &amp; Credits.</span>
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>HEK293T</td>
+                    <td>Heterologous expression host</td>
+                    <td>Essential (current chassis choice)</td>
+                    <td>Team proposal + published HEK OR panels; see <a href="#why-hek293t">Why HEK293T?</a></td>
+                  </tr>
+                  <tr>
+                    <td>GCaMP6</td>
+                    <td>Calcium → fluorescence report</td>
+                    <td>Essential (variant open)</td>
+                    <td>Indicator family
+                      <span class="cite-wrap">
+                        <a class="cite" href="#ref-chen-2013" id="cite-chen-2013-a" aria-describedby="cite-preview-chen-2013">[3]</a>
+                        <span class="cite-preview" id="cite-preview-chen-2013" role="tooltip">Chen et al., 2013 — full entry in References &amp; Credits.</span>
+                      </span>;
+                      panel context
+                      <span class="cite-wrap">
+                        <a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023-c" aria-describedby="cite-preview-zboray-2023">[1]</a>
+                        <span class="cite-preview" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span>
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><dfn class="term" data-term="obp" tabindex="0">Odorant-binding protein (OBP)</dfn></td>
+                    <td>Possible aid for hydrophobic VOC delivery in aqueous media</td>
+                    <td>Hypothesis / optional</td>
+                    <td>Proposal option; not required until experiments show benefit</td>
+                  </tr>
+                  <tr>
+                    <td>Microfluidic / multi-well delivery</td>
+                    <td>Stimulus presentation format</td>
+                    <td>Option</td>
+                    <td>Open — see VOC-response assay design</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section-block" id="construct-strategy" data-reveal>
+            <h2>Construct strategy</h2>
+            <p>
+              Two expression assemblies are proposed so OR identity reporting and Orco/calcium reporting can be co-delivered.
+              Sequence files, Registry IDs, and verification status live on
+              <a href="parts.html">Parts</a>;
+              this section states only the design logic. Diagrams remain concept illustrations until sequence-checked maps exist.
+            </p>
+
+            <figure class="construct-map" id="design-construct-a">
+              <figcaption>
+                <span class="wiki-figure__num">Figure 2.</span>
+                <span class="wiki-figure__title"> Construct A concept — OR with IRES–mCherry.</span>
+              </figcaption>
+              <p class="construct-map__lede">
+                Proposal concept: CAG promoter → selected OR CDS → EMCV IRES → mCherry → polyadenylation signal.
+                Inventory and Registry bridge:
+                <a href="parts.html#construct-a">Parts · Construct A</a>.
+              </p>
+              <ol class="construct-map__track" aria-label="Construct A concept elements from 5′ to 3′">
+                <li class="construct-map__block"><a href="parts.html#part-cag"><span class="construct-map__role">Promoter</span><span class="construct-map__name">CAG</span></a></li>
+                <li class="construct-map__block"><a href="parts.html#part-or-cds"><span class="construct-map__role">CDS</span><span class="construct-map__name">Selected OR</span></a></li>
+                <li class="construct-map__block"><a href="parts.html#part-emcv-ires"><span class="construct-map__role">IRES</span><span class="construct-map__name">EMCV</span></a></li>
+                <li class="construct-map__block"><a href="parts.html#part-mcherry"><span class="construct-map__role">Reporter</span><span class="construct-map__name">mCherry</span></a></li>
+                <li class="construct-map__block"><a href="parts.html#part-bgh-polya"><span class="construct-map__role">3′ end</span><span class="construct-map__name">poly(A)</span></a></li>
+              </ol>
+              <p class="construct-map__caveat" role="note">Concept illustration — verify against final sequence</p>
+              <ul class="wiki-figure__meta">
+                <li><span class="wiki-figure__badge">Concept illustration — verify against final sequence</span></li>
+                <li><strong>Rationale:</strong> Bicistronic OR and mCherry expression is intended to report transfection/expression without forcing an OR–fluorophore fusion (proposal design; confirm on map).</li>
+                <li><strong>Evidence status:</strong> Planned / proposal concept.</li>
+                <li><strong>Open:</strong> promoter identity, OR CDS, junctions, selection cassette, backbone.</li>
+              </ul>
+            </figure>
+
+            <figure class="construct-map" id="design-construct-b">
+              <figcaption>
+                <span class="wiki-figure__num">Figure 3.</span>
+                <span class="wiki-figure__title"> Construct B concept — GCaMP–Orco fusion under an inducible promoter.</span>
+              </figcaption>
+              <p class="construct-map__lede">
+                Proposal concept: inducible promoter → GCaMP6 → GSG linker → Orco CDS → polyadenylation signal.
+                Inventory and Registry bridge:
+                <a href="parts.html#construct-b">Parts · Construct B</a>.
+              </p>
+              <ol class="construct-map__track" aria-label="Construct B concept elements from 5′ to 3′">
+                <li class="construct-map__block"><a href="parts.html#part-inducible-promoter"><span class="construct-map__role">Promoter</span><span class="construct-map__name">Inducible</span></a></li>
+                <li class="construct-map__block"><a href="parts.html#part-gcamp6"><span class="construct-map__role">Reporter</span><span class="construct-map__name">GCaMP6</span></a></li>
+                <li class="construct-map__block"><a href="parts.html#part-gsg"><span class="construct-map__role">Linker</span><span class="construct-map__name">GSG</span></a></li>
+                <li class="construct-map__block"><a href="parts.html#part-orco"><span class="construct-map__role">CDS</span><span class="construct-map__name">Orco</span></a></li>
+                <li class="construct-map__block"><a href="parts.html#part-polya-b"><span class="construct-map__role">3′ end</span><span class="construct-map__name">poly(A)</span></a></li>
+              </ol>
+              <p class="construct-map__caveat" role="note">Concept illustration — verify against final sequence</p>
+              <ul class="wiki-figure__meta">
+                <li><span class="wiki-figure__badge">Concept illustration — verify against final sequence</span></li>
+                <li><strong>Rationale:</strong> A single GCaMP–Orco fusion is intended to couple co-receptor delivery with calcium reporting; proposal text places GCaMP6 N-terminal to Orco (confirm orientation on map).</li>
+                <li><strong>Evidence status:</strong> Planned / proposal concept.</li>
+                <li><strong>Open:</strong> inducible promoter identity (proposal notes Ptet-T6), GCaMP6 variant, linker, selection/transactivator requirements.</li>
+              </ul>
+            </figure>
+          </section>
+
+          <section class="section-block" id="why-hek293t" data-reveal>
+            <h2>Why HEK293T?</h2>
+            <p>
+              <strong>Team rationale (proposal):</strong> HEK293T is the planned mammalian host for heterologous OR/Orco expression and optical calcium imaging in AeroSense.
+              The proposal also discusses practical transfection and imaging workflows in adherent culture.
+            </p>
+            <p>
+              <strong>Literature support:</strong> Insect ORs have been co-expressed with Orco and GCaMP6 in HEK-line panels for odorant profiling
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023-d" aria-describedby="cite-preview-zboray-2023">[1]</a>
+                <span class="cite-preview" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span>
+              </span>.
+              That precedent supports HEK cells as a workable chassis class; it does not prove that AeroSense constructs will behave identically.
+            </p>
+            <p class="notice">
+              This page does <strong>not</strong> claim that HEK293T has “no background current,” zero endogenous olfactory signaling, or universal suitability for every VOC.
+              Those statements would need team-approved measurements or carefully scoped citations. Chassis limitations (growth media, transfection variability, optical autofluorescence, containment) remain open experimental risks.
+            </p>
+          </section>
+
+          <section class="section-block" id="receptor-selection" data-reveal>
+            <h2>Receptor selection</h2>
+            <p>
+              Receptor choice determines which VOC patterns the array can, in principle, report. Until the team approves a final panel, candidates remain literature- and proposal-derived examples only.
+            </p>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Receptor selection status">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Topic</th>
+                    <th scope="col">Current wiki status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Selection criteria</td>
+                    <td>
+                      <span class="placeholder-field">[TEAM CONTENT REQUIRED]</span>
+                      — e.g. published ligand breadth, heterologous expressibility, application VOC relevance, cloning feasibility.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Candidate receptor panel</td>
+                    <td>
+                      Proposal / literature examples discussed for planning: Or10a, Or13a, Or47a (and related receptors in published HEK panels)
+                      <span class="cite-wrap">
+                        <a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023-e" aria-describedby="cite-preview-zboray-2023">[1]</a>
+                        <span class="cite-preview" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span>
+                      </span>.
+                      Broader OR repertoire context:
+                      <span class="cite-wrap">
+                        <a class="cite" href="#ref-robertson-2003" id="cite-robertson-2003" aria-describedby="cite-preview-robertson-2003">[4]</a>
+                        <span class="cite-preview" id="cite-preview-robertson-2003" role="tooltip">Robertson et al., 2003 — full entry in References &amp; Credits.</span>
+                      </span>.
+                      <strong>Final approved panel:</strong>
+                      <span class="placeholder-field">[TEAM CONTENT REQUIRED]</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Target VOC rationale</td>
+                    <td>
+                      Application domains discussed in the proposal include agricultural, environmental, food, and medical VOC contexts.
+                      Primary 2026 VOC set:
+                      <span class="placeholder-field">[TEAM CONTENT REQUIRED]</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Source databases / literature</td>
+                    <td>
+                      Planning references include published heterologous panels
+                      <span class="cite-wrap">
+                        <a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023-f" aria-describedby="cite-preview-zboray-2023">[1]</a>
+                        <span class="cite-preview" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span>
+                      </span>
+                      and genome-scale OR family description
+                      <span class="cite-wrap">
+                        <a class="cite" href="#ref-robertson-2003" id="cite-robertson-2003-b" aria-describedby="cite-preview-robertson-2003">[4]</a>
+                        <span class="cite-preview" role="tooltip">Robertson et al., 2003 — full entry in References &amp; Credits.</span>
+                      </span>.
+                      Sequence-database accessions used by AeroSense:
+                      <span class="placeholder-field">[TEAM CONTENT REQUIRED]</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Final decision</td>
+                    <td>
+                      <span class="placeholder-field">[TEAM CONTENT REQUIRED]</span>
+                      — no receptor panel is marked approved on this wiki.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section-block" id="functional-validation" data-reveal>
+            <h2>Functional validation design</h2>
+            <p>
+              Before VOC-response claims, the design requires a control matrix that separates Orco-dependent channel activity, reporter artifacts, and expression failure.
+              <dfn class="term" data-term="vuaa1" tabindex="0">VUAA1</dfn> is planned as an Orco-family agonist functional control based on published agonism of insect odorant receptor ion channels
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-jones-2011" id="cite-jones-2011-a" aria-describedby="cite-preview-jones-2011">[5]</a>
+                <span class="cite-preview" id="cite-preview-jones-2011" role="tooltip">Jones et al., 2011 — full entry in References &amp; Credits.</span>
+              </span>.
+              Later Orco structural and mutagenesis work discusses VUAA1-related binding and translocation mechanisms
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-pacalon-2023" id="cite-pacalon-2023-a" aria-describedby="cite-preview-pacalon-2023">[6]</a>
+                <span class="cite-preview" id="cite-preview-pacalon-2023" role="tooltip">Pacalon et al., 2023 — full entry in References &amp; Credits.</span>
+              </span>;
+              an author correction was published in 2024
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-pacalon-2024-corr" id="cite-pacalon-2024-corr" aria-describedby="cite-preview-pacalon-2024-corr">[7]</a>
+                <span class="cite-preview" id="cite-preview-pacalon-2024-corr" role="tooltip">Pacalon et al., 2024 author correction — full entry in References &amp; Credits.</span>
+              </span>.
+              Any specific residue or binding-mechanism claim used for AeroSense mutagenesis must be re-checked by the team against the corrected article before it is treated as design truth.
+            </p>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Functional validation design matrix">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Control / measurement</th>
+                    <th scope="col">Proposed purpose</th>
+                    <th scope="col">Acceptance logic</th>
+                    <th scope="col">Evidence status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>VUAA1 agonist control</td>
+                    <td>Probe Orco-dependent channel activity when constructs are present</td>
+                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span> — do not treat proposal concentrations or % ΔF as observed results</td>
+                    <td>Planned design</td>
+                  </tr>
+                  <tr>
+                    <td>Vehicle control</td>
+                    <td>Separate solvent / handling effects from agonist or VOC effects</td>
+                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
+                    <td>Planned design</td>
+                  </tr>
+                  <tr>
+                    <td>OR/Orco negative controls</td>
+                    <td>Incomplete combinations (e.g. missing OR, missing Orco, or reporter-only concepts) to test dependence</td>
+                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
+                    <td>Planned design</td>
+                  </tr>
+                  <tr>
+                    <td>Expression control</td>
+                    <td>mCherry and/or GCaMP baseline presence as transfection/expression check</td>
+                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
+                    <td>Planned design</td>
+                  </tr>
+                  <tr>
+                    <td>Calcium-signal measurement</td>
+                    <td>Time-resolved GCaMP fluorescence under defined imaging settings</td>
+                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED: metric and analysis rule]</span></td>
+                    <td>Planned design</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="notice">
+              Proposal numbers for transfection efficiency, fluorescence fold-change, or agonist working concentration are planning language only.
+              They are not inserted here as AeroSense observations. Record actual execution on
+              <a href="experiments.html">Experiments</a>
+              and outcomes on
+              <a href="results.html">Results</a>.
+            </p>
+          </section>
+
+          <section class="section-block" id="voc-assay" data-reveal>
+            <h2>VOC-response assay design</h2>
+            <p>
+              After functional controls are defined, VOC assays should test whether selected OR/Orco combinations produce stimulus-linked optical responses that can be exported to Model.
+              Only team-approved assay details are stated as design commitments; unapproved proposal details stay marked open.
+            </p>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="VOC-response assay design fields">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Design field</th>
+                    <th scope="col">Approved detail</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Exposure format</td>
+                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span> — proposal discusses well-plate imaging and possible microfluidic formats; neither is locked here</td>
+                  </tr>
+                  <tr>
+                    <td>Concentration strategy</td>
+                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span> — do not treat proposal example micromolar values as AeroSense results</td>
+                  </tr>
+                  <tr>
+                    <td>Timing / washout</td>
+                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
+                  </tr>
+                  <tr>
+                    <td>Randomization / blinding</td>
+                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
+                  </tr>
+                  <tr>
+                    <td>Controls</td>
+                    <td>Must reuse the functional-validation control set above; VOC-specific blanks:
+                      <span class="placeholder-field">[TEAM CONTENT REQUIRED]</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Biological / technical replicates</td>
+                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
+                  </tr>
+                  <tr>
+                    <td>Data exported to Model</td>
+                    <td>Intended product: fluorescence time series or derived feature vectors with stimulus metadata — schema
+                      <span class="placeholder-field">[TEAM CONTENT REQUIRED]</span>
+                      (see <a href="#interfaces">Interfaces</a>)
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section-block" id="optimization" data-reveal>
+            <h2>Receptor optimization strategy</h2>
+            <p>
+              Structure-guided mutagenesis remains an active proposal track for improving VOC responses after a baseline OR/Orco/GCaMP system works.
+              It is an investigation strategy, not evidence that optimized mutants already exist.
+            </p>
+            <ol class="goal-list">
+              <li>
+                <strong>Structure prediction:</strong> predict OR–Orco assemblies with team-chosen structure tools
+                <span class="placeholder-field">[TEAM CONTENT REQUIRED: tool versions]</span>.
+                Cryo-EM Orco structure provides co-receptor context
+                <span class="cite-wrap">
+                  <a class="cite" href="#ref-butterwick-2018" id="cite-butterwick-2018-c" aria-describedby="cite-preview-butterwick-2018">[2]</a>
+                  <span class="cite-preview" role="tooltip">Butterwick et al., 2018 — full entry in References &amp; Credits.</span>
+                </span>.
+              </li>
+              <li>
+                <strong>Docking:</strong> screen candidate VOCs against modeled pockets with team-chosen docking methods
+                <span class="placeholder-field">[TEAM CONTENT REQUIRED]</span>.
+                Docking scores are hypotheses, not measured affinities.
+              </li>
+              <li>
+                <strong>Candidate-residue selection:</strong> prioritize positions for mutagenesis only after team review of models and literature.
+                If Pacalon et al. (2023) residue or binding-mechanism statements are used
+                <span class="cite-wrap">
+                  <a class="cite" href="#ref-pacalon-2023" id="cite-pacalon-2023-b" aria-describedby="cite-preview-pacalon-2023">[6]</a>
+                  <span class="cite-preview" role="tooltip">Pacalon et al., 2023 — full entry in References &amp; Credits.</span>
+                </span>,
+                verify them against the 2024 author correction
+                <span class="cite-wrap">
+                  <a class="cite" href="#ref-pacalon-2024-corr" id="cite-pacalon-2024-corr-b" aria-describedby="cite-preview-pacalon-2024-corr">[7]</a>
+                  <span class="cite-preview" role="tooltip">Pacalon et al., 2024 author correction — full entry in References &amp; Credits.</span>
+                </span>
+                before any residue list is treated as design-approved.
+                Specific AeroSense mutagenesis targets:
+                <span class="placeholder-field">[TEAM CONTENT REQUIRED]</span>.
+              </li>
+              <li>
+                <strong>Site-directed mutagenesis:</strong> introduce approved variants into Construct A (or the verified OR plasmid) using a team-approved kit/protocol.
+              </li>
+              <li>
+                <strong>Functional rescreening:</strong> re-run the control matrix and VOC assay design; retain only variants with experimental support.
+              </li>
+            </ol>
+            <p class="notice">
+              Risk of model-driven false confidence: attractive docking energies or predicted binding poses can prioritize the wrong residues.
+              Computational ranking must not be reported as experimental affinity, potency, or AeroSense sensing performance.
+            </p>
+          </section>
+
+          <section class="section-block" id="trade-offs" data-reveal>
+            <h2>Design alternatives and trade-offs</h2>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Design alternatives and trade-offs">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Decision</th>
+                    <th scope="col">Options considered</th>
+                    <th scope="col">Trade-off</th>
+                    <th scope="col">Current status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Expression mode</td>
+                    <td>Transient co-transfection vs stable lines</td>
+                    <td>Transient is faster for early POC; stable lines aid repeatability but need selection and validation</td>
+                    <td>Proposal emphasizes early co-transfection; stable strategy not locked —
+                      <span class="placeholder-field">[TEAM CONTENT REQUIRED]</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>GCaMP variant</td>
+                    <td>GCaMP6s vs GCaMP6f (or later sensors)</td>
+                    <td>Slower/sensitive vs faster kinetics
+                      <span class="cite-wrap">
+                        <a class="cite" href="#ref-chen-2013" id="cite-chen-2013-b" aria-describedby="cite-preview-chen-2013">[3]</a>
+                        <span class="cite-preview" role="tooltip">Chen et al., 2013 — full entry in References &amp; Credits.</span>
+                      </span>
+                    </td>
+                    <td>Open — confirm on construct map (<a href="parts.html#part-gcamp6">Parts</a>)</td>
+                  </tr>
+                  <tr>
+                    <td>Readout instrument</td>
+                    <td>Fluorescence microscopy vs plate reader</td>
+                    <td>Microscopy gives spatial/time detail; plate readers scale throughput but change optics and analysis</td>
+                    <td>Open —
+                      <span class="placeholder-field">[TEAM CONTENT REQUIRED]</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>OBP inclusion</td>
+                    <td>Include vs omit OBP expression</td>
+                    <td>May help hydrophobic VOC delivery; adds genetic and assay complexity</td>
+                    <td>Optional hypothesis — not essential in Figure 1</td>
+                  </tr>
+                  <tr>
+                    <td>Receptor breadth</td>
+                    <td>Single OR vs multi-OR array</td>
+                    <td>Single OR simplifies interpretation; multiple ORs enable pattern vectors for Model</td>
+                    <td>Array intended long-term; first validated OR set
+                      <span class="placeholder-field">[TEAM CONTENT REQUIRED]</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Live-cell maintenance</td>
+                    <td>Short assay windows vs longer culture / ALI concepts</td>
+                    <td>Longer maintenance may improve realism but increases contamination and drift risk</td>
+                    <td>Open — coordinate with Hardware sample handling</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section-block" id="interfaces" data-reveal>
+            <h2>Interfaces with Model and Hardware</h2>
+            <p>
+              Exact file schemas and optical settings are not team-approved yet. The table states the intended contracts and marks missing fields explicitly.
+            </p>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Model and Hardware interface contracts">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Contract item</th>
+                    <th scope="col">Wet-lab → Model</th>
+                    <th scope="col">Wet-lab ↔ Hardware</th>
+                    <th scope="col">Owner / open field</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Fluorescence units</td>
+                    <td>Raw intensity or ΔF/F<sub>0</sub> with stated definition</td>
+                    <td>Comparable optical quantity under documented gain/filter settings</td>
+                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
+                  </tr>
+                  <tr>
+                    <td>Timing</td>
+                    <td>Sample timestamps or frame rate; stimulus onset markers</td>
+                    <td>Acquisition clock alignment with stimulus delivery</td>
+                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
+                  </tr>
+                  <tr>
+                    <td>Metadata</td>
+                    <td>OR identity, construct lot, passage, stimulus ID, vehicle, replicate IDs</td>
+                    <td>Well/channel map, optical path revision, temperature if controlled</td>
+                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED: schema]</span></td>
+                  </tr>
+                  <tr>
+                    <td>Normalization responsibilities</td>
+                    <td>Model should document whether baseline subtraction, per-well scaling, or AL-inspired transforms are applied</td>
+                    <td>Hardware firmware/software must not silently rescale without a provenance flag</td>
+                    <td>Split ownership — document on <a href="model.html">Model</a> / <a href="hardware.html">Hardware</a></td>
+                  </tr>
+                  <tr>
+                    <td>Optical constraints</td>
+                    <td>N/A (model consumes numbers)</td>
+                    <td>Excitation/emission must match GCaMP-class fluorescence; reject excitation bleed-through</td>
+                    <td>Hardware design still reconciling components — see Hardware page status</td>
+                  </tr>
+                  <tr>
+                    <td>Sample handling</td>
+                    <td>Stimulus IDs must match exported columns</td>
+                    <td>Containment-compatible loading; no claim of field deployment readiness</td>
+                    <td>Coordinate with <a href="safety-and-security.html">Safety &amp; Security</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section-block" id="risks" data-reveal>
+            <h2>Design risks and fallback paths</h2>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Design risks and fallback paths">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Risk</th>
+                    <th scope="col">Why it is credible</th>
+                    <th scope="col">Fallback path</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Construct map ≠ proposal concept</td>
+                    <td>Promoters, fusions, and selection cassettes still need verification on <a href="parts.html">Parts</a></td>
+                    <td>Freeze the verified map; update diagrams and inventory before assays</td>
+                  </tr>
+                  <tr>
+                    <td>No Orco-dependent VUAA1 response</td>
+                    <td>Agonism is literature-supported
+                      <span class="cite-wrap">
+                        <a class="cite" href="#ref-jones-2011" id="cite-jones-2011-b" aria-describedby="cite-preview-jones-2011">[5]</a>
+                        <span class="cite-preview" role="tooltip">Jones et al., 2011 — full entry in References &amp; Credits.</span>
+                      </span>,
+                      but AeroSense DNA/chassis may fail expression or trafficking
+                    </td>
+                    <td>Debug expression controls; simplify Construct B; postpone VOC claims</td>
+                  </tr>
+                  <tr>
+                    <td>GCaMP signal too weak or too noisy for Model</td>
+                    <td>Indicator kinetics and imaging settings matter
+                      <span class="cite-wrap">
+                        <a class="cite" href="#ref-chen-2013" id="cite-chen-2013-c" aria-describedby="cite-preview-chen-2013">[3]</a>
+                        <span class="cite-preview" role="tooltip">Chen et al., 2013 — full entry in References &amp; Credits.</span>
+                      </span>
+                    </td>
+                    <td>Retune imaging; consider alternate GCaMP variant after team decision; do not invent performance numbers</td>
+                  </tr>
+                  <tr>
+                    <td>Wrong OR panel for target VOCs</td>
+                    <td>Panel not yet approved</td>
+                    <td>Re-select from literature-supported candidates; keep Model schema receptor-agnostic</td>
+                  </tr>
+                  <tr>
+                    <td>Docking-led mutagenesis wastes cycle time</td>
+                    <td>Scores ≠ affinity</td>
+                    <td>Require experimental rescreen gates; limit mutant library size</td>
+                  </tr>
+                  <tr>
+                    <td>Hardware optical path not yet reconciled</td>
+                    <td>Project audit notes controller/optics conflicts outside this page</td>
+                    <td>Validate biology on lab microscopy first; freeze hardware contract only after Hardware page settles</td>
+                  </tr>
+                  <tr>
+                    <td>Over-claiming from proposal schedule</td>
+                    <td>Roadmap language is easy to misread as completion</td>
+                    <td>Keep Planned labels; publish results only with linked evidence on Results</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </article>
+      </main>
+
+      <nav class="page-turn" aria-label="Page">
+        <a class="page-turn__prev" href="parts.html"><span class="page-turn__dir">Previous</span><span class="page-turn__title">Parts</span></a>
+        <a class="page-turn__next" href="experiments.html"><span class="page-turn__dir">Next</span><span class="page-turn__title">Experiments</span></a>
+      </nav>
+
+      <section class="references" aria-labelledby="references-heading" id="references" data-reveal>
+        <h2 id="references-heading">References &amp; Credits</h2>
+        <ol class="ref-list">
+          <li id="ref-zboray-2023">
+            <span class="ref-authors">Zboray, K., Toth, A. V., Miskolczi, T. D., Pesti, K., Casanova, E., Kreidl, E., Mike, A., Szenes, Á., Sági, L., &amp; Lukacs, P.</span>
+            <span class="ref-year">(2023).</span>
+            <span class="ref-title">High-throughput ligand profile characterization in novel cell lines expressing seven heterologous insect olfactory receptors for the detection of volatile plant biomarkers.</span>
+            <span class="ref-venue"><i>Scientific Reports</i>, <span class="ref-volume">13</span>, Article 21757.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/s41598-023-47455-4" rel="noopener noreferrer">10.1038/s41598-023-47455-4</a>.</span>
+            <a class="ref-backlink" href="#cite-zboray-2023-a">Back to citation</a>
+            <a class="ref-backlink" href="#cite-zboray-2023-b">2</a>
+            <a class="ref-backlink" href="#cite-zboray-2023-c">3</a>
+            <a class="ref-backlink" href="#cite-zboray-2023-d">4</a>
+            <a class="ref-backlink" href="#cite-zboray-2023-e">5</a>
+            <a class="ref-backlink" href="#cite-zboray-2023-f">6</a>
+          </li>
+          <li id="ref-butterwick-2018">
+            <span class="ref-authors">Butterwick, J. A., del Mármol, J., Kim, K. H., Kahlson, M. A., Rogow, J. A., Walz, T., &amp; Ruta, V.</span>
+            <span class="ref-year">(2018).</span>
+            <span class="ref-title">Cryo-EM structure of the insect olfactory receptor Orco.</span>
+            <span class="ref-venue"><i>Nature</i>, <span class="ref-volume">560</span>(7719), 447–452.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/s41586-018-0420-8" rel="noopener noreferrer">10.1038/s41586-018-0420-8</a>.</span>
+            <a class="ref-backlink" href="#cite-butterwick-2018">Back to citation</a>
+            <a class="ref-backlink" href="#cite-butterwick-2018-b">2</a>
+            <a class="ref-backlink" href="#cite-butterwick-2018-c">3</a>
+          </li>
+          <li id="ref-chen-2013">
+            <span class="ref-authors">Chen, T.-W., Wardill, T. J., Sun, Y., Pulver, S. R., Renninger, S. L., Baohan, A., Schreiter, E. R., Kerr, R. A., Orger, M. B., Jayaraman, V., Looger, L. L., Svoboda, K., &amp; Kim, D. S.</span>
+            <span class="ref-year">(2013).</span>
+            <span class="ref-title">Ultrasensitive fluorescent proteins for imaging neuronal activity.</span>
+            <span class="ref-venue"><i>Nature</i>, <span class="ref-volume">499</span>(7458), 295–300.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/nature12354" rel="noopener noreferrer">10.1038/nature12354</a>.</span>
+            <a class="ref-backlink" href="#cite-chen-2013-a">Back to citation</a>
+            <a class="ref-backlink" href="#cite-chen-2013-b">2</a>
+            <a class="ref-backlink" href="#cite-chen-2013-c">3</a>
+          </li>
+          <li id="ref-robertson-2003">
+            <span class="ref-authors">Robertson, H. M., Warr, C. G., &amp; Carlson, J. R.</span>
+            <span class="ref-year">(2003).</span>
+            <span class="ref-title">Molecular evolution of the insect chemoreceptor gene superfamily in <i>Drosophila melanogaster</i>.</span>
+            <span class="ref-venue"><i>Proceedings of the National Academy of Sciences of the United States of America</i>, <span class="ref-volume">100</span>(Suppl. 2), 14537–14542.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1073/pnas.2335847100" rel="noopener noreferrer">10.1073/pnas.2335847100</a>.</span>
+            <a class="ref-backlink" href="#cite-robertson-2003">Back to citation</a>
+            <a class="ref-backlink" href="#cite-robertson-2003-b">2</a>
+          </li>
+          <li id="ref-jones-2011">
+            <span class="ref-authors">Jones, P. L., Pask, G. M., Rinker, D. C., &amp; Zwiebel, L. J.</span>
+            <span class="ref-year">(2011).</span>
+            <span class="ref-title">Functional agonism of insect odorant receptor ion channels.</span>
+            <span class="ref-venue"><i>Proceedings of the National Academy of Sciences of the United States of America</i>, <span class="ref-volume">108</span>(21), 8821–8825.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1073/pnas.1102425108" rel="noopener noreferrer">10.1073/pnas.1102425108</a>.</span>
+            <a class="ref-backlink" href="#cite-jones-2011-a">Back to citation</a>
+            <a class="ref-backlink" href="#cite-jones-2011-b">2</a>
+          </li>
+          <li id="ref-pacalon-2023">
+            <span class="ref-authors">Pacalon, J., Audic, G., Magnat, J., Philip, M., Golebiowski, J., Moreau, C. J., &amp; Topin, J.</span>
+            <span class="ref-year">(2023).</span>
+            <span class="ref-title">Elucidation of the structural basis for ligand binding and translocation in conserved insect odorant receptor co-receptors.</span>
+            <span class="ref-venue"><i>Nature Communications</i>, <span class="ref-volume">14</span>, Article 8182.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/s41467-023-44058-5" rel="noopener noreferrer">10.1038/s41467-023-44058-5</a>.</span>
+            <a class="ref-backlink" href="#cite-pacalon-2023-a">Back to citation</a>
+            <a class="ref-backlink" href="#cite-pacalon-2023-b">2</a>
+            <p class="ref-note">
+              When using this paper for residue identities or binding mechanisms, the team must verify claims against the 2024 author correction
+              (<a href="#ref-pacalon-2024-corr">ref [7]</a>) before approving mutagenesis targets.
+            </p>
+          </li>
+          <li id="ref-pacalon-2024-corr">
+            <span class="ref-authors">Pacalon, J., Audic, G., Magnat, J., Philip, M., Golebiowski, J., Moreau, C. J., &amp; Topin, J.</span>
+            <span class="ref-year">(2024).</span>
+            <span class="ref-title">Author Correction: Elucidation of the structural basis for ligand binding and translocation in conserved insect odorant receptor co-receptors.</span>
+            <span class="ref-venue"><i>Nature Communications</i>, <span class="ref-volume">15</span>, Article 4398.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/s41467-024-48896-9" rel="noopener noreferrer">10.1038/s41467-024-48896-9</a>.</span>
+            <a class="ref-backlink" href="#cite-pacalon-2024-corr">Back to citation</a>
+            <a class="ref-backlink" href="#cite-pacalon-2024-corr-b">2</a>
+            <p class="ref-note">
+              Correction notice recorded here so residue/binding claims drawn from the 2023 article are re-checked before use in AeroSense design decisions.
+            </p>
+          </li>
+        </ol>
+        <ul class="credit-list">
+          <li>Biological architecture and construct concepts summarized from the team’s April 2026 proposal package; verified maps override proposal wording.</li>
+          <li>Figure 1 is a local SVG concept illustration; Figures 2–3 reuse the Parts construct-map pattern and link to <a href="parts.html">Parts</a>.</li>
+          <li>No experimental gels, docking plots, or assay traces are embedded on this page.</li>
+        </ul>
+      </section>
+    </div>
+
+    <details class="page-toc" open>
+      <summary class="toc__summary"><span class="toc__label">On this page</span></summary>
+      <nav aria-label="Table of contents">
+        <ol>
+          <li><a href="#design-question"><span class="tech-label">01</span> Design question</a></li>
+          <li><a href="#design-requirements"><span class="tech-label">02</span> Design requirements</a></li>
+          <li><a href="#architecture"><span class="tech-label">03</span> System architecture</a></li>
+          <li><a href="#construct-strategy"><span class="tech-label">04</span> Construct strategy</a></li>
+          <li><a href="#why-hek293t"><span class="tech-label">05</span> Why HEK293T?</a></li>
+          <li><a href="#receptor-selection"><span class="tech-label">06</span> Receptor selection</a></li>
+          <li><a href="#functional-validation"><span class="tech-label">07</span> Functional validation design</a></li>
+          <li><a href="#voc-assay"><span class="tech-label">08</span> VOC-response assay design</a></li>
+          <li><a href="#optimization"><span class="tech-label">09</span> Receptor optimization strategy</a></li>
+          <li><a href="#trade-offs"><span class="tech-label">10</span> Design alternatives and trade-offs</a></li>
+          <li><a href="#interfaces"><span class="tech-label">11</span> Interfaces with Model and Hardware</a></li>
+          <li><a href="#risks"><span class="tech-label">12</span> Design risks and fallback paths</a></li>
+          <li><a href="#references"><span class="tech-label">Ref</span> References &amp; Credits</a></li>
+        </ol>
+      </nav>
+    </details>
+  </div>
+
+  <a class="back-to-top" href="#main">Back to top</a>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p class="footer-mission">AeroSense is developing a bio-digital olfactory sensing platform that pairs living-cell receptor arrays with edge-capable computational models for complex odor recognition.</p>
+
+      <p class="footer-sitemap-title" id="site-map-label">Site map</p>
+      <div class="footer-grid" id="site-map" aria-labelledby="site-map-label">
+        <div class="footer-col">
+          <h2>Project</h2>
+          <ul>
+            <li><a href="description.html">Description</a></li>
+            <li><a href="contribution.html">Contribution</a></li>
+            <li><a href="engineering.html">Engineering</a></li>
+            <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2>Team</h2>
+          <ul>
+            <li><a href="members.html">Members</a></li>
+            <li><a href="attributions.html">Attributions</a></li>
+          </ul>
+          <h2>Lab</h2>
+          <ul>
+            <li><a href="parts.html">Parts</a></li>
+            <li><a href="design.html">Design</a></li>
+            <li><a href="experiments.html">Experiments</a></li>
+            <li><a href="notebook.html">Notebook</a></li>
+            <li><a href="results.html">Results</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2>Dry Lab</h2>
+          <ul>
+            <li><a href="model.html">Model</a></li>
+            <li><a href="hardware.html">Hardware</a></li>
+          </ul>
+          <h2>Human Practices</h2>
+          <ul>
+            <li><a href="human-practices.html">Integrated Human Practices</a></li>
+            <li><a href="education.html">Education</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-meta">
+        <ul class="footer-contacts">
+          <li><a href="https://www.linkedin.com/company/aerosensebio/" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><a href="https://www.instagram.com/igem_tsinghua/" rel="noopener noreferrer">Instagram</a></li>
+          <li><a href="mailto:aerosensebio@gmail.com">aerosensebio@gmail.com</a></li>
+        </ul>
+        <ul class="footer-legal">
+          <li><a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer">Source on GitLab</a></li>
+          <li>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">Creative Commons Attribution 4.0 International</a></li>
+          <li><a href="attributions.html#responsible-ai">Attributions &amp; Responsible AI</a></li>
+        </ul>
+        <p class="footer-copy">© 2026 NTHU · AeroSense</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

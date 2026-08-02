@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Safety &amp; Security · AeroSense · NTHU iGEM 2026</title>
+  <meta name="description" content="Safety and security reasoning for AeroSense: biological, chemical, optical, electrical, environmental, biosecurity, and data considerations. Wiki summary does not replace official forms or institutional SOPs.">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/main.js" defer></script>
+  <script src="js/glossary.js" defer></script>
+  <script src="js/search.js" defer></script>
+</head>
+<body class="page-safety">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="reading-progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html">
+        <img class="brand__logo" src="logo/logo.jpg" width="44" height="44" alt="AeroSense">
+        <span class="brand__text">
+          <span class="brand__name">AeroSense</span>
+          <span class="brand__meta">NTHU · iGEM 2026</span>
+        </span>
+      </a>
+      <div class="header-tools">
+        <a class="btn-search" href="index.html#site-map" aria-haspopup="dialog" aria-controls="project-search">Project Search</a>
+        <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      </div>
+      <nav class="site-nav" id="site-nav" aria-label="Primary">
+        <ul class="nav-root">
+          <li>
+            <a href="index.html">Home</a>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Project</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-project">Project</button>
+            <ul class="nav-submenu" id="submenu-project">
+              <li><a href="description.html">Description</a></li>
+              <li><a href="contribution.html">Contribution</a></li>
+              <li><a href="engineering.html">Engineering</a></li>
+              <li><a href="safety-and-security.html" aria-current="page">Safety &amp; Security</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Team</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-team">Team</button>
+            <ul class="nav-submenu" id="submenu-team">
+              <li><a href="members.html">Members</a></li>
+              <li><a href="attributions.html">Attributions</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Lab</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-lab">Lab</button>
+            <ul class="nav-submenu" id="submenu-lab">
+              <li><a href="parts.html">Parts</a></li>
+              <li><a href="design.html">Design</a></li>
+              <li><a href="experiments.html">Experiments</a></li>
+              <li><a href="notebook.html">Notebook</a></li>
+              <li><a href="results.html">Results</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Dry Lab</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-drylab">Dry Lab</button>
+            <ul class="nav-submenu" id="submenu-drylab">
+              <li><a href="model.html">Model</a></li>
+              <li><a href="hardware.html">Hardware</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Human Practices</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-hp">Human Practices</button>
+            <ul class="nav-submenu" id="submenu-hp">
+              <li><a href="human-practices.html">Integrated Human Practices</a></li>
+              <li><a href="education.html">Education</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <dialog class="search-dialog" id="project-search" aria-labelledby="search-title">
+    <div class="search-dialog__panel">
+      <div class="search-dialog__header">
+        <h2 id="search-title">Project Search</h2>
+        <button type="button" class="search-dialog__close" data-search-close>Close</button>
+      </div>
+      <form class="search-dialog__form" role="search" action="index.html#site-map" method="get">
+        <label for="project-search-input">Search the AeroSense wiki</label>
+        <p id="project-search-instructions" class="search-dialog__hint">Type keywords from page titles and sections. Results stay on this site. No remote requests are made. Arrow keys move through results; Enter opens; Escape closes.</p>
+        <div class="search-dialog__field">
+          <input id="project-search-input" type="search" name="q" placeholder="e.g. HEK293T, Orco, hardware" autocomplete="off" aria-describedby="project-search-instructions project-search-count" aria-controls="project-search-results">
+          <button type="button" class="search-dialog__clear" data-search-clear hidden>Clear</button>
+        </div>
+        <div class="search-dialog__actions">
+          <button type="submit">Search</button>
+          <button type="button" data-search-close>Close</button>
+        </div>
+      </form>
+      <p id="project-search-count" class="search-dialog__count" aria-live="polite" aria-atomic="true">0 results</p>
+      <div id="project-search-results" class="search-dialog__results" role="listbox" aria-labelledby="search-title"></div>
+    </div>
+  </dialog>
+
+  <div class="shell shell--with-toc">
+    <div class="page-main-column">
+      <main id="main">
+        <header class="page-hero" data-reveal>
+          <nav aria-label="Breadcrumb">
+            <ol class="breadcrumb">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="description.html">Project</a></li>
+              <li aria-current="page">Safety &amp; Security</li>
+            </ol>
+          </nav>
+          <span class="page-kicker">04 / Project</span>
+          <h1>Safety &amp; Security</h1>
+          <p class="page-purpose">Risk-aware design from cells to deployment</p>
+          <p class="page-lede">
+            This page records biosafety, biosecurity, chemical, optical, electrical, environmental, and data-security reasoning for AeroSense.
+            It does not claim institutional approval or proven containment without team-supplied records.
+          </p>
+          <span class="status-label status-label--planned">Evidence-ready inventory · many fields awaiting team records</span>
+        </header>
+
+        <article class="page-article prose">
+          <aside class="safety-banner" role="note" data-reveal>
+            <strong>Important:</strong>
+            This Wiki summary does <em>not</em> replace institutional
+            <dfn class="term" data-term="sop" tabindex="0">standard operating procedures (SOPs)</dfn>,
+            chemical
+            <dfn class="term" data-term="sds" tabindex="0">Safety Data Sheets (SDS)</dfn>,
+            or the official iGEM Safety Forms.
+            Operators must follow current lab SOPs and the forms submitted through the iGEM teams portal.
+          </aside>
+
+          <section class="section-block" id="safety-at-a-glance" data-reveal>
+            <h2>Safety at a glance</h2>
+            <dl class="safety-glance">
+              <div>
+                <dt>Project scope</dt>
+                <dd>Living-cell olfactory receptor assays in
+                  <dfn class="term" data-term="hek293t" tabindex="0">HEK293T</dfn>
+                  cells; cloning in <i>E. coli</i> DH5α; fly-inspired computational analysis; portable optical readout prototype (research use).</dd>
+              </div>
+              <div>
+                <dt>Contained-use status</dt>
+                <dd><span class="placeholder-field">Institutional contained-use / biosafety authorization status not documented on this wiki</span></dd>
+              </div>
+              <div>
+                <dt>Organisms / cell lines (proposal-confirmed)</dt>
+                <dd>HEK293T; <i>Escherichia coli</i> DH5α. No other chassis is listed here without team confirmation.</dd>
+              </div>
+              <div>
+                <dt>Major hazard classes</dt>
+                <dd>Genetically modified cell culture; cloning bacteria; VOC and agonist chemicals; optical excitation (blue light); electrical power; pumps/fans/tubing; possible UV components if installed as proposed.</dd>
+              </div>
+              <div>
+                <dt>Responsible supervisors</dt>
+                <dd>
+                  Faculty advisor named in the project proposal: Luo Zhong-Chuan, National Tsing Hua University
+                  <span class="placeholder-field">Confirm English spelling, biosafety officer, and lab supervisor of record</span>
+                </dd>
+              </div>
+              <div>
+                <dt>Official iGEM Safety Forms</dt>
+                <dd>
+                  Project Safety Form guidance:
+                  <a href="https://responsibility.igem.org/safety-forms/project-safety" rel="noopener noreferrer">responsibility.igem.org/safety-forms/project-safety</a>.
+                  Check-In Form guidance:
+                  <a href="https://responsibility.igem.org/safety-forms/check-in" rel="noopener noreferrer">responsibility.igem.org/safety-forms/check-in</a>.
+                  <span class="placeholder-field">Team portal submission / approval status not verified on this wiki</span>
+                </dd>
+              </div>
+            </dl>
+          </section>
+
+          <section class="section-block" id="system-boundary" data-reveal>
+            <h2>System boundary</h2>
+            <p>
+              The diagram below is a conceptual containment sketch. It is not a validated enclosure or airflow test result.
+            </p>
+            <figure class="wiki-figure" id="fig-containment-boundary">
+              <div class="wiki-figure__media">
+                <svg viewBox="0 0 720 300" role="img" aria-label="Conceptual containment diagram showing laboratory and device interior versus possible user or environment contact.">
+                  <rect x="24" y="40" width="420" height="220" fill="none" stroke="#0a0a0a" stroke-width="2"></rect>
+                  <text x="234" y="68" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="12" fill="#555555" letter-spacing="1">INSIDE LAB / DEVICE BOUNDARY</text>
+                  <rect x="48" y="90" width="170" height="140" fill="none" stroke="#0a0a0a" stroke-width="1.5"></rect>
+                  <text x="133" y="130" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0a0a0a">HEK293T culture</text>
+                  <text x="133" y="152" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0a0a0a">Cloning (DH5α)</text>
+                  <text x="133" y="174" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#333333">VOC / VUAA1 handling</text>
+                  <text x="133" y="196" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#333333">Waste staging</text>
+                  <rect x="250" y="90" width="170" height="140" fill="none" stroke="#0a0a0a" stroke-width="1.5"></rect>
+                  <text x="335" y="130" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0a0a0a">Optical reader</text>
+                  <text x="335" y="152" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#333333">Excitation / filter</text>
+                  <text x="335" y="174" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#333333">Electronics / pumps</text>
+                  <text x="335" y="196" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#333333">Edge interface</text>
+                  <rect x="480" y="40" width="216" height="220" fill="none" stroke="#18b95b" stroke-width="2" stroke-dasharray="6 4"></rect>
+                  <text x="588" y="68" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="12" fill="#555555" letter-spacing="1">OUTSIDE CONTACT</text>
+                  <text x="588" y="130" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0a0a0a">Operators</text>
+                  <text x="588" y="152" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#333333">Lab air / surfaces</text>
+                  <text x="588" y="174" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#333333">Waste streams</text>
+                  <text x="588" y="196" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#333333">Public deployment</text>
+                  <text x="588" y="218" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#555555">(not authorized yet)</text>
+                  <path d="M420 160 H480" stroke="#0a0a0a" stroke-width="1.5" fill="none"></path>
+                  <text x="360" y="280" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="11" fill="#555555">Conceptual containment diagram — not experimental validation</text>
+                </svg>
+              </div>
+              <figcaption>
+                <span class="wiki-figure__num">Figure 1.</span>
+                <span class="wiki-figure__title"> Conceptual system boundary.</span>
+                <p class="wiki-figure__explain">Biological work, chemicals, and the optical device are treated as inside a laboratory/device boundary. Operator contact, waste, and any future public deployment sit outside that boundary and require separate authorization. A planned gas filter or enclosure feature does not, by itself, prove safe VOC or genetically modified cell handling.</p>
+                <ul class="wiki-figure__meta">
+                  <li><span class="wiki-figure__badge">Concept illustration — not experimental data</span></li>
+                  <li><strong>Evidence status:</strong> Conceptual only.</li>
+                  <li><strong>License / attribution:</strong> Local SVG for AeroSense wiki; intended CC BY 4.0 with site publication.</li>
+                </ul>
+              </figcaption>
+            </figure>
+          </section>
+
+          <section class="section-block" id="biological-materials" data-reveal>
+            <h2>Biological materials</h2>
+            <p>
+              Inventory seeded only with organisms confirmed in the current team proposal. Risk-group and containment cells remain institutionally assigned fields.
+            </p>
+            <div class="table-scroll req-table-wrap" tabindex="0" role="region" aria-label="Biological materials inventory">
+              <table class="goal-table req-table safety-bio-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Organism / cell line</th>
+                    <th scope="col">Strain</th>
+                    <th scope="col">Source</th>
+                    <th scope="col">Risk group / institutional class</th>
+                    <th scope="col">Genetic modification</th>
+                    <th scope="col">Purpose</th>
+                    <th scope="col">Containment</th>
+                    <th scope="col">Waste route</th>
+                    <th scope="col">Evidence</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>HEK293T</td>
+                    <td><span class="placeholder-field">Strain / passage record pending</span></td>
+                    <td><span class="placeholder-field">Supplier / lot pending</span></td>
+                    <td><span class="placeholder-field">Institutional classification pending</span></td>
+                    <td>Planned: selected <i>Drosophila</i> OR(s), Orco, GCaMP6 reporter constructs</td>
+                    <td>Living-cell VOC / agonist sensing assays</td>
+                    <td><span class="placeholder-field">Lab BSL / cabinet practice pending SOP citation</span></td>
+                    <td><span class="placeholder-field">Team-approved inactivation/disposal pending</span></td>
+                    <td>Proposal design intent; no lab receipt log linked yet</td>
+                  </tr>
+                  <tr>
+                    <td><i>Escherichia coli</i></td>
+                    <td>DH5α</td>
+                    <td><span class="placeholder-field">Supplier / lot pending</span></td>
+                    <td><span class="placeholder-field">Institutional classification pending</span></td>
+                    <td>Planned: plasmid amplification for OR / Orco / reporter constructs</td>
+                    <td>Cloning and plasmid prep</td>
+                    <td><span class="placeholder-field">Lab practice pending SOP citation</span></td>
+                    <td><span class="placeholder-field">Team-approved inactivation/disposal pending</span></td>
+                    <td>Proposal cloning workflow; no lab receipt log linked yet</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="notice">BL21 and other organisms are not listed. Add rows only after team confirmation.</p>
+          </section>
+
+          <section class="section-block" id="chemical-voc" data-reveal>
+            <h2>Chemical and VOC handling</h2>
+            <p>
+              Chemicals expected from the current proposal are listed below. Exposure limits and disposal procedures are <strong>not</strong> stated from memory—use the linked SDS and institutional SOP when the team provides them.
+            </p>
+            <div class="table-scroll req-table-wrap" tabindex="0" role="region" aria-label="Chemical and VOC handling table">
+              <table class="goal-table req-table safety-chem-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Material</th>
+                    <th scope="col">Role in project</th>
+                    <th scope="col">Form / notes</th>
+                    <th scope="col">SDS / record</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <dfn class="term" data-term="voc" tabindex="0">VOC</dfn> standards / mixtures
+                    </td>
+                    <td>Receptor / assay stimuli</td>
+                    <td>Specific compounds and concentrations pending team list</td>
+                    <td><span class="placeholder-field">SDS pack pending</span></td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <dfn class="term" data-term="vuaa1" tabindex="0">VUAA1</dfn>
+                    </td>
+                    <td>
+                      <dfn class="term" data-term="orco" tabindex="0">Orco</dfn>-family agonist / functional control
+                      <span class="cite-wrap">
+                        <a class="cite" href="#ref-jones-2011" id="cite-jones-2011" aria-describedby="cite-preview-jones-2011">[3]</a>
+                        <span class="cite-preview" id="cite-preview-jones-2011" role="tooltip">Jones et al., 2011 — full entry in References &amp; Credits.</span>
+                      </span>
+                    </td>
+                    <td>Proposal: DMSO stock then aqueous working dilution</td>
+                    <td><span class="placeholder-field">SDS pending</span></td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>DMSO</td>
+                    <td>Solvent for VUAA1 stock</td>
+                    <td>Proposal notes final DMSO fraction for working solutions</td>
+                    <td><span class="placeholder-field">SDS pending</span></td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Lipofectamine 3000 (or equivalent transfection reagent)</td>
+                    <td>HEK293T co-transfection</td>
+                    <td>Named in proposal transfection workflow</td>
+                    <td><span class="placeholder-field">SDS / IFU pending</span></td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Culture media / serum / antibiotics</td>
+                    <td>Cell culture</td>
+                    <td>Proposal references DMEM, FBS, penicillin/streptomycin</td>
+                    <td><span class="placeholder-field">SDS / IFU pending</span></td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Stains / dyes</td>
+                    <td>Only if actually used</td>
+                    <td><span class="placeholder-field">Not confirmed in current wiki records</span></td>
+                    <td><span class="placeholder-field">N/A until used</span></td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Not confirmed</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Disinfectants</td>
+                    <td>Surface / spill response</td>
+                    <td><span class="placeholder-field">Agent and contact time from institutional SOP pending</span></td>
+                    <td><span class="placeholder-field">SDS pending</span></td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section-block" id="hardware-hazards" data-reveal>
+            <h2>Hardware and physical hazards</h2>
+            <p>
+              Hazards below follow the proposed optical/edge device and wet–dry interfaces. Controls without test evidence are labeled Planned.
+            </p>
+            <div class="table-scroll req-table-wrap" tabindex="0" role="region" aria-label="Hardware and physical hazards table">
+              <table class="goal-table req-table safety-hw-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Hazard</th>
+                    <th scope="col">Engineering controls</th>
+                    <th scope="col">Administrative controls</th>
+                    <th scope="col">Test evidence</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Optical excitation / blue light</td>
+                    <td>Emission filtering; enclosure to limit stray light (planned)</td>
+                    <td>Eye-protection policy pending written SOP</td>
+                    <td><span class="placeholder-field">None</span></td>
+                    <td>Planned</td>
+                  </tr>
+                  <tr>
+                    <td>Electrical power (low-voltage electronics)</td>
+                    <td>Insulated wiring; fused/supply limits as designed</td>
+                    <td>Power-off before open-chassis work (SOP pending)</td>
+                    <td><span class="placeholder-field">None</span></td>
+                    <td>Planned</td>
+                  </tr>
+                  <tr>
+                    <td>Heaters / hot surfaces</td>
+                    <td><span class="placeholder-field">Thermal design details pending BOM freeze</span></td>
+                    <td>Cool-down wait times pending SOP</td>
+                    <td><span class="placeholder-field">None</span></td>
+                    <td>Planned / unconfirmed</td>
+                  </tr>
+                  <tr>
+                    <td>Moving pumps / fans</td>
+                    <td>Guards / enclosed airflow path (planned)</td>
+                    <td>Lockout during servicing (SOP pending)</td>
+                    <td><span class="placeholder-field">None</span></td>
+                    <td>Planned</td>
+                  </tr>
+                  <tr>
+                    <td>Pressure / tubing / fittings</td>
+                    <td>Rated tubing; leak checks before VOC runs (planned)</td>
+                    <td>No open VOC lines outside designated area (SOP pending)</td>
+                    <td><span class="placeholder-field">None</span></td>
+                    <td>Planned</td>
+                  </tr>
+                  <tr>
+                    <td>Sharp parts / needles / glass</td>
+                    <td>Standard sharps containers when used</td>
+                    <td>Institutional sharps SOP</td>
+                    <td><span class="placeholder-field">None linked</span></td>
+                    <td>Planned</td>
+                  </tr>
+                  <tr>
+                    <td>UV sources</td>
+                    <td>Only if UV modules from the proposal BOM are actually installed; interlocks/shielding TBD</td>
+                    <td>Do not energize uncovered UV</td>
+                    <td><span class="placeholder-field">Installation not confirmed</span></td>
+                    <td>Proposed BOM item · not confirmed present</td>
+                  </tr>
+                  <tr>
+                    <td>Enclosure failure / leak</td>
+                    <td>Seals, secondary containment, sterile gas filtration as designed—not proven</td>
+                    <td>Stop work and spill/incident procedure (pending)</td>
+                    <td><span class="placeholder-field">None</span></td>
+                    <td>Planned</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="notice">
+              A planned 0.22&nbsp;µm PTFE inlet filter (proposal gas path) may reduce particulate ingress. It does <strong>not</strong> by itself make VOC exposure or genetically modified cell handling safe.
+            </p>
+          </section>
+
+          <section class="section-block" id="safety-by-design" data-reveal>
+            <h2>Safety by design</h2>
+            <p>
+              Design choices appear only when they exist in the current proposal/architecture. Untested controls stay Planned.
+            </p>
+            <ul class="limitation-list">
+              <li><strong>Closed / chambered gas handling (planned):</strong> proposal describes multiported gas chambers and tubing rather than open-bench VOC spraying. Status: Planned — not validated on this wiki.</li>
+              <li><strong>Sterile filtration on inlet (planned):</strong> 0.22&nbsp;µm PTFE filter in the gas path. Status: Planned — particulate control intent only; not a VOC hazard control proof.</li>
+              <li><strong>Physical isolation of optics vs heat (planned):</strong> proposal discusses keeping waste heat away from the optical/cell compartment. Status: Planned.</li>
+              <li><strong>Leak prevention / seals (planned):</strong> PDMS / chamber sealing concepts. Status: Planned — leak-test evidence missing.</li>
+              <li><strong>Shutdown / interlock logic:</strong> <span class="placeholder-field">Not documented as implemented</span></li>
+              <li><strong>Access control to device or materials:</strong> <span class="placeholder-field">Lab access rules pending institutional confirmation</span></li>
+            </ul>
+            <p>
+              AeroSense is not described as “biosafe” on the basis of design intent alone. Related engineering iterations belong on
+              <a href="engineering.html">Engineering</a>; hardware detail on
+              <a href="hardware.html">Hardware</a>.
+            </p>
+          </section>
+
+          <section class="section-block" id="risk-assessment" data-reveal>
+            <h2>Risk assessment</h2>
+            <p>
+              Likelihood, severity, and residual risk are left for the team’s documented assessment method. Do not treat empty score cells as zero risk.
+            </p>
+            <div class="table-scroll risk-matrix-wrap" tabindex="0" role="region" aria-label="Risk assessment matrix">
+              <table class="goal-table risk-matrix">
+                <thead>
+                  <tr>
+                    <th scope="col">Hazard</th>
+                    <th scope="col">Activity</th>
+                    <th scope="col">Who / what could be harmed</th>
+                    <th scope="col">Likelihood</th>
+                    <th scope="col">Severity</th>
+                    <th scope="col">Controls</th>
+                    <th scope="col">Residual risk</th>
+                    <th scope="col">Owner</th>
+                    <th scope="col">Evidence / date</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Exposure to genetically modified HEK293T</td>
+                    <td>Culture, transfection, imaging</td>
+                    <td>Operators; lab environment</td>
+                    <td><span class="placeholder-field">Pending</span></td>
+                    <td><span class="placeholder-field">Pending</span></td>
+                    <td>Institutional BSL practice; PPE; waste inactivation — details pending SOP</td>
+                    <td><span class="placeholder-field">Pending</span></td>
+                    <td><span class="placeholder-field">Pending</span></td>
+                    <td><span class="placeholder-field">None</span></td>
+                    <td>Incomplete</td>
+                  </tr>
+                  <tr>
+                    <td>VOC inhalation / dermal exposure</td>
+                    <td>Standard preparation; device gas delivery</td>
+                    <td>Operators</td>
+                    <td><span class="placeholder-field">Pending</span></td>
+                    <td><span class="placeholder-field">Pending</span></td>
+                    <td>Fume hood / closed path as required by SOP; SDS-driven PPE</td>
+                    <td><span class="placeholder-field">Pending</span></td>
+                    <td><span class="placeholder-field">Pending</span></td>
+                    <td><span class="placeholder-field">None</span></td>
+                    <td>Incomplete</td>
+                  </tr>
+                  <tr>
+                    <td>VUAA1 / DMSO handling</td>
+                    <td>Stock and working solutions</td>
+                    <td>Operators</td>
+                    <td><span class="placeholder-field">Pending</span></td>
+                    <td><span class="placeholder-field">Pending</span></td>
+                    <td>SDS; glove selection; spill kit per SOP</td>
+                    <td><span class="placeholder-field">Pending</span></td>
+                    <td><span class="placeholder-field">Pending</span></td>
+                    <td><span class="placeholder-field">None</span></td>
+                    <td>Incomplete</td>
+                  </tr>
+                  <tr>
+                    <td>Blue-light / optical exposure</td>
+                    <td>Device operation; open bench optics</td>
+                    <td>Operators</td>
+                    <td><span class="placeholder-field">Pending</span></td>
+                    <td><span class="placeholder-field">Pending</span></td>
+                    <td>Enclosure; eye protection policy</td>
+                    <td><span class="placeholder-field">Pending</span></td>
+                    <td><span class="placeholder-field">Pending</span></td>
+                    <td><span class="placeholder-field">None</span></td>
+                    <td>Incomplete</td>
+                  </tr>
+                  <tr>
+                    <td>Electrical shock / short</td>
+                    <td>Assembly, debug, powered tests</td>
+                    <td>Operators; equipment</td>
+                    <td><span class="placeholder-field">Pending</span></td>
+                    <td><span class="placeholder-field">Pending</span></td>
+                    <td>Power isolation; insulated construction</td>
+                    <td><span class="placeholder-field">Pending</span></td>
+                    <td><span class="placeholder-field">Pending</span></td>
+                    <td><span class="placeholder-field">None</span></td>
+                    <td>Incomplete</td>
+                  </tr>
+                  <tr>
+                    <td>Unauthorized release / misuse of materials or files</td>
+                    <td>Storage, sharing, publication</td>
+                    <td>Public; environment; team reputation</td>
+                    <td><span class="placeholder-field">Pending</span></td>
+                    <td><span class="placeholder-field">Pending</span></td>
+                    <td>Access control; dual-use review before release</td>
+                    <td><span class="placeholder-field">Pending</span></td>
+                    <td><span class="placeholder-field">Pending</span></td>
+                    <td><span class="placeholder-field">None</span></td>
+                    <td>Incomplete</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section-block" id="biosecurity" data-reveal>
+            <h2>Biosecurity and dual-use reflection</h2>
+            <p>
+              AeroSense uses common laboratory chassis and insect olfactory receptor genes for sensing research. The dual-use discussion stays proportionate to that scope.
+            </p>
+            <ul class="limitation-list">
+              <li><strong>Misuse of biological materials:</strong> engineered HEK293T lines and plasmid stocks should remain under institutional access control; do not distribute outside approved channels.</li>
+              <li><strong>Unauthorized access to design files:</strong> sequences, hardware files, and acquisition firmware should use team-controlled repositories with least-privilege access once hosted.</li>
+              <li><strong>Harmful VOC scenarios:</strong> assay VOCs are research reagents, not a public release pathway. Open environmental spraying or weaponization-style deployment is outside project scope and must not be enabled by documentation.</li>
+              <li><strong>Responsible publication:</strong> wiki and Registry pages should emphasize contained-use methods, omit actionable misuse detail, and avoid claiming field or clinical readiness without evidence.</li>
+            </ul>
+          </section>
+
+          <section class="section-block" id="data-privacy" data-reveal>
+            <h2>Data and privacy</h2>
+            <div class="content-needed-panel" role="status">
+              <p class="content-needed-panel__kicker">Human data · content needed</p>
+              <p>
+                If AeroSense uses human surveys, interviews, images, or other personal data, the team must document consent, data minimization, access control, retention, anonymization, and publication choices here.
+              </p>
+              <p>
+                <span class="placeholder-field">No IRB / ethics approval is claimed on this wiki</span>
+                unless the team supplies a dated institutional record.
+                Related stakeholder work scaffolding:
+                <a href="human-practices.html">Human Practices</a>.
+              </p>
+            </div>
+          </section>
+
+          <section class="section-block" id="waste-incident" data-reveal>
+            <h2>Waste, decontamination, and incident response</h2>
+            <div class="content-needed-panel" role="status">
+              <p class="content-needed-panel__kicker">Procedures · content needed</p>
+              <p>
+                Team-approved waste routes, decontamination agents/contact times, spill response, and emergency contacts will be listed only after confirmation against institutional SOPs.
+              </p>
+              <ul class="content-needed-panel__checklist">
+                <li>Biological waste inactivation method — pending</li>
+                <li>Chemical waste segregation for VOC / DMSO / transfection reagents — pending</li>
+                <li>Sharps disposal — pending</li>
+                <li>Incident contacts (lab PI, campus EHS, medical) — pending</li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="section-block" id="training-compliance" data-reveal>
+            <h2>Training, supervision, and compliance</h2>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Training and compliance table">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Item</th>
+                    <th scope="col">Record</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Institutional biosafety / lab training</td>
+                    <td><span class="placeholder-field">Roster pending</span></td>
+                    <td><span class="placeholder-field">—</span></td>
+                    <td>Incomplete</td>
+                  </tr>
+                  <tr>
+                    <td>Chemical hygiene / VOC handling briefing</td>
+                    <td><span class="placeholder-field">Roster pending</span></td>
+                    <td><span class="placeholder-field">—</span></td>
+                    <td>Incomplete</td>
+                  </tr>
+                  <tr>
+                    <td>Hardware / optical / electrical briefing</td>
+                    <td><span class="placeholder-field">Roster pending</span></td>
+                    <td><span class="placeholder-field">—</span></td>
+                    <td>Incomplete</td>
+                  </tr>
+                  <tr>
+                    <td>iGEM Project Safety Form</td>
+                    <td>Submit via teams portal; guidance at responsibility.igem.org</td>
+                    <td><span class="placeholder-field">Submission date pending</span></td>
+                    <td>Incomplete</td>
+                  </tr>
+                  <tr>
+                    <td>iGEM Check-In Form (if required)</td>
+                    <td>Required before non-whitelist organisms/parts/activities</td>
+                    <td><span class="placeholder-field">Submission date pending</span></td>
+                    <td>Incomplete</td>
+                  </tr>
+                  <tr>
+                    <td>Supervisory review of this wiki page</td>
+                    <td><span class="placeholder-field">Reviewer name pending</span></td>
+                    <td><span class="placeholder-field">—</span></td>
+                    <td>Incomplete</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section-block" id="limitations" data-reveal>
+            <h2>Known limitations and unresolved risks</h2>
+            <ul class="limitation-list">
+              <li>No institutional authorization letter or iGEM form approval status is published on this page.</li>
+              <li>Risk scores are not filled; residual risk is therefore not quantified here.</li>
+              <li>Hardware interlocks, leak tests, and optical exposure measurements are not evidenced.</li>
+              <li>VOC identity lists and SDS packs are incomplete.</li>
+              <li>Public or field deployment of living cells is not authorized by this wiki and remains out of scope until separately approved.</li>
+              <li>Filter or enclosure design intent must not be read as proven biosafety performance.</li>
+            </ul>
+          </section>
+        </article>
+      </main>
+
+      <nav class="page-turn" aria-label="Page">
+        <a class="page-turn__prev" href="engineering.html"><span class="page-turn__dir">Previous</span><span class="page-turn__title">Engineering</span></a>
+        <a class="page-turn__next" href="members.html"><span class="page-turn__dir">Next</span><span class="page-turn__title">Members</span></a>
+      </nav>
+
+      <section class="references" aria-labelledby="references-heading" id="references" data-reveal>
+        <h2 id="references-heading">References &amp; Credits</h2>
+        <p class="notice">SDS register rows above remain incomplete; literature entries below are not SDS substitutes.</p>
+        <ol class="ref-list">
+          <li id="ref-igem-project-safety">
+            <span class="ref-authors">iGEM Foundation.</span>
+            <span class="ref-title">Project Safety Form (Responsibility guidance).</span>
+            <span class="ref-venue">Retrieved from <a href="https://responsibility.igem.org/safety-forms/project-safety" rel="noopener noreferrer">https://responsibility.igem.org/safety-forms/project-safety</a>.</span>
+            <a class="ref-backlink" href="#safety-at-a-glance">Back to Safety at a glance</a>
+          </li>
+          <li id="ref-igem-check-in">
+            <span class="ref-authors">iGEM Foundation.</span>
+            <span class="ref-title">Check-In Form (Responsibility guidance).</span>
+            <span class="ref-venue">Retrieved from <a href="https://responsibility.igem.org/safety-forms/check-in" rel="noopener noreferrer">https://responsibility.igem.org/safety-forms/check-in</a>.</span>
+            <a class="ref-backlink" href="#safety-at-a-glance">Back to Safety at a glance</a>
+          </li>
+          <li id="ref-jones-2011">
+            <span class="ref-authors">Jones, P. L., Pask, G. M., Rinker, D. C., &amp; Zwiebel, L. J.</span>
+            <span class="ref-year">(2011).</span>
+            <span class="ref-title">Functional agonism of insect odorant receptor ion channels.</span>
+            <span class="ref-venue"><i>Proceedings of the National Academy of Sciences of the United States of America</i>, <span class="ref-volume">108</span>(21), 8821–8825.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1073/pnas.1102425108" rel="noopener noreferrer">10.1073/pnas.1102425108</a>.</span>
+            <p class="ref-note">Background literature for VUAA1 as an Orco-family agonist; not an SDS and not an AeroSense approval record.</p>
+            <a class="ref-backlink" href="#cite-jones-2011">Back to citation</a>
+          </li>
+        </ol>
+        <ul class="credit-list">
+          <li><strong>SDS register:</strong> <span class="placeholder-field">Team to attach permitted SDS links or local file references for each chemical actually used</span></li>
+          <li>Figure 1 is a local concept SVG, not a containment validation.</li>
+          <li>Faculty advisor name is taken from the team proposal; confirm English spelling and biosafety supervisor role before judging freeze.</li>
+        </ul>
+      </section>
+    </div>
+
+    <details class="page-toc" open>
+      <summary class="toc__summary"><span class="toc__label">On this page</span></summary>
+      <nav aria-label="Table of contents">
+        <ol>
+          <li><a href="#safety-at-a-glance"><span class="tech-label">01</span> Safety at a glance</a></li>
+          <li><a href="#system-boundary"><span class="tech-label">02</span> System boundary</a></li>
+          <li><a href="#biological-materials"><span class="tech-label">03</span> Biological materials</a></li>
+          <li><a href="#chemical-voc"><span class="tech-label">04</span> Chemical and VOC</a></li>
+          <li><a href="#hardware-hazards"><span class="tech-label">05</span> Hardware hazards</a></li>
+          <li><a href="#safety-by-design"><span class="tech-label">06</span> Safety by design</a></li>
+          <li><a href="#risk-assessment"><span class="tech-label">07</span> Risk assessment</a></li>
+          <li><a href="#biosecurity"><span class="tech-label">08</span> Biosecurity</a></li>
+          <li><a href="#data-privacy"><span class="tech-label">09</span> Data and privacy</a></li>
+          <li><a href="#waste-incident"><span class="tech-label">10</span> Waste and incidents</a></li>
+          <li><a href="#training-compliance"><span class="tech-label">11</span> Training and compliance</a></li>
+          <li><a href="#limitations"><span class="tech-label">12</span> Limitations</a></li>
+          <li><a href="#references"><span class="tech-label">Ref</span> References &amp; Credits</a></li>
+        </ol>
+      </nav>
+    </details>
+  </div>
+
+  <a class="back-to-top" href="#main">Back to top</a>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p class="footer-mission">AeroSense is developing a bio-digital olfactory sensing platform that pairs living-cell receptor arrays with edge-capable computational models for complex odor recognition.</p>
+
+      <p class="footer-sitemap-title" id="site-map-label">Site map</p>
+      <div class="footer-grid" id="site-map" aria-labelledby="site-map-label">
+        <div class="footer-col">
+          <h2>Project</h2>
+          <ul>
+            <li><a href="description.html">Description</a></li>
+            <li><a href="contribution.html">Contribution</a></li>
+            <li><a href="engineering.html">Engineering</a></li>
+            <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2>Team</h2>
+          <ul>
+            <li><a href="members.html">Members</a></li>
+            <li><a href="attributions.html">Attributions</a></li>
+          </ul>
+          <h2>Lab</h2>
+          <ul>
+            <li><a href="parts.html">Parts</a></li>
+            <li><a href="design.html">Design</a></li>
+            <li><a href="experiments.html">Experiments</a></li>
+            <li><a href="notebook.html">Notebook</a></li>
+            <li><a href="results.html">Results</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2>Dry Lab</h2>
+          <ul>
+            <li><a href="model.html">Model</a></li>
+            <li><a href="hardware.html">Hardware</a></li>
+          </ul>
+          <h2>Human Practices</h2>
+          <ul>
+            <li><a href="human-practices.html">Integrated Human Practices</a></li>
+            <li><a href="education.html">Education</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-meta">
+        <ul class="footer-contacts">
+          <li><a href="https://www.linkedin.com/company/aerosensebio/" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><a href="https://www.instagram.com/igem_tsinghua/" rel="noopener noreferrer">Instagram</a></li>
+          <li><a href="mailto:aerosensebio@gmail.com">aerosensebio@gmail.com</a></li>
+        </ul>
+        <ul class="footer-legal">
+          <li><a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer">Source on GitLab</a></li>
+          <li>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">Creative Commons Attribution 4.0 International</a></li>
+          <li><a href="attributions.html#responsible-ai">Attributions &amp; Responsible AI</a></li>
+        </ul>
+        <p class="footer-copy">© 2026 NTHU · AeroSense</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

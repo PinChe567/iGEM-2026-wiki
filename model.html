@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Model · AeroSense · NTHU iGEM 2026</title>
+  <meta name="description" content="AeroSense computational model: AL-inspired contrast processing and MB-inspired sparse representations for receptor-response patterns, with provenance, assumptions, and evaluation status.">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/main.js" defer></script>
+  <script src="js/glossary.js" defer></script>
+  <script src="js/search.js" defer></script>
+</head>
+<body class="page-model">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="reading-progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html">
+        <img class="brand__logo" src="logo/logo.jpg" width="44" height="44" alt="AeroSense">
+        <span class="brand__text">
+          <span class="brand__name">AeroSense</span>
+          <span class="brand__meta">NTHU · iGEM 2026</span>
+        </span>
+      </a>
+      <div class="header-tools">
+        <a class="btn-search" href="index.html#site-map" aria-haspopup="dialog" aria-controls="project-search">Project Search</a>
+        <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      </div>
+      <nav class="site-nav" id="site-nav" aria-label="Primary">
+        <ul class="nav-root">
+          <li>
+            <a href="index.html">Home</a>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Project</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-project">Project</button>
+            <ul class="nav-submenu" id="submenu-project">
+              <li><a href="description.html">Description</a></li>
+              <li><a href="contribution.html">Contribution</a></li>
+              <li><a href="engineering.html">Engineering</a></li>
+              <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Team</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-team">Team</button>
+            <ul class="nav-submenu" id="submenu-team">
+              <li><a href="members.html">Members</a></li>
+              <li><a href="attributions.html">Attributions</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Lab</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-lab">Lab</button>
+            <ul class="nav-submenu" id="submenu-lab">
+              <li><a href="parts.html">Parts</a></li>
+              <li><a href="design.html">Design</a></li>
+              <li><a href="experiments.html">Experiments</a></li>
+              <li><a href="notebook.html">Notebook</a></li>
+              <li><a href="results.html">Results</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Dry Lab</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-drylab">Dry Lab</button>
+            <ul class="nav-submenu" id="submenu-drylab">
+              <li><a href="model.html" aria-current="page">Model</a></li>
+              <li><a href="hardware.html">Hardware</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Human Practices</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-hp">Human Practices</button>
+            <ul class="nav-submenu" id="submenu-hp">
+              <li><a href="human-practices.html">Integrated Human Practices</a></li>
+              <li><a href="education.html">Education</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <dialog class="search-dialog" id="project-search" aria-labelledby="search-title">
+    <div class="search-dialog__panel">
+      <div class="search-dialog__header">
+        <h2 id="search-title">Project Search</h2>
+        <button type="button" class="search-dialog__close" data-search-close>Close</button>
+      </div>
+      <form class="search-dialog__form" role="search" action="index.html#site-map" method="get">
+        <label for="project-search-input">Search the AeroSense wiki</label>
+        <p id="project-search-instructions" class="search-dialog__hint">Type keywords from page titles and sections. Results stay on this site. No remote requests are made. Arrow keys move through results; Enter opens; Escape closes.</p>
+        <div class="search-dialog__field">
+          <input id="project-search-input" type="search" name="q" placeholder="e.g. HEK293T, Orco, hardware" autocomplete="off" aria-describedby="project-search-instructions project-search-count" aria-controls="project-search-results">
+          <button type="button" class="search-dialog__clear" data-search-clear hidden>Clear</button>
+        </div>
+        <div class="search-dialog__actions">
+          <button type="submit">Search</button>
+          <button type="button" data-search-close>Close</button>
+        </div>
+      </form>
+      <p id="project-search-count" class="search-dialog__count" aria-live="polite" aria-atomic="true">0 results</p>
+      <div id="project-search-results" class="search-dialog__results" role="listbox" aria-labelledby="search-title"></div>
+    </div>
+  </dialog>
+
+  <div class="shell shell--with-toc">
+    <div class="page-main-column">
+      <main id="main">
+        <header class="page-hero" data-reveal>
+          <nav aria-label="Breadcrumb">
+            <ol class="breadcrumb">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="model.html">Dry Lab</a></li>
+              <li aria-current="page">Model</li>
+            </ol>
+          </nav>
+          <span class="page-kicker">12 / Dry Lab</span>
+          <h1>Model</h1>
+          <p class="page-purpose">From receptor-response patterns to interpretable odor representations</p>
+          <span class="status-label status-label--planned">Proposed pipeline · no implemented code or verified metrics yet</span>
+        </header>
+
+        <article class="page-article prose">
+          <section class="section-block" id="question-and-role" data-reveal>
+            <h2>Question and role in the project</h2>
+            <div class="evidence-status" data-status="planned">
+              <span class="evidence-status__label">Status</span>
+              <span class="evidence-status__value">Planned</span>
+            </div>
+            <p>
+              The model track asks whether fluorescence-derived receptor-response vectors can be transformed into more separable odor codes by an
+              <dfn class="term" data-term="al" tabindex="0">antennal lobe (AL)</dfn>-inspired contrast step and a
+              <dfn class="term" data-term="mb" tabindex="0">mushroom body (MB)</dfn>-inspired sparse projection before classification, and whether those stages improve separation relative to simpler baselines
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-dasgupta-2017" id="cite-dasgupta-2017-a" aria-describedby="cite-preview-dasgupta-2017">[1]</a>
+                <span class="cite-preview" id="cite-preview-dasgupta-2017" role="tooltip">Dasgupta et al., 2017 — full entry in References &amp; Credits.</span>
+              </span>.
+              That question is also framed as Engineering cycle
+              <a href="engineering.html#model-c1">C1</a>.
+            </p>
+            <p>
+              <strong>Decision supported (intended):</strong> which receptor-panel features, preprocessing choices, and decoding stages to keep, revise, or drop when building odor-pattern classifiers for AeroSense assays.
+            </p>
+            <p>
+              <strong>Consumers of the output (intended):</strong> the wet-lab team (panel composition and assay design), the hardware team (sampling and feature handoff), and future wiki readers who need a reproducible decoding method—not a black-box accuracy claim.
+            </p>
+            <p>
+              <strong>What would be done differently because of it:</strong> once evaluated, the model should change receptor selection, experiment design, or hardware sampling only when a documented metric comparison supports that change. No such closed feedback loop has been recorded yet; see
+              <a href="#project-impact">How the model informed the project</a>.
+            </p>
+            <p class="notice">
+              Biological language on this page is analogy. “AL-inspired” and “MB-inspired” mean computational stages motivated by insect olfactory motifs; they are not claims of biological identity to antennal-lobe or mushroom-body circuits.
+            </p>
+          </section>
+
+          <section class="section-block" id="inputs-outputs" data-reveal>
+            <h2>Inputs and outputs</h2>
+            <p>
+              Exact file schemas are not team-approved yet. The table lists only fields already named in the Design interface contract or in the proposed representation pipeline; frozen column names and units remain open (see
+              <a href="design.html#interfaces">Design · Interfaces with Model and Hardware</a>).
+            </p>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Model inputs and outputs">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Field / object</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Unit / type (as stated)</th>
+                    <th scope="col">Schema status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Fluorescence quantity</td>
+                    <td>Input from wet-lab / hardware</td>
+                    <td>Raw intensity or <dfn class="term" data-term="delta-f-over-f0" tabindex="0">ΔF/F<sub>0</sub></dfn> with a stated definition</td>
+                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
+                  </tr>
+                  <tr>
+                    <td>Timing</td>
+                    <td>Input metadata for time series</td>
+                    <td>Sample timestamps or frame rate; stimulus onset markers</td>
+                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
+                  </tr>
+                  <tr>
+                    <td>OR identity</td>
+                    <td>Channel / panel metadata</td>
+                    <td>Identifier string (construct-level)</td>
+                    <td>Named in Design; schema freeze pending</td>
+                  </tr>
+                  <tr>
+                    <td>Construct lot</td>
+                    <td>Metadata</td>
+                    <td>Lot / batch identifier</td>
+                    <td>Named in Design; schema freeze pending</td>
+                  </tr>
+                  <tr>
+                    <td>Passage</td>
+                    <td>Metadata</td>
+                    <td>Culture passage index</td>
+                    <td>Named in Design; schema freeze pending</td>
+                  </tr>
+                  <tr>
+                    <td>Stimulus ID</td>
+                    <td>Label / condition key</td>
+                    <td>Stimulus identifier matching exported columns</td>
+                    <td>Named in Design; schema freeze pending</td>
+                  </tr>
+                  <tr>
+                    <td>Vehicle</td>
+                    <td>Control / condition metadata</td>
+                    <td>Vehicle identifier</td>
+                    <td>Named in Design; schema freeze pending</td>
+                  </tr>
+                  <tr>
+                    <td>Replicate IDs</td>
+                    <td>Metadata</td>
+                    <td>Biological / technical replicate identifiers</td>
+                    <td>Named in Design; schema freeze pending</td>
+                  </tr>
+                  <tr>
+                    <td>Normalization provenance flag</td>
+                    <td>Interface constraint</td>
+                    <td>Boolean / enum indicating whether baseline subtraction, per-well scaling, or AL-inspired transforms were applied</td>
+                    <td>Ownership split documented; encoding pending</td>
+                  </tr>
+                  <tr>
+                    <td>Response vector <span class="tech-label">x</span></td>
+                    <td>Proposed model input after feature extraction</td>
+                    <td>Vector in ℝ<sup>N</sup>; per-receptor feature such as normalized fluorescence change (proposal: ΔF<sub>norm</sub>)</td>
+                    <td>Proposed — feature definition not frozen by code</td>
+                  </tr>
+                  <tr>
+                    <td>Class / condition label</td>
+                    <td>Supervised training target (proposed)</td>
+                    <td>Categorical label tied to stimulus ID / study design</td>
+                    <td>Not schema-frozen; no labeled AeroSense dataset published</td>
+                  </tr>
+                  <tr>
+                    <td>Predicted label or similarity score</td>
+                    <td>Proposed model output</td>
+                    <td>Softmax class scores or Hamming / dot-product similarity to a reference code</td>
+                    <td>Proposed in team proposal; not implemented in repo</td>
+                  </tr>
+                  <tr>
+                    <td>Uncertainty</td>
+                    <td>Proposed reporting object</td>
+                    <td><span class="placeholder-field">Not defined — no calibrated uncertainty schema yet</span></td>
+                    <td>Pending team definition</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section-block" id="pipeline-overview" data-reveal>
+            <h2>Pipeline overview</h2>
+            <p>
+              End-to-end flow as designed for AeroSense. Stages are labeled by implementation status in this repository and related wiki scaffolding—not by proposal intent alone.
+            </p>
+            <ol class="pipeline-list">
+              <li>
+                <span class="stage-tag stage-tag--proposed">Proposed</span>
+                <strong>Preprocessing</strong> — register raw fluorescence with metadata; apply documented baseline rules (
+                <a href="experiments.html#exp-as-07">EXP-AS-07</a>).
+              </li>
+              <li>
+                <span class="stage-tag stage-tag--proposed">Proposed</span>
+                <strong>Response-vector extraction</strong> — map each receptor channel’s time series to a fixed feature (proposal: normalized fluorescence change).
+              </li>
+              <li>
+                <span class="stage-tag stage-tag--proposed">Proposed</span>
+                <strong>AL-inspired processing</strong> — pattern normalization plus global and lateral inhibition for contrast enhancement.
+              </li>
+              <li>
+                <span class="stage-tag stage-tag--proposed">Proposed</span>
+                <strong>MB-inspired sparse representation</strong> — sparse random projection and threshold / winner selection toward a locality-sensitive binary code
+                <span class="cite-wrap">
+                  <a class="cite" href="#ref-dasgupta-2017" id="cite-dasgupta-2017-b" aria-describedby="cite-preview-dasgupta-2017">[1]</a>
+                  <span class="cite-preview" role="tooltip">Dasgupta et al., 2017 — full entry in References &amp; Credits.</span>
+                </span>.
+              </li>
+              <li>
+                <span class="stage-tag stage-tag--proposed">Proposed</span>
+                <strong>Classifier</strong> — similarity to reference codes and/or linear softmax readout (proposal); compare against simpler baselines (proposal names PCA and SVM).
+              </li>
+              <li>
+                <span class="stage-tag stage-tag--proposed">Proposed</span>
+                <strong>Evaluation / feedback</strong> — metrics, ablations, and engineering learn/change records on
+                <a href="results.html#model-results">Results</a>
+                and
+                <a href="engineering.html#model-c1">Engineering C1</a>.
+              </li>
+            </ol>
+            <p class="notice">
+              <span class="stage-tag stage-tag--implemented">Implemented</span>
+              No pipeline stage has an executed, versioned code path in this wiki tree. Contribution package
+              <a href="contribution.html#pkg-model">pkg-model</a>
+              remains In development without a public entry point.
+            </p>
+          </section>
+
+          <section class="section-block" id="data-provenance" data-reveal>
+            <h2>Data provenance</h2>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Data provenance status">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Topic</th>
+                    <th scope="col">Current record</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Public data</td>
+                    <td>Proposal milestones mention initial training on a public dataset. <span class="placeholder-field">No named public dataset, accession, or license recorded for AeroSense model use</span>.</td>
+                  </tr>
+                  <tr>
+                    <td>Team-generated data</td>
+                    <td>Planned via fluorescence assays and <a href="experiments.html#exp-as-07">EXP-AS-07</a> export. <span class="placeholder-field">No published AeroSense feature matrix</span>.</td>
+                  </tr>
+                  <tr>
+                    <td>Inclusion / exclusion</td>
+                    <td>Not defined beyond Design metadata requirements and EXP-AS-07 QC scaffold (missing metadata fails export).</td>
+                  </tr>
+                  <tr>
+                    <td>Preprocessing disclosure</td>
+                    <td>Required by Design: baseline subtraction, per-well scaling, and AL-inspired transforms must be documented; hardware must not silently rescale without a provenance flag.</td>
+                  </tr>
+                  <tr>
+                    <td>Splits</td>
+                    <td>Proposal mentions 5-fold cross-validation as an evaluation plan. <strong>No split implementation exists in code here</strong>, so no leakage-prevention procedure is claimed.</td>
+                  </tr>
+                  <tr>
+                    <td>Leakage prevention</td>
+                    <td><span class="placeholder-field">Not evidenced — requires code that groups by replicate / batch / plate before splitting</span></td>
+                  </tr>
+                  <tr>
+                    <td>Dataset version</td>
+                    <td><span class="placeholder-field">Unpublished</span></td>
+                  </tr>
+                  <tr>
+                    <td>License</td>
+                    <td>Wiki content under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">CC BY 4.0</a>. Model data/code licenses remain <span class="placeholder-field">pending release</span>.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section-block" id="preprocessing" data-reveal>
+            <h2>Preprocessing and response extraction</h2>
+            <p>
+              Intended path: convert continuous fluorescence traces into a fixed-length receptor-response vector before AL-inspired processing. Protocol scaffolding lives in
+              <a href="experiments.html#exp-as-07">EXP-AS-07</a>; interface ownership is stated on
+              <a href="design.html#interfaces">Design</a>.
+              GCaMP-class fluorescence reporting is the sensing context for these traces
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-chen-2013" id="cite-chen-2013" aria-describedby="cite-preview-chen-2013">[2]</a>
+                <span class="cite-preview" id="cite-preview-chen-2013" role="tooltip">Chen et al., 2013 — full entry in References &amp; Credits.</span>
+              </span>.
+            </p>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Preprocessing items and confirmation status">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Item</th>
+                    <th scope="col">What is known</th>
+                    <th scope="col">Confirmation</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Baseline definition (F<sub>0</sub>)</td>
+                    <td>Must be stated when ΔF/F<sub>0</sub> is used</td>
+                    <td><span class="placeholder-field">Not confirmed in code or approved SOP</span></td>
+                  </tr>
+                  <tr>
+                    <td>Response metric</td>
+                    <td>Proposal uses ΔF<sub>norm</sub> (normalized fluorescence change) per receptor; Design allows raw intensity or ΔF/F<sub>0</sub></td>
+                    <td>Notation not reconciled in an implementation</td>
+                  </tr>
+                  <tr>
+                    <td>Time-windowing</td>
+                    <td>Stimulus onset markers and sampling interval are required interface items</td>
+                    <td><span class="placeholder-field">Window length / aggregation rule pending</span></td>
+                  </tr>
+                  <tr>
+                    <td>Normalization</td>
+                    <td>Pattern normalization is proposed as the first AL-inspired step (see below)</td>
+                    <td>Not code-validated</td>
+                  </tr>
+                  <tr>
+                    <td>Missing values</td>
+                    <td>EXP-AS-07: missing metadata fails export</td>
+                    <td>Imputation / channel-drop policy not specified</td>
+                  </tr>
+                  <tr>
+                    <td>Quality control</td>
+                    <td>Include negative/vehicle traces when acquired; raw↔processed linkage required</td>
+                    <td>Numeric QC thresholds not published</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="notice">
+              No ΔF/F<sub>0</sub> formula, ROI averaging rule, or feature JSON schema is filled here without an approved analysis script or frozen interface file.
+            </p>
+
+            <figure class="equation-block" aria-labelledby="eq-response-caption">
+              <figcaption id="eq-response-caption" class="equation-block__caption">Equation placeholder A — Per-receptor response feature (proposal draft)</figcaption>
+              <div class="equation-block__math">
+                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" alttext="x sub i equals Delta F norm, i">
+                  <mrow>
+                    <msub><mi>x</mi><mi>i</mi></msub>
+                    <mo>=</mo>
+                    <msub>
+                      <mrow>
+                        <mi mathvariant="normal">Δ</mi><mi>F</mi>
+                      </mrow>
+                      <mrow>
+                        <mi>norm</mi><mo>,</mo><mi>i</mi>
+                      </mrow>
+                    </msub>
+                  </mrow>
+                </math>
+              </div>
+              <p class="equation-block__plain">
+                Plain language: for receptor channel <i>i</i>, the scalar feature <i>x<sub>i</sub></i> is the proposal’s normalized fluorescence change for that channel. Units depend on how ΔF<sub>norm</sub> is defined (dimensionless relative change if it is a ΔF/F<sub>0</sub>-class quantity).
+              </p>
+              <p class="equation-block__audit" role="note">
+                Audit: the proposal states the symbol but does not give an executable expression for ΔF<sub>norm</sub> (baseline window, peak vs area, or scaling). No repository code was available to resolve it. Treat as a labeled placeholder until the analysis script defines F<sub>0</sub> and the response operator.
+              </p>
+            </figure>
+
+            <figure class="equation-block" aria-labelledby="eq-vector-caption">
+              <figcaption id="eq-vector-caption" class="equation-block__caption">Equation 1 — Odor response vector (proposal draft)</figcaption>
+              <div class="equation-block__math">
+                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" alttext="x equals the vector x sub 1 through x sub N, an element of real N-space">
+                  <mrow>
+                    <mi>x</mi>
+                    <mo>=</mo>
+                    <mrow>
+                      <mo>[</mo>
+                      <msub><mi>x</mi><mn>1</mn></msub>
+                      <mo>,</mo>
+                      <msub><mi>x</mi><mn>2</mn></msub>
+                      <mo>,</mo>
+                      <mi>…</mi>
+                      <mo>,</mo>
+                      <msub><mi>x</mi><mi>N</mi></msub>
+                      <mo>]</mo>
+                    </mrow>
+                    <mo>∈</mo>
+                    <msup><mi>ℝ</mi><mi>N</mi></msup>
+                  </mrow>
+                </math>
+              </div>
+              <p class="equation-block__plain">
+                Plain language: one odor trial is represented as a length-<i>N</i> vector whose entries are the per-receptor features. <i>N</i> is the number of receptor channels in the panel (dimensionless count).
+              </p>
+            </figure>
+          </section>
+
+          <section class="section-block" id="al-inspired" data-reveal>
+            <h2>AL-inspired layer</h2>
+            <p>
+              <strong>Analogy:</strong> insect antennal-lobe circuits can sharpen odor patterns through inhibition among channels, including roles for local neurons and projection-neuron pathways
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-dasgupta-2017" id="cite-dasgupta-2017-c" aria-describedby="cite-preview-dasgupta-2017">[1]</a>
+                <span class="cite-preview" role="tooltip">Dasgupta et al., 2017 — full entry in References &amp; Credits.</span>
+              </span>.
+            </p>
+            <p>
+              <strong>Mechanism (computational):</strong> a proposed discrete-time update that (i) converts intensity-like vectors into relative pattern codes, (ii) subtracts a global activity term, and (iii) applies weighted lateral inhibition across receptor channels. This is an engineered contrast transform, not a biophysically faithful AL simulation.
+            </p>
+
+            <figure class="equation-block" aria-labelledby="eq-norm-caption">
+              <figcaption id="eq-norm-caption" class="equation-block__caption">Equation 2 — Pattern normalization (interpreted proposal draft)</figcaption>
+              <div class="equation-block__math">
+                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" alttext="r sub i equals x sub i divided by the sum from j equals 1 to N of x sub j">
+                  <mrow>
+                    <msub><mi>r</mi><mi>i</mi></msub>
+                    <mo>=</mo>
+                    <mfrac>
+                      <msub><mi>x</mi><mi>i</mi></msub>
+                      <mrow>
+                        <munderover>
+                          <mo>∑</mo>
+                          <mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow>
+                          <mi>N</mi>
+                        </munderover>
+                        <msub><mi>x</mi><mi>j</mi></msub>
+                      </mrow>
+                    </mfrac>
+                  </mrow>
+                </math>
+              </div>
+              <p class="equation-block__plain">
+                Plain language: each channel is divided by the sum of all channel responses so the vector emphasizes relative pattern rather than overall intensity. <i>r<sub>i</sub></i> is dimensionless if <i>x</i> entries share a common relative-fluorescence unit; the denominator must be nonzero.
+              </p>
+              <p class="equation-block__audit" role="note">
+                Audit: the proposal’s linearized equation writes the same symbol <i>r<sub>i</sub></i> on both sides of the fraction. No code was available to confirm the intended numerator. Equation 2 records the standard L1-style interpretation consistent with the surrounding “intensity → pattern coding” text. Confirm against the implementation before claiming equivalence.
+              </p>
+            </figure>
+
+            <figure class="equation-block" aria-labelledby="eq-dynamics-caption">
+              <figcaption id="eq-dynamics-caption" class="equation-block__caption">Equation 3 — Global and lateral inhibition update (proposal draft)</figcaption>
+              <div class="equation-block__math">
+                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" alttext="x sub i of t plus 1 equals x sub i of t plus r sub i minus alpha times g of t minus beta times the sum over j not equal to i of W sub i j times x sub j of t">
+                  <mrow>
+                    <msub>
+                      <mi>x</mi>
+                      <mi>i</mi>
+                    </msub>
+                    <mo>(</mo><mi>t</mi><mo>+</mo><mn>1</mn><mo>)</mo>
+                    <mo>=</mo>
+                    <msub><mi>x</mi><mi>i</mi></msub>
+                    <mo>(</mo><mi>t</mi><mo>)</mo>
+                    <mo>+</mo>
+                    <msub><mi>r</mi><mi>i</mi></msub>
+                    <mo>−</mo>
+                    <mi>α</mi>
+                    <mo>⁢</mo>
+                    <mi>g</mi><mo>(</mo><mi>t</mi><mo>)</mo>
+                    <mo>−</mo>
+                    <mi>β</mi>
+                    <munder>
+                      <mo>∑</mo>
+                      <mrow><mi>j</mi><mo>≠</mo><mi>i</mi></mrow>
+                    </munder>
+                    <msub><mi>W</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub>
+                    <msub><mi>x</mi><mi>j</mi></msub>
+                    <mo>(</mo><mi>t</mi><mo>)</mo>
+                  </mrow>
+                </math>
+              </div>
+              <p class="equation-block__plain">
+                Plain language: at discrete step <i>t</i> (iteration index of the contrast transform, not necessarily assay clock time), each channel is driven by its normalized input <i>r<sub>i</sub></i>, reduced by a global inhibition term scaled by <i>α</i>, and reduced by lateral inhibition from other channels scaled by <i>β</i> and weights <i>W<sub>ij</sub></i>. Symbols and units are listed in
+                <a href="#assumptions">Assumptions and parameter provenance</a>.
+              </p>
+            </figure>
+
+            <figure class="equation-block" aria-labelledby="eq-global-caption">
+              <figcaption id="eq-global-caption" class="equation-block__caption">Equation 4 — Global inhibition activity (interpreted proposal draft)</figcaption>
+              <div class="equation-block__math">
+                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" alttext="g of t equals one over N times the sum from j equals 1 to N of x sub j of t">
+                  <mrow>
+                    <mi>g</mi><mo>(</mo><mi>t</mi><mo>)</mo>
+                    <mo>=</mo>
+                    <mfrac>
+                      <mn>1</mn>
+                      <mi>N</mi>
+                    </mfrac>
+                    <munderover>
+                      <mo>∑</mo>
+                      <mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow>
+                      <mi>N</mi>
+                    </munderover>
+                    <msub><mi>x</mi><mi>j</mi></msub>
+                    <mo>(</mo><mi>t</mi><mo>)</mo>
+                  </mrow>
+                </math>
+              </div>
+              <p class="equation-block__plain">
+                Plain language: <i>g(t)</i> is the mean activity across all <i>N</i> channels at step <i>t</i>, used as a global background/strength signal. It shares the activity unit of <i>x<sub>j</sub>(t)</i>.
+              </p>
+              <p class="equation-block__audit" role="note">
+                Audit: the proposal’s linearized form sums <i>x<sub>i</sub>(t)</i> while indexing the sum by <i>j</i>. Equation 4 uses the mean over <i>x<sub>j</sub>(t)</i>, which matches the prose definition (“average of all receptor activity”). Confirm in code before locking.
+              </p>
+            </figure>
+          </section>
+
+          <section class="section-block" id="mb-inspired" data-reveal>
+            <h2>MB-inspired layer</h2>
+            <p>
+              <strong>Analogy:</strong> Kenyon cells in the mushroom body receive sparse, expanded inputs and form sparse odor codes; computational work links this motif to locality-sensitive hashing
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-dasgupta-2017" id="cite-dasgupta-2017-d" aria-describedby="cite-preview-dasgupta-2017">[1]</a>
+                <span class="cite-preview" role="tooltip">Dasgupta et al., 2017 — full entry in References &amp; Credits.</span>
+              </span>.
+            </p>
+            <p>
+              <strong>Mechanism (computational):</strong> project the AL-layer output <i>y</i> ∈ ℝ<sup>N</sup> through a sparse random matrix into a higher dimension, then threshold to a binary code. This is a designed sparse expansion, not a claim that AeroSense reproduces biological Kenyon-cell physiology.
+            </p>
+
+            <figure class="equation-block" aria-labelledby="eq-proj-caption">
+              <figcaption id="eq-proj-caption" class="equation-block__caption">Equation 5 — Sparse random projection (proposal draft)</figcaption>
+              <div class="equation-block__math">
+                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" alttext="z equals W to the MB times y, where W to the MB is a K by N matrix and K is much greater than N">
+                  <mrow>
+                    <mi>z</mi>
+                    <mo>=</mo>
+                    <msup><mi>W</mi><mtext>MB</mtext></msup>
+                    <mi>y</mi>
+                    <mo>,</mo>
+                    <mspace width="0.5em"/>
+                    <msup><mi>W</mi><mtext>MB</mtext></msup>
+                    <mo>∈</mo>
+                    <msup><mi>ℝ</mi><mrow><mi>K</mi><mo>×</mo><mi>N</mi></mrow></msup>
+                    <mo>,</mo>
+                    <mi>K</mi>
+                    <mo>≫</mo>
+                    <mi>N</mi>
+                  </mrow>
+                </math>
+              </div>
+              <p class="equation-block__plain">
+                Plain language: the contrast-enhanced receptor vector <i>y</i> is multiplied by a sparse matrix <i>W</i><sup>MB</sup> to produce a high-dimensional activation vector <i>z</i> with <i>K</i> units. Proposal ranges: <i>K</i> ≈ 1000–5000; each MB unit connects randomly to about 5–10 inputs. A separate proposal sentence also cites ~10% PN→KC-like connectivity—these two connectivity statements are not yet reconciled in code.
+              </p>
+            </figure>
+
+            <figure class="equation-block" aria-labelledby="eq-thresh-caption">
+              <figcaption id="eq-thresh-caption" class="equation-block__caption">Equation 6 — Sparse threshold / winner selection (proposal draft)</figcaption>
+              <div class="equation-block__math">
+                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" alttext="h sub k equals 1 if z sub k is greater than theta, otherwise 0; h is a binary vector of length K">
+                  <mrow>
+                    <msub><mi>h</mi><mi>k</mi></msub>
+                    <mo>=</mo>
+                    <mrow>
+                      <mo>{</mo>
+                      <mtable columnalign="left">
+                        <mtr>
+                          <mtd><mn>1</mn></mtd>
+                          <mtd><mrow><mtext>if </mtext><msub><mi>z</mi><mi>k</mi></msub><mo>&gt;</mo><mi>θ</mi></mrow></mtd>
+                        </mtr>
+                        <mtr>
+                          <mtd><mn>0</mn></mtd>
+                          <mtd><mtext>otherwise</mtext></mtd>
+                        </mtr>
+                      </mtable>
+                    </mrow>
+                    <mo>,</mo>
+                    <mspace width="0.5em"/>
+                    <mi>h</mi>
+                    <mo>∈</mo>
+                    <msup>
+                      <mrow><mo>{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>}</mo></mrow>
+                      <mi>K</mi>
+                    </msup>
+                  </mrow>
+                </math>
+              </div>
+              <p class="equation-block__plain">
+                Plain language: only units above threshold <i>θ</i> fire in the binary code <i>h</i>. The proposal suggests keeping the top ~5% most active units (winner-style sparsity). <i>h<sub>k</sub></i> is dimensionless (binary).
+              </p>
+            </figure>
+          </section>
+
+          <section class="section-block" id="classifier-training" data-reveal>
+            <h2>Classifier and training</h2>
+            <div class="evidence-status" data-status="planned">
+              <span class="evidence-status__label">Status</span>
+              <span class="evidence-status__value">Planned</span>
+            </div>
+            <p>
+              Two proposal readouts operate on the sparse code <i>h</i>:
+            </p>
+            <figure class="equation-block" aria-labelledby="eq-sim-caption">
+              <figcaption id="eq-sim-caption" class="equation-block__caption">Equation 7 — Reference similarity (proposal draft)</figcaption>
+              <div class="equation-block__math">
+                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" alttext="similarity equals h dot h sub ref">
+                  <mrow>
+                    <mi>similarity</mi>
+                    <mo>=</mo>
+                    <mi>h</mi>
+                    <mo>⋅</mo>
+                    <msub><mi>h</mi><mtext>ref</mtext></msub>
+                  </mrow>
+                </math>
+              </div>
+              <p class="equation-block__plain">
+                Plain language: compare a trial code to a stored reference code by a dot product (count of shared active bits for binary vectors). Dimensionless score.
+              </p>
+            </figure>
+
+            <figure class="equation-block" aria-labelledby="eq-softmax-caption">
+              <figcaption id="eq-softmax-caption" class="equation-block__caption">Equation 8 — Linear softmax classifier (proposal draft)</figcaption>
+              <div class="equation-block__math">
+                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" alttext="y hat equals softmax of W sub c times h">
+                  <mrow>
+                    <mover><mi>y</mi><mo>^</mo></mover>
+                    <mo>=</mo>
+                    <mi>softmax</mi>
+                    <mo>(</mo>
+                    <msub><mi>W</mi><mi>c</mi></msub>
+                    <mi>h</mi>
+                    <mo>)</mo>
+                  </mrow>
+                </math>
+              </div>
+              <p class="equation-block__plain">
+                Plain language: a linear map <i>W<sub>c</sub></i> turns the sparse code into class scores, then softmax converts scores into a probability-like vector <i>ŷ</i> over classes. No trained <i>W<sub>c</sub></i> is published.
+              </p>
+            </figure>
+
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Classifier and training status">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Topic</th>
+                    <th scope="col">Recorded plan</th>
+                    <th scope="col">Evidence in repo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Algorithm</td>
+                    <td>Similarity and/or linear softmax on sparse codes; optional edge/SNN directions mentioned in proposal materials</td>
+                    <td>Not implemented here</td>
+                  </tr>
+                  <tr>
+                    <td>Loss / objective</td>
+                    <td><span class="placeholder-field">Not specified in an approved training script</span></td>
+                    <td>None</td>
+                  </tr>
+                  <tr>
+                    <td>Hyperparameter selection</td>
+                    <td>Proposal lists refinement of α, β, sparsity, and classifier settings</td>
+                    <td>No search log</td>
+                  </tr>
+                  <tr>
+                    <td>Split strategy</td>
+                    <td>Proposal mentions 5-fold cross-validation</td>
+                    <td><strong>Not claimed</strong> — no code evidence</td>
+                  </tr>
+                  <tr>
+                    <td>Baselines</td>
+                    <td>Proposal names PCA and SVM comparisons; Engineering C1 requires a simpler baseline comparison</td>
+                    <td>No metrics table</td>
+                  </tr>
+                  <tr>
+                    <td>Reproducibility</td>
+                    <td>Seed policy, dependency pin, and entry point required for release</td>
+                    <td>See <a href="#reproducibility">Reproducibility</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="notice">
+              No accuracy, power, or generalization advantage is claimed on this page. Proposal target numbers (for example, accuracy thresholds in internal planning notes) are goals, not results.
+            </p>
+          </section>
+
+          <section class="section-block" id="assumptions" data-reveal>
+            <h2>Assumptions and parameter provenance</h2>
+            <p>
+              Values below come from the team proposal’s stated ranges or are marked unknown. None are fitted to published AeroSense data.
+            </p>
+            <div class="table-scroll table-scroll--sticky-first" tabindex="0" role="region" aria-label="Assumptions and parameter provenance">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Symbol</th>
+                    <th scope="col">Definition</th>
+                    <th scope="col">Unit</th>
+                    <th scope="col">Value / range</th>
+                    <th scope="col">Source</th>
+                    <th scope="col">Fitted / fixed</th>
+                    <th scope="col">Sensitivity</th>
+                    <th scope="col">Limitation</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><i>N</i></td>
+                    <td>Number of receptor channels in the response vector</td>
+                    <td>count</td>
+                    <td>Panel-dependent</td>
+                    <td>Design / Parts panel</td>
+                    <td>Fixed per experiment</td>
+                    <td>Unknown</td>
+                    <td>Panel not frozen</td>
+                  </tr>
+                  <tr>
+                    <td><i>x<sub>i</sub></i></td>
+                    <td>Per-receptor response feature</td>
+                    <td>relative fluorescence (if ΔF-class) or raw intensity</td>
+                    <td>Data-dependent</td>
+                    <td>Proposal + Design interface</td>
+                    <td>Measured / derived</td>
+                    <td>Unknown</td>
+                    <td>ΔF<sub>norm</sub> formula unresolved</td>
+                  </tr>
+                  <tr>
+                    <td><i>r<sub>i</sub></i></td>
+                    <td>Pattern-normalized channel weight</td>
+                    <td>dimensionless (L1 shares)</td>
+                    <td>Derived from <i>x</i></td>
+                    <td>Proposal (interpreted Eq. 2)</td>
+                    <td>Derived</td>
+                    <td>Unknown</td>
+                    <td>Numerator symbol ambiguous in proposal</td>
+                  </tr>
+                  <tr>
+                    <td><i>t</i></td>
+                    <td>Discrete update index of AL-inspired dynamics</td>
+                    <td>iteration</td>
+                    <td><span class="placeholder-field">Step count unset</span></td>
+                    <td>Proposal dynamics</td>
+                    <td>Fixed hyperparameter (intended)</td>
+                    <td>Unknown</td>
+                    <td>Not wall-clock assay time unless mapped</td>
+                  </tr>
+                  <tr>
+                    <td><i>α</i></td>
+                    <td>Global inhibition strength</td>
+                    <td>matches activity / g scaling</td>
+                    <td><span class="placeholder-field">Unset</span></td>
+                    <td>Proposal symbol</td>
+                    <td>Intended tunable / later fit</td>
+                    <td>Not analyzed</td>
+                    <td>No calibration data</td>
+                  </tr>
+                  <tr>
+                    <td><i>β</i></td>
+                    <td>Lateral inhibition strength</td>
+                    <td>matches <i>W<sub>ij</sub> x<sub>j</sub></i> scaling</td>
+                    <td><span class="placeholder-field">Unset</span></td>
+                    <td>Proposal symbol</td>
+                    <td>Intended tunable / later fit</td>
+                    <td>Not analyzed</td>
+                    <td>No calibration data</td>
+                  </tr>
+                  <tr>
+                    <td><i>W<sub>ij</sub></i></td>
+                    <td>Lateral inhibition weight from channel <i>j</i> to <i>i</i></td>
+                    <td>dimensionless or activity<sup>−1</sup> (unset)</td>
+                    <td><span class="placeholder-field">Matrix rule unset</span></td>
+                    <td>Proposal</td>
+                    <td>Fixed structure vs learned — undecided</td>
+                    <td>Unknown</td>
+                    <td>Initialization not specified</td>
+                  </tr>
+                  <tr>
+                    <td><i>g(t)</i></td>
+                    <td>Mean channel activity at step <i>t</i></td>
+                    <td>same as <i>x</i></td>
+                    <td>Derived</td>
+                    <td>Proposal (interpreted Eq. 4)</td>
+                    <td>Derived</td>
+                    <td>—</td>
+                    <td>Index typo in proposal source</td>
+                  </tr>
+                  <tr>
+                    <td><i>y</i></td>
+                    <td>AL-layer output vector</td>
+                    <td>same family as <i>x</i> after updates</td>
+                    <td>Derived</td>
+                    <td>Proposal</td>
+                    <td>Derived</td>
+                    <td>Unknown</td>
+                    <td>Stopping criterion for Eq. 3 unset</td>
+                  </tr>
+                  <tr>
+                    <td><i>K</i></td>
+                    <td>Number of MB-inspired units</td>
+                    <td>count</td>
+                    <td>1000–5000 (example range)</td>
+                    <td>Proposal</td>
+                    <td>Fixed hyperparameter (intended)</td>
+                    <td>Not analyzed</td>
+                    <td>Example only</td>
+                  </tr>
+                  <tr>
+                    <td><i>W</i><sup>MB</sup></td>
+                    <td>Sparse random projection matrix</td>
+                    <td>dimensionless weights (unset scale)</td>
+                    <td>~5–10 inputs per row; also ~10% connectivity mentioned elsewhere</td>
+                    <td>Proposal (two statements)</td>
+                    <td>Fixed random (intended)</td>
+                    <td>Not analyzed</td>
+                    <td>Connectivity statements conflict until code freezes one rule</td>
+                  </tr>
+                  <tr>
+                    <td><i>θ</i></td>
+                    <td>Sparsity threshold on <i>z<sub>k</sub></i></td>
+                    <td>same as <i>z</i></td>
+                    <td>Top ~5% active (proposal option)</td>
+                    <td>Proposal</td>
+                    <td>Fixed rule (intended)</td>
+                    <td>Not analyzed</td>
+                    <td>Percentile vs absolute threshold undecided in code</td>
+                  </tr>
+                  <tr>
+                    <td><i>W<sub>c</sub></i></td>
+                    <td>Classifier weight matrix</td>
+                    <td>maps binary/code space → logits</td>
+                    <td><span class="placeholder-field">Untrained</span></td>
+                    <td>Proposal</td>
+                    <td>Intended fitted</td>
+                    <td>N/A</td>
+                    <td>No dataset / loss yet</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section-block" id="validation" data-reveal>
+            <h2>Validation</h2>
+            <div class="empty-state" role="status">
+              <h3 class="empty-state__title">No verified model metrics</h3>
+              <p>
+                Confidence intervals, baseline tables, ablations, calibration curves, robustness tests, and external or experimental validation are unpublished. Result slots remain empty on
+                <a href="results.html#model-results">Results · Model results</a>
+                (<code>res-EXP-AS-07</code>.
+              </p>
+            </div>
+            <ul>
+              <li><strong>Real metrics with variation:</strong> none published.</li>
+              <li><strong>Baselines:</strong> planned (PCA / SVM named in proposal; simpler baseline required by Engineering C1) — not run here.</li>
+              <li><strong>Ablations:</strong> planned conceptually (with vs without AL-inspired / MB-inspired stages) — not run.</li>
+              <li><strong>Calibration:</strong> not defined.</li>
+              <li><strong>Robustness:</strong> proposal milestones list noise, drift, and mixture checks — not executed as AeroSense results.</li>
+              <li><strong>External / experimental validation:</strong> planned after in-house matrices exist; not claimed.</li>
+            </ul>
+            <p class="notice">
+              This page does not include synthetic performance plots or design-only confusion matrices.
+            </p>
+          </section>
+
+          <section class="section-block" id="uncertainty-failure" data-reveal>
+            <h2>Uncertainty and failure modes</h2>
+            <p>
+              Anticipated failure modes for this sensing/decoding setting. They are risk statements, not observed AeroSense failure statistics.
+            </p>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Uncertainty and failure modes">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Mode</th>
+                    <th scope="col">Why it matters here</th>
+                    <th scope="col">Mitigation plan (not yet evidenced)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Domain shift</td>
+                    <td>Public training distributions (if used) may not match HEK OR/GCaMP6 assay statistics</td>
+                    <td>Provenance-labeled in-house validation; report dataset mismatch explicitly</td>
+                  </tr>
+                  <tr>
+                    <td>Mixed odors</td>
+                    <td>Overlapping receptor patterns; sparse codes may collide</td>
+                    <td>Mixture test sets; compare against baselines</td>
+                  </tr>
+                  <tr>
+                    <td>Concentration effects</td>
+                    <td>Intensity coding can dominate pattern coding if normalization fails</td>
+                    <td>Document pattern normalization; test concentration series</td>
+                  </tr>
+                  <tr>
+                    <td>Small data</td>
+                    <td>High-<i>K</i> codes and classifiers overfit easily</td>
+                    <td>Strong baselines; freeze hyperparameters before final test</td>
+                  </tr>
+                  <tr>
+                    <td>Correlated samples</td>
+                    <td>Wells/plates/batches are not independent</td>
+                    <td>Group-aware splits — <strong>not implemented yet</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Class imbalance</td>
+                    <td>Stimulus libraries and controls may be uneven</td>
+                    <td>Report class counts; avoid headline accuracy alone</td>
+                  </tr>
+                  <tr>
+                    <td>Sensor / assay drift</td>
+                    <td>Passage, lot, optics, and bleaching change responses over time</td>
+                    <td>Metadata covariates; hardware provenance flags</td>
+                  </tr>
+                  <tr>
+                    <td>Out-of-distribution inputs</td>
+                    <td>Unknown VOCs or failed wells</td>
+                    <td><span class="placeholder-field">Uncertainty / reject rule not defined</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section-block" id="project-impact" data-reveal>
+            <h2>How the model informed the project</h2>
+            <div class="evidence-status" data-status="planned">
+              <span class="evidence-status__label">Status</span>
+              <span class="evidence-status__value">Planned</span>
+            </div>
+            <p>
+              No closed modeling feedback has been recorded yet: there is no dated evidence that model outputs changed receptor selection, experiment design, hardware sampling, or another project decision. Engineering cycle
+              <a href="engineering.html#model-c1">C1</a>
+              still lists Build / Test / Learn / Change as incomplete.
+            </p>
+            <p>
+              When feedback occurs, this section should cite the metric comparison, the decision taken, and the Notebook / Results anchors that document it.
+            </p>
+          </section>
+
+          <section class="section-block" id="reproducibility" data-reveal>
+            <h2>Reproducibility</h2>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Reproducibility checklist">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Item</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Code</td>
+                    <td>No runnable model entry point released. Team GitLab home: <a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer">gitlab.igem.org/2026/nthu</a> (presence of a team project page is not a claim that model code is published there).</td>
+                  </tr>
+                  <tr>
+                    <td>Data</td>
+                    <td><span class="placeholder-field">No versioned feature matrix published</span></td>
+                  </tr>
+                  <tr>
+                    <td>Environment</td>
+                    <td><span class="placeholder-field">Dependency pin pending</span> (see also <a href="contribution.html#pkg-model">Contribution · pkg-model</a>)</td>
+                  </tr>
+                  <tr>
+                    <td>Seed policy</td>
+                    <td><span class="placeholder-field">Not defined</span></td>
+                  </tr>
+                  <tr>
+                    <td>Run instructions</td>
+                    <td><span class="placeholder-field">Not available</span></td>
+                  </tr>
+                  <tr>
+                    <td>Expected outputs</td>
+                    <td><span class="placeholder-field">Not available</span></td>
+                  </tr>
+                  <tr>
+                    <td>License</td>
+                    <td>Page text: <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">CC BY 4.0</a>. Code/data license: pending release packaging.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section-block" id="results-limitations" data-reveal>
+            <h2>Results and limitations</h2>
+            <p>
+              Measured model performance, figures, and failure statistics belong on
+              <a href="results.html#model-results">Results</a>
+              so this page does not duplicate every plot. Current limitation: the decoding pipeline is a documented design with proposal-draft mathematics; it is not an evaluated AeroSense classifier.
+            </p>
+            <ul>
+              <li>Equations 2 and 4 include explicit index/notation audit notes unresolved without code.</li>
+              <li>MB connectivity is described both as ~5–10 synapses per unit and as ~10% sparse projection in proposal text—only one rule should ship.</li>
+              <li>No train/validation/test leakage controls can be asserted without an implementation.</li>
+              <li>Edge-deployment, low-power, or superior-accuracy claims are out of scope until measured against baselines.</li>
+            </ul>
+          </section>
+        </article>
+      </main>
+
+      <nav class="page-turn" aria-label="Page">
+        <a class="page-turn__prev" href="results.html"><span class="page-turn__dir">Previous</span><span class="page-turn__title">Results</span></a>
+        <a class="page-turn__next" href="hardware.html"><span class="page-turn__dir">Next</span><span class="page-turn__title">Hardware</span></a>
+      </nav>
+
+      <section class="references" aria-labelledby="references-heading" id="references" data-reveal>
+        <h2 id="references-heading">References &amp; Credits</h2>
+        <ol class="ref-list">
+          <li id="ref-dasgupta-2017">
+            <span class="ref-authors">Dasgupta, S., Stevens, C. F., &amp; Navlakha, S.</span>
+            <span class="ref-year">(2017).</span>
+            <span class="ref-title">A neural algorithm for a fundamental computing problem.</span>
+            <span class="ref-venue"><i>Science</i>, <span class="ref-volume">358</span>(6364), 793–796.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1126/science.aam9868" rel="noopener noreferrer">10.1126/science.aam9868</a>.</span>
+            <a class="ref-backlink" href="#cite-dasgupta-2017-a">Back to citation</a>
+            <a class="ref-backlink" href="#cite-dasgupta-2017-b">2</a>
+            <a class="ref-backlink" href="#cite-dasgupta-2017-c">3</a>
+            <a class="ref-backlink" href="#cite-dasgupta-2017-d">4</a>
+          </li>
+          <li id="ref-chen-2013">
+            <span class="ref-authors">Chen, T.-W., Wardill, T. J., Sun, Y., Pulver, S. R., Renninger, S. L., Baohan, A., Schreiter, E. R., Kerr, R. A., Orger, M. B., Jayaraman, V., Looger, L. L., Svoboda, K., &amp; Kim, D. S.</span>
+            <span class="ref-year">(2013).</span>
+            <span class="ref-title">Ultrasensitive fluorescent proteins for imaging neuronal activity.</span>
+            <span class="ref-venue"><i>Nature</i>, <span class="ref-volume">499</span>(7458), 295–300.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/nature12354" rel="noopener noreferrer">10.1038/nature12354</a>.</span>
+            <span class="ref-note">Contextual GCaMP fluorescence literature linked from EXP-AS-07; not a claim that AeroSense data were taken from this paper.</span>
+            <a class="ref-backlink" href="#cite-chen-2013">Back to citation</a>
+          </li>
+        </ol>
+        <ul class="credit-list">
+          <li>Related wiki page (not a reference): <a href="design.html#interfaces">Design · Interfaces with Model and Hardware</a>.</li>
+          <li>Conceptual sparse / locality-sensitive inspiration from Dasgupta et al. (2017); no third-party model code was reused.</li>
+          <li>Proposal mathematics were audited for wiki presentation; unresolved index issues are labeled on Equations 2 and 4 and Placeholder A. No experimental model figures appear on this page.</li>
+        </ul>
+      </section>
+    </div>
+
+    <details class="page-toc" open>
+      <summary class="toc__summary"><span class="toc__label">On this page</span></summary>
+      <nav aria-label="Table of contents">
+        <ol>
+          <li><a href="#question-and-role"><span class="tech-label">01</span> Question and role</a></li>
+          <li><a href="#inputs-outputs"><span class="tech-label">02</span> Inputs and outputs</a></li>
+          <li><a href="#pipeline-overview"><span class="tech-label">03</span> Pipeline overview</a></li>
+          <li><a href="#data-provenance"><span class="tech-label">04</span> Data provenance</a></li>
+          <li><a href="#preprocessing"><span class="tech-label">05</span> Preprocessing</a></li>
+          <li><a href="#al-inspired"><span class="tech-label">06</span> AL-inspired layer</a></li>
+          <li><a href="#mb-inspired"><span class="tech-label">07</span> MB-inspired layer</a></li>
+          <li><a href="#classifier-training"><span class="tech-label">08</span> Classifier and training</a></li>
+          <li><a href="#assumptions"><span class="tech-label">09</span> Assumptions</a></li>
+          <li><a href="#validation"><span class="tech-label">10</span> Validation</a></li>
+          <li><a href="#uncertainty-failure"><span class="tech-label">11</span> Uncertainty</a></li>
+          <li><a href="#project-impact"><span class="tech-label">12</span> Project impact</a></li>
+          <li><a href="#reproducibility"><span class="tech-label">13</span> Reproducibility</a></li>
+          <li><a href="#results-limitations"><span class="tech-label">14</span> Results and limitations</a></li>
+          <li><a href="#references"><span class="tech-label">Ref</span> References &amp; Credits</a></li>
+        </ol>
+      </nav>
+    </details>
+  </div>
+
+  <a class="back-to-top" href="#main">Back to top</a>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p class="footer-mission">AeroSense is developing a bio-digital olfactory sensing platform that pairs living-cell receptor arrays with edge-capable computational models for complex odor recognition.</p>
+
+      <p class="footer-sitemap-title" id="site-map-label">Site map</p>
+      <div class="footer-grid" id="site-map" aria-labelledby="site-map-label">
+        <div class="footer-col">
+          <h2>Project</h2>
+          <ul>
+            <li><a href="description.html">Description</a></li>
+            <li><a href="contribution.html">Contribution</a></li>
+            <li><a href="engineering.html">Engineering</a></li>
+            <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2>Team</h2>
+          <ul>
+            <li><a href="members.html">Members</a></li>
+            <li><a href="attributions.html">Attributions</a></li>
+          </ul>
+          <h2>Lab</h2>
+          <ul>
+            <li><a href="parts.html">Parts</a></li>
+            <li><a href="design.html">Design</a></li>
+            <li><a href="experiments.html">Experiments</a></li>
+            <li><a href="notebook.html">Notebook</a></li>
+            <li><a href="results.html">Results</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2>Dry Lab</h2>
+          <ul>
+            <li><a href="model.html">Model</a></li>
+            <li><a href="hardware.html">Hardware</a></li>
+          </ul>
+          <h2>Human Practices</h2>
+          <ul>
+            <li><a href="human-practices.html">Integrated Human Practices</a></li>
+            <li><a href="education.html">Education</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-meta">
+        <ul class="footer-contacts">
+          <li><a href="https://www.linkedin.com/company/aerosensebio/" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><a href="https://www.instagram.com/igem_tsinghua/" rel="noopener noreferrer">Instagram</a></li>
+          <li><a href="mailto:aerosensebio@gmail.com">aerosensebio@gmail.com</a></li>
+        </ul>
+        <ul class="footer-legal">
+          <li><a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer">Source on GitLab</a></li>
+          <li>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">Creative Commons Attribution 4.0 International</a></li>
+          <li><a href="attributions.html#responsible-ai">Attributions &amp; Responsible AI</a></li>
+        </ul>
+        <p class="footer-copy">© 2026 NTHU · AeroSense</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

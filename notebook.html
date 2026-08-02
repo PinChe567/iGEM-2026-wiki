@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Notebook · AeroSense · NTHU iGEM 2026</title>
+  <meta name="description" content="AeroSense laboratory notebook: dated records of work performed, observations, decisions, and deviations. Proposal milestones are listed separately and are not evidence of execution.">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/main.js" defer></script>
+  <script src="js/glossary.js" defer></script>
+  <script src="js/search.js" defer></script>
+</head>
+<body class="page-notebook">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="reading-progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html">
+        <img class="brand__logo" src="logo/logo.jpg" width="44" height="44" alt="AeroSense">
+        <span class="brand__text">
+          <span class="brand__name">AeroSense</span>
+          <span class="brand__meta">NTHU · iGEM 2026</span>
+        </span>
+      </a>
+      <div class="header-tools">
+        <a class="btn-search" href="index.html#site-map" aria-haspopup="dialog" aria-controls="project-search">Project Search</a>
+        <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      </div>
+      <nav class="site-nav" id="site-nav" aria-label="Primary">
+        <ul class="nav-root">
+          <li>
+            <a href="index.html">Home</a>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Project</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-project">Project</button>
+            <ul class="nav-submenu" id="submenu-project">
+              <li><a href="description.html">Description</a></li>
+              <li><a href="contribution.html">Contribution</a></li>
+              <li><a href="engineering.html">Engineering</a></li>
+              <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Team</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-team">Team</button>
+            <ul class="nav-submenu" id="submenu-team">
+              <li><a href="members.html">Members</a></li>
+              <li><a href="attributions.html">Attributions</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Lab</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-lab">Lab</button>
+            <ul class="nav-submenu" id="submenu-lab">
+              <li><a href="parts.html">Parts</a></li>
+              <li><a href="design.html">Design</a></li>
+              <li><a href="experiments.html">Experiments</a></li>
+              <li><a href="notebook.html" aria-current="page">Notebook</a></li>
+              <li><a href="results.html">Results</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Dry Lab</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-drylab">Dry Lab</button>
+            <ul class="nav-submenu" id="submenu-drylab">
+              <li><a href="model.html">Model</a></li>
+              <li><a href="hardware.html">Hardware</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Human Practices</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-hp">Human Practices</button>
+            <ul class="nav-submenu" id="submenu-hp">
+              <li><a href="human-practices.html">Integrated Human Practices</a></li>
+              <li><a href="education.html">Education</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <dialog class="search-dialog" id="project-search" aria-labelledby="search-title">
+    <div class="search-dialog__panel">
+      <div class="search-dialog__header">
+        <h2 id="search-title">Project Search</h2>
+        <button type="button" class="search-dialog__close" data-search-close>Close</button>
+      </div>
+      <form class="search-dialog__form" role="search" action="index.html#site-map" method="get">
+        <label for="project-search-input">Search the AeroSense wiki</label>
+        <p id="project-search-instructions" class="search-dialog__hint">Type keywords from page titles and sections. Results stay on this site. No remote requests are made. Arrow keys move through results; Enter opens; Escape closes.</p>
+        <div class="search-dialog__field">
+          <input id="project-search-input" type="search" name="q" placeholder="e.g. HEK293T, Orco, hardware" autocomplete="off" aria-describedby="project-search-instructions project-search-count" aria-controls="project-search-results">
+          <button type="button" class="search-dialog__clear" data-search-clear hidden>Clear</button>
+        </div>
+        <div class="search-dialog__actions">
+          <button type="submit">Search</button>
+          <button type="button" data-search-close>Close</button>
+        </div>
+      </form>
+      <p id="project-search-count" class="search-dialog__count" aria-live="polite" aria-atomic="true">0 results</p>
+      <div id="project-search-results" class="search-dialog__results" role="listbox" aria-labelledby="search-title"></div>
+    </div>
+  </dialog>
+
+  <div class="shell shell--with-toc">
+    <div class="page-main-column">
+      <main id="main">
+        <header class="page-hero" data-reveal>
+          <nav aria-label="Breadcrumb">
+            <ol class="breadcrumb">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="parts.html">Lab</a></li>
+              <li aria-current="page">Notebook</li>
+            </ol>
+          </nav>
+          <span class="page-kicker">10 / Lab</span>
+          <h1>Notebook</h1>
+          <p class="page-purpose">A dated record of work, evidence, and decisions</p>
+          <p class="page-lede">
+            This page records what the team actually did, observed, and decided.
+            The proposal’s April–September schedule is planning language only — it is not evidence that those activities occurred.
+            No daily entries are auto-created from the proposal.
+          </p>
+          <span class="status-label status-label--planned">No verified work-performed entries published yet</span>
+        </header>
+
+        <article class="page-article prose">
+          <section class="section-block" id="year-calendar" data-reveal>
+            <h2>2026 project calendar</h2>
+            <div class="nb-cal" data-notebook-calendar>
+              <p class="nb-cal__intro">
+                Year overview for AeroSense work. Green bars are <strong>planned</strong> month bands from the team proposal schedule.
+                They are not proof that work happened. Click a bar (or use keyboard) to open the linked milestone and experiment slots.
+                Actual dated notebook entries will appear here only when the team supplies them.
+              </p>
+              <ul class="nb-cal__legend">
+                <li><span class="nb-cal__swatch nb-cal__swatch--planned" aria-hidden="true"></span> Planned month band</li>
+                <li><span class="nb-cal__swatch nb-cal__swatch--actual" aria-hidden="true"></span> Actual work (none published yet)</li>
+                <li><span class="nb-cal__swatch nb-cal__swatch--empty" aria-hidden="true"></span> No record</li>
+              </ul>
+
+              <div class="nb-gantt" role="group" aria-label="2026 planned workstreams by month">
+                <div class="nb-gantt__head" aria-hidden="true">
+                  <span class="nb-gantt__label"></span>
+                  <span class="nb-gantt__month">Jan</span><span class="nb-gantt__month">Feb</span><span class="nb-gantt__month">Mar</span>
+                  <span class="nb-gantt__month">Apr</span><span class="nb-gantt__month">May</span><span class="nb-gantt__month">Jun</span>
+                  <span class="nb-gantt__month">Jul</span><span class="nb-gantt__month">Aug</span><span class="nb-gantt__month">Sep</span>
+                  <span class="nb-gantt__month">Oct</span><span class="nb-gantt__month">Nov</span><span class="nb-gantt__month">Dec</span>
+                </div>
+
+                <div class="nb-gantt__row">
+                  <span class="nb-gantt__label">Wet lab</span>
+                  <div class="nb-gantt__track">
+                    <button type="button" class="nb-gantt__bar" style="grid-column: 4 / 5" data-cal-target="ms-wet-phase0" aria-controls="nb-cal-detail" aria-pressed="false">Phase 0 constructs</button>
+                    <button type="button" class="nb-gantt__bar" style="grid-column: 5 / 6" data-cal-target="ms-wet-phase1" aria-controls="nb-cal-detail" aria-pressed="false">VUAA1 POC</button>
+                    <button type="button" class="nb-gantt__bar" style="grid-column: 6 / 7" data-cal-target="ms-structure" aria-controls="nb-cal-detail" aria-pressed="false">Docking support</button>
+                    <button type="button" class="nb-gantt__bar" style="grid-column: 7 / 9" data-cal-target="ms-wet-phase3" aria-controls="nb-cal-detail" aria-pressed="false">Mutagenesis</button>
+                  </div>
+                </div>
+
+                <div class="nb-gantt__row">
+                  <span class="nb-gantt__label">Hardware</span>
+                  <div class="nb-gantt__track">
+                    <button type="button" class="nb-gantt__bar" style="grid-column: 4 / 7" data-cal-target="ms-hw-early" aria-controls="nb-cal-detail" aria-pressed="false">Optics / PCB / firmware</button>
+                    <button type="button" class="nb-gantt__bar" style="grid-column: 7 / 10" data-cal-target="ms-hw-late" aria-controls="nb-cal-detail" aria-pressed="false">Closed testing intent</button>
+                  </div>
+                </div>
+
+                <div class="nb-gantt__row">
+                  <span class="nb-gantt__label">Model</span>
+                  <div class="nb-gantt__track">
+                    <button type="button" class="nb-gantt__bar" style="grid-column: 6 / 7" data-cal-target="ms-structure" aria-controls="nb-cal-detail" aria-pressed="false">Structure intent</button>
+                    <button type="button" class="nb-gantt__bar" style="grid-column: 9 / 10" data-cal-target="ms-model-late" aria-controls="nb-cal-detail" aria-pressed="false">Packaging intent</button>
+                  </div>
+                </div>
+              </div>
+
+              <h3 class="nb-index__title">Month cards (2026)</h3>
+              <div class="nb-month-grid">
+                <article class="nb-month-card nb-month-card--empty"><h3>Jan–Mar</h3><p>No planned wiki milestones in this window.</p></article>
+                <article class="nb-month-card">
+                  <h3>Apr</h3>
+                  <ul>
+                    <li><button type="button" class="nb-month-card__link" data-cal-target="ms-wet-phase0">Wet-lab Phase 0</button></li>
+                    <li><button type="button" class="nb-month-card__link" data-cal-target="ms-hw-early">Hardware Months 1–3</button></li>
+                  </ul>
+                </article>
+                <article class="nb-month-card">
+                  <h3>May</h3>
+                  <ul>
+                    <li><button type="button" class="nb-month-card__link" data-cal-target="ms-wet-phase1">VUAA1 POC</button></li>
+                    <li><button type="button" class="nb-month-card__link" data-cal-target="ms-hw-early">Hardware Months 1–3</button></li>
+                  </ul>
+                </article>
+                <article class="nb-month-card">
+                  <h3>Jun</h3>
+                  <ul>
+                    <li><button type="button" class="nb-month-card__link" data-cal-target="ms-structure">Structure / docking</button></li>
+                    <li><button type="button" class="nb-month-card__link" data-cal-target="ms-hw-early">Hardware Months 1–3</button></li>
+                  </ul>
+                </article>
+                <article class="nb-month-card">
+                  <h3>Jul–Aug</h3>
+                  <ul>
+                    <li><button type="button" class="nb-month-card__link" data-cal-target="ms-wet-phase3">Mutagenesis / rescreen</button></li>
+                    <li><button type="button" class="nb-month-card__link" data-cal-target="ms-hw-late">Hardware Months 4–6</button></li>
+                  </ul>
+                </article>
+                <article class="nb-month-card">
+                  <h3>Sep</h3>
+                  <ul>
+                    <li><button type="button" class="nb-month-card__link" data-cal-target="ms-hw-late">Hardware Months 4–6</button></li>
+                    <li><button type="button" class="nb-month-card__link" data-cal-target="ms-model-late">Model / wiki packaging</button></li>
+                  </ul>
+                </article>
+                <article class="nb-month-card nb-month-card--empty"><h3>Oct–Dec</h3><p>No planned wiki milestones in this window.</p></article>
+              </div>
+
+              <div class="nb-cal__detail" id="nb-cal-detail" role="region" aria-live="polite" hidden>
+                <h3 data-cal-detail-title>Select a planned band</h3>
+                <p data-cal-detail-body>Choose a green bar or month item to see the linked milestone, experiment IDs, and notebook slots.</p>
+                <p class="notice" data-cal-detail-status>Status: Planned — not a work-performed notebook entry.</p>
+                <div class="nb-cal__detail-actions">
+                  <a data-cal-detail-milestone href="#planned-milestones">Open milestone</a>
+                  <a data-cal-detail-exp href="experiments.html">Experiments</a>
+                  <a data-cal-detail-nb href="#missing-records">Notebook slot</a>
+                  <button type="button" data-cal-detail-close>Close</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section-block" id="classification" data-reveal>
+            <h2>How records are classified</h2>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Notebook record classification">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Meaning</th>
+                    <th scope="col">Where it appears</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Planned milestone</strong></td>
+                    <td>A schedule or phase intention from the proposal or team plan — not proof of execution</td>
+                    <td><a href="#planned-milestones">Planned milestones</a> only</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Work performed</strong></td>
+                    <td>Dated actions that were actually carried out</td>
+                    <td><a href="#actual-entries">Actual notebook entries</a></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Observation</strong></td>
+                    <td>What was seen or measured, without overinterpretation</td>
+                    <td>Inside an actual entry</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Decision</strong></td>
+                    <td>A documented choice that changes constructs, protocols, models, or hardware</td>
+                    <td>Actual entry and/or <a href="#change-log">Change log</a></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Deviation</strong></td>
+                    <td>Departure from a written protocol or plan, with consequence noted</td>
+                    <td>Inside an actual entry</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Follow-up</strong></td>
+                    <td>Next action assigned after an entry</td>
+                    <td>Inside an actual entry</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section-block" id="filter-index" data-reveal>
+            <h2>Filter and index</h2>
+            <p>
+              Filters progressively enhance this page. Without JavaScript, every section and jump link below remains available.
+              With JavaScript, the form can hide non-matching cards; matching cards stay in the document for assistive tech when shown.
+            </p>
+
+            <form class="nb-filter" data-notebook-filter aria-describedby="nb-filter-note">
+              <p id="nb-filter-note" class="nb-filter__note">
+                Keyboard: Tab through fields, choose values, then Activate filter. Reset restores the full list.
+                Planned milestones are filtered separately from actual entries and are never reclassified as work performed.
+              </p>
+              <div class="nb-filter__grid">
+                <p>
+                  <label for="nb-filter-month">Month</label>
+                  <select id="nb-filter-month" name="month">
+                    <option value="all" selected>All months</option>
+                    <option value="2026-04">2026-04</option>
+                    <option value="2026-05">2026-05</option>
+                    <option value="2026-06">2026-06</option>
+                    <option value="2026-07">2026-07</option>
+                    <option value="2026-08">2026-08</option>
+                    <option value="2026-09">2026-09</option>
+                  </select>
+                </p>
+                <p>
+                  <label for="nb-filter-subteam">Subteam</label>
+                  <select id="nb-filter-subteam" name="subteam">
+                    <option value="all" selected>All subteams</option>
+                    <option value="wet-lab">Wet lab</option>
+                    <option value="hardware">Hardware</option>
+                    <option value="model">Model</option>
+                    <option value="wiki">Wiki / documentation</option>
+                  </select>
+                </p>
+                <p>
+                  <label for="nb-filter-exp">Experiment ID</label>
+                  <select id="nb-filter-exp" name="exp">
+                    <option value="all" selected>All experiment IDs</option>
+                    <option value="EXP-AS-01">EXP-AS-01</option>
+                    <option value="EXP-AS-02">EXP-AS-02</option>
+                    <option value="EXP-AS-03">EXP-AS-03</option>
+                    <option value="EXP-AS-04">EXP-AS-04</option>
+                    <option value="EXP-AS-05">EXP-AS-05</option>
+                    <option value="EXP-AS-06">EXP-AS-06</option>
+                    <option value="EXP-AS-07">EXP-AS-07</option>
+                    <option value="EXP-AS-08">EXP-AS-08</option>
+                    <option value="none">No experiment link</option>
+                  </select>
+                </p>
+                <p>
+                  <label for="nb-filter-stream">Workstream</label>
+                  <select id="nb-filter-stream" name="stream">
+                    <option value="all" selected>All workstreams</option>
+                    <option value="wet-lab">Wet lab</option>
+                    <option value="hardware">Hardware</option>
+                    <option value="model">Model</option>
+                  </select>
+                </p>
+                <p>
+                  <label for="nb-filter-status">Status</label>
+                  <select id="nb-filter-status" name="status">
+                    <option value="all" selected>All statuses</option>
+                    <option value="draft">Draft</option>
+                    <option value="awaiting-review">Awaiting review</option>
+                    <option value="reviewed">Reviewed</option>
+                    <option value="planned">Planned (milestones only)</option>
+                  </select>
+                </p>
+              </div>
+              <div class="nb-filter__actions">
+                <button type="submit">Activate filter</button>
+                <button type="reset">Reset</button>
+              </div>
+              <p class="nb-filter__live" data-notebook-filter-live aria-live="polite"></p>
+            </form>
+
+            <nav class="nb-index" aria-label="Notebook section index">
+              <h3 class="nb-index__title">Jump index</h3>
+              <ul>
+                <li><a href="#actual-entries">Actual notebook entries</a></li>
+                <li><a href="#planned-milestones">Planned milestones</a></li>
+                <li><a href="#change-log">Change log</a></li>
+                <li><a href="#missing-records">Missing records</a></li>
+                <li><a href="#nb-EXP-AS-01"><code>nb-EXP-AS-01</code></a> …
+                  <a href="#nb-EXP-AS-08"><code>nb-EXP-AS-08</code></a> (experiment slots)</li>
+              </ul>
+            </nav>
+          </section>
+
+          <section class="section-block" id="actual-entries" data-reveal>
+            <h2>Actual notebook entries</h2>
+            <p>
+              Entries are listed in reverse chronological order (newest first) when dated records exist.
+              Every real entry must include a machine-readable ISO date on a <code>&lt;time&gt;</code> element, contributors, workstream, linked experiment or Engineering cycle ID, objective, work performed, observation summary, deviations, evidence links, decision/next action, and reviewer/status.
+            </p>
+
+            <div class="empty-state" role="status" id="nb-empty-actual">
+              <h3 class="empty-state__title">No verified actual entries yet</h3>
+              <p>
+                The team has not supplied dated work-performed notebook records for this wiki.
+                Nothing below invents dates, contributors, observations, images, file links, or decisions.
+                Expected proposal outputs are not listed as observations.
+              </p>
+              <p>
+                When an entry is added, place it in this list (newest first), give it a stable <code>id</code>, link evidence files that resolve, and point the matching
+                <a href="#missing-records">experiment slot</a>
+                to that entry.
+              </p>
+            </div>
+
+            <div class="nb-entry-list" data-notebook-list="actual" aria-label="Actual notebook entries">
+              <!-- Real entries only. Template fields: data-month, data-subteam, data-exp, data-stream, data-status, data-kind -->
+            </div>
+          </section>
+
+          <section class="section-block nb-planned-section" id="planned-milestones" data-reveal>
+            <h2>Planned milestones</h2>
+            <p class="notice">
+              Visually and structurally separate from actual entries. Every item is labeled <strong>Planned</strong>.
+              Month labels use year–month precision only — not fabricated day dates.
+              Source: team proposal schedule language (April–September 2026 horizon).
+            </p>
+
+            <div class="nb-milestone-list" data-notebook-list="planned" aria-label="Planned milestones from proposal">
+              <article class="nb-milestone" id="ms-wet-phase0" data-month="2026-04" data-subteam="wet-lab" data-exp="EXP-AS-01" data-stream="wet-lab" data-status="planned" data-kind="planned-milestone" data-cal-title="Wet-lab Phase 0 — construct preparation" data-cal-exp="experiments.html#exp-as-01" data-cal-nb="notebook.html#nb-EXP-AS-01">
+                <header class="nb-milestone__header">
+                  <p class="nb-milestone__label">Planned</p>
+                  <h3>Wet-lab Phase 0 — construct preparation</h3>
+                  <p><time datetime="2026-04">2026-04</time> (month window; no exact day on record)</p>
+                </header>
+                <p>Proposal intent: design/build Plasmid A (OR–IRES–mCherry) and Plasmid B (GCaMP–Orco), transformation, and sequencing readiness.</p>
+                <p>Linked protocols (planned): <a href="experiments.html#exp-as-01">EXP-AS-01</a>. Engineering cycle scaffold: <a href="engineering.html#bio-c1">bio-c1</a>.</p>
+                <p class="nb-milestone__not-evidence">Not evidence of execution.</p>
+              </article>
+
+              <article class="nb-milestone" id="ms-wet-phase1" data-month="2026-05" data-subteam="wet-lab" data-exp="EXP-AS-04" data-stream="wet-lab" data-status="planned" data-kind="planned-milestone" data-cal-title="Wet-lab Phase 1 — VUAA1 POC" data-cal-exp="experiments.html#exp-as-04" data-cal-nb="notebook.html#nb-EXP-AS-04">
+                <header class="nb-milestone__header">
+                  <p class="nb-milestone__label">Planned</p>
+                  <h3>Wet-lab Phase 1 — VUAA1 POC</h3>
+                  <p><time datetime="2026-05">2026-05</time> (month window; no exact day on record)</p>
+                </header>
+                <p>Proposal intent: HEK293T co-transfection and VUAA1 functional-control imaging to test GCaMP reporting of Orco-dependent activity.</p>
+                <p>Linked protocols (planned): <a href="experiments.html#exp-as-02">EXP-AS-02</a>, <a href="experiments.html#exp-as-03">EXP-AS-03</a>, <a href="experiments.html#exp-as-04">EXP-AS-04</a>. Cycle: <a href="engineering.html#bio-assay-c1">bio-assay-c1</a>.</p>
+                <p class="nb-milestone__not-evidence">Not evidence of execution. Proposal day cutoffs are not copied as notebook dates.</p>
+              </article>
+
+              <article class="nb-milestone" id="ms-structure" data-month="2026-06" data-subteam="model" data-exp="none" data-stream="model" data-status="planned" data-kind="planned-milestone" data-cal-title="Structure / docking support (Phase 2 intent)" data-cal-exp="experiments.html#exp-as-06" data-cal-nb="notebook.html#nb-EXP-AS-06">
+                <header class="nb-milestone__header">
+                  <p class="nb-milestone__label">Planned</p>
+                  <h3>Structure / docking support (Phase 2 intent)</h3>
+                  <p><time datetime="2026-06">2026-06</time> (month window; no exact day on record)</p>
+                </header>
+                <p>Proposal intent: structure prediction and docking to nominate mutagenesis candidates. Docking scores are not experimental affinities.</p>
+                <p>Design reference: <a href="design.html#optimization">Receptor optimization strategy</a>. Protocol scaffold: <a href="experiments.html#exp-as-06">EXP-AS-06</a>.</p>
+                <p class="nb-milestone__not-evidence">Not evidence of execution.</p>
+              </article>
+
+              <article class="nb-milestone" id="ms-hw-early" data-month="2026-04 2026-05 2026-06" data-subteam="hardware" data-exp="EXP-AS-08" data-stream="hardware" data-status="planned" data-kind="planned-milestone" data-cal-title="Hardware Months 1–3 — optics, firmware, integration" data-cal-exp="experiments.html#exp-as-08" data-cal-nb="notebook.html#nb-EXP-AS-08">
+                <header class="nb-milestone__header">
+                  <p class="nb-milestone__label">Planned</p>
+                  <h3>Hardware Months 1–3 intent — optics, firmware, integration</h3>
+                  <p><time datetime="2026-04">2026-04</time>–<time datetime="2026-06">2026-06</time> (proposal month bands)</p>
+                </header>
+                <p>Proposal intent: optical path modeling/PCB sampling, firmware/calibration concepts, and host integration. Component conflicts remain open on <a href="hardware.html">Hardware</a>.</p>
+                <p>Linked protocol scaffold: <a href="experiments.html#exp-as-08">EXP-AS-08</a>. Cycles: <a href="engineering.html#hw-optical-c1">hw-optical-c1</a>, <a href="engineering.html#hw-pcb-c1">hw-pcb-c1</a>.</p>
+                <p class="nb-milestone__not-evidence">Not evidence of execution.</p>
+              </article>
+
+              <article class="nb-milestone" id="ms-wet-phase3" data-month="2026-07 2026-08" data-subteam="wet-lab" data-exp="EXP-AS-06" data-stream="wet-lab" data-status="planned" data-kind="planned-milestone" data-cal-title="Wet-lab Phase 3 — mutagenesis / rescreen" data-cal-exp="experiments.html#exp-as-06" data-cal-nb="notebook.html#nb-EXP-AS-06">
+                <header class="nb-milestone__header">
+                  <p class="nb-milestone__label">Planned</p>
+                  <h3>Wet-lab Phase 3 — mutagenesis / rescreen intent</h3>
+                  <p><time datetime="2026-07">2026-07</time>–<time datetime="2026-08">2026-08</time> (month windows)</p>
+                </header>
+                <p>Proposal intent: site-directed variants of selected OR constructs and functional rescreening after baseline controls.</p>
+                <p>Linked protocol: <a href="experiments.html#exp-as-06">EXP-AS-06</a>.</p>
+                <p class="nb-milestone__not-evidence">Not evidence of execution.</p>
+              </article>
+
+              <article class="nb-milestone" id="ms-hw-late" data-month="2026-07 2026-08 2026-09" data-subteam="hardware" data-exp="EXP-AS-08" data-stream="hardware" data-status="planned" data-kind="planned-milestone" data-cal-title="Hardware Months 4–6 — closed testing intent" data-cal-exp="experiments.html#exp-as-08" data-cal-nb="notebook.html#nb-EXP-AS-08">
+                <header class="nb-milestone__header">
+                  <p class="nb-milestone__label">Planned</p>
+                  <h3>Hardware Months 4–6 intent — in-vitro closed testing</h3>
+                  <p><time datetime="2026-07">2026-07</time>–<time datetime="2026-09">2026-09</time> (proposal month band)</p>
+                </header>
+                <p>Proposal intent: integrate engineered cells with the optical/gas path for closed testing and wiki-ready datasets. No measured hardware performance is claimed here.</p>
+                <p class="nb-milestone__not-evidence">Not evidence of execution.</p>
+              </article>
+
+              <article class="nb-milestone" id="ms-model-late" data-month="2026-09" data-subteam="model" data-exp="EXP-AS-07" data-stream="model" data-status="planned" data-kind="planned-milestone" data-cal-title="Model / wiki packaging intent" data-cal-exp="experiments.html#exp-as-07" data-cal-nb="notebook.html#nb-EXP-AS-07">
+                <header class="nb-milestone__header">
+                  <p class="nb-milestone__label">Planned</p>
+                  <h3>Model / wiki packaging intent (late schedule)</h3>
+                  <p><time datetime="2026-09">2026-09</time> (month window)</p>
+                </header>
+                <p>Proposal intent: training/packaging and wiki presentation preparation. Accuracy targets in the proposal remain goals, not notebook observations.</p>
+                <p>Related scaffolds: <a href="experiments.html#exp-as-07">EXP-AS-07</a>, <a href="model.html">Model</a>.</p>
+                <p class="nb-milestone__not-evidence">Not evidence of execution.</p>
+              </article>
+            </div>
+          </section>
+
+          <section class="section-block" id="change-log" data-reveal>
+            <h2>Change log</h2>
+            <p>
+              Protocol, model, and hardware version changes belong here with links to Engineering cycles.
+              No versioned change is recorded until the team supplies date, reason, evidence, and affected results.
+            </p>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Notebook change log">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Artifact / version</th>
+                    <th scope="col">Reason</th>
+                    <th scope="col">Evidence</th>
+                    <th scope="col">Engineering cycle</th>
+                    <th scope="col">Affected results</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="6"><span class="placeholder-field">No dated change-log rows yet</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>
+              Available cycle anchors for future links:
+              <a href="engineering.html#bio-c1">bio-c1</a>,
+              <a href="engineering.html#bio-assay-c1">bio-assay-c1</a>,
+              <a href="engineering.html#hw-optical-c1">hw-optical-c1</a>,
+              <a href="engineering.html#hw-pcb-c1">hw-pcb-c1</a>.
+              Experiment protocol drafts currently sit at <code>v0.1-draft</code> on
+              <a href="experiments.html#protocol-changes">Experiments · Protocol changes</a>.
+            </p>
+          </section>
+
+          <section class="section-block" id="missing-records" data-reveal>
+            <h2>Missing records</h2>
+            <p>
+              Gaps are listed transparently instead of filling the timeline with fabricated days.
+              Experiment ID slots below keep stable anchors for
+              <a href="experiments.html">Experiments</a>
+              cross-links; they are not work-performed entries.
+            </p>
+
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Missing documentation periods">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Gap</th>
+                    <th scope="col">What is missing</th>
+                    <th scope="col">Related IDs</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><time datetime="2026-04">2026-04</time>–<time datetime="2026-08">2026-08</time></td>
+                    <td>No dated wet-lab work-performed entries supplied for wiki publication</td>
+                    <td>EXP-AS-01 … EXP-AS-06</td>
+                  </tr>
+                  <tr>
+                    <td>Hardware build / calibration weeks</td>
+                    <td>No dated calibration logs or integration notes linked as notebook evidence</td>
+                    <td>EXP-AS-08; hw-optical-c1; hw-pcb-c1</td>
+                  </tr>
+                  <tr>
+                    <td>Model analysis runs</td>
+                    <td>No dated dataset ingest or training-run notes with resolving code/data links</td>
+                    <td>EXP-AS-07</td>
+                  </tr>
+                  <tr>
+                    <td>Reviewer sign-off</td>
+                    <td>No reviewed notebook entries (reviewer name + date)</td>
+                    <td>—</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3>Experiment-linked slots (awaiting dated entries)</h3>
+            <div class="nb-slot-list">
+              <article class="nb-pending" id="nb-EXP-AS-01" data-month="all" data-subteam="wet-lab" data-exp="EXP-AS-01" data-stream="wet-lab" data-status="draft" data-kind="slot">
+                <h3><code>EXP-AS-01</code> — Construct assembly / sequencing</h3>
+                <p><span class="placeholder-field">Dated entry pending</span> — protocol: <a href="experiments.html#exp-as-01">EXP-AS-01</a>. Results slot: <a href="results.html#res-EXP-AS-01">res-EXP-AS-01</a>.</p>
+              </article>
+              <article class="nb-pending" id="nb-EXP-AS-02" data-month="all" data-subteam="wet-lab" data-exp="EXP-AS-02" data-stream="wet-lab" data-status="draft" data-kind="slot">
+                <h3><code>EXP-AS-02</code> — HEK293T culture / co-transfection</h3>
+                <p><span class="placeholder-field">Dated entry pending</span> — protocol: <a href="experiments.html#exp-as-02">EXP-AS-02</a>. Results slot: <a href="results.html#res-EXP-AS-02">res-EXP-AS-02</a>.</p>
+              </article>
+              <article class="nb-pending" id="nb-EXP-AS-03" data-month="all" data-subteam="wet-lab" data-exp="EXP-AS-03" data-stream="wet-lab" data-status="draft" data-kind="slot">
+                <h3><code>EXP-AS-03</code> — Expression check</h3>
+                <p><span class="placeholder-field">Dated entry pending</span> — protocol: <a href="experiments.html#exp-as-03">EXP-AS-03</a>. Results slot: <a href="results.html#res-EXP-AS-03">res-EXP-AS-03</a>.</p>
+              </article>
+              <article class="nb-pending" id="nb-EXP-AS-04" data-month="all" data-subteam="wet-lab" data-exp="EXP-AS-04" data-stream="wet-lab" data-status="draft" data-kind="slot">
+                <h3><code>EXP-AS-04</code> — VUAA1 functional response</h3>
+                <p><span class="placeholder-field">Dated entry pending</span> — protocol: <a href="experiments.html#exp-as-04">EXP-AS-04</a>. Results slot: <a href="results.html#res-EXP-AS-04">res-EXP-AS-04</a>.</p>
+              </article>
+              <article class="nb-pending" id="nb-EXP-AS-05" data-month="all" data-subteam="wet-lab" data-exp="EXP-AS-05" data-stream="wet-lab" data-status="draft" data-kind="slot">
+                <h3><code>EXP-AS-05</code> — Target-VOC response</h3>
+                <p><span class="placeholder-field">Dated entry pending</span> — protocol: <a href="experiments.html#exp-as-05">EXP-AS-05</a>. Results slot: <a href="results.html#res-EXP-AS-05">res-EXP-AS-05</a>.</p>
+              </article>
+              <article class="nb-pending" id="nb-EXP-AS-06" data-month="all" data-subteam="wet-lab" data-exp="EXP-AS-06" data-stream="wet-lab" data-status="draft" data-kind="slot">
+                <h3><code>EXP-AS-06</code> — Mutagenesis / rescreen</h3>
+                <p><span class="placeholder-field">Dated entry pending</span> — protocol: <a href="experiments.html#exp-as-06">EXP-AS-06</a>. Results slot: <a href="results.html#res-EXP-AS-06">res-EXP-AS-06</a>.</p>
+              </article>
+              <article class="nb-pending" id="nb-EXP-AS-07" data-month="all" data-subteam="model" data-exp="EXP-AS-07" data-stream="model" data-status="draft" data-kind="slot">
+                <h3><code>EXP-AS-07</code> — Fluorescence time-series extraction</h3>
+                <p><span class="placeholder-field">Dated entry pending</span> — protocol: <a href="experiments.html#exp-as-07">EXP-AS-07</a>. Results slot: <a href="results.html#res-EXP-AS-07">res-EXP-AS-07</a>.</p>
+              </article>
+              <article class="nb-pending" id="nb-EXP-AS-08" data-month="all" data-subteam="hardware" data-exp="EXP-AS-08" data-stream="hardware" data-status="draft" data-kind="slot">
+                <h3><code>EXP-AS-08</code> — Hardware optical calibration / integration</h3>
+                <p><span class="placeholder-field">Dated entry pending</span> — protocol: <a href="experiments.html#exp-as-08">EXP-AS-08</a>. Results slot: <a href="results.html#res-EXP-AS-08">res-EXP-AS-08</a>.</p>
+              </article>
+            </div>
+          </section>
+        </article>
+      </main>
+
+      <nav class="page-turn" aria-label="Page">
+        <a class="page-turn__prev" href="experiments.html"><span class="page-turn__dir">Previous</span><span class="page-turn__title">Experiments</span></a>
+        <a class="page-turn__next" href="results.html"><span class="page-turn__dir">Next</span><span class="page-turn__title">Results</span></a>
+      </nav>
+
+      <section class="references" aria-labelledby="references-heading" id="references" data-reveal>
+        <h2 id="references-heading">References &amp; Credits</h2>
+        <ul class="credit-list">
+          <li>Planned milestone wording summarized from the team’s April 2026 proposal schedule; month precision only; not converted into work-performed entries.</li>
+          <li>Experiment IDs and protocol scaffolds: <a href="experiments.html">Experiments</a>.</li>
+          <li>Engineering cycle anchors: <a href="engineering.html">Engineering</a>.</li>
+          <li>No third-party notebook scans, chromatograms, or lab photos are embedded on this page.</li>
+          <li>Wiki documentation intended for release under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">CC BY 4.0</a> when published.</li>
+        </ul>
+      </section>
+    </div>
+
+    <details class="page-toc" open>
+      <summary class="toc__summary"><span class="toc__label">On this page</span></summary>
+      <nav aria-label="Table of contents">
+        <ol>
+          <li><a href="#year-calendar"><span class="tech-label">01</span> 2026 project calendar</a></li>
+          <li><a href="#classification"><span class="tech-label">02</span> How records are classified</a></li>
+          <li><a href="#filter-index"><span class="tech-label">03</span> Filter and index</a></li>
+          <li><a href="#actual-entries"><span class="tech-label">04</span> Actual notebook entries</a></li>
+          <li><a href="#planned-milestones"><span class="tech-label">05</span> Planned milestones</a></li>
+          <li><a href="#change-log"><span class="tech-label">06</span> Change log</a></li>
+          <li><a href="#missing-records"><span class="tech-label">07</span> Missing records</a></li>
+          <li><a href="#references"><span class="tech-label">Ref</span> References &amp; Credits</a></li>
+        </ol>
+      </nav>
+    </details>
+  </div>
+
+  <a class="back-to-top" href="#main">Back to top</a>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p class="footer-mission">AeroSense is developing a bio-digital olfactory sensing platform that pairs living-cell receptor arrays with edge-capable computational models for complex odor recognition.</p>
+
+      <p class="footer-sitemap-title" id="site-map-label">Site map</p>
+      <div class="footer-grid" id="site-map" aria-labelledby="site-map-label">
+        <div class="footer-col">
+          <h2>Project</h2>
+          <ul>
+            <li><a href="description.html">Description</a></li>
+            <li><a href="contribution.html">Contribution</a></li>
+            <li><a href="engineering.html">Engineering</a></li>
+            <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2>Team</h2>
+          <ul>
+            <li><a href="members.html">Members</a></li>
+            <li><a href="attributions.html">Attributions</a></li>
+          </ul>
+          <h2>Lab</h2>
+          <ul>
+            <li><a href="parts.html">Parts</a></li>
+            <li><a href="design.html">Design</a></li>
+            <li><a href="experiments.html">Experiments</a></li>
+            <li><a href="notebook.html">Notebook</a></li>
+            <li><a href="results.html">Results</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2>Dry Lab</h2>
+          <ul>
+            <li><a href="model.html">Model</a></li>
+            <li><a href="hardware.html">Hardware</a></li>
+          </ul>
+          <h2>Human Practices</h2>
+          <ul>
+            <li><a href="human-practices.html">Integrated Human Practices</a></li>
+            <li><a href="education.html">Education</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-meta">
+        <ul class="footer-contacts">
+          <li><a href="https://www.linkedin.com/company/aerosensebio/" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><a href="https://www.instagram.com/igem_tsinghua/" rel="noopener noreferrer">Instagram</a></li>
+          <li><a href="mailto:aerosensebio@gmail.com">aerosensebio@gmail.com</a></li>
+        </ul>
+        <ul class="footer-legal">
+          <li><a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer">Source on GitLab</a></li>
+          <li>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">Creative Commons Attribution 4.0 International</a></li>
+          <li><a href="attributions.html#responsible-ai">Attributions &amp; Responsible AI</a></li>
+        </ul>
+        <p class="footer-copy">© 2026 NTHU · AeroSense</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Parts · AeroSense · NTHU iGEM 2026</title>
+  <meta name="description" content="AeroSense parts inventory and proposed sensing constructs: an auditable bridge to the iGEM Registry. No Registry IDs or characterization are claimed without team verification.">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/main.js" defer></script>
+  <script src="js/glossary.js" defer></script>
+  <script src="js/search.js" defer></script>
+</head>
+<body class="page-parts">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="reading-progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html">
+        <img class="brand__logo" src="logo/logo.jpg" width="44" height="44" alt="AeroSense">
+        <span class="brand__text">
+          <span class="brand__name">AeroSense</span>
+          <span class="brand__meta">NTHU · iGEM 2026</span>
+        </span>
+      </a>
+      <div class="header-tools">
+        <a class="btn-search" href="index.html#site-map" aria-haspopup="dialog" aria-controls="project-search">Project Search</a>
+        <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      </div>
+      <nav class="site-nav" id="site-nav" aria-label="Primary">
+        <ul class="nav-root">
+          <li>
+            <a href="index.html">Home</a>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Project</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-project">Project</button>
+            <ul class="nav-submenu" id="submenu-project">
+              <li><a href="description.html">Description</a></li>
+              <li><a href="contribution.html">Contribution</a></li>
+              <li><a href="engineering.html">Engineering</a></li>
+              <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Team</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-team">Team</button>
+            <ul class="nav-submenu" id="submenu-team">
+              <li><a href="members.html">Members</a></li>
+              <li><a href="attributions.html">Attributions</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Lab</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-lab">Lab</button>
+            <ul class="nav-submenu" id="submenu-lab">
+              <li><a href="parts.html" aria-current="page">Parts</a></li>
+              <li><a href="design.html">Design</a></li>
+              <li><a href="experiments.html">Experiments</a></li>
+              <li><a href="notebook.html">Notebook</a></li>
+              <li><a href="results.html">Results</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Dry Lab</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-drylab">Dry Lab</button>
+            <ul class="nav-submenu" id="submenu-drylab">
+              <li><a href="model.html">Model</a></li>
+              <li><a href="hardware.html">Hardware</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Human Practices</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-hp">Human Practices</button>
+            <ul class="nav-submenu" id="submenu-hp">
+              <li><a href="human-practices.html">Integrated Human Practices</a></li>
+              <li><a href="education.html">Education</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <dialog class="search-dialog" id="project-search" aria-labelledby="search-title">
+    <div class="search-dialog__panel">
+      <div class="search-dialog__header">
+        <h2 id="search-title">Project Search</h2>
+        <button type="button" class="search-dialog__close" data-search-close>Close</button>
+      </div>
+      <form class="search-dialog__form" role="search" action="index.html#site-map" method="get">
+        <label for="project-search-input">Search the AeroSense wiki</label>
+        <p id="project-search-instructions" class="search-dialog__hint">Type keywords from page titles and sections. Results stay on this site. No remote requests are made. Arrow keys move through results; Enter opens; Escape closes.</p>
+        <div class="search-dialog__field">
+          <input id="project-search-input" type="search" name="q" placeholder="e.g. HEK293T, Orco, hardware" autocomplete="off" aria-describedby="project-search-instructions project-search-count" aria-controls="project-search-results">
+          <button type="button" class="search-dialog__clear" data-search-clear hidden>Clear</button>
+        </div>
+        <div class="search-dialog__actions">
+          <button type="submit">Search</button>
+          <button type="button" data-search-close>Close</button>
+        </div>
+      </form>
+      <p id="project-search-count" class="search-dialog__count" aria-live="polite" aria-atomic="true">0 results</p>
+      <div id="project-search-results" class="search-dialog__results" role="listbox" aria-labelledby="search-title"></div>
+    </div>
+  </dialog>
+
+  <div class="shell shell--with-toc">
+    <div class="page-main-column">
+      <main id="main">
+        <header class="page-hero" data-reveal>
+          <nav aria-label="Breadcrumb">
+            <ol class="breadcrumb">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="parts.html">Lab</a></li>
+              <li aria-current="page">Parts</li>
+            </ol>
+          </nav>
+          <span class="page-kicker">07 / Lab</span>
+          <h1>Parts</h1>
+          <p class="page-purpose">Biological components, assemblies, and their evidence</p>
+          <p class="page-lede">
+            This page is the auditable bridge between AeroSense wiki documentation and the iGEM Registry.
+            Proposal concept architecture is shown for planning. The current verified construct map is authoritative when it exists.
+            No <code>BBa_</code> identifier, sequence, or submission status is invented here.
+          </p>
+          <span class="status-label status-label--planned">No verified Registry IDs published yet</span>
+        </header>
+
+        <article class="page-article prose">
+          <section class="section-block" id="at-a-glance" data-reveal>
+            <h2>Parts at a glance</h2>
+            <p>
+              Summary counts are omitted because this page does not yet contain verified Registry-submitted records from which counts could be derived.
+              Status below is qualitative only.
+            </p>
+            <ul class="parts-glance-list">
+              <li><strong>Registry-submitted AeroSense parts:</strong> none with a team-verified part ID and Registry URL.</li>
+              <li><strong>Proposal concept assemblies documented here:</strong> Construct A (OR–IRES–mCherry style) and Construct B (GCaMP–Orco fusion style).</li>
+              <li><strong>Sequence verification / characterization:</strong> not yet linked for any AeroSense part on this wiki.</li>
+              <li><strong>Authoritative source rule:</strong> latest team construct maps and sequencing reports override proposal example architecture.</li>
+            </ul>
+            <p class="notice">
+              Rows labeled <span class="placeholder-field">Not assigned — not submitted</span> are planning inventory only. They are not Registry deposits.
+            </p>
+            <p>
+              Construct architecture and host/receptor rationale are documented on
+              <a href="design.html">Design</a>
+              (<a href="design.html#construct-strategy">construct strategy</a>,
+              <a href="design.html#why-hek293t">HEK293T host choice</a>,
+              <a href="design.html#receptor-selection">receptor selection</a>).
+              Functional assays belong on
+              <a href="experiments.html">Experiments</a>;
+              reusable deposit packaging is tracked under
+              <a href="contribution.html#pkg-parts">Contribution · parts package</a>
+              and the
+              <a href="https://registry.igem.org/" rel="noopener noreferrer">iGEM Registry</a>
+              portal (no AeroSense <code>BBa_</code> URLs yet).
+            </p>
+          </section>
+
+          <section class="section-block" id="inventory" data-reveal>
+            <h2>Part inventory</h2>
+            <p>
+              Each row has a stable on-page anchor. Registry ID cells stay empty of fabricated <code>BBa_</code> values.
+              When a real ID exists, replace the placeholder and point the Registry link at that part’s Registry page.
+            </p>
+            <div class="table-scroll table-scroll--sticky-first" tabindex="0" role="region" aria-label="Part inventory table">
+              <table class="goal-table parts-inventory-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Registry ID</th>
+                    <th scope="col">Part name</th>
+                    <th scope="col">Part type</th>
+                    <th scope="col">Source organism</th>
+                    <th scope="col">Function in AeroSense</th>
+                    <th scope="col">Design / build status</th>
+                    <th scope="col">Sequence verification</th>
+                    <th scope="col">Characterization</th>
+                    <th scope="col">Assembly compatibility</th>
+                    <th scope="col">Registry link</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr id="part-cag">
+                    <td><span class="placeholder-field">Not assigned — not submitted</span></td>
+                    <td><a href="#part-cag">CAG promoter</a></td>
+                    <td>Promoter (proposal)</td>
+                    <td><span class="placeholder-field">Confirm on construct map</span></td>
+                    <td>Proposed driver for Construct A OR–reporter transcription</td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                    <td>Not sequence-checked against an AeroSense map</td>
+                    <td>None linked</td>
+                    <td><span class="placeholder-field">Confirm sites / Type IIS rules on map</span></td>
+                    <td>No part page — <a href="https://registry.igem.org/" rel="noopener noreferrer">Registry portal</a></td>
+                  </tr>
+                  <tr id="part-or-cds">
+                    <td><span class="placeholder-field">Not assigned — not submitted</span></td>
+                    <td><a href="#part-or-cds">Selected OR CDS</a></td>
+                    <td>Coding sequence</td>
+                    <td><i>Drosophila melanogaster</i> (planned panel)</td>
+                    <td>Odorant receptor specificity in the living-cell sensor array</td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                    <td>Not sequence-checked</td>
+                    <td>None linked</td>
+                    <td><span class="placeholder-field">Confirm sites / cassette on map</span></td>
+                    <td>No part page — <a href="https://registry.igem.org/" rel="noopener noreferrer">Registry portal</a></td>
+                  </tr>
+                  <tr id="part-emcv-ires">
+                    <td><span class="placeholder-field">Not assigned — not submitted</span></td>
+                    <td><a href="#part-emcv-ires">EMCV IRES</a></td>
+                    <td>Translation element (proposal)</td>
+                    <td>Encephalomyocarditis virus (proposal component)</td>
+                    <td>Proposed bicistronic translation of mCherry after the OR CDS</td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                    <td>Not sequence-checked</td>
+                    <td>None linked</td>
+                    <td><span class="placeholder-field">Confirm length / junctions on map</span></td>
+                    <td>No part page — <a href="https://registry.igem.org/" rel="noopener noreferrer">Registry portal</a></td>
+                  </tr>
+                  <tr id="part-mcherry">
+                    <td><span class="placeholder-field">Not assigned — not submitted</span></td>
+                    <td><a href="#part-mcherry">mCherry</a></td>
+                    <td>Reporter CDS</td>
+                    <td><span class="placeholder-field">Confirm source / codon optimization on map</span></td>
+                    <td>Proposed transfection / expression reporter for Construct A</td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                    <td>Not sequence-checked</td>
+                    <td>None linked</td>
+                    <td><span class="placeholder-field">Confirm on map</span></td>
+                    <td>No part page — <a href="https://registry.igem.org/" rel="noopener noreferrer">Registry portal</a></td>
+                  </tr>
+                  <tr id="part-bgh-polya">
+                    <td><span class="placeholder-field">Not assigned — not submitted</span></td>
+                    <td><a href="#part-bgh-polya">Polyadenylation signal (Construct A)</a></td>
+                    <td>Terminator / poly(A) (proposal)</td>
+                    <td><span class="placeholder-field">Confirm identity (proposal notes BGH polyA)</span></td>
+                    <td>Proposed 3′ processing for Construct A transcripts</td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                    <td>Not sequence-checked</td>
+                    <td>None linked</td>
+                    <td><span class="placeholder-field">Confirm on map</span></td>
+                    <td>No part page — <a href="https://registry.igem.org/" rel="noopener noreferrer">Registry portal</a></td>
+                  </tr>
+                  <tr id="part-inducible-promoter">
+                    <td><span class="placeholder-field">Not assigned — not submitted</span></td>
+                    <td><a href="#part-inducible-promoter">Inducible promoter (Construct B)</a></td>
+                    <td>Promoter (proposal)</td>
+                    <td><span class="placeholder-field">Confirm identity (proposal notes Ptet-T6)</span></td>
+                    <td>Proposed inducible driver for the GCaMP–Orco fusion transcript</td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                    <td>Not sequence-checked</td>
+                    <td>None linked</td>
+                    <td><span class="placeholder-field">Confirm inducer / selection requirements on map</span></td>
+                    <td>No part page — <a href="https://registry.igem.org/" rel="noopener noreferrer">Registry portal</a></td>
+                  </tr>
+                  <tr id="part-gcamp6">
+                    <td><span class="placeholder-field">Not assigned — not submitted</span></td>
+                    <td><a href="#part-gcamp6">GCaMP6</a></td>
+                    <td>Reporter CDS</td>
+                    <td>Engineered indicator (variant pending confirmation)</td>
+                    <td>Calcium-dependent fluorescence readout of receptor activation</td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                    <td>Not sequence-checked</td>
+                    <td>None linked</td>
+                    <td><span class="placeholder-field">Confirm GCaMP6s vs 6f (or other) on map</span></td>
+                    <td>No part page — <a href="https://registry.igem.org/" rel="noopener noreferrer">Registry portal</a></td>
+                  </tr>
+                  <tr id="part-gsg">
+                    <td><span class="placeholder-field">Not assigned — not submitted</span></td>
+                    <td><a href="#part-gsg">GSG linker</a></td>
+                    <td>Peptide linker (proposal)</td>
+                    <td>Synthetic (Gly-Ser-Gly in proposal)</td>
+                    <td>Proposed flexible fusion between GCaMP6 and Orco</td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                    <td>Not sequence-checked</td>
+                    <td>None linked</td>
+                    <td><span class="placeholder-field">Confirm fusion orientation on map</span></td>
+                    <td>No part page — <a href="https://registry.igem.org/" rel="noopener noreferrer">Registry portal</a></td>
+                  </tr>
+                  <tr id="part-orco">
+                    <td><span class="placeholder-field">Not assigned — not submitted</span></td>
+                    <td><a href="#part-orco">Orco CDS</a></td>
+                    <td>Coding sequence</td>
+                    <td><i>Drosophila melanogaster</i> (planned)</td>
+                    <td>Co-receptor required for OR ion-channel function in heterologous cells</td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                    <td>Not sequence-checked</td>
+                    <td>None linked</td>
+                    <td><span class="placeholder-field">Confirm isoform / junctions on map</span></td>
+                    <td>No part page — <a href="https://registry.igem.org/" rel="noopener noreferrer">Registry portal</a></td>
+                  </tr>
+                  <tr id="part-polya-b">
+                    <td><span class="placeholder-field">Not assigned — not submitted</span></td>
+                    <td><a href="#part-polya-b">Polyadenylation signal (Construct B)</a></td>
+                    <td>Terminator / poly(A) (proposal)</td>
+                    <td><span class="placeholder-field">Confirm identity on construct map</span></td>
+                    <td>Proposed 3′ processing for Construct B transcripts</td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                    <td>Not sequence-checked</td>
+                    <td>None linked</td>
+                    <td><span class="placeholder-field">Confirm on map</span></td>
+                    <td>No part page — <a href="https://registry.igem.org/" rel="noopener noreferrer">Registry portal</a></td>
+                  </tr>
+                  <tr id="part-construct-a">
+                    <td><span class="placeholder-field">Not assigned — not submitted</span></td>
+                    <td><a href="#construct-a">Construct A (OR–IRES–mCherry assembly)</a></td>
+                    <td>Composite device (proposal)</td>
+                    <td>Composite — see element rows</td>
+                    <td>Proposed OR expression cassette with mCherry reporter</td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                    <td>Final sequence not verified on this wiki</td>
+                    <td>None linked</td>
+                    <td><span class="placeholder-field">Pending map confirmation</span></td>
+                    <td>No part page — <a href="https://registry.igem.org/" rel="noopener noreferrer">Registry portal</a></td>
+                  </tr>
+                  <tr id="part-construct-b">
+                    <td><span class="placeholder-field">Not assigned — not submitted</span></td>
+                    <td><a href="#construct-b">Construct B (GCaMP–Orco assembly)</a></td>
+                    <td>Composite device (proposal)</td>
+                    <td>Composite — see element rows</td>
+                    <td>Proposed co-receptor / calcium-reporter fusion cassette</td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                    <td>Final sequence not verified on this wiki</td>
+                    <td>None linked</td>
+                    <td><span class="placeholder-field">Pending map confirmation</span></td>
+                    <td>No part page — <a href="https://registry.igem.org/" rel="noopener noreferrer">Registry portal</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>
+              Proposal example OR candidates (not a finalized AeroSense panel): Or10a, Or13a, Or47a, and related receptors discussed with published heterologous panels
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023-a" aria-describedby="cite-preview-zboray-2023">[1]</a>
+                <span class="cite-preview" id="cite-preview-zboray-2023" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span>
+              </span>.
+              Final OR choice, codon optimization, selection cassettes, and plasmid backbones require confirmation against the latest construct maps.
+            </p>
+          </section>
+
+          <section class="section-block" id="constructs" data-reveal>
+            <h2>Proposed sensing constructs</h2>
+            <p>
+              The proposal’s two major expression assemblies are shown as concept tracks.
+              Every labeled element links to its inventory row. Promoter identity, fusion orientation, selection cassette, and final sequence must be confirmed against the latest construct maps before any Registry deposit or functional claim.
+            </p>
+
+            <figure class="construct-map" id="construct-a">
+              <figcaption>
+                <span class="wiki-figure__num">Figure 1.</span>
+                <span class="wiki-figure__title"> Construct A concept — OR expression with IRES–mCherry.</span>
+              </figcaption>
+              <p class="construct-map__lede">
+                Concept architecture from the team proposal: CAG promoter → selected OR CDS → EMCV IRES → mCherry → polyadenylation signal.
+                Linked inventory rows: <a href="#part-construct-a">composite</a>.
+              </p>
+              <ol class="construct-map__track" aria-label="Construct A concept elements from 5′ to 3′">
+                <li class="construct-map__block construct-map__block--promoter">
+                  <a href="#part-cag"><span class="construct-map__role">Promoter</span><span class="construct-map__name">CAG</span></a>
+                </li>
+                <li class="construct-map__block construct-map__block--cds">
+                  <a href="#part-or-cds"><span class="construct-map__role">CDS</span><span class="construct-map__name">Selected OR</span></a>
+                </li>
+                <li class="construct-map__block construct-map__block--ires">
+                  <a href="#part-emcv-ires"><span class="construct-map__role">IRES</span><span class="construct-map__name">EMCV</span></a>
+                </li>
+                <li class="construct-map__block construct-map__block--reporter">
+                  <a href="#part-mcherry"><span class="construct-map__role">Reporter</span><span class="construct-map__name">mCherry</span></a>
+                </li>
+                <li class="construct-map__block construct-map__block--term">
+                  <a href="#part-bgh-polya"><span class="construct-map__role">3′ end</span><span class="construct-map__name">poly(A)</span></a>
+                </li>
+              </ol>
+              <p class="construct-map__caveat" role="note">Concept illustration — verify against final sequence</p>
+              <ul class="wiki-figure__meta">
+                <li><span class="wiki-figure__badge">Concept illustration — verify against final sequence</span></li>
+                <li><strong>Source:</strong> Semantic HTML/CSS diagram from proposal architecture; not a sequenced map.</li>
+                <li><strong>Evidence status:</strong> Planned / proposal concept.</li>
+                <li><strong>Fields requiring map confirmation:</strong> CAG identity, OR CDS choice, IRES length/junctions, mCherry variant, poly(A) identity (proposal notes BGH polyA), selection cassette, backbone, and restriction or Type IIS sites.</li>
+              </ul>
+            </figure>
+
+            <figure class="construct-map" id="construct-b">
+              <figcaption>
+                <span class="wiki-figure__num">Figure 2.</span>
+                <span class="wiki-figure__title"> Construct B concept — GCaMP–Orco fusion under an inducible promoter.</span>
+              </figcaption>
+              <p class="construct-map__lede">
+                Concept architecture from the team proposal: inducible promoter → GCaMP6 → GSG linker → Orco CDS → polyadenylation signal.
+                Proposal text names a Ptet-T6-style inducible promoter and GCaMP6 N-terminal to Orco; both require map confirmation.
+                Linked inventory rows: <a href="#part-construct-b">composite</a>.
+              </p>
+              <ol class="construct-map__track" aria-label="Construct B concept elements from 5′ to 3′">
+                <li class="construct-map__block construct-map__block--promoter">
+                  <a href="#part-inducible-promoter"><span class="construct-map__role">Promoter</span><span class="construct-map__name">Inducible</span></a>
+                </li>
+                <li class="construct-map__block construct-map__block--reporter">
+                  <a href="#part-gcamp6"><span class="construct-map__role">Reporter</span><span class="construct-map__name">GCaMP6</span></a>
+                </li>
+                <li class="construct-map__block construct-map__block--linker">
+                  <a href="#part-gsg"><span class="construct-map__role">Linker</span><span class="construct-map__name">GSG</span></a>
+                </li>
+                <li class="construct-map__block construct-map__block--cds">
+                  <a href="#part-orco"><span class="construct-map__role">CDS</span><span class="construct-map__name">Orco</span></a>
+                </li>
+                <li class="construct-map__block construct-map__block--term">
+                  <a href="#part-polya-b"><span class="construct-map__role">3′ end</span><span class="construct-map__name">poly(A)</span></a>
+                </li>
+              </ol>
+              <p class="construct-map__caveat" role="note">Concept illustration — verify against final sequence</p>
+              <ul class="wiki-figure__meta">
+                <li><span class="wiki-figure__badge">Concept illustration — verify against final sequence</span></li>
+                <li><strong>Source:</strong> Semantic HTML/CSS diagram from proposal architecture; not a sequenced map.</li>
+                <li><strong>Evidence status:</strong> Planned / proposal concept.</li>
+                <li><strong>Fields requiring map confirmation:</strong> inducible promoter identity (proposal notes Ptet-T6), GCaMP6 variant, linker sequence, Orco isoform, fusion orientation, poly(A) identity, selection cassette / transactivator requirements, and backbone.</li>
+              </ul>
+            </figure>
+          </section>
+
+          <section class="section-block" id="rationale" data-reveal>
+            <h2>Design rationale</h2>
+            <p>
+              AeroSense plans heterologous expression of selected <dfn class="term" data-term="drosophila" tabindex="0"><i>Drosophila</i></dfn> ORs with <dfn class="term" data-term="orco" tabindex="0">Orco</dfn> in
+              <dfn class="term" data-term="hek293t" tabindex="0">HEK293T</dfn>
+              cells so odorant or agonist exposure can be read as calcium-dependent
+              <dfn class="term" data-term="gcamp6" tabindex="0">GCaMP6</dfn>
+              fluorescence. Published HEK insect-OR panels that combine Orco and GCaMP6 for VOC profiling motivate this architecture
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023-b" aria-describedby="cite-preview-zboray-2023">[1]</a>
+                <span class="cite-preview" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span>
+              </span>.
+              The points below explain why each proposal component is considered; they are design intent, not AeroSense results.
+            </p>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Design rationale by component">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Component</th>
+                    <th scope="col">Why it is used (design intent)</th>
+                    <th scope="col">How it supports sensing or validation</th>
+                    <th scope="col">Citation / note</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><a href="#part-or-cds">Selected OR CDS</a></td>
+                    <td>Provides ligand-tuned recognition diversity within the insect OR repertoire</td>
+                    <td>Defines which VOC / agonist responses the array can report once co-expressed with Orco</td>
+                    <td>
+                      <span class="cite-wrap">
+                        <a class="cite" href="#ref-robertson-2003" id="cite-robertson-2003" aria-describedby="cite-preview-robertson-2003">[2]</a>
+                        <span class="cite-preview" id="cite-preview-robertson-2003" role="tooltip">Robertson et al., 2003 — full entry in References &amp; Credits.</span>
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><a href="#part-orco">Orco CDS</a></td>
+                    <td>Conserved co-receptor that partners with ORs in a cation channel complex</td>
+                    <td>Required for functional OR channels in heterologous sensing; also enables Orco-family agonist controls</td>
+                    <td>
+                      <span class="cite-wrap">
+                        <a class="cite" href="#ref-butterwick-2018" id="cite-butterwick-2018" aria-describedby="cite-preview-butterwick-2018">[3]</a>
+                        <span class="cite-preview" id="cite-preview-butterwick-2018" role="tooltip">Butterwick et al., 2018 — full entry in References &amp; Credits.</span>
+                      </span>;
+                      VUAA1 agonist literature
+                      <span class="cite-wrap">
+                        <a class="cite" href="#ref-jones-2011" id="cite-jones-2011" aria-describedby="cite-preview-jones-2011">[4]</a>
+                        <span class="cite-preview" id="cite-preview-jones-2011" role="tooltip">Jones et al., 2011 — full entry in References &amp; Credits.</span>
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><a href="#part-gcamp6">GCaMP6</a></td>
+                    <td>Genetically encoded calcium indicator used to convert channel activity into fluorescence</td>
+                    <td>Planned optical reporter for agonist / VOC assays and hardware readout alignment</td>
+                    <td>
+                      <span class="cite-wrap">
+                        <a class="cite" href="#ref-chen-2013" id="cite-chen-2013" aria-describedby="cite-preview-chen-2013">[5]</a>
+                        <span class="cite-preview" id="cite-preview-chen-2013" role="tooltip">Chen et al., 2013 — full entry in References &amp; Credits.</span>
+                      </span>;
+                      heterologous OR panel context
+                      <span class="cite-wrap">
+                        <a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023-c" aria-describedby="cite-preview-zboray-2023">[1]</a>
+                        <span class="cite-preview" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span>
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><a href="#part-emcv-ires">EMCV IRES</a> + <a href="#part-mcherry">mCherry</a></td>
+                    <td>Proposal uses bicistronic OR and mCherry expression rather than an OR–mCherry fusion</td>
+                    <td>Planned transfection / expression check without forcing a fluorescent fusion on the receptor CDS</td>
+                    <td>Architecture from proposal; confirm against final map before claiming mechanism</td>
+                  </tr>
+                  <tr>
+                    <td><a href="#part-gsg">GSG linker</a></td>
+                    <td>Short flexible linker proposed between GCaMP6 and Orco</td>
+                    <td>Intended to keep reporter and co-receptor as one fusion protein for co-delivery</td>
+                    <td>Proposal design; fusion orientation and linker length require map confirmation</td>
+                  </tr>
+                  <tr>
+                    <td><a href="#part-cag">CAG</a> / <a href="#part-inducible-promoter">inducible promoter</a></td>
+                    <td>Proposal separates constitutive OR–reporter expression from inducible GCaMP–Orco expression</td>
+                    <td>Intended to support expression control during validation; exact promoters pending map confirmation</td>
+                    <td>Proposal design; do not treat promoter names as sequence-verified</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section-block" id="assembly" data-reveal>
+            <h2>Assembly and verification</h2>
+            <p>
+              No AeroSense cloning batch, sequencing chromatogram, or restriction digest is linked on this page yet.
+              The workflow below is the proposal’s planned path and remains <strong>planned</strong> until lab records are attached.
+            </p>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Planned assembly and verification steps">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Step</th>
+                    <th scope="col">Proposal plan</th>
+                    <th scope="col">Evidence status</th>
+                    <th scope="col">Evidence link</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Fragment sourcing</td>
+                    <td>Synthesize or obtain OR and GCaMP–Orco fusion fragments; confirm vendor files against the chosen map</td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                    <td><span class="placeholder-field">Order / file links pending</span></td>
+                  </tr>
+                  <tr>
+                    <td>Assembly method</td>
+                    <td>Proposal discusses restriction–ligation and notes Gibson Assembly as a possible alternative. Exact enzyme set and Type IIS compatibility are not asserted here.</td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                    <td><span class="placeholder-field">Protocol / map pending</span></td>
+                  </tr>
+                  <tr>
+                    <td>Host for plasmid prep</td>
+                    <td>Proposal cloning host: <i>E. coli</i> DH5α (see also <a href="safety-and-security.html">Safety &amp; Security</a>)</td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                    <td><span class="placeholder-field">Strain lot / notebook pending</span></td>
+                  </tr>
+                  <tr>
+                    <td>Sequence checks</td>
+                    <td>Proposal plans colony PCR and Sanger sequencing before transfection DNA use</td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                    <td><span class="placeholder-field">Chromatograms / consensus files pending</span></td>
+                  </tr>
+                  <tr>
+                    <td>Map / Registry package</td>
+                    <td>Deposit only after sequences match the released map and a real Registry ID exists</td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Status</span>
+                        <span class="evidence-status__value">Planned</span>
+                      </div>
+                    </td>
+                    <td><a href="contribution.html#registry">Contribution · Registry documentation</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="notice">
+              Restriction-site names, plasmid sizes, antibiotic markers, and Type IIS compatibility claims are withheld until the verified construct map is supplied.
+              Proposal notes about candidate cut sites must not be copied into Registry documentation as facts.
+            </p>
+          </section>
+
+          <section class="section-block" id="characterization" data-reveal>
+            <h2>Characterization</h2>
+            <p>
+              Characterization on this page means AeroSense-linked assays, controls, quantitative evidence, limitations, and a Registry documentation link for each part.
+              No part currently has that package.
+            </p>
+            <div class="empty-state" role="status">
+              <h3 class="empty-state__title">No AeroSense part characterization is published yet</h3>
+              <p>
+                There are no verified assay datasets, control matrices, dose–response tables, or Registry characterization sections linked from these inventory rows.
+                Literature that motivates the sensing approach is cited in Design rationale; that literature is not AeroSense characterization.
+              </p>
+              <p>
+                When characterization exists, each part section should include: assay description; positive/negative/vehicle controls; quantitative summary with units; limitations; and a direct Registry documentation URL for the matching <code>BBa_</code> record.
+              </p>
+              <p>
+                Planned functional-control concept (not yet evidenced here): VUAA1 as an Orco-family agonist control
+                <span class="cite-wrap">
+                  <a class="cite" href="#ref-jones-2011" id="cite-jones-2011-b" aria-describedby="cite-preview-jones-2011">[4]</a>
+                  <span class="cite-preview" role="tooltip">Jones et al., 2011 — full entry in References &amp; Credits.</span>
+                </span>,
+                with structural context from later Orco / VUAA1 work
+                <span class="cite-wrap">
+                  <a class="cite" href="#ref-pacalon-2023" id="cite-pacalon-2023" aria-describedby="cite-preview-pacalon-2023">[6]</a>
+                  <span class="cite-preview" id="cite-preview-pacalon-2023" role="tooltip">Pacalon et al., 2023 — full entry in References &amp; Credits.</span>
+                </span>.
+                See <a href="experiments.html">Experiments</a> and <a href="results.html">Results</a> for where protocols and measured data should appear once available.
+              </p>
+            </div>
+          </section>
+
+          <section class="section-block" id="reuse" data-reveal>
+            <h2>How future teams can use these parts</h2>
+            <p>
+              Until Registry IDs, sequences, and characterization exist, future teams should treat this page as design documentation only—not as a ready-to-order part package.
+            </p>
+            <ul class="limitation-list">
+              <li>
+                <strong>Prerequisites:</strong> institutional approval for HEK293T work and plasmid cloning hosts; access to appropriate containment; and a sequence-verified map matching any DNA ordered from this project.
+              </li>
+              <li>
+                <strong>Context dependence:</strong> OR/Orco function, GCaMP kinetics, and agonist responses are chassis-, promoter-, and assay-dependent. Published heterologous panels are starting points, not drop-in proof for AeroSense DNA
+                <span class="cite-wrap">
+                  <a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023-d" aria-describedby="cite-preview-zboray-2023">[1]</a>
+                  <span class="cite-preview" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span>
+                </span>.
+              </li>
+              <li>
+                <strong>Recommended controls:</strong> vehicle; reporter-only or incomplete receptor combinations; and an Orco-family agonist control such as VUAA1 when ethically and institutionally approved
+                <span class="cite-wrap">
+                  <a class="cite" href="#ref-jones-2011" id="cite-jones-2011-c" aria-describedby="cite-preview-jones-2011">[4]</a>
+                  <span class="cite-preview" role="tooltip">Jones et al., 2011 — full entry in References &amp; Credits.</span>
+                </span>.
+                Exact concentrations belong in a reviewed protocol, not this inventory.
+              </li>
+              <li>
+                <strong>Known limitations:</strong> no AeroSense Registry IDs; no sequence files linked here; no quantitative AeroSense characterization; promoter/selection/fusion details still require map confirmation; optional OBP or microfluidic delivery ideas are out of scope until separately documented.
+              </li>
+              <li>
+                <strong>License / availability:</strong> wiki documentation on this site is intended for release under
+                <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">CC BY 4.0</a>
+                when published. Biological materials, third-party plasmids, and Registry parts keep their own licenses or distribution terms. No AeroSense DNA distribution channel is claimed on this page.
+              </li>
+            </ul>
+          </section>
+
+          <section class="section-block" id="contribution-link" data-reveal>
+            <h2>Part-related contribution</h2>
+            <p>
+              A Bronze Contribution based on biological parts requires a genuinely reusable package: sequence-checked constructs or basic parts, maps, characterization summaries, and real Registry records with resolving links.
+              Wiki scaffolding alone is not enough.
+            </p>
+            <p>
+              The candidate package tracked for that work is
+              <a href="contribution.html#pkg-parts">Biological construct and part documentation</a>
+              on the Contribution page. Its current status is <strong>In development</strong>: design intent exists; Registry IDs, sequence dumps, and reviewed part pages do not.
+            </p>
+            <p>
+              This Parts page will list real <code>BBa_</code> IDs and Registry URLs only after the team supplies verified identifiers that match deposited sequences. Until then, no part-related contribution is claimed as Available.
+            </p>
+          </section>
+        </article>
+      </main>
+
+      <nav class="page-turn" aria-label="Page">
+        <a class="page-turn__prev" href="attributions.html"><span class="page-turn__dir">Previous</span><span class="page-turn__title">Attributions</span></a>
+        <a class="page-turn__next" href="design.html"><span class="page-turn__dir">Next</span><span class="page-turn__title">Design</span></a>
+      </nav>
+
+      <section class="references" aria-labelledby="references-heading" id="references" data-reveal>
+        <h2 id="references-heading">References &amp; Credits</h2>
+        <ol class="ref-list">
+          <li id="ref-zboray-2023">
+            <span class="ref-authors">Zboray, K., Toth, A. V., Miskolczi, T. D., Pesti, K., Casanova, E., Kreidl, E., Mike, A., Szenes, Á., Sági, L., &amp; Lukacs, P.</span>
+            <span class="ref-year">(2023).</span>
+            <span class="ref-title">High-throughput ligand profile characterization in novel cell lines expressing seven heterologous insect olfactory receptors for the detection of volatile plant biomarkers.</span>
+            <span class="ref-venue"><i>Scientific Reports</i>, <span class="ref-volume">13</span>, Article 21757.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/s41598-023-47455-4" rel="noopener noreferrer">10.1038/s41598-023-47455-4</a>.</span>
+            <a class="ref-backlink" href="#cite-zboray-2023-a">Back to citation</a>
+            <a class="ref-backlink" href="#cite-zboray-2023-b">2</a>
+            <a class="ref-backlink" href="#cite-zboray-2023-c">3</a>
+            <a class="ref-backlink" href="#cite-zboray-2023-d">4</a>
+          </li>
+          <li id="ref-robertson-2003">
+            <span class="ref-authors">Robertson, H. M., Warr, C. G., &amp; Carlson, J. R.</span>
+            <span class="ref-year">(2003).</span>
+            <span class="ref-title">Molecular evolution of the insect chemoreceptor gene superfamily in <i>Drosophila melanogaster</i>.</span>
+            <span class="ref-venue"><i>Proceedings of the National Academy of Sciences of the United States of America</i>, <span class="ref-volume">100</span>(Suppl. 2), 14537–14542.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1073/pnas.2335847100" rel="noopener noreferrer">10.1073/pnas.2335847100</a>.</span>
+            <a class="ref-backlink" href="#cite-robertson-2003">Back to citation</a>
+          </li>
+          <li id="ref-butterwick-2018">
+            <span class="ref-authors">Butterwick, J. A., del Mármol, J., Kim, K. H., Kahlson, M. A., Rogow, J. A., Walz, T., &amp; Ruta, V.</span>
+            <span class="ref-year">(2018).</span>
+            <span class="ref-title">Cryo-EM structure of the insect olfactory receptor Orco.</span>
+            <span class="ref-venue"><i>Nature</i>, <span class="ref-volume">560</span>(7719), 447–452.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/s41586-018-0420-8" rel="noopener noreferrer">10.1038/s41586-018-0420-8</a>.</span>
+            <a class="ref-backlink" href="#cite-butterwick-2018">Back to citation</a>
+          </li>
+          <li id="ref-jones-2011">
+            <span class="ref-authors">Jones, P. L., Pask, G. M., Rinker, D. C., &amp; Zwiebel, L. J.</span>
+            <span class="ref-year">(2011).</span>
+            <span class="ref-title">Functional agonism of insect odorant receptor ion channels.</span>
+            <span class="ref-venue"><i>Proceedings of the National Academy of Sciences of the United States of America</i>, <span class="ref-volume">108</span>(21), 8821–8825.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1073/pnas.1102425108" rel="noopener noreferrer">10.1073/pnas.1102425108</a>.</span>
+            <a class="ref-backlink" href="#cite-jones-2011">Back to citation</a>
+            <a class="ref-backlink" href="#cite-jones-2011-b">2</a>
+            <a class="ref-backlink" href="#cite-jones-2011-c">3</a>
+          </li>
+          <li id="ref-chen-2013">
+            <span class="ref-authors">Chen, T.-W., Wardill, T. J., Sun, Y., Pulver, S. R., Renninger, S. L., Baohan, A., Schreiter, E. R., Kerr, R. A., Orger, M. B., Jayaraman, V., Looger, L. L., Svoboda, K., &amp; Kim, D. S.</span>
+            <span class="ref-year">(2013).</span>
+            <span class="ref-title">Ultrasensitive fluorescent proteins for imaging neuronal activity.</span>
+            <span class="ref-venue"><i>Nature</i>, <span class="ref-volume">499</span>(7458), 295–300.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/nature12354" rel="noopener noreferrer">10.1038/nature12354</a>.</span>
+            <a class="ref-backlink" href="#cite-chen-2013">Back to citation</a>
+          </li>
+          <li id="ref-pacalon-2023">
+            <span class="ref-authors">Pacalon, J., Audic, G., Magnat, J., Philip, M., Golebiowski, J., Moreau, C. J., &amp; Topin, J.</span>
+            <span class="ref-year">(2023).</span>
+            <span class="ref-title">Elucidation of the structural basis for ligand binding and translocation in conserved insect odorant receptor co-receptors.</span>
+            <span class="ref-venue"><i>Nature Communications</i>, <span class="ref-volume">14</span>, Article 8182.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/s41467-023-44058-5" rel="noopener noreferrer">10.1038/s41467-023-44058-5</a>.</span>
+            <a class="ref-backlink" href="#cite-pacalon-2023">Back to citation</a>
+          </li>
+        </ol>
+        <ul class="credit-list">
+          <li>Construct concept architecture summarized from the team’s April 2026 proposal package; final maps and sequences remain team-authoritative.</li>
+          <li>iGEM Registry portal: <a href="https://registry.igem.org/" rel="noopener noreferrer">https://registry.igem.org/</a>.</li>
+          <li>No third-party Registry part pages, sequences, or characterization figures are embedded on this page.</li>
+          <li>Figure 1 and Figure 2 are local semantic HTML/CSS concept illustrations created for this wiki page, not experimental data.</li>
+        </ul>
+      </section>
+    </div>
+
+    <details class="page-toc" open>
+      <summary class="toc__summary"><span class="toc__label">On this page</span></summary>
+      <nav aria-label="Table of contents">
+        <ol>
+          <li><a href="#at-a-glance"><span class="tech-label">01</span> Parts at a glance</a></li>
+          <li><a href="#inventory"><span class="tech-label">02</span> Part inventory</a></li>
+          <li><a href="#constructs"><span class="tech-label">03</span> Proposed sensing constructs</a></li>
+          <li><a href="#rationale"><span class="tech-label">04</span> Design rationale</a></li>
+          <li><a href="#assembly"><span class="tech-label">05</span> Assembly and verification</a></li>
+          <li><a href="#characterization"><span class="tech-label">06</span> Characterization</a></li>
+          <li><a href="#reuse"><span class="tech-label">07</span> How future teams can use these parts</a></li>
+          <li><a href="#contribution-link"><span class="tech-label">08</span> Part-related contribution</a></li>
+          <li><a href="#references"><span class="tech-label">Ref</span> References &amp; Credits</a></li>
+        </ol>
+      </nav>
+    </details>
+  </div>
+
+  <a class="back-to-top" href="#main">Back to top</a>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p class="footer-mission">AeroSense is developing a bio-digital olfactory sensing platform that pairs living-cell receptor arrays with edge-capable computational models for complex odor recognition.</p>
+
+      <p class="footer-sitemap-title" id="site-map-label">Site map</p>
+      <div class="footer-grid" id="site-map" aria-labelledby="site-map-label">
+        <div class="footer-col">
+          <h2>Project</h2>
+          <ul>
+            <li><a href="description.html">Description</a></li>
+            <li><a href="contribution.html">Contribution</a></li>
+            <li><a href="engineering.html">Engineering</a></li>
+            <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2>Team</h2>
+          <ul>
+            <li><a href="members.html">Members</a></li>
+            <li><a href="attributions.html">Attributions</a></li>
+          </ul>
+          <h2>Lab</h2>
+          <ul>
+            <li><a href="parts.html">Parts</a></li>
+            <li><a href="design.html">Design</a></li>
+            <li><a href="experiments.html">Experiments</a></li>
+            <li><a href="notebook.html">Notebook</a></li>
+            <li><a href="results.html">Results</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2>Dry Lab</h2>
+          <ul>
+            <li><a href="model.html">Model</a></li>
+            <li><a href="hardware.html">Hardware</a></li>
+          </ul>
+          <h2>Human Practices</h2>
+          <ul>
+            <li><a href="human-practices.html">Integrated Human Practices</a></li>
+            <li><a href="education.html">Education</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-meta">
+        <ul class="footer-contacts">
+          <li><a href="https://www.linkedin.com/company/aerosensebio/" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><a href="https://www.instagram.com/igem_tsinghua/" rel="noopener noreferrer">Instagram</a></li>
+          <li><a href="mailto:aerosensebio@gmail.com">aerosensebio@gmail.com</a></li>
+        </ul>
+        <ul class="footer-legal">
+          <li><a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer">Source on GitLab</a></li>
+          <li>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">Creative Commons Attribution 4.0 International</a></li>
+          <li><a href="attributions.html#responsible-ai">Attributions &amp; Responsible AI</a></li>
+        </ul>
+        <p class="footer-copy">© 2026 NTHU · AeroSense</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
