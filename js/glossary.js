@@ -10,6 +10,10 @@
       term: "VOC",
       def: "Volatile organic compound — a carbon-containing chemical that readily enters the gas phase at ambient conditions.",
     },
+    mycotoxin: {
+      term: "Mycotoxin",
+      def: "A toxic secondary metabolite that some fungi can produce. Detecting mold growth is not the same measurement as quantifying a mycotoxin.",
+    },
     sds: {
       term: "SDS",
       def: "Safety Data Sheet — a supplier document describing chemical hazards, handling, and emergency information for a substance.",
@@ -46,6 +50,10 @@
     gcamp6: {
       term: "GCaMP6",
       def: "A genetically encoded fluorescent calcium indicator used to report intracellular Ca²⁺ changes.",
+    },
+    gcamp: {
+      term: "GCaMP",
+      def: "A family of genetically encoded fluorescent calcium indicators. AeroSense plans a GCaMP-class reporter; the exact variant is a map-level detail.",
     },
     "delta-f-over-f0": {
       term: "ΔF/F₀",
