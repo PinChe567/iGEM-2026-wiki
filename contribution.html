@@ -4,11 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Contribution · AeroSense · NTHU iGEM 2026</title>
-  <meta name="description" content="Evidence-ready Bronze Contribution page for AeroSense: reusable packages for future iGEM teams, with status labeled honestly until resources are complete and accessible.">
+  <meta name="description" content="Reuse and reproducibility hub for AeroSense: biological sensing, weak-fluorescence hardware, data contract, neuromorphic decoding, and human-practices-to-engineering documentation for future iGEM teams.">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/contribution.css">
   <script src="js/main.js" defer></script>
   <script src="js/glossary.js" defer></script>
   <script src="js/search.js" defer></script>
+  <script src="js/contribution.js" defer></script>
 </head>
 <body class="page-contribution">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -40,6 +42,7 @@
               <li><a href="contribution.html" aria-current="page">Contribution</a></li>
               <li><a href="engineering.html">Engineering</a></li>
               <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
+              <li><a href="notebook.html">Notebook</a></li>
             </ul>
           </li>
           <li class="nav-item nav-item--dropdown">
@@ -51,13 +54,12 @@
             </ul>
           </li>
           <li class="nav-item nav-item--dropdown">
-            <span class="nav-label-static">Lab</span>
-            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-lab">Lab</button>
+            <span class="nav-label-static">Wet Lab</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-lab">Wet Lab</button>
             <ul class="nav-submenu" id="submenu-lab">
               <li><a href="parts.html">Parts</a></li>
               <li><a href="design.html">Design</a></li>
               <li><a href="experiments.html">Experiments</a></li>
-              <li><a href="notebook.html">Notebook</a></li>
               <li><a href="results.html">Results</a></li>
             </ul>
           </li>
@@ -108,7 +110,7 @@
   <div class="shell shell--with-toc">
     <div class="page-main-column">
       <main id="main">
-        <header class="page-hero" data-reveal>
+        <header class="page-hero contrib-hero" data-reveal>
           <nav aria-label="Breadcrumb">
             <ol class="breadcrumb">
               <li><a href="index.html">Home</a></li>
@@ -116,438 +118,1871 @@
               <li aria-current="page">Contribution</li>
             </ol>
           </nav>
-          <span class="page-kicker">02 / Project</span>
-          <h1>Contribution</h1>
-          <p class="page-purpose">Reusable work for future teams</p>
-          <p class="page-lede">
-            A contribution is counted only when the resource is complete, accessible, documented, and reusable by someone outside AeroSense.
-            This page is an evidence-ready inventory. Undelivered packages stay labeled honestly.
+          <p class="contrib-hero__eyebrow">
+            <svg class="contrib-hero__wave" width="48" height="10" viewBox="0 0 48 10" aria-hidden="true" focusable="false">
+              <path d="M0 5h6l3-3 4 6 4-6 4 6 4-4 3 1h20" fill="none" stroke="currentColor" stroke-width="1.25"/>
+            </svg>
+            AeroSense Bio / Contribution
           </p>
-          <span class="status-label">Evidence-ready inventory · no completed reusable package claimed yet</span>
+          <h1>Contribution</h1>
+          <p class="contrib-hero__question">What Can the Next iGEM Team Reuse?</p>
+          <p class="page-lede">
+            A good contribution should allow another team to begin <strong>one step ahead of where we began</strong>.
+            We document the interfaces, design decisions, protocols, files and failures across biological sensing, weak-signal electronics, structured data and neuromorphic decoding.
+          </p>
+          <blockquote class="contrib-hero__sentence">
+            <p>
+              AeroSense contributes not only a sensing concept, but a documented path for connecting engineered olfactory receptors to calibrated weak-signal measurement, structured data and computational odor decoding.
+            </p>
+          </blockquote>
+          <nav class="contrib-chain contrib-chain--hero" aria-label="Reuse chain">
+            <ol>
+              <li data-cat="biology" data-audience="wet-lab">
+                <a href="#pkg-biology">
+                  <svg class="contrib-chain__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="5.5" fill="none" stroke="currentColor" stroke-width="1.25"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3" fill="none" stroke="currentColor" stroke-width="1.25"/></svg>
+                  <span class="contrib-chain__label">Biology</span>
+                </a>
+              </li>
+              <li data-cat="hardware" data-audience="hardware">
+                <a href="#pkg-hardware">
+                  <svg class="contrib-chain__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 16h4l2-6 3 10 2-8 2 4h3" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/><rect x="5" y="4" width="5" height="5" fill="none" stroke="currentColor" stroke-width="1.25"/></svg>
+                  <span class="contrib-chain__label">Measurement</span>
+                </a>
+              </li>
+              <li data-cat="data" data-audience="data,wet-lab,hardware,model">
+                <a href="#pkg-data">
+                  <svg class="contrib-chain__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="4" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.25"/><path d="M4 10h16M4 16h16M10 4v16" fill="none" stroke="currentColor" stroke-width="1.25"/></svg>
+                  <span class="contrib-chain__label">Data</span>
+                </a>
+              </li>
+              <li data-cat="model" data-audience="model">
+                <a href="#pkg-model">
+                  <svg class="contrib-chain__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="7" cy="8" r="2" fill="none" stroke="currentColor" stroke-width="1.25"/><circle cx="17" cy="8" r="2" fill="none" stroke="currentColor" stroke-width="1.25"/><circle cx="12" cy="17" r="2.2" fill="none" stroke="currentColor" stroke-width="1.25"/><path d="M9 9l2.2 6M15 9l-2.2 6" fill="none" stroke="currentColor" stroke-width="1.25"/></svg>
+                  <span class="contrib-chain__label">Model</span>
+                </a>
+              </li>
+              <li data-cat="hp" data-audience="hp,hardware">
+                <a href="#pkg-hp">
+                  <svg class="contrib-chain__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 5h12v14H6z" fill="none" stroke="currentColor" stroke-width="1.25"/><path d="M9 9h6M9 12h6M9 15h4" fill="none" stroke="currentColor" stroke-width="1.25"/></svg>
+                  <span class="contrib-chain__label">Knowledge</span>
+                </a>
+              </li>
+            </ol>
+          </nav>
+          <p class="status-label">Documentation inventory · no package on this page is labeled Released or Validated</p>
+          <dl class="contrib-hero__facts">
+            <div>
+              <dt>Who can reuse it</dt>
+              <dd>Future iGEM teams who want one layer of the bio-digital sensing chain without rebuilding the whole project.</dd>
+            </div>
+            <div>
+              <dt>Released files</dt>
+              <dd>None on this page. Intended later host: <a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer">gitlab.igem.org/2026/nthu</a> — not treated as a released reuse link.</dd>
+            </div>
+            <div>
+              <dt>Validation evidence</dt>
+              <dd>None. No package is labeled Validated. Hardware architecture documentation is not biological detection performance.</dd>
+            </div>
+            <div>
+              <dt>Deeper technical pages</dt>
+              <dd>
+                <a href="hardware.html">Hardware</a>
+                <a href="parts.html">Parts</a>
+                <a href="experiments.html">Experiments</a>
+                <a href="model.html">Model</a>
+                <a href="engineering.html">Engineering</a>
+                <a href="human-practices.html">Human Practices</a>
+              </dd>
+            </div>
+          </dl>
         </header>
 
         <article class="page-article prose">
-          <section class="section-block" id="status-filter" data-reveal>
-            <h2 class="visually-hidden">Contribution status filter</h2>
-            <div class="status-filter" data-contrib-filter role="group" aria-label="Filter candidate contributions by status">
-              <button type="button" class="status-filter__btn is-active" data-filter="all" aria-pressed="true">All</button>
-              <button type="button" class="status-filter__btn" data-filter="available" aria-pressed="false">Available</button>
-              <button type="button" class="status-filter__btn" data-filter="in-review" aria-pressed="false">In review</button>
-              <button type="button" class="status-filter__btn" data-filter="in-development" aria-pressed="false">In development</button>
-              <button type="button" class="status-filter__btn" data-filter="not-yet-released" aria-pressed="false">Not yet released</button>
-            </div>
-            <p class="status-filter__note">
-              <strong>Available</strong> is reserved for resources whose reuse link resolves and whose contents have been reviewed.
-              No AeroSense package currently meets that bar.
-            </p>
-          </section>
-
-          <section class="section-block" id="at-a-glance" data-reveal>
-            <h2>Contribution at a glance</h2>
+          <section class="section-block" id="status-legend" data-reveal>
+            <span class="section-eyebrow">How to read this hub</span>
+            <h2>Status legend</h2>
             <p>
-              Rows below list packages the team is genuinely developing. They are not completed Bronze Contribution deliverables until status becomes Available.
+              Each resource is labeled by reuse status. Status is written in words and paired with a text mark.
+              Color, when present, is decorative only.
             </p>
-            <div class="table-scroll req-table-wrap" tabindex="0" role="region" aria-label="Contribution at a glance table">
-              <table class="goal-table req-table contrib-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Resource</th>
-                    <th scope="col">Who it helps</th>
-                    <th scope="col">What is new or improved</th>
-                    <th scope="col">Evidence</th>
-                    <th scope="col">Reuse link</th>
-                    <th scope="col">License</th>
-                    <th scope="col">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr data-contrib-status="in-development">
-                    <td><a href="#pkg-parts">OR / Orco / GCaMP construct documentation</a></td>
-                    <td>Teams building heterologous insect OR sensor cells</td>
-                    <td>Planned: sequenced constructs, maps, and Registry-ready part pages for selected <i>Drosophila</i> OR panels</td>
-                    <td>None released; wiki Parts page is scaffolding only</td>
-                    <td>Not yet released</td>
-                    <td>License pending package release</td>
-                    <td>
-                      <div class="evidence-status" data-status="in-progress">
-                        <span class="evidence-status__label">Status</span>
-                        <span class="evidence-status__value">In development</span>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr data-contrib-status="in-development">
-                    <td><a href="#pkg-assay">Receptor-screening / VOC assay protocol</a></td>
-                    <td>Wet-lab teams validating OR/Orco function with fluorescence readout</td>
-                    <td>Planned: VUAA1 controls, vehicle controls, imaging or plate-reader steps, and failure notes</td>
-                    <td>None released; Experiments page is scaffolding only</td>
-                    <td>Not yet released</td>
-                    <td>License pending package release</td>
-                    <td>
-                      <div class="evidence-status" data-status="in-progress">
-                        <span class="evidence-status__label">Status</span>
-                        <span class="evidence-status__value">In development</span>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr data-contrib-status="in-development">
-                    <td><a href="#pkg-model">Fluorescence-processing and fly-inspired model code</a></td>
-                    <td>Dry-lab teams processing receptor time series for odor-pattern tasks</td>
-                    <td>Planned: documented feature extraction plus AL/MB-inspired transforms with baselines</td>
-                    <td>None released; Model page is scaffolding only</td>
-                    <td>Not yet released</td>
-                    <td>Code license pending (to be stated with release)</td>
-                    <td>
-                      <div class="evidence-status" data-status="in-progress">
-                        <span class="evidence-status__label">Status</span>
-                        <span class="evidence-status__value">In development</span>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr data-contrib-status="in-development">
-                    <td><a href="#pkg-hardware">Photodiode / multiplexed optical hardware package</a></td>
-                    <td>Hardware teams building portable fluorescence acquisition</td>
-                    <td>Planned: design files, acquisition procedure, and bench validation checklist for photodiode/TIA/ADC paths</td>
-                    <td>None released; Hardware page is scaffolding only</td>
-                    <td>Not yet released</td>
-                    <td>Hardware/doc license pending</td>
-                    <td>
-                      <div class="evidence-status" data-status="in-progress">
-                        <span class="evidence-status__label">Status</span>
-                        <span class="evidence-status__value">In development</span>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr data-contrib-status="in-development">
-                    <td><a href="#pkg-education">Educational materials on bio-digital olfaction</a></td>
-                    <td>Education and outreach teams explaining VOC sensing without overclaiming</td>
-                    <td>Planned: reusable lesson or workshop materials with learning goals and source notes</td>
-                    <td>None released; Education page is scaffolding only</td>
-                    <td>Not yet released</td>
-                    <td>Intended wiki docs under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">CC BY 4.0</a> when published</td>
-                    <td>
-                      <div class="evidence-status" data-status="in-progress">
-                        <span class="evidence-status__label">Status</span>
-                        <span class="evidence-status__value">In development</span>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <dl class="contrib-legend">
+              <div>
+                <dt>
+                  <p class="contrib-status" data-contrib-state="released">
+                    <span class="visually-hidden">Status name:</span>
+                    <span class="contrib-status__icon" aria-hidden="true"></span>
+                    <span class="contrib-status__text">Released</span>
+                  </p>
+                </dt>
+                <dd>Files are publicly available from a resolving reuse link.</dd>
+              </div>
+              <div>
+                <dt>
+                  <p class="contrib-status" data-contrib-state="validated">
+                    <span class="visually-hidden">Status name:</span>
+                    <span class="contrib-status__icon" aria-hidden="true"></span>
+                    <span class="contrib-status__text">Validated</span>
+                  </p>
+                </dt>
+                <dd>Tested experimentally or computationally, with evidence shown on this Wiki. Nothing on this page currently meets that bar.</dd>
+              </div>
+              <div>
+                <dt>
+                  <p class="contrib-status" data-contrib-state="prototype">
+                    <span class="visually-hidden">Status name:</span>
+                    <span class="contrib-status__icon" aria-hidden="true"></span>
+                    <span class="contrib-status__text">Prototype</span>
+                  </p>
+                </dt>
+                <dd>Implemented, but still undergoing validation.</dd>
+              </div>
+              <div>
+                <dt>
+                  <p class="contrib-status" data-contrib-state="documentation-only">
+                    <span class="visually-hidden">Status name:</span>
+                    <span class="contrib-status__icon" aria-hidden="true"></span>
+                    <span class="contrib-status__text">Documentation only</span>
+                  </p>
+                </dt>
+                <dd>Design knowledge is available, but performance has not yet been experimentally demonstrated. This is the current label for every package below.</dd>
+              </div>
+            </dl>
+            <!-- FREEZE-TODO: BEFORE FREEZE — never label an asset Validated unless the corresponding result is shown on the Wiki. -->
             <p class="notice">
-              Intended public code/file host for later packages:
-              <a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer">https://gitlab.igem.org/2026/nthu</a>.
-              That URL did not resolve (HTTP 404) when this page was authored, so it is not treated as an Available reuse link.
+              A planned result is not a completed result. Documentation of architecture is not a reusable file bundle, and a reusable file bundle is not automatically a validated measurement.
             </p>
           </section>
 
-          <section class="section-block" id="candidate-packages" data-reveal>
-            <h2>Candidate contribution packages</h2>
+          <section class="section-block" id="choose" data-reveal>
+            <span class="section-eyebrow">Contribution explorer</span>
+            <h2 id="explorer-heading">Choose what you need</h2>
             <p>
-              Each package below is tied to active AeroSense tracks. A project outcome counts as a contribution only after it is packaged so another team can reuse it without private coaching.
+              Select a role to highlight the packages and resources that role can reuse.
+              Other sections stay on the page — they are quieter, not removed.
+              Tab to a role, then use arrow keys, Enter, or Space.
+              Without JavaScript, these controls jump to the matching package.
             </p>
-
-            <article class="contrib-package" id="pkg-parts" data-contrib-status="in-development" data-reveal>
-              <header class="contrib-package__header">
-                <h3>Biological construct and part documentation</h3>
-                <div class="evidence-status" data-status="in-progress">
-                  <span class="evidence-status__label">Status</span>
-                  <span class="evidence-status__value">In development</span>
-                </div>
-              </header>
-              <p>
-                <strong>What exists now:</strong>
-                Design intent for OR–IRES–mCherry and GCaMP–Orco style constructs, informed by published heterologous insect-OR cell lines
-                <span class="cite-wrap">
-                  <a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023" aria-describedby="cite-preview-zboray-2023">[1]</a>
-                  <span class="cite-preview" id="cite-preview-zboray-2023" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span>
-                </span>.
-                Local wiki scaffolding lives on
-                <a href="parts.html">Parts</a>
-                and
-                <a href="design.html">Design</a>.
-                No AeroSense Registry IDs, sequence dumps, or reviewed part pages are published yet.
+            <div class="contrib-explorer" data-contrib-explorer>
+              <div class="contrib-chooser" role="group" aria-labelledby="explorer-heading" aria-describedby="explorer-live">
+                <a class="contrib-chooser__btn" href="#packages" data-audience-filter="all" aria-pressed="true">All</a>
+                <a class="contrib-chooser__btn" href="#pkg-biology" data-audience-filter="wet-lab" aria-pressed="false">Wet Lab</a>
+                <a class="contrib-chooser__btn" href="#pkg-hardware" data-audience-filter="hardware" aria-pressed="false">Hardware</a>
+                <a class="contrib-chooser__btn" href="#pkg-data" data-audience-filter="data" aria-pressed="false">Data</a>
+                <a class="contrib-chooser__btn" href="#pkg-model" data-audience-filter="model" aria-pressed="false">Model</a>
+                <a class="contrib-chooser__btn" href="#pkg-hp" data-audience-filter="hp" aria-pressed="false">Human Practices</a>
+              </div>
+              <p id="explorer-live" class="contrib-explorer__live" data-explorer-live aria-live="polite" aria-atomic="true">
+                Showing all reusable packages. Biology, measurement hardware, the data contract, the neuromorphic model, and human-practices knowledge are equally available.
               </p>
-              <p>
-                <strong>What remains:</strong>
-                Final sequences, maps, characterization summaries, Registry submissions with real part IDs, and a reuse README stating chassis, safety level, and known limitations.
+              <p class="contrib-explorer__reset" data-explorer-reset hidden>
+                <a class="contrib-chooser__btn contrib-chooser__btn--reset" href="#packages" data-audience-filter="all">Show all</a>
               </p>
-              <p>
-                <strong>How another team would adapt it (once Available):</strong>
-                Clone or order the documented parts, confirm sequences against the released files, and follow the linked assay package before claiming function. Do not treat wiki prose alone as Registry documentation.
-              </p>
-            </article>
-
-            <article class="contrib-package" id="pkg-assay" data-contrib-status="in-development" data-reveal>
-              <header class="contrib-package__header">
-                <h3>Receptor-screening or assay protocol</h3>
-                <div class="evidence-status" data-status="in-progress">
-                  <span class="evidence-status__label">Status</span>
-                  <span class="evidence-status__value">In development</span>
-                </div>
-              </header>
-              <p>
-                <strong>What exists now:</strong>
-                Planned VUAA1 functional-control workflow and VOC/agonist imaging concept described on
-                <a href="description.html#biological-sensing">Description</a>
-                and scaffolding on
-                <a href="experiments.html">Experiments</a>.
-                No step-by-step, tester-reviewed protocol package is released.
-              </p>
-              <p>
-                <strong>What remains:</strong>
-                Materials list with units, transfection and stimulation steps, control matrix, example analysis, troubleshooting, and a non-author test of the written instructions.
-              </p>
-              <p>
-                <strong>How another team would adapt it (once Available):</strong>
-                Meet biosafety prerequisites for HEK293T work, run the control set before target VOCs, and record deviations. Adapt concentrations and imaging hardware only after reading the package’s stated operating range.
-              </p>
-            </article>
-
-            <article class="contrib-package" id="pkg-model" data-contrib-status="in-development" data-reveal>
-              <header class="contrib-package__header">
-                <h3>Reusable fluorescence-processing / model code</h3>
-                <div class="evidence-status" data-status="in-progress">
-                  <span class="evidence-status__label">Status</span>
-                  <span class="evidence-status__value">In development</span>
-                </div>
-              </header>
-              <p>
-                <strong>What exists now:</strong>
-                Conceptual AL-inspired normalization/inhibition and MB-inspired sparse projection pipeline described on
-                <a href="description.html#computational-layer">Description</a>
-                and scaffolding on
-                <a href="model.html">Model</a>.
-                No public repository, sample dataset, or runnable entry-point is released.
-              </p>
-              <p>
-                <strong>What remains:</strong>
-                Source code with dependency pin, README, example input/output, baseline comparisons, license file, and a smoke-test command that a second person has run.
-              </p>
-              <p>
-                <strong>How another team would adapt it (once Available):</strong>
-                Install the stated environment, run the example on the bundled sample matrix, then replace inputs with their own receptor time series while keeping provenance notes.
-              </p>
-            </article>
-
-            <article class="contrib-package" id="pkg-hardware" data-contrib-status="in-development" data-reveal>
-              <header class="contrib-package__header">
-                <h3>Photodiode / multiplexed optical hardware package</h3>
-                <div class="evidence-status" data-status="in-progress">
-                  <span class="evidence-status__label">Status</span>
-                  <span class="evidence-status__value">In development</span>
-                </div>
-              </header>
-              <p>
-                <strong>What exists now:</strong>
-                System intent for excitation, filtering, photodiode /
-                <dfn class="term" data-term="tia" tabindex="0">TIA</dfn>
-                /
-                <dfn class="term" data-term="adc" tabindex="0">ADC</dfn>
-                acquisition, and edge interface on
-                <a href="description.html#hardware-layer">Description</a>
-                and scaffolding on
-                <a href="hardware.html">Hardware</a>.
-                Component choices are still being reconciled; no reviewed design-file bundle is released.
-              </p>
-              <p>
-                <strong>What remains:</strong>
-                Design files (schematic/layout/enclosure as applicable), BOM with units, firmware or acquisition notes, crosstalk/noise validation procedure, and a license for reuse.
-              </p>
-              <p>
-                <strong>How another team would adapt it (once Available):</strong>
-                Reproduce the optical path on the bench with the validation procedure before connecting living samples; document any substituted parts and their effect on noise floors.
-              </p>
-            </article>
-
-            <article class="contrib-package" id="pkg-education" data-contrib-status="in-development" data-reveal>
-              <header class="contrib-package__header">
-                <h3>Educational materials</h3>
-                <div class="evidence-status" data-status="in-progress">
-                  <span class="evidence-status__label">Status</span>
-                  <span class="evidence-status__value">In development</span>
-                </div>
-              </header>
-              <p>
-                <strong>What exists now:</strong>
-                Wiki scaffolding on
-                <a href="education.html">Education</a>.
-                No workshop packet, slide deck, or classroom module has been released for reuse.
-              </p>
-              <p>
-                <strong>What remains:</strong>
-                Learning goals, facilitator notes, source list, accessibility check, and a license statement. Materials must not present planned AeroSense performance as measured fact.
-              </p>
-              <p>
-                <strong>How another team would adapt it (once Available):</strong>
-                Obtain the packet from the stated reuse link once Available, keep attribution, and localize examples while retaining the status labels that separate literature, design intent, and results.
-              </p>
-            </article>
+            </div>
           </section>
 
-          <section class="section-block" id="how-to-reuse" data-reveal>
-            <h2>How to reuse our work</h2>
+          <section class="section-block" id="reuse-map" data-reveal>
+            <span class="section-eyebrow">Reusable chain</span>
+            <h2>AeroSense reuse map</h2>
             <p>
-              No downloadable contribution package is Available yet. When a row in the glance table moves to Available, use the following checklist. Do not treat placeholders or wiki scaffolding as a finished release.
+              Our contribution is organized around five reusable packages.
+              This map is the <strong>reuse chain</strong> another team can enter at any layer.
             </p>
-            <ol class="goal-list">
-              <li>
-                <strong>Confirm status.</strong>
-                Only reuse resources marked Available on this page. In development / In review / Not yet released items are not ready for external adoption.
+            <p class="contrib-compare">
+              It is not the project-level story
+              <a href="description.html#pipeline">Sense → Read → Decode → Act</a>
+              on Description. That pipeline explains how AeroSense is supposed to work.
+              This map explains what a future team can take apart and reuse.
+            </p>
+            <nav class="contrib-chain contrib-chain--map" aria-label="Five reusable packages">
+            <ol>
+              <li data-cat="biology" data-audience="wet-lab">
+                <a href="#pkg-biology">
+                  <svg class="contrib-chain__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="5.5" fill="none" stroke="currentColor" stroke-width="1.25"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3" fill="none" stroke="currentColor" stroke-width="1.25"/></svg>
+                  <span>
+                    <span class="contrib-chain__label">Biology</span>
+                    <span class="contrib-chain__hint">OR/Orco cellular sensing</span>
+                  </span>
+                </a>
               </li>
-              <li>
-                <strong>Prerequisites.</strong>
-                For wet-lab packages: institutional biosafety approval appropriate to HEK293T and any VOC/agonist handling. For code: the stated language/runtime. For hardware: basic optics and electronics bench capability.
+              <li data-cat="hardware" data-audience="hardware">
+                <a href="#pkg-hardware">
+                  <svg class="contrib-chain__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 16h4l2-6 3 10 2-8 2 4h3" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/><rect x="5" y="4" width="5" height="5" fill="none" stroke="currentColor" stroke-width="1.25"/></svg>
+                  <span>
+                    <span class="contrib-chain__label">Measurement</span>
+                    <span class="contrib-chain__hint">Weak-fluorescence reader</span>
+                  </span>
+                </a>
               </li>
-              <li>
-                <strong>Obtain files from the stated reuse link.</strong>
-                Prefer the package README’s canonical URL. The intended team host is
-                <a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer">gitlab.igem.org/2026/nthu</a>
-                once it contains reviewed release artifacts. That host is not Available today.
+              <li data-cat="data" data-audience="data,wet-lab,hardware,model">
+                <a href="#pkg-data">
+                  <svg class="contrib-chain__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="4" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.25"/><path d="M4 10h16M4 16h16M10 4v16" fill="none" stroke="currentColor" stroke-width="1.25"/></svg>
+                  <span>
+                    <span class="contrib-chain__label">Data</span>
+                    <span class="contrib-chain__hint">Shared metadata contract</span>
+                  </span>
+                </a>
               </li>
-              <li>
-                <strong>Expected outputs.</strong>
-                Each Available package must state its expected outputs explicitly (for example: confirmed sequence file, control fluorescence traces, model metrics table, or optical noise-floor log). If those outputs are missing from the package, stop and contact the team.
+              <li data-cat="model" data-audience="model">
+                <a href="#pkg-model">
+                  <svg class="contrib-chain__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="7" cy="8" r="2" fill="none" stroke="currentColor" stroke-width="1.25"/><circle cx="17" cy="8" r="2" fill="none" stroke="currentColor" stroke-width="1.25"/><circle cx="12" cy="17" r="2.2" fill="none" stroke="currentColor" stroke-width="1.25"/><path d="M9 9l2.2 6M15 9l-2.2 6" fill="none" stroke="currentColor" stroke-width="1.25"/></svg>
+                  <span>
+                    <span class="contrib-chain__label">Model</span>
+                    <span class="contrib-chain__hint">Odor decoding with baselines</span>
+                  </span>
+                </a>
               </li>
-              <li>
-                <strong>Known failure modes to watch for.</strong>
-                Incomplete Registry records; missing vehicle/VUAA1 controls; unpinned software dependencies; optical excitation bleed-through; undocumented unit conversions; and instructions that only the original author can follow.
-              </li>
-              <li>
-                <strong>Support / contact.</strong>
-                Questions about reuse packages:
-                <a href="mailto:aerosensebio@gmail.com">aerosensebio@gmail.com</a>.
-                Include the package name and the status shown on this page.
+              <li data-cat="hp" data-audience="hp,hardware">
+                <a href="#pkg-hp">
+                  <svg class="contrib-chain__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 5h12v14H6z" fill="none" stroke="currentColor" stroke-width="1.25"/><path d="M9 9h6M9 12h6M9 15h4" fill="none" stroke="currentColor" stroke-width="1.25"/></svg>
+                  <span>
+                    <span class="contrib-chain__label">Knowledge</span>
+                    <span class="contrib-chain__hint">Engineering / Human Practices</span>
+                  </span>
+                </a>
               </li>
             </ol>
+            </nav>
           </section>
 
-          <section class="section-block" id="validation-qc" data-reveal>
-            <h2>Validation and quality control</h2>
+          <section class="section-block" id="packages" data-reveal>
+            <span id="candidate-packages"></span>
+            <span class="section-eyebrow">Five packages</span>
+            <h2>Main contribution packages</h2>
             <p>
-              Before any package may be labeled Available, the team must complete the checks below and record who performed the non-author instruction test.
+              Each package uses the same hierarchy so a visitor can scan value, reuse surface, status, and limits before reading the scientific detail.
             </p>
-            <div class="table-scroll" tabindex="0" role="region" aria-label="Validation and quality control checklist">
-              <table class="goal-table">
+
+            <article class="contrib-pkg" id="pkg-biology" data-contrib-role="wet-lab" data-audience="wet-lab" data-contrib-state="documentation-only">
+              <span id="pkg-parts"></span>
+              <span id="pkg-assay"></span>
+              <header class="contrib-pkg__header">
+                <p class="contrib-pkg__ident"><span class="contrib-pkg__index">01</span> <span class="contrib-pkg__cat">Biology</span></p>
+                <p class="contrib-pkg__name">Biological Sensing Package</p>
+                <h3>An Adaptation Map for <i>Drosophila</i> OR/Orco Cellular Sensing</h3>
+              </header>
+              <div class="contrib-pkg__layout">
+                <div class="contrib-pkg__summary">
+                  <p class="contrib-pkg__value">A comparison that lets another team see published heterologous OR/Orco work separately from AeroSense implementation choices.</p>
+                  <p class="contrib-status" data-contrib-state="documentation-only">
+                    <span class="visually-hidden">Current status:</span>
+                    <span class="contrib-status__icon" aria-hidden="true"></span>
+                    <span class="contrib-status__text">Documentation only</span>
+                  </p>
+                  <section class="contrib-panel contrib-panel--why" aria-labelledby="bio-why">
+                    <h4 id="bio-why">Why it matters</h4>
+                    <p>
+                      A future team interested in insect-receptor biosensing should not need to reconstruct the experimental logic from several papers and supplementary files.
+                      The goal is a tested starting point showing <strong>what to express, what controls to include, what metadata to record, and what failure modes to check first</strong>.
+                      That starting point is not yet a released protocol bundle.
+                    </p>
+                  </section>
+                  <section class="contrib-panel contrib-panel--evidence" aria-labelledby="bio-evidence">
+                    <h4 id="bio-evidence">Evidence</h4>
+                    <p>
+                      Wiki design intent and this adaptation map. No AeroSense Registry IDs, sequence dumps, or experimental validation of these constructs are published on this page.
+                    </p>
+                  </section>
+                  <section class="contrib-panel contrib-panel--limit" aria-labelledby="bio-limits">
+                    <h4 id="bio-limits">Limitation</h4>
+                    <div class="contrib-pending" role="note">
+                      <p class="contrib-pending__label">Pending final verification</p>
+                      <p>Cellular platform is written as HEK293T pending confirmation of the final implementation. The exact GCaMP–Orco linker and sequence are not inserted. Registry Part IDs are not assigned on this page.</p>
+                    </div>
+                  </section>
+                  <nav class="contrib-panel contrib-panel--related contrib-pkg__related" aria-labelledby="bio-related">
+                    <h4 id="bio-related">Related pages</h4>
+                    <ul>
+                      <li><a href="parts.html">Parts</a></li>
+                      <li><a href="design.html">Design</a></li>
+                      <li><a href="experiments.html">Experiments</a></li>
+                      <li><a href="description.html#sense">Description · Sense</a></li>
+                    </ul>
+                  </nav>
+                </div>
+                <div class="contrib-pkg__detail">
+              <section class="contrib-pkg__block" aria-labelledby="bio-changed">
+                <h4 id="bio-changed">What we changed / contributed</h4>
+                <p>
+                  Our biological design builds upon the heterologous <i>Drosophila</i>
+                  <dfn class="term" data-term="or" tabindex="0">OR</dfn>/<dfn class="term" data-term="orco" tabindex="0">Orco</dfn>
+                  sensing architecture reported by Zboray <i>et al.</i>, who established HEK293 cell lines expressing odorant receptors, Orco, mCherry and GCaMP6
+                  <span class="cite-wrap">
+                    <a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023" aria-describedby="cite-preview-zboray-2023">[1]</a>
+                    <span class="cite-preview" id="cite-preview-zboray-2023" role="tooltip">Zboray et al., 2023 — full entry in References.</span>
+                  </span>.
+                  For future teams, simply citing that publication is not enough.
+                </p>
+
+                <div class="contrib-adapt" id="bio-adapt" data-bio-adapt>
+                  <p class="contrib-adapt__note">
+                    This comparison distinguishes published prior work from modifications introduced in AeroSense.
+                  </p>
+                  <dl class="contrib-adapt__layers">
+                    <div>
+                      <dt>Published precedent</dt>
+                      <dd>What the cited papers report. Citations jump to this page’s References.</dd>
+                    </div>
+                    <div>
+                      <dt>AeroSense implementation</dt>
+                      <dd>Intended adaptation choices documented on this Wiki. Unresolved fields stay empty.</dd>
+                    </div>
+                    <div>
+                      <dt>Validated AeroSense results</dt>
+                      <dd>None of the rows below are experimental or Registry-validated AeroSense results. No construct on this page is labeled Validated.</dd>
+                    </div>
+                  </dl>
+
+                  <div class="contrib-adapt__vs" aria-hidden="true">
+                    <span>Published precedent</span>
+                    <span>vs.</span>
+                    <span>AeroSense implementation</span>
+                  </div>
+
+                  <fieldset class="contrib-adapt__switch">
+                    <legend>On small screens, emphasize</legend>
+                    <label>
+                      <input type="radio" name="bio-adapt-view" value="both" checked>
+                      <span>Both</span>
+                    </label>
+                    <label>
+                      <input type="radio" name="bio-adapt-view" value="precedent">
+                      <span>Published precedent</span>
+                    </label>
+                    <label>
+                      <input type="radio" name="bio-adapt-view" value="aerosense">
+                      <span>AeroSense</span>
+                    </label>
+                  </fieldset>
+
+                  <div class="contrib-adapt__table-wrap" role="region" aria-label="Published OR/Orco precedent compared with AeroSense implementation">
+                    <table class="goal-table contrib-adapt__table">
+                      <caption class="visually-hidden">
+                        Six design elements compared. Published precedent is cited prior work. AeroSense implementation is an intended adaptation. No row is a validated AeroSense experimental result.
+                      </caption>
+                      <thead>
+                        <tr>
+                          <th scope="col">Design element</th>
+                          <th scope="col" data-col="precedent">Published precedent</th>
+                          <th scope="col" data-col="aerosense">AeroSense implementation</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr data-adapt="differs-pending">
+                          <th scope="row">
+                            Cellular platform
+                            <span class="contrib-adapt__rel">Differs · pending verification</span>
+                          </th>
+                          <td data-col="precedent" data-label="Published precedent">
+                            HEK293 stable cell lines
+                            <a class="cite" href="#ref-zboray-2023" id="cite-zboray-platform">[1]</a>
+                          </td>
+                          <td data-col="aerosense" data-label="AeroSense implementation">
+                            HEK293T
+                            <span class="contrib-pending__label">Pending final verification</span>
+                            <!-- FREEZE-TODO: confirm final implementation of cellular platform (HEK293 vs HEK293T). Source: [confirm final implementation] -->
+                          </td>
+                        </tr>
+                        <tr data-adapt="differs">
+                          <th scope="row">
+                            Tuning receptor
+                            <span class="contrib-adapt__rel">Differs</span>
+                          </th>
+                          <td data-col="precedent" data-label="Published precedent"><i>Drosophila</i> OR</td>
+                          <td data-col="aerosense" data-label="AeroSense implementation">selected AeroSense receptor panel</td>
+                        </tr>
+                        <tr data-adapt="follows">
+                          <th scope="row">
+                            Expression reporter
+                            <span class="contrib-adapt__rel">Same notation as published construct · not an AeroSense result</span>
+                          </th>
+                          <td data-col="precedent" data-label="Published precedent">
+                            OR–IRES–mCherry
+                            <a class="cite" href="#ref-zboray-2023" id="cite-zboray-reporter">[1]</a>
+                          </td>
+                          <td data-col="aerosense" data-label="AeroSense implementation">OR–IRES–mCherry</td>
+                        </tr>
+                        <tr data-adapt="unresolved">
+                          <th scope="row">
+                            Calcium readout
+                            <span class="contrib-adapt__rel">Unresolved on the AeroSense side</span>
+                          </th>
+                          <td data-col="precedent" data-label="Published precedent">
+                            GCaMP6–linker–Orco
+                            <a class="cite" href="#ref-zboray-2023" id="cite-zboray-gcamp">[1]</a>
+                          </td>
+                          <td data-col="aerosense" data-label="AeroSense implementation">
+                            <span class="contrib-pending__label">Pending final verification</span>
+                            <!-- FREEZE-TODO: insert exact final linker and sequence for GCaMP–Orco. Source: [insert exact final linker and sequence] -->
+                          </td>
+                        </tr>
+                        <tr data-adapt="follows">
+                          <th scope="row">
+                            Functional control
+                            <span class="contrib-adapt__rel">Follows published control · workflow not validated</span>
+                          </th>
+                          <td data-col="precedent" data-label="Published precedent">
+                            VUAA1
+                            <span class="cite-wrap">
+                              <a class="cite" href="#ref-zboray-2023" id="cite-zboray-vu" aria-describedby="cite-preview-zboray-2023">[1]</a>
+                            </span>
+                            <span class="cite-wrap">
+                              <a class="cite" href="#ref-jones-2011" id="cite-jones-2011" aria-describedby="cite-preview-jones-2011">[2]</a>
+                              <span class="cite-preview" id="cite-preview-jones-2011" role="tooltip">Jones et al., 2011 — full entry in References.</span>
+                            </span>
+                          </td>
+                          <td data-col="aerosense" data-label="AeroSense implementation">VUAA1 positive-control workflow</td>
+                        </tr>
+                        <tr data-adapt="differs">
+                          <th scope="row">
+                            Application
+                            <span class="contrib-adapt__rel">Differs</span>
+                          </th>
+                          <td data-col="precedent" data-label="Published precedent">plant-associated VOC profiling</td>
+                          <td data-col="aerosense" data-label="AeroSense implementation">food/agricultural fungal-risk sensing</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </section>
+
+              <section class="contrib-pkg__block" aria-labelledby="bio-reuse">
+                <h4 id="bio-reuse">What another team can reuse</h4>
+                <p>
+                  The adaptation map itself: which elements are inherited from published work, which controls to keep, and which AeroSense-specific choices still need freeze-ready sequences.
+                  Step-by-step protocols and Registry records are listed under Resources and are not released on this page.
+                </p>
+              </section>
+
+              <section class="contrib-pkg__block contrib-panel contrib-panel--resource" aria-labelledby="bio-resources">
+                <h4 id="bio-resources">Reusable resources</h4>
+                <span id="registry"></span>
+                <!-- FREEZE-TODO: ADD LINKS BEFORE FREEZE — biological sensing resource files. -->
+                <ul class="contrib-rcards">
+                  <li class="contrib-rcard" data-audience="wet-lab">
+                    <p class="contrib-rcard__name">Annotated plasmid maps</p>
+                    <p class="contrib-rcard__purpose">Construct maps, once released.</p>
+                    <div class="contrib-rcard__meta">
+                      <p class="contrib-rcard__type">Map</p>
+                      <span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span>
+                    </div>
+                  </li>
+                  <li class="contrib-rcard" data-audience="wet-lab">
+                    <p class="contrib-rcard__name">Complete nucleotide sequences</p>
+                    <p class="contrib-rcard__purpose">Sequence records, once released.</p>
+                    <div class="contrib-rcard__meta">
+                      <p class="contrib-rcard__type">Sequence</p>
+                      <span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span>
+                    </div>
+                  </li>
+                  <li class="contrib-rcard" data-audience="wet-lab">
+                    <p class="contrib-rcard__name">Registry Part IDs</p>
+                    <p class="contrib-rcard__purpose">iGEM Registry identifiers, once assigned.</p>
+                    <div class="contrib-rcard__meta">
+                      <p class="contrib-rcard__type">Registry</p>
+                      <span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span>
+                    </div>
+                  </li>
+                  <li class="contrib-rcard" data-audience="wet-lab">
+                    <p class="contrib-rcard__name">OR-selection rationale</p>
+                    <p class="contrib-rcard__purpose">Why the receptor panel was chosen, once released.</p>
+                    <div class="contrib-rcard__meta">
+                      <p class="contrib-rcard__type">Document</p>
+                      <span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span>
+                    </div>
+                  </li>
+                  <li class="contrib-rcard" data-audience="wet-lab" data-spotlight="wet-lab">
+                    <p class="contrib-rcard__name">HEK293T transfection protocol</p>
+                    <p class="contrib-rcard__purpose">Transfection steps, once released.</p>
+                    <div class="contrib-rcard__meta">
+                      <p class="contrib-rcard__type">Protocol</p>
+                      <span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span>
+                    </div>
+                  </li>
+                  <li class="contrib-rcard" data-audience="wet-lab" data-spotlight="wet-lab">
+                    <p class="contrib-rcard__name">VUAA1 functional-assay protocol</p>
+                    <p class="contrib-rcard__purpose">VUAA1 control assay, once released.</p>
+                    <div class="contrib-rcard__meta">
+                      <p class="contrib-rcard__type">Protocol</p>
+                      <span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span>
+                    </div>
+                  </li>
+                  <li class="contrib-rcard" data-audience="wet-lab">
+                    <p class="contrib-rcard__name">Positive- and negative-control matrix</p>
+                    <p class="contrib-rcard__purpose">Control set, once released.</p>
+                    <div class="contrib-rcard__meta">
+                      <p class="contrib-rcard__type">Matrix</p>
+                      <span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span>
+                    </div>
+                  </li>
+                  <li class="contrib-rcard" data-audience="wet-lab">
+                    <p class="contrib-rcard__name">Image-analysis / ΔF/F workflow</p>
+                    <p class="contrib-rcard__purpose">Analysis steps, once released.</p>
+                    <div class="contrib-rcard__meta">
+                      <p class="contrib-rcard__type">Workflow</p>
+                      <span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span>
+                    </div>
+                  </li>
+                  <li class="contrib-rcard" data-audience="wet-lab">
+                    <p class="contrib-rcard__name">Failed construct and troubleshooting notes</p>
+                    <p class="contrib-rcard__purpose">Failure modes, once released.</p>
+                    <div class="contrib-rcard__meta">
+                      <p class="contrib-rcard__type">Notes</p>
+                      <span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span>
+                    </div>
+                  </li>
+                </ul>
+              </section>
+                </div>
+              </div>
+            </article>
+
+            <article class="contrib-pkg" id="pkg-hardware" data-contrib-role="hardware" data-audience="hardware" data-contrib-state="documentation-only">
+              <header class="contrib-pkg__header">
+                <p class="contrib-pkg__ident"><span class="contrib-pkg__index">02</span> <span class="contrib-pkg__cat">Measurement / Hardware</span></p>
+                <p class="contrib-pkg__name">Weak-Fluorescence Measurement Hardware</p>
+                <h3>From a Circuit Diagram to a Reproducible Measurement Instrument</h3>
+              </header>
+              <div class="contrib-pkg__layout">
+                <div class="contrib-pkg__summary">
+                  <p class="contrib-pkg__value">System implementation, calibration workflow, and engineering documentation for adapting frequency-tagged weak-optical readout to a biological fluorescence reader — not a claim that FDM or lock-in detection are AeroSense inventions.</p>
+                  <p class="contrib-status" data-contrib-state="documentation-only">
+                    <span class="visually-hidden">Current status:</span>
+                    <span class="contrib-status__icon" aria-hidden="true"></span>
+                    <span class="contrib-status__text">Documentation only</span>
+                  </p>
+                  <section class="contrib-panel contrib-panel--why" aria-labelledby="hw-why">
+                    <h4 id="hw-why">Why it matters</h4>
+                    <p>
+                      Another hardware team can enter at documentation of <em>why</em> layout, guarding, reference quality and optical leakage belong in the measurement budget, then replace AeroSense-specific parts without inheriting a black-box schematic.
+                    </p>
+                  </section>
+                  <section class="contrib-panel contrib-panel--evidence" aria-labelledby="hw-evidence">
+                    <h4 id="hw-evidence">Evidence</h4>
+                    <p>
+                      Architecture and review notes are documented on
+                      <a href="hardware.html">Hardware</a>.
+                      That page is not a substitute for a released schematic/PCB/firmware bundle, and it does not demonstrate biological detection performance.
+                    </p>
+                  </section>
+                  <section class="contrib-panel contrib-panel--limit" aria-labelledby="hw-limits">
+                    <h4 id="hw-limits">Limitation</h4>
+                    <p>
+                      No downloadable reproduction archive is linked here. Naming the current ESP32 / TIA / ADC / FDM / DLIA chain documents design intent. It does not mean the reader has been calibrated as a fluorescence instrument on this Wiki.
+                    </p>
+                  </section>
+                  <nav class="contrib-panel contrib-panel--related contrib-pkg__related" aria-labelledby="hw-related">
+                    <h4 id="hw-related">Related pages</h4>
+                    <ul>
+                      <li><a href="hardware.html">Hardware</a></li>
+                      <li><a href="engineering.html">Engineering</a></li>
+                      <li><a href="description.html#read">Description · Read</a></li>
+                      <li><a href="#lessons">Engineering Lessons Worth Reusing</a></li>
+                    </ul>
+                  </nav>
+                </div>
+                <div class="contrib-pkg__detail">
+              <section class="contrib-pkg__block" aria-labelledby="hw-changed">
+                <h4 id="hw-changed">What we changed / contributed</h4>
+                <p>
+                  Weak fluorescence measurement is not simply a matter of choosing a high-resolution
+                  <dfn class="term" data-term="adc" tabindex="0">ADC</dfn>.
+                  An early design used a photodiode → high-gain
+                  <dfn class="term" data-term="tia" tabindex="0">TIA</dfn>
+                  → ADC → ESP32
+                  acquisition chain. Schematic and layout review showed that high-impedance performance can be limited by leakage paths, PCB contamination, guard implementation, feedback-component placement, power-supply coupling, SAR ADC kickback, reference stability and optical leakage. Those observations led to a redesign around <strong>measurement integrity rather than nominal gain alone</strong>.
+                </p>
+                <p>
+                  A second system-level redesign removed a Raspberry Pi from the portable reader. The current intended architecture is <strong>ESP32-standalone</strong>: the microcontroller handles acquisition, modulation, embedded signal processing and wireless communication, and higher-level inference can run externally. Removing the Raspberry Pi reduces board area, heat, power consumption and mechanical complexity in that architecture. Raspberry Pi material on this page is an earlier engineering iteration, not the current reader.
+                </p>
+                <p>
+                  The current documented reader chain is photodiode weak-fluorescence detection, a high-impedance TIA (LMP7721 on the Hardware page), a 16-bit SAR ADC (ADS8866 on the Hardware page), ESP32 control/acquisition, and
+                  <dfn class="term" data-term="fdm" tabindex="0">FDM</dfn>
+                  plus digital lock-in amplification/detection
+                  <dfn class="term" data-term="dlia" tabindex="0">DLIA</dfn>.
+                  Frequency-division multiplexing and digital lock-in detection have established precedent for multi-channel fluorescence and weak optical signal recovery
+                  <span class="cite-wrap">
+                    <a class="cite" href="#ref-tovar-2019" id="cite-tovar-2019" aria-describedby="cite-preview-tovar-2019">[3]</a>
+                    <span class="cite-preview" id="cite-preview-tovar-2019" role="tooltip">Tovar et al., 2019 — full entry in References.</span>
+                  </span>
+                  <span class="cite-wrap">
+                    <a class="cite" href="#ref-harvie-2023" id="cite-harvie-2023" aria-describedby="cite-preview-harvie-2023">[4]</a>
+                    <span class="cite-preview" id="cite-preview-harvie-2023" role="tooltip">Harvie and de Mello, 2023 — full entry in References.</span>
+                  </span>.
+                  The reusable contribution we are packaging is the <strong>system implementation, calibration workflow and engineering documentation</strong> for adapting those principles to this biological fluorescence reader.
+                </p>
+              </section>
+
+              <section class="contrib-pkg__block" aria-labelledby="hw-reuse">
+                <h4 id="hw-reuse">What another team can reuse</h4>
+                <p>
+                  The measurement-integrity argument, the ESP32-standalone system decision, and — once released — the reproduction files listed below.
+                  Failed assumptions and redesign responses are collected in
+                  <a href="#lessons">Engineering Lessons Worth Reusing</a>, not duplicated here.
+                </p>
+              </section>
+
+              <section class="contrib-pkg__block contrib-panel contrib-panel--resource" aria-labelledby="hw-resources">
+                <h4 id="hw-resources">Reusable resources</h4>
+                <!-- FREEZE-TODO: ADD DOWNLOAD CARDS — hardware reproduction package files. -->
+                <ul class="contrib-rcards">
+                  <li class="contrib-rcard" data-audience="hardware">
+                    <p class="contrib-rcard__name">Full schematic</p>
+                    <p class="contrib-rcard__purpose">Complete schematic for reproduction, once released.</p>
+                    <div class="contrib-rcard__meta">
+                      <p class="contrib-rcard__type">PDF + editable source</p>
+                      <span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span>
+                    </div>
+                  </li>
+                  <li class="contrib-rcard" data-audience="hardware">
+                    <p class="contrib-rcard__name">PCB design</p>
+                    <p class="contrib-rcard__purpose">Layout files for fabrication, once released.</p>
+                    <div class="contrib-rcard__meta">
+                      <p class="contrib-rcard__type">Source + Gerber</p>
+                      <span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span>
+                    </div>
+                  </li>
+                  <li class="contrib-rcard" data-audience="hardware">
+                    <p class="contrib-rcard__name">Bill of materials</p>
+                    <p class="contrib-rcard__purpose">Parts list with manufacturer numbers, once released.</p>
+                    <div class="contrib-rcard__meta">
+                      <p class="contrib-rcard__type">CSV</p>
+                      <span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span>
+                    </div>
+                  </li>
+                  <li class="contrib-rcard" data-audience="hardware">
+                    <p class="contrib-rcard__name">Component substitutions</p>
+                    <p class="contrib-rcard__purpose">Documented alternatives, once released.</p>
+                    <div class="contrib-rcard__meta">
+                      <p class="contrib-rcard__type">Document</p>
+                      <span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span>
+                    </div>
+                  </li>
+                  <li class="contrib-rcard" data-audience="hardware">
+                    <p class="contrib-rcard__name">Mechanical design</p>
+                    <p class="contrib-rcard__purpose">Enclosure geometry, once released.</p>
+                    <div class="contrib-rcard__meta">
+                      <p class="contrib-rcard__type">STL / STEP</p>
+                      <span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span>
+                    </div>
+                  </li>
+                  <li class="contrib-rcard" data-audience="hardware">
+                    <p class="contrib-rcard__name">ESP32 firmware</p>
+                    <p class="contrib-rcard__purpose">Acquisition and processing source, once released.</p>
+                    <div class="contrib-rcard__meta">
+                      <p class="contrib-rcard__type">Source code</p>
+                      <span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span>
+                    </div>
+                  </li>
+                  <li class="contrib-rcard" data-audience="hardware" data-spotlight="hardware">
+                    <p class="contrib-rcard__name">FDM configuration</p>
+                    <p class="contrib-rcard__purpose">Frequencies and timing parameters, once released.</p>
+                    <div class="contrib-rcard__meta">
+                      <p class="contrib-rcard__type">Parameters</p>
+                      <span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span>
+                    </div>
+                  </li>
+                  <li class="contrib-rcard" data-audience="hardware" data-spotlight="hardware">
+                    <p class="contrib-rcard__name">DLIA implementation</p>
+                    <p class="contrib-rcard__purpose">Algorithm and source or pseudocode, once released.</p>
+                    <div class="contrib-rcard__meta">
+                      <p class="contrib-rcard__type">Algorithm / source</p>
+                      <span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span>
+                    </div>
+                  </li>
+                  <li class="contrib-rcard" data-audience="hardware">
+                    <p class="contrib-rcard__name">Electrical bring-up protocol</p>
+                    <p class="contrib-rcard__purpose">Step-by-step checklist, once released.</p>
+                    <div class="contrib-rcard__meta">
+                      <p class="contrib-rcard__type">Checklist</p>
+                      <span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span>
+                    </div>
+                  </li>
+                  <li class="contrib-rcard" data-audience="hardware" data-spotlight="hardware">
+                    <p class="contrib-rcard__name">Calibration protocol</p>
+                    <p class="contrib-rcard__purpose">Dark → leakage → standard fluorescence → FDM, once released.</p>
+                    <div class="contrib-rcard__meta">
+                      <p class="contrib-rcard__type">Protocol</p>
+                      <span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span>
+                    </div>
+                  </li>
+                  <li class="contrib-rcard" data-audience="hardware" data-spotlight="hardware">
+                    <p class="contrib-rcard__name">Troubleshooting guide</p>
+                    <p class="contrib-rcard__purpose">Symptom → likely cause → test → fix, once released.</p>
+                    <div class="contrib-rcard__meta">
+                      <p class="contrib-rcard__type">Guide</p>
+                      <span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span>
+                    </div>
+                  </li>
+                </ul>
+              </section>
+                </div>
+              </div>
+            </article>
+
+            <article class="contrib-pkg" id="pkg-data" data-contrib-role="data" data-audience="data,wet-lab,hardware,model" data-contrib-state="documentation-only">
+              <header class="contrib-pkg__header">
+                <p class="contrib-pkg__ident"><span class="contrib-pkg__index">03</span> <span class="contrib-pkg__cat">Data</span></p>
+                <p class="contrib-pkg__name">Measurement &amp; Data Contract</p>
+                <h3>A Reusable Measurement and Data Contract</h3>
+              </header>
+              <div class="contrib-pkg__layout">
+                <div class="contrib-pkg__summary">
+                  <p class="contrib-pkg__value">A common interface so Wet Lab, Hardware and Model do not silently use different assumptions about sample identity, calibration and signal quality.</p>
+                  <p class="contrib-status" data-contrib-state="documentation-only">
+                    <span class="visually-hidden">Current status:</span>
+                    <span class="contrib-status__icon" aria-hidden="true"></span>
+                    <span class="contrib-status__text">Documentation only</span>
+                  </p>
+                  <section class="contrib-panel contrib-panel--why" aria-labelledby="data-why">
+                    <h4 id="data-why">Why it matters</h4>
+                    <p>
+                      This contract is independent of whether a final classifier reaches a particular accuracy.
+                      A standardized interface can remain useful after receptors, electronics or models change.
+                      No accuracy figure is reported here.
+                    </p>
+                  </section>
+                  <section class="contrib-panel contrib-panel--evidence" aria-labelledby="data-evidence">
+                    <h4 id="data-evidence">Evidence</h4>
+                    <p>Specified in prose on this page. No example files or schema diagram are linked.</p>
+                  </section>
+                  <section class="contrib-panel contrib-panel--limit" aria-labelledby="data-limits">
+                    <h4 id="data-limits">Limitation</h4>
+                    <p>
+                      Field names such as “SNR / signal-quality metric” describe what a record should retain.
+                      They are not measured AeroSense SNR values.
+                    </p>
+                  </section>
+                  <nav class="contrib-panel contrib-panel--related contrib-pkg__related" aria-labelledby="data-related">
+                    <h4 id="data-related">Related pages</h4>
+                    <ul>
+                      <li><a href="experiments.html">Experiments</a></li>
+                      <li><a href="hardware.html">Hardware</a></li>
+                      <li><a href="model.html">Model</a></li>
+                    </ul>
+                  </nav>
+                </div>
+                <div class="contrib-pkg__detail">
+              <section class="contrib-pkg__block" aria-labelledby="data-changed">
+                <h4 id="data-changed">What we changed / contributed</h4>
+                <p>
+                  AeroSense defines a shared data interface across the three layers. The lists below are the contract, not a published dataset.
+                </p>
+              </section>
+
+              <section class="contrib-pkg__block" aria-labelledby="data-reuse">
+                <h4 id="data-reuse">What another team can reuse</h4>
+                <p><strong>Minimum experimental metadata.</strong> Each biological measurement should retain:</p>
+                <ul class="contrib-meta-list">
+                  <li>sample ID</li>
+                  <li>receptor / construct ID</li>
+                  <li>cell batch</li>
+                  <li>well / channel</li>
+                  <li>biological and technical replicate</li>
+                  <li>stimulus identity</li>
+                  <li>stimulus concentration</li>
+                  <li>acquisition time</li>
+                  <li>baseline interval</li>
+                  <li>positive/negative-control status</li>
+                </ul>
+                <p><strong>Minimum hardware metadata.</strong> Each reader output should retain:</p>
+                <ul class="contrib-meta-list">
+                  <li>device / PCB revision</li>
+                  <li>channel</li>
+                  <li>modulation frequency</li>
+                  <li>raw ADC signal</li>
+                  <li>demodulated amplitude</li>
+                  <li>gain configuration</li>
+                  <li>dark baseline</li>
+                  <li>calibration ID</li>
+                  <li>temperature where available</li>
+                  <li>SNR / signal-quality metric</li>
+                  <li>QC flag</li>
+                </ul>
+                <p><strong>Model-ready output.</strong> Processed datasets should include:</p>
+                <ul class="contrib-meta-list">
+                  <li>normalized fluorescence or ΔF/F</li>
+                  <li>extracted time-series features</li>
+                  <li>receptor-response vector</li>
+                  <li>sample label</li>
+                  <li>data-split group</li>
+                  <li>preprocessing version</li>
+                  <li>QC status</li>
+                </ul>
+              </section>
+
+              <section class="contrib-pkg__block contrib-panel contrib-panel--resource" aria-labelledby="data-resources">
+                <h4 id="data-resources">Reusable resources</h4>
+                <!-- FREEZE-TODO: ADD downloadable data_dictionary.csv, example raw dataset, example processed dataset and schema diagram. -->
+                <ul class="contrib-rcards">
+                  <li class="contrib-rcard" data-audience="data,wet-lab,hardware,model" data-spotlight="data">
+                    <p class="contrib-rcard__name"><code>data_dictionary.csv</code></p>
+                    <p class="contrib-rcard__purpose">Field definitions for the contract, once released.</p>
+                    <div class="contrib-rcard__meta">
+                      <p class="contrib-rcard__type">CSV</p>
+                      <span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span>
+                    </div>
+                  </li>
+                  <li class="contrib-rcard" data-audience="data,wet-lab,hardware,model">
+                    <p class="contrib-rcard__name">Example raw dataset</p>
+                    <p class="contrib-rcard__purpose">Illustrative raw records, once released.</p>
+                    <div class="contrib-rcard__meta">
+                      <p class="contrib-rcard__type">Dataset</p>
+                      <span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span>
+                    </div>
+                  </li>
+                  <li class="contrib-rcard" data-audience="data,wet-lab,hardware,model">
+                    <p class="contrib-rcard__name">Example processed dataset</p>
+                    <p class="contrib-rcard__purpose">Illustrative model-ready records, once released.</p>
+                    <div class="contrib-rcard__meta">
+                      <p class="contrib-rcard__type">Dataset</p>
+                      <span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span>
+                    </div>
+                  </li>
+                  <li class="contrib-rcard" data-audience="data,wet-lab,hardware,model">
+                    <p class="contrib-rcard__name">Schema diagram</p>
+                    <p class="contrib-rcard__purpose">Visual map of the contract, once released.</p>
+                    <div class="contrib-rcard__meta">
+                      <p class="contrib-rcard__type">Diagram</p>
+                      <span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span>
+                    </div>
+                  </li>
+                </ul>
+              </section>
+                </div>
+              </div>
+            </article>
+
+            <article class="contrib-pkg" id="pkg-model" data-contrib-role="model" data-audience="model" data-contrib-state="documentation-only">
+              <header class="contrib-pkg__header">
+                <p class="contrib-pkg__ident"><span class="contrib-pkg__index">04</span> <span class="contrib-pkg__cat">Model</span></p>
+                <p class="contrib-pkg__name">Neuromorphic Odor Decoding</p>
+                <h3>Neuromorphic Odor-Decoding Package</h3>
+              </header>
+              <div class="contrib-pkg__layout">
+                <div class="contrib-pkg__summary">
+                  <p class="contrib-pkg__value">A computational framework that translates receptor-array responses into a high-dimensional representation inspired by <i>Drosophila</i> olfactory processing, packaged with simpler baselines so added complexity can be judged.</p>
+                  <p class="contrib-status" data-contrib-state="documentation-only">
+                    <span class="visually-hidden">Current status:</span>
+                    <span class="contrib-status__icon" aria-hidden="true"></span>
+                    <span class="contrib-status__text">Documentation only</span>
+                  </p>
+                  <section class="contrib-panel contrib-panel--why" aria-labelledby="model-why">
+                    <h4 id="model-why">Why it matters</h4>
+                    <p>
+                      A biologically inspired model is only useful if another team can determine whether its added complexity is justified.
+                      That is why baselines are part of the contribution, not an optional appendix.
+                    </p>
+                  </section>
+                  <section class="contrib-panel contrib-panel--evidence" aria-labelledby="model-evidence">
+                    <h4 id="model-evidence">Evidence</h4>
+                    <p>
+                      Conceptual pipeline on
+                      <a href="description.html#decode">Description · Decode</a>
+                      and scaffolding on
+                      <a href="model.html">Model</a>.
+                      No public repository, sample dataset, or quantitative comparison is reported here.
+                    </p>
+                    <div class="contrib-pending" role="note">
+                      <p class="contrib-pending__label">Pending final verification</p>
+                      <p>Final dataset size, split definition and quantitative results are not inserted.</p>
+                    </div>
+                    <!-- FREEZE-TODO: UPDATE BEFORE FREEZE — insert final dataset size, split definition and quantitative results. -->
+                  </section>
+                  <section class="contrib-panel contrib-panel--limit" aria-labelledby="model-limits">
+                    <h4 id="model-limits">Limitation</h4>
+                    <p>
+                      Fly olfactory anatomy is cited as inspiration. It is not an AeroSense experimental result, and the ladder is not a completed benchmark table.
+                    </p>
+                  </section>
+                  <nav class="contrib-panel contrib-panel--related contrib-pkg__related" aria-labelledby="model-related">
+                    <h4 id="model-related">Related pages</h4>
+                    <ul>
+                      <li><a href="model.html">Model</a></li>
+                      <li><a href="description.html#decode">Description · Decode</a></li>
+                    </ul>
+                  </nav>
+                </div>
+                <div class="contrib-pkg__detail">
+              <section class="contrib-pkg__block" aria-labelledby="model-changed">
+                <h4 id="model-changed">What we changed / contributed</h4>
+                <p>
+                  The biological inspiration comes from the sparse representations formed by mushroom-body Kenyon cells
+                  <span class="cite-wrap">
+                    <a class="cite" href="#ref-caron-2013" id="cite-caron-2013" aria-describedby="cite-preview-caron-2013">[5]</a>
+                    <span class="cite-preview" id="cite-preview-caron-2013" role="tooltip">Caron et al., 2013 — full entry in References.</span>
+                  </span>
+                  and from computational interpretations of expansion and sparsification in fly olfaction
+                  <span class="cite-wrap">
+                    <a class="cite" href="#ref-dasgupta-2017" id="cite-dasgupta-2017" aria-describedby="cite-preview-dasgupta-2017">[6]</a>
+                    <span class="cite-preview" id="cite-preview-dasgupta-2017" role="tooltip">Dasgupta et al., 2017 — full entry in References.</span>
+                  </span>.
+                  For reproducibility, the final package should contain more than the best-performing model.
+                </p>
+              </section>
+
+              <section class="contrib-pkg__block" aria-labelledby="model-reuse">
+                <h4 id="model-reuse">What another team can reuse</h4>
+                <p>
+                  The comparison ladder below is the intended evaluation structure. Code, seeds, environments and example matrices are listed under Resources and are not released on this page.
+                </p>
+                <figure class="contrib-ladder">
+                  <figcaption class="visually-hidden">Intended baseline comparison ladder: four processing paths to compare, from raw features to AL- and MB-inspired stages.</figcaption>
+                  <pre>Raw features
+     ↓
+Simple baseline classifier
+
+vs.
+
+Raw → AL-inspired processing → classifier
+
+vs.
+
+Raw → MB-inspired sparse coding → classifier
+
+vs.
+
+Raw → AL → MB / SNN → output</pre>
+                </figure>
+              </section>
+
+              <section class="contrib-pkg__block contrib-panel contrib-panel--resource" aria-labelledby="model-resources">
+                <h4 id="model-resources">Reusable resources</h4>
+                <!-- FREEZE-TODO: ADD LINKS — neuromorphic decoding package files. -->
+                <ul class="contrib-rcards">
+                  <li class="contrib-rcard" data-audience="model"><p class="contrib-rcard__name">Preprocessing code</p><p class="contrib-rcard__purpose">Input cleaning steps, once released.</p><div class="contrib-rcard__meta"><p class="contrib-rcard__type">Code</p><span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span></div></li>
+                  <li class="contrib-rcard" data-audience="model"><p class="contrib-rcard__name">Feature definitions</p><p class="contrib-rcard__purpose">Named features extracted from time series, once released.</p><div class="contrib-rcard__meta"><p class="contrib-rcard__type">Document</p><span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span></div></li>
+                  <li class="contrib-rcard" data-audience="model" data-spotlight="model"><p class="contrib-rcard__name">AL-inspired normalization / inhibition code</p><p class="contrib-rcard__purpose">Antennal-lobe-inspired processing, once released.</p><div class="contrib-rcard__meta"><p class="contrib-rcard__type">Code</p><span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span></div></li>
+                  <li class="contrib-rcard" data-audience="model" data-spotlight="model"><p class="contrib-rcard__name">MB-inspired sparse projection</p><p class="contrib-rcard__purpose">Mushroom-body-inspired expansion, once released.</p><div class="contrib-rcard__meta"><p class="contrib-rcard__type">Code</p><span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span></div></li>
+                  <li class="contrib-rcard" data-audience="model"><p class="contrib-rcard__name">Classifier / SNN implementation</p><p class="contrib-rcard__purpose">Decoder implementation, once released.</p><div class="contrib-rcard__meta"><p class="contrib-rcard__type">Code</p><span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span></div></li>
+                  <li class="contrib-rcard" data-audience="model"><p class="contrib-rcard__name">Fixed random seeds</p><p class="contrib-rcard__purpose">Reproducible initialization, once released.</p><div class="contrib-rcard__meta"><p class="contrib-rcard__type">Config</p><span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span></div></li>
+                  <li class="contrib-rcard" data-audience="model"><p class="contrib-rcard__name">Environment / dependency file</p><p class="contrib-rcard__purpose">Pinned runtime, once released.</p><div class="contrib-rcard__meta"><p class="contrib-rcard__type">Environment</p><span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span></div></li>
+                  <li class="contrib-rcard" data-audience="model"><p class="contrib-rcard__name">Command required to reproduce each result</p><p class="contrib-rcard__purpose">Entry-point commands, once released.</p><div class="contrib-rcard__meta"><p class="contrib-rcard__type">README</p><span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span></div></li>
+                  <li class="contrib-rcard" data-audience="model" data-spotlight="model"><p class="contrib-rcard__name">Baseline models</p><p class="contrib-rcard__purpose">Simpler comparators, once released.</p><div class="contrib-rcard__meta"><p class="contrib-rcard__type">Code</p><span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span></div></li>
+                  <li class="contrib-rcard" data-audience="model"><p class="contrib-rcard__name">Ablation analysis</p><p class="contrib-rcard__purpose">Stage-removal tests, once released.</p><div class="contrib-rcard__meta"><p class="contrib-rcard__type">Notebook</p><span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span></div></li>
+                  <li class="contrib-rcard" data-audience="model"><p class="contrib-rcard__name">Robustness tests</p><p class="contrib-rcard__purpose">Sensitivity checks, once released.</p><div class="contrib-rcard__meta"><p class="contrib-rcard__type">Notebook</p><span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span></div></li>
+                  <li class="contrib-rcard" data-audience="model"><p class="contrib-rcard__name">Example input and output</p><p class="contrib-rcard__purpose">Worked example matrices, once released.</p><div class="contrib-rcard__meta"><p class="contrib-rcard__type">Example</p><span class="contrib-status" data-contrib-state="documentation-only"><span class="visually-hidden">Status:</span><span class="contrib-status__icon" aria-hidden="true"></span><span class="contrib-status__text">Not released</span></span></div></li>
+                </ul>
+              </section>
+                </div>
+              </div>
+            </article>
+
+            <article class="contrib-pkg" id="pkg-hp" data-contrib-role="hp" data-audience="hp,hardware" data-contrib-state="documentation-only">
+              <header class="contrib-pkg__header">
+                <p class="contrib-pkg__ident"><span class="contrib-pkg__index">05</span> <span class="contrib-pkg__cat">Engineering / HP</span></p>
+                <p class="contrib-pkg__name">Human-Practices-to-Engineering Traceability</p>
+                <h3>Human-Practices-to-Engineering Traceability</h3>
+              </header>
+              <div class="contrib-pkg__layout">
+                <div class="contrib-pkg__summary">
+                  <p class="contrib-pkg__value">A documentation format that records what changed because of a conversation, not only who was interviewed.</p>
+                  <p class="contrib-status" data-contrib-state="documentation-only">
+                    <span class="visually-hidden">Current status:</span>
+                    <span class="contrib-status__icon" aria-hidden="true"></span>
+                    <span class="contrib-status__text">Documentation only</span>
+                  </p>
+                  <section class="contrib-panel contrib-panel--why" aria-labelledby="hp-why">
+                    <h4 id="hp-why">Why it matters</h4>
+                    <p>
+                      The important output of Human Practices is <strong>what changed because we learned this</strong>, not how many people we interviewed.
+                    </p>
+                  </section>
+                  <section class="contrib-panel contrib-panel--evidence" aria-labelledby="hp-evidence">
+                    <h4 id="hp-evidence">Evidence</h4>
+                    <p>
+                      Format and example rows on this page. Engagement records and a reusable template file are not published here.
+                      See also
+                      <a href="human-practices.html">Integrated Human Practices</a>.
+                    </p>
+                  </section>
+                  <section class="contrib-panel contrib-panel--limit" aria-labelledby="hp-limits">
+                    <h4 id="hp-limits">Limitation</h4>
+                    <p>
+                      The example mappings are a documentation pattern. They are not a claim that each row has a named stakeholder, dated interview file, or re-evaluation record attached on this Wiki.
+                    </p>
+                  </section>
+                  <nav class="contrib-panel contrib-panel--related contrib-pkg__related" aria-labelledby="hp-related">
+                    <h4 id="hp-related">Related pages</h4>
+                    <ul>
+                      <li><a href="human-practices.html">Integrated Human Practices</a></li>
+                      <li><a href="description.html#act">Description · Act</a></li>
+                      <li><a href="engineering.html">Engineering</a></li>
+                    </ul>
+                  </nav>
+                </div>
+                <div class="contrib-pkg__detail">
+              <section class="contrib-pkg__block" aria-labelledby="hp-method">
+                <h4 id="hp-method">1. Method</h4>
+                <span id="hp-changed"></span>
+                <p>
+                  The reusable contribution is a traceability method, not a gallery of stakeholders.
+                  Record the chain below so another team can see <strong>what changed because we learned this</strong>.
+                </p>
+                <p class="contrib-hp-eq">
+                  <span class="visually-hidden">Text equivalent of the method: </span>
+                  Stakeholder, then Observation, then Insight, then Design decision, then Evidence needed, then Re-evaluation.
+                </p>
+                <ol class="contrib-hp-method" aria-label="Reusable traceability method">
+                  <li>
+                    <p class="contrib-hp-method__kicker">01</p>
+                    <p class="contrib-hp-method__name">Stakeholder</p>
+                  </li>
+                  <li>
+                    <p class="contrib-hp-method__kicker">02</p>
+                    <p class="contrib-hp-method__name">Observation</p>
+                  </li>
+                  <li>
+                    <p class="contrib-hp-method__kicker">03</p>
+                    <p class="contrib-hp-method__name">Insight</p>
+                  </li>
+                  <li>
+                    <p class="contrib-hp-method__kicker">04</p>
+                    <p class="contrib-hp-method__name">Design decision</p>
+                  </li>
+                  <li>
+                    <p class="contrib-hp-method__kicker">05</p>
+                    <p class="contrib-hp-method__name">Evidence needed</p>
+                  </li>
+                  <li>
+                    <p class="contrib-hp-method__kicker">06</p>
+                    <p class="contrib-hp-method__name">Re-evaluation</p>
+                  </li>
+                </ol>
+                <p>
+                  Full context:
+                  <a href="human-practices.html">Integrated Human Practices</a>,
+                  <a href="human-practices.html#integration-cases">Insight → decision → change → evidence</a>,
+                  <a href="human-practices.html#how-hp-changed">How HP changed the technical project</a>.
+                </p>
+              </section>
+
+              <section class="contrib-pkg__block" aria-labelledby="hp-examples">
+                <h4 id="hp-examples">2. Example</h4>
+                <span id="hp-reuse"></span>
+                <p>
+                  Existing AeroSense mappings from this Contribution source. Each example is <strong>Input → engineering/product consequence</strong>.
+                  They illustrate the method. They are not dated interview files, and they are not closed stakeholder → change → evidence loops.
+                </p>
+                <ul class="contrib-hp-examples">
+                  <li>
+                    <ol class="contrib-hp-ex" aria-label="Example: use-case scope">
+                      <li>
+                        <p class="contrib-hp-ex__kicker">Input</p>
+                        <p>“A broad agricultural sensor does not define the buyer or decision.”</p>
+                      </li>
+                      <li>
+                        <p class="contrib-hp-ex__kicker">Engineering / product consequence</p>
+                        <p>Narrow the initial use case to high-value storage / incoming QC</p>
+                      </li>
+                    </ol>
+                  </li>
+                  <li>
+                    <ol class="contrib-hp-ex" aria-label="Example: actionable output">
+                      <li>
+                        <p class="contrib-hp-ex__kicker">Input</p>
+                        <p>Raw sensor output does not directly support action</p>
+                      </li>
+                      <li>
+                        <p class="contrib-hp-ex__kicker">Engineering / product consequence</p>
+                        <p>add QC, confidence and follow-up information</p>
+                      </li>
+                    </ol>
+                  </li>
+                  <li>
+                    <ol class="contrib-hp-ex" aria-label="Example: technical versus commercial feasibility">
+                      <li>
+                        <p class="contrib-hp-ex__kicker">Input</p>
+                        <p>Cost and switching behavior remain uncertain</p>
+                      </li>
+                      <li>
+                        <p class="contrib-hp-ex__kicker">Engineering / product consequence</p>
+                        <p>separate technical feasibility from commercial feasibility and validate through end-user interviews</p>
+                      </li>
+                    </ol>
+                  </li>
+                  <li>
+                    <ol class="contrib-hp-ex" aria-label="Example: error costs">
+                      <li>
+                        <p class="contrib-hp-ex__kicker">Input</p>
+                        <p>False negatives and false positives have different consequences</p>
+                      </li>
+                      <li>
+                        <p class="contrib-hp-ex__kicker">Engineering / product consequence</p>
+                        <p>include threshold and confirmation workflow in system requirements</p>
+                      </li>
+                    </ol>
+                  </li>
+                </ul>
+              </section>
+
+              <section class="contrib-pkg__block" aria-labelledby="hp-resources">
+                <h4 id="hp-resources">3. Reuse</h4>
+                <p>
+                  A downloadable stakeholder-to-design template would live here once a real file exists.
+                  No template file is published on this Wiki, so there is no download control.
+                </p>
+                <!-- FREEZE-TODO: ADD downloadable stakeholder-to-design template if completed. Do not add a fake download button. -->
+                <div class="contrib-hp-reuse" role="status">
+                  <p class="contrib-hp-reuse__name">Stakeholder-to-design template</p>
+                  <p class="contrib-status" data-contrib-state="documentation-only">
+                    <span class="visually-hidden">Status:</span>
+                    <span class="contrib-status__icon" aria-hidden="true"></span>
+                    <span class="contrib-status__text">Not released</span>
+                  </p>
+                  <p>Method and examples on this page can be copied. A reusable form file is not attached.</p>
+                </div>
+              </section>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section class="section-block" id="lessons" data-audience="hardware" data-reveal>
+            <span class="section-eyebrow">Reusable engineering knowledge</span>
+            <h2>Engineering Lessons Worth Reusing</h2>
+            <p>
+              Future teams often benefit more from knowing <strong>why a design had to change</strong> than from seeing only its final schematic.
+              Each card below is a reusable decision record: an observed risk, what it taught us, the design response, and where the supporting Hardware / Engineering write-up lives.
+            </p>
+            <p>
+              Failure is reusable when the reason is documented.
+              These records are design knowledge. They are not measured instrument performance.
+            </p>
+            <!-- FREEZE-TODO: Hardware/Engineering DBTL rows are still incomplete; keep lesson evidence links on existing sections only. -->
+
+            <article class="contrib-cycle" aria-labelledby="lesson-cycle-1">
+              <header class="contrib-cycle__header">
+                <p class="contrib-cycle__index">Cycle 1</p>
+                <h3 id="lesson-cycle-1">From more gain / higher ADC resolution to measurement integrity</h3>
+                <p>
+                  Schematic and layout review showed that high-impedance performance can be limited by leakage, contamination, guarding, reference quality and optical leakage.
+                  Those observations led to a redesign around <strong>measurement integrity rather than nominal gain alone</strong>.
+                </p>
+              </header>
+
+              <article class="contrib-lesson" id="lesson-tia-leakage">
+                <h4>High-impedance TIA leakage</h4>
+                <ol class="contrib-lesson__trace">
+                  <li>
+                    <p class="contrib-lesson__kicker">Observation / risk</p>
+                    <p>High-value TIA feedback node is vulnerable to leakage.</p>
+                  </li>
+                  <li>
+                    <p class="contrib-lesson__kicker">What we learned</p>
+                    <p>Nominal resistance alone does not determine usable sensitivity.</p>
+                  </li>
+                  <li>
+                    <p class="contrib-lesson__kicker">Design response</p>
+                    <p>Shorter high-impedance path, guarding, cleanliness and layout control.</p>
+                  </li>
+                  <li>
+                    <p class="contrib-lesson__kicker">Evidence / where to read more</p>
+                    <p>Design record on Hardware. Dark-noise and leakage measurements are not reported there.</p>
+                    <ul>
+                      <li><a href="hardware.html#tia">Hardware · Transimpedance amplifier</a></li>
+                      <li><a href="hardware.html#high-impedance-pcb">Hardware · High-impedance PCB</a></li>
+                      <li><a href="engineering.html#hw-pcb-c1">Engineering · PCB / signal-chain cycle</a></li>
+                    </ul>
+                  </li>
+                </ol>
+              </article>
+
+              <article class="contrib-lesson" id="lesson-adc-sensitivity">
+                <h4>ADC resolution versus usable sensitivity</h4>
+                <ol class="contrib-lesson__trace">
+                  <li>
+                    <p class="contrib-lesson__kicker">Observation / risk</p>
+                    <p>ADC resolution does not guarantee useful sensitivity.</p>
+                  </li>
+                  <li>
+                    <p class="contrib-lesson__kicker">What we learned</p>
+                    <p>Analogue noise and reference quality can dominate.</p>
+                  </li>
+                  <li>
+                    <p class="contrib-lesson__kicker">Design response</p>
+                    <p>Dedicated reference/decoupling and measured noise-floor testing.</p>
+                  </li>
+                  <li>
+                    <p class="contrib-lesson__kicker">Evidence / where to read more</p>
+                    <p>Hardware states that ADC quantization is not the experimental detection limit. No assembled-reader noise-floor result is published.</p>
+                    <ul>
+                      <li><a href="hardware.html#gain-selection">Hardware · Gain selection</a></li>
+                      <li><a href="hardware.html#digitization">Hardware · Digitization</a></li>
+                      <li><a href="hardware.html#measurement-challenge">Hardware · Measurement challenge</a></li>
+                    </ul>
+                  </li>
+                </ol>
+              </article>
+
+              <article class="contrib-lesson" id="lesson-optical-leakage">
+                <h4>Optical excitation leakage</h4>
+                <ol class="contrib-lesson__trace">
+                  <li>
+                    <p class="contrib-lesson__kicker">Observation / risk</p>
+                    <p>Excitation light can overwhelm fluorescence.</p>
+                  </li>
+                  <li>
+                    <p class="contrib-lesson__kicker">What we learned</p>
+                    <p>Optical rejection is part of the electrical dynamic-range budget.</p>
+                  </li>
+                  <li>
+                    <p class="contrib-lesson__kicker">Design response</p>
+                    <p>Optical geometry + filtering + leakage test.</p>
+                  </li>
+                  <li>
+                    <p class="contrib-lesson__kicker">Evidence / where to read more</p>
+                    <p>Optical-path requirements and a conceptual leakage diagram are on Hardware. The blank-sample leakage test is listed as pending.</p>
+                    <ul>
+                      <li><a href="hardware.html#optical-design">Hardware · Optical design</a></li>
+                      <li><a href="hardware.html#val-leak">Hardware · Validation · excitation leakage</a></li>
+                      <li><a href="engineering.html#hw-optical-c1">Engineering · Optical-path cycle</a></li>
+                    </ul>
+                  </li>
+                </ol>
+              </article>
+
+              <article class="contrib-lesson" id="lesson-channel-identity">
+                <h4>Channel identity / frequency tagging</h4>
+                <ol class="contrib-lesson__trace">
+                  <li>
+                    <p class="contrib-lesson__kicker">Observation / risk</p>
+                    <p>Multiple excitation channels can overlap.</p>
+                  </li>
+                  <li>
+                    <p class="contrib-lesson__kicker">What we learned</p>
+                    <p>Channel identity must survive at the detector.</p>
+                  </li>
+                  <li>
+                    <p class="contrib-lesson__kicker">Design response</p>
+                    <p>Frequency tagging + synchronous demodulation.</p>
+                  </li>
+                  <li>
+                    <p class="contrib-lesson__kicker">Evidence / where to read more</p>
+                    <p>FDM and DLIA are documented as the intended multiplexing method. No measured isolation matrix is reported.</p>
+                    <ul>
+                      <li><a href="hardware.html#multiplexing">Hardware · Multiplexing</a></li>
+                      <li><a href="hardware.html#hw-fdm-p1-title">Hardware · Channel tagging</a></li>
+                      <li><a href="#pkg-hardware">Contribution · Weak-fluorescence hardware</a></li>
+                    </ul>
+                  </li>
+                </ol>
+              </article>
+
+              <article class="contrib-lesson" id="lesson-calibrated-instrument">
+                <h4>A working PCB is not a calibrated instrument</h4>
+                <ol class="contrib-lesson__trace">
+                  <li>
+                    <p class="contrib-lesson__kicker">Observation / risk</p>
+                    <p>A “working PCB” is not yet a calibrated instrument.</p>
+                  </li>
+                  <li>
+                    <p class="contrib-lesson__kicker">What we learned</p>
+                    <p>Biological measurements require traceable measurement quality.</p>
+                  </li>
+                  <li>
+                    <p class="contrib-lesson__kicker">Design response</p>
+                    <p>Staged bring-up and calibration protocol.</p>
+                  </li>
+                  <li>
+                    <p class="contrib-lesson__kicker">Evidence / where to read more</p>
+                    <p>Hardware lists a ten-stage validation ladder. Every stage is pending until the corresponding measurement exists. Planned sequence: dark → leakage → standard fluorescence → FDM.</p>
+                    <ul>
+                      <li><a href="hardware.html#validation-evidence">Hardware · Validation and evidence</a></li>
+                      <li><a href="hardware.html#val-bringup">Hardware · Electrical bring-up</a></li>
+                      <li><a href="engineering.html#hardware-cycles">Engineering · Hardware cycles</a></li>
+                    </ul>
+                  </li>
+                </ol>
+              </article>
+            </article>
+
+            <article class="contrib-cycle" aria-labelledby="lesson-cycle-2">
+              <header class="contrib-cycle__header">
+                <p class="contrib-cycle__index">Cycle 2</p>
+                <h3 id="lesson-cycle-2">From ESP32 + Raspberry Pi prototype to ESP32-standalone portable instrument</h3>
+                <p>
+                  A second system-level redesign removed a Raspberry Pi from the portable reader.
+                  Raspberry Pi material below is the <strong>retired V1 interface</strong>, not the current architecture.
+                  The current intended architecture is <strong>ESP32-standalone</strong>.
+                </p>
+              </header>
+
+              <article class="contrib-lesson" id="lesson-esp32-standalone">
+                <h4>Unnecessary Raspberry Pi complexity <span class="contrib-lesson__retired">Retired V1 architecture</span></h4>
+                <ol class="contrib-lesson__trace">
+                  <li>
+                    <p class="contrib-lesson__kicker">Observation / risk</p>
+                    <p>Raspberry Pi added heat, power and volume. That was the V1 prototype interface, not the present reader.</p>
+                  </li>
+                  <li>
+                    <p class="contrib-lesson__kicker">What we learned</p>
+                    <p>Every subsystem must justify its function.</p>
+                  </li>
+                  <li>
+                    <p class="contrib-lesson__kicker">Design response</p>
+                    <p>ESP32 standalone architecture (current). Raspberry Pi is a retired interface, not the present reader.</p>
+                  </li>
+                  <li>
+                    <p class="contrib-lesson__kicker">Evidence / where to read more</p>
+                    <p>Hardware records Pi removal as a completed design decision. Standalone rechargeable operation is designed, not physically validated. There is no dedicated <code>#raspberry-pi</code> anchor; the iteration section is the existing destination.</p>
+                    <ul>
+                      <li><a href="hardware.html#engineering-iterations">Hardware · Engineering iterations (V1 → V2)</a></li>
+                      <li><a href="hardware.html#how-aerosense-reads">Hardware · How AeroSense reads</a></li>
+                      <li><a href="engineering.html#hw-pcb-c1">Engineering · PCB / signal-chain cycle</a></li>
+                    </ul>
+                  </li>
+                </ol>
+              </article>
+            </article>
+          </section>
+
+          <section class="section-block" id="repro-matrix" data-reveal>
+            <span class="section-eyebrow">Evidence dashboard</span>
+            <h2>Reproducibility matrix</h2>
+            <p>
+              A status on this dashboard is a claim. Each claim stays tied to what this Wiki actually shows — not to what a later freeze might add.
+              Expand a contribution for the evidence and limits behind the flags.
+              The <a href="#choose">role selector</a> above also emphasizes matching rows here.
+            </p>
+            <p>
+              <strong>Open files</strong> means a publicly resolving resource. Wiki prose is not a file release.
+              <strong>Quantitatively validated?</strong> means experimental or computational numbers shown on this Wiki. Architecture documentation is not validation.
+            </p>
+            <p>
+              <strong>Reproduced?</strong> is not defined in the source matrix, so we state the working meaning here rather than guessing.
+              It means: has AeroSense shown, on this Wiki, that the item was executed from the documented materials — a protocol run, a firmware build, or a model command?
+              It does not mean that another iGEM team has reused it.
+              Cells marked <em>not applicable</em> follow the dashes in the source matrix: schematic, BOM, data schema, and the HP template are documentation artifacts reused by reading or adopting a file, not by running a procedure.
+            </p>
+            <!-- FREEZE-TODO: Replace every pending cell with an evidence-based status before freeze. -->
+            <div class="contrib-dash" data-matrix-tally>
+              <p class="contrib-dash__kicker">Current evidence on this Wiki</p>
+              <ul>
+                <li><span data-tally="released">0</span> of <span data-tally="open-total">11</span> with released files</li>
+                <li><span data-tally="reproduced">0</span> of <span data-tally="reproduced-total">7</span> applicable items shown as reproduced</li>
+                <li><span data-tally="validated">0</span> of <span data-tally="validated-total">7</span> applicable items quantitatively validated</li>
+              </ul>
+            </div>
+            <dl class="contrib-matrix-legend">
+              <div>
+                <dt><span class="contrib-flag" data-flag="released">Released</span></dt>
+                <dd>Public resource URL exists.</dd>
+              </div>
+              <div>
+                <dt><span class="contrib-flag" data-flag="not-released">Not released</span></dt>
+                <dd>No public files yet.</dd>
+              </div>
+              <div>
+                <dt><span class="contrib-flag" data-flag="demonstrated">Demonstrated</span></dt>
+                <dd>Execution or numbers shown on this Wiki.</dd>
+              </div>
+              <div>
+                <dt><span class="contrib-flag" data-flag="not-demonstrated">Not demonstrated</span></dt>
+                <dd>No Wiki evidence yet.</dd>
+              </div>
+              <div>
+                <dt><span class="contrib-flag" data-flag="na">Not applicable</span></dt>
+                <dd>Documentation artifact, not a run procedure.</dd>
+              </div>
+            </dl>
+            <div class="contrib-matrix-wrap" role="region" aria-label="Reproducibility matrix of contribution packages">
+              <table class="goal-table contrib-table contrib-matrix" data-contrib-matrix>
+                <caption class="visually-hidden">
+                  Reproducibility status for eleven contribution items. Expand a name for evidence and limits. Status columns remain visible without expanding.
+                </caption>
                 <thead>
                   <tr>
-                    <th scope="col">Check</th>
-                    <th scope="col">Required for Available status</th>
-                    <th scope="col">Current page / package state</th>
+                    <th scope="col">Contribution</th>
+                    <th scope="col">Open files</th>
+                    <th scope="col">Reproduced?</th>
+                    <th scope="col">Quantitatively validated?</th>
+                    <th scope="col">Where to find it</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Reuse links resolve</td>
-                    <td>Yes — live URL returns the intended artifact</td>
-                    <td>No package reuse URL is Available; team GitLab path returned HTTP 404 at authoring</td>
+                  <tr data-audience="wet-lab" data-matrix-open="not-released" data-matrix-reproduced="not-demonstrated" data-matrix-validated="not-demonstrated">
+                    <th scope="row">
+                      <details>
+                        <summary>OR/Orco construct documentation <span class="contrib-matrix__more">Evidence and limits</span></summary>
+                        <div class="contrib-matrix__panel">
+                          <dl>
+                            <div>
+                              <dt>What this resource contains</dt>
+                              <dd>The adaptation map comparing published heterologous OR/Orco work with AeroSense implementation choices. Planned later: annotated plasmid maps, complete nucleotide sequences, Registry Part IDs, and OR-selection rationale.</dd>
+                            </div>
+                            <div>
+                              <dt>Reuse instructions</dt>
+                              <dd>Read the comparison table in the Biological Sensing Package. Do not treat unpublished sequences as assigned Parts.</dd>
+                            </div>
+                            <div>
+                              <dt>Evidence</dt>
+                              <dd>Wiki design intent and this adaptation map. No AeroSense Registry IDs, sequence dumps, or experimental validation of these constructs are published on this page.</dd>
+                            </div>
+                            <div>
+                              <dt>Limitations</dt>
+                              <dd>Cellular platform is written as HEK293T pending confirmation of the final implementation. The exact GCaMP–Orco linker and sequence are not inserted. Registry Part IDs are not assigned on this page.</dd>
+                            </div>
+                            <div>
+                              <dt>Related Wiki page</dt>
+                              <dd><a href="parts.html">Parts</a> · <a href="#pkg-biology">Biological Sensing Package</a></dd>
+                            </div>
+                            <div>
+                              <dt>Download / resource</dt>
+                              <dd>Not released on this page.</dd>
+                            </div>
+                          </dl>
+                        </div>
+                      </details>
+                    </th>
+                    <td data-label="Open files"><span class="contrib-flag" data-flag="not-released">Not released</span></td>
+                    <td data-label="Reproduced?"><span class="contrib-flag" data-flag="not-demonstrated">Not demonstrated</span></td>
+                    <td data-label="Quantitatively validated?"><span class="contrib-flag" data-flag="not-demonstrated">Not demonstrated</span></td>
+                    <td data-label="Where to find it"><a href="parts.html">Parts</a> / <a href="#pkg-biology">Contribution</a></td>
                   </tr>
-                  <tr>
-                    <td>Files open</td>
-                    <td>Yes — archives and documents open without private credentials</td>
-                    <td>No release archive published</td>
+                  <tr data-audience="wet-lab" data-matrix-open="not-released" data-matrix-reproduced="not-demonstrated" data-matrix-validated="not-demonstrated">
+                    <th scope="row">
+                      <details>
+                        <summary>Cellular assay protocol <span class="contrib-matrix__more">Evidence and limits</span></summary>
+                        <div class="contrib-matrix__panel">
+                          <dl>
+                            <div>
+                              <dt>What this resource contains</dt>
+                              <dd>Planned HEK293T transfection protocol, VUAA1 functional-assay protocol, and the positive- and negative-control matrix.</dd>
+                            </div>
+                            <div>
+                              <dt>Reuse instructions</dt>
+                              <dd>Use the Experiments page for the intended control logic. Protocol files themselves are not released.</dd>
+                            </div>
+                            <div>
+                              <dt>Evidence</dt>
+                              <dd>No experimental assay result is shown on this Contribution page.</dd>
+                            </div>
+                            <div>
+                              <dt>Limitations</dt>
+                              <dd>A defined Wet Lab pipeline is not a validated contribution until the corresponding experimental evidence is available.</dd>
+                            </div>
+                            <div>
+                              <dt>Related Wiki page</dt>
+                              <dd><a href="experiments.html">Experiments</a> · <a href="#pkg-biology">Biological Sensing Package</a></dd>
+                            </div>
+                            <div>
+                              <dt>Download / resource</dt>
+                              <dd>Not released on this page.</dd>
+                            </div>
+                          </dl>
+                        </div>
+                      </details>
+                    </th>
+                    <td data-label="Open files"><span class="contrib-flag" data-flag="not-released">Not released</span></td>
+                    <td data-label="Reproduced?"><span class="contrib-flag" data-flag="not-demonstrated">Not demonstrated</span></td>
+                    <td data-label="Quantitatively validated?"><span class="contrib-flag" data-flag="not-demonstrated">Not demonstrated</span></td>
+                    <td data-label="Where to find it"><a href="experiments.html">Experiments</a></td>
                   </tr>
-                  <tr>
-                    <td>Code runs</td>
-                    <td>Yes — documented smoke test succeeds on a clean environment</td>
-                    <td>No public code release</td>
+                  <tr data-audience="hardware" data-matrix-open="not-released" data-matrix-reproduced="na" data-matrix-validated="na">
+                    <th scope="row">
+                      <details>
+                        <summary>Hardware schematic + PCB <span class="contrib-matrix__more">Evidence and limits</span></summary>
+                        <div class="contrib-matrix__panel">
+                          <dl>
+                            <div>
+                              <dt>What this resource contains</dt>
+                              <dd>Architecture and review notes on the Hardware page. Planned files: full schematic (PDF + editable source) and PCB design (source + Gerber).</dd>
+                            </div>
+                            <div>
+                              <dt>Reuse instructions</dt>
+                              <dd>Enter at Hardware for why layout, guarding, reference quality and optical leakage belong in the measurement budget. That page is not a fabrication pack.</dd>
+                            </div>
+                            <div>
+                              <dt>Evidence</dt>
+                              <dd>Architecture documentation. The Hardware page is not a substitute for a released schematic/PCB/firmware bundle, and it does not demonstrate biological detection performance.</dd>
+                            </div>
+                            <div>
+                              <dt>Limitations</dt>
+                              <dd>No downloadable reproduction archive is linked here.</dd>
+                            </div>
+                            <div>
+                              <dt>Related Wiki page</dt>
+                              <dd><a href="hardware.html">Hardware</a> · <a href="#pkg-hardware">Weak-Fluorescence Measurement Hardware</a></dd>
+                            </div>
+                            <div>
+                              <dt>Download / resource</dt>
+                              <dd>Not released on this page.</dd>
+                            </div>
+                          </dl>
+                        </div>
+                      </details>
+                    </th>
+                    <td data-label="Open files"><span class="contrib-flag" data-flag="not-released">Not released</span></td>
+                    <td data-label="Reproduced?"><span class="contrib-flag" data-flag="na">Not applicable</span></td>
+                    <td data-label="Quantitatively validated?"><span class="contrib-flag" data-flag="na">Not applicable</span></td>
+                    <td data-label="Where to find it"><a href="hardware.html">Hardware</a></td>
                   </tr>
-                  <tr>
-                    <td>Parts match sequences</td>
-                    <td>Yes — Registry/page sequence matches deposited file</td>
-                    <td>No AeroSense Registry IDs yet</td>
+                  <tr data-audience="hardware" data-matrix-open="not-released" data-matrix-reproduced="na" data-matrix-validated="na">
+                    <th scope="row">
+                      <details>
+                        <summary>BOM <span class="contrib-matrix__more">Evidence and limits</span></summary>
+                        <div class="contrib-matrix__panel">
+                          <dl>
+                            <div>
+                              <dt>What this resource contains</dt>
+                              <dd>A planned bill of materials as CSV with manufacturer part numbers, plus documented component substitutions once released.</dd>
+                            </div>
+                            <div>
+                              <dt>Reuse instructions</dt>
+                              <dd>Use the Hardware page for the current documented reader chain. Do not fabricate from this matrix row.</dd>
+                            </div>
+                            <div>
+                              <dt>Evidence</dt>
+                              <dd>The BOM is listed as a planned reproduction file. It is not published here.</dd>
+                            </div>
+                            <div>
+                              <dt>Limitations</dt>
+                              <dd>No downloadable CSV is linked on this page.</dd>
+                            </div>
+                            <div>
+                              <dt>Related Wiki page</dt>
+                              <dd><a href="hardware.html">Hardware</a> · <a href="#pkg-hardware">Weak-Fluorescence Measurement Hardware</a></dd>
+                            </div>
+                            <div>
+                              <dt>Download / resource</dt>
+                              <dd>Not released on this page.</dd>
+                            </div>
+                          </dl>
+                        </div>
+                      </details>
+                    </th>
+                    <td data-label="Open files"><span class="contrib-flag" data-flag="not-released">Not released</span></td>
+                    <td data-label="Reproduced?"><span class="contrib-flag" data-flag="na">Not applicable</span></td>
+                    <td data-label="Quantitatively validated?"><span class="contrib-flag" data-flag="na">Not applicable</span></td>
+                    <td data-label="Where to find it"><a href="hardware.html">Hardware</a></td>
                   </tr>
-                  <tr>
-                    <td>Units defined</td>
-                    <td>Yes — concentrations, times, optical, and electrical units stated</td>
-                    <td>Not yet package-verified</td>
+                  <tr data-audience="hardware" data-matrix-open="not-released" data-matrix-reproduced="not-demonstrated" data-matrix-validated="not-demonstrated">
+                    <th scope="row">
+                      <details>
+                        <summary>ESP32 firmware <span class="contrib-matrix__more">Evidence and limits</span></summary>
+                        <div class="contrib-matrix__panel">
+                          <dl>
+                            <div>
+                              <dt>What this resource contains</dt>
+                              <dd>Planned ESP32 acquisition and processing source for the standalone reader architecture.</dd>
+                            </div>
+                            <div>
+                              <dt>Reuse instructions</dt>
+                              <dd>The intended later host is the team GitLab project. Presence of that project page is not a released firmware bundle.</dd>
+                            </div>
+                            <div>
+                              <dt>Evidence</dt>
+                              <dd>None on this page. The GitLab URL is recorded as an intended host, not as a released reuse link.</dd>
+                            </div>
+                            <div>
+                              <dt>Limitations</dt>
+                              <dd>No firmware archive is linked from this Contribution page.</dd>
+                            </div>
+                            <div>
+                              <dt>Related Wiki page</dt>
+                              <dd><a href="hardware.html">Hardware</a> · <a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer">gitlab.igem.org/2026/nthu</a></dd>
+                            </div>
+                            <div>
+                              <dt>Download / resource</dt>
+                              <dd>Not released on this page.</dd>
+                            </div>
+                          </dl>
+                        </div>
+                      </details>
+                    </th>
+                    <td data-label="Open files"><span class="contrib-flag" data-flag="not-released">Not released</span></td>
+                    <td data-label="Reproduced?"><span class="contrib-flag" data-flag="not-demonstrated">Not demonstrated</span></td>
+                    <td data-label="Quantitatively validated?"><span class="contrib-flag" data-flag="not-demonstrated">Not demonstrated</span></td>
+                    <td data-label="Where to find it"><a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer">GitLab</a> <span class="contrib-resources__state">intended host, not released here</span></td>
                   </tr>
-                  <tr>
-                    <td>Licenses compatible</td>
-                    <td>Yes — docs/code/hardware licenses stated and compatible with reuse</td>
-                    <td>Wiki site intends CC BY 4.0 for published site text; package licenses pending</td>
+                  <tr data-audience="hardware" data-matrix-open="not-released" data-matrix-reproduced="not-demonstrated" data-matrix-validated="not-demonstrated">
+                    <th scope="row">
+                      <details>
+                        <summary>FDM/DLIA implementation <span class="contrib-matrix__more">Evidence and limits</span></summary>
+                        <div class="contrib-matrix__panel">
+                          <dl>
+                            <div>
+                              <dt>What this resource contains</dt>
+                              <dd>Planned FDM configuration (frequencies and timing parameters) and DLIA implementation (algorithm and source or pseudocode).</dd>
+                            </div>
+                            <div>
+                              <dt>Reuse instructions</dt>
+                              <dd>Read the Hardware page for the intended FDM + DLIA chain and the measurement-integrity argument. Do not treat naming those methods as a calibrated instrument.</dd>
+                            </div>
+                            <div>
+                              <dt>Evidence</dt>
+                              <dd>Design intent documented with Hardware. Frequency-division multiplexing and digital lock-in detection have published precedent; AeroSense does not claim to have invented them.</dd>
+                            </div>
+                            <div>
+                              <dt>Limitations</dt>
+                              <dd>Naming the current ESP32 / TIA / ADC / FDM / DLIA chain documents design intent. It does not mean the reader has been calibrated as a fluorescence instrument on this Wiki.</dd>
+                            </div>
+                            <div>
+                              <dt>Related Wiki page</dt>
+                              <dd><a href="hardware.html">Hardware</a> · <a href="#pkg-hardware">Weak-Fluorescence Measurement Hardware</a></dd>
+                            </div>
+                            <div>
+                              <dt>Download / resource</dt>
+                              <dd>Not released on this page.</dd>
+                            </div>
+                          </dl>
+                        </div>
+                      </details>
+                    </th>
+                    <td data-label="Open files"><span class="contrib-flag" data-flag="not-released">Not released</span></td>
+                    <td data-label="Reproduced?"><span class="contrib-flag" data-flag="not-demonstrated">Not demonstrated</span></td>
+                    <td data-label="Quantitatively validated?"><span class="contrib-flag" data-flag="not-demonstrated">Not demonstrated</span></td>
+                    <td data-label="Where to find it"><a href="hardware.html">Hardware</a></td>
                   </tr>
-                  <tr>
-                    <td>Instructions tested by a non-author</td>
-                    <td>Yes — named tester, date, and issues fixed or disclosed</td>
-                    <td>Not yet performed for any contribution package</td>
+                  <tr data-audience="hardware" data-matrix-open="not-released" data-matrix-reproduced="not-demonstrated" data-matrix-validated="not-demonstrated">
+                    <th scope="row">
+                      <details>
+                        <summary>Calibration protocol <span class="contrib-matrix__more">Evidence and limits</span></summary>
+                        <div class="contrib-matrix__panel">
+                          <dl>
+                            <div>
+                              <dt>What this resource contains</dt>
+                              <dd>A planned staged protocol: dark → leakage → standard fluorescence → FDM, plus the electrical bring-up checklist once released.</dd>
+                            </div>
+                            <div>
+                              <dt>Reuse instructions</dt>
+                              <dd>The source matrix named this destination “Measurement”. This wiki has no separate Measurement page; Hardware is the destination used here.</dd>
+                            </div>
+                            <div>
+                              <dt>Evidence</dt>
+                              <dd>The calibration sequence is documented as design intent. No calibration dataset is linked from this page.</dd>
+                            </div>
+                            <div>
+                              <dt>Limitations</dt>
+                              <dd>A working PCB is not yet a calibrated instrument. Biological measurements require traceable measurement quality that is not shown here.</dd>
+                            </div>
+                            <div>
+                              <dt>Related Wiki page</dt>
+                              <dd><a href="hardware.html">Hardware</a> · <a href="#pkg-hardware">Weak-Fluorescence Measurement Hardware</a></dd>
+                            </div>
+                            <div>
+                              <dt>Download / resource</dt>
+                              <dd>Not released on this page.</dd>
+                            </div>
+                          </dl>
+                        </div>
+                      </details>
+                    </th>
+                    <td data-label="Open files"><span class="contrib-flag" data-flag="not-released">Not released</span></td>
+                    <td data-label="Reproduced?"><span class="contrib-flag" data-flag="not-demonstrated">Not demonstrated</span></td>
+                    <td data-label="Quantitatively validated?"><span class="contrib-flag" data-flag="not-demonstrated">Not demonstrated</span></td>
+                    <td data-label="Where to find it"><a href="hardware.html">Hardware</a> <span class="contrib-resources__state">source named “Measurement”; no separate Measurement page on this wiki</span></td>
+                  </tr>
+                  <tr data-audience="data,wet-lab,hardware,model" data-matrix-open="not-released" data-matrix-reproduced="na" data-matrix-validated="na">
+                    <th scope="row">
+                      <details>
+                        <summary>Data schema <span class="contrib-matrix__more">Evidence and limits</span></summary>
+                        <div class="contrib-matrix__panel">
+                          <dl>
+                            <div>
+                              <dt>What this resource contains</dt>
+                              <dd>The prose measurement contract: minimum experimental metadata, hardware metadata, and model-ready output. Planned files: <code>data_dictionary.csv</code>, example raw and processed datasets, and a schema diagram.</dd>
+                            </div>
+                            <div>
+                              <dt>Reuse instructions</dt>
+                              <dd>Adopt the field lists in the Measurement &amp; Data Contract package. Do not treat field names as measured AeroSense values.</dd>
+                            </div>
+                            <div>
+                              <dt>Evidence</dt>
+                              <dd>Specified in prose on this page. No example files or schema diagram are linked.</dd>
+                            </div>
+                            <div>
+                              <dt>Limitations</dt>
+                              <dd>Field names such as “SNR / signal-quality metric” describe what a record should retain. They are not measured AeroSense SNR values.</dd>
+                            </div>
+                            <div>
+                              <dt>Related Wiki page</dt>
+                              <dd><a href="#pkg-data">Measurement &amp; Data Contract</a></dd>
+                            </div>
+                            <div>
+                              <dt>Download / resource</dt>
+                              <dd>Not released on this page.</dd>
+                            </div>
+                          </dl>
+                        </div>
+                      </details>
+                    </th>
+                    <td data-label="Open files"><span class="contrib-flag" data-flag="not-released">Not released</span></td>
+                    <td data-label="Reproduced?"><span class="contrib-flag" data-flag="na">Not applicable</span></td>
+                    <td data-label="Quantitatively validated?"><span class="contrib-flag" data-flag="na">Not applicable</span></td>
+                    <td data-label="Where to find it"><a href="#pkg-data">Contribution</a></td>
+                  </tr>
+                  <tr data-audience="model" data-matrix-open="not-released" data-matrix-reproduced="not-demonstrated" data-matrix-validated="not-demonstrated">
+                    <th scope="row">
+                      <details>
+                        <summary>Neuromorphic model <span class="contrib-matrix__more">Evidence and limits</span></summary>
+                        <div class="contrib-matrix__panel">
+                          <dl>
+                            <div>
+                              <dt>What this resource contains</dt>
+                              <dd>Planned preprocessing code, feature definitions, AL-inspired processing, MB-inspired sparse projection, classifier / SNN implementation, fixed random seeds, environment file, and the command required to reproduce each result.</dd>
+                            </div>
+                            <div>
+                              <dt>Reuse instructions</dt>
+                              <dd>Read the conceptual pipeline on Description · Decode and the scaffolding on Model. There is no public repository to clone from this page.</dd>
+                            </div>
+                            <div>
+                              <dt>Evidence</dt>
+                              <dd>Conceptual pipeline and scaffolding. No public repository, sample dataset, or quantitative comparison is reported here.</dd>
+                            </div>
+                            <div>
+                              <dt>Limitations</dt>
+                              <dd>Fly olfactory anatomy is cited as inspiration. It is not an AeroSense experimental result. Final dataset size, split definition and quantitative results are not inserted.</dd>
+                            </div>
+                            <div>
+                              <dt>Related Wiki page</dt>
+                              <dd><a href="model.html">Model</a> · <a href="description.html#decode">Description · Decode</a></dd>
+                            </div>
+                            <div>
+                              <dt>Download / resource</dt>
+                              <dd>Not released on this page.</dd>
+                            </div>
+                          </dl>
+                        </div>
+                      </details>
+                    </th>
+                    <td data-label="Open files"><span class="contrib-flag" data-flag="not-released">Not released</span></td>
+                    <td data-label="Reproduced?"><span class="contrib-flag" data-flag="not-demonstrated">Not demonstrated</span></td>
+                    <td data-label="Quantitatively validated?"><span class="contrib-flag" data-flag="not-demonstrated">Not demonstrated</span></td>
+                    <td data-label="Where to find it"><a href="model.html">Model</a></td>
+                  </tr>
+                  <tr data-audience="model" data-matrix-open="not-released" data-matrix-reproduced="not-demonstrated" data-matrix-validated="not-demonstrated">
+                    <th scope="row">
+                      <details>
+                        <summary>Baseline / ablation notebooks <span class="contrib-matrix__more">Evidence and limits</span></summary>
+                        <div class="contrib-matrix__panel">
+                          <dl>
+                            <div>
+                              <dt>What this resource contains</dt>
+                              <dd>The intended baseline comparison ladder (raw features vs AL-inspired vs MB-inspired vs AL → MB / SNN), plus planned baseline models, ablation analysis, and robustness tests.</dd>
+                            </div>
+                            <div>
+                              <dt>Reuse instructions</dt>
+                              <dd>Use the ladder on this page to see which comparisons the package is supposed to include. Notebooks are not released.</dd>
+                            </div>
+                            <div>
+                              <dt>Evidence</dt>
+                              <dd>The ladder is documented as intent. No quantitative comparison is reported here.</dd>
+                            </div>
+                            <div>
+                              <dt>Limitations</dt>
+                              <dd>The ladder is not a completed benchmark table.</dd>
+                            </div>
+                            <div>
+                              <dt>Related Wiki page</dt>
+                              <dd><a href="model.html">Model</a> · <a href="#pkg-model">Neuromorphic Odor-Decoding Package</a></dd>
+                            </div>
+                            <div>
+                              <dt>Download / resource</dt>
+                              <dd>Not released on this page.</dd>
+                            </div>
+                          </dl>
+                        </div>
+                      </details>
+                    </th>
+                    <td data-label="Open files"><span class="contrib-flag" data-flag="not-released">Not released</span></td>
+                    <td data-label="Reproduced?"><span class="contrib-flag" data-flag="not-demonstrated">Not demonstrated</span></td>
+                    <td data-label="Quantitatively validated?"><span class="contrib-flag" data-flag="not-demonstrated">Not demonstrated</span></td>
+                    <td data-label="Where to find it"><a href="model.html">Model</a></td>
+                  </tr>
+                  <tr data-audience="hp" data-matrix-open="not-released" data-matrix-reproduced="na" data-matrix-validated="na">
+                    <th scope="row">
+                      <details>
+                        <summary>HP traceability template <span class="contrib-matrix__more">Evidence and limits</span></summary>
+                        <div class="contrib-matrix__panel">
+                          <dl>
+                            <div>
+                              <dt>What this resource contains</dt>
+                              <dd>The documentation format Stakeholder → Observation → Insight → Design decision → Evidence needed → Re-evaluation, plus the example input → design-consequence rows on this page. A downloadable template is planned.</dd>
+                            </div>
+                            <div>
+                              <dt>Reuse instructions</dt>
+                              <dd>Copy the chain and the example mappings. Do not treat the example table as a dated interview archive.</dd>
+                            </div>
+                            <div>
+                              <dt>Evidence</dt>
+                              <dd>Format and example rows on this page. Engagement records and a reusable template file are not published here.</dd>
+                            </div>
+                            <div>
+                              <dt>Limitations</dt>
+                              <dd>The example mappings are a documentation pattern. They are not a claim that each row has a named stakeholder, dated interview file, or re-evaluation record attached on this Wiki.</dd>
+                            </div>
+                            <div>
+                              <dt>Related Wiki page</dt>
+                              <dd><a href="human-practices.html">Integrated Human Practices</a> · <a href="#pkg-hp">Human-Practices-to-Engineering Traceability</a></dd>
+                            </div>
+                            <div>
+                              <dt>Download / resource</dt>
+                              <dd>Not released on this page.</dd>
+                            </div>
+                          </dl>
+                        </div>
+                      </details>
+                    </th>
+                    <td data-label="Open files"><span class="contrib-flag" data-flag="not-released">Not released</span></td>
+                    <td data-label="Reproduced?"><span class="contrib-flag" data-flag="na">Not applicable</span></td>
+                    <td data-label="Quantitatively validated?"><span class="contrib-flag" data-flag="na">Not applicable</span></td>
+                    <td data-label="Where to find it"><a href="human-practices.html">Human Practices</a></td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            <p class="notice">
-              Compact version labels and last-verified dates will be added only when the team supplies them for a reviewed release. None are shown here because none have been supplied.
-            </p>
           </section>
 
-          <section class="section-block" id="registry" data-reveal>
-            <h2>Registry documentation</h2>
+          <section class="section-block" id="not-yet" data-reveal>
+            <span class="section-eyebrow">Honesty is part of the contribution</span>
+            <h2>What We Have Not Yet Contributed</h2>
             <p>
-              If biological parts are used as a Bronze Contribution, each part needs a real Registry record with a real part ID and a direct Registry link.
-              Wiki text on
-              <a href="parts.html">Parts</a>
-              is not a substitute for complete Registry documentation.
+              Reproducibility also requires stating what remains incomplete.
             </p>
-            <div class="table-scroll" tabindex="0" role="region" aria-label="Registry identifier placeholders">
-              <table class="goal-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Working name</th>
-                    <th scope="col">Registry ID</th>
-                    <th scope="col">Registry link</th>
-                    <th scope="col">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Selected OR expression construct(s)</td>
-                    <td><span class="placeholder-field">Registry ID pending</span></td>
-                    <td>Link pending real ID — use <a href="https://registry.igem.org/" rel="noopener noreferrer">registry.igem.org</a> when IDs exist</td>
-                    <td>Not yet released</td>
-                  </tr>
-                  <tr>
-                    <td>GCaMP–Orco reporter / co-receptor construct</td>
-                    <td><span class="placeholder-field">Registry ID pending</span></td>
-                    <td>Link pending real ID</td>
-                    <td>Not yet released</td>
-                  </tr>
-                  <tr>
-                    <td>Any composite devices submitted for contribution credit</td>
-                    <td><span class="placeholder-field">Registry ID pending</span></td>
-                    <td>Link pending real ID</td>
-                    <td>Not yet released</td>
-                  </tr>
-                </tbody>
-              </table>
+            <p>
+              At the current drafting stage, several planned resources still depend on final Build/Test work.
+              Hardware architecture and engineering redesign should not be confused with demonstrated biological detection performance.
+              Likewise, a defined Wet Lab or Model pipeline should not be presented as a validated contribution until the corresponding experimental or computational evidence is available.
+            </p>
+            <!-- FREEZE-TODO: UPDATE BEFORE FREEZE WITH FINAL STATUS of unfinished components. -->
+            <div class="contrib-pending" role="note">
+              <p class="contrib-pending__label">Pending final verification</p>
+              <p>Final per-component status after Build/Test is not inserted on this page.</p>
             </div>
+            <p>For each unfinished component, we will either:</p>
+            <ol class="goal-list">
+              <li>publish the partial resource with an explicit limitation, or</li>
+              <li>omit unsupported performance claims entirely.</li>
+            </ol>
             <p>
-              No <code>BBa_</code> identifiers are invented on this page. Rows will be updated only after the team provides verified IDs.
+              An honest partial contribution is more useful to future teams than a polished but irreproducible claim.
+            </p>
+            <p id="pkg-education">
+              An earlier Contribution draft listed an education workshop packet. That packet is not one of the five reuse packages on this hub. See
+              <a href="education.html">Education</a>
+              and the
+              <a href="learning-platform.html">Learning Lab</a>.
+            </p>
+            <p id="how-to-reuse">
+              No downloadable contribution package is released on this page. When a matrix row moves to Released, the reuse link must resolve before anyone treats the files as a finished package.
             </p>
           </section>
 
-          <section class="section-block" id="does-not-claim" data-reveal>
-            <h2>What this contribution does not claim</h2>
-            <ul class="limitation-list">
-              <li>It does not claim that a finished reusable contribution already exists because a proposal was written.</li>
-              <li>It does not claim AeroSense performance numbers, disease detection, or field readiness as community resources.</li>
-              <li>It does not claim Registry parts, DOIs, repositories, versions, file sizes, or external reuse stories that have not been verified.</li>
-              <li>It does not treat project-specific lab progress as a contribution unless that progress is packaged for others.</li>
-              <li>It does not mark any resource Available without a resolving link and content review.</li>
-            </ul>
-          </section>
-
-          <section class="section-block" id="engineering-relationship" data-reveal>
-            <h2>Relationship to Engineering</h2>
-            <p>
-              Bronze Contribution asks whether AeroSense leaves something reusable for future teams.
-              Silver Engineering Success asks whether AeroSense documented its own design–build–test–learn cycles with evidence.
-              Those criteria are distinct: a polished DBTL story is not automatically a contribution package, and a released protocol is not automatically Engineering Success.
-            </p>
-            <p>
-              Engineering cycles, iterations, and decision records belong on
-              <a href="engineering.html">Engineering</a>.
-              When a DBTL artifact is later packaged for reuse, it should appear in the glance table here with its own status and reuse link.
-            </p>
+          <section class="section-block" id="one-sentence" data-reveal>
+            <span class="section-eyebrow">If you remember one line</span>
+            <h2>Contribution in One Sentence</h2>
+            <div class="contrib-closing">
+              <blockquote>
+                <p>
+                  AeroSense contributes not only a sensing concept, but a documented path for connecting engineered olfactory receptors to calibrated weak-signal measurement, structured data and computational odor decoding.
+                </p>
+              </blockquote>
+              <p>
+                Our goal is that a future team interested in biological olfaction should be able to reuse one layer of AeroSense without needing to rebuild the entire project—and, if they choose to reproduce the full chain, should know both <strong>what worked and what to watch out for</strong>.
+              </p>
+            </div>
           </section>
         </article>
       </main>
@@ -558,43 +1993,85 @@
       </nav>
 
       <section class="references" aria-labelledby="references-heading" id="references" data-reveal>
-        <h2 id="references-heading">References &amp; Credits</h2>
+        <h2 id="references-heading">References</h2>
         <ol class="ref-list">
           <li id="ref-zboray-2023">
-            <span class="ref-authors">Zboray, K., Toth, A. V., Miskolczi, T. D., Pesti, K., Casanova, E., Kreidl, E., Mike, A., Szenes, Á., Sági, L., &amp; Lukacs, P.</span>
+            <span class="ref-authors">Zboray, K. <i>et al.</i></span>
             <span class="ref-year">(2023).</span>
             <span class="ref-title">High-throughput ligand profile characterization in novel cell lines expressing seven heterologous insect olfactory receptors for the detection of volatile plant biomarkers.</span>
-            <span class="ref-venue"><i>Scientific Reports</i>, <span class="ref-volume">13</span>, Article 21757.</span>
+            <span class="ref-venue"><i>Scientific Reports</i>, <span class="ref-volume">13</span>, 21757.</span>
             <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/s41598-023-47455-4" rel="noopener noreferrer">10.1038/s41598-023-47455-4</a>.</span>
             <a class="ref-backlink" href="#cite-zboray-2023">Back to citation</a>
           </li>
+          <li id="ref-jones-2011">
+            <span class="ref-authors">Jones, P. L., Pask, G. M., Rinker, D. C., &amp; Zwiebel, L. J.</span>
+            <span class="ref-year">(2011).</span>
+            <span class="ref-title">Functional agonism of insect odorant receptor ion channels.</span>
+            <span class="ref-venue"><i>PNAS</i>, <span class="ref-volume">108</span>, 8821–8825.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1073/pnas.1102425108" rel="noopener noreferrer">10.1073/pnas.1102425108</a>.</span>
+            <a class="ref-backlink" href="#cite-jones-2011">Back to citation</a>
+          </li>
+          <li id="ref-tovar-2019">
+            <span class="ref-authors">Tovar, M. <i>et al.</i></span>
+            <span class="ref-year">(2019).</span>
+            <span class="ref-title">One sensor for multiple colors: Fluorescence analysis of microdroplets in microbiological screenings by frequency-division multiplexing.</span>
+            <span class="ref-venue"><i>Analytical Chemistry</i>, <span class="ref-volume">91</span>, 3055–3061.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1021/acs.analchem.8b05451" rel="noopener noreferrer">10.1021/acs.analchem.8b05451</a>.</span>
+            <a class="ref-backlink" href="#cite-tovar-2019">Back to citation</a>
+          </li>
+          <li id="ref-harvie-2023">
+            <span class="ref-authors">Harvie, A. J., &amp; de Mello, J. C.</span>
+            <span class="ref-year">(2023).</span>
+            <span class="ref-title">OLIA: An open-source digital lock-in amplifier.</span>
+            <span class="ref-venue"><i>Frontiers in Sensors</i>, <span class="ref-volume">4</span>, 1102176.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.3389/fsens.2023.1102176" rel="noopener noreferrer">10.3389/fsens.2023.1102176</a>.</span>
+            <a class="ref-backlink" href="#cite-harvie-2023">Back to citation</a>
+          </li>
+          <li id="ref-caron-2013">
+            <span class="ref-authors">Caron, S. J. C., Ruta, V., Abbott, L. F., &amp; Axel, R.</span>
+            <span class="ref-year">(2013).</span>
+            <span class="ref-title">Random convergence of olfactory inputs in the <i>Drosophila</i> mushroom body.</span>
+            <span class="ref-venue"><i>Nature</i>, <span class="ref-volume">497</span>, 113–117.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/nature12063" rel="noopener noreferrer">10.1038/nature12063</a>.</span>
+            <a class="ref-backlink" href="#cite-caron-2013">Back to citation</a>
+          </li>
+          <li id="ref-dasgupta-2017">
+            <span class="ref-authors">Dasgupta, S., Stevens, C. F., &amp; Navlakha, S.</span>
+            <span class="ref-year">(2017).</span>
+            <span class="ref-title">A neural algorithm for a fundamental computing problem.</span>
+            <span class="ref-venue"><i>Science</i>, <span class="ref-volume">358</span>, 793–796.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1126/science.aam9868" rel="noopener noreferrer">10.1126/science.aam9868</a>.</span>
+            <a class="ref-backlink" href="#cite-dasgupta-2017">Back to citation</a>
+          </li>
         </ol>
-        <ul class="credit-list">
-          <li>iGEM Registry (current portal): <a href="https://registry.igem.org/" rel="noopener noreferrer">https://registry.igem.org/</a>.</li>
-          <li>Wiki documentation on this site is intended for release under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">Creative Commons Attribution 4.0 International</a> when published; package-specific code/hardware licenses will be stated at release.</li>
-          <li>No third-party contribution screenshots or reused team materials are embedded on this page.</li>
-        </ul>
       </section>
     </div>
 
+    <div class="page-toc-slot">
     <details class="page-toc" open>
       <summary class="toc__summary"><span class="toc__label">On this page</span></summary>
       <nav aria-label="Table of contents">
         <ol>
-          <li><a href="#at-a-glance"><span class="tech-label">01</span> At a glance</a></li>
-          <li><a href="#candidate-packages"><span class="tech-label">02</span> Candidate packages</a></li>
-          <li><a href="#how-to-reuse"><span class="tech-label">03</span> How to reuse</a></li>
-          <li><a href="#validation-qc"><span class="tech-label">04</span> Validation and QC</a></li>
-          <li><a href="#registry"><span class="tech-label">05</span> Registry documentation</a></li>
-          <li><a href="#does-not-claim"><span class="tech-label">06</span> What this does not claim</a></li>
-          <li><a href="#engineering-relationship"><span class="tech-label">07</span> Relationship to Engineering</a></li>
-          <li><a href="#references"><span class="tech-label">Ref</span> References &amp; Credits</a></li>
+          <li><a href="#status-legend"><span class="tech-label">01</span> Status legend</a></li>
+          <li><a href="#choose"><span class="tech-label">02</span> Choose what you need</a></li>
+          <li><a href="#reuse-map"><span class="tech-label">03</span> Reuse map</a></li>
+          <li><a href="#packages"><span class="tech-label">04</span> Packages</a></li>
+          <li><a href="#pkg-biology"><span class="tech-label">04.1</span> Biology</a></li>
+          <li><a href="#pkg-hardware"><span class="tech-label">04.2</span> Hardware</a></li>
+          <li><a href="#pkg-data"><span class="tech-label">04.3</span> Data</a></li>
+          <li><a href="#pkg-model"><span class="tech-label">04.4</span> Model</a></li>
+          <li><a href="#pkg-hp"><span class="tech-label">04.5</span> Human Practices</a></li>
+          <li><a href="#lessons"><span class="tech-label">05</span> Engineering lessons</a></li>
+          <li><a href="#repro-matrix"><span class="tech-label">06</span> Reproducibility matrix</a></li>
+          <li><a href="#not-yet"><span class="tech-label">07</span> Not yet contributed</a></li>
+          <li><a href="#one-sentence"><span class="tech-label">08</span> One sentence</a></li>
+          <li><a href="#references"><span class="tech-label">Ref</span> References</a></li>
         </ol>
       </nav>
     </details>
+      <a class="back-to-top page-toc__top" href="#main">Back to top</a>
+    </div>
   </div>
-
-  <a class="back-to-top" href="#main">Back to top</a>
 
   <footer class="site-footer">
     <div class="site-footer__inner">
@@ -609,6 +2086,7 @@
             <li><a href="contribution.html">Contribution</a></li>
             <li><a href="engineering.html">Engineering</a></li>
             <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
+            <li><a href="notebook.html">Notebook</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -617,12 +2095,11 @@
             <li><a href="members.html">Members</a></li>
             <li><a href="attributions.html">Attributions</a></li>
           </ul>
-          <h2>Lab</h2>
+          <h2>Wet Lab</h2>
           <ul>
             <li><a href="parts.html">Parts</a></li>
             <li><a href="design.html">Design</a></li>
             <li><a href="experiments.html">Experiments</a></li>
-            <li><a href="notebook.html">Notebook</a></li>
             <li><a href="results.html">Results</a></li>
           </ul>
         </div>

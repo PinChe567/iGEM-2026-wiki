@@ -4,11 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Education · AeroSense · NTHU iGEM 2026</title>
-  <meta name="description" content="AeroSense education: learning purposes, audiences, objectives, evaluation, iteration, and reusable materials. Programs and outcomes are published only with verified evidence.">
+  <meta name="description" content="AeroSense education story for judges and future teams: why we teach, who we designed for, how we measure change, and what others can reuse. Programs and learning gains are published only with evidence.">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/education.css">
   <script src="js/main.js" defer></script>
   <script src="js/glossary.js" defer></script>
   <script src="js/search.js" defer></script>
+  <script src="js/education.js" defer></script>
+  <script src="js/education-evidence-loop.js" defer></script>
 </head>
 <body class="page-education">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -29,9 +32,7 @@
       </div>
       <nav class="site-nav" id="site-nav" aria-label="Primary">
         <ul class="nav-root">
-          <li>
-            <a href="index.html">Home</a>
-          </li>
+          <li><a href="index.html">Home</a></li>
           <li class="nav-item nav-item--dropdown">
             <span class="nav-label-static">Project</span>
             <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-project">Project</button>
@@ -40,6 +41,7 @@
               <li><a href="contribution.html">Contribution</a></li>
               <li><a href="engineering.html">Engineering</a></li>
               <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
+              <li><a href="notebook.html">Notebook</a></li>
             </ul>
           </li>
           <li class="nav-item nav-item--dropdown">
@@ -51,13 +53,12 @@
             </ul>
           </li>
           <li class="nav-item nav-item--dropdown">
-            <span class="nav-label-static">Lab</span>
-            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-lab">Lab</button>
+            <span class="nav-label-static">Wet Lab</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-lab">Wet Lab</button>
             <ul class="nav-submenu" id="submenu-lab">
               <li><a href="parts.html">Parts</a></li>
               <li><a href="design.html">Design</a></li>
               <li><a href="experiments.html">Experiments</a></li>
-              <li><a href="notebook.html">Notebook</a></li>
               <li><a href="results.html">Results</a></li>
             </ul>
           </li>
@@ -108,7 +109,7 @@
   <div class="shell shell--with-toc">
     <div class="page-main-column">
       <main id="main">
-        <header class="page-hero" data-reveal>
+        <header class="page-hero edu-hero" data-reveal>
           <nav aria-label="Breadcrumb">
             <ol class="breadcrumb">
               <li><a href="index.html">Home</a></li>
@@ -116,478 +117,498 @@
               <li aria-current="page">Education</li>
             </ol>
           </nav>
-          <span class="page-kicker">15 / Human Practices</span>
-          <h1>Education</h1>
-          <p class="page-purpose">Learning with communities, not only teaching at them</p>
-          <span class="status-label status-label--planned">Structure ready · no verified programs or learning outcomes published yet</span>
+          <p class="page-kicker">Education</p>
+          <h1>
+            <span class="edu-hero__line">We didn’t want people to just hear about science.</span>
+            <span class="edu-hero__line edu-hero__line--reveal">We wanted them to question it.</span>
+          </h1>
+          <p class="edu-hero__intro">AeroSense Education is built around interactive learning. Games, workshops, and public dialogue are named channels; only the Learning Lab is live on this wiki. The aim is that people can question a sensing claim — and that learning can be measured when evidence exists. This page is the documented story for judges and future teams. It is not the course.</p>
+          <div class="edu-hero__actions">
+            <a class="btn btn--primary" href="learning-platform.html">Enter Learning Platform</a>
+            <a class="btn btn--secondary" href="#philosophy">See Our Education Journey</a>
+          </div>
+          <div class="edu-view-switch" data-edu-view-switch role="group" aria-label="Page view">
+            <button type="button" class="edu-view-switch__btn" data-edu-view="story" aria-pressed="true">Story View</button>
+            <button type="button" class="edu-view-switch__btn" data-edu-view="evidence" aria-pressed="false">Evidence View</button>
+          </div>
+          <p class="edu-view-switch__hint">Story View is the default narrative. Evidence View highlights labels already on this page — nothing is removed — so researchers, educators, and reviewers can scan dialogue, measurement, iteration, project change, reusable resources, and limitations.</p>
+          <p class="visually-hidden" data-edu-view-live aria-live="polite"></p>
+          <span class="status-label status-label--planned">Learning Lab is live on this wiki · no external programs or cohort learning gains are published yet</span>
         </header>
 
+        <ul class="edu-qs" aria-label="What this page answers">
+          <li><a href="#philosophy"><strong>Why?</strong><span>So people can question a sensing claim, not only hear a demo.</span></a></li>
+          <li><a href="#audiences"><strong>Who?</strong><span>Designed for mixed visitors to this wiki. No partner school or workshop audience is published yet.</span></a></li>
+          <li><a href="#philosophy"><strong>How?</strong><span>Learn → play → question → measure → listen → iterate.</span></a></li>
+          <li><a href="#changed-aerosense"><strong>What changed?</strong><span>Education materials on this wiki. Device-UI evaluation remains a design hypothesis.</span></a></li>
+          <li><a href="#measuring"><strong>What did we learn?</strong><span>How to measure change on specific items. No class average is claimed.</span></a></li>
+          <li><a href="#toolkit"><strong>What can others reuse?</strong><span>The Learning Lab and item-ID schema now. A downloadable packet is in preparation.</span></a></li>
+        </ul>
+
         <article class="page-article prose">
-          <section class="section-block" id="educational-purpose" data-reveal>
-            <h2>Educational purpose</h2>
-            <p>
-              AeroSense sits at the intersection of synthetic biology, insect-inspired olfaction, neural-style computation, and portable sensing hardware (see
-              <a href="description.html">Description</a>).
-              Public and classroom explanations of such systems often collapse into two failure modes: treating living-cell sensors as finished products, or treating “AI/neural” labels as proof of understanding.
-            </p>
-            <p>
-              The education track is therefore designed around three learning needs the team identified from the project itself (not from a completed community needs assessment):
-            </p>
-            <ol>
-              <li><strong>Misunderstanding:</strong> odor sensing is often imagined as a single “nose molecule detector,” rather than overlapping receptor patterns that require careful interpretation.</li>
-              <li><strong>Access gap:</strong> fly-circuit ideas (antennal-lobe contrast, mushroom-body sparse codes) and living-cell fluorescence assays are usually unavailable outside specialized labs.</li>
-              <li><strong>Responsible-technology need:</strong> learners should practice separating illustrative models from experimental results and refusing unsupported clinical or field claims—aligned with
-                <a href="human-practices.html">Integrated Human Practices</a>
-                and
-                <a href="description.html#context-boundaries">project boundaries</a>.
+          <section class="edu-section section-block" id="philosophy" data-reveal>
+            <p class="edu-kicker">Framework</p>
+            <h2 id="educational-purpose">Education philosophy</h2>
+            <p class="edu-lede">A talk can transfer a sentence. It cannot tell us whether the sentence survived. We treat education as a loop that has to leave a trace — in a learner’s next decision, or in ours.</p>
+            <div class="edu-loop" data-edu-loop>
+              <div class="edu-loop__ring">
+                <svg viewBox="0 0 220 220" role="img" aria-label="Six-step education loop arranged in a circle.">
+                  <circle cx="110" cy="110" r="78" fill="none" stroke="#d8d8d2" stroke-width="1" stroke-dasharray="4 6"/>
+                  <circle cx="110" cy="110" r="4" fill="#1fd36a"/>
+                </svg>
+                <ol class="edu-loop__steps">
+                  <li>
+                    <button type="button" data-step="learn" aria-pressed="true">
+                      <span class="edu-loop__verb">Learn</span>
+                      <span class="edu-loop__hint">Expose the idea</span>
+                    </button>
+                    <span class="edu-loop__mobile-arrow" aria-hidden="true">↓</span>
+                  </li>
+                  <li>
+                    <button type="button" data-step="play" aria-pressed="false">
+                      <span class="edu-loop__verb">Play</span>
+                      <span class="edu-loop__hint">Interact with it</span>
+                    </button>
+                    <span class="edu-loop__mobile-arrow" aria-hidden="true">↓</span>
+                  </li>
+                  <li>
+                    <button type="button" data-step="question" aria-pressed="false">
+                      <span class="edu-loop__verb">Question</span>
+                      <span class="edu-loop__hint">Challenge assumptions</span>
+                    </button>
+                    <span class="edu-loop__mobile-arrow" aria-hidden="true">↓</span>
+                  </li>
+                  <li>
+                    <button type="button" data-step="measure" aria-pressed="false">
+                      <span class="edu-loop__verb">Measure</span>
+                      <span class="edu-loop__hint">Test what changed</span>
+                    </button>
+                    <span class="edu-loop__mobile-arrow" aria-hidden="true">↓</span>
+                  </li>
+                  <li>
+                    <button type="button" data-step="listen" aria-pressed="false">
+                      <span class="edu-loop__verb">Listen</span>
+                      <span class="edu-loop__hint">Collect feedback</span>
+                    </button>
+                    <span class="edu-loop__mobile-arrow" aria-hidden="true">↓</span>
+                  </li>
+                  <li>
+                    <button type="button" data-step="iterate" aria-pressed="false">
+                      <span class="edu-loop__verb">Iterate</span>
+                      <span class="edu-loop__hint">Change the material — or AeroSense</span>
+                    </button>
+                  </li>
+                </ol>
+              </div>
+              <div class="edu-loop__panel" aria-live="polite">
+                <h3 data-loop-title>Learn</h3>
+                <p data-loop-body>Expose the idea. Put the claim in front of someone before asking them to defend it.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="edu-section section-block" id="from-outreach" data-reveal>
+            <p class="edu-kicker">Model</p>
+            <h2>From outreach to mutual learning</h2>
+            <p>Reaching people is a logistics fact. Learning is a change fact. We refuse to treat the first as the second.</p>
+            <div class="edu-models">
+              <div class="edu-model">
+                <h3>Old model</h3>
+                <ol>
+                  <li>We teach</li>
+                  <li>→ audience listens</li>
+                </ol>
+              </div>
+              <div class="edu-model edu-model--ours">
+                <h3>Our model</h3>
+                <ol>
+                  <li>We teach</li>
+                  <li><span class="edu-swap" aria-hidden="true">↕</span> participants question</li>
+                  <li><span class="edu-swap" aria-hidden="true">↕</span> we measure learning</li>
+                  <li><span class="edu-swap" aria-hidden="true">↕</span> feedback changes education</li>
+                  <li><span class="edu-swap" aria-hidden="true">↕</span> insights inform project communication / design</li>
+                </ol>
+              </div>
+            </div>
+            <p class="edu-callout">Education is not successful because we reached people. It is successful only if something changed — for them or for us.</p>
+          </section>
+
+          <section class="edu-section section-block" id="ecosystem" data-reveal>
+            <p class="edu-kicker">Map</p>
+            <h2>Our education ecosystem</h2>
+            <p class="edu-lede">Four channels. Only the Learning Lab is live on this wiki. The other three are named so the gap is visible, not so a plan looks like delivery.</p>
+            <ul class="edu-eco">
+              <li>
+                <a href="#learning-platform">
+                  <span class="edu-eco__status">Live on this wiki</span>
+                  <h3>Interactive Learning Platform</h3>
+                  <p>Five-module online curriculum with same-concept pre/post assessment. This is the course. This page is the evidence story around it.</p>
+                  <span class="edu-eco__go">Open section</span>
+                </a>
+              </li>
+              <li>
+                <a href="#interactive-tools">
+                  <span class="edu-eco__status">In development</span>
+                  <h3>Educational Games</h3>
+                  <p>Learn by deciding, failing and receiving feedback. Odor Pixel Suite is documented below; it is not hosted here.</p>
+                  <span class="edu-eco__go">Open section</span>
+                </a>
+              </li>
+              <li>
+                <a href="#workshops">
+                  <span class="edu-eco__status">No delivered events published</span>
+                  <h3>Workshops &amp; Talks</h3>
+                  <p>Face-to-face dialogue for different audiences. None are listed as completed on this wiki.</p>
+                  <span class="edu-eco__go">Open section</span>
+                </a>
+              </li>
+              <li>
+                <a href="#toolkit">
+                  <span class="edu-eco__status">In preparation</span>
+                  <h3>Open Resources</h3>
+                  <p>Reusable materials for teachers, students and future iGEM teams. Only real files are linked.</p>
+                  <span class="edu-eco__go">Open section</span>
+                </a>
+              </li>
+            </ul>
+          </section>
+
+          <section class="edu-section section-block" id="learning-platform" data-reveal>
+            <p class="edu-kicker">Product</p>
+            <h2>Interactive Learning Platform</h2>
+            <p>Five modules. Same pre/post concepts inside each module. Knowledge gain is post percentage minus pre percentage, stored in the browser, and not treated as a published class result. Item IDs are stable so a survey or a game can later use the same questions.</p>
+            <p>Open, free, no login. Progress does not leave the device unless an approved backend is added later.</p>
+            <p>Every activity on this page uses one evidence loop — Question, Design, Engage, Evidence, Learn, Change, Reuse — so games, workshops, this platform, and teacher materials can be compared without a new template each time. Compact timeline and detailed case study are views of the same record. Pending fields stay pending.</p>
+            <div data-eel-mount="learning-platform"></div>
+            <ol class="edu-mods" aria-label="Five Learning Lab modules">
+              <li>
+                <a href="learning-01-smell.html">
+                  <span class="edu-mods__num">01 Discover</span>
+                  <h3>How do we smell?</h3>
+                  <p>Combinatorial receptor patterns.</p>
+                </a>
+              </li>
+              <li>
+                <a href="learning-02-mold.html">
+                  <span class="edu-mods__num">02 Question</span>
+                  <h3>Mold, mycotoxins, unseen risk</h3>
+                  <p>The three misconception items live here.</p>
+                </a>
+              </li>
+              <li>
+                <a href="learning-03-synbio.html">
+                  <span class="edu-mods__num">03 Build</span>
+                  <h3>A living odor sensor</h3>
+                  <p>OR, Orco, GCaMP, containment.</p>
+                </a>
+              </li>
+              <li>
+                <a href="learning-04-decode.html">
+                  <span class="edu-mods__num">04 Decode</span>
+                  <h3>An odor is a pattern</h3>
+                  <p>Contrast, sparse codes, no fake accuracy.</p>
+                </a>
+              </li>
+              <li>
+                <a href="learning-05-act.html">
+                  <span class="edu-mods__num">05 Decide</span>
+                  <h3>A signal is not a verdict</h3>
+                  <p>Screening guides the next action.</p>
+                </a>
               </li>
             </ol>
-            <p class="notice">
-              This page uses an outcomes-and-iteration narrative. Event counts and photo galleries are not substitutes for evaluation. No programs, partners, attendance figures, feedback, learning gains, quotes, or continuation promises are invented here.
-            </p>
+            <p><a class="btn btn--primary" href="learning-platform.html">Launch the platform</a></p>
           </section>
 
-          <section class="section-block" id="audiences" data-reveal>
-            <h2>Who we designed with and for</h2>
-            <div class="evidence-status" data-status="planned">
-              <span class="evidence-status__label">Status</span>
-              <span class="evidence-status__value">Planned</span>
-            </div>
-            <div class="empty-state" role="status">
-              <h3 class="empty-state__title">No verified audience partnerships published</h3>
-              <p>
-                Real audience groups, needs assessments, partner roles, and prior-knowledge checks will be listed only after confirmation. The educators/learners row on
-                <a href="human-practices.html#stakeholder-map">Human Practices · Stakeholder map</a>
-                is a planning category, not an engagement record.
-              </p>
-            </div>
-            <div class="table-scroll" tabindex="0" role="region" aria-label="Audience design checklist">
-              <table class="goal-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Design item</th>
-                    <th scope="col">Current record</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Audience groups</td>
-                    <td><span class="placeholder-field">None confirmed for delivered programs</span></td>
-                  </tr>
-                  <tr>
-                    <td>Needs assessment</td>
-                    <td><span class="placeholder-field">Not conducted / not published</span></td>
-                  </tr>
-                  <tr>
-                    <td>Accessibility considerations</td>
-                    <td>Site rules require keyboard/touch support and English public content; program-level adaptations <span class="placeholder-field">pending</span></td>
-                  </tr>
-                  <tr>
-                    <td>Prior knowledge assumptions</td>
-                    <td><span class="placeholder-field">Not frozen per audience</span></td>
-                  </tr>
-                  <tr>
-                    <td>Partner role</td>
-                    <td><span class="placeholder-field">No partner school or organization confirmed on this wiki</span></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <section class="section-block" id="learning-objectives" data-reveal>
-            <h2>Learning objectives</h2>
-            <p>
-              Objectives below are
-              <strong>draft targets for future programs</strong>
-              so evaluation methods can be designed before delivery. They are not claims that learners have achieved them. Vague “raise awareness” goals without evaluation are rejected.
-            </p>
-            <div class="table-scroll" tabindex="0" role="region" aria-label="Draft learning objectives">
-              <table class="goal-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Audience (when confirmed)</th>
-                    <th scope="col">Observable objective</th>
-                    <th scope="col">Planned evaluation method</th>
-                    <th scope="col">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Secondary / university STEM learners</td>
-                    <td>Given an illustrative multi-receptor pattern, the learner can state why a single-channel reading is insufficient to identify an odor class</td>
-                    <td>Short constructed-response item scored with a rubric</td>
-                    <td>Draft · not delivered</td>
-                  </tr>
-                  <tr>
-                    <td>Secondary / university STEM learners</td>
-                    <td>The learner can distinguish an educational game illustration from an experimental fluorescence measurement</td>
-                    <td>Two-item classification check (illustration vs experiment) with explanation</td>
-                    <td>Draft · not delivered</td>
-                  </tr>
-                  <tr>
-                    <td>Public / non-specialist adults</td>
-                    <td>The learner can restate AeroSense’s current boundary: research prototype, not a clinical diagnostic or field-certified device</td>
-                    <td>Exit ticket paraphrase checked against a key</td>
-                    <td>Draft · not delivered</td>
-                  </tr>
-                  <tr>
-                    <td>Educators / facilitators</td>
-                    <td>The facilitator can run one activity using a guide without inventing performance numbers</td>
-                    <td>Facilitator dry-run checklist + peer observation</td>
-                    <td>Draft · toolkit not released</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <section class="section-block" id="program-portfolio" data-reveal>
-            <h2>Program portfolio</h2>
-            <p>
-              Only verified programs get a section. Candidate categories (high-school workshops, online learning, elementary outreach, university/biotechnology camps, older-adult outreach, public booths, seminars) are
-              <strong>not listed as Planned</strong>
-              here because planning materials did not confirm those programs for wiki publication.
-            </p>
-            <div class="empty-state" role="status">
-              <h3 class="empty-state__title">No verified education programs</h3>
-              <p>
-                Contribution package
-                <a href="contribution.html#pkg-education">pkg-education</a>
-                remains In development with no released workshop packet, slide deck, or classroom module. When a program is confirmed, it will use the activity card fields below.
-              </p>
-            </div>
-
-            <article class="integration-case integration-case--template" id="activity-template" aria-labelledby="activity-template-title">
-              <header class="integration-case__header">
-                <h3 id="activity-template-title">Activity template · awaiting a verified program</h3>
-                <div class="evidence-status" data-status="planned">
-                  <span class="evidence-status__label">Status</span>
-                  <span class="evidence-status__value">Planned</span>
-                </div>
-              </header>
-              <dl class="integration-case__dl">
-                <dt>Date / status</dt>
-                <dd><span class="placeholder-field">YYYY-MM-DD · Planned / Delivered / Evaluated</span></dd>
-                <dt>Audience and recruitment</dt>
-                <dd><span class="placeholder-field">Who; how recruited; n if known</span></dd>
-                <dt>Co-design / partner</dt>
-                <dd><span class="placeholder-field">Partner role and confirmation</span></dd>
-                <dt>Learning objectives</dt>
-                <dd><span class="placeholder-field">Observable objectives for this audience</span></dd>
-                <dt>Activity / materials</dt>
-                <dd><span class="placeholder-field">What happened; material list</span></dd>
-                <dt>Accessibility and inclusion choices</dt>
-                <dd><span class="placeholder-field">Concrete adaptations</span></dd>
-                <dt>Facilitator preparation</dt>
-                <dd><span class="placeholder-field">Training / dry-run notes</span></dd>
-                <dt>Evaluation method</dt>
-                <dd><span class="placeholder-field">Instrument + design (not satisfaction alone)</span></dd>
-                <dt>Actual evidence</dt>
-                <dd><span class="placeholder-field">Notebook / file link</span></dd>
-                <dt>What learners reported / learned</dt>
-                <dd><span class="placeholder-field">Only with evaluation source — no invented quotes</span></dd>
-                <dt>What the team learned</dt>
-                <dd><span class="placeholder-field">Facilitation insight</span></dd>
-                <dt>Change for the next iteration</dt>
-                <dd><span class="placeholder-field">Linked change + notebook</span></dd>
-                <dt>Reusable material link and license</dt>
-                <dd><span class="placeholder-field">Real download only when complete and licensed</span></dd>
-              </dl>
-            </article>
-          </section>
-
-          <section class="section-block" id="interactive-tools" data-reveal>
-            <h2>Interactive tools (software under development)</h2>
+          <section class="edu-section section-block" id="interactive-tools" data-reveal>
+            <p class="edu-kicker">Play</p>
+            <h2>Education through play</h2>
             <div class="evidence-status" data-status="in-progress">
               <span class="evidence-status__label">Status</span>
               <span class="evidence-status__value">In development</span>
             </div>
-            <p>
-              The team maintains a local static suite called
-              <strong>Odor Pixel Suite</strong>
-              (Pattern Recognition; Identity &amp; Path Deduction; Mixture Inference). It uses
-              <strong>illustrative</strong>
-              virtual-receptor / fictional-gate models to practice pattern reading, deduction, and mixture intuition—not experimental measurement reports. It is
-              <strong>not</strong>
-              published as a download from this wiki page, has unfinished media-license verification in its asset manifest, and is
-              <strong>not</strong>
-              counted as a delivered outreach program or measured learning gain.
-            </p>
+            <div class="edu-emark" data-edu-tags="limitation" data-note-limitation="suite not hosted; no playtest photos">
+              <p>Games are documented with the same evidence loop as every other activity. The local <strong>Odor Pixel Suite</strong> is not hosted on this wiki, has unfinished asset-license checks, and is not an Education medal evidence item. No playtest photos are published. Switch any case between a compact timeline and a detailed case study.</p>
+            </div>
+            <div data-eel-mount="game"></div>
+          </section>
 
-            <div class="table-scroll" tabindex="0" role="region" aria-label="Non-interactive accessible descriptions of Odor Pixel Suite games">
-              <table class="goal-table">
+          <section class="edu-section section-block" id="workshops" data-reveal>
+            <p class="edu-kicker">Workshops</p>
+            <h2>Workshops &amp; talks</h2>
+            <div class="edu-emark" data-edu-tags="dialogue limitation" data-note-dialogue="no participant discussion published" data-note-limitation="no delivered event published">
+              <p>No face-to-face event is published. The empty loop is the documentation standard the next workshop must fill — not a claim that one already happened.</p>
+            </div>
+            <div data-eel-mount="workshop"></div>
+          </section>
+
+          <section class="edu-section section-block" id="audiences" data-reveal>
+            <p class="edu-kicker">Who</p>
+            <h2>Different people, different learning</h2>
+            <p>We do not list age groups as if they had already sat with us. The table only includes a channel we actually shipped: anyone who can open this wiki.</p>
+            <div class="edu-emark" data-edu-tags="measurement limitation" data-note-measurement="pre/post on the wiki" data-note-limitation="no partner audiences published">
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Audience adaptation matrix">
+              <table class="goal-table edu-table-cards">
                 <thead>
                   <tr>
-                    <th scope="col">Tool</th>
-                    <th scope="col">Plain-language description (non-interactive alternative)</th>
-                    <th scope="col">Wiki download</th>
+                    <th scope="col">Audience</th>
+                    <th scope="col">Barrier / starting point</th>
+                    <th scope="col">Teaching approach</th>
+                    <th scope="col">Interaction</th>
+                    <th scope="col">What we learned</th>
+                    <th scope="col">How we adapted</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Game 1 · Pattern Recognition</td>
-                    <td>Learners see an illustrative multi-channel “LED scent code” and choose which labeled odor pattern it matches. Teaching point: identification from a pattern across channels, not a single sensor spike.</td>
-                    <td><span class="placeholder-field">Not hosted on this wiki</span></td>
+                    <td data-label="Audience">Self-directed wiki visitors</td>
+                    <td data-label="Barrier / starting point">No facilitator. Mixed prior knowledge. English public wiki.</td>
+                    <td data-label="Teaching approach">Five open modules; any order; simulation labels.</td>
+                    <td data-label="Interaction">Pre/post, pattern tools, QC desk, local dashboard.</td>
+                    <td data-label="What we learned">We cannot identify who used the pages. Local scores are not a sample.</td>
+                    <td data-label="How we adapted">Built <a href="learning-platform/progress.html">a personal dashboard</a> and refused to print class averages.</td>
                   </tr>
                   <tr>
-                    <td>Game 2 · Identity &amp; Path Deduction</td>
-                    <td>Learners gather clues in a fictional gate labyrinth to identify a “phantom” by combining identity evidence along a path. Teaching point: sequential deduction under incomplete information.</td>
-                    <td><span class="placeholder-field">Not hosted on this wiki</span></td>
-                  </tr>
-                  <tr>
-                    <td>Game 3 · Mixture Inference</td>
-                    <td>Learners inspect a 12-channel illustrative mixture signal and infer simplified sources/ratios. Teaching point: mixtures are not always linear sums; game outcomes must not be read as real concentrations or affinities.</td>
-                    <td><span class="placeholder-field">Not hosted on this wiki</span></td>
+                    <td colspan="6"><span class="placeholder-field">No completed programs published for primary students, high school students, university classrooms, teachers, public events, older adults, or food-industry stakeholders. Those groups are not claimed as audiences on this wiki.</span></td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            <p class="notice">
-              Progress in the suite is intended to stay in browser local storage without remote gameplay APIs. Until the suite is copied into wiki static hosting with verified licenses, facilitator guide, and an evaluation plan, it remains a development asset—not an Education medal evidence item.
-            </p>
+            </div>
+            <p>Partner schools and recruitment records: none on this wiki. See also <a href="human-practices.html#stakeholder-map">Human Practices · stakeholder map</a> (planning category, not an engagement log).</p>
           </section>
 
-          <section class="section-block" id="evaluation" data-reveal>
-            <h2>Evaluation</h2>
-            <div class="empty-state" role="status">
-              <h3 class="empty-state__title">No evaluation dataset published</h3>
-              <p>
-                Satisfaction surveys alone will not be reported as learning. When evaluation exists, this section will document instruments, design (e.g. pre/post or performance tasks), sample, missing data, analysis, limitations, and privacy/consent—consistent with
-                <a href="safety-and-security.html#data-privacy">Safety · Data and privacy</a>.
-              </p>
-            </div>
-            <div class="table-scroll" tabindex="0" role="region" aria-label="Evaluation checklist">
-              <table class="goal-table">
+          <section class="edu-section section-block" id="measuring" data-reveal>
+            <p class="edu-kicker">Evaluation</p>
+            <h2 id="evaluation">Did people actually learn?</h2>
+            <p>We can describe the instrument. We cannot describe a cohort we have not published.</p>
+            <div class="edu-emark" data-edu-tags="measurement limitation" data-note-measurement="pre/post assessment" data-note-limitation="no published cohort">
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Education measurement status">
+              <table class="goal-table edu-table-cards">
                 <thead>
                   <tr>
-                    <th scope="col">Element</th>
+                    <th scope="col">Layer</th>
+                    <th scope="col">What it is</th>
                     <th scope="col">Status</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Instruments</td>
-                    <td><span class="placeholder-field">None published</span></td>
+                    <td data-label="Layer">Completed data</td>
+                    <td data-label="What it is">No identified sample, no published pre/post table, no item-level correction rates.</td>
+                    <td data-label="Status">None published</td>
                   </tr>
                   <tr>
-                    <td>Design (pre/post or other)</td>
-                    <td><span class="placeholder-field">None</span></td>
+                    <td data-label="Layer">Ongoing data</td>
+                    <td data-label="What it is">Optional localStorage in each visitor’s browser (<code>aerosense.learn.v2</code>), including reflections. Visible only to that visitor on <a href="learning-platform/progress.html">the dashboard</a>.</td>
+                    <td data-label="Status">Local only · not a study dataset</td>
                   </tr>
                   <tr>
-                    <td>Sample / recruitment</td>
-                    <td><span class="placeholder-field">None</span></td>
-                  </tr>
-                  <tr>
-                    <td>Missing data handling</td>
-                    <td><span class="placeholder-field">N/A</span></td>
-                  </tr>
-                  <tr>
-                    <td>Analysis</td>
-                    <td><span class="placeholder-field">None</span></td>
-                  </tr>
-                  <tr>
-                    <td>Limitations</td>
-                    <td>No programs delivered on this wiki; cannot report learning gains</td>
-                  </tr>
-                  <tr>
-                    <td>Privacy / consent</td>
-                    <td>No learner personal data claimed; IRB/ethics approval not claimed</td>
+                    <td data-label="Layer">Planned analysis</td>
+                    <td data-label="What it is">Same-concept items across survey, game, and Learning Lab. Cross-tool comparison of the three mycotoxin misconceptions. Requires consent, minimization, and an approved backend before any upload.</td>
+                    <td data-label="Status">Planned</td>
                   </tr>
                 </tbody>
               </table>
             </div>
+            <details class="edu-method">
+              <summary>How the platform scores a module</summary>
+              <p>Each module uses three items. The same item IDs appear on pre-test and post-test. Score is the percent of those three answered to the keyed choice. Knowledge gain is post percentage minus pre percentage, reported as percentage points — not “percent smarter.”</p>
+              <p>Item-level misconception correction is designed (especially Module 2) but not published as a table.</p>
+              <p>Cross-tool: <code>ITEM_BANK</code> in <a href="js/learning-data.js">js/learning-data.js</a> tags each item with sources <code>survey</code>, <code>game</code>, and <code>learning-platform</code>. Survey and game implementations are not on this wiki yet. Only the Learning Lab path is live.</p>
+            </details>
+            <p class="notice">Knowledge gain is evidence of change on these specific questions. It should not be presented as a complete measurement of scientific literacy.</p>
+            </div>
+            <p>Privacy: no names, emails, or learner IDs are collected by the Learning Lab. See <a href="safety-and-security.html#data-privacy">Safety · Data and privacy</a>.</p>
           </section>
 
-          <section class="section-block" id="iteration" data-reveal>
-            <h2>Iteration</h2>
+          <section class="edu-section section-block" id="three-experiences" data-reveal>
+            <p class="edu-kicker">Signature comparison</p>
+            <h2>The same question, three experiences</h2>
+            <p>Three mycotoxin misconceptions are written once and intended to travel across tools.</p>
+            <div class="edu-formats">
+              <article class="edu-format edu-emark" data-edu-tags="limitation" data-note-limitation="not implemented on this wiki">
+                <h3>Survey</h3>
+                <p>Answer the question.</p>
+                <p><span class="placeholder-field">Not implemented on this wiki</span></p>
+              </article>
+              <article class="edu-format edu-emark" data-edu-tags="limitation" data-note-limitation="not implemented on this wiki">
+                <h3>Game</h3>
+                <p>Make a decision in context.</p>
+                <p><span class="placeholder-field">Not implemented on this wiki</span></p>
+              </article>
+              <article class="edu-format edu-emark" data-edu-tags="measurement" data-note-measurement="pre/post assessment">
+                <h3>Learning Platform</h3>
+                <p>Learn + interact + answer again.</p>
+                <p>Live in <a href="learning-02-mold.html">Module 2</a> as pre/post with the same IDs.</p>
+              </article>
+            </div>
+            <div class="edu-items">
+              <article class="edu-item">
+                <h3><code>MYTH_MOLD_REMOVE</code></h3>
+                <p>“If I remove the moldy part, the rest is always safe.”</p>
+              </article>
+              <article class="edu-item">
+                <h3><code>MYTH_HEAT_DESTROY</code></h3>
+                <p>“Heating completely removes all mycotoxin risk.”</p>
+              </article>
+              <article class="edu-item">
+                <h3><code>MYTH_LOOK_SMELL_SAFE</code></h3>
+                <p>If food looks and smells normal, can mycotoxin risk be ruled out?</p>
+              </article>
+            </div>
+            <div class="edu-pending edu-emark" data-edu-tags="limitation" data-note-limitation="analysis pending">
+              <h3>Which format best helps correct each misconception?</h3>
+              <p>Study design: compare item-level correction for the same ID after a survey-only pass, a game decision, and a Learning Lab pre/post. No chart is drawn here because no cross-tool dataset exists.</p>
+              <p><strong>Analysis pending.</strong> Local browser scores are not that dataset.</p>
+            </div>
+          </section>
+
+          <section class="edu-section section-block" id="participants-taught" data-reveal>
+            <p class="edu-kicker">Feedback</p>
+            <h2>What participants taught us</h2>
+            <div class="edu-emark" data-edu-tags="dialogue limitation" data-note-dialogue="participant discussion" data-note-limitation="no quotes or observation cards published">
             <div class="empty-state" role="status">
-              <h3 class="empty-state__title">No education iterations evidenced</h3>
-              <p>
-                Before/after changes will link materials versions and
-                <a href="notebook.html">Notebook</a>
-                records. Software commits alone are not classroom iteration evidence.
-              </p>
+              <h3 class="empty-state__title">No participant quotes or observation cards published</h3>
+              <p>We will not invent “participants said.” When a consented note exists, it will use this card: we assumed → they said or did → we learned → we changed.</p>
             </div>
-            <div class="table-scroll" tabindex="0" role="region" aria-label="Education iteration log">
-              <table class="goal-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Before</th>
-                    <th scope="col">After</th>
-                    <th scope="col">Evidence</th>
-                    <th scope="col">Notebook</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td colspan="4"><span class="placeholder-field">No rows</span></td>
-                  </tr>
-                </tbody>
-              </table>
+            <div class="edu-assume">
+              <article>
+                <h3>Card template · unused until evidence exists</h3>
+                <p><strong>We assumed</strong> — <span class="placeholder-field">Team prior</span></p>
+                <p><strong>Participants said / did</strong> — <span class="placeholder-field">Requires source and consent</span></p>
+                <p><strong>We learned</strong> — <span class="placeholder-field">Interpretation</span></p>
+                <p><strong>We changed</strong> — <span class="placeholder-field">Linked material or notebook</span></p>
+              </article>
+            </div>
             </div>
           </section>
 
-          <section class="section-block" id="inclusion" data-reveal>
-            <h2>Inclusion and accessibility</h2>
-            <p>Concrete adaptations only—no slogans presented as completed work.</p>
-            <div class="table-scroll" tabindex="0" role="region" aria-label="Inclusion and accessibility">
-              <table class="goal-table">
+          <section class="edu-section section-block" id="changed-aerosense" data-reveal>
+            <p class="edu-kicker">Integration</p>
+            <h2>How education changed AeroSense</h2>
+            <p>Building the curriculum forced communication choices. Those are real changes to education materials. They are not automatically device-UI changes, and they are not participant-evaluted until we say so.</p>
+            <div class="edu-emark" data-edu-tags="project-change iteration" data-note-project-change="risk communication revision" data-note-iteration="education-material change">
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Education to project traceability">
+              <table class="goal-table edu-table-cards">
                 <thead>
                   <tr>
-                    <th scope="col">Area</th>
-                    <th scope="col">What exists now</th>
-                    <th scope="col">Program-level adaptation</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Language</td>
-                    <td>Public wiki in English (<code>lang="en"</code>)</td>
-                    <td><span class="placeholder-field">No bilingual lesson packet released</span></td>
-                  </tr>
-                  <tr>
-                    <td>Disability access</td>
-                    <td>Wiki: skip link, keyboard/nav patterns, reduced-motion support in site JS/CSS rules</td>
-                    <td>Non-interactive game descriptions provided above; playable suite a11y audit <span class="placeholder-field">not published</span></td>
-                  </tr>
-                  <tr>
-                    <td>Identifiable minors in media</td>
-                    <td>No education photos published on this page</td>
-                    <td>Policy: do not display identifiable minors without appropriate permission</td>
-                  </tr>
-                  <tr>
-                    <td>Socioeconomic access</td>
-                    <td>Reusable toolkit intended when released under an open license</td>
-                    <td><span class="placeholder-field">No toolkit download yet</span></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <section class="section-block" id="toolkit" data-reveal>
-            <h2>Reusable education toolkit</h2>
-            <div class="evidence-status" data-status="in-progress">
-              <span class="evidence-status__label">Status</span>
-              <span class="evidence-status__value">In development</span>
-            </div>
-            <p>
-              Downloads appear only when a file is complete, openable, licensed, and usable outside NTHU. There are
-              <strong>no fake download buttons</strong>.
-            </p>
-            <div class="table-scroll" tabindex="0" role="region" aria-label="Reusable education toolkit checklist">
-              <table class="goal-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Item</th>
+                    <th scope="col">Education observation</th>
+                    <th scope="col">Interpretation</th>
+                    <th scope="col">Project implication</th>
+                    <th scope="col">Change</th>
                     <th scope="col">Status</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Facilitator guide</td>
-                    <td><span class="placeholder-field">Not released</span></td>
+                    <td data-label="Education observation">Users can read a screening band as a safety certificate</td>
+                    <td data-label="Interpretation">Risk language is easy to over-claim</td>
+                    <td data-label="Project implication">A UI could create false reassurance</td>
+                    <td data-label="Change"><a href="learning-05-act.html">Module 5</a> boundaries card: screening ≠ confirmatory testing; recommended next action, not a verdict</td>
+                    <td data-label="Status">Education-material change. Device UI: design hypothesis / planned evaluation</td>
                   </tr>
                   <tr>
-                    <td>Slides</td>
-                    <td><span class="placeholder-field">Not released</span></td>
+                    <td data-label="Education observation">One loud channel looks like an identity</td>
+                    <td data-label="Interpretation">Combinatorial coding is not intuitive</td>
+                    <td data-label="Project implication">A readout that highlights a single peak would teach the wrong lesson</td>
+                    <td data-label="Change">Module 1 fingerprint + mystery-pattern interactions</td>
+                    <td data-label="Status">Education-material change</td>
                   </tr>
                   <tr>
-                    <td>Worksheets</td>
-                    <td><span class="placeholder-field">Not released</span></td>
-                  </tr>
-                  <tr>
-                    <td>Game / interactive source</td>
-                    <td>Local Odor Pixel Suite exists outside this wiki tree; not linked as a wiki static download; asset licenses include TODO-VERIFY entries</td>
-                  </tr>
-                  <tr>
-                    <td>Answer key</td>
-                    <td><span class="placeholder-field">Not released</span></td>
-                  </tr>
-                  <tr>
-                    <td>Adaptation notes</td>
-                    <td><span class="placeholder-field">Not released</span></td>
-                  </tr>
-                  <tr>
-                    <td>Age range / duration / materials</td>
-                    <td><span class="placeholder-field">Not frozen for a public packet</span></td>
-                  </tr>
-                  <tr>
-                    <td>License</td>
-                    <td>Wiki prose: <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">CC BY 4.0</a> intended for published docs (
-                    <a href="contribution.html#pkg-education">Contribution</a>). Toolkit/file license <span class="placeholder-field">pending release</span></td>
-                  </tr>
-                  <tr>
-                    <td>Tested status</td>
-                    <td>Not classroom-tested on this wiki</td>
+                    <td data-label="Education observation">A classifier number looks like proof</td>
+                    <td data-label="Interpretation">AI language can launder a weak measurement</td>
+                    <td data-label="Project implication">Hardware and model pages must not borrow a game score</td>
+                    <td data-label="Change">Module 4: no fake accuracy; “AI cannot rescue bad measurements”</td>
+                    <td data-label="Status">Education-material change. Model page already refuses synthetic performance plots</td>
                   </tr>
                 </tbody>
               </table>
             </div>
-          </section>
-
-          <section class="section-block" id="continuity" data-reveal>
-            <h2>Long-term continuity</h2>
-            <div class="content-needed-panel" role="status">
-              <p class="content-needed-panel__kicker">Ownership · content needed</p>
-              <p>
-                Continuation is not promised without a named responsible person or organization, an update plan, and partner confirmation.
-              </p>
-              <ul class="content-needed-panel__checklist">
-                <li>Owner after the iGEM season — pending</li>
-                <li>Partner commitment letter / email — pending</li>
-                <li>Update cadence for materials — pending</li>
-                <li>Archive location (GitLab / wiki static) — pending</li>
-              </ul>
             </div>
           </section>
 
-          <section class="section-block" id="what-everyone-learned" data-reveal>
-            <h2>What did everyone learn?</h2>
-            <div class="table-scroll" tabindex="0" role="region" aria-label="What everyone learned">
-              <table class="goal-table">
+          <section class="edu-section section-block edu-resources" id="toolkit" data-reveal>
+            <p class="edu-kicker">Reuse</p>
+            <h2>Open educational resources</h2>
+            <p>Future teams and teachers should leave with files, not vibes. Downloads appear only when a file exists, opens, and is licensed. There are no fake buttons. Teacher activities use the same evidence loop as games and the Learning Lab.</p>
+            <!-- Adding a downloadable resource: link a real, licensed file in this table; never add a button to a missing file. If it is a teacher activity, also add a case in js/education-evidence-loop.js (CASES). -->
+            <div data-eel-mount="teacher"></div>
+            <div class="edu-emark" data-edu-tags="reusable-resource limitation" data-note-reusable-resource="teacher toolkit and live wiki files" data-note-limitation="missing downloads stay unlabeled as files">
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Open educational resources">
+              <table class="goal-table edu-table-cards">
                 <thead>
                   <tr>
-                    <th scope="col">Group</th>
-                    <th scope="col">Claimed learning</th>
-                    <th scope="col">Evidence</th>
+                    <th scope="col">Resource</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Where</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Learners</td>
-                    <td><span class="placeholder-field">None published</span></td>
-                    <td>Requires evaluation source</td>
+                    <td data-label="Resource">Learning Platform</td>
+                    <td data-label="Status">Live</td>
+                    <td data-label="Where"><a href="learning-platform.html">learning-platform.html</a></td>
                   </tr>
                   <tr>
-                    <td>Educators / partners</td>
-                    <td><span class="placeholder-field">None published</span></td>
-                    <td>Requires notes / consent</td>
+                    <td data-label="Resource">Question bank / item ID schema</td>
+                    <td data-label="Status">Live as source</td>
+                    <td data-label="Where"><a href="js/learning-data.js">js/learning-data.js</a> (<code>ITEM_BANK</code>, stable IDs, sources: survey · game · learning-platform)</td>
                   </tr>
                   <tr>
-                    <td>Team</td>
-                    <td>Building this page clarified that software illustrations and wiki scaffolding are not Education evidence until objectives, delivery, and evaluation exist</td>
-                    <td>This documentation pass; Contribution pkg-education still In development</td>
+                    <td data-label="Resource">Analysis schema</td>
+                    <td data-label="Status">Live as local store shape</td>
+                    <td data-label="Where"><a href="js/learning-storage.js">js/learning-storage.js</a> and <a href="learning-platform/progress.html">personal dashboard</a></td>
+                  </tr>
+                  <tr>
+                    <td data-label="Resource">Game instructions</td>
+                    <td data-label="Status">In preparation</td>
+                    <td data-label="Where">Odor Pixel Suite not hosted; plain-language descriptions on this page</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Resource">Teacher guide</td>
+                    <td data-label="Status">In preparation</td>
+                    <td data-label="Where"><span class="placeholder-field">No file</span> · see also <a href="contribution.html#pkg-education">pkg-education</a></td>
+                  </tr>
+                  <tr>
+                    <td data-label="Resource">Lesson structure</td>
+                    <td data-label="Status">Documented on-wiki</td>
+                    <td data-label="Where">Five-module sequence on the Learning Lab; classroom notes remain a landing-page sketch, not a packet</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Resource">Reusable graphics</td>
+                    <td data-label="Status">In preparation</td>
+                    <td data-label="Where"><span class="placeholder-field">No asset pack</span></td>
                   </tr>
                 </tbody>
               </table>
             </div>
+            </div>
           </section>
 
-          <section class="section-block" id="limitations" data-reveal>
-            <h2>Limitations and next steps</h2>
+          <section class="edu-section section-block" id="differently" data-reveal>
+            <p class="edu-kicker">Reflection</p>
+            <h2>What we would do differently</h2>
+            <div class="edu-emark" data-edu-tags="limitation" data-note-limitation="gaps we will not paper over">
             <ul>
-              <li><strong>Limitation:</strong> zero verified delivered programs on this wiki; no attendance, feedback, or learning-gain data.</li>
-              <li><strong>Limitation:</strong> Odor Pixel Suite is not yet a licensed, wiki-hosted, facilitator-ready toolkit.</li>
-              <li><strong>Limitation:</strong> primary application domain for AeroSense remains open, which constrains domain-specific education examples (see
-                <a href="human-practices.html#responsibility-question">Human Practices · responsibility question</a>).
-              </li>
-              <li><strong>Next step:</strong> confirm audiences and partners; write objectives + instruments before delivery.</li>
-              <li><strong>Next step:</strong> release a CC-licensed facilitator packet (guide, slides/worksheets or approved alternatives, answer key) usable outside NTHU.</li>
-              <li><strong>Next step:</strong> if the game suite is used in teaching, host it under wiki static rules, finish asset license verification, pair it with non-interactive alternatives already drafted here, and evaluate learning—not only play counts.</li>
-              <li><strong>Next step:</strong> log iterations in the Notebook and refuse photos of identifiable minors without permission.</li>
+              <li><strong>We have not yet left the wiki.</strong> Zero verified face-to-face programs. High-school, primary, teacher, older-adult, and industry groups are absences, not audiences.</li>
+              <li><strong>LocalStorage is not a study.</strong> A visitor’s pre/post pair cannot be reported as our education result. We still lack consent, a sampling frame, and an approved collection path.</li>
+              <li><strong>Games outran evaluation.</strong> Odor Pixel Suite exists as a local prototype with unfinished licenses. Shipping it as “play” without a facilitator guide would have been a catalogue, not education.</li>
+              <li><strong>English-only public materials.</strong> No bilingual packet. That excludes learners we should have planned for earlier.</li>
+              <li><strong>Item IDs are ahead of the survey and the game.</strong> The cross-tool design is real; two of three experiences are not. That is a bias toward the format we could host statically.</li>
+              <li><strong>What a future team should improve:</strong> confirm one partner audience before adding channels; evaluate one misconception across two formats before building a third; host only licensed games; publish a CC-licensed facilitator packet; log iterations in the <a href="notebook.html">Notebook</a>; never photograph identifiable minors without permission.</li>
             </ul>
+            </div>
+          </section>
+
+          <section class="edu-section edu-final" id="leave-behind" data-reveal>
+            <p class="edu-kicker">Leave-behind</p>
+            <h2>Education should leave something behind.</h2>
+            <p>Knowledge. Questions. Tools. And a path someone else can improve.</p>
+            <div class="edu-hero__actions">
+              <a class="btn btn--primary" href="learning-platform.html">Explore Learning Platform</a>
+              <a class="btn btn--secondary" href="#toolkit">Reuse Our Resources</a>
+            </div>
           </section>
         </article>
       </main>
@@ -599,46 +620,90 @@
 
       <section class="references" aria-labelledby="references-heading" id="references" data-reveal>
         <h2 id="references-heading">References &amp; Credits</h2>
-        <p class="notice">
-          No external literature citations appear on this page. Cross-links to other AeroSense wiki pages are ordinary navigation, not bibliography entries.
-        </p>
+        <p class="notice">No external literature citations appear on this page. Cross-links to other AeroSense wiki pages are ordinary navigation, not bibliography entries.</p>
         <ul class="credit-list">
-          <li>Related wiki pages (not references): <a href="description.html">Description</a>; <a href="human-practices.html#responsibility-question">Human Practices</a>; <a href="contribution.html#pkg-education">Contribution · education package</a>.</li>
+          <li>Related wiki pages: <a href="learning-platform.html">Learning Lab</a>; <a href="description.html">Description</a>; <a href="human-practices.html#responsibility-question">Human Practices</a>; <a href="contribution.html#pkg-education">Contribution · education package</a>.</li>
           <li>No education event photos appear on this page.</li>
-          <li>Odor Pixel Suite descriptions paraphrase team game hub copy for accessibility; the suite is not claimed as a released contribution package.</li>
-          <li>Do not add learner quotes or attendance numbers without evaluation records and appropriate consent.</li>
+          <li>Odor Pixel Suite descriptions paraphrase team game-hub copy for accessibility; the suite is not a released contribution package.</li>
+          <li>Do not add learner quotes, attendance numbers, or learning-gain charts without evaluation records and appropriate consent.</li>
         </ul>
       </section>
     </div>
 
+    <div class="page-toc-slot">
     <details class="page-toc" open>
       <summary class="toc__summary"><span class="toc__label">On this page</span></summary>
       <nav aria-label="Table of contents">
         <ol>
-          <li><a href="#educational-purpose"><span class="tech-label">01</span> Educational purpose</a></li>
-          <li><a href="#audiences"><span class="tech-label">02</span> Audiences</a></li>
-          <li><a href="#learning-objectives"><span class="tech-label">03</span> Learning objectives</a></li>
-          <li><a href="#program-portfolio"><span class="tech-label">04</span> Program portfolio</a></li>
-          <li><a href="#interactive-tools"><span class="tech-label">05</span> Interactive tools</a></li>
-          <li><a href="#evaluation"><span class="tech-label">06</span> Evaluation</a></li>
-          <li><a href="#iteration"><span class="tech-label">07</span> Iteration</a></li>
-          <li><a href="#inclusion"><span class="tech-label">08</span> Inclusion</a></li>
-          <li><a href="#toolkit"><span class="tech-label">09</span> Toolkit</a></li>
-          <li><a href="#continuity"><span class="tech-label">10</span> Continuity</a></li>
-          <li><a href="#what-everyone-learned"><span class="tech-label">11</span> What everyone learned</a></li>
-          <li><a href="#limitations"><span class="tech-label">12</span> Limitations</a></li>
-          <li><a href="#references"><span class="tech-label">Ref</span> References &amp; Credits</a></li>
+          <li><a href="#philosophy"><span class="tech-label">01</span> Philosophy</a></li>
+          <li><a href="#from-outreach"><span class="tech-label">02</span> Mutual learning</a></li>
+          <li><a href="#ecosystem"><span class="tech-label">03</span> Ecosystem</a></li>
+          <li><a href="#learning-platform"><span class="tech-label">04</span> Learning Platform</a></li>
+          <li><a href="#interactive-tools"><span class="tech-label">05</span> Play</a></li>
+          <li><a href="#workshops"><span class="tech-label">06</span> Workshops</a></li>
+          <li><a href="#audiences"><span class="tech-label">07</span> Audiences</a></li>
+          <li><a href="#measuring"><span class="tech-label">08</span> Measuring</a></li>
+          <li><a href="#three-experiences"><span class="tech-label">09</span> Three experiences</a></li>
+          <li><a href="#participants-taught"><span class="tech-label">10</span> Participants</a></li>
+          <li><a href="#changed-aerosense"><span class="tech-label">11</span> Project change</a></li>
+          <li><a href="#toolkit"><span class="tech-label">12</span> Resources</a></li>
+          <li><a href="#differently"><span class="tech-label">13</span> Differently</a></li>
+          <li><a href="#leave-behind"><span class="tech-label">14</span> Leave-behind</a></li>
         </ol>
       </nav>
     </details>
+      <a class="back-to-top page-toc__top" href="#main">Back to top</a>
+    </div>
   </div>
 
-  <a class="back-to-top" href="#main">Back to top</a>
+  <aside class="edu-elegend" data-edu-legend aria-label="Evidence labels">
+    <button type="button" class="edu-elegend__toggle" data-edu-legend-toggle aria-expanded="false" aria-controls="edu-elegend-panel">Evidence labels</button>
+    <div class="edu-elegend__panel" id="edu-elegend-panel">
+      <p class="edu-elegend__lead">Same page. Highlighted labels. Nothing hidden. Select a label to emphasize matching blocks.</p>
+      <ul>
+        <li>
+          <button type="button" data-edu-filter="dialogue" aria-pressed="false">
+            <span class="edu-etag" data-edu-tag="dialogue"><span class="edu-etag__kind">Dialogue</span></span>
+            <span class="edu-elegend__hint">participant discussion</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" data-edu-filter="measurement" aria-pressed="false">
+            <span class="edu-etag" data-edu-tag="measurement"><span class="edu-etag__kind">Measurement</span></span>
+            <span class="edu-elegend__hint">pre/post assessment</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" data-edu-filter="iteration" aria-pressed="false">
+            <span class="edu-etag" data-edu-tag="iteration"><span class="edu-etag__kind">Iteration</span></span>
+            <span class="edu-elegend__hint">game redesign</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" data-edu-filter="project-change" aria-pressed="false">
+            <span class="edu-etag" data-edu-tag="project-change"><span class="edu-etag__kind">Project change</span></span>
+            <span class="edu-elegend__hint">risk communication revision</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" data-edu-filter="reusable-resource" aria-pressed="false">
+            <span class="edu-etag" data-edu-tag="reusable-resource"><span class="edu-etag__kind">Reusable resource</span></span>
+            <span class="edu-elegend__hint">teacher toolkit</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" data-edu-filter="limitation" aria-pressed="false">
+            <span class="edu-etag" data-edu-tag="limitation"><span class="edu-etag__kind">Limitation</span></span>
+            <span class="edu-elegend__hint">unpublished or bounded claim</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </aside>
 
   <footer class="site-footer">
     <div class="site-footer__inner">
       <p class="footer-mission">AeroSense is developing a bio-digital olfactory sensing platform that pairs living-cell receptor arrays with edge-capable computational models for complex odor recognition.</p>
-
       <p class="footer-sitemap-title" id="site-map-label">Site map</p>
       <div class="footer-grid" id="site-map" aria-labelledby="site-map-label">
         <div class="footer-col">
@@ -648,6 +713,7 @@
             <li><a href="contribution.html">Contribution</a></li>
             <li><a href="engineering.html">Engineering</a></li>
             <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
+            <li><a href="notebook.html">Notebook</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -656,12 +722,11 @@
             <li><a href="members.html">Members</a></li>
             <li><a href="attributions.html">Attributions</a></li>
           </ul>
-          <h2>Lab</h2>
+          <h2>Wet Lab</h2>
           <ul>
             <li><a href="parts.html">Parts</a></li>
             <li><a href="design.html">Design</a></li>
             <li><a href="experiments.html">Experiments</a></li>
-            <li><a href="notebook.html">Notebook</a></li>
             <li><a href="results.html">Results</a></li>
           </ul>
         </div>
@@ -675,10 +740,10 @@
           <ul>
             <li><a href="human-practices.html">Integrated Human Practices</a></li>
             <li><a href="education.html">Education</a></li>
+            <li><a href="learning-platform.html">Learning Lab</a></li>
           </ul>
         </div>
       </div>
-
       <div class="footer-meta">
         <ul class="footer-contacts">
           <li><a href="https://www.linkedin.com/company/aerosensebio/" rel="noopener noreferrer">LinkedIn</a></li>

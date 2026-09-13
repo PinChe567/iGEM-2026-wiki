@@ -1,0 +1,650 @@
+You are revising the existing AeroSense “Follow the Signal” 3D journey in the latest repository.
+
+Do NOT make small cosmetic patches. The current experience has structural visual/UX problems that must be fixed while preserving the academic Description page and local-only asset policy.
+
+FIRST inspect:
+- description.html
+- css/description-journey.css
+- js/description-journey-3d.js
+- js/description-flight-worlds.js
+- models/showcase_v2/*.glb (after Blender generation)
+- current local Three.js / GLTFLoader files
+
+USE THE NEW V2 ASSETS:
+models/showcase_v2/aerosense_fly_v2.glb
+models/showcase_v2/aerosense_01_warehouse_v2.glb
+models/showcase_v2/aerosense_02_olfaction_v2.glb
+models/showcase_v2/aerosense_03_cell_v2.glb
+models/showcase_v2/aerosense_04_hardware_v2.glb
+models/showcase_v2/aerosense_05_decoder_v2.glb
+models/showcase_v2/aerosense_06_return_v2.glb
+
+Do NOT use the old full/*.glb files if the v2 files exist.
+Do NOT use external CDNs, external runtime model URLs, external fonts, or external image hosts. Keep all runtime assets local / iGEM-hosted.
+
+==================================================
+PRIMARY GOAL
+==================================================
+
+The experience should feel like a polished 3D on-rails flight sequence, not a debug visualization or student Three.js demo.
+
+Reference feel:
+- smooth forward chase-camera flight
+- Mario-Kart / theme-park-ride readability, but scientific and elegant
+- obvious goals / sources
+- gentle obstacles
+- meaningful environmental storytelling
+- cinematic stage transitions through dives / acceleration
+- no confusing rings or abstract circles unless they directly represent something stated in the text
+
+==================================================
+1. CAMERA — STOP THE CONSTANT VIEWPOINT CHANGES
+==================================================
+
+The current camera changes angle too aggressively because it follows tangent changes and stage paths too literally.
+
+Replace this with a stable chase-camera rig.
+
+Rules:
+- camera always stays BEHIND and SLIGHTLY ABOVE the fly/player
+- camera forward direction should remain mostly stable
+- do NOT roll the camera with every path turn
+- camera roll max ±2.5 degrees
+- fly bank may be ±16–20 degrees
+- camera yaw response should be heavily damped
+- camera pitch response should also be heavily damped
+- use look-ahead smoothing, not instantaneous camera.lookAt(tangent)
+
+Implement a camera target quaternion and slerp toward it slowly.
+
+Use separate smoothing constants:
+position damping ≈ 3–5
+look damping ≈ 2–3
+roll damping ≈ 2
+
+Do NOT reset camera orientation abruptly at stage boundaries.
+
+==================================================
+2. PATH — SMOOTH, SWERVING, VERTICAL, BUT NOT ZIG-ZAG
+==================================================
+
+The player should actually need to steer.
+
+Current problem:
+if the player does nothing, they stay centered on the track and still score.
+
+New rule:
+there is a MOVING ODOR CENTERLINE independent from the master forward rail.
+
+The master rail determines only forward progression / camera safety.
+The ODOR TRACK oscillates laterally and vertically around that rail.
+
+Concept:
+odorOffsetX(u,t) =
+  0.65*sin(u*2π*1.15 + phase)
++ 0.28*sin(u*2π*2.7 + phase2)
+
+odorOffsetY(u,t) =
+  0.28*sin(u*2π*1.6 + phase3)
+
+Use smooth low-frequency movement.
+Do NOT produce sharp zig-zags.
+
+Player steering controls lateral offset.
+Player can also visually rise/fall with path dynamics, but do NOT require separate up/down keys.
+
+The track should pass left/right around obstacles.
+
+==================================================
+3. AUTOPILOT + MANUAL MODE
+==================================================
+
+Provide a clear control:
+
+AUTO PILOT: ON/OFF
+
+Default can be ON for first-time users.
+
+AUTO PILOT ON:
+- player smoothly follows the moving odor centerline
+- user can still temporarily steer, but auto assist returns gently
+- score multiplier should be LOW or score should be labeled Demo mode
+
+MANUAL:
+- user must steer left/right to follow the moving odor centerline
+- real score accumulation is enabled
+
+If user presses A/D or Left/Right while auto is on:
+DO NOT immediately destroy the experience.
+Either:
+A) automatically switch to MANUAL with a brief “MANUAL CONTROL” cue
+or
+B) allow temporary override for 1.5s then resume autopilot.
+
+Preferred: switch to MANUAL after clear user steering input.
+
+==================================================
+4. FLY — BIGGER, CORRECT VIEW, ATTACHED WINGS
+==================================================
+
+Use models/showcase_v2/aerosense_fly_v2.glb.
+
+The fly must be visually around:
+Desktop: 16–20% of viewport width
+Mobile: 24–30%
+
+The current fly is too small.
+
+The camera must see it from REAR-DORSAL / behind-and-above.
+Never from below.
+
+Use model nodes:
+- Drosophila
+- BODY
+- WING_LEFT
+- WING_RIGHT
+- FLY_FORWARD
+- FLY_CAMERA_ANCHOR
+
+If the imported model orientation is wrong:
+apply ONE explicit fixed orientation correction at model root load time.
+Do not keep calling lookAt in a way that flips the fly vertically.
+
+The body should have dorsal side upward.
+The head should point forward.
+Wings must visually remain attached to thorax pivots.
+
+Animate wings around local hinge/pivot only.
+Do not translate wings away from body.
+
+==================================================
+5. FLY ANIMATION
+==================================================
+
+Wing flap should be clearly visible but elegant.
+
+Use opposite phase:
+left = sin(t*2π*11)*amplitude
+right = -sin(t*2π*11)*amplitude
+
+Use primarily local Z/Y or appropriate hinge axis based on imported model.
+Inspect axes before deciding.
+
+Add:
+- body bob ±0.03–0.05 world units
+- small acceleration pitch
+- bank from steering
+- stronger forward pitch during stage dive
+
+During stage dive:
+fly pitches downward ~15–24 degrees for ~0.65–0.9 s
+then recovers smoothly.
+
+==================================================
+6. REMOVE MEANINGLESS RINGS / CIRCLES
+==================================================
+
+Delete the current collectible / score rings and generic circle gates unless each one has explicit narrative meaning.
+
+Do not use:
+- VOC ring
+- receptor ring
+- random hoop
+- floating unlabeled circles
+
+The new Blender v2 scenes contain semantic objects:
+Warehouse:
+- VOC_SOURCE_A
+- VOC_SOURCE_ANCHOR
+- CoffeeBin / CoffeeBeans
+- obstacles
+- ODOR_WISP_*
+
+Olfaction:
+- Sensillum_*
+- OR_CHANNEL_*
+- OR_ACTIVE_*
+- RECEPTOR_MEMBRANE
+
+Cell:
+- HEK293T_CELL
+- OR_ORCO_RECEPTOR
+- RECEPTOR_GLOW
+- CA_SIGNAL_*
+- GCAMP_SIGNAL_*
+
+Hardware:
+- OPTICAL_CHAMBER
+- LED_EXCITATION
+- PD
+- TIA
+- ADC
+- MCU
+- TRACE_MAIN
+- SIGNAL_PATH
+
+Decoder:
+- AL_GLOMERULUS_*
+- PROJECTION_*
+- KC_NODE
+- KC_ACTIVE
+
+Return:
+- FoodPallet / FoodBag
+- RETURN_TARGET_GLOW
+- FINAL_ODOR
+
+Use these actual semantic objects to tell the story.
+
+==================================================
+7. OBSTACLES / GAME READABILITY
+==================================================
+
+Warehouse stage should feel more like a readable flight game.
+
+Use real scene obstacles:
+- ObstacleCrate_*
+- shelving edges
+- coffee pallets
+
+Do NOT add lethal collision or Game Over.
+
+If player approaches an obstacle:
+- subtle camera/fly avoidance assist
+- score gain pauses briefly
+- soft “too far from plume” feedback
+
+Do not punish harshly.
+
+The odor track should intentionally weave around obstacles.
+This makes the purpose of following the scent obvious.
+
+==================================================
+8. ODOR TRACK — VISIBLE ENOUGH TO FOLLOW, NOT A NEON ROAD
+==================================================
+
+The scent should be a soft volumetric ribbon / wispy flow.
+
+Use Blender ODOR_WISP_* and SIGNAL_PATH / FINAL_ODOR where available.
+Supplement with a lightweight Three.js TubeGeometry or shader-free ribbon if needed.
+
+Manual mode:
+plume opacity ~0.22–0.38 normally so it is followable.
+Signal View:
+opacity ~0.55–0.75 and source glow stronger.
+
+Do not make it a thick neon racetrack.
+
+Use occasional small illuminated motes only as secondary detail.
+No bubble storm.
+
+==================================================
+9. REAL-TIME SCORE
+==================================================
+
+Add a score at the side / top-right:
+
+SCORE
+01240
+
+It should update in real time.
+
+Manual scoring:
+if player distance to odor centerline < inner threshold:
+  +20 to +30 points / second
+middle threshold:
+  +8 to +12 points / second
+outside:
+  +0
+
+Add small bonus for entering meaningful target zones:
+Warehouse source +100
+Receptor gate +100
+GCaMP region +100
+PD/TIA path +100
+Sparse decoder region +100
+Final source +150
+
+Do not display fake scientific units.
+This is clearly GAME SCORE.
+
+Use UI label:
+GAME SCORE
+
+Not:
+Signal strength
+VOC score
+Risk score
+
+Autopilot:
+either score does not increase
+OR apply x0.25 and visibly label:
+AUTO / DEMO
+
+Preferred:
+score pauses while autopilot is active.
+
+==================================================
+10. SCORE FEEDBACK
+==================================================
+
+When actively tracking odor:
+score number may receive a small +N floating tick:
++24
+
+Keep tasteful.
+No arcade explosion.
+
+When target bonus triggered:
++100 SOURCE LOCK
+
+Use HTML/CSS overlay.
+
+==================================================
+11. STAGE TRANSITIONS = DIVE + ACCELERATION
+==================================================
+
+This is a core requirement.
+
+Do NOT crossfade scenes while flying normally.
+
+At end of each stage:
+
+A) source / gateway appears clearly in front
+B) fly accelerates for ~0.35–0.5 s
+C) fly pitches down and performs a visible DIVE
+D) camera follows with smooth lag, NOT abrupt angle change
+E) outgoing scene stretches / fades behind
+F) incoming scene appears below/ahead
+G) fly levels out into new stage
+
+Total transition ~1.2–1.7 s.
+
+This stage dive is the visual grammar for “moving to the next layer of AeroSense.”
+
+Use the dive simultaneously to trigger the NEXT story text.
+
+Stage text should not change before the dive begins.
+
+==================================================
+12. TEXT MOTION — MUCH STRONGER / MORE CINEMATIC
+==================================================
+
+Current text cards are too small and the ease is inconsistent.
+
+Make stage headings much larger:
+Desktop: clamp(2.8rem, 5.5vw, 6.4rem)
+Mobile: clamp(2.0rem, 10vw, 4rem)
+
+Do NOT use a permanent side card occupying a large static column.
+
+Use cinematic floating story titles layered into scene safe areas.
+
+Animation sequence:
+ENTER ~350–450ms:
+opacity 0 → 1
+scale 0.76 → 1.0
+translateY 45px → 0
+slightly blur(8px) → blur(0)
+Use strong cubic-bezier / ease-out.
+
+HOLD ~2.8–4.0s:
+very slow scale 1.0 → 1.055
+very slow translateY 0 → -8px
+This keeps the title alive.
+
+EXIT ~450–650ms:
+opacity 1 → 0
+scale 1.055 → 1.28
+translateY -8px → -70px
+slight horizontal drift in the direction of stage motion
+blur 0 → 6px
+Use ease-in.
+
+Do not make text disappear instantly.
+
+==================================================
+13. TEXT MUST NOT COLLIDE WITH TRACK / FLY
+==================================================
+
+Current plume/lines sometimes cross text.
+
+Define story text safe zones per stage.
+
+Desktop:
+- stage 1: upper-left
+- stage 2: upper-right
+- stage 3: upper-left
+- stage 4: upper-right
+- stage 5: upper-left
+- stage 6: upper-center
+
+Do not put text in central lower 45% where fly/track lives.
+
+On mobile:
+use upper 15–35% only, with max 2–3 lines.
+
+Add a subtle local gradient/scrim behind text if needed, but no giant opaque box.
+
+==================================================
+14. TEXT CONTENT
+==================================================
+
+Keep copy concise and directly matched to what is visible.
+
+STAGE 1
+heading:
+FOLLOW THE SCENT.
+small:
+A stored batch can change before the warning becomes visible.
+
+When source appears:
+SOURCE IN SIGHT
+VOC pattern in the headspace.
+
+STAGE 2
+heading:
+ONE ODOR. MANY RECEPTORS.
+small:
+Different receptors respond in combinations.
+
+STAGE 3
+heading:
+WE BORROWED THE RECEPTOR.
+chain:
+OR / Orco → HEK293T → Ca²⁺ → GCaMP
+
+STAGE 4
+heading:
+A GLOW BECOMES A SIGNAL.
+chain:
+LIGHT → PD → TIA → ADC
+
+STAGE 5
+heading:
+SEPARATE WHAT OVERLAPS.
+chain:
+RECEPTORS → CONTRAST → SPARSE CODE → PATTERN
+
+STAGE 6
+heading:
+FROM SIGNAL TO A REASON TO LOOK CLOSER.
+small:
+Early screening can help prioritize what deserves inspection or confirmation.
+
+Final:
+AEROSENSE BIO
+SENSE → READ → DECODE → ACT
+
+==================================================
+15. STAGE CONTENT MUST MATCH VISUALS
+==================================================
+
+Do not show abstract visuals unrelated to copy.
+
+Stage 2 text about receptors must appear while OR_CHANNEL / OR_ACTIVE objects are visible.
+Stage 3 GCaMP text must appear while GCAMP_SIGNAL objects are visible.
+Stage 4 hardware text must appear while PD/TIA/ADC are visible.
+Stage 5 sparse-code text must appear while AL glomeruli transition to KC sparse nodes.
+
+If a scene asset fails to load, use a clean fallback card instead of random procedural rings.
+
+==================================================
+16. TRANSITION CONTENT / PLAYER FORM
+==================================================
+
+Keep fruit fly visible through Warehouse + Olfaction.
+
+At dive into Cell:
+fly gradually becomes a single luminous signal orb.
+Do not explode into particles.
+
+For Hardware / Decoder:
+player is a signal pulse, not a fruit fly physically flying inside electronics if that looks silly.
+
+At Return stage:
+optionally reform a tiny fly silhouette only if visually coherent; otherwise remain as signal until the camera exits.
+
+==================================================
+17. PATH SPEED / VERTICALITY
+==================================================
+
+Normal stage speed should be calm enough to read.
+
+Stage body:
+1.0x
+
+Approaching transition:
+1.15–1.25x
+
+Dive:
+1.8–2.2x peak
+
+Exit/recovery:
+0.9–1.0x
+
+Add obvious but smooth vertical movement:
+within a stage, y should vary ~0.25–0.45 world units
+stage dive may drop ~1.0–1.8 world units visually before the next scene recenters.
+
+Do not create roller-coaster nausea.
+
+==================================================
+18. DO NOT USE EXTERNAL LINKS / RUNTIME SERVICES
+==================================================
+
+Keep all Three.js runtime files local.
+Keep all GLB assets local.
+Do not load external textures/models/fonts/CDNs.
+
+At the final journey screen, links should only go to internal wiki pages:
+- design.html
+- hardware.html
+- model.html
+- description.html
+
+Do not add social/external links inside this journey.
+
+==================================================
+19. LOADING / PERFORMANCE
+==================================================
+
+Load current + next scene only.
+Dispose old scene after transition if memory pressure matters.
+
+Use local GLB files.
+Pixel ratio max 2, mobile 1.5 preferred.
+No expensive postprocessing pipeline.
+
+Use good base lighting and materials instead of bloom spam.
+
+==================================================
+20. UI LAYOUT
+==================================================
+
+Top-left:
+AEROSENSE · FOLLOW THE SIGNAL
+current stage 01 / AIR
+
+Top-right:
+AUTO PILOT toggle
+GAME SCORE 00000
+EXIT
+
+Bottom-right mobile:
+SCAN hold button
+
+Bottom-center first 4 seconds:
+← → / A D STEER
+SPACE SCAN
+
+Fade instructions away.
+
+==================================================
+21. SCIENTIFIC / JUDGING DISCIPLINE
+==================================================
+
+Maintain one subtle global label:
+CONCEPTUAL INTERACTIVE · NOT EXPERIMENTAL DATA
+
+Do not use score as science.
+Do not imply exact VOC intensity, fungal diagnosis, mycotoxin reading, or measured neural activity.
+
+The interaction is an explanatory project journey.
+
+==================================================
+22. ACCESSIBILITY
+==================================================
+
+Keep:
+Escape exit
+reduced motion fallback
+normal academic text outside game
+focus return to Start Flight
+keyboard navigation
+
+For reduced motion:
+show preview images / step-through story; no auto flight.
+
+==================================================
+23. FINAL QA — MUST VERIFY EACH ITEM
+==================================================
+
+Before finishing verify:
+
+1. camera no longer swings wildly
+2. no abrupt viewpoint resets at stage change
+3. fly is at least ~16% desktop viewport width
+4. fly is seen from behind/above, never from below
+5. wings remain attached throughout animation
+6. odor path moves left/right over time
+7. manual player must steer to remain on plume
+8. autopilot can be toggled
+9. game score updates in real time only in manual mode
+10. stage source bonuses trigger once
+11. no random rings remain
+12. each scene’s visible objects correspond to stage text
+13. stage change happens during dive
+14. dive includes forward acceleration
+15. text uses large enter / hold / exit animation
+16. text does not overlap central fly/track region
+17. external runtime requests = zero
+18. mobile drag works
+19. reopen dialog works
+20. no console errors
+
+==================================================
+OUTPUT REPORT
+==================================================
+
+Report:
+- files modified
+- old model paths removed
+- v2 model paths used
+- fly node detection result
+- autopilot behavior
+- scoring formula
+- camera smoothing implementation
+- text animation timings
+- each stage’s semantic objects used
+- remaining performance/art risks

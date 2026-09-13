@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Learning Lab · AeroSense · NTHU iGEM 2026</title>
+  <meta name="description" content="AeroSense Learning Lab: an interactive, five-module introduction to odor sensing, living-cell biosensors, neuromorphic decoding, and responsible food-risk screening. Formative progress stays in this browser.">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/learning-platform.css">
+  <script src="js/main.js" defer></script>
+  <script src="js/glossary.js" defer></script>
+  <script src="js/search.js" defer></script>
+  <script src="js/learning-storage.js" defer></script>
+  <script src="js/learning-platform.js" defer></script>
+</head>
+<body class="page-learning">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="reading-progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html">
+        <img class="brand__logo" src="logo/logo.jpg" width="40" height="40" alt="AeroSense">
+        <span class="brand__text">
+          <span class="brand__name">AeroSense</span>
+          <span class="brand__meta">NTHU · iGEM 2026</span>
+        </span>
+      </a>
+      <div class="header-tools">
+        <a class="btn-search" href="index.html#site-map" aria-haspopup="dialog" aria-controls="project-search">Project Search</a>
+        <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      </div>
+      <nav class="site-nav" id="site-nav" aria-label="Primary">
+        <ul class="nav-root">
+          <li>
+            <a href="index.html">Home</a>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Project</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-project">Project</button>
+            <ul class="nav-submenu" id="submenu-project">
+              <li><a href="description.html">Description</a></li>
+              <li><a href="contribution.html">Contribution</a></li>
+              <li><a href="engineering.html">Engineering</a></li>
+              <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
+              <li><a href="notebook.html">Notebook</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Team</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-team">Team</button>
+            <ul class="nav-submenu" id="submenu-team">
+              <li><a href="members.html">Members</a></li>
+              <li><a href="attributions.html">Attributions</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Wet Lab</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-lab">Wet Lab</button>
+            <ul class="nav-submenu" id="submenu-lab">
+              <li><a href="parts.html">Parts</a></li>
+              <li><a href="design.html">Design</a></li>
+              <li><a href="experiments.html">Experiments</a></li>
+              <li><a href="results.html">Results</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Dry Lab</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-drylab">Dry Lab</button>
+            <ul class="nav-submenu" id="submenu-drylab">
+              <li><a href="model.html">Model</a></li>
+              <li><a href="hardware.html">Hardware</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Human Practices</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-hp">Human Practices</button>
+            <ul class="nav-submenu" id="submenu-hp">
+              <li><a href="human-practices.html">Integrated Human Practices</a></li>
+              <li><a href="education.html">Education</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <dialog class="search-dialog" id="project-search" aria-labelledby="search-title">
+    <div class="search-dialog__panel">
+      <div class="search-dialog__header">
+        <h2 id="search-title">Project Search</h2>
+        <button type="button" class="search-dialog__close" data-search-close>Close</button>
+      </div>
+      <form class="search-dialog__form" role="search" action="index.html#site-map" method="get">
+        <label for="project-search-input">Search the AeroSense wiki</label>
+        <p id="project-search-instructions" class="search-dialog__hint">Type keywords from page titles and sections. Results stay on this site. No remote requests are made. Arrow keys move through results; Enter opens; Escape closes.</p>
+        <div class="search-dialog__field">
+          <input id="project-search-input" type="search" name="q" placeholder="e.g. HEK293T, Orco, hardware" autocomplete="off" aria-describedby="project-search-instructions project-search-count" aria-controls="project-search-results">
+          <button type="button" class="search-dialog__clear" data-search-clear hidden>Clear</button>
+        </div>
+        <div class="search-dialog__actions">
+          <button type="submit">Search</button>
+          <button type="button" data-search-close>Close</button>
+        </div>
+      </form>
+      <p id="project-search-count" class="search-dialog__count" aria-live="polite" aria-atomic="true">0 results</p>
+      <div id="project-search-results" class="search-dialog__results" role="listbox" aria-labelledby="search-title"></div>
+    </div>
+  </dialog>
+
+  <div class="shell shell--learn">
+    <main id="main" class="learn">
+      <header class="learn-hero" data-reveal>
+        <nav aria-label="Breadcrumb">
+          <ol class="breadcrumb">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="human-practices.html">Human Practices</a></li>
+            <li><a href="education.html">Education</a></li>
+            <li aria-current="page">Learning Lab</li>
+          </ol>
+        </nav>
+        <p class="learn-kicker">AeroSense Learning Lab</p>
+        <h1>
+          <span>From nose</span>
+          <span>to biosensor</span>
+        </h1>
+        <p class="learn-hero__sub">Explore how biology senses invisible molecules, and how synthetic biology can turn that principle into an early warning food sensing system.</p>
+        <div class="learn-actions">
+          <a class="btn btn--primary" href="learning-01-smell.html" data-learn-module="01">Start the Learning Journey</a>
+          <a class="btn btn--secondary" href="#learn-journey">Explore the Modules</a>
+        </div>
+        <ul class="learn-hero__meta">
+          <li>5 modules</li>
+          <li>~20 min</li>
+          <li>Interactive</li>
+          <li>Free &amp; open</li>
+        </ul>
+        <p class="learn-hero__status">
+          <span class="status-label status-label--planned">Five interactive modules · progress stays in this browser</span>
+        </p>
+        <div class="learn-path" aria-hidden="true">
+          <svg class="learn-path__svg" viewBox="0 0 800 120" width="800" height="120" preserveAspectRatio="xMinYMid meet" focusable="false">
+            <line x1="16" y1="60" x2="628" y2="60" stroke="#d8d8d2" stroke-width="1" stroke-dasharray="4 6" />
+            <path d="M638 22 C708 22 768 38 768 60 C768 82 708 98 638 98" fill="none" stroke="#0b6b35" stroke-width="2" />
+            <path d="M638 42 C684 42 724 50 724 60 C724 70 684 78 638 78" fill="none" stroke="#1fd36a" stroke-width="1.5" />
+            <circle cx="704" cy="60" r="5" fill="#1fd36a" />
+          </svg>
+          <div class="learn-path__moles">
+            <span class="learn-path__mole" style="top:18%; --delay:0s; --rise:-12px; --rest-x:2rem;"></span>
+            <span class="learn-path__mole" style="top:34%; --delay:1.2s; --rise:10px; --rest-x:6rem;"></span>
+            <span class="learn-path__mole" style="top:48%; --delay:2.1s; --rise:-6px; --rest-x:11rem;"></span>
+            <span class="learn-path__mole" style="top:62%; --delay:3.4s; --rise:14px; --rest-x:16rem;"></span>
+            <span class="learn-path__mole" style="top:28%; --delay:4.6s; --rise:8px; --rest-x:21rem;"></span>
+            <span class="learn-path__mole" style="top:56%; --delay:5.8s; --rise:-10px; --rest-x:26rem;"></span>
+            <span class="learn-path__mole" style="top:40%; --delay:7s; --rise:4px; --rest-x:31rem;"></span>
+            <span class="learn-path__mole" style="top:70%; --delay:8.2s; --rise:-8px; --rest-x:36rem;"></span>
+          </div>
+        </div>
+        <p class="visually-hidden">Decorative diagram: small odor molecules drift toward a stylized receptor pocket. Animation pauses when reduced motion is requested.</p>
+      </header>
+
+      <section class="learn-section" id="why" data-reveal>
+        <p class="learn-kicker">Purpose</p>
+        <h2>Why learn<br>through interaction?</h2>
+        <div class="learn-why">
+          <div class="learn-why__text">
+            <p>A smell is invisible. A receptor response is invisible. A neural code is invisible.</p>
+            <p>Reading about them is not the same as testing what happens when a pattern changes. This lab turns those hidden steps into things you can manipulate, compare, and observe — from molecule to receptor pattern, fluorescence, neural-style representation, and a responsible risk decision.</p>
+          </div>
+          <ol class="learn-chain" aria-label="Conceptual sensing sequence">
+            <li>Odor molecule</li>
+            <li>Receptor pattern</li>
+            <li>Fluorescence</li>
+            <li>Neural representation</li>
+            <li>Risk decision</li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="learn-section" id="learn-journey" data-reveal>
+        <p class="learn-kicker">Path</p>
+        <h2>Your learning journey</h2>
+        <p class="learn-lede">Five modules. Open any of them in any order. Nothing is locked.</p>
+        <p class="learn-journey__hint">Swipe sideways to see every module.</p>
+        <div class="learn-journey__scroller">
+          <ol class="learn-journey__track">
+            <li>
+              <a class="learn-node" id="learn-m01" href="learning-01-smell.html" data-learn-module="01">
+                <span class="learn-node__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" focusable="false"><path d="M5 14c3-8 11-8 14 0" /><path d="M8 13c1.2-3 6.8-3 8 0" /><circle cx="12" cy="16" r="1.2" /></svg>
+                </span>
+                <span>
+                  <span class="learn-node__index">01</span>
+                  <span class="learn-node__verb">Discover</span>
+                  <h3>How do we smell?</h3>
+                  <p class="learn-node__goal">Explain receptor patterns, combinatorial coding, and why sparse codes can help separate similar odors.</p>
+                  <p class="learn-node__meta">
+                    <span>~8 min</span>
+                    <span class="learn-status" data-learn-status="01" data-status="not-started">
+                      <span class="learn-status__mark" aria-hidden="true"></span>
+                      <span class="learn-status__text">Not started</span>
+                    </span>
+                  </p>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a class="learn-node" id="learn-m02" href="learning-02-mold.html" data-learn-module="02">
+                <span class="learn-node__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="13" r="6" /><circle cx="9" cy="12" r="0.8" fill="currentColor" stroke="none" /><circle cx="13" cy="15" r="0.8" fill="currentColor" stroke="none" /><circle cx="14.5" cy="11" r="0.8" fill="currentColor" stroke="none" /><path d="M12 4v3" /></svg>
+                </span>
+                <span>
+                  <span class="learn-node__index">02</span>
+                  <span class="learn-node__verb">Question</span>
+                  <h3>When does mold become a food risk?</h3>
+                  <p class="learn-node__goal">Distinguish mold growth from mycotoxin contamination, and test claims that look, smell, or heat cannot settle.</p>
+                  <p class="learn-node__meta">
+                    <span>~8 min</span>
+                    <span class="learn-status" data-learn-status="02" data-status="not-started">
+                      <span class="learn-status__mark" aria-hidden="true"></span>
+                      <span class="learn-status__text">Not started</span>
+                    </span>
+                  </p>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a class="learn-node" id="learn-m03" href="learning-03-synbio.html" data-learn-module="03">
+                <span class="learn-node__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" focusable="false"><rect x="5" y="6" width="14" height="12" /><path d="M9 12h6" /><circle cx="12" cy="12" r="1.4" /></svg>
+                </span>
+                <span>
+                  <span class="learn-node__index">03</span>
+                  <span class="learn-node__verb">Build</span>
+                  <h3>Can a cell learn to smell?</h3>
+                  <p class="learn-node__goal">Assemble OR, Orco, and GCaMP in a living cell, and keep that culture behind a barrier.</p>
+                  <p class="learn-node__meta">
+                    <span>~8 min</span>
+                    <span class="learn-status" data-learn-status="03" data-status="not-started">
+                      <span class="learn-status__mark" aria-hidden="true"></span>
+                      <span class="learn-status__text">Not started</span>
+                    </span>
+                  </p>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a class="learn-node" id="learn-m04" href="learning-04-decode.html" data-learn-module="04">
+                <span class="learn-node__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" focusable="false"><circle cx="7" cy="8" r="1.2" /><circle cx="12" cy="8" r="1.2" /><circle cx="17" cy="8" r="1.2" /><circle cx="7" cy="16" r="1.2" /><circle cx="12" cy="13" r="1.2" /><circle cx="17" cy="16" r="1.2" /><path d="M7 9.2v5.6M17 9.2v5.6M8.2 8h2.6M13.2 8h2.6M8.2 16h3M13.4 13.6 16 15.2" /></svg>
+                </span>
+                <span>
+                  <span class="learn-node__index">04</span>
+                  <span class="learn-node__verb">Decode</span>
+                  <h3>An odor is a pattern</h3>
+                  <p class="learn-node__goal">Read a multi-receptor fingerprint, then ask what contrast, sparse codes, and a classifier can and cannot claim.</p>
+                  <p class="learn-node__meta">
+                    <span>~8 min</span>
+                    <span class="learn-status" data-learn-status="04" data-status="not-started">
+                      <span class="learn-status__mark" aria-hidden="true"></span>
+                      <span class="learn-status__text">Not started</span>
+                    </span>
+                  </p>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a class="learn-node" id="learn-m05" href="learning-05-act.html" data-learn-module="05">
+                <span class="learn-node__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" focusable="false"><path d="M12 4 5 8v5c0 4.2 3 7 7 8 4-1 7-3.8 7-8V8z" /><path d="M9 12h6" /></svg>
+                </span>
+                <span>
+                  <span class="learn-node__index">05</span>
+                  <span class="learn-node__verb">Decide</span>
+                  <h3>A signal is not a verdict</h3>
+                  <p class="learn-node__goal">Sit as a QC manager: screening guides the next action; it does not replace confirmatory testing.</p>
+                  <p class="learn-node__meta">
+                    <span>~8 min</span>
+                    <span class="learn-status" data-learn-status="05" data-status="not-started">
+                      <span class="learn-status__mark" aria-hidden="true"></span>
+                      <span class="learn-status__text">Not started</span>
+                    </span>
+                  </p>
+                </span>
+              </a>
+            </li>
+          </ol>
+        </div>
+        <p class="learn-journey__note">All five modules are full interactive lessons. Progress stays in this browser and is not a published learning outcome.</p>
+        <p><a class="btn btn--secondary" href="learning-platform/progress.html">View My Learning Progress</a></p>
+      </section>
+
+      <section class="learn-section" id="layers" data-reveal>
+        <p class="learn-kicker">System</p>
+        <h2>The three layers</h2>
+        <p class="learn-lede">Hover, tap, or focus a card to see what you will learn. Same content on every device.</p>
+        <div class="learn-layers">
+          <article class="learn-layer" data-learn-layer>
+            <button type="button" class="learn-layer__hit" aria-expanded="false" aria-controls="layer-biology">
+              <span class="learn-layer__label">Biology</span>
+              <h3>Living receptors</h3>
+              <p class="learn-layer__lede">How living receptors detect molecules</p>
+            </button>
+            <div class="learn-layer__more" id="layer-biology">
+              <p class="learn-layer__more-label">What you will learn</p>
+              <p>Why odors are patterns across many receptors; how fly
+                <dfn class="term" data-term="or" tabindex="0">OR</dfn>
+                proteins with
+                <dfn class="term" data-term="orco" tabindex="0">Orco</dfn>
+                can be expressed in
+                <dfn class="term" data-term="hek293t" tabindex="0">HEK293T</dfn>
+                cells; and why fluorescence is a reporter, not a finished product.</p>
+            </div>
+          </article>
+          <article class="learn-layer" data-learn-layer>
+            <button type="button" class="learn-layer__hit" aria-expanded="false" aria-controls="layer-engineering">
+              <span class="learn-layer__label">Engineering</span>
+              <h3>Weak signals</h3>
+              <p class="learn-layer__lede">How weak biological signals become measurable</p>
+            </button>
+            <div class="learn-layer__more" id="layer-engineering">
+              <p class="learn-layer__more-label">What you will learn</p>
+              <p>Why a glow is not yet a measurement. Follow light to photodiode,
+                <dfn class="term" data-term="tia" tabindex="0">TIA</dfn>,
+                <dfn class="term" data-term="adc" tabindex="0">ADC</dfn>,
+                and edge readout — including noise, not only the happy path.</p>
+            </div>
+          </article>
+          <article class="learn-layer" data-learn-layer>
+            <button type="button" class="learn-layer__hit" aria-expanded="false" aria-controls="layer-decision">
+              <span class="learn-layer__label">Decision</span>
+              <h3>Responsible action</h3>
+              <p class="learn-layer__lede">How measurements become responsible actions</p>
+            </button>
+            <div class="learn-layer__more" id="layer-decision">
+              <p class="learn-layer__more-label">What you will learn</p>
+              <p>How to talk about screening versus diagnosis, false alarms, missed risk, and why AeroSense results must not be over-claimed in food or clinical language.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="learn-section" id="different" data-reveal>
+        <p class="learn-kicker">Design</p>
+        <h2>What makes this different</h2>
+        <div class="learn-diff">
+          <article class="learn-diff__card">
+            <h3>Learn by doing</h3>
+            <p>Test your assumptions against a pattern you can change, not only a paragraph you can reread.</p>
+          </article>
+          <article class="learn-diff__card">
+            <h3>See your progress</h3>
+            <p>Pre/post knowledge comparison is designed into each module. Scores will stay on this device until a consented evaluation exists.</p>
+          </article>
+          <article class="learn-diff__card">
+            <h3>Understand uncertainty</h3>
+            <p>Learn what sensing systems can and cannot claim — including AeroSense as a research prototype.</p>
+          </article>
+          <article class="learn-diff__card learn-diff__card--signal">
+            <h3>Shape the project</h3>
+            <p>Your feedback can inform how AeroSense communicates risk. Education here is a two-way loop, not a booth lecture.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="learn-section" id="learn-progress" data-reveal>
+        <p class="learn-kicker">Progress</p>
+        <h2>Your learning dashboard</h2>
+        <div class="learn-dash">
+          <p class="learn-dash__caption">The dashboard reads only this browser’s local record: module status, pre/post scores, and reflections. It does not show class averages or published learning outcomes.</p>
+          <p class="learn-dash__live" data-learn-progress-live aria-live="polite">Your browser progress: 0 of 5 modules completed. Status is stored only on this device and is not a published learning outcome.</p>
+          <a class="btn btn--primary" href="learning-platform/progress.html">View My Learning Progress</a>
+        </div>
+      </section>
+
+      <section class="learn-section" id="educators" data-reveal>
+        <p class="learn-kicker">Teachers</p>
+        <h2>Teaching AeroSense?</h2>
+        <p class="learn-lede">Use this page as a classroom map. Files you can take offline will appear only when they exist.</p>
+        <div class="learn-actions">
+          <a class="btn btn--secondary" href="#educator-pack">Educator Resources</a>
+        </div>
+        <div class="learn-edu" id="educator-pack">
+          <div class="learn-edu__pack">
+            <h3>Module summaries</h3>
+            <ol>
+              <li><strong>Discover</strong> — human vs fly olfaction as combinatorial codes.</li>
+              <li><strong>Question</strong> — mold, mycotoxins, and the limits of odor-based screening.</li>
+              <li><strong>Build</strong> — heterologous receptors and fluorescent readout.</li>
+              <li><strong>Decode</strong> — antennal-lobe-inspired contrast and mushroom-body-inspired sparse codes.</li>
+              <li><strong>Decide</strong> — from laboratory signal to responsible food-risk language.</li>
+            </ol>
+            <h3>Suggested classroom sequence</h3>
+            <p>01 → 02 → 03 → 04 → 05 matches the AeroSense story (Sense → Read → Decode → Act). Learners may still jump to a single module if time is short.</p>
+            <h3>Printable discussion questions</h3>
+            <ul>
+              <li>Why is one sensor channel a weak substitute for an odor identity?</li>
+              <li>What is the difference between seeing mold and claiming a mycotoxin risk?</li>
+              <li>If fluorescence rises, what else must be true before you trust the reading?</li>
+              <li>What would a false positive or false negative mean for a food handler?</li>
+              <li>Which claim language would you refuse to print on a device screen?</li>
+            </ul>
+            <div class="learn-edu__files">
+              <span class="status-label status-label--planned">Coming soon</span>
+              <p class="learn-edu__file-note">Downloadable teacher toolkit (guide, slides, worksheets). No placeholder files are offered here. See also <a href="education.html#toolkit">Education · toolkit</a>.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="learn-final" id="start" data-reveal>
+        <h2>Ready to follow an odor<br>from molecule to decision?</h2>
+        <div class="learn-actions">
+          <a class="btn btn--primary" href="learning-01-smell.html" data-learn-module="01">Start Module 1</a>
+          <a class="btn btn--secondary" href="#learn-journey">Explore freely</a>
+        </div>
+      </section>
+
+      <p class="learn-credit">
+        Educational resources developed by NTHU iGEM 2026 AeroSense Bio.
+      </p>
+      <ul class="learn-credit__links">
+        <li><a href="education.html">Education</a></li>
+        <li><a href="description.html">Project</a></li>
+        <li><a href="human-practices.html">Human Practices</a></li>
+      </ul>
+    </main>
+  </div>
+
+  <button type="button" class="learn-dock" data-learn-dock aria-expanded="false" aria-controls="learn-modules-drawer">
+    Modules
+    <span data-learn-dock-count>0 / 5 completed</span>
+  </button>
+
+  <dialog class="learn-drawer" id="learn-modules-drawer" aria-labelledby="learn-drawer-title">
+    <div class="learn-drawer__panel">
+      <div class="learn-drawer__header">
+        <h2 id="learn-drawer-title">Modules</h2>
+        <button type="button" class="learn-drawer__close" data-learn-drawer-close>Close</button>
+      </div>
+      <ul class="learn-drawer__list">
+        <li><a href="learning-01-smell.html" data-learn-module="01">01 Discover <span class="learn-status" data-learn-status="01" data-status="not-started"><span class="learn-status__mark" aria-hidden="true"></span><span class="learn-status__text">Not started</span></span></a></li>
+        <li><a href="learning-02-mold.html" data-learn-module="02">02 Question <span class="learn-status" data-learn-status="02" data-status="not-started"><span class="learn-status__mark" aria-hidden="true"></span><span class="learn-status__text">Not started</span></span></a></li>
+        <li><a href="learning-03-synbio.html" data-learn-module="03">03 Build <span class="learn-status" data-learn-status="03" data-status="not-started"><span class="learn-status__mark" aria-hidden="true"></span><span class="learn-status__text">Not started</span></span></a></li>
+        <li><a href="learning-04-decode.html" data-learn-module="04">04 Decode <span class="learn-status" data-learn-status="04" data-status="not-started"><span class="learn-status__mark" aria-hidden="true"></span><span class="learn-status__text">Not started</span></span></a></li>
+        <li><a href="learning-05-act.html" data-learn-module="05">05 Decide <span class="learn-status" data-learn-status="05" data-status="not-started"><span class="learn-status__mark" aria-hidden="true"></span><span class="learn-status__text">Not started</span></span></a></li>
+        <li><a href="learning-platform/progress.html">My dashboard</a></li>
+      </ul>
+      <p class="learn-drawer__hint">Open any module. None are locked. Progress stays in this browser.</p>
+    </div>
+  </dialog>
+
+  <a class="back-to-top" href="#main">Back to top</a>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p class="footer-mission">AeroSense is developing a bio-digital olfactory sensing platform that pairs living-cell receptor arrays with edge-capable computational models for complex odor recognition.</p>
+
+      <p class="footer-sitemap-title" id="site-map-label">Site map</p>
+      <div class="footer-grid" id="site-map" aria-labelledby="site-map-label">
+        <div class="footer-col">
+          <h2>Project</h2>
+          <ul>
+            <li><a href="description.html">Description</a></li>
+            <li><a href="contribution.html">Contribution</a></li>
+            <li><a href="engineering.html">Engineering</a></li>
+            <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
+            <li><a href="notebook.html">Notebook</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2>Team</h2>
+          <ul>
+            <li><a href="members.html">Members</a></li>
+            <li><a href="attributions.html">Attributions</a></li>
+          </ul>
+          <h2>Wet Lab</h2>
+          <ul>
+            <li><a href="parts.html">Parts</a></li>
+            <li><a href="design.html">Design</a></li>
+            <li><a href="experiments.html">Experiments</a></li>
+            <li><a href="results.html">Results</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2>Dry Lab</h2>
+          <ul>
+            <li><a href="model.html">Model</a></li>
+            <li><a href="hardware.html">Hardware</a></li>
+          </ul>
+          <h2>Human Practices</h2>
+          <ul>
+            <li><a href="human-practices.html">Integrated Human Practices</a></li>
+            <li><a href="education.html">Education</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-meta">
+        <ul class="footer-contacts">
+          <li><a href="https://www.linkedin.com/company/aerosensebio/" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><a href="https://www.instagram.com/igem_tsinghua/" rel="noopener noreferrer">Instagram</a></li>
+          <li><a href="mailto:aerosensebio@gmail.com">aerosensebio@gmail.com</a></li>
+        </ul>
+        <ul class="footer-legal">
+          <li><a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer">Source on GitLab</a></li>
+          <li>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">Creative Commons Attribution 4.0 International</a></li>
+          <li><a href="attributions.html#responsible-ai">Attributions &amp; Responsible AI</a></li>
+        </ul>
+        <p class="footer-copy">© 2026 NTHU · AeroSense</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AeroSense · Decoding airborne signals with living cells · NTHU iGEM 2026</title>
-  <meta name="description" content="AeroSense is an NTHU iGEM 2026 project designing a bio-digital platform that integrates engineered living sensor cells, fly-inspired neural computation, and portable optical readout for VOC pattern recognition.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>AeroSense · Neuromorphic Olfactory Platform for Early Fungal Detection · NTHU iGEM 2026</title>
+  <meta name="description" content="AeroSense is an NTHU iGEM 2026 project developing a neuromorphic olfactory platform for early screening of fungal-associated odor-pattern changes in stored food.">
   <!-- Canonical URL placeholder for later iGEM deployment: https://2026.igem.wiki/nthu/ -->
   <meta property="og:title" content="AeroSense · NTHU iGEM 2026">
   <meta property="og:description" content="A planned bio-digital olfactory sensing platform combining living-cell sensors, fly-inspired computation, and portable optical readout.">
@@ -13,11 +13,16 @@
   <meta name="twitter:title" content="AeroSense · NTHU iGEM 2026">
   <meta name="twitter:description" content="A planned bio-digital olfactory sensing platform combining living-cell sensors, fly-inspired computation, and portable optical readout.">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/home-film.css">
+  <link rel="stylesheet" href="css/home-after.css">
   <script src="js/main.js" defer></script>
+  <script src="js/home-film.js" defer></script>
+  <script src="js/home-after.js" defer></script>
+  <script type="module" src="js/home-teaser-3d.js"></script>
   <script src="js/glossary.js" defer></script>
   <script src="js/search.js" defer></script>
 </head>
-<body class="page-home">
+<body class="page-home is-home-header-over-film">
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="reading-progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
 
@@ -47,6 +52,7 @@
               <li><a href="contribution.html">Contribution</a></li>
               <li><a href="engineering.html">Engineering</a></li>
               <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
+              <li><a href="notebook.html">Notebook</a></li>
             </ul>
           </li>
           <li class="nav-item nav-item--dropdown">
@@ -58,13 +64,12 @@
             </ul>
           </li>
           <li class="nav-item nav-item--dropdown">
-            <span class="nav-label-static">Lab</span>
-            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-lab">Lab</button>
+            <span class="nav-label-static">Wet Lab</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-lab">Wet Lab</button>
             <ul class="nav-submenu" id="submenu-lab">
               <li><a href="parts.html">Parts</a></li>
               <li><a href="design.html">Design</a></li>
               <li><a href="experiments.html">Experiments</a></li>
-              <li><a href="notebook.html">Notebook</a></li>
               <li><a href="results.html">Results</a></li>
             </ul>
           </li>
@@ -112,327 +117,268 @@
     </div>
   </dialog>
 
-  <div class="shell shell--with-toc">
-    <div class="page-main-column">
-      <main id="main">
-        <header class="home-hero" data-reveal>
-          <span class="home-hero__kicker">NTHU · iGEM 2026</span>
-          <h1>Decoding airborne signals with living cells.</h1>
-          <p class="home-hero__support">AeroSense is designed to integrate engineered HEK293T sensor cells, fly-inspired neural computation, and portable optical readout into a bio-digital platform for recognizing volatile organic compound patterns.</p>
-          <div class="home-hero__actions">
-            <a class="btn btn--primary" href="description.html">Explore the project</a>
-            <a class="btn btn--secondary" href="#system-overview">See the system</a>
+  <main id="main">
+    <h1 class="visually-hidden">AeroSense · Neuromorphic Olfactory Platform for Early Fungal Detection</h1>
+    <section class="home-film" id="home-film" data-home-film aria-label="AeroSense cinematic introduction">
+      <a class="home-film__skip" href="#explore">Skip opening</a>
+      <div class="home-film__track">
+        <div class="home-film__stage">
+          <div class="home-film__media" aria-hidden="true">
+            <div class="home-film__bg" data-film-bg hidden>
+              <video class="home-film__video home-film__video--bg" data-film-bg-active muted playsinline webkit-playsinline preload="none" disablepictureinpicture aria-hidden="true"></video>
+            </div>
+            <div class="home-film__veil"></div>
+            <div class="home-film__fg">
+              <!-- Production pair: assets/video/aerosense-visible.mp4 + aerosense-scan.mp4 (same files on every breakpoint). -->
+              <video class="home-film__video home-film__video--visible" data-film-layer="visible" src="assets/video/aerosense-visible.mp4" muted playsinline webkit-playsinline preload="metadata" disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback" aria-hidden="true"></video>
+            </div>
           </div>
-          <p class="home-hero__status">Project overview · planned work, not validated performance</p>
-          <figure class="home-banner">
-            <img src="logo/banner.jpg" width="1600" height="400" alt="AeroSense project banner" decoding="async">
-            <figcaption>Team banner · NTHU AeroSense. Credit: team asset (<a href="attributions.html#asset-credits">Attributions</a>).</figcaption>
-          </figure>
-          <div class="signal-trace" aria-hidden="true">
-            <svg viewBox="0 0 480 160" focusable="false">
-              <path class="signal-trace__base" d="M8 110 C60 110, 80 40, 130 40 S200 120, 250 120 S330 30, 380 30 S450 90, 472 90"></path>
-              <path class="signal-trace__pulse" d="M8 110 C60 110, 80 40, 130 40 S200 120, 250 120 S330 30, 380 30 S450 90, 472 90"></path>
-            </svg>
+          <div class="home-film__shade" aria-hidden="true"></div>
+          <div class="home-film__scan-layer" data-scan-layer aria-hidden="true">
+            <video class="home-film__video home-film__video--scan" data-film-layer="scan" data-src="assets/video/aerosense-scan.mp4" muted playsinline webkit-playsinline preload="none" disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback" aria-hidden="true"></video>
+            <div class="home-film__scan-fog"></div>
+            <div class="home-film__scan-mist"></div>
           </div>
-          <p class="visually-hidden">Decorative signal-trace motif. Concept illustration — not experimental data.</p>
-        </header>
+          <div class="home-film__scan-aperture" data-scan-aperture aria-hidden="true"></div>
+          <div class="home-film__scan-egg" data-scan-egg hidden></div>
 
-        <article class="page-article prose">
-          <section class="section-block" id="signal-missing" data-reveal>
-            <h2>The signal we are missing</h2>
-            <p class="home-lead">
-              Patterns of
-              <dfn class="term" data-term="voc" tabindex="0">volatile organic compounds (VOCs)</dfn>
-              in air can carry information relevant to agriculture, environmental monitoring, food safety, and health.
-              Conventional electronic noses remain limited when mixtures are complex and long-term stability matters
-              <span class="cite-required">[CITATION REQUIRED — TEAM TO VERIFY]</span>.
-              AeroSense does not claim to have detected a disease or to have reached a stated sensitivity target; this page introduces the design direction and the evidence we still need to gather.
-            </p>
-            <p class="home-lead">
-              Prior work shows that insect olfactory receptors can be expressed in mammalian cell lines for odorant profiling, including volatile plant biomarkers
-              <span class="cite-wrap">
-                <a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023" aria-describedby="cite-preview-zboray-2023">[1]</a>
-                <span class="cite-preview" id="cite-preview-zboray-2023" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span>
-              </span>.
-              Separately, sparse coding ideas drawn from insect circuits have been formalized as locality-sensitive hashing algorithms for efficient similarity search
-              <span class="cite-wrap">
-                <a class="cite" href="#ref-dasgupta-2017" id="cite-dasgupta-2017" aria-describedby="cite-preview-dasgupta-2017">[2]</a>
-                <span class="cite-preview" id="cite-preview-dasgupta-2017" role="tooltip">Dasgupta et al., 2017 — full entry in References &amp; Credits.</span>
-              </span>.
-              AeroSense plans to connect these research threads into one documented platform.
-            </p>
-          </section>
+          <div class="home-film__captions" data-captions>
+            <article class="home-film__beat is-active" data-beat="0" data-align="left" data-mobile-zone="upper">
+              <span class="home-film__rule" aria-hidden="true"></span>
+              <p class="home-film__kicker">01 / The crate</p>
+              <p class="home-film__statement">The fruit still looks as it should.</p>
+              <p class="home-film__note">A stored batch can begin to fail long before the surface gives anything away.</p>
+            </article>
 
-          <section class="section-block" id="system-overview" data-reveal>
-            <h2>One signal, three engineered layers</h2>
-            <p class="home-lead">The system is designed as three coupled layers. Each layer is a research track with its own page; none of the summaries below are reported as completed AeroSense results.</p>
-            <div class="layer-map" role="list">
-              <article class="layer-map__item" role="listitem">
-                <span class="layer-map__index">Layer 01 · Living sensor</span>
-                <h3>HEK293T receptor cells</h3>
-                <p><dfn class="term" data-term="drosophila" tabindex="0"><i>Drosophila</i></dfn> olfactory receptors (ORs) with the co-receptor <dfn class="term" data-term="orco" tabindex="0">Orco</dfn> are planned for heterologous expression in <dfn class="term" data-term="hek293t" tabindex="0">HEK293T</dfn> cells, with <dfn class="term" data-term="gcamp6" tabindex="0">GCaMP6</dfn> fluorescence as the designed calcium readout.</p>
-                <a class="layer-map__link" href="design.html">Open Design</a>
-              </article>
-              <article class="layer-map__item" role="listitem">
-                <span class="layer-map__index">Layer 02 · Neural decoder</span>
-                <h3>Fly-inspired computation</h3>
-                <p>The computational track is designed around <dfn class="term" data-term="al" tabindex="0">antennal-lobe</dfn>-inspired contrast processing and <dfn class="term" data-term="mb" tabindex="0">mushroom-body</dfn>-inspired sparse representation for classification workflows.</p>
-                <a class="layer-map__link" href="model.html">Open Model</a>
-              </article>
-              <article class="layer-map__item" role="listitem">
-                <span class="layer-map__index">Layer 03 · Portable reader</span>
-                <h3>Optical and edge hardware</h3>
-                <p>The hardware track targets optical excitation and readout, a photodiode signal chain, and an edge-computing workflow for local preprocessing and downstream analysis.</p>
-                <a class="layer-map__link" href="hardware.html">Open Hardware</a>
-              </article>
+            <article class="home-film__beat" data-beat="1" data-align="right" data-mobile-zone="lower" inert>
+              <span class="home-film__rule" aria-hidden="true"></span>
+              <p class="home-film__kicker">02 / The air</p>
+              <p class="home-film__statement">The first change is not a bruise. It is a smell we cannot quite name.</p>
+              <p class="home-film__note">Biological activity reshapes the volatile mixture around food while everything still looks ordinary.</p>
+            </article>
+
+            <article class="home-film__beat" data-beat="2" data-align="left" data-mobile-zone="upper" inert>
+              <span class="home-film__rule" aria-hidden="true"></span>
+              <p class="home-film__kicker">03 / Another reader</p>
+              <p class="home-film__statement">A fruit fly would have known sooner.</p>
+              <p class="home-film__note">Insect olfaction evolved to read those airborne patterns. Our eyes were never built for this.</p>
+            </article>
+
+            <article class="home-film__beat" data-beat="3" data-align="right" data-mobile-zone="lower" inert>
+              <span class="home-film__rule" aria-hidden="true"></span>
+              <p class="home-film__kicker">04 / A borrowed nose</p>
+              <p class="home-film__statement">So we asked living cells to do the smelling.</p>
+              <p class="home-film__note">Drosophila odorant receptors, with Orco, are planned for HEK293T cells. Calcium flux becomes light through GCaMP.</p>
+              <p class="home-film__links"><a href="design.html">How the biology is designed →</a></p>
+            </article>
+
+            <article class="home-film__beat" data-beat="4" data-align="left" data-mobile-zone="upper" inert>
+              <span class="home-film__rule" aria-hidden="true"></span>
+              <p class="home-film__kicker">05 / Making light legible</p>
+              <p class="home-film__statement">A faint glow is not yet a measurement.</p>
+              <p class="home-film__note">Hardware is being designed to catch that fluorescence — light, photodiode, amplification, then a digital trace.</p>
+              <p class="home-film__links"><a href="hardware.html">How the reader is built →</a></p>
+            </article>
+
+            <article class="home-film__beat" data-beat="5" data-align="right" data-mobile-zone="lower" inert>
+              <span class="home-film__rule" aria-hidden="true"></span>
+              <p class="home-film__kicker">06 / A grammar for odor</p>
+              <p class="home-film__statement">The trace still has to become a pattern we can trust.</p>
+              <p class="home-film__note">The decoder follows fly computation: contrast first, then a sparse code, then a call we can write down.</p>
+              <p class="home-film__links"><a href="model.html">How the model reads it →</a></p>
+            </article>
+
+            <article class="home-film__beat" data-beat="6" data-align="center" data-mobile-zone="lower" inert>
+              <span class="home-film__rule" aria-hidden="true"></span>
+              <p class="home-film__kicker">07 / Before the warning</p>
+              <p class="home-film__statement">That is the story AeroSense is trying to finish.</p>
+              <p class="home-film__note">A bio-digital platform being developed for earlier screening of fungal-associated odor-pattern change in stored food. It is research in progress, not a finished detector.</p>
+              <p class="home-film__links">
+                <a href="description.html">Continue the project →</a>
+                <a href="engineering.html">Follow the engineering →</a>
+              </p>
+            </article>
+          </div>
+
+          <button type="button" class="aerosense-control" data-film-control aria-pressed="false" aria-label="AeroSense scanner. Visual mode. Activate to scan.">
+            <span class="aerosense-control__body" aria-hidden="true">
+              <span class="aerosense-control__ring" data-scan-ring></span>
+              <span class="aerosense-control__aperture"></span>
+              <span class="aerosense-control__led" data-film-led></span>
+            </span>
+            <span class="aerosense-control__copy">
+              <span class="aerosense-control__brand">Aerosense</span>
+              <span class="aerosense-control__state" data-film-state>VISUAL</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </section>
+    <noscript>
+      <style>
+        .home-film { --actual-header-height: var(--header-offset, 4.5rem); }
+        .home-film__track { height: auto !important; }
+        .home-film__stage { position: relative !important; height: auto !important; min-height: 70vh; overflow: visible !important; }
+        .home-film__media { position: relative !important; height: 42vh; }
+        .home-film__captions { position: relative !important; inset: auto !important; display: flex; flex-direction: column; gap: 2rem; padding: 2rem 1.25rem 3rem; background: #fff; color: #0a0a0a; pointer-events: auto !important; }
+        .home-film__beat { position: relative !important; left: auto !important; right: auto !important; top: auto !important; bottom: auto !important; width: min(38rem, 100%) !important; max-width: 38rem !important; opacity: 1 !important; transform: none !important; pointer-events: auto !important; color: inherit; }
+        .home-film__statement, .home-film__role { color: #0a0a0a !important; }
+        .home-film__kicker, .home-film__note { color: #555 !important; }
+        .home-film__links a { color: #0a0a0a !important; }
+        .aerosense-control { display: none !important; }
+      </style>
+    </noscript>
+
+    <div class="home-signal-exit" aria-hidden="true"></div>
+
+    <div class="home-after">
+      <section class="home-signal-teaser is-paused" data-signal-teaser data-reveal>
+        <div class="home-signal-teaser__stage">
+          <div class="home-signal-teaser__scene" data-teaser-scene>
+            <div class="home-signal-teaser__gl" data-teaser-gl aria-hidden="true"></div>
+            <img class="home-signal-teaser__still" data-teaser-still data-teaser-src="models/previews_full/01_warehouse.png" width="1920" height="1080" alt="" decoding="async">
+            <div class="home-signal-teaser__veil" aria-hidden="true"></div>
+            <div class="home-signal-teaser__lines" data-teaser-lines aria-live="polite">
+              <p class="is-on" data-teaser-line="0">Looks fine.</p>
+              <p data-teaser-line="1">But the air carries more.</p>
+              <p data-teaser-line="2">See what the eye cannot.</p>
+              <p class="home-signal-teaser__brand" data-teaser-line="3">Aerosense Bio</p>
             </div>
-          </section>
-
-          <section class="section-block" id="workflow" data-reveal>
-            <h2>How a measurement moves through AeroSense</h2>
-            <p class="home-lead">The sequence below is the intended path from exposure to an interpretable output. It is labeled as a proposed workflow until the team supplies end-to-end validation.</p>
-            <div class="workflow">
-              <span class="workflow__label">Proposed system workflow</span>
-              <ol>
-                <li>
-                  <strong>VOC exposure</strong>
-                  Sample gas contacts the sensing interface under controlled delivery conditions.
-                </li>
-                <li>
-                  <strong>Receptor activation</strong>
-                  Engineered OR/Orco complexes are designed to respond to target odorants.
-                </li>
-                <li>
-                  <strong>Calcium-dependent fluorescence</strong>
-                  GCaMP6 is planned to convert intracellular calcium change into an optical signal.
-                </li>
-                <li>
-                  <strong>Optical acquisition</strong>
-                  Excitation and photodiode readout are designed to capture the fluorescence response.
-                </li>
-                <li>
-                  <strong>Model transformation</strong>
-                  Time-series signals are intended to enter fly-inspired preprocessing and representation stages.
-                </li>
-                <li>
-                  <strong>Interpretable classification output</strong>
-                  Downstream models are planned to return a labeled pattern call with documented uncertainty.
-                </li>
-              </ol>
-            </div>
-          </section>
-
-          <section class="section-block" id="goals-evidence" data-reveal>
-            <h2>What we are building and how we will know</h2>
-            <p class="home-lead">This table tracks questions and planned evidence only. No measured AeroSense values are inserted here.</p>
-            <div class="table-scroll goal-table-wrap" tabindex="0" role="region" aria-label="Goals and planned evidence table">
-              <table class="goal-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Question</th>
-                    <th scope="col">Planned evidence</th>
-                    <th scope="col">Current status</th>
-                    <th scope="col">Read more</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Can OR/Orco + GCaMP6 report odorant-triggered responses in HEK293T cells?</td>
-                    <td>Documented constructs, transfection checks, and agonist/VOC response protocols</td>
-                    <td>
-                      <div class="evidence-status" data-status="planned">
-                        <span class="evidence-status__label">Evidence status</span>
-                        <span class="evidence-status__value">Planned</span>
-                      </div>
-                    </td>
-                    <td><a href="design.html">Design</a> · <a href="experiments.html">Experiments</a></td>
-                  </tr>
-                  <tr>
-                    <td>Can fly-inspired processing improve pattern separation on fluorescence time series?</td>
-                    <td>Model specification, training data provenance, and evaluation against baselines</td>
-                    <td>
-                      <div class="evidence-status" data-status="planned">
-                        <span class="evidence-status__label">Evidence status</span>
-                        <span class="evidence-status__value">Planned</span>
-                      </div>
-                    </td>
-                    <td><a href="model.html">Model</a></td>
-                  </tr>
-                  <tr>
-                    <td>Can a portable optical reader acquire usable signals for the cell assay?</td>
-                    <td>Hardware architecture, BOM reconciliation, bench protocols, and acquisition logs</td>
-                    <td>
-                      <div class="evidence-status" data-status="planned">
-                        <span class="evidence-status__label">Evidence status</span>
-                        <span class="evidence-status__value">Planned</span>
-                      </div>
-                    </td>
-                    <td><a href="hardware.html">Hardware</a></td>
-                  </tr>
-                  <tr>
-                    <td>Does stakeholder input change design choices and safety framing?</td>
-                    <td>Interview/engagement records and explicit design-change notes</td>
-                    <td>
-                      <div class="evidence-status" data-status="planned">
-                        <span class="evidence-status__label">Evidence status</span>
-                        <span class="evidence-status__value">Planned</span>
-                      </div>
-                    </td>
-                    <td><a href="human-practices.html">Human Practices</a></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <section class="section-block" id="evidence-not-promises" data-reveal>
-            <h2>Evidence, not promises</h2>
-            <p class="home-lead">
-              As work progresses, AeroSense will document completed results, protocols, source files, limitations, and failed iterations—not only successful outcomes.
-              Goals will stay labeled as goals until verification is available.
-            </p>
-            <ul class="evidence-links">
-              <li><a href="engineering.html">Engineering</a></li>
-              <li><a href="experiments.html">Experiments</a></li>
-              <li><a href="notebook.html">Notebook</a></li>
-              <li><a href="results.html">Results</a></li>
-            </ul>
-          </section>
-
-          <section class="section-block" id="explore" data-reveal>
-            <h2>Explore AeroSense</h2>
-            <p class="home-lead">
-              Use these entries for judging questions. Pages marked Planned still state that status openly; they do not invent completed work.
-            </p>
-            <ul class="explore-list">
-              <li>
-                <a href="description.html#the-challenge">
-                  <span class="explore-list__num">01</span>
-                  <span class="explore-list__title">Description</span>
-                  <span class="explore-list__hint">Problem, goal, and system concept</span>
-                </a>
-              </li>
-              <li>
-                <a href="results.html#evidence-overview">
-                  <span class="explore-list__num">02</span>
-                  <span class="explore-list__title">Results</span>
-                  <span class="explore-list__hint">What was actually measured (slots empty until data exist)</span>
-                </a>
-              </li>
-              <li>
-                <a href="engineering.html#completed-cycle">
-                  <span class="explore-list__num">03</span>
-                  <span class="explore-list__title">Engineering</span>
-                  <span class="explore-list__hint">Completed cycle status and planned DBTL scaffolds</span>
-                </a>
-              </li>
-              <li>
-                <a href="contribution.html#candidate-packages">
-                  <span class="explore-list__num">04</span>
-                  <span class="explore-list__title">Contribution</span>
-                  <span class="explore-list__hint">What future teams could reuse</span>
-                </a>
-              </li>
-              <li>
-                <a href="human-practices.html#integration-cases">
-                  <span class="explore-list__num">05</span>
-                  <span class="explore-list__title">Human Practices</span>
-                  <span class="explore-list__hint">Stakeholder input → technical change (none published yet)</span>
-                </a>
-              </li>
-              <li>
-                <a href="safety-and-security.html#safety-at-a-glance">
-                  <span class="explore-list__num">06</span>
-                  <span class="explore-list__title">Safety &amp; Security</span>
-                  <span class="explore-list__hint">Risks, SDS gaps, and limitations</span>
-                </a>
-              </li>
-              <li>
-                <a href="attributions.html#responsible-ai">
-                  <span class="explore-list__num">07</span>
-                  <span class="explore-list__title">Attributions</span>
-                  <span class="explore-list__hint">Credits and Responsible AI record</span>
-                </a>
-              </li>
-              <li>
-                <a href="model.html#question-and-role">
-                  <span class="explore-list__num">08</span>
-                  <span class="explore-list__title">Model</span>
-                  <span class="explore-list__hint">Dry-lab computation track</span>
-                </a>
-              </li>
-              <li>
-                <a href="hardware.html#the-need">
-                  <span class="explore-list__num">09</span>
-                  <span class="explore-list__title">Hardware</span>
-                  <span class="explore-list__hint">Optical and edge stack</span>
-                </a>
-              </li>
-              <li>
-                <a href="education.html#educational-purpose">
-                  <span class="explore-list__num">10</span>
-                  <span class="explore-list__title">Education</span>
-                  <span class="explore-list__hint">Programs and reusable toolkit status</span>
-                </a>
-              </li>
-            </ul>
-          </section>
-        </article>
-      </main>
-
-      <nav class="page-turn" aria-label="Page">
-        <div class="page-turn__placeholder" aria-hidden="true">Beginning of wiki</div>
-        <a class="page-turn__next" href="description.html"><span class="page-turn__dir">Next</span><span class="page-turn__title">Description</span></a>
-      </nav>
-
-      <section class="references" aria-labelledby="references-heading" id="references" data-reveal>
-        <h2 id="references-heading">References &amp; Credits</h2>
-        <ol class="ref-list">
-          <li id="ref-zboray-2023">
-            <span class="ref-authors">Zboray, K., et al.</span>
-            <span class="ref-year">(2023).</span>
-            <span class="ref-title">High-throughput ligand profile characterization in novel cell lines expressing seven heterologous insect olfactory receptors for the detection of volatile plant biomarkers.</span>
-            <span class="ref-venue"><i>Scientific Reports</i>, <span class="ref-volume">13</span>, Article 21757.</span>
-            <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/s41598-023-47455-4" rel="noopener noreferrer">10.1038/s41598-023-47455-4</a>.</span>
-            <a class="ref-backlink" href="#cite-zboray-2023">Back to citation</a>
-          </li>
-          <li id="ref-dasgupta-2017">
-            <span class="ref-authors">Dasgupta, S., Stevens, C. F., &amp; Navlakha, S.</span>
-            <span class="ref-year">(2017).</span>
-            <span class="ref-title">A neural algorithm for a fundamental computing problem.</span>
-            <span class="ref-venue"><i>Science</i>, <span class="ref-volume">358</span>(6364), 793–796.</span>
-            <span class="ref-doi">DOI: <a href="https://doi.org/10.1126/science.aam9868" rel="noopener noreferrer">10.1126/science.aam9868</a>.</span>
-            <a class="ref-backlink" href="#cite-dasgupta-2017">Back to citation</a>
-          </li>
-        </ol>
-        <p class="notice">Signal-trace motif on this page is a decorative concept illustration, not experimental data. Additional homepage credits can be added when team assets are licensed.</p>
+          </div>
+        </div>
+        <div class="shell home-shell home-signal-teaser__copy">
+          <p class="home-kicker">Interactive project journey</p>
+          <h2>Can you follow the signal?</h2>
+          <p class="home-signal-teaser__lead">Follow an odor from the air, through a living sensor, into the reader and the decoder.</p>
+          <div class="home-signal-teaser__actions">
+            <a class="home-explore__link home-signal-teaser__cta" href="description.html#follow-the-signal">Follow the signal →</a>
+            <a class="home-signal-teaser__skip" href="description.html">Explore the project →</a>
+          </div>
+        </div>
       </section>
-    </div>
 
-    <details class="page-toc" open>
-      <summary class="toc__summary"><span class="toc__label">On this page</span></summary>
-      <nav aria-label="Table of contents">
-        <ol>
-            <li><a href="#signal-missing"><span class="tech-label">01</span> The signal we are missing</a></li>
-            <li><a href="#system-overview"><span class="tech-label">02</span> Three engineered layers</a></li>
-            <li><a href="#workflow"><span class="tech-label">03</span> Proposed workflow</a></li>
-            <li><a href="#goals-evidence"><span class="tech-label">04</span> Goals and evidence</a></li>
-            <li><a href="#evidence-not-promises"><span class="tech-label">05</span> Evidence, not promises</a></li>
-            <li><a href="#explore"><span class="tech-label">06</span> Explore AeroSense</a></li>
-            <li><a href="#references"><span class="tech-label">Ref</span> References &amp; Credits</a></li>
-        </ol>
-      </nav>
-    </details>
-  </div>
+      <div class="shell home-shell">
+        <section class="home-explore" id="explore" data-reveal>
+          <p class="home-kicker">Explore</p>
+          <h2>One system. Four ways in.</h2>
+          <div class="home-explore__grid">
+            <article class="home-explore__item">
+              <h3>Biology</h3>
+              <p class="home-explore__lead">Engineer the nose.</p>
+              <p class="home-explore__meta">
+                <dfn class="term" data-term="or" tabindex="0">OR</dfn>
+                /
+                <dfn class="term" data-term="orco" tabindex="0">Orco</dfn>
+                /
+                <dfn class="term" data-term="gcamp6" tabindex="0">GCaMP</dfn>
+                /
+                <dfn class="term" data-term="hek293t" tabindex="0">HEK293T</dfn>
+              </p>
+              <a class="home-explore__link" href="design.html">Explore Design →</a>
+            </article>
+            <article class="home-explore__item">
+              <h3>Hardware</h3>
+              <p class="home-explore__lead">Extract the signal.</p>
+              <p class="home-explore__meta">
+                Photodiode /
+                <dfn class="term" data-term="tia" tabindex="0">TIA</dfn>
+                /
+                <dfn class="term" data-term="fdm" tabindex="0">FDM</dfn>
+                /
+                <dfn class="term" data-term="dlia" tabindex="0">DLIA</dfn>
+              </p>
+              <a class="home-explore__link" href="hardware.html">Explore Hardware →</a>
+            </article>
+            <article class="home-explore__item">
+              <h3>Model</h3>
+              <p class="home-explore__lead">Decode the pattern.</p>
+              <p class="home-explore__meta">
+                <dfn class="term" data-term="al" tabindex="0">AL</dfn>
+                /
+                <dfn class="term" data-term="mb" tabindex="0">MB</dfn>
+                /
+                <dfn class="term" data-term="sparse-coding" tabindex="0">sparse representation</dfn>
+              </p>
+              <a class="home-explore__link" href="model.html">Explore Model →</a>
+            </article>
+            <article class="home-explore__item">
+              <h3>Human Practices</h3>
+              <p class="home-explore__lead">Design around real decisions.</p>
+              <p class="home-explore__meta">Food safety / users / responsible deployment</p>
+              <a class="home-explore__link" href="human-practices.html">Explore Human Practices →</a>
+            </article>
+          </div>
+        </section>
+
+        <section class="home-team" id="team" data-reveal>
+          <div class="home-team__copy">
+            <h2>The team behind AeroSense</h2>
+            <p>Students across synthetic biology, neuroscience, electronics, modeling, design, and human practices are building one system around a deceptively simple question:</p>
+            <blockquote class="home-team__quote">
+              <p>Can biology help us notice food-quality change earlier?</p>
+            </blockquote>
+            <a class="home-explore__link" href="members.html">Meet the team →</a>
+          </div>
+          <div class="home-team__media">
+            <!-- TODO: add assets/team/team-home.webp -->
+            <div class="home-team__placeholder" role="img" aria-label="Team photograph to come">
+              <span>Team photograph to come</span>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="home-watch" id="watch" data-reveal>
+        <div class="home-watch__inner">
+          <p class="home-kicker home-kicker--on-dark">Watch</p>
+          <h2>The AeroSense story.</h2>
+          <div class="home-watch__frame" data-yt-embed>
+            <iframe
+              data-yt-src="https://www.youtube-nocookie.com/embed/cZ8ZhyZwfy4"
+              title="AeroSense promotion film: The AeroSense story"
+              loading="lazy"
+              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <p class="home-watch__fallback">
+            <a href="https://youtu.be/cZ8ZhyZwfy4" rel="noopener noreferrer">Watch the AeroSense story on YouTube</a>
+          </p>
+        </div>
+      </section>
+
+      <div class="shell home-shell">
+        <section class="home-follow" id="follow" data-reveal>
+          <img class="home-follow__logo" src="logo/logo.jpg" width="72" height="72" alt="AeroSense logo" loading="lazy">
+          <h2>AeroSense Bio</h2>
+          <p class="home-follow__meta">NTHU · iGEM 2026</p>
+          <ul class="home-follow__links">
+            <li><a href="https://www.linkedin.com/company/112406954/" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (AeroSense company page)</span></a></li>
+            <li><a href="https://www.instagram.com/igem_tsinghua" rel="noopener noreferrer">Instagram<span class="visually-hidden"> (NTHU iGEM)</span></a></li>
+            <li><a href="https://youtu.be/cZ8ZhyZwfy4" rel="noopener noreferrer">YouTube<span class="visually-hidden"> (AeroSense promotion film)</span></a></li>
+          </ul>
+          <!-- TODO: official team contact email -->
+        </section>
+
+        <nav class="page-turn" aria-label="Page">
+          <div class="page-turn__placeholder" aria-hidden="true">Beginning of wiki</div>
+          <a class="page-turn__next" href="description.html"><span class="page-turn__dir">Next</span><span class="page-turn__title">Description</span></a>
+        </nav>
+      </div>
+    </div>
+  </main>
 
   <a class="back-to-top" href="#main">Back to top</a>
 
-  <footer class="site-footer">
+  <footer class="site-footer site-footer--home">
     <div class="site-footer__inner">
-      <p class="footer-mission">AeroSense is developing a bio-digital olfactory sensing platform that pairs living-cell receptor arrays with edge-capable computational models for complex odor recognition.</p>
+      <div class="home-footer__brand">
+        <p class="home-footer__name">AeroSense Bio</p>
+        <p class="home-footer__meta">NTHU iGEM 2026</p>
+      </div>
 
-      <p class="footer-sitemap-title" id="site-map-label">Site map</p>
-      <div class="footer-grid" id="site-map" aria-labelledby="site-map-label">
+      <nav class="home-footer__nav" id="site-map" aria-label="Site map">
         <div class="footer-col">
           <h2>Project</h2>
           <ul>
@@ -440,6 +386,7 @@
             <li><a href="contribution.html">Contribution</a></li>
             <li><a href="engineering.html">Engineering</a></li>
             <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
+            <li><a href="notebook.html">Notebook</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -448,12 +395,13 @@
             <li><a href="members.html">Members</a></li>
             <li><a href="attributions.html">Attributions</a></li>
           </ul>
-          <h2>Lab</h2>
+        </div>
+        <div class="footer-col">
+          <h2>Wet Lab</h2>
           <ul>
             <li><a href="parts.html">Parts</a></li>
             <li><a href="design.html">Design</a></li>
             <li><a href="experiments.html">Experiments</a></li>
-            <li><a href="notebook.html">Notebook</a></li>
             <li><a href="results.html">Results</a></li>
           </ul>
         </div>
@@ -463,20 +411,24 @@
             <li><a href="model.html">Model</a></li>
             <li><a href="hardware.html">Hardware</a></li>
           </ul>
+        </div>
+        <div class="footer-col">
           <h2>Human Practices</h2>
           <ul>
             <li><a href="human-practices.html">Integrated Human Practices</a></li>
             <li><a href="education.html">Education</a></li>
           </ul>
         </div>
-      </div>
+      </nav>
+
+      <ul class="home-footer__social">
+        <li><a href="https://www.instagram.com/igem_tsinghua" rel="noopener noreferrer">Instagram<span class="visually-hidden"> (NTHU iGEM)</span></a></li>
+        <li><a href="https://www.linkedin.com/company/112406954/" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (AeroSense company page)</span></a></li>
+        <li><a href="https://youtu.be/cZ8ZhyZwfy4" rel="noopener noreferrer">YouTube<span class="visually-hidden"> (AeroSense promotion film)</span></a></li>
+      </ul>
+      <!-- TODO: official team contact email -->
 
       <div class="footer-meta">
-        <ul class="footer-contacts">
-          <li><a href="https://www.linkedin.com/company/aerosensebio/" rel="noopener noreferrer">LinkedIn</a></li>
-          <li><a href="https://www.instagram.com/igem_tsinghua/" rel="noopener noreferrer">Instagram</a></li>
-          <li><a href="mailto:aerosensebio@gmail.com">aerosensebio@gmail.com</a></li>
-        </ul>
         <ul class="footer-legal">
           <li><a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer">Source on GitLab</a></li>
           <li>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">Creative Commons Attribution 4.0 International</a></li>
