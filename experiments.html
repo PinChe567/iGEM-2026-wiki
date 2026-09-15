@@ -4,11 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Experiments · AeroSense · NTHU iGEM 2026</title>
-  <meta name="description" content="AeroSense experiments: planned and performed protocols with controls, execution status, notebook links, and data management. Planned protocols are not evidence of execution.">
+  <meta name="description" content="AeroSense wet-lab protocol specification: molecular cloning, mammalian culture, transfection, stable-line selection, expression/functional validation, 384-well calcium imaging, and VUAA1-normalised analysis. Execution and measured outcomes are on Notebook and Results.">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/experiments.css">
   <script src="js/main.js" defer></script>
   <script src="js/glossary.js" defer></script>
   <script src="js/search.js" defer></script>
+  <script src="js/experiments.js" defer></script>
 </head>
 <body class="page-experiments">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -24,8 +26,16 @@
         </span>
       </a>
       <div class="header-tools">
-        <a class="btn-search" href="index.html#site-map" aria-haspopup="dialog" aria-controls="project-search">Project Search</a>
-        <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+        <a class="btn-search" href="index.html#site-map" aria-haspopup="dialog" aria-controls="project-search" aria-label="Project Search" title="Project Search">
+          <svg class="header-icon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M15.5 15.5L21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span class="btn-search__label">Project Search</span>
+        </a>
+        <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+          <span class="nav-toggle__icon" aria-hidden="true"><span></span><span></span><span></span></span>
+        </button>
       </div>
       <nav class="site-nav" id="site-nav" aria-label="Primary">
         <ul class="nav-root">
@@ -69,12 +79,15 @@
               <li><a href="hardware.html">Hardware</a></li>
             </ul>
           </li>
-          <li class="nav-item nav-item--dropdown">
+                    <li class="nav-item nav-item--dropdown">
             <span class="nav-label-static">Human Practices</span>
             <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-hp">Human Practices</button>
             <ul class="nav-submenu" id="submenu-hp">
               <li><a href="human-practices.html">Integrated Human Practices</a></li>
               <li><a href="education.html">Education</a></li>
+              <li><a href="entrepreneurship.html">Entrepreneurship</a></li>
+              <li><a href="sustainability.html">Sustainability</a></li>
+              <li><a href="learning-platform.html">Learning Lab</a></li>
             </ul>
           </li>
         </ul>
@@ -92,12 +105,11 @@
         <label for="project-search-input">Search the AeroSense wiki</label>
         <p id="project-search-instructions" class="search-dialog__hint">Type keywords from page titles and sections. Results stay on this site. No remote requests are made. Arrow keys move through results; Enter opens; Escape closes.</p>
         <div class="search-dialog__field">
-          <input id="project-search-input" type="search" name="q" placeholder="e.g. HEK293T, Orco, hardware" autocomplete="off" aria-describedby="project-search-instructions project-search-count" aria-controls="project-search-results">
+          <input id="project-search-input" type="search" name="q" placeholder="e.g. Orco, G418, calcium assay" autocomplete="off" aria-describedby="project-search-instructions project-search-count" aria-controls="project-search-results">
           <button type="button" class="search-dialog__clear" data-search-clear hidden>Clear</button>
         </div>
         <div class="search-dialog__actions">
           <button type="submit">Search</button>
-          <button type="button" data-search-close>Close</button>
         </div>
       </form>
       <p id="project-search-count" class="search-dialog__count" aria-live="polite" aria-atomic="true">0 results</p>
@@ -108,871 +120,928 @@
   <div class="shell shell--with-toc">
     <div class="page-main-column">
       <main id="main">
+        <p class="visually-hidden" data-exp-live aria-live="polite" aria-atomic="true"></p>
         <header class="page-hero" data-reveal>
           <nav aria-label="Breadcrumb">
             <ol class="breadcrumb">
               <li><a href="index.html">Home</a></li>
-              <li><a href="parts.html">Lab</a></li>
+              <li>Wet Lab</li>
               <li aria-current="page">Experiments</li>
             </ol>
           </nav>
-          <span class="page-kicker">09 / Lab</span>
+          <span class="page-kicker">Wet lab · Experiments</span>
           <h1>Experiments</h1>
-          <p class="page-purpose">Protocols, controls, execution records, and deviations</p>
           <p class="page-lede">
-            This page separates planned workflows from experiments actually performed.
-            Proposal schedule language is not a completed methods record.
-            Status values are assigned only from team evidence — never inferred from dates alone.
+            Methods for building, validating, and characterizing AeroSense olfactory sensing cell lines.
           </p>
-          <span class="status-label status-label--planned">All listed protocols currently Planned</span>
+          <p class="page-lede page-lede--secondary">
+            The calcium-response assay was adapted from Zboray <i>et al.</i>
+            <span class="cite-wrap">
+              <a class="cite" href="#ref-zboray-2023" id="cite-zboray-hero" aria-describedby="cite-preview-zboray-hero">[1]</a>
+              <span class="cite-preview" id="cite-preview-zboray-hero" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span>
+            </span>.
+            AeroSense-specific construct, transfection, and validation procedures are documented separately below.
+          </p>
         </header>
 
         <article class="page-article prose">
-          <section class="section-block" id="experimental-map" data-reveal>
-            <h2>Experimental map</h2>
-            <p>
-              Each research question maps to a stable experiment ID, protocol section, control set, intended output, and Notebook/Results anchors.
-              Anchors resolve to pending stubs until dated records exist.
+          <!--
+            SCIENTIFIC FREEZE — unresolved AeroSense items. Do not guess in this file.
+            1. CELL CHASSIS: HEK293 vs HEK293T. This protocol currently names HEK293; other wiki pages name HEK293T.
+            2. MAMMALIAN TRANSFECTION: electroporation (this source) vs Lipofectamine 3000 vs FuGene HD (Zboray) vs another actual method.
+            3. CONSTRUCT BACKBONE: pcDNA3.1(+) (this source / Design) vs any other architecture used elsewhere.
+            4. FUSION TOPOLOGY: GCaMP6f–linker–DmOrco vs reversed wording. Do not draw a 5′→3′ map until one source of truth is frozen.
+            5. LINKER: (GGGGS)3 (this source / Design) vs another documented linker.
+            6. DNA MASS RATIO: state as plasmid DNA mass ratio only; not protein stoichiometry. Confirm OR plasmid : Orco plasmid 2:1.
+            7. OR PANEL: exact receptor names and number of OR constructs (this source says ten constructs; Design/Parts name nine ORs + reporter).
+            8. VOC PANEL: exact compounds used / planned (this source gives 1 / 10 / 100 µM, not identities).
+            9. ELECTROPORATION PARAMETERS: device, cuvette, voltage/program/pulse, named buffer.
+            10. G418 STATUS: 100 → 150 → ~75 µg/mL is a current protocol target / literature-informed starting condition — not an AeroSense-validated kill curve.
+            11. IONOMYCIN: whether it is in the AeroSense SOP; if yes, concentration/solvent/incubation still required.
+            12. WESTERN BLOT: whether planned/performed; whether the construct contains the stated His/RSET element.
+            13. MICROSCOPY INSTRUMENT: if fluorescence microscopy remains in the SOP.
+            14. PLATE READER MODEL: do not copy SpectraMax iD3 unless AeroSense used that instrument.
+            15. GRUBBS TEST: alpha/significance level and exact implementation are not specified in the current source.
+          -->
+          <span id="why-this-matters" class="anchor-alias"></span>
+          <span id="experimental-map" class="anchor-alias"></span>
+          <span id="experimental-evidence-map" class="anchor-alias"></span>
+          <span id="experimental-strategy" class="anchor-alias"></span>
+          <span id="protocol-index" class="anchor-alias"></span>
+          <span id="protocol-navigator" class="anchor-alias"></span>
+          <span id="core-protocols" class="anchor-alias"></span>
+          <span id="status-legend" class="anchor-alias"></span>
+
+          <section class="section-block" id="workflow" data-reveal>
+            <h2>Experimental workflow</h2>
+            <p>One canonical protocol sequence. Bacterial propagation is part of molecular cloning, not a separate numbered step.</p>
+            <p class="exp-tools">
+              <button type="button" class="exp-print" data-exp-print hidden aria-label="Print AeroSense experimental protocols">Print protocols</button>
             </p>
-            <div class="table-scroll" tabindex="0" role="region" aria-label="Experimental map">
+            <figure class="wiki-figure exp-figure" id="fig-workflow">
+              <div class="wiki-figure__media">
+                <nav class="exp-flow" aria-label="Canonical experimental workflow">
+                  <ol class="exp-flow__list" data-exp-flow>
+                    <li>
+                      <a href="#molecular-cloning">
+                        <span class="exp-flow__num">01</span>
+                        <span class="exp-flow__title">Molecular cloning</span>
+                        <span class="exp-flow__desc">Constructs, bacterial prep, sequencing</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#cell-culture">
+                        <span class="exp-flow__num">02</span>
+                        <span class="exp-flow__title">Mammalian cell culture</span>
+                        <span class="exp-flow__desc">Host maintenance</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#transfection">
+                        <span class="exp-flow__num">03</span>
+                        <span class="exp-flow__title">Transfection</span>
+                        <span class="exp-flow__desc">DNA delivery</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#stable-selection">
+                        <span class="exp-flow__num">04</span>
+                        <span class="exp-flow__title">Stable-line selection</span>
+                        <span class="exp-flow__desc">G418 / NeoR</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#expression-validation">
+                        <span class="exp-flow__num">05</span>
+                        <span class="exp-flow__title">Expression / functional validation</span>
+                        <span class="exp-flow__desc">mCherry / VUAA1</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#calcium-imaging">
+                        <span class="exp-flow__num">06</span>
+                        <span class="exp-flow__title">Calcium imaging assay</span>
+                        <span class="exp-flow__desc">384-well, two-round injection</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#data-analysis">
+                        <span class="exp-flow__num">07</span>
+                        <span class="exp-flow__title">Data analysis</span>
+                        <span class="exp-flow__desc"><i>R</i> then <i>R</i><sub>norm</sub></span>
+                      </a>
+                    </li>
+                  </ol>
+                </nav>
+              </div>
+              <figcaption>
+                <span class="wiki-figure__num">Figure 1.</span>
+                <span class="wiki-figure__title"> Canonical experimental workflow.</span>
+                <p class="wiki-figure__explain">
+                  Protocol navigator for this page. Each step jumps to the corresponding method.
+                  This is a methods outline, not a Gantt chart of completed work.
+                </p>
+              </figcaption>
+            </figure>
+          </section>
+
+          <section class="section-block exp-proto" id="molecular-cloning" data-reveal>
+            <span id="build" class="anchor-alias"></span>
+            <span id="exp-as-01" class="anchor-alias"></span>
+            <span id="construct-architecture" class="anchor-alias"></span>
+            <span id="construct-provenance" class="anchor-alias"></span>
+            <span id="sequence-verification" class="anchor-alias"></span>
+            <header class="exp-proto__head">
+              <p class="exp-proto__num">01</p>
+              <h2>Molecular cloning</h2>
+              <p class="exp-proto__purpose">Prepare sequence-checked, endotoxin-free plasmids for mammalian transfection.</p>
+            </header>
+
+            <div class="exp-params">
+            <h3>Key parameters</h3>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Cloning and bacterial propagation conditions. Scroll horizontally to see all columns.">
               <table class="goal-table">
                 <thead>
                   <tr>
-                    <th scope="col">Research question</th>
-                    <th scope="col">Experiment ID</th>
-                    <th scope="col">Protocol</th>
-                    <th scope="col">Control set</th>
-                    <th scope="col">Output</th>
-                    <th scope="col">Notebook</th>
-                    <th scope="col">Results</th>
+                    <th scope="col">Parameter</th>
+                    <th scope="col">Value</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Can Construct A and Construct B be assembled and sequence-checked before transfection?</td>
-                    <td><a href="#exp-as-01"><code>EXP-AS-01</code></a></td>
-                    <td><a href="#exp-as-01">Construct assembly and sequence verification</a></td>
-                    <td>No-insert / empty-backbone checks if used; colony PCR negatives as applicable</td>
-                    <td>Verified plasmid DNA lots with map/sequence concordance notes</td>
-                    <td><a href="notebook.html#nb-EXP-AS-01">nb-EXP-AS-01</a> <span class="placeholder-field">pending</span></td>
-                    <td><a href="results.html#res-EXP-AS-01">res-EXP-AS-01</a> <span class="placeholder-field">pending</span></td>
+                    <th scope="row">Constructs</th>
+                    <!-- TODO(7 OR PANEL): this source says ten constructs; Design/Parts name nine ORs + one reporter. Do not invent receptor names here. -->
+                    <td>Ten, specified as chemically synthesised and pre-cloned (GenScript)</td>
                   </tr>
                   <tr>
-                    <td>Can <dfn class="term" data-term="hek293t" tabindex="0">HEK293T</dfn> cells be maintained and co-transfected with Construct A and Construct B under approved biosafety practice?</td>
-                    <td><a href="#exp-as-02"><code>EXP-AS-02</code></a></td>
-                    <td><a href="#exp-as-02">HEK293T culture and co-transfection</a></td>
-                    <td>Mock transfection; single-construct transfection where applicable</td>
-                    <td>Documented culture and transfection batches with construct lot IDs</td>
-                    <td><a href="notebook.html#nb-EXP-AS-02">nb-EXP-AS-02</a> <span class="placeholder-field">pending</span></td>
-                    <td><a href="results.html#res-EXP-AS-02">res-EXP-AS-02</a> <span class="placeholder-field">pending</span></td>
+                    <th scope="row">Vector</th>
+                    <!-- TODO(3 CONSTRUCT BACKBONE): pcDNA3.1(+) is named here and on Design; do not silently substitute another backbone. -->
+                    <td>pcDNA3.1(+)</td>
                   </tr>
                   <tr>
-                    <td>Do transfected cultures show expected reporter expression (mCherry and/or <dfn class="term" data-term="gcamp6" tabindex="0">GCaMP6</dfn>) before agonist or <dfn class="term" data-term="voc" tabindex="0">VOC</dfn> challenges?</td>
-                    <td><a href="#exp-as-03"><code>EXP-AS-03</code></a></td>
-                    <td><a href="#exp-as-03">Expression check</a></td>
-                    <td>Mock transfection; untransfected cells</td>
-                    <td>Expression-check images or quantified reporter presence with metadata</td>
-                    <td><a href="notebook.html#nb-EXP-AS-03">nb-EXP-AS-03</a> <span class="placeholder-field">pending</span></td>
-                    <td><a href="results.html#res-EXP-AS-03">res-EXP-AS-03</a> <span class="placeholder-field">pending</span></td>
+                    <th scope="row">Host strain</th>
+                    <td><i>E. coli</i> DH5α (Risk Group 1)</td>
                   </tr>
                   <tr>
-                    <td>Does the OR/<dfn class="term" data-term="orco" tabindex="0">Orco</dfn>/GCaMP6 system produce an Orco-family agonist–dependent calcium fluorescence response distinct from vehicle and negative genetic controls?</td>
-                    <td><a href="#exp-as-04"><code>EXP-AS-04</code></a></td>
-                    <td><a href="#exp-as-04"><dfn class="term" data-term="vuaa1" tabindex="0">VUAA1</dfn> functional response assay</a></td>
-                    <td>Vehicle; OR/Orco negatives; expression-gated wells from EXP-AS-03</td>
-                    <td>Time-resolved fluorescence traces under VUAA1 vs control conditions</td>
-                    <td><a href="notebook.html#nb-EXP-AS-04">nb-EXP-AS-04</a> <span class="placeholder-field">pending</span></td>
-                    <td><a href="results.html#res-EXP-AS-04">res-EXP-AS-04</a> <span class="placeholder-field">pending</span></td>
+                    <th scope="row">Bacterial selection</th>
+                    <td>Ampicillin 100 µg/mL</td>
                   </tr>
                   <tr>
-                    <td>Do selected OR/Orco combinations produce stimulus-linked optical responses to the approved target VOC set?</td>
-                    <td><a href="#exp-as-05"><code>EXP-AS-05</code></a></td>
-                    <td><a href="#exp-as-05">Target-VOC response assay</a></td>
-                    <td>Vehicle/blank VOC path; VUAA1 positive reference when applicable; genetic negatives</td>
-                    <td>VOC-condition fluorescence feature tables for Model handoff</td>
-                    <td><a href="notebook.html#nb-EXP-AS-05">nb-EXP-AS-05</a> <span class="placeholder-field">pending</span></td>
-                    <td><a href="results.html#res-EXP-AS-05">res-EXP-AS-05</a> <span class="placeholder-field">pending</span></td>
+                    <th scope="row">Culture medium</th>
+                    <td>LB broth (Miller), 25 g/L</td>
                   </tr>
                   <tr>
-                    <td>Can approved OR variants be generated and functionally rescreened without treating docking scores as affinity?</td>
-                    <td><a href="#exp-as-06"><code>EXP-AS-06</code></a></td>
-                    <td><a href="#exp-as-06">Site-directed mutagenesis and rescreening</a></td>
-                    <td>Parent OR construct; vehicle; VUAA1 reference as applicable</td>
-                    <td>Variant clone list with sequence confirmation and rescreen outcomes vs parent</td>
-                    <td><a href="notebook.html#nb-EXP-AS-06">nb-EXP-AS-06</a> <span class="placeholder-field">pending</span></td>
-                    <td><a href="results.html#res-EXP-AS-06">res-EXP-AS-06</a> <span class="placeholder-field">pending</span></td>
+                    <th scope="row">Growth</th>
+                    <td>37 °C, 180 rpm, overnight</td>
                   </tr>
                   <tr>
-                    <td>Can raw optical recordings be converted into documented feature vectors suitable for Model ingestion?</td>
-                    <td><a href="#exp-as-07"><code>EXP-AS-07</code></a></td>
-                    <td><a href="#exp-as-07">Fluorescence time-series extraction</a></td>
-                    <td>Pipeline blanks; known synthetic traces if used for software tests</td>
-                    <td>Processed time-series or feature tables with provenance from raw files</td>
-                    <td><a href="notebook.html#nb-EXP-AS-07">nb-EXP-AS-07</a> <span class="placeholder-field">pending</span></td>
-                    <td><a href="results.html#res-EXP-AS-07">res-EXP-AS-07</a> <span class="placeholder-field">pending</span></td>
-                  </tr>
-                  <tr>
-                    <td>Can the portable optical path produce calibrated readings comparable enough for integration with living samples under documented constraints?</td>
-                    <td><a href="#exp-as-08"><code>EXP-AS-08</code></a></td>
-                    <td><a href="#exp-as-08">Hardware optical calibration and integration assay</a></td>
-                    <td>Dark/blank optical measurements; reference fluorescence standard if approved</td>
-                    <td>Calibration log and integration checklist with optical settings</td>
-                    <td><a href="notebook.html#nb-EXP-AS-08">nb-EXP-AS-08</a> <span class="placeholder-field">pending</span></td>
-                    <td><a href="results.html#res-EXP-AS-08">res-EXP-AS-08</a> <span class="placeholder-field">pending</span></td>
+                    <th scope="row">Plasmid prep</th>
+                    <td>Endotoxin-free maxiprep</td>
                   </tr>
                 </tbody>
               </table>
             </div>
+            </div>
+
+            <h3>Method</h3>
+            <ol class="exp-method-steps">
+              <li>Verify sequences in silico before ordering. Check returned vendor sequences against the designs base-by-base.</li>
+              <li>Obtain all ten constructs chemically synthesised and pre-cloned into pcDNA3.1(+) (GenScript).</li>
+              <li>Propagate plasmids in <i>E. coli</i> DH5α under the bacterial conditions in the table above.</li>
+              <li>Prepare DNA by endotoxin-free maxiprep. Keep DNA concentrated and low-salt.</li>
+              <li>
+                Verify both insert junctions by Sanger sequencing using the vector T7 forward and BGH reverse priming sites, plus internal primers for full coverage.
+                Place one read across the (GGGGS)<sub>3</sub> linker of the Orco construct so a repeat-driven deletion is not invisible.
+                <!-- TODO(5 LINKER): (GGGGS)3 is named in this source and Design; do not substitute another linker. -->
+                <!-- TODO(4 FUSION TOPOLOGY): GCaMP6f–linker–DmOrco vs reversed wording is not frozen here. Construct schematic omitted until topology is confirmed. -->
+              </li>
+            </ol>
+            <aside class="exp-box exp-box--critical">
+              <h3 class="exp-box__label">Controls &amp; critical notes</h3>
+              <p>Use an endotoxin-free maxiprep. Keep DNA concentrated and low-salt.</p>
+              <p>Do not use PstI for diagnostic digests — most of the coding sequences contain internal PstI sites.</p>
+            </aside>
+
+            <p class="exp-see-also"><a href="design.html">See Design</a> · <a href="parts.html">See Parts</a> · <a href="notebook.html#nb-EXP-AS-01">See Notebook</a></p>
           </section>
 
-          <section class="section-block" id="status-legend" data-reveal>
-            <h2>Status legend</h2>
-            <p>Statuses are assigned manually from team evidence. They are never auto-assigned from the calendar or proposal milestones.</p>
-            <ul class="status-legend-list">
-              <li><strong>Planned</strong> — protocol drafted; <em>not yet evidence of execution</em>.</li>
-              <li><strong>Pilot completed</strong> — limited run documented in a dated notebook entry; not a full study claim.</li>
-              <li><strong>Completed</strong> — full planned run finished with notebook evidence and linked outputs.</li>
-              <li><strong>Repeated</strong> — independent repetition documented after a prior completed or pilot run.</li>
-              <li><strong>Internally verified</strong> — a second team member reviewed the record and confirmation is dated.</li>
+          <section class="section-block exp-proto" id="cell-culture" data-reveal>
+            <span id="establish" class="anchor-alias"></span>
+            <span id="cell-line" class="anchor-alias"></span>
+            <span id="culture-conditions" class="anchor-alias"></span>
+            <header class="exp-proto__head">
+              <p class="exp-proto__num">02</p>
+              <h2>Mammalian cell culture</h2>
+              <p class="exp-proto__purpose">Maintain the mammalian host under defined growth, wash, and detachment conditions.</p>
+            </header>
+
+            <div class="exp-params">
+            <h3>Key parameters</h3>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Mammalian culture conditions. Scroll horizontally to see all columns.">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Parameter</th>
+                    <th scope="col">Condition</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Cell line</th>
+                    <!-- TODO(1 CELL CHASSIS): HEK293 vs HEK293T is unresolved. This protocol currently names HEK293. Do not rename to HEK293T here. -->
+                    <td>HEK293 (current protocol specification)</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Growth medium</th>
+                    <td>DMEM (high glucose) + 10 % FBS + 1 % penicillin–streptomycin</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Incubation</th>
+                    <td>37 °C, 5 % CO<sub>2</sub></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Passaging</th>
+                    <td>At ~80 % confluence</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Detachment</th>
+                    <td>TrypLE Express — 1 mL per T-25, 3 mL per T-75; 37 °C, 3–5 min</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Wash before detachment</th>
+                    <td>Ca<sup>2+</sup>/Mg<sup>2+</sup>-free PBS</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            </div>
+
+            <h3>Method</h3>
+            <ol class="exp-method-steps">
+              <li>Grow cells in high-glucose DMEM with 10 % FBS and 1 % penicillin–streptomycin at 37 °C, 5 % CO<sub>2</sub>.</li>
+              <li>Passage at about 80 % confluence.</li>
+              <li>Before detachment, wash with Ca<sup>2+</sup>/Mg<sup>2+</sup>-free PBS.</li>
+              <li>Lift with TrypLE Express (1 mL per T-25, 3 mL per T-75; 37 °C, 3–5 min).</li>
+            </ol>
+
+            <p class="exp-see-also"><a href="safety-and-security.html#biological-materials">See Safety</a> · <a href="notebook.html#nb-EXP-AS-02">See Notebook</a></p>
+          </section>
+
+          <section class="section-block exp-proto" id="transfection" data-reveal>
+            <span id="transfection-method" class="anchor-alias"></span>
+            <span id="exp-as-02" class="anchor-alias"></span>
+            <header class="exp-proto__head">
+              <p class="exp-proto__num">03</p>
+              <h2>Transfection</h2>
+              <p class="exp-proto__purpose">Deliver OR and Orco plasmids into mammalian cells.</p>
+            </header>
+
+            <div class="exp-params" data-exp-copy-block>
+            <div class="exp-params__head">
+            <h3>Key parameters</h3>
+            <button type="button" class="exp-copy" data-exp-copy hidden>Copy as text</button>
+            </div>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Electroporation parameters. Scroll horizontally to see all columns.">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Parameter</th>
+                    <th scope="col">Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Current method in this specification</th>
+                    <!-- TODO(2 MAMMALIAN TRANSFECTION): electroporation vs Lipofectamine 3000 vs FuGene HD (Zboray) vs another actual method. Do not replace this section with the paper's transfection chemistry. -->
+                    <td>Electroporation in suspension (not adherent)</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Cells per reaction</th>
+                    <td>1–5 × 10<sup>6</sup>, log phase, &gt; 90 % viability</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">DNA per reaction</th>
+                    <!-- TODO(6 DNA MASS RATIO): confirm OR plasmid : Orco plasmid DNA mass ratio 2:1. This is not protein stoichiometry. -->
+                    <td>~5 µg total. OR plasmid : Orco plasmid DNA mass ratio 2:1 (not protein stoichiometry)</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Buffer</th>
+                    <!-- TODO(9 ELECTROPORATION PARAMETERS): device, cuvette, voltage/program/pulse, and named buffer are not specified. -->
+                    <td>Low-conductivity electroporation/nucleofection buffer, 100 µL</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Recovery</th>
+                    <td>Pre-warmed DMEM + 10 % FBS, no antibiotics</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            </div>
+
+            <h3>Method</h3>
+            <p>
+              Transfect cells in suspension, not adherent, using the DNA mass, plasmid DNA mass ratio, buffer volume, and recovery medium in the table.
+              Pulse voltage, pulse number, instrument programme, cuvette, and named buffer are not specified in this source.
+            </p>
+            <p>Zboray <i>et al.</i> used FuGene HD into HEK293 stable lines <a class="cite" href="#ref-zboray-2023">[1]</a>. That is not substituted for the AeroSense transfection specification above.</p>
+
+            <aside class="exp-box exp-box--controls" id="controls">
+              <span id="control-matrix" class="anchor-alias"></span>
+              <h3 class="exp-box__label">Controls &amp; critical notes</h3>
+              <ul class="exp-ctrl">
+                <li>Buffer-only pulse — electroporation toxicity.</li>
+                <li>GFP-only plasmid — transfection efficiency.</li>
+                <li>
+                  <span class="exp-ctrl__kind">Genetic control</span>
+                  Orco–GCaMP6f alone, without a tuning OR — should respond to VUAA1 but not to VOCs.
+                </li>
             </ul>
-            <p class="notice">A protocol may move above Planned only when a dated Notebook link exists. Future milestones are not experiment dates.</p>
+              <p>Use endotoxin-free, low-salt, concentrated DNA. Use healthy log-phase cells and minimise time in electroporation buffer.</p>
+              <p>Recover immediately in warm antibiotic-free medium. Omit penicillin–streptomycin during electroporation and for the following 24 h.</p>
+            </aside>
+
+            <p class="exp-see-also"><a href="design.html">See Design</a> · <a href="notebook.html#nb-EXP-AS-02">See Notebook</a></p>
           </section>
 
-          <section class="section-block" id="protocol-index" data-reveal>
-            <h2>Protocol index</h2>
-            <nav class="protocol-index" aria-label="Protocol index">
-              <ol>
-              <li><a href="#exp-as-01"><code>EXP-AS-01</code> — Construct assembly and sequence verification</a> <span class="protocol-index__status">Planned</span></li>
-              <li><a href="#exp-as-02"><code>EXP-AS-02</code> — HEK293T culture and co-transfection</a> <span class="protocol-index__status">Planned</span></li>
-              <li><a href="#exp-as-03"><code>EXP-AS-03</code> — Expression check</a> <span class="protocol-index__status">Planned</span></li>
-              <li><a href="#exp-as-04"><code>EXP-AS-04</code> — VUAA1 functional response assay</a> <span class="protocol-index__status">Planned</span></li>
-              <li><a href="#exp-as-05"><code>EXP-AS-05</code> — Target-VOC response assay</a> <span class="protocol-index__status">Planned</span></li>
-              <li><a href="#exp-as-06"><code>EXP-AS-06</code> — Site-directed mutagenesis and rescreening</a> <span class="protocol-index__status">Planned</span></li>
-              <li><a href="#exp-as-07"><code>EXP-AS-07</code> — Fluorescence time-series extraction</a> <span class="protocol-index__status">Planned</span></li>
-              <li><a href="#exp-as-08"><code>EXP-AS-08</code> — Hardware optical calibration and integration assay</a> <span class="protocol-index__status">Planned</span></li>
-              </ol>
-            </nav>
+          <section class="section-block exp-proto" id="stable-selection" data-reveal>
+            <span id="selection-strategy" class="anchor-alias"></span>
+            <header class="exp-proto__head">
+              <p class="exp-proto__num">04</p>
+              <h2>Stable-line selection</h2>
+              <p class="exp-proto__purpose">Select G418-resistant mammalian lines after transfection.</p>
+            </header>
+
+            <figure class="wiki-figure exp-figure" id="fig-selection-timeline">
+              <div class="wiki-figure__media" role="img" aria-labelledby="fig-selection-timeline-title fig-selection-timeline-desc">
+                <p class="exp-fig-kicker" id="fig-selection-timeline-title">Current protocol target — not a validated kill curve</p>
+                <p class="visually-hidden" id="fig-selection-timeline-desc">Protocol target timeline. Day 0 transfection with antibiotic-free recovery. G418 at 100 micrograms per millilitre starts 24 to 48 hours later and runs for 2 weeks. Concentration is then raised to 150 for 1 week, then maintenance at about 75 ongoing. These doses are a literature-informed starting condition, not an AeroSense-confirmed kill-curve result.</p>
+                <ol class="exp-time">
+                  <li>
+                    <span class="exp-time__when">Day 0</span>
+                    <span class="exp-time__what">Transfection</span>
+                    <span class="exp-time__note">Suspension transfection. Recovery in DMEM + 10 % FBS, no antibiotics for 24 h.</span>
+                  </li>
+                  <li>
+                    <span class="exp-time__when">24–48 h</span>
+                    <span class="exp-time__what">G418 100 µg/mL</span>
+                    <span class="exp-time__note">Selection start, 2 weeks. Not added at seeding. Days 1–2: little visible effect; 3–5: bulk death; 10–14: resistant colonies.</span>
+                  </li>
+                  <li>
+                    <span class="exp-time__when">After 2 weeks</span>
+                    <span class="exp-time__what">G418 150 µg/mL</span>
+                    <span class="exp-time__note">Selection raised, 1 week.</span>
+                  </li>
+                  <li>
+                    <span class="exp-time__when">Thereafter</span>
+                    <span class="exp-time__what">G418 ~75 µg/mL</span>
+                    <span class="exp-time__note">Maintenance, ongoing.</span>
+                  </li>
+                </ol>
+              </div>
+              <figcaption>
+                <span class="wiki-figure__num">Figure 2.</span>
+                <span class="wiki-figure__title"> G418 selection timeline (protocol target).</span>
+                <p class="wiki-figure__explain">
+                  Current protocol target / literature-informed starting condition: G418 started 24–48 h after transfection at 100 µg/mL for 2 weeks, then 150 µg/mL for 1 week, then maintenance at ~75 µg/mL.
+                  This is not an AeroSense-validated kill-curve result.
+                </p>
+              </figcaption>
+            </figure>
+
+            <div class="exp-params exp-params--wide" data-exp-copy-block>
+            <div class="exp-params__head">
+            <h3>Key parameters</h3>
+            <button type="button" class="exp-copy" data-exp-copy hidden>Copy as text</button>
+            </div>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="G418 selection schedule. Scroll horizontally to see all columns.">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Stage</th>
+                    <th scope="col">G418 concentration</th>
+                    <th scope="col">Duration</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Selection start (24–48 h post-transfection)</th>
+                    <td>100 µg/mL</td>
+                    <td>2 weeks</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Selection raised</th>
+                    <td>150 µg/mL</td>
+                    <td>1 week</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Maintenance</th>
+                    <td>~75 µg/mL</td>
+                    <td>ongoing</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            </div>
+
+            <h3>Method</h3>
+            <!-- TODO(10 G418 STATUS): 100 → 150 → ~75 µg/mL is a current protocol target / literature-informed starting condition, not an AeroSense-validated kill curve. -->
+            <ol class="exp-method-steps">
+              <li>Before transfection, run a G418 kill curve on untransfected host cells (draft range 0–800 µg/mL) for that cell lot, confluence, and G418 batch. Do not treat the table below as a confirmed effective dose.</li>
+              <li>After transfection, allow 24–48 h recovery. Do not add G418 at seeding.</li>
+              <li>Start selection at 100 µg/mL G418 for 2 weeks. Refresh selection medium every 2–3 days.</li>
+              <li>Raise G418 to 150 µg/mL for 1 week.</li>
+              <li>Maintain lines at ~75 µg/mL G418 thereafter.</li>
+            </ol>
+            <p>During the first selection window, little visible effect is expected for 1–2 days, bulk cell death at days 3–5, and discrete resistant colonies against a cleared background by days 10–14. Those timings are operational expectations, not recorded AeroSense outcomes.</p>
+
+            <aside class="exp-box exp-box--critical">
+              <h3 class="exp-box__label">Controls &amp; critical notes</h3>
+              <ul class="exp-ctrl">
+                <li>
+                  <span class="exp-ctrl__kind">Negative control</span>
+                  Untransfected well at the same G418 dose throughout selection — every cell in it should die.
+                </li>
+            </ul>
+              <p>Add G418 24–48 h after transfection, not at seeding, so cells can recover and express NeoR.</p>
+              <p>The 100 → 150 → ~75 µg/mL schedule is a current protocol target / literature-informed starting condition, not an experimentally confirmed AeroSense kill curve.</p>
+            </aside>
+
+            <p class="exp-see-also"><a href="design.html#shared-backbone">See Design</a> · <a href="notebook.html#nb-EXP-AS-02">See Notebook</a></p>
           </section>
 
-          <section class="section-block" id="core-protocols" data-reveal>
-            <h2>Core protocols</h2>
-            <p>
-              Purpose, status, controls, and outputs stay visible for every protocol.
-              Optional implementation notes are in collapsible sections and also print when expanded or via print styles that reveal them.
+          <section class="section-block exp-proto" id="expression-validation" data-reveal>
+            <span id="validate" class="anchor-alias"></span>
+            <span id="exp-as-03" class="anchor-alias"></span>
+            <span id="exp-as-04" class="anchor-alias"></span>
+            <span id="validate-expression" class="anchor-alias"></span>
+            <span id="calcium-reporter" class="anchor-alias"></span>
+            <span id="validate-function" class="anchor-alias"></span>
+            <span id="ionomycin" class="anchor-alias"></span>
+            <span id="validate-interpretation" class="anchor-alias"></span>
+            <header class="exp-proto__head">
+              <p class="exp-proto__num">05</p>
+              <h2>Expression / functional validation</h2>
+              <p class="exp-proto__purpose">Confirm cassette transcription and Orco/GCaMP function before VOC assays.</p>
+            </header>
+
+            <div class="exp-params">
+            <h3>Key parameters</h3>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Validation readout parameters. Scroll horizontally to see all columns.">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Parameter</th>
+                    <th scope="col">Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">mCherry microscopy</th>
+                    <!-- TODO(13 MICROSCOPY INSTRUMENT): instrument model is not specified. -->
+                    <td>ex ~587 nm / em ~610 nm</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">GCaMP6f rest fluorescence</th>
+                    <td>ex ~485 nm / em ~510 nm; dim at rest is expected, not a failure</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">VUAA1</th>
+                    <td>Synthetic Orco agonist used as a functional positive-control stimulus <a class="cite" href="#ref-jones-2011">[2]</a></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Western blot</th>
+                    <!-- TODO(12 WESTERN BLOT): whether planned/performed; whether the construct contains the stated His/RSET element. -->
+                    <td>Optional / implementation details pending</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Ionomycin</th>
+                    <!-- TODO(11 IONOMYCIN): whether this control is in the AeroSense SOP; if yes, concentration/solvent/incubation are still required. -->
+                    <td>Optional / implementation details pending</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            </div>
+
+            <h3>Method</h3>
+            <ol class="exp-method-steps">
+              <li>
+                Record mCherry (ex ~587 nm / em ~610 nm) versus mock / untransfected cells.
+                Red fluorescence reports that the OR cassette is transcribed. It does not report OR folding or plasma-membrane trafficking.
+              </li>
+              <li>
+                After an expression gate, compare vehicle versus VUAA1 on cells that should contain Orco–GCaMP6f.
+                VUAA1 is a synthetic Orco agonist used as a functional positive-control stimulus
+                <span class="cite-wrap">
+                  <a class="cite" href="#ref-jones-2011" id="cite-jones-vuaa1" aria-describedby="cite-preview-jones-2011">[2]</a>
+                  <span class="cite-preview" id="cite-preview-jones-2011" role="tooltip">Jones et al., 2011 — full entry in References &amp; Credits.</span>
+                </span>.
+                A VUAA1 response supports functionality of the Orco/GCaMP sensing chain. It does not, by itself, prove membrane trafficking.
+              </li>
+            </ol>
+
+            <aside class="exp-box exp-box--critical">
+              <h3 class="exp-box__label">Controls &amp; critical notes</h3>
+              <ul class="exp-ctrl">
+                <li>
+                  <span class="exp-ctrl__kind">Expression control</span>
+                  Mock / untransfected cells for mCherry autofluorescence.
+                </li>
+                <li>
+                  <span class="exp-ctrl__kind">Functional positive control</span>
+                  VUAA1 versus vehicle. VUAA1 is a synthetic Orco agonist used as a functional positive-control stimulus, not a proof of membrane trafficking.
+                </li>
+                <li>
+                  <span class="exp-ctrl__kind">Optional / implementation details pending</span>
+                  Ionomycin (reporter isolated from channel) and anti-His western blot of the RSET leader. Concentration, solvent, incubation, antibody, and whether either assay is in the AeroSense SOP are not specified.
+                </li>
+            </ul>
+              <p>GCaMP6f is dim at rest. Absence of bright green is expected, not a failure.</p>
+            </aside>
+
+            <p class="exp-see-also"><a href="design.html#reporters">See Design</a> · <a href="results.html">See Results</a> · <a href="notebook.html#nb-EXP-AS-03">See Notebook</a></p>
+          </section>
+
+          <section class="section-block exp-proto" id="calcium-imaging" data-reveal>
+            <span id="challenge" class="anchor-alias"></span>
+            <span id="exp-as-05" class="anchor-alias"></span>
+            <span id="plate-preparation" class="anchor-alias"></span>
+            <span id="assay-buffers" class="anchor-alias"></span>
+            <span id="injection-sequence" class="anchor-alias"></span>
+            <span id="concentrations" class="anchor-alias"></span>
+            <span id="assay-rationale" class="anchor-alias"></span>
+            <header class="exp-proto__head">
+              <p class="exp-proto__num">06</p>
+              <h2>Calcium imaging assay</h2>
+              <p class="exp-proto__purpose">Measure VOC-evoked GCaMP6f fluorescence in a 384-well plate with a matched vehicle injection.</p>
+            </header>
+
+            <p class="exp-source">
+              The calcium-response assay was adapted from Zboray <i>et al.</i>
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-zboray-2023" id="cite-zboray-assay" aria-describedby="cite-preview-zboray-assay">[1]</a>
+                <span class="cite-preview" id="cite-preview-zboray-assay" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span>
+              </span>.
+              AeroSense-specific construct, transfection, and validation procedures are documented separately above.
+              Plate geometry, buffer volumes, and the two-round injection sequence below follow that published assay design.
             </p>
 
-            <article class="protocol" id="exp-as-01" data-exp-id="EXP-AS-01" data-exp-status="planned" data-reveal>
-              <header class="protocol__header">
-                <p class="protocol__id"><span class="protocol__id-label">Experiment ID</span> <code>EXP-AS-01</code></p>
-                <h3 class="protocol__title">Construct assembly and sequence verification</h3>
-                <div class="protocol__status-row">
-                  <div class="evidence-status" data-status="planned">
-                    <span class="evidence-status__label">Status</span>
-                    <span class="evidence-status__value">Planned</span>
-                  </div>
-                  <p class="protocol__version"><span class="protocol__meta-label">Version</span> v0.1-draft</p>
-                </div>
-                <p class="protocol__planned-banner" role="status">Planned — not yet evidence of execution</p>
-              </header>
-
-              <div class="protocol__always">
-                <p><strong>Purpose:</strong> Assemble and verify the proposed OR–IRES–mCherry and GCaMP–Orco expression constructs before cell work.</p>
-                <p><strong>Controls (summary):</strong> No-insert / empty-backbone checks if used; colony PCR negatives as applicable</p>
-                <p><strong>Primary outputs:</strong> Verified plasmid DNA lots with map/sequence concordance notes</p>
-                <p><strong>Linked design / parts:</strong> <a href="design.html#construct-strategy">Design</a> · <a href="parts.html#assembly">Parts</a></p>
-                <p><strong>Notebook:</strong> <a href="notebook.html#nb-EXP-AS-01">EXP-AS-01 notebook anchor</a> — <span class="placeholder-field">Dated entry pending</span></p>
-                <p><strong>Results:</strong> <a href="results.html#res-EXP-AS-01">EXP-AS-01 results anchor</a> — <span class="placeholder-field">Measured section pending</span></p>
-              </div>
-
-              <details class="protocol__details">
-                <summary>Implementation notes (materials, steps, QC, safety)</summary>
-                <dl class="protocol__dl">
-                  <dt>Materials</dt>
-                  <dd>Plasmid fragments, backbone, cloning host (DH5α planned), enzymes or assembly reagents — exact catalog numbers only when team-verified.</dd>
-                  <dt>Equipment</dt>
-                  <dd>Standard molecular-cloning bench equipment — exact models pending team inventory.</dd>
-                  <dt>Controls (detail)</dt>
-                  <dd>Negative colony PCR / no-template controls as applicable; do not invent enzyme-site verification claims.</dd>
-                  <dt>Replicate definition</dt>
-                  <dd>Technical clone screening definition pending team SOP.</dd>
-                  <dt>Step overview</dt>
-                  <dd>
-                    <ol class="protocol__steps">
-              <li>Obtain or synthesize fragments matching the current construct map (Parts is authoritative when maps exist).</li>
-              <li>Assemble by the team-approved method (restriction–ligation, Gibson, or other — not asserted here).</li>
-              <li>Transform cloning host; screen colonies by the approved PCR or digest screen.</li>
-              <li>Sequence-check junctions and CDS regions required by the map.</li>
-              <li>Release DNA lots only after sequence concordance is documented.</li>
-                    </ol>
-                    <p class="notice">Steps are a reproducibility scaffold consistent with Design intent. Exact brands, concentrations, times, and temperatures require an approved SOP before execution claims.</p>
-                  </dd>
-                  <dt>Variables and units</dt>
-                  <dd>Fragment identities; assembly method version; clone IDs; sequence coverage — units and values pending approved SOP.</dd>
-                  <dt>Data and metadata produced</dt>
-                  <dd>Map files, chromatograms/consensus, clone IDs, lot labels.</dd>
-                  <dt>Quality checks / acceptance logic</dt>
-                  <dd>Acceptance logic pending team SOP — sequence must match the released map before transfection use.</dd>
-                  <dt>Safety</dt>
-                  <dd><a href="safety-and-security.html#biological-materials">Safety &amp; Security</a> (linked section when available)</dd>
-                  <dt>Deviations and troubleshooting</dt>
-                  <dd>No execution deviations recorded — protocol not yet run.</dd>
-                  <dt>Citation / protocol source and adaptation</dt>
-                  <dd>Scaffold adapted from AeroSense proposal cloning intent and Design/Parts pages; not a completed lab record. <span class="cite-wrap"><a class="cite" href="#ref-zboray-2023" id="cite-zboray-expas01" aria-describedby="cite-preview-zboray-2023">[1]</a><span class="cite-preview" id="cite-preview-zboray-2023" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span></span></dd>
-                </dl>
-              </details>
-            </article>
-
-
-            <article class="protocol" id="exp-as-02" data-exp-id="EXP-AS-02" data-exp-status="planned" data-reveal>
-              <header class="protocol__header">
-                <p class="protocol__id"><span class="protocol__id-label">Experiment ID</span> <code>EXP-AS-02</code></p>
-                <h3 class="protocol__title">HEK293T culture and co-transfection</h3>
-                <div class="protocol__status-row">
-                  <div class="evidence-status" data-status="planned">
-                    <span class="evidence-status__label">Status</span>
-                    <span class="evidence-status__value">Planned</span>
-                  </div>
-                  <p class="protocol__version"><span class="protocol__meta-label">Version</span> v0.1-draft</p>
-                </div>
-                <p class="protocol__planned-banner" role="status">Planned — not yet evidence of execution</p>
-              </header>
-
-              <div class="protocol__always">
-                <p><strong>Purpose:</strong> Establish host-cell culture and co-delivery of the sensing constructs for later expression and functional assays.</p>
-                <p><strong>Controls (summary):</strong> Mock transfection; single-construct transfection where applicable</p>
-                <p><strong>Primary outputs:</strong> Documented culture and transfection batches with construct lot IDs</p>
-                <p><strong>Linked design / parts:</strong> <a href="design.html#why-hek293t">Design</a> · <a href="parts.html#constructs">Parts</a></p>
-                <p><strong>Notebook:</strong> <a href="notebook.html#nb-EXP-AS-02">EXP-AS-02 notebook anchor</a> — <span class="placeholder-field">Dated entry pending</span></p>
-                <p><strong>Results:</strong> <a href="results.html#res-EXP-AS-02">EXP-AS-02 results anchor</a> — <span class="placeholder-field">Measured section pending</span></p>
-              </div>
-
-              <details class="protocol__details">
-                <summary>Implementation notes (materials, steps, QC, safety)</summary>
-                <dl class="protocol__dl">
-                  <dt>Materials</dt>
-                  <dd>HEK293T cells, culture medium components, transfection reagent — supplier/lot pending team records. Construct DNA lots from EXP-AS-01 when available.</dd>
-                  <dt>Equipment</dt>
-                  <dd>Cell-culture incubator, biosafety cabinet, hemocytometer or equivalent — models pending.</dd>
-                  <dt>Controls (detail)</dt>
-                  <dd>Mock (no DNA); optional single-plasmid deliveries for troubleshooting.</dd>
-                  <dt>Replicate definition</dt>
-                  <dd>Biological replicate definition pending team SOP.</dd>
-                  <dt>Step overview</dt>
-                  <dd>
-                    <ol class="protocol__steps">
-              <li>Culture HEK293T under institutional SOP and containment rules.</li>
-              <li>Seed vessels specified by the approved protocol (format not invented here).</li>
-              <li>Co-transfect Construct A and Construct B using the approved reagent and DNA amounts.</li>
-              <li>Record passage, lot IDs, reagent lots, and timing metadata.</li>
-              <li>Proceed to EXP-AS-03 only after culture/transfection metadata are complete.</li>
-                    </ol>
-                    <p class="notice">Steps are a reproducibility scaffold consistent with Design intent. Exact brands, concentrations, times, and temperatures require an approved SOP before execution claims.</p>
-                  </dd>
-                  <dt>Variables and units</dt>
-                  <dd>Passage number; seeding density; DNA amounts; reagent identity — numeric values pending approved SOP.</dd>
-                  <dt>Data and metadata produced</dt>
-                  <dd>Batch sheet: date, operator, passage, construct lots, vessel map.</dd>
-                  <dt>Quality checks / acceptance logic</dt>
-                  <dd>Acceptance logic pending — contamination check and viability criteria must come from team SOP.</dd>
-                  <dt>Safety</dt>
-                  <dd><a href="safety-and-security.html#biological-materials">Safety &amp; Security</a> (linked section when available)</dd>
-                  <dt>Deviations and troubleshooting</dt>
-                  <dd>No execution deviations recorded — protocol not yet run.</dd>
-                  <dt>Citation / protocol source and adaptation</dt>
-                  <dd>Scaffold from Design (HEK293T host choice) and proposal co-transfection intent; concentrations and efficiencies are not stated as facts. <span class="cite-wrap"><a class="cite" href="#ref-zboray-2023" id="cite-zboray-expas02" aria-describedby="cite-preview-zboray-2023">[1]</a><span class="cite-preview" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span></span></dd>
-                </dl>
-              </details>
-            </article>
-
-
-            <article class="protocol" id="exp-as-03" data-exp-id="EXP-AS-03" data-exp-status="planned" data-reveal>
-              <header class="protocol__header">
-                <p class="protocol__id"><span class="protocol__id-label">Experiment ID</span> <code>EXP-AS-03</code></p>
-                <h3 class="protocol__title">Expression check</h3>
-                <div class="protocol__status-row">
-                  <div class="evidence-status" data-status="planned">
-                    <span class="evidence-status__label">Status</span>
-                    <span class="evidence-status__value">Planned</span>
-                  </div>
-                  <p class="protocol__version"><span class="protocol__meta-label">Version</span> v0.1-draft</p>
-                </div>
-                <p class="protocol__planned-banner" role="status">Planned — not yet evidence of execution</p>
-              </header>
-
-              <div class="protocol__always">
-                <p><strong>Purpose:</strong> Confirm that genetic delivery produced detectable reporter expression before interpreting functional calcium responses.</p>
-                <p><strong>Controls (summary):</strong> Mock transfection; untransfected cells</p>
-                <p><strong>Primary outputs:</strong> Expression-check images or quantified reporter presence with metadata</p>
-                <p><strong>Linked design / parts:</strong> <a href="design.html#functional-validation">Design</a> · <a href="parts.html#part-mcherry">Parts</a></p>
-                <p><strong>Notebook:</strong> <a href="notebook.html#nb-EXP-AS-03">EXP-AS-03 notebook anchor</a> — <span class="placeholder-field">Dated entry pending</span></p>
-                <p><strong>Results:</strong> <a href="results.html#res-EXP-AS-03">EXP-AS-03 results anchor</a> — <span class="placeholder-field">Measured section pending</span></p>
-              </div>
-
-              <details class="protocol__details">
-                <summary>Implementation notes (materials, steps, QC, safety)</summary>
-                <dl class="protocol__dl">
-                  <dt>Materials</dt>
-                  <dd>Transfected cultures from EXP-AS-02; imaging medium as approved — brands pending.</dd>
-                  <dt>Equipment</dt>
-                  <dd>Fluorescence microscope or plate reader compatible with mCherry/GCaMP spectra — model pending.</dd>
-                  <dt>Controls (detail)</dt>
-                  <dd>Untransfected and mock controls to separate autofluorescence from reporter signal.</dd>
-                  <dt>Replicate definition</dt>
-                  <dd>Fields of view / wells as technical sampling — counts pending SOP.</dd>
-                  <dt>Step overview</dt>
-                  <dd>
-                    <ol class="protocol__steps">
-              <li>Image or read mCherry and GCaMP channels with documented settings.</li>
-              <li>Compare to mock/untransfected controls.</li>
-              <li>Record whether cultures meet the team expression gate before EXP-AS-04/05.</li>
-              <li>Export expression metadata with construct lot and batch IDs.</li>
-                    </ol>
-                    <p class="notice">Steps are a reproducibility scaffold consistent with Design intent. Exact brands, concentrations, times, and temperatures require an approved SOP before execution claims.</p>
-                  </dd>
-                  <dt>Variables and units</dt>
-                  <dd>Channel settings; exposure; gain — values pending approved imaging SOP.</dd>
-                  <dt>Data and metadata produced</dt>
-                  <dd>Images or plate reads; ROI notes; pass/fail against team expression criterion.</dd>
-                  <dt>Quality checks / acceptance logic</dt>
-                  <dd>Expression acceptance criterion pending team approval — do not use proposal efficiency targets as observed results.</dd>
-                  <dt>Safety</dt>
-                  <dd><a href="safety-and-security.html#biological-materials">Safety &amp; Security</a> (linked section when available)</dd>
-                  <dt>Deviations and troubleshooting</dt>
-                  <dd>No execution deviations recorded — protocol not yet run.</dd>
-                  <dt>Citation / protocol source and adaptation</dt>
-                  <dd>Scaffold aligned with Design functional-validation expression control; no measured expression claimed. <span class="cite-wrap"><a class="cite" href="#ref-chen-2013" id="cite-chen-expas03" aria-describedby="cite-preview-chen-2013">[3]</a><span class="cite-preview" id="cite-preview-chen-2013" role="tooltip">Chen et al., 2013 — full entry in References &amp; Credits.</span></span></dd>
-                </dl>
-              </details>
-            </article>
-
-
-            <article class="protocol" id="exp-as-04" data-exp-id="EXP-AS-04" data-exp-status="planned" data-reveal>
-              <header class="protocol__header">
-                <p class="protocol__id"><span class="protocol__id-label">Experiment ID</span> <code>EXP-AS-04</code></p>
-                <h3 class="protocol__title">VUAA1 functional response assay</h3>
-                <div class="protocol__status-row">
-                  <div class="evidence-status" data-status="planned">
-                    <span class="evidence-status__label">Status</span>
-                    <span class="evidence-status__value">Planned</span>
-                  </div>
-                  <p class="protocol__version"><span class="protocol__meta-label">Version</span> v0.1-draft</p>
-                </div>
-                <p class="protocol__planned-banner" role="status">Planned — not yet evidence of execution</p>
-              </header>
-
-              <div class="protocol__always">
-                <p><strong>Purpose:</strong> Test Orco-dependent channel function with a literature-supported agonist control before VOC claims.</p>
-                <p><strong>Controls (summary):</strong> Vehicle; OR/Orco negatives; expression-gated wells from EXP-AS-03</p>
-                <p><strong>Primary outputs:</strong> Time-resolved fluorescence traces under VUAA1 vs control conditions</p>
-                <p><strong>Linked design / parts:</strong> <a href="design.html#functional-validation">Design</a> · <a href="parts.html#characterization">Parts</a></p>
-                <p><strong>Notebook:</strong> <a href="notebook.html#nb-EXP-AS-04">EXP-AS-04 notebook anchor</a> — <span class="placeholder-field">Dated entry pending</span></p>
-                <p><strong>Results:</strong> <a href="results.html#res-EXP-AS-04">EXP-AS-04 results anchor</a> — <span class="placeholder-field">Measured section pending</span></p>
-              </div>
-
-              <details class="protocol__details">
-                <summary>Implementation notes (materials, steps, QC, safety)</summary>
-                <dl class="protocol__dl">
-                  <dt>Materials</dt>
-                  <dd>VUAA1 and vehicle solvent — supplier/lot and working concentration pending team-approved record. Cell batches from EXP-AS-02/03.</dd>
-                  <dt>Equipment</dt>
-                  <dd>Fluorescence imaging system with documented frame timing — model pending.</dd>
-                  <dt>Controls (detail)</dt>
-                  <dd>Vehicle; incomplete receptor combinations as defined on Design; expression failures excluded only by predeclared rules.</dd>
-                  <dt>Replicate definition</dt>
-                  <dd>Biological and technical replicate plan pending team approval — numbers not invented.</dd>
-                  <dt>Step overview</dt>
-                  <dd>
-                    <ol class="protocol__steps">
-              <li>Select expression-gated wells/cultures per EXP-AS-03.</li>
-              <li>Acquire baseline fluorescence under documented settings.</li>
-              <li>Deliver vehicle or VUAA1 according to the approved SOP (concentration/time not invented here).</li>
-              <li>Record time series; include washout only if the approved SOP defines it.</li>
-              <li>Compare agonist vs vehicle and genetic negatives before claiming function.</li>
-                    </ol>
-                    <p class="notice">Steps are a reproducibility scaffold consistent with Design intent. Exact brands, concentrations, times, and temperatures require an approved SOP before execution claims.</p>
-                  </dd>
-                  <dt>Variables and units</dt>
-                  <dd>Stimulus identity; concentration (when approved); frame rate; analysis window — units pending SOP.</dd>
-                  <dt>Data and metadata produced</dt>
-                  <dd>Raw stacks/traces; stimulus onset markers; control labels; batch metadata.</dd>
-                  <dt>Quality checks / acceptance logic</dt>
-                  <dd>Predefined acceptance logic pending team — literature EC50/working examples are not AeroSense results.</dd>
-                  <dt>Safety</dt>
-                  <dd><a href="safety-and-security.html#chemical-voc">Safety &amp; Security</a> (linked section when available)</dd>
-                  <dt>Deviations and troubleshooting</dt>
-                  <dd>No execution deviations recorded — protocol not yet run.</dd>
-                  <dt>Citation / protocol source and adaptation</dt>
-                  <dd>Design control matrix; VUAA1 literature basis cited below. Proposal micromolar examples are not copied as executed methods. <span class="cite-wrap"><a class="cite" href="#ref-jones-2011" id="cite-jones-expas04" aria-describedby="cite-preview-jones-2011">[2]</a><span class="cite-preview" id="cite-preview-jones-2011" role="tooltip">Jones et al., 2011 — full entry in References &amp; Credits.</span></span></dd>
-                </dl>
-              </details>
-            </article>
-
-
-            <article class="protocol" id="exp-as-05" data-exp-id="EXP-AS-05" data-exp-status="planned" data-reveal>
-              <header class="protocol__header">
-                <p class="protocol__id"><span class="protocol__id-label">Experiment ID</span> <code>EXP-AS-05</code></p>
-                <h3 class="protocol__title">Target-VOC response assay</h3>
-                <div class="protocol__status-row">
-                  <div class="evidence-status" data-status="planned">
-                    <span class="evidence-status__label">Status</span>
-                    <span class="evidence-status__value">Planned</span>
-                  </div>
-                  <p class="protocol__version"><span class="protocol__meta-label">Version</span> v0.1-draft</p>
-                </div>
-                <p class="protocol__planned-banner" role="status">Planned — not yet evidence of execution</p>
-              </header>
-
-              <div class="protocol__always">
-                <p><strong>Purpose:</strong> Measure odorant-linked responses only after functional controls (EXP-AS-04) and an approved VOC panel exist.</p>
-                <p><strong>Controls (summary):</strong> Vehicle/blank VOC path; VUAA1 positive reference when applicable; genetic negatives</p>
-                <p><strong>Primary outputs:</strong> VOC-condition fluorescence feature tables for Model handoff</p>
-                <p><strong>Linked design / parts:</strong> <a href="design.html#voc-assay">Design</a> · <a href="parts.html#characterization">Parts</a></p>
-                <p><strong>Notebook:</strong> <a href="notebook.html#nb-EXP-AS-05">EXP-AS-05 notebook anchor</a> — <span class="placeholder-field">Dated entry pending</span></p>
-                <p><strong>Results:</strong> <a href="results.html#res-EXP-AS-05">EXP-AS-05 results anchor</a> — <span class="placeholder-field">Measured section pending</span></p>
-              </div>
-
-              <details class="protocol__details">
-                <summary>Implementation notes (materials, steps, QC, safety)</summary>
-                <dl class="protocol__dl">
-                  <dt>Materials</dt>
-                  <dd>Approved VOC standards — compound list and SDS pack pending. Cell batches passing prior gates.</dd>
-                  <dt>Equipment</dt>
-                  <dd>Exposure format (plate, microfluidic, or other) pending team approval; optical readout as for EXP-AS-04/07.</dd>
-                  <dt>Controls (detail)</dt>
-                  <dd>Vehicle/blank; genetic negatives; optional VUAA1 reference day control if approved.</dd>
-                  <dt>Replicate definition</dt>
-                  <dd>Pending team replication plan — see Replication section.</dd>
-                  <dt>Step overview</dt>
-                  <dd>
-                    <ol class="protocol__steps">
-              <li>Confirm approved VOC list and exposure format on Design/Safety.</li>
-              <li>Run vehicle/blank and genetic controls in the same session plan.</li>
-              <li>Expose cultures to VOC conditions per approved SOP.</li>
-              <li>Acquire fluorescence time series with stimulus metadata.</li>
-              <li>Export features only after QC gates; do not treat proposal accuracy goals as results.</li>
-                    </ol>
-                    <p class="notice">Steps are a reproducibility scaffold consistent with Design intent. Exact brands, concentrations, times, and temperatures require an approved SOP before execution claims.</p>
-                  </dd>
-                  <dt>Variables and units</dt>
-                  <dd>VOC identity; concentration strategy; exposure timing — all pending approved records.</dd>
-                  <dt>Data and metadata produced</dt>
-                  <dd>Condition × receptor matrices; metadata schema linked to Model interface.</dd>
-                  <dt>Quality checks / acceptance logic</dt>
-                  <dd>Acceptance logic pending — VOC claims require controls and approved panel.</dd>
-                  <dt>Safety</dt>
-                  <dd><a href="safety-and-security.html#chemical-voc">Safety &amp; Security</a> (linked section when available)</dd>
-                  <dt>Deviations and troubleshooting</dt>
-                  <dd>No execution deviations recorded — protocol not yet run.</dd>
-                  <dt>Citation / protocol source and adaptation</dt>
-                  <dd>Design VOC-response assay section; Zboray et al. motivates heterologous VOC profiling approaches without transferring their datasets to AeroSense. <span class="cite-wrap"><a class="cite" href="#ref-zboray-2023" id="cite-zboray-expas05" aria-describedby="cite-preview-zboray-2023">[1]</a><span class="cite-preview" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span></span></dd>
-                </dl>
-              </details>
-            </article>
-
-
-            <article class="protocol" id="exp-as-06" data-exp-id="EXP-AS-06" data-exp-status="planned" data-reveal>
-              <header class="protocol__header">
-                <p class="protocol__id"><span class="protocol__id-label">Experiment ID</span> <code>EXP-AS-06</code></p>
-                <h3 class="protocol__title">Site-directed mutagenesis and rescreening</h3>
-                <div class="protocol__status-row">
-                  <div class="evidence-status" data-status="planned">
-                    <span class="evidence-status__label">Status</span>
-                    <span class="evidence-status__value">Planned</span>
-                  </div>
-                  <p class="protocol__version"><span class="protocol__meta-label">Version</span> v0.1-draft</p>
-                </div>
-                <p class="protocol__planned-banner" role="status">Planned — not yet evidence of execution</p>
-              </header>
-
-              <div class="protocol__always">
-                <p><strong>Purpose:</strong> Implement structure-guided or rational variants only after baseline sensing works and residue targets are team-approved.</p>
-                <p><strong>Controls (summary):</strong> Parent OR construct; vehicle; VUAA1 reference as applicable</p>
-                <p><strong>Primary outputs:</strong> Variant clone list with sequence confirmation and rescreen outcomes vs parent</p>
-                <p><strong>Linked design / parts:</strong> <a href="design.html#optimization">Design</a> · <a href="parts.html#part-or-cds">Parts</a></p>
-                <p><strong>Notebook:</strong> <a href="notebook.html#nb-EXP-AS-06">EXP-AS-06 notebook anchor</a> — <span class="placeholder-field">Dated entry pending</span></p>
-                <p><strong>Results:</strong> <a href="results.html#res-EXP-AS-06">EXP-AS-06 results anchor</a> — <span class="placeholder-field">Measured section pending</span></p>
-              </div>
-
-              <details class="protocol__details">
-                <summary>Implementation notes (materials, steps, QC, safety)</summary>
-                <dl class="protocol__dl">
-                  <dt>Materials</dt>
-                  <dd>Parent Construct A DNA; mutagenesis reagents — kit identity pending. Variant primers pending design freeze.</dd>
-                  <dt>Equipment</dt>
-                  <dd>PCR cycler and cloning tools as for EXP-AS-01; imaging as for EXP-AS-04/05.</dd>
-                  <dt>Controls (detail)</dt>
-                  <dd>Parental sequence-verified OR; same control matrix as functional/VOC assays for fair comparison.</dd>
-                  <dt>Replicate definition</dt>
-                  <dd>Independent clones per variant — count pending SOP.</dd>
-                  <dt>Step overview</dt>
-                  <dd>
-                    <ol class="protocol__steps">
-              <li>Freeze residue targets only after Design optimization review (including Pacalon correction check when relevant).</li>
-              <li>Generate variants; sequence-verify CDS changes.</li>
-              <li>Co-transfect with Construct B as applicable; run expression gate.</li>
-              <li>Rescreen with VUAA1/VOC protocols without elevating docking energy to experimental affinity.</li>
-              <li>Document keep/drop decisions with evidence links.</li>
-                    </ol>
-                    <p class="notice">Steps are a reproducibility scaffold consistent with Design intent. Exact brands, concentrations, times, and temperatures require an approved SOP before execution claims.</p>
-                  </dd>
-                  <dt>Variables and units</dt>
-                  <dd>Variant IDs; mutation notation; assay condition IDs.</dd>
-                  <dt>Data and metadata produced</dt>
-                  <dd>Sequence files; rescreen traces; decision table.</dd>
-                  <dt>Quality checks / acceptance logic</dt>
-                  <dd>Variant must be sequence-confirmed before functional claims; computational rank is not a QC pass.</dd>
-                  <dt>Safety</dt>
-                  <dd><a href="safety-and-security.html#biological-materials">Safety &amp; Security</a> (linked section when available)</dd>
-                  <dt>Deviations and troubleshooting</dt>
-                  <dd>No execution deviations recorded — protocol not yet run.</dd>
-                  <dt>Citation / protocol source and adaptation</dt>
-                  <dd>Design receptor-optimization strategy; no AeroSense mutants claimed. <span class="cite-wrap"><a class="cite" href="#ref-butterwick-2018" id="cite-butterwick-expas06" aria-describedby="cite-preview-butterwick-2018">[4]</a><span class="cite-preview" id="cite-preview-butterwick-2018" role="tooltip">Butterwick et al., 2018 — full entry in References &amp; Credits.</span></span></dd>
-                </dl>
-              </details>
-            </article>
-
-
-            <article class="protocol" id="exp-as-07" data-exp-id="EXP-AS-07" data-exp-status="planned" data-reveal>
-              <header class="protocol__header">
-                <p class="protocol__id"><span class="protocol__id-label">Experiment ID</span> <code>EXP-AS-07</code></p>
-                <h3 class="protocol__title">Fluorescence time-series extraction</h3>
-                <div class="protocol__status-row">
-                  <div class="evidence-status" data-status="planned">
-                    <span class="evidence-status__label">Status</span>
-                    <span class="evidence-status__value">Planned</span>
-                  </div>
-                  <p class="protocol__version"><span class="protocol__meta-label">Version</span> v0.1-draft</p>
-                </div>
-                <p class="protocol__planned-banner" role="status">Planned — not yet evidence of execution</p>
-              </header>
-
-              <div class="protocol__always">
-                <p><strong>Purpose:</strong> Define the analysis path from raw fluorescence to Model-ready matrices without silent rescaling.</p>
-                <p><strong>Controls (summary):</strong> Pipeline blanks; known synthetic traces if used for software tests</p>
-                <p><strong>Primary outputs:</strong> Processed time-series or feature tables with provenance from raw files</p>
-                <p><strong>Linked design / parts:</strong> <a href="design.html#interfaces">Design</a> · <a href="parts.html">Parts</a></p>
-                <p><strong>Notebook:</strong> <a href="notebook.html#nb-EXP-AS-07">EXP-AS-07 notebook anchor</a> — <span class="placeholder-field">Dated entry pending</span></p>
-                <p><strong>Results:</strong> <a href="results.html#res-EXP-AS-07">EXP-AS-07 results anchor</a> — <span class="placeholder-field">Measured section pending</span></p>
-              </div>
-
-              <details class="protocol__details">
-                <summary>Implementation notes (materials, steps, QC, safety)</summary>
-                <dl class="protocol__dl">
-                  <dt>Materials</dt>
-                  <dd>Raw imaging/plate-reader files from EXP-AS-04/05; analysis environment pending pin.</dd>
-                  <dt>Equipment</dt>
-                  <dd>Analysis workstation; software versions pending team pin.</dd>
-                  <dt>Controls (detail)</dt>
-                  <dd>Include negative/vehicle traces in every exported batch when those controls were acquired.</dd>
-                  <dt>Replicate definition</dt>
-                  <dd>ROI/well averaging rules pending SOP.</dd>
-                  <dt>Step overview</dt>
-                  <dd>
-                    <ol class="protocol__steps">
-              <li>Register raw files and metadata (stimulus, construct, batch).</li>
-              <li>Apply documented baseline/ROI rules — no undocumented normalization.</li>
-              <li>Compute features required by the Model interface contract when approved.</li>
-              <li>Write processed outputs separate from raw archives.</li>
-              <li>Record software versions and parameters.</li>
-                    </ol>
-                    <p class="notice">Steps are a reproducibility scaffold consistent with Design intent. Exact brands, concentrations, times, and temperatures require an approved SOP before execution claims.</p>
-                  </dd>
-                  <dt>Variables and units</dt>
-                  <dd>F or ΔF/F0 definition; sampling interval; feature names — pending interface freeze.</dd>
-                  <dt>Data and metadata produced</dt>
-                  <dd>raw/ and processed/ trees; parameter JSON/YAML or equivalent when approved.</dd>
-                  <dt>Quality checks / acceptance logic</dt>
-                  <dd>Raw↔processed linkage required; missing metadata fails export.</dd>
-                  <dt>Safety</dt>
-                  <dd><a href="safety-and-security.html#data-privacy">Safety &amp; Security</a> (linked section when available)</dd>
-                  <dt>Deviations and troubleshooting</dt>
-                  <dd>No execution deviations recorded — protocol not yet run.</dd>
-                  <dt>Citation / protocol source and adaptation</dt>
-                  <dd>Design Model/Hardware interface section; no analysis code release claimed. <span class="cite-wrap"><a class="cite" href="#ref-chen-2013" id="cite-chen-expas07" aria-describedby="cite-preview-chen-2013">[3]</a><span class="cite-preview" role="tooltip">Chen et al., 2013 — full entry in References &amp; Credits.</span></span></dd>
-                </dl>
-              </details>
-            </article>
-
-
-            <article class="protocol" id="exp-as-08" data-exp-id="EXP-AS-08" data-exp-status="planned" data-reveal>
-              <header class="protocol__header">
-                <p class="protocol__id"><span class="protocol__id-label">Experiment ID</span> <code>EXP-AS-08</code></p>
-                <h3 class="protocol__title">Hardware optical calibration and integration assay</h3>
-                <div class="protocol__status-row">
-                  <div class="evidence-status" data-status="planned">
-                    <span class="evidence-status__label">Status</span>
-                    <span class="evidence-status__value">Planned</span>
-                  </div>
-                  <p class="protocol__version"><span class="protocol__meta-label">Version</span> v0.1-draft</p>
-                </div>
-                <p class="protocol__planned-banner" role="status">Planned — not yet evidence of execution</p>
-              </header>
-
-              <div class="protocol__always">
-                <p><strong>Purpose:</strong> Separate instrument calibration and wet-sample integration from biology-only microscopy assays.</p>
-                <p><strong>Controls (summary):</strong> Dark/blank optical measurements; reference fluorescence standard if approved</p>
-                <p><strong>Primary outputs:</strong> Calibration log and integration checklist with optical settings</p>
-                <p><strong>Linked design / parts:</strong> <a href="design.html#interfaces">Design</a> · <a href="hardware.html">Parts</a></p>
-                <p><strong>Notebook:</strong> <a href="notebook.html#nb-EXP-AS-08">EXP-AS-08 notebook anchor</a> — <span class="placeholder-field">Dated entry pending</span></p>
-                <p><strong>Results:</strong> <a href="results.html#res-EXP-AS-08">EXP-AS-08 results anchor</a> — <span class="placeholder-field">Measured section pending</span></p>
-              </div>
-
-              <details class="protocol__details">
-                <summary>Implementation notes (materials, steps, QC, safety)</summary>
-                <dl class="protocol__dl">
-                  <dt>Materials</dt>
-                  <dd>Hardware revision under test; optical reference materials — identities pending Hardware freeze.</dd>
-                  <dt>Equipment</dt>
-                  <dd>AeroSense optical stack under the reconciled BOM — component conflicts must be resolved on Hardware before claiming a method.</dd>
-                  <dt>Controls (detail)</dt>
-                  <dd>Dark frame/blank path; optional reference emitter if team-approved.</dd>
-                  <dt>Replicate definition</dt>
-                  <dd>Repeated calibration runs — count pending SOP.</dd>
-                  <dt>Step overview</dt>
-                  <dd>
-                    <ol class="protocol__steps">
-              <li>Identify hardware revision and firmware/software versions.</li>
-              <li>Collect dark/blank and reference measurements per approved SOP.</li>
-              <li>Document excitation/emission constraints for GCaMP-class fluorescence.</li>
-              <li>Only after calibration gates pass, attempt living-sample integration with EXP-AS-04/05 batches.</li>
-              <li>Record deviations without presenting hardware goals as validated performance.</li>
-                    </ol>
-                    <p class="notice">Steps are a reproducibility scaffold consistent with Design intent. Exact brands, concentrations, times, and temperatures require an approved SOP before execution claims.</p>
-                  </dd>
-                  <dt>Variables and units</dt>
-                  <dd>Gain; integration time; channel map — values pending Hardware SOP.</dd>
-                  <dt>Data and metadata produced</dt>
-                  <dd>Calibration tables; revision IDs; integration notes.</dd>
-                  <dt>Quality checks / acceptance logic</dt>
-                  <dd>Acceptance logic pending Hardware page; no ppb or accuracy claims.</dd>
-                  <dt>Safety</dt>
-                  <dd><a href="safety-and-security.html#hardware-hazards">Safety &amp; Security</a> (linked section when available)</dd>
-                  <dt>Deviations and troubleshooting</dt>
-                  <dd>No execution deviations recorded — protocol not yet run.</dd>
-                  <dt>Citation / protocol source and adaptation</dt>
-                  <dd>Design interface + Hardware track scaffolding; BOM reconciliation still open.</dd>
-                </dl>
-              </details>
-            </article>
-
-          </section>
-
-          <section class="section-block" id="control-matrix" data-reveal>
-            <h2>Control matrix</h2>
-            <p>Only applicable control classes are filled. Em dashes mean the control class is not part of that experiment’s design.</p>
-            <div class="table-scroll" tabindex="0" role="region" aria-label="Experiment control matrix">
+            <div class="exp-params exp-params--wide">
+            <h3>Key parameters</h3>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Calcium-imaging assay parameters. Scroll horizontally to see all columns.">
               <table class="goal-table">
                 <thead>
                   <tr>
-                    <th scope="col">Experiment</th>
-                    <th scope="col">Positive</th>
-                    <th scope="col">Negative</th>
-                    <th scope="col">Vehicle</th>
-                    <th scope="col">Expression</th>
-                    <th scope="col">Blank</th>
-                    <th scope="col">Technical</th>
+                    <th scope="col">Parameter</th>
+                    <th scope="col">Value</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a href="#exp-as-01"><code>EXP-AS-01</code></a></td>
-                    <td>—</td>
-                    <td>Colony/no-template as applicable</td>
-                    <td>—</td>
-                    <td>—</td>
-                    <td>Reagent blank if used</td>
-                    <td>Technical clone screens</td>
+                    <th scope="row">Plate format</th>
+                    <td>Black-wall, clear-bottom 384-well</td>
                   </tr>
                   <tr>
-                    <td><a href="#exp-as-02"><code>EXP-AS-02</code></a></td>
-                    <td>—</td>
-                    <td>Mock transfection</td>
-                    <td>—</td>
-                    <td>—</td>
-                    <td>Media-only wells if used</td>
-                    <td>Repeat wells pending SOP</td>
+                    <th scope="row">Seeding</th>
+                    <td>12,000–18,000 cells per well, 48–72 h before measurement</td>
                   </tr>
                   <tr>
-                    <td><a href="#exp-as-03"><code>EXP-AS-03</code></a></td>
-                    <td>Known reporter-positive culture if available later</td>
-                    <td>Mock / untransfected</td>
-                    <td>—</td>
-                    <td>Reporter presence gate</td>
-                    <td>Optics blank</td>
-                    <td>Multiple FOV/wells pending SOP</td>
+                    <th scope="row">Assay volume</th>
+                    <td>20 µL assay buffer per well</td>
                   </tr>
                   <tr>
-                    <td><a href="#exp-as-04"><code>EXP-AS-04</code></a></td>
-                    <td>VUAA1 on competent OR/Orco system (planned)</td>
-                    <td>OR/Orco negatives</td>
-                    <td>Vehicle</td>
-                    <td>Expression gate from EXP-AS-03</td>
-                    <td>—</td>
-                    <td>Technical imaging repeats pending SOP</td>
+                    <th scope="row">Vehicle injection</th>
+                    <td>7 µL plain VOC buffer</td>
                   </tr>
                   <tr>
-                    <td><a href="#exp-as-05"><code>EXP-AS-05</code></a></td>
-                    <td>Optional VUAA1 day reference if approved</td>
-                    <td>OR/Orco negatives</td>
-                    <td>Vehicle / blank VOC path</td>
-                    <td>Expression gate</td>
-                    <td>Stimulus-path blank</td>
-                    <td>Technical repeats pending SOP</td>
+                    <th scope="row">Odorant injection</th>
+                    <td>9 µL of VOC at 4× final concentration</td>
                   </tr>
                   <tr>
-                    <td><a href="#exp-as-06"><code>EXP-AS-06</code></a></td>
-                    <td>Parent OR response reference</td>
-                    <td>OR/Orco negatives</td>
-                    <td>Vehicle</td>
-                    <td>Expression gate</td>
-                    <td>—</td>
-                    <td>Independent clones pending SOP</td>
+                    <th scope="row">Final well volume</th>
+                    <td>36 µL (20 + 7 + 9)</td>
                   </tr>
                   <tr>
-                    <td><a href="#exp-as-07"><code>EXP-AS-07</code></a></td>
-                    <td>Synthetic trace tests if used</td>
-                    <td>Include acquired negatives in export</td>
-                    <td>Include vehicle traces</td>
-                    <td>—</td>
-                    <td>Pipeline blank</td>
-                    <td>Re-run analysis pending SOP</td>
+                    <th scope="row">VOC concentrations</th>
+                    <!-- TODO(8 VOC PANEL): exact compound identities are not specified. 1 / 10 / 100 µM is the current protocol specification. -->
+                    <td>1, 10 and 100 µM final</td>
                   </tr>
                   <tr>
-                    <td><a href="#exp-as-08"><code>EXP-AS-08</code></a></td>
-                    <td>Reference emitter if approved</td>
-                    <td>—</td>
-                    <td>—</td>
-                    <td>—</td>
-                    <td>Dark/blank optical path</td>
-                    <td>Repeat calibrations pending SOP</td>
+                    <th scope="row">VUAA1 reference</th>
+                    <td>50 µM on every plate for every cell line</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Instrument</th>
+                    <!-- TODO(14 PLATE READER MODEL): do not copy SpectraMax iD3 unless AeroSense used that instrument. -->
+                    <td>Multimode plate reader with a two-channel injector (model not specified)</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Readout</th>
+                    <td>ex 485 nm / em 535 nm</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Sampling</th>
+                    <td>F<sub>0</sub> for 5 s; then 30 s at 1 read/s after each injection</td>
                   </tr>
                 </tbody>
               </table>
             </div>
+            </div>
+
+            <div class="exp-params exp-params--wide" data-exp-copy-block>
+            <div class="exp-params__head">
+            <h3>Buffers</h3>
+            <button type="button" class="exp-copy" data-exp-copy hidden>Copy as text</button>
+            </div>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Assay and VOC buffer composition. Scroll horizontally to see all columns.">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Component</th>
+                    <th scope="col">Assay buffer</th>
+                    <th scope="col">VOC buffer</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><th scope="row">NaCl</th><td>140 mM</td><td>140 mM</td></tr>
+                  <tr><th scope="row">KCl</th><td>5 mM</td><td>5 mM</td></tr>
+                  <tr><th scope="row">CaCl<sub>2</sub></th><td>2 mM</td><td>2 mM</td></tr>
+                  <tr><th scope="row">MgCl<sub>2</sub></th><td>1 mM</td><td>1 mM</td></tr>
+                  <tr><th scope="row">HEPES-Na</th><td>5 mM</td><td>5 mM</td></tr>
+                  <tr><th scope="row">Glucose</th><td>20 mM</td><td>31 mM</td></tr>
+                  <tr><th scope="row">DMSO</th><td>—</td><td>0.1 %</td></tr>
+                  <tr><th scope="row">pH / osmolarity</th><td>7.3 / 340 mOsm</td><td>7.3 / 340 mOsm</td></tr>
+                </tbody>
+              </table>
+            </div>
+            </div>
+
+            <h3>Method</h3>
+            <p>Read on a multimode plate reader with a two-channel injector, ex 485 nm / em 535 nm.</p>
+            <ol class="exp-method-steps">
+              <li>Seed cells at 12,000–18,000 per well in black-wall, clear-bottom 384-well plates, 48–72 h before measurement.</li>
+              <li>On the day of measurement, replace growth medium with 20 µL assay buffer per well.</li>
+              <li>Round 1 — vehicle: record baseline F<sub>0</sub> for 5 s, inject 7 µL plain VOC buffer, record 30 s at 1 read/s.</li>
+              <li>Round 2 — odorant: into the same wells, inject 9 µL of VOC at 4× final concentration, same recording protocol.</li>
+              <li>Layout: one compound per row; up to eight cell lines per 24-column plate. Use three wells per cell line and measure each VOC–OR pair on at least three separate days.</li>
+            </ol>
+            <p>The volumes are self-consistent: 20 + 7 = 27 µL, then + 9 = 36 µL; 9/36 = 1/4, so a 4× stock dilutes exactly to 1× final. The vehicle injection simultaneously establishes the volume for the second round and measures the solvent and injection artefact alone.</p>
+
+            <figure class="wiki-figure exp-figure" id="fig-two-round">
+              <div class="wiki-figure__media">
+                <p class="exp-fig-kicker">Well volume and two-round sequence</p>
+                <div class="exp-assay">
+                  <div class="exp-wells" role="img" aria-labelledby="fig-two-round-vol">
+                    <p class="visually-hidden" id="fig-two-round-vol">Three well volumes. First: 20 microlitres assay buffer. Second: 20 plus 7 microlitres vehicle equals 27. Third: 27 plus 9 microlitres of 4 times VOC equals 36. Nine divided by 36 equals one quarter, so a 4 times stock becomes 1 times final.</p>
+                    <div class="exp-well">
+                      <div class="exp-well__stack">
+                        <span class="exp-well__band exp-well__band--assay" style="flex:20">20 µL assay buffer</span>
+                      </div>
+                      <span class="exp-well__sum">20 µL</span>
+                    </div>
+                    <div class="exp-well">
+                      <div class="exp-well__stack">
+                        <span class="exp-well__band exp-well__band--veh" style="flex:7">+ 7 µL vehicle</span>
+                        <span class="exp-well__band exp-well__band--assay" style="flex:20">20 µL assay buffer</span>
+                      </div>
+                      <span class="exp-well__sum">= 27 µL</span>
+                    </div>
+                    <div class="exp-well">
+                      <div class="exp-well__stack">
+                        <span class="exp-well__band exp-well__band--voc" style="flex:9">+ 9 µL 4× VOC</span>
+                        <span class="exp-well__band exp-well__band--veh" style="flex:7">7 µL vehicle</span>
+                        <span class="exp-well__band exp-well__band--assay" style="flex:20">20 µL assay buffer</span>
+                      </div>
+                      <span class="exp-well__sum">= 36 µL</span>
+                    </div>
+                  </div>
+                  <p class="exp-assay__math">9 / 36 = 1/4 &nbsp;→&nbsp; 4× stock dilutes to 1× final</p>
+                  <ol class="exp-seq">
+                    <li>
+                      <span class="exp-seq__round">Round 1</span>
+                      <span class="exp-seq__step">F<sub>0</sub> 5 s</span>
+                      <span class="exp-seq__step">Inject 7 µL vehicle</span>
+                      <span class="exp-seq__step">Record 30 s at 1 read/s</span>
+                    </li>
+                    <li>
+                      <span class="exp-seq__round">Round 2</span>
+                      <span class="exp-seq__step">Same wells</span>
+                      <span class="exp-seq__step">Inject 9 µL 4× VOC</span>
+                      <span class="exp-seq__step">Record 30 s at 1 read/s</span>
+                    </li>
+                  </ol>
+                </div>
+              </div>
+              <figcaption>
+                <span class="wiki-figure__num">Figure 3.</span>
+                <span class="wiki-figure__title"> Two-round calcium assay volumes.</span>
+                <p class="wiki-figure__explain">
+                  20 µL assay buffer + 7 µL vehicle = 27 µL; then + 9 µL of 4× VOC = 36 µL.
+                  9/36 = 1/4, so a 4× stock becomes 1× final concentration.
+                  Geometry adapted from Zboray <i>et al.</i> <a class="cite" href="#ref-zboray-2023">[1]</a>.
+                </p>
+              </figcaption>
+            </figure>
+
+            <details class="exp-notes" id="reagent-preparation">
+              <summary>Reagent preparation <span class="exp-notes__hint">VUAA1 stock and VOC handling</span></summary>
+              <div class="exp-notes__body">
+                <p>
+                  VUAA1. Dissolve in DMSO to a 50 mM stock (18.4 mg/mL). Aliquot and store at −20 °C protected from light. Prepare the 4× working dilution fresh in VOC buffer.
+                </p>
+                <p>
+                  VOCs. Dilute directly in VOC buffer, or first in DMSO for water-insoluble compounds. Prepare working solutions fresh daily. Store concentrated stocks in amber glass with PTFE-lined caps.
+                </p>
+              </div>
+            </details>
+
+            <aside class="exp-box exp-box--critical">
+              <h3 class="exp-box__label">Controls &amp; critical notes</h3>
+              <ul class="exp-ctrl">
+                <li>
+                  <span class="exp-ctrl__kind">Vehicle control</span>
+                  Round-1 injection of plain VOC buffer — solvent and injection artefact.
+                </li>
+                <li>
+                  <span class="exp-ctrl__kind">Normalisation reference</span>
+                  50 µM VUAA1 for each cell line on the same plate/day. Normalise to the mean VUAA1 response of that line, not a same-well VUAA1 injection.
+                </li>
+                <li>
+                  <span class="exp-ctrl__kind">Specificity control</span>
+                  Ca<sup>2+</sup>-free condition. Zboray <i>et al.</i> showed that Ca<sup>2+</sup>-free and Ca<sup>2+</sup>-free + EGTA buffers abolish the VUAA1 response
+                  <a class="cite" href="#ref-zboray-2023">[1]</a>.
+                </li>
+            </ul>
+              <p>Keep DMSO identical in VOC, vehicle, and VUAA1 wells.</p>
+              <p>CaCl<sub>2</sub> in the assay buffer is required.</p>
+              <p>Use HEPES-Na rather than bicarbonate: the plate sits in ambient air.</p>
+            </aside>
+
+            <div class="exp-repro">
+              <h3>Reproducibility metadata</h3>
+              <dl>
+                <dt>Technical replicates</dt>
+                <dd>Three wells per cell line, one compound per row, triplicate</dd>
+                <dt>Day replicates</dt>
+                <dd>Each VOC–OR pair measured on at least three separate days</dd>
+                <dt>Instrument</dt>
+                <dd>Multimode plate reader with a two-channel injector (model not specified)</dd>
+                <dt>Excitation / emission</dt>
+                <dd>485 nm / 535 nm</dd>
+                <dt>Sampling rate</dt>
+                <dd>1 read/s for 30 s after each injection; F<sub>0</sub> recorded for 5 s before injection</dd>
+                <dt>Analysis</dt>
+                <dd><i>R</i> then <i>R</i><sub>norm</sub>; see Data analysis</dd>
+              </dl>
+            </div>
+
+            <p class="exp-see-also"><a href="safety-and-security.html#chemical-voc">See Safety</a> · <a href="results.html">See Results</a> · <a href="notebook.html#nb-EXP-AS-05">See Notebook</a></p>
           </section>
 
-          <section class="section-block" id="replication" data-reveal>
-            <h2>Replication and statistical plan</h2>
-            <p>
-              Definitions below are structural. Numeric replicate counts, power calculations, and exclusion thresholds are not invented.
+          <section class="section-block exp-proto" id="data-analysis" data-reveal>
+            <span id="quantify" class="anchor-alias"></span>
+            <span id="exp-as-07" class="anchor-alias"></span>
+            <span id="delta-f" class="anchor-alias"></span>
+            <span id="vuaa1-normalisation" class="anchor-alias"></span>
+            <span id="replicates" class="anchor-alias"></span>
+            <span id="replication" class="anchor-alias"></span>
+            <span id="qc-outliers" class="anchor-alias"></span>
+            <span id="output-structure" class="anchor-alias"></span>
+            <span id="data-management" class="anchor-alias"></span>
+            <header class="exp-proto__head">
+              <p class="exp-proto__num">07</p>
+              <h2>Data analysis</h2>
+              <p class="exp-proto__purpose">Convert raw fluorescence into a VUAA1-normalised relative response for each receptor–stimulus pair.</p>
+            </header>
+
+            <p class="exp-source">
+              Relative-response definition, the ≤ 0.05 floor, plate/day VUAA1 mean normalisation, and Grubbs’ outlier removal follow Zboray <i>et al.</i>
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-zboray-2023" id="cite-zboray-analysis" aria-describedby="cite-preview-zboray-analysis">[1]</a>
+                <span class="cite-preview" id="cite-preview-zboray-analysis" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span>
+              </span>.
+              Zboray <i>et al.</i> denote the relative response <i>R</i> as Δ<i>F</i>. This page uses <i>R</i> and <i>R</i><sub>norm</sub> to avoid mixing Δ<i>F</i> with Δ<i>F</i>/<i>F</i><sub>0</sub>.
             </p>
-            <div class="table-scroll" tabindex="0" role="region" aria-label="Replication and statistical plan">
+
+            <div class="exp-params">
+            <h3>Key parameters</h3>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Analysis parameters. Scroll horizontally to see all columns.">
               <table class="goal-table">
                 <thead>
                   <tr>
-                    <th scope="col">Topic</th>
-                    <th scope="col">Definition / plan</th>
-                    <th scope="col">Team-approved value</th>
+                    <th scope="col">Parameter</th>
+                    <th scope="col">Value</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Biological replicate</td>
-                    <td>Independent culture/transfection batch or independently generated clone set answering the same question</td>
-                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
+                    <th scope="row">Raw fluorescence</th>
+                    <td>Plate-reader intensity at ex 485 nm / em 535 nm</td>
                   </tr>
                   <tr>
-                    <td>Technical replicate</td>
-                    <td>Repeat measurement on the same biological unit (extra well, FOV, or instrument pass)</td>
-                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
+                    <th scope="row">F<sub>0</sub></th>
+                    <td>Baseline recorded for 5 s before the relevant injection</td>
                   </tr>
                   <tr>
-                    <td>Exclusion criteria</td>
-                    <td>Predeclared rules for contamination, failed expression gate, focus loss, or metadata gaps</td>
-                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
+                    <th scope="row">F<sub>max</sub></th>
+                    <td>Peak fluorescence in the post-injection window</td>
                   </tr>
                   <tr>
-                    <td>Randomization / blinding</td>
-                    <td>Stimulus order and analysis blinding where operator bias is plausible</td>
-                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
+                    <th scope="row">Raw relative response</th>
+                    <td><i>R</i> = (F<sub>max</sub> − F<sub>0</sub>) / F<sub>0</sub></td>
                   </tr>
                   <tr>
-                    <td>Analysis plan</td>
-                    <td>Feature definition, normalization owner (wet-lab vs Model), and comparison tests</td>
-                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span> — see also <a href="design.html#interfaces">Design · Interfaces</a></td>
+                    <th scope="row">VUAA1-normalised response</th>
+                    <td><i>R</i><sub>norm</sub> = <i>R</i><sub>VOC</sub> / mean(<i>R</i><sub>VUAA1</sub>, corresponding cell line, same plate/day)</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Zero floor</th>
+                    <td><i>R</i><sub>norm</sub> ≤ 0.05 treated as zero, following <a class="cite" href="#ref-zboray-2023">[1]</a></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Outliers</th>
+                    <!-- TODO(15 GRUBBS TEST): alpha/significance level and exact implementation are not specified in the current source. -->
+                    <td>Removed by Grubbs’ test, following <a class="cite" href="#ref-zboray-2023">[1]</a> (α not specified here)</td>
                   </tr>
                 </tbody>
               </table>
             </div>
+            </div>
+
+            <h3>Method</h3>
+            <ol class="exp-method-steps">
+              <li>Record raw fluorescence at ex 485 nm / em 535 nm. Take F<sub>0</sub> as the 5 s baseline before the relevant injection.</li>
+              <li>Take F<sub>max</sub> as the peak in the post-injection window. Compute <i>R</i> = (F<sub>max</sub> − F<sub>0</sub>) / F<sub>0</sub>.</li>
+              <li>Normalise each VOC response to the mean 50 µM VUAA1 response of the corresponding OR cell line measured on the same plate/day: <i>R</i><sub>norm</sub> = <i>R</i><sub>VOC</sub> / mean(<i>R</i><sub>VUAA1</sub>, corresponding cell line, same plate/day). Do not use a same-well VUAA1 injection as the denominator.</li>
+              <li>Following <a class="cite" href="#ref-zboray-2023">[1]</a>, treat <i>R</i><sub>norm</sub> ≤ 0.05 as zero, and remove outliers by Grubbs’ test.</li>
+            </ol>
+
+            <figure class="exp-eq">
+              <p class="exp-eq__math"><i>R</i> = (<i>F</i><sub>max</sub> − <i>F</i><sub>0</sub>) / <i>F</i><sub>0</sub></p>
+              <figcaption>Raw relative response. Not an absolute Ca<sup>2+</sup> concentration. Zboray <i>et al.</i> denote <i>R</i> as Δ<i>F</i>.</figcaption>
+            </figure>
+            <figure class="exp-eq">
+              <p class="exp-eq__math"><i>R</i><sub>norm</sub> = <i>R</i><sub>VOC</sub> / mean(<i>R</i><sub>VUAA1</sub>, line, plate/day)</p>
+              <figcaption>VOC responses are normalized to the mean 50 µM VUAA1 response of the corresponding OR cell line measured on the same plate/day.</figcaption>
+            </figure>
+
+            <aside class="exp-box exp-box--critical">
+              <h3 class="exp-box__label">Controls &amp; critical notes</h3>
+              <p>VOC responses are normalized to the mean 50 µM VUAA1 response of the corresponding OR cell line measured on the same plate/day. Do not use a same-well VUAA1 injection as the denominator.</p>
+            </aside>
+
+            <div class="exp-repro">
+              <h3>Reproducibility metadata</h3>
+              <dl>
+                <dt>Excitation / emission</dt>
+                <dd>485 nm / 535 nm</dd>
+                <dt>Sampling</dt>
+                <dd>F<sub>0</sub> for 5 s before the relevant injection</dd>
+                <dt>Analysis method</dt>
+                <dd><i>R</i>, then plate/day mean 50 µM VUAA1 <i>R</i><sub>norm</sub>; ≤ 0.05 floor and Grubbs’ test following <a class="cite" href="#ref-zboray-2023">[1]</a></dd>
+                <dt>Downstream</dt>
+                <dd>
+                  Multi-receptor vectors are intended for a sparse-coding classifier based on
+                  <span class="cite-wrap">
+                    <a class="cite" href="#ref-dasgupta-2017" id="cite-dasgupta-model" aria-describedby="cite-preview-dasgupta-2017">[3]</a>
+                    <span class="cite-preview" id="cite-preview-dasgupta-2017" role="tooltip">Dasgupta et al., 2017 — full entry in References &amp; Credits.</span>
+                  </span>.
+                  That classifier is not specified on this page. See <a href="model.html">Model</a>.
+                </dd>
+              </dl>
+            </div>
+
+            <p class="exp-see-also"><a href="model.html">See Model</a> · <a href="results.html">See Results</a> · <a href="notebook.html#nb-EXP-AS-07">See Notebook</a></p>
           </section>
 
-          <section class="section-block" id="data-management" data-reveal>
-            <h2>Data management</h2>
-            <p>Real archive locations and code links are listed only when they resolve. Unreleased paths stay marked pending.</p>
-            <div class="table-scroll" tabindex="0" role="region" aria-label="Data management plan">
-              <table class="goal-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Item</th>
-                    <th scope="col">Rule</th>
-                    <th scope="col">Current location / link</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Filenames</td>
-                    <td>Include experiment ID, date (when run), batch ID, and raw/processed flag</td>
-                    <td><span class="placeholder-field">Naming SOP pending</span></td>
-                  </tr>
-                  <tr>
-                    <td>Raw vs processed</td>
-                    <td>Keep raw immutably separate from processed derivatives</td>
-                    <td><span class="placeholder-field">Folder layout pending</span></td>
-                  </tr>
-                  <tr>
-                    <td>Metadata</td>
-                    <td>Construct lot, passage, stimulus IDs, instrument settings, operator</td>
-                    <td><span class="placeholder-field">Schema pending</span></td>
-                  </tr>
-                  <tr>
-                    <td>Versioning</td>
-                    <td>Protocol version on this page must match the notebook entry used for a result</td>
-                    <td>Protocol drafts currently <code>v0.1-draft</code></td>
-                  </tr>
-                  <tr>
-                    <td>Code link</td>
-                    <td>Analysis entry point with dependency pin</td>
-                    <td><span class="placeholder-field">No public analysis repository linked</span> — team GitLab path previously returned HTTP 404 at wiki authoring</td>
-                  </tr>
-                  <tr>
-                    <td>Archive location</td>
-                    <td>Institutional or team-approved archive for raw data</td>
-                    <td><span class="placeholder-field">Archive path pending</span></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+          <section class="section-block" id="safety" data-reveal>
+            <h2>Safety</h2>
+            <!-- TODO(1 CELL CHASSIS): HEK293 vs HEK293T is unresolved. This safety paragraph uses the line named in this protocol specification (HEK293). Do not rename to HEK293T here. -->
+            <p>
+              All work is contained. <i>E. coli</i> DH5α is Risk Group 1 (BSL-1); HEK293 (the mammalian line named in this protocol specification) is handled at BSL-2 in a Class II biosafety cabinet.
+              Aromatic VOC ligands are flammable and toxic and are handled in a fume hood per their Safety Data Sheets.
+              Nothing is released outside the laboratory.
+            </p>
+            <p>Full biosafety, chemical handling, and training records are on the <a href="safety-and-security.html">Safety &amp; Security</a> page.</p>
+            <p class="exp-see-also"><a href="safety-and-security.html#biological-materials">Biological materials</a> · <a href="safety-and-security.html#chemical-voc">Chemical and VOC handling</a></p>
           </section>
 
-          <section class="section-block" id="protocol-changes" data-reveal>
-            <h2>Protocol changes</h2>
-            <p>Documented changes only. Empty until a versioned revision is approved after a real draft freeze.</p>
-            <div class="table-scroll" tabindex="0" role="region" aria-label="Protocol change log">
-              <table class="goal-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Experiment ID</th>
-                    <th scope="col">Version</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Reason</th>
-                    <th scope="col">Evidence</th>
-                    <th scope="col">Affected results</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td colspan="6"><span class="placeholder-field">No protocol changes recorded yet — v0.1-draft scaffolds only</span></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
+          <span id="adaptations" class="anchor-alias"></span>
+          <span id="reproducibility" class="anchor-alias"></span>
+          <span id="protocol-changes" class="anchor-alias"></span>
+          <span id="literature-precautions" class="anchor-alias"></span>
+          <span id="draft-warnings" class="anchor-alias"></span>
+          <span id="reproduction-packet" class="anchor-alias"></span>
+          <span id="adjacent-ids" class="anchor-alias"></span>
+          <span id="exp-as-06" class="anchor-alias"></span>
+          <span id="exp-as-08" class="anchor-alias"></span>
+          <span id="continue" class="anchor-alias"></span>
         </article>
       </main>
 
       <nav class="page-turn" aria-label="Page">
         <a class="page-turn__prev" href="design.html"><span class="page-turn__dir">Previous</span><span class="page-turn__title">Design</span></a>
-        <a class="page-turn__next" href="notebook.html"><span class="page-turn__dir">Next</span><span class="page-turn__title">Notebook</span></a>
+        <a class="page-turn__next" href="results.html"><span class="page-turn__dir">Next</span><span class="page-turn__title">Results</span></a>
       </nav>
 
       <section class="references" aria-labelledby="references-heading" id="references" data-reveal>
@@ -984,7 +1053,7 @@
             <span class="ref-title">High-throughput ligand profile characterization in novel cell lines expressing seven heterologous insect olfactory receptors for the detection of volatile plant biomarkers.</span>
             <span class="ref-venue"><i>Scientific Reports</i>, <span class="ref-volume">13</span>, Article 21757.</span>
             <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/s41598-023-47455-4" rel="noopener noreferrer">10.1038/s41598-023-47455-4</a>.</span>
-            <a class="ref-backlink" href="#cite-zboray-expas01">Back to citation</a>
+            <a class="ref-backlink" href="#cite-zboray-hero">Back to citation</a>
           </li>
           <li id="ref-jones-2011">
             <span class="ref-authors">Jones, P. L., Pask, G. M., Rinker, D. C., &amp; Zwiebel, L. J.</span>
@@ -992,46 +1061,36 @@
             <span class="ref-title">Functional agonism of insect odorant receptor ion channels.</span>
             <span class="ref-venue"><i>Proceedings of the National Academy of Sciences of the United States of America</i>, <span class="ref-volume">108</span>(21), 8821–8825.</span>
             <span class="ref-doi">DOI: <a href="https://doi.org/10.1073/pnas.1102425108" rel="noopener noreferrer">10.1073/pnas.1102425108</a>.</span>
-            <a class="ref-backlink" href="#cite-jones-expas04">Back to citation</a>
+            <a class="ref-backlink" href="#cite-jones-vuaa1">Back to citation</a>
           </li>
-          <li id="ref-chen-2013">
-            <span class="ref-authors">Chen, T.-W., Wardill, T. J., Sun, Y., Pulver, S. R., Renninger, S. L., Baohan, A., Schreiter, E. R., Kerr, R. A., Orger, M. B., Jayaraman, V., Looger, L. L., Svoboda, K., &amp; Kim, D. S.</span>
-            <span class="ref-year">(2013).</span>
-            <span class="ref-title">Ultrasensitive fluorescent proteins for imaging neuronal activity.</span>
-            <span class="ref-venue"><i>Nature</i>, <span class="ref-volume">499</span>(7458), 295–300.</span>
-            <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/nature12354" rel="noopener noreferrer">10.1038/nature12354</a>.</span>
-            <a class="ref-backlink" href="#cite-chen-expas03">Back to citation</a>
-          </li>
-          <li id="ref-butterwick-2018">
-            <span class="ref-authors">Butterwick, J. A., del Mármol, J., Kim, K. H., Kahlson, M. A., Rogow, J. A., Walz, T., &amp; Ruta, V.</span>
-            <span class="ref-year">(2018).</span>
-            <span class="ref-title">Cryo-EM structure of the insect olfactory receptor Orco.</span>
-            <span class="ref-venue"><i>Nature</i>, <span class="ref-volume">560</span>(7719), 447–452.</span>
-            <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/s41586-018-0420-8" rel="noopener noreferrer">10.1038/s41586-018-0420-8</a>.</span>
-            <a class="ref-backlink" href="#cite-butterwick-expas06">Back to citation</a>
+          <li id="ref-dasgupta-2017">
+            <span class="ref-authors">Dasgupta, S., Stevens, C. F., &amp; Navlakha, S.</span>
+            <span class="ref-year">(2017).</span>
+            <span class="ref-title">A neural algorithm for a fundamental computing problem.</span>
+            <span class="ref-venue"><i>Science</i>, <span class="ref-volume">358</span>(6364), 793–796.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1126/science.aam9868" rel="noopener noreferrer">10.1126/science.aam9868</a>.</span>
+            <a class="ref-backlink" href="#cite-dasgupta-model">Back to citation</a>
           </li>
         </ol>
-        <ul class="credit-list">
-          <li>Protocol scaffolds are planning documents derived from Design/Parts and the team proposal intent; they are not completed execution records.</li>
-          <li>No vendor SOPs are reproduced in full; adapt only from team-approved institutional documents when provided.</li>
-          <li>Related pages: <a href="design.html">Design</a>, <a href="parts.html">Parts</a>, <a href="notebook.html">Notebook</a>, <a href="results.html">Results</a>, <a href="safety-and-security.html">Safety &amp; Security</a>.</li>
-        </ul>
       </section>
     </div>
 
     <div class="page-toc-slot">
     <details class="page-toc" open>
-      <summary class="toc__summary"><span class="toc__label">On this page</span></summary>
+      <summary class="toc__summary">
+        <span class="toc__label">On this page</span>
+</summary>
       <nav aria-label="Table of contents">
         <ol>
-          <li><a href="#experimental-map"><span class="tech-label">01</span> Experimental map</a></li>
-          <li><a href="#status-legend"><span class="tech-label">02</span> Status legend</a></li>
-          <li><a href="#protocol-index"><span class="tech-label">03</span> Protocol index</a></li>
-          <li><a href="#core-protocols"><span class="tech-label">04</span> Core protocols</a></li>
-          <li><a href="#control-matrix"><span class="tech-label">05</span> Control matrix</a></li>
-          <li><a href="#replication"><span class="tech-label">06</span> Replication and statistical plan</a></li>
-          <li><a href="#data-management"><span class="tech-label">07</span> Data management</a></li>
-          <li><a href="#protocol-changes"><span class="tech-label">08</span> Protocol changes</a></li>
+          <li><a href="#workflow"><span class="tech-label">01</span> Workflow</a></li>
+          <li><a href="#molecular-cloning"><span class="tech-label">02</span> Molecular cloning</a></li>
+          <li><a href="#cell-culture"><span class="tech-label">03</span> Mammalian cell culture</a></li>
+          <li><a href="#transfection"><span class="tech-label">04</span> Transfection</a></li>
+          <li><a href="#stable-selection"><span class="tech-label">05</span> Stable-line selection</a></li>
+          <li><a href="#expression-validation"><span class="tech-label">06</span> Expression / functional validation</a></li>
+          <li><a href="#calcium-imaging"><span class="tech-label">07</span> Calcium imaging</a></li>
+          <li><a href="#data-analysis"><span class="tech-label">08</span> Data analysis</a></li>
+          <li><a href="#safety"><span class="tech-label">09</span> Safety</a></li>
           <li><a href="#references"><span class="tech-label">Ref</span> References &amp; Credits</a></li>
         </ol>
       </nav>
@@ -1054,34 +1113,46 @@
             <li><a href="engineering.html">Engineering</a></li>
             <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
             <li><a href="notebook.html">Notebook</a></li>
-          </ul>
+            </ul>
         </div>
         <div class="footer-col">
           <h2>Team</h2>
           <ul>
             <li><a href="members.html">Members</a></li>
             <li><a href="attributions.html">Attributions</a></li>
-          </ul>
+            </ul>
           <h2>Wet Lab</h2>
           <ul>
             <li><a href="parts.html">Parts</a></li>
             <li><a href="design.html">Design</a></li>
             <li><a href="experiments.html">Experiments</a></li>
             <li><a href="results.html">Results</a></li>
-          </ul>
+            </ul>
         </div>
         <div class="footer-col">
           <h2>Dry Lab</h2>
           <ul>
             <li><a href="model.html">Model</a></li>
             <li><a href="hardware.html">Hardware</a></li>
-          </ul>
+            </ul>
           <h2>Human Practices</h2>
           <ul>
             <li><a href="human-practices.html">Integrated Human Practices</a></li>
             <li><a href="education.html">Education</a></li>
+            <li><a href="entrepreneurship.html">Entrepreneurship</a></li>
+            <li><a href="sustainability.html">Sustainability</a></li>
+            <li><a href="learning-platform.html">Learning Lab</a></li>
           </ul>
         </div>
+      </div>
+
+      <div class="footer-partners" aria-labelledby="footer-partners-label">
+        <h2 class="footer-partners__title" id="footer-partners-label">Collaborators &amp; Sponsors</h2>
+        <ul class="footer-partners__list">
+          <li><span class="footer-partners__name">iST Group</span> — professional schematic &amp; PCB review (<a href="attributions.html#attr-ist-group">Attributions</a>)</li>
+          <li><span class="footer-partners__name">National Tsing Hua University</span> — institutional host</li>
+          <li><a href="attributions.html#external">Full collaborators, sponsors &amp; credits</a></li>
+        </ul>
       </div>
 
       <div class="footer-meta">
@@ -1089,12 +1160,12 @@
           <li><a href="https://www.linkedin.com/company/aerosensebio/" rel="noopener noreferrer">LinkedIn</a></li>
           <li><a href="https://www.instagram.com/igem_tsinghua/" rel="noopener noreferrer">Instagram</a></li>
           <li><a href="mailto:aerosensebio@gmail.com">aerosensebio@gmail.com</a></li>
-        </ul>
+            </ul>
         <ul class="footer-legal">
           <li><a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer">Source on GitLab</a></li>
           <li>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">Creative Commons Attribution 4.0 International</a></li>
           <li><a href="attributions.html#responsible-ai">Attributions &amp; Responsible AI</a></li>
-        </ul>
+            </ul>
         <p class="footer-copy">© 2026 NTHU · AeroSense</p>
       </div>
     </div>

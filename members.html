@@ -4,11 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Meet Team NTHU · AeroSense · iGEM 2026</title>
-  <meta name="description" content="People behind AeroSense, NTHU iGEM 2026. Member names and portraits appear only after the team supplies verified English spellings and photo permissions.">
+  <meta name="description" content="Meet the NTHU iGEM 2026 team behind AeroSense: students, PIs, and advisors.">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/members.css">
+  <script>document.documentElement.classList.add("js");</script>
   <script src="js/main.js" defer></script>
   <script src="js/glossary.js" defer></script>
   <script src="js/search.js" defer></script>
+  <script src="js/members.js" defer></script>
 </head>
 <body class="page-members">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -24,8 +27,16 @@
         </span>
       </a>
       <div class="header-tools">
-        <a class="btn-search" href="index.html#site-map" aria-haspopup="dialog" aria-controls="project-search">Project Search</a>
-        <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+        <a class="btn-search" href="index.html#site-map" aria-haspopup="dialog" aria-controls="project-search" aria-label="Project Search" title="Project Search">
+          <svg class="header-icon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M15.5 15.5L21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span class="btn-search__label">Project Search</span>
+        </a>
+        <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+          <span class="nav-toggle__icon" aria-hidden="true"><span></span><span></span><span></span></span>
+        </button>
       </div>
       <nav class="site-nav" id="site-nav" aria-label="Primary">
         <ul class="nav-root">
@@ -69,12 +80,15 @@
               <li><a href="hardware.html">Hardware</a></li>
             </ul>
           </li>
-          <li class="nav-item nav-item--dropdown">
+                    <li class="nav-item nav-item--dropdown">
             <span class="nav-label-static">Human Practices</span>
             <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-hp">Human Practices</button>
             <ul class="nav-submenu" id="submenu-hp">
               <li><a href="human-practices.html">Integrated Human Practices</a></li>
               <li><a href="education.html">Education</a></li>
+              <li><a href="entrepreneurship.html">Entrepreneurship</a></li>
+              <li><a href="sustainability.html">Sustainability</a></li>
+              <li><a href="learning-platform.html">Learning Lab</a></li>
             </ul>
           </li>
         </ul>
@@ -97,7 +111,6 @@
         </div>
         <div class="search-dialog__actions">
           <button type="submit">Search</button>
-          <button type="button" data-search-close>Close</button>
         </div>
       </form>
       <p id="project-search-count" class="search-dialog__count" aria-live="polite" aria-atomic="true">0 results</p>
@@ -108,7 +121,7 @@
   <div class="shell shell--with-toc">
     <div class="page-main-column">
       <main id="main">
-        <header class="page-hero" data-reveal>
+        <header class="members-intro">
           <nav aria-label="Breadcrumb">
             <ol class="breadcrumb">
               <li><a href="index.html">Home</a></li>
@@ -116,278 +129,407 @@
               <li aria-current="page">Members</li>
             </ol>
           </nav>
-          <span class="page-kicker">05 / Team</span>
-          <h1>Meet Team NTHU</h1>
-          <p class="page-purpose">
-            AeroSense is built by students at National Tsing Hua University who connect living-cell sensing, fly-inspired computation, and portable optical hardware—with care for evidence, safety, and the people who will read this work.
-          </p>
-          <span class="status-label status-label--planned">Names and portraits await team-verified English records</span>
+          <p class="members-intro__meta">NTHU iGEM 2026</p>
+          <h1 class="members-intro__title" id="members-page-title">Meet the people behind AeroSense</h1>
         </header>
 
-        <article class="page-article prose">
-          <section class="section-block" id="disciplines" data-reveal>
-            <h2>One project, many disciplines</h2>
-            <p>
-              AeroSense is one platform with several intertwined functions. People may hold more than one responsibility; roles below describe workstreams, not a fixed org chart.
-            </p>
-            <ul class="discipline-list">
-              <li>
-                <strong>Wet lab</strong>
-                — constructs, cell culture, agonist/VOC assays, and biological controls.
+        <section class="members-memory" id="team-memories" aria-labelledby="members-memory-heading">
+          <h2 class="visually-hidden" id="members-memory-heading">Team memories</h2>
+
+          <div class="members-memory__stage">
+            <ol class="members-memory__stack" data-memory-stack aria-label="Team memory album">
+              <li class="members-memory__card is-active" data-memory-card data-memory-index="0" id="cover">
+                <button type="button" class="members-memory__sheet" aria-current="true" aria-label="Open team memory book">
+                  <picture>
+                    <source type="image/avif" srcset="member_photo/member_cover-720.avif 720w, member_photo/member_cover-1086.avif 1086w" sizes="(max-width: 959px) 94vw, min(1086px, 70vw)">
+                    <source type="image/webp" srcset="member_photo/member_cover-720.webp 720w, member_photo/member_cover-1086.webp 1086w" sizes="(max-width: 959px) 94vw, min(1086px, 70vw)">
+                    <img src="member_photo/member_cover-1086.jpg" srcset="member_photo/member_cover-720.jpg 720w, member_photo/member_cover-1086.jpg 1086w" sizes="(max-width: 959px) 94vw, min(1086px, 70vw)" alt="NTHU iGEM 2026 team memory book cover" width="1086" height="721" loading="eager" fetchpriority="high" decoding="async">
+                  </picture>
+                </button>
               </li>
-              <li>
-                <strong>Dry lab / model</strong>
-                — fluorescence feature pipelines, fly-inspired transforms, evaluation, and documentation on
-                <a href="model.html">Model</a>.
+              <li class="members-memory__card is-behind" data-memory-card data-memory-index="1">
+                <button type="button" class="members-memory__sheet" tabindex="-1" aria-label="Open memory 1 of 2">
+                  <picture>
+                    <source type="image/avif" srcset="member_photo/members01-800.avif 800w, member_photo/members01-1200.avif 1200w" sizes="(max-width: 959px) 94vw, min(1086px, 70vw)">
+                    <source type="image/webp" srcset="member_photo/members01-800.webp 800w, member_photo/members01-1200.webp 1200w" sizes="(max-width: 959px) 94vw, min(1086px, 70vw)">
+                    <img src="member_photo/members01-800.jpg" srcset="member_photo/members01-800.jpg 800w, member_photo/members01-1200.jpg 1200w" sizes="(max-width: 959px) 94vw, min(1086px, 70vw)" alt="Five people standing together on a lawn at dusk; some wear graduation gowns and caps, with campus buildings in the background." width="1477" height="1108" loading="eager" decoding="async">
+                  </picture>
+                </button>
               </li>
-              <li>
-                <strong>Hardware</strong>
-                — optical path, electronics, firmware, and bench validation on
-                <a href="hardware.html">Hardware</a>.
+              <li class="members-memory__card is-behind" data-memory-card data-memory-index="2">
+                <button type="button" class="members-memory__sheet" tabindex="-1" aria-label="Open memory 2 of 2">
+                  <picture>
+                    <source type="image/avif" srcset="member_photo/members02-800.avif 800w, member_photo/members02-1200.avif 1200w" sizes="(max-width: 959px) 94vw, min(1086px, 70vw)">
+                    <source type="image/webp" srcset="member_photo/members02-800.webp 800w, member_photo/members02-1200.webp 1200w" sizes="(max-width: 959px) 94vw, min(1086px, 70vw)">
+                    <img src="member_photo/members02-800.jpg" srcset="member_photo/members02-800.jpg 800w, member_photo/members02-1200.jpg 1200w" sizes="(max-width: 959px) 94vw, min(1086px, 70vw)" alt="Four people sitting on a purple wall in front of a building with green and yellow vertical fins; two wear graduation gowns." width="1477" height="1108" loading="eager" decoding="async">
+                  </picture>
+                </button>
               </li>
-              <li>
-                <strong>Human practices / education</strong>
-                — stakeholder engagement, safety framing, and teaching materials.
+              <!-- Later photographs: add another photo <li> before this end card. -->
+              <li class="members-memory__card members-memory__card--end is-behind" data-memory-card data-memory-end data-memory-index="3">
+                <button type="button" class="members-memory__sheet" tabindex="-1" aria-label="To be continued.">
+                  <div class="members-memory__end">
+                    <p class="members-memory__end-title">To be continued.</p>
+                    <p class="members-memory__end-meta">NTHU iGEM · 2026</p>
+                    <p class="members-memory__end-note">more memories are still being made.</p>
+                  </div>
+                </button>
               </li>
-              <li>
-                <strong>Design / wiki</strong>
-                — information architecture, figures, and public documentation quality.
-              </li>
-              <li>
-                <strong>Coordination</strong>
-                — scheduling, cross-track handoffs, and judging readiness.
-              </li>
+            </ol>
+
+            <p class="members-memory__status visually-hidden" data-memory-status aria-live="polite"></p>
+            <button type="button" class="members-memory__nav members-memory__nav--prev" data-memory-prev aria-label="Previous memory">
+              <span class="members-memory__chevron" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="members-memory__nav members-memory__nav--next" data-memory-next aria-label="Next memory">
+              <span class="members-memory__chevron" aria-hidden="true"></span>
+            </button>
+          </div>
+        </section>
+
+        <div class="members-book" id="members-book">
+          <span class="members-book__edge" aria-hidden="true"></span>
+          <span class="members-book__holes" aria-hidden="true"></span>
+          <svg class="members-motif members-motif--fly" viewBox="0 0 64 40" aria-hidden="true">
+            <ellipse cx="32" cy="22" rx="5" ry="3.2" fill="currentColor"></ellipse>
+            <path d="M32 22 L12 8 M32 22 L52 8 M28 20 L8 22 M36 20 L56 22" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"></path>
+            <path d="M32 19v-7 M29 12h6" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"></path>
+          </svg>
+          <svg class="members-motif members-motif--neuron" viewBox="0 0 80 54" aria-hidden="true">
+            <circle cx="40" cy="28" r="3.2" fill="currentColor"></circle>
+            <path d="M40 28 C22 12, 10 8, 4 6 M40 28 C58 10, 70 8, 76 6 M40 28 C28 46, 14 50, 6 52 M40 28 C54 46, 68 50, 76 52 M40 28 C40 10, 48 4, 56 2" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"></path>
+          </svg>
+
+          <nav class="members-index" id="team-index" aria-labelledby="team-index-title" data-reveal>
+            <h2 class="members-index__title" id="team-index-title">Team index</h2>
+            <p class="members-index__note" aria-hidden="true">contents</p>
+            <div class="members-index__groups">
+              <div class="members-index__group">
+                <h3 class="members-index__label">Student team</h3>
+                <ul>
+                  <li>
+                    <a href="#pin-che-huang">Jeffrey</a>
+                    <span>Team Leader / Hardware / Wiki &amp; Design</span>
+                  </li>
+                  <li>
+                    <a href="#chun-ting-chou">Tim</a>
+                    <span>Model</span>
+                  </li>
             </ul>
-          </section>
-
-          <section class="section-block" id="student-team" data-reveal>
-            <h2>Student team</h2>
-            <p>
-              The project proposal lists seven student contributors. English / Romanized spellings are <strong>not</strong> published here until each person confirms them.
-              No Chinese names, automatic transliterations, personal emails, phone numbers, or private social links appear on this page.
-            </p>
-
-            <form class="member-filter" aria-describedby="member-filter-help">
-              <fieldset>
-                <legend>Emphasize a workstream</legend>
-                <p id="member-filter-help" class="member-filter__help">
-                  Filters change visual emphasis only. Every seat stays in the page for search engines and assistive technologies. Works without JavaScript.
-                </p>
-                <div class="member-filter__options">
-                  <input type="radio" name="member-role" id="filter-all" value="all" checked>
-                  <label for="filter-all">All</label>
-
-                  <input type="radio" name="member-role" id="filter-wet" value="wet">
-                  <label for="filter-wet">Wet lab</label>
-
-                  <input type="radio" name="member-role" id="filter-dry" value="dry">
-                  <label for="filter-dry">Dry lab / model</label>
-
-                  <input type="radio" name="member-role" id="filter-hardware" value="hardware">
-                  <label for="filter-hardware">Hardware</label>
-
-                  <input type="radio" name="member-role" id="filter-hp" value="hp">
-                  <label for="filter-hp">Human practices / education</label>
-
-                  <input type="radio" name="member-role" id="filter-wiki" value="wiki">
-                  <label for="filter-wiki">Design / wiki</label>
-
-                  <input type="radio" name="member-role" id="filter-coord" value="coord">
-                  <label for="filter-coord">Coordination</label>
-                </div>
-              </fieldset>
-
-              <ul class="member-grid" aria-label="Student team seats">
-                <li class="member-card" data-roles="pending" id="student-01">
-                  <div class="member-card__media" aria-hidden="true">
-                    <span class="member-card__placeholder">Portrait pending</span>
-                  </div>
-                  <div class="member-card__body">
-                    <h3 class="member-card__name"><span class="placeholder-field">[TEAM CONTENT REQUIRED: verified English name]</span></h3>
-                    <p class="member-card__meta"><span class="placeholder-field">Preferred name / pronouns — optional</span></p>
-                    <p class="member-card__role"><strong>Role:</strong> <span class="placeholder-field">Team content required</span></p>
-                    <p class="member-card__discipline"><strong>Discipline:</strong> <span class="placeholder-field">Team content required</span></p>
-                    <p class="member-card__duties"><strong>Responsibilities:</strong> <span class="placeholder-field">Specific AeroSense tasks — team content required</span></p>
-                    <p class="member-card__line"><strong>Personal line:</strong> <span class="placeholder-field">One short sentence — team content required</span></p>
-                  </div>
-                </li>
-
-                <li class="member-card" data-roles="pending" id="student-02">
-                  <div class="member-card__media" aria-hidden="true">
-                    <span class="member-card__placeholder">Portrait pending</span>
-                  </div>
-                  <div class="member-card__body">
-                    <h3 class="member-card__name"><span class="placeholder-field">[TEAM CONTENT REQUIRED: verified English name]</span></h3>
-                    <p class="member-card__meta"><span class="placeholder-field">Preferred name / pronouns — optional</span></p>
-                    <p class="member-card__role"><strong>Role:</strong> <span class="placeholder-field">Team content required</span></p>
-                    <p class="member-card__discipline"><strong>Discipline:</strong> <span class="placeholder-field">Team content required</span></p>
-                    <p class="member-card__duties"><strong>Responsibilities:</strong> <span class="placeholder-field">Specific AeroSense tasks — team content required</span></p>
-                    <p class="member-card__line"><strong>Personal line:</strong> <span class="placeholder-field">One short sentence — team content required</span></p>
-                  </div>
-                </li>
-
-                <li class="member-card" data-roles="pending" id="student-03">
-                  <div class="member-card__media" aria-hidden="true">
-                    <span class="member-card__placeholder">Portrait pending</span>
-                  </div>
-                  <div class="member-card__body">
-                    <h3 class="member-card__name"><span class="placeholder-field">[TEAM CONTENT REQUIRED: verified English name]</span></h3>
-                    <p class="member-card__meta"><span class="placeholder-field">Preferred name / pronouns — optional</span></p>
-                    <p class="member-card__role"><strong>Role:</strong> <span class="placeholder-field">Team content required</span></p>
-                    <p class="member-card__discipline"><strong>Discipline:</strong> <span class="placeholder-field">Team content required</span></p>
-                    <p class="member-card__duties"><strong>Responsibilities:</strong> <span class="placeholder-field">Specific AeroSense tasks — team content required</span></p>
-                    <p class="member-card__line"><strong>Personal line:</strong> <span class="placeholder-field">One short sentence — team content required</span></p>
-                  </div>
-                </li>
-
-                <li class="member-card" data-roles="pending" id="student-04">
-                  <div class="member-card__media" aria-hidden="true">
-                    <span class="member-card__placeholder">Portrait pending</span>
-                  </div>
-                  <div class="member-card__body">
-                    <h3 class="member-card__name"><span class="placeholder-field">[TEAM CONTENT REQUIRED: verified English name]</span></h3>
-                    <p class="member-card__meta"><span class="placeholder-field">Preferred name / pronouns — optional</span></p>
-                    <p class="member-card__role"><strong>Role:</strong> <span class="placeholder-field">Team content required</span></p>
-                    <p class="member-card__discipline"><strong>Discipline:</strong> <span class="placeholder-field">Team content required</span></p>
-                    <p class="member-card__duties"><strong>Responsibilities:</strong> <span class="placeholder-field">Specific AeroSense tasks — team content required</span></p>
-                    <p class="member-card__line"><strong>Personal line:</strong> <span class="placeholder-field">One short sentence — team content required</span></p>
-                  </div>
-                </li>
-
-                <li class="member-card" data-roles="pending" id="student-05">
-                  <div class="member-card__media" aria-hidden="true">
-                    <span class="member-card__placeholder">Portrait pending</span>
-                  </div>
-                  <div class="member-card__body">
-                    <h3 class="member-card__name"><span class="placeholder-field">[TEAM CONTENT REQUIRED: verified English name]</span></h3>
-                    <p class="member-card__meta"><span class="placeholder-field">Preferred name / pronouns — optional</span></p>
-                    <p class="member-card__role"><strong>Role:</strong> <span class="placeholder-field">Team content required</span></p>
-                    <p class="member-card__discipline"><strong>Discipline:</strong> <span class="placeholder-field">Team content required</span></p>
-                    <p class="member-card__duties"><strong>Responsibilities:</strong> <span class="placeholder-field">Specific AeroSense tasks — team content required</span></p>
-                    <p class="member-card__line"><strong>Personal line:</strong> <span class="placeholder-field">One short sentence — team content required</span></p>
-                  </div>
-                </li>
-
-                <li class="member-card" data-roles="pending" id="student-06">
-                  <div class="member-card__media" aria-hidden="true">
-                    <span class="member-card__placeholder">Portrait pending</span>
-                  </div>
-                  <div class="member-card__body">
-                    <h3 class="member-card__name"><span class="placeholder-field">[TEAM CONTENT REQUIRED: verified English name]</span></h3>
-                    <p class="member-card__meta"><span class="placeholder-field">Preferred name / pronouns — optional</span></p>
-                    <p class="member-card__role"><strong>Role:</strong> <span class="placeholder-field">Team content required</span></p>
-                    <p class="member-card__discipline"><strong>Discipline:</strong> <span class="placeholder-field">Team content required</span></p>
-                    <p class="member-card__duties"><strong>Responsibilities:</strong> <span class="placeholder-field">Specific AeroSense tasks — team content required</span></p>
-                    <p class="member-card__line"><strong>Personal line:</strong> <span class="placeholder-field">One short sentence — team content required</span></p>
-                  </div>
-                </li>
-
-                <li class="member-card" data-roles="pending" id="student-07">
-                  <div class="member-card__media" aria-hidden="true">
-                    <span class="member-card__placeholder">Portrait pending</span>
-                  </div>
-                  <div class="member-card__body">
-                    <h3 class="member-card__name"><span class="placeholder-field">[TEAM CONTENT REQUIRED: verified English name]</span></h3>
-                    <p class="member-card__meta"><span class="placeholder-field">Preferred name / pronouns — optional</span></p>
-                    <p class="member-card__role"><strong>Role:</strong> <span class="placeholder-field">Team content required</span></p>
-                    <p class="member-card__discipline"><strong>Discipline:</strong> <span class="placeholder-field">Team content required</span></p>
-                    <p class="member-card__duties"><strong>Responsibilities:</strong> <span class="placeholder-field">Specific AeroSense tasks — team content required</span></p>
-                    <p class="member-card__line"><strong>Personal line:</strong> <span class="placeholder-field">One short sentence — team content required</span></p>
-                  </div>
-                </li>
-              </ul>
-            </form>
-            <p class="notice">
-              After a verified English name exists, typographic initials may replace the portrait placeholder until a team-owned photo with alt text and license is ready.
-              Do not use AI-generated faces or silhouette headshots that could be mistaken for a person.
-            </p>
-          </section>
-
-          <section class="section-block" id="advisors" data-reveal>
-            <h2>Advisors and instructors</h2>
-            <p>
-              The project proposal names one faculty advisor. Titles and support roles appear only when verified in English.
-            </p>
-            <ul class="member-grid member-grid--advisors" aria-label="Advisors and instructors">
-              <li class="member-card member-card--advisor" id="advisor-01">
-                <div class="member-card__media" aria-hidden="true">
-                  <span class="member-card__placeholder">Portrait pending</span>
-                </div>
-                <div class="member-card__body">
-                  <h3 class="member-card__name"><span class="placeholder-field">[TEAM CONTENT REQUIRED: verified English name]</span></h3>
-                  <p class="member-card__role"><strong>Title:</strong> <span class="placeholder-field">Verified title required</span></p>
-                  <p class="member-card__duties"><strong>Support role:</strong> <span class="placeholder-field">Precise advising / instruction responsibilities — team content required</span></p>
-                  <p class="member-card__line"><span class="placeholder-field">Institutional affiliation text — team content required</span></p>
-                </div>
-              </li>
-              <li class="member-card member-card--advisor member-card--optional" id="advisor-02">
-                <div class="member-card__media" aria-hidden="true">
-                  <span class="member-card__placeholder">Optional seat</span>
-                </div>
-                <div class="member-card__body">
-                  <h3 class="member-card__name"><span class="placeholder-field">[TEAM CONTENT REQUIRED: verified English name]</span></h3>
-                  <p class="member-card__role"><strong>Title:</strong> <span class="placeholder-field">Add only if an additional advisor / instructor is confirmed</span></p>
-                  <p class="member-card__duties"><strong>Support role:</strong> <span class="placeholder-field">Team content required or remove this card</span></p>
-                </div>
-              </li>
-            </ul>
-          </section>
-
-          <section class="section-block" id="collaborators" data-reveal>
-            <h2>Collaborators and external support</h2>
-            <p>
-              Institutions, vendors, software, and other external help are credited on
-              <a href="attributions.html">Attributions</a>,
-              including any Responsible AI disclosure.
-              This Members page does not duplicate those credits.
-            </p>
-          </section>
-
-          <section class="section-block" id="how-we-work" data-reveal>
-            <h2>How we work together</h2>
-            <p>
-              The map below shows intended handoffs among workstreams. It is a systems sketch, not a verified reporting hierarchy.
-            </p>
-            <figure class="wiki-figure" id="fig-team-handoffs">
-              <div class="wiki-figure__media">
-                <svg viewBox="0 0 720 280" role="img" aria-label="Systems map of AeroSense workstream handoffs among wet lab, model, hardware, human practices, and wiki documentation.">
-                  <rect x="40" y="40" width="140" height="70" fill="none" stroke="#0a0a0a" stroke-width="2"></rect>
-                  <text x="110" y="80" text-anchor="middle" font-family="Georgia, serif" font-size="15" fill="#0a0a0a">Wet lab</text>
-
-                  <rect x="290" y="40" width="140" height="70" fill="none" stroke="#0a0a0a" stroke-width="2"></rect>
-                  <text x="360" y="80" text-anchor="middle" font-family="Georgia, serif" font-size="15" fill="#0a0a0a">Model</text>
-
-                  <rect x="540" y="40" width="140" height="70" fill="none" stroke="#0a0a0a" stroke-width="2"></rect>
-                  <text x="610" y="80" text-anchor="middle" font-family="Georgia, serif" font-size="15" fill="#0a0a0a">Hardware</text>
-
-                  <rect x="165" y="170" width="160" height="70" fill="none" stroke="#0a0a0a" stroke-width="2"></rect>
-                  <text x="245" y="200" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0a0a0a">Human practices</text>
-                  <text x="245" y="220" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0a0a0a">/ education</text>
-
-                  <rect x="395" y="170" width="160" height="70" fill="none" stroke="#18b95b" stroke-width="2"></rect>
-                  <text x="475" y="200" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0a0a0a">Design / wiki</text>
-                  <text x="475" y="220" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0a0a0a">+ coordination</text>
-
-                  <path d="M180 75 H290" stroke="#0a0a0a" stroke-width="1.5" fill="none"></path>
-                  <path d="M430 75 H540" stroke="#0a0a0a" stroke-width="1.5" fill="none"></path>
-                  <path d="M110 110 V150 H245 V170" stroke="#0a0a0a" stroke-width="1.5" fill="none"></path>
-                  <path d="M360 110 V140 H475 V170" stroke="#0a0a0a" stroke-width="1.5" fill="none"></path>
-                  <path d="M610 110 V150 H475" stroke="#0a0a0a" stroke-width="1.5" fill="none"></path>
-                  <text x="360" y="268" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="11" fill="#555555">Assay data → model · assay needs → hardware · decisions → wiki</text>
-                </svg>
               </div>
-              <figcaption>
-                <span class="wiki-figure__num">Figure 1.</span>
-                <span class="wiki-figure__title"> Cross-subteam handoffs.</span>
-                <p class="wiki-figure__explain">Wet-lab measurements feed the model; assay and readout needs shape hardware; human practices and safety framing feed design choices; the wiki documents evidence status across all tracks.</p>
-                <ul class="wiki-figure__meta">
-                  <li><span class="wiki-figure__badge">Concept illustration — not a personnel hierarchy</span></li>
-                  <li><strong>License / attribution:</strong> Local SVG for AeroSense wiki.</li>
-                </ul>
-              </figcaption>
-            </figure>
-          </section>
-        </article>
+              <div class="members-index__group">
+                <h3 class="members-index__label">Advisors</h3>
+                <ul>
+                  <li>
+                    <a href="#ching-che-charng">Jerry</a>
+                    <span>Advisor</span>
+                  </li>
+            </ul>
+              </div>
+              <div class="members-index__group">
+                <h3 class="members-index__label">PIs</h3>
+                <ul>
+                  <li>
+                    <a class="members-index__pending" href="#primary-pi">Primary PI</a>
+                    <span>Profile coming soon</span>
+                  </li>
+                  <li>
+                    <a class="members-index__pending" href="#secondary-pi">Secondary PI</a>
+                    <span>Profile coming soon</span>
+                  </li>
+            </ul>
+              </div>
+            </div>
+          </nav>
+
+          <article class="page-article prose">
+            <section class="section-block members-section" id="student-team" aria-labelledby="student-team-title" data-reveal>
+              <span class="members-tab" aria-hidden="true">Students</span>
+              <h2 id="student-team-title">Student team</h2>
+              <form class="members-lookup" data-members-filter>
+                <fieldset class="members-lookup__fieldset" aria-describedby="members-lookup-hint">
+                  <legend class="members-lookup__legend">Look up by workstream</legend>
+                  <p class="members-lookup__hint" id="members-lookup-hint">A person can appear on more than one tab. Advisors and PIs stay in their own sections below.</p>
+                  <div class="members-lookup__scroller">
+                    <div class="members-lookup__tabs">
+                      <label class="members-lookup__tab">
+                        <input type="radio" name="student-workstream" value="all" checked>
+                        <span class="members-lookup__paper">All</span>
+                      </label>
+                      <label class="members-lookup__tab">
+                        <input type="radio" name="student-workstream" value="wet-lab">
+                        <span class="members-lookup__paper">Wet Lab</span>
+                      </label>
+                      <label class="members-lookup__tab">
+                        <input type="radio" name="student-workstream" value="model">
+                        <span class="members-lookup__paper">Model</span>
+                      </label>
+                      <label class="members-lookup__tab">
+                        <input type="radio" name="student-workstream" value="hardware">
+                        <span class="members-lookup__paper">Hardware</span>
+                      </label>
+                      <label class="members-lookup__tab">
+                        <input type="radio" name="student-workstream" value="design">
+                        <span class="members-lookup__paper">Design</span>
+                      </label>
+                      <label class="members-lookup__tab">
+                        <input type="radio" name="student-workstream" value="hp">
+                        <span class="members-lookup__paper">Human Practices</span>
+                      </label>
+                      <label class="members-lookup__tab">
+                        <input type="radio" name="student-workstream" value="leadership">
+                        <span class="members-lookup__paper">Leadership</span>
+                      </label>
+                    </div>
+                  </div>
+                </fieldset>
+                <p class="members-lookup__live" data-members-filter-live aria-live="polite" aria-atomic="true"></p>
+              </form>
+              <div class="members-grid members-grid--trio" data-members-grid>
+                <article class="members-card" id="pin-che-huang" data-workstreams="hardware leadership">
+                  <a class="members-specimen" href="#profile-jeffrey" aria-haspopup="dialog" aria-controls="profile-jeffrey" aria-expanded="false">
+                    <span class="members-specimen__index" aria-hidden="true">no. 01</span>
+                    <span class="members-specimen__tape" aria-hidden="true"></span>
+                    <div class="members-photo members-photo--jeffrey">
+                      <span class="members-photo__corners" aria-hidden="true"></span>
+                      <p class="members-photo__motto" aria-hidden="true">who you callin' pinhead?</p>
+                      <picture>
+                        <source type="image/avif" srcset="member_photo/pinche-480.avif 480w, member_photo/pinche-720.avif 720w, member_photo/pinche-960.avif 960w" sizes="(min-width: 720px) 28vw, calc(100vw - 2.4rem)">
+                        <source type="image/webp" srcset="member_photo/pinche-480.webp 480w, member_photo/pinche-720.webp 720w, member_photo/pinche-960.webp 960w" sizes="(min-width: 720px) 28vw, calc(100vw - 2.4rem)">
+                        <img src="member_photo/pinche-720.jpg" srcset="member_photo/pinche-480.jpg 480w, member_photo/pinche-720.jpg 720w, member_photo/pinche-960.jpg 960w" sizes="(min-width: 720px) 28vw, calc(100vw - 2.4rem)" width="480" height="640" alt="" loading="lazy" decoding="async">
+                      </picture>
+                    </div>
+                    <div class="members-specimen__identity">
+                      <h3 class="members-card__pref">Jeffrey</h3>
+                      <p class="members-card__full">Pin-Che Huang · 黃品喆</p>
+                      <p class="members-card__role">Team Leader / Hardware / Wiki &amp; Design</p>
+                      <ul class="members-card__role-tags">
+                        <li>Hardware</li>
+                        <li>Leadership</li>
+            </ul>
+                      <span class="members-specimen__note" aria-hidden="true">lead · hw</span>
+                      <span class="members-specimen__open">Open profile</span>
+                    </div>
+                  </a>
+                  <dialog class="members-spread" id="profile-jeffrey" aria-labelledby="spread-jeffrey-title">
+                    <form method="dialog" class="members-spread__toolbar">
+                      <button type="submit" class="members-spread__close" value="close" aria-label="Close profile">Close</button>
+                    </form>
+                    <div class="members-spread__pages">
+                      <div class="members-spread__left">
+                        <div class="members-photo members-photo--jeffrey members-photo--spread">
+                          <span class="members-photo__corners" aria-hidden="true"></span>
+                          <p class="members-photo__motto" aria-hidden="true">who you callin' pinhead?</p>
+                          <picture>
+                            <source type="image/avif" srcset="member_photo/pinche-480.avif 480w, member_photo/pinche-720.avif 720w, member_photo/pinche-960.avif 960w" sizes="min(22rem, 92vw)">
+                            <source type="image/webp" srcset="member_photo/pinche-480.webp 480w, member_photo/pinche-720.webp 720w, member_photo/pinche-960.webp 960w" sizes="min(22rem, 92vw)">
+                            <img src="member_photo/pinche-720.jpg" srcset="member_photo/pinche-480.jpg 480w, member_photo/pinche-720.jpg 720w, member_photo/pinche-960.jpg 960w" sizes="min(22rem, 92vw)" width="480" height="640" alt="Portrait of Jeffrey, Pin-Che Huang" loading="lazy" decoding="async">
+                          </picture>
+                        </div>
+                        <p class="members-card__pref" id="spread-jeffrey-title">Jeffrey</p>
+                        <p class="members-card__full">Pin-Che Huang · 黃品喆</p>
+                        <p class="members-card__role">Team Leader / Hardware / Wiki &amp; Design</p>
+                        <p class="members-card__affiliation">Institute of Systems Neuroscience, NTHU</p>
+                      </div>
+                      <div class="members-spread__right">
+                        <p class="members-card__bio">I’m a gym rat who also loves travelling and eating a lot. In research, I’m into biology, hardware experiments, and building weird things that somehow work. My biggest dream is to find someone to keep me.</p>
+                        <ul class="members-card__contrib" aria-label="Contribution categories">
+                          <li>Conceptualization</li>
+                          <li>Hardware</li>
+                          <li>Public Engagement</li>
+                          <li>Visualization / Design</li>
+                          <li>Writing</li>
+                          <li>Fundraising / Sponsorship</li>
+                          <li>Experiment</li>
+            </ul>
+                        <p class="members-spread__detail" aria-hidden="true">ISN · NTHU</p>
+                        <p class="members-spread__attr"><a href="attributions.html">View team attributions</a></p>
+                      </div>
+                    </div>
+                  </dialog>
+                </article>
+
+                <article class="members-card" id="chun-ting-chou" data-workstreams="model">
+                  <a class="members-specimen" href="#profile-tim" aria-haspopup="dialog" aria-controls="profile-tim" aria-expanded="false">
+                    <span class="members-specimen__index" aria-hidden="true">no. 02</span>
+                    <span class="members-specimen__tape" aria-hidden="true"></span>
+                    <div class="members-photo members-photo--tim">
+                      <span class="members-photo__corners" aria-hidden="true"></span>
+                      <picture>
+                        <source type="image/avif" srcset="member_photo/ChunTing-480.avif 480w, member_photo/ChunTing-720.avif 720w" sizes="(min-width: 720px) 28vw, calc(100vw - 2.4rem)">
+                        <source type="image/webp" srcset="member_photo/ChunTing-480.webp 480w, member_photo/ChunTing-720.webp 720w" sizes="(min-width: 720px) 28vw, calc(100vw - 2.4rem)">
+                        <img src="member_photo/ChunTing-720.jpg" srcset="member_photo/ChunTing-480.jpg 480w, member_photo/ChunTing-720.jpg 720w" sizes="(min-width: 720px) 28vw, calc(100vw - 2.4rem)" width="480" height="640" alt="" loading="lazy" decoding="async">
+                      </picture>
+                    </div>
+                    <div class="members-specimen__identity">
+                      <h3 class="members-card__pref">Tim</h3>
+                      <p class="members-card__full">Chun-Ting Chou · 周峻廷</p>
+                      <p class="members-card__role">Model</p>
+                      <ul class="members-card__role-tags">
+                        <li>Model</li>
+            </ul>
+                      <span class="members-specimen__note" aria-hidden="true">model</span>
+                      <span class="members-specimen__open">Open profile</span>
+                    </div>
+                  </a>
+                  <dialog class="members-spread" id="profile-tim" aria-labelledby="spread-tim-title">
+                    <form method="dialog" class="members-spread__toolbar">
+                      <button type="submit" class="members-spread__close" value="close" aria-label="Close profile">Close</button>
+                    </form>
+                    <div class="members-spread__pages">
+                      <div class="members-spread__left">
+                        <div class="members-photo members-photo--tim members-photo--spread">
+                          <span class="members-photo__corners" aria-hidden="true"></span>
+                          <picture>
+                            <source type="image/avif" srcset="member_photo/ChunTing-480.avif 480w, member_photo/ChunTing-720.avif 720w" sizes="min(22rem, 92vw)">
+                            <source type="image/webp" srcset="member_photo/ChunTing-480.webp 480w, member_photo/ChunTing-720.webp 720w" sizes="min(22rem, 92vw)">
+                            <img src="member_photo/ChunTing-720.jpg" srcset="member_photo/ChunTing-480.jpg 480w, member_photo/ChunTing-720.jpg 720w" sizes="min(22rem, 92vw)" width="480" height="640" alt="Portrait of Tim, Chun-Ting Chou" loading="lazy" decoding="async">
+                          </picture>
+                        </div>
+                        <p class="members-card__pref" id="spread-tim-title">Tim</p>
+                        <p class="members-card__full">Chun-Ting Chou · 周峻廷</p>
+                        <p class="members-card__role">Model</p>
+                        <p class="members-card__affiliation">Institute of Systems Neuroscience, NTHU</p>
+                      </div>
+                      <div class="members-spread__right">
+                        <p class="members-card__bio">Hi, I'm Tim. Outside of work, I enjoy playing volleyball and watching anime — great ways to stay active and unwind. I'm also into exploring philosophy, always curious about different ways of thinking and questioning the world around me. Always up for a good match, a new series, or a deep conversation!</p>
+                        <ul class="members-card__contrib" aria-label="Contribution categories">
+                          <li>Conceptualization</li>
+                          <li>Investigation</li>
+                          <li>Analysis</li>
+                          <li>Modeling</li>
+                          <li>Writing</li>
+            </ul>
+                        <p class="members-spread__detail" aria-hidden="true">ISN · NTHU</p>
+                        <p class="members-spread__attr"><a href="attributions.html">View team attributions</a></p>
+                      </div>
+                    </div>
+                  </dialog>
+                </article>
+              </div>
+              <p class="members-lookup__empty" data-members-filter-empty hidden>No student members are listed for this workstream yet.</p>
+            </section>
+
+            <section class="section-block members-section" id="advisors" aria-labelledby="advisors-title" data-reveal>
+              <span class="members-tab" aria-hidden="true">Advisors</span>
+              <h2 id="advisors-title">Advisors</h2>
+              <div class="members-grid members-grid--pair">
+                <article class="members-card" id="ching-che-charng">
+                  <a class="members-specimen" href="#profile-jerry" aria-haspopup="dialog" aria-controls="profile-jerry" aria-expanded="false">
+                    <span class="members-specimen__index" aria-hidden="true">no. 03</span>
+                    <span class="members-specimen__tape" aria-hidden="true"></span>
+                    <div class="members-photo members-photo--jerry">
+                      <span class="members-photo__corners" aria-hidden="true"></span>
+                      <picture>
+                        <source type="image/avif" srcset="member_photo/chingche-480.avif 480w, member_photo/chingche-720.avif 720w, member_photo/chingche-960.avif 960w" sizes="(min-width: 720px) 42vw, calc(100vw - 2.4rem)">
+                        <source type="image/webp" srcset="member_photo/chingche-480.webp 480w, member_photo/chingche-720.webp 720w, member_photo/chingche-960.webp 960w" sizes="(min-width: 720px) 42vw, calc(100vw - 2.4rem)">
+                        <img src="member_photo/chingche-720.jpg" srcset="member_photo/chingche-480.jpg 480w, member_photo/chingche-720.jpg 720w, member_photo/chingche-960.jpg 960w" sizes="(min-width: 720px) 42vw, calc(100vw - 2.4rem)" width="480" height="640" alt="" loading="lazy" decoding="async">
+                      </picture>
+                    </div>
+                    <div class="members-specimen__identity">
+                      <h3 class="members-card__pref">Jerry</h3>
+                      <p class="members-card__full">Ching-Che Charng · 強敬哲</p>
+                      <p class="members-card__role">Advisor</p>
+                      <ul class="members-card__role-tags">
+                        <li>Advisor</li>
+            </ul>
+                      <span class="members-specimen__note" aria-hidden="true">advisor</span>
+                      <span class="members-specimen__open">Open profile</span>
+                    </div>
+                  </a>
+                  <dialog class="members-spread" id="profile-jerry" aria-labelledby="spread-jerry-title">
+                    <form method="dialog" class="members-spread__toolbar">
+                      <button type="submit" class="members-spread__close" value="close" aria-label="Close profile">Close</button>
+                    </form>
+                    <div class="members-spread__pages">
+                      <div class="members-spread__left">
+                        <div class="members-photo members-photo--jerry members-photo--spread">
+                          <span class="members-photo__corners" aria-hidden="true"></span>
+                          <picture>
+                            <source type="image/avif" srcset="member_photo/chingche-480.avif 480w, member_photo/chingche-720.avif 720w, member_photo/chingche-960.avif 960w" sizes="min(22rem, 92vw)">
+                            <source type="image/webp" srcset="member_photo/chingche-480.webp 480w, member_photo/chingche-720.webp 720w, member_photo/chingche-960.webp 960w" sizes="min(22rem, 92vw)">
+                            <img src="member_photo/chingche-720.jpg" srcset="member_photo/chingche-480.jpg 480w, member_photo/chingche-720.jpg 720w, member_photo/chingche-960.jpg 960w" sizes="min(22rem, 92vw)" width="480" height="640" alt="Portrait of Jerry, Ching-Che Charng" loading="lazy" decoding="async">
+                          </picture>
+                        </div>
+                        <p class="members-card__pref" id="spread-jerry-title">Jerry</p>
+                        <p class="members-card__full">Ching-Che Charng · 強敬哲</p>
+                        <p class="members-card__role">Advisor</p>
+                        <p class="members-card__affiliation">Brain Research Center</p>
+                      </div>
+                      <div class="members-spread__right">
+                        <p class="members-card__bio">Hi, I’m Jerry. My background is in neuroscience and AI. I’m also a serious coffee addict and can hardly start my day without a cup of coffee. In my free time, I enjoy working out, exploring new technologies, and traveling. I’m a curious person and always enjoy learning new things and meeting people from different backgrounds.</p>
+                        <ul class="members-card__contrib" aria-label="Contribution categories">
+                          <li>Conceptualization</li>
+                          <li>Background Research</li>
+                          <li>Analysis</li>
+                          <li>Modeling</li>
+                          <li>Education</li>
+                          <li>Writing</li>
+            </ul>
+                        <p class="members-spread__detail" aria-hidden="true">Brain Research Center</p>
+                        <p class="members-spread__attr"><a href="attributions.html">View team attributions</a></p>
+                      </div>
+                    </div>
+                  </dialog>
+                </article>
+              </div>
+            </section>
+
+            <section class="section-block members-section" id="pis" aria-labelledby="pis-title" data-reveal>
+              <span class="members-tab" aria-hidden="true">PIs</span>
+              <h2 id="pis-title">PIs</h2>
+              <div class="members-grid members-grid--pair">
+                <article class="members-card members-card--pending" id="primary-pi">
+                  <div class="members-specimen">
+                    <span class="members-specimen__index" aria-hidden="true">no. —</span>
+                    <div class="members-photo">
+                      <span class="members-card__placeholder">Portrait coming soon</span>
+                    </div>
+                    <div class="members-specimen__identity">
+                      <h3 class="members-card__pref">Primary PI</h3>
+                      <p class="members-card__role">Profile coming soon</p>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="members-card members-card--pending" id="secondary-pi">
+                  <div class="members-specimen">
+                    <span class="members-specimen__index" aria-hidden="true">no. —</span>
+                    <div class="members-photo">
+                      <span class="members-card__placeholder">Portrait coming soon</span>
+                    </div>
+                    <div class="members-specimen__identity">
+                      <h3 class="members-card__pref">Secondary PI</h3>
+                      <p class="members-card__role">Profile coming soon</p>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            </section>
+
+            <section class="section-block members-section members-postcard" id="team-contact" aria-labelledby="team-contact-title" data-reveal>
+              <h2 class="members-postcard__title" id="team-contact-title">Keep in touch</h2>
+              <div class="members-postcard__card">
+                <span class="members-postcard__stamp" aria-hidden="true">NTHU<br>26</span>
+                <p class="members-postcard__from">AeroSense · iGEM 2026</p>
+                <ul class="members-postcard__fields">
+                  <li>
+                    <span class="members-postcard__channel">Instagram</span>
+                    <a href="https://www.instagram.com/igem_tsinghua/" rel="noopener noreferrer" target="_blank" aria-label="NTHU iGEM on Instagram (opens in a new tab)">@igem_tsinghua</a>
+                  </li>
+                  <li>
+                    <span class="members-postcard__channel">LinkedIn</span>
+                    <a href="https://www.linkedin.com/company/aerosensebio/" rel="noopener noreferrer" target="_blank" aria-label="AeroSense on LinkedIn (opens in a new tab)">AeroSense</a>
+                  </li>
+                  <li>
+                    <span class="members-postcard__channel">Email</span>
+                    <a href="mailto:aerosensebio@gmail.com" aria-label="Email AeroSense at aerosensebio@gmail.com">aerosensebio@gmail.com</a>
+                  </li>
+            </ul>
+              </div>
+            </section>
+          </article>
+        </div>
       </main>
 
       <nav class="page-turn" aria-label="Page">
@@ -395,29 +537,21 @@
         <a class="page-turn__next" href="attributions.html"><span class="page-turn__dir">Next</span><span class="page-turn__title">Attributions</span></a>
       </nav>
 
-      <section class="references" aria-labelledby="references-heading" id="references" data-reveal>
-        <h2 id="references-heading">References &amp; Credits</h2>
-        <ul class="credit-list">
-          <li>Student headcount (seven seats) follows the contributor list in the AeroSense project proposal. Individual English names are withheld until verified by each person.</li>
-          <li>Advisor seat count follows the proposal’s faculty advisor entry. English name and title are withheld until verified.</li>
-          <li><strong>Photo credits:</strong> none yet. Each future portrait needs descriptive alt text, photographer or owner, optional date, and license/permission on this page or Attributions.</li>
-          <li>Figure 1 is a local concept SVG, not a photograph of people.</li>
-          <li>External supporters: see <a href="attributions.html">Attributions</a>.</li>
-        </ul>
-      </section>
     </div>
 
     <div class="page-toc-slot">
     <details class="page-toc" open>
-      <summary class="toc__summary"><span class="toc__label">On this page</span></summary>
+      <summary class="toc__summary">
+        <span class="toc__label">On this page</span>
+</summary>
       <nav aria-label="Table of contents">
         <ol>
-          <li><a href="#disciplines"><span class="tech-label">01</span> Disciplines</a></li>
-          <li><a href="#student-team"><span class="tech-label">02</span> Student team</a></li>
-          <li><a href="#advisors"><span class="tech-label">03</span> Advisors</a></li>
-          <li><a href="#collaborators"><span class="tech-label">04</span> Collaborators</a></li>
-          <li><a href="#how-we-work"><span class="tech-label">05</span> How we work</a></li>
-          <li><a href="#references"><span class="tech-label">Ref</span> References &amp; Credits</a></li>
+          <li><a href="#team-memories"><span class="tech-label">01</span> Team memories</a></li>
+          <li><a href="#team-index"><span class="tech-label">02</span> Team index</a></li>
+          <li><a href="#student-team"><span class="tech-label">03</span> Student team</a></li>
+          <li><a href="#advisors"><span class="tech-label">04</span> Advisors</a></li>
+          <li><a href="#pis"><span class="tech-label">05</span> PIs</a></li>
+          <li><a href="#team-contact"><span class="tech-label">06</span> Keep in touch</a></li>
         </ol>
       </nav>
     </details>
@@ -439,34 +573,46 @@
             <li><a href="engineering.html">Engineering</a></li>
             <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
             <li><a href="notebook.html">Notebook</a></li>
-          </ul>
+            </ul>
         </div>
         <div class="footer-col">
           <h2>Team</h2>
           <ul>
             <li><a href="members.html">Members</a></li>
             <li><a href="attributions.html">Attributions</a></li>
-          </ul>
+            </ul>
           <h2>Wet Lab</h2>
           <ul>
             <li><a href="parts.html">Parts</a></li>
             <li><a href="design.html">Design</a></li>
             <li><a href="experiments.html">Experiments</a></li>
             <li><a href="results.html">Results</a></li>
-          </ul>
+            </ul>
         </div>
         <div class="footer-col">
           <h2>Dry Lab</h2>
           <ul>
             <li><a href="model.html">Model</a></li>
             <li><a href="hardware.html">Hardware</a></li>
-          </ul>
+            </ul>
           <h2>Human Practices</h2>
           <ul>
             <li><a href="human-practices.html">Integrated Human Practices</a></li>
             <li><a href="education.html">Education</a></li>
+            <li><a href="entrepreneurship.html">Entrepreneurship</a></li>
+            <li><a href="sustainability.html">Sustainability</a></li>
+            <li><a href="learning-platform.html">Learning Lab</a></li>
           </ul>
         </div>
+      </div>
+
+      <div class="footer-partners" aria-labelledby="footer-partners-label">
+        <h2 class="footer-partners__title" id="footer-partners-label">Collaborators &amp; Sponsors</h2>
+        <ul class="footer-partners__list">
+          <li><span class="footer-partners__name">iST Group</span> — professional schematic &amp; PCB review (<a href="attributions.html#attr-ist-group">Attributions</a>)</li>
+          <li><span class="footer-partners__name">National Tsing Hua University</span> — institutional host</li>
+          <li><a href="attributions.html#external">Full collaborators, sponsors &amp; credits</a></li>
+        </ul>
       </div>
 
       <div class="footer-meta">
@@ -474,12 +620,12 @@
           <li><a href="https://www.linkedin.com/company/aerosensebio/" rel="noopener noreferrer">LinkedIn</a></li>
           <li><a href="https://www.instagram.com/igem_tsinghua/" rel="noopener noreferrer">Instagram</a></li>
           <li><a href="mailto:aerosensebio@gmail.com">aerosensebio@gmail.com</a></li>
-        </ul>
+            </ul>
         <ul class="footer-legal">
           <li><a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer">Source on GitLab</a></li>
           <li>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">Creative Commons Attribution 4.0 International</a></li>
           <li><a href="attributions.html#responsible-ai">Attributions &amp; Responsible AI</a></li>
-        </ul>
+            </ul>
         <p class="footer-copy">© 2026 NTHU · AeroSense</p>
       </div>
     </div>

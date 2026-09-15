@@ -4,11 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Biological Design · AeroSense · NTHU iGEM 2026</title>
-  <meta name="description" content="Biological sensing design for AeroSense: living-cell OR/Orco/GCaMP interface, construct strategy, validation design, and interfaces to Model and Hardware. Design intent only — not a claim of completed assays.">
+  <meta name="description" content="Biological Sense-layer design for AeroSense: nine Drosophila OR sensing plasmids and one GCaMP6f–Orco reporter on a shared pcDNA3.1(+) backbone. Current construct architecture; fusion functional testing pending (see Engineering).">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/design.css">
   <script src="js/main.js" defer></script>
   <script src="js/glossary.js" defer></script>
   <script src="js/search.js" defer></script>
+  <script src="js/design.js" defer></script>
 </head>
 <body class="page-design">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -24,8 +26,16 @@
         </span>
       </a>
       <div class="header-tools">
-        <a class="btn-search" href="index.html#site-map" aria-haspopup="dialog" aria-controls="project-search">Project Search</a>
-        <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+        <a class="btn-search" href="index.html#site-map" aria-haspopup="dialog" aria-controls="project-search" aria-label="Project Search" title="Project Search">
+          <svg class="header-icon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M15.5 15.5L21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span class="btn-search__label">Project Search</span>
+        </a>
+        <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+          <span class="nav-toggle__icon" aria-hidden="true"><span></span><span></span><span></span></span>
+        </button>
       </div>
       <nav class="site-nav" id="site-nav" aria-label="Primary">
         <ul class="nav-root">
@@ -69,12 +79,15 @@
               <li><a href="hardware.html">Hardware</a></li>
             </ul>
           </li>
-          <li class="nav-item nav-item--dropdown">
+                    <li class="nav-item nav-item--dropdown">
             <span class="nav-label-static">Human Practices</span>
             <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-hp">Human Practices</button>
             <ul class="nav-submenu" id="submenu-hp">
               <li><a href="human-practices.html">Integrated Human Practices</a></li>
               <li><a href="education.html">Education</a></li>
+              <li><a href="entrepreneurship.html">Entrepreneurship</a></li>
+              <li><a href="sustainability.html">Sustainability</a></li>
+              <li><a href="learning-platform.html">Learning Lab</a></li>
             </ul>
           </li>
         </ul>
@@ -97,7 +110,6 @@
         </div>
         <div class="search-dialog__actions">
           <button type="submit">Search</button>
-          <button type="button" data-search-close>Close</button>
         </div>
       </form>
       <p id="project-search-count" class="search-dialog__count" aria-live="polite" aria-atomic="true">0 results</p>
@@ -116,763 +128,1517 @@
               <li aria-current="page">Design</li>
             </ol>
           </nav>
-          <span class="page-kicker">08 / Lab</span>
+          <span class="page-kicker">08 / Lab · SENSE layer</span>
           <h1>Biological Design</h1>
-          <p class="page-purpose">Engineering a living-cell interface for odorant response</p>
-          <p class="page-lede">
-            This page explains the proposed wet-lab sensing architecture and the reasoning behind it.
-            It is not a Methods protocol and does not claim that planned constructs or assays are already completed.
+          <p class="page-purpose">Engineering smell into light.</p>
+          <p class="page-lede" id="design-question">
+            AeroSense combines a
+            <dfn class="term" data-term="drosophila" tabindex="0"><i>Drosophila melanogaster</i></dfn>
+            tuning
+            <dfn class="term" data-term="or" tabindex="0">odorant receptor (OR)</dfn>
+            with the co-receptor
+            <dfn class="term" data-term="orco" tabindex="0">Orco</dfn>
+            and the genetically encoded calcium indicator
+            <dfn class="term" data-term="gcamp6" tabindex="0">GCaMP6f</dfn>
+            in a mammalian host, so
+            <dfn class="term" data-term="voc" tabindex="0">VOC</dfn>
+            recognition can be read as fluorescence.
+            This page explains the current Sense-layer plasmid architecture (design choice).
+            It is not a methods protocol and does not claim that the living-cell sensor — including the GCaMP6f–Orco fusion — has been functionally validated here.
+            Engineering records the fusion redesign as architecture decided with imaging comparison still pending
+            (<a href="engineering.html#wl-cycle-2">Engineering · Wet Lab Cycle 2</a>).
             Execution belongs on <a href="experiments.html">Experiments</a>; measured evidence belongs on <a href="results.html">Results</a>.
           </p>
-          <span class="status-label status-label--planned">Design intent · not completed validation</span>
+          <span class="status-label status-label--planned">Current construct architecture · fusion functional testing pending</span>
+          <ul class="design-status-row" aria-label="Claim status on this page">
+            <li><span class="design-status design-status--literature">Literature-supported rationale</span></li>
+            <li><span class="design-status design-status--final">Current design architecture</span></li>
+            <li><span class="design-status design-status--insilico">In silico verification</span></li>
+            <li><span class="design-status design-status--built">Described as synthesised in the Design source</span></li>
+            <li><span class="design-status design-status--function">Fusion functional validation not claimed here</span></li>
+            </ul>
         </header>
 
         <article class="page-article prose">
-          <section class="section-block" id="design-question" data-reveal>
-            <h2>Design question</h2>
+          <span id="design-requirements" class="anchor-alias"></span>
+          <span id="optimization" class="anchor-alias"></span>
+          <span id="trade-offs" class="anchor-alias"></span>
+          <span id="voc-assay" class="anchor-alias"></span>
+          <span id="interfaces" class="anchor-alias"></span>
+
+          <section class="section-block" id="at-a-glance" data-reveal>
+            <h2>Design at a glance</h2>
+            <p>Two genetic modules. One living-cell sensor.</p>
             <p>
-              Can selected <dfn class="term" data-term="drosophila" tabindex="0"><i>Drosophila</i></dfn>
-              <dfn class="term" data-term="or" tabindex="0">olfactory receptors (ORs)</dfn>
-              co-expressed with
-              <dfn class="term" data-term="orco" tabindex="0">Orco</dfn>
-              in
-              <dfn class="term" data-term="hek293t" tabindex="0">HEK293T</dfn>
-              cells report odorant- or agonist-dependent calcium changes as optical
-              <dfn class="term" data-term="gcamp6" tabindex="0">GCaMP6</dfn>
-              fluorescence that is usable by AeroSense’s computational and hardware layers?
+              A tuning OR supplies ligand specificity. Orco fused to GCaMP6f supplies the co-receptor and the optical calcium report.
+              Both modules are designed to be expressed in the same cell on a common
+              <a href="#shared-backbone">pcDNA3.1(+)</a>
+              backbone. The design comprises <strong>ten plasmids</strong>: nine OR sensing modules and one Orco–GCaMP6f reporting module.
             </p>
-            <p>
-              The wet-lab system must produce, for each stimulus condition, a documented fluorescence time series (or derived response features) with enough metadata that
-              <a href="model.html">Model</a>
-              can form receptor-response vectors and
-              <a href="hardware.html">Hardware</a>
-              can eventually acquire comparable optical signals under stated constraints.
-              Until those data exist, the design below remains a proposed interface, not a measured sensing platform.
-            </p>
+            <ul class="design-glance">
+              <li class="design-card">
+                <p class="design-card__kicker">Sensing</p>
+                <h3 class="design-card__title">9 OR sensing plasmids</h3>
+                <p>One <i>Drosophila melanogaster</i> odorant receptor per plasmid, with bicistronic mCherry as a transcription / IRES marker.</p>
+                <p><a href="#module-1">Module 1 architecture</a></p>
+              </li>
+              <li class="design-card">
+                <p class="design-card__kicker">Reporting</p>
+                <h3 class="design-card__title">1 Orco–GCaMP6f reporter plasmid</h3>
+                <p>A single open reading frame: GCaMP6f fused to DmOrco through a (GGGGS)<sub>3</sub> linker.</p>
+                <p><a href="#module-2">Module 2 architecture</a></p>
+              </li>
+              <li class="design-card">
+                <p class="design-card__kicker">Vector</p>
+                <h3 class="design-card__title">1 shared pcDNA3.1(+) backbone</h3>
+                <p>CMV transcription, BGH poly(A), NeoR / AmpR selection, and T7 / BGH priming sites on every construct.</p>
+                <p><a href="#shared-backbone">Shared backbone</a></p>
+              </li>
+            </ul>
           </section>
 
-          <section class="section-block" id="design-requirements" data-reveal>
-            <h2>Design requirements</h2>
+          <section class="section-block" id="how-aerosense-senses" data-reveal>
+            <span id="architecture" class="anchor-alias"></span>
+            <h2>How AeroSense senses an odor</h2>
             <p>
-              Requirements state what the biological interface must enable. Numeric acceptance criteria appear only when the team supplies them.
-              Proposal schedule targets are not copied here as pass/fail thresholds.
-            </p>
-            <div class="table-scroll" tabindex="0" role="region" aria-label="Biological design requirements">
-              <table class="goal-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Requirement</th>
-                    <th scope="col">Design intent</th>
-                    <th scope="col">Team-supplied acceptance criterion</th>
-                    <th scope="col">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Specificity</td>
-                    <td>Responses should depend on the intended OR/Orco combination, not on reporter-only or vehicle artifacts</td>
-                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
-                    <td>Open</td>
-                  </tr>
-                  <tr>
-                    <td>Measurable dynamic response</td>
-                    <td>Agonist or <dfn class="term" data-term="voc" tabindex="0">VOC</dfn> exposure should produce a time-resolved fluorescence change suitable for feature extraction</td>
-                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
-                    <td>Open</td>
-                  </tr>
-                  <tr>
-                    <td>Appropriate controls</td>
-                    <td>Vehicle, expression, incomplete receptor, and Orco-family agonist controls are defined before VOC claims</td>
-                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
-                    <td>Open</td>
-                  </tr>
-                  <tr>
-                    <td>Repeatability</td>
-                    <td>Biological and technical replicate policy is fixed before comparing conditions</td>
-                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
-                    <td>Open</td>
-                  </tr>
-                  <tr>
-                    <td>Optical-readout compatibility</td>
-                    <td>Excitation/emission and dynamic range are compatible with microscopy now and with the portable optical path later</td>
-                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
-                    <td>Open</td>
-                  </tr>
-                  <tr>
-                    <td>Containment</td>
-                    <td>HEK293T and cloning hosts are used only under institutional biosafety practice</td>
-                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED: BSL / SOP citation]</span></td>
-                    <td>See <a href="safety-and-security.html">Safety &amp; Security</a></td>
-                  </tr>
-                  <tr>
-                    <td>Data handoff</td>
-                    <td>Exported matrices include fluorescence units, timing, stimulus IDs, and normalization notes for Model</td>
-                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED: file schema]</span></td>
-                    <td>Open — see <a href="#interfaces">Interfaces</a></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <section class="section-block" id="architecture" data-reveal>
-            <h2>System architecture</h2>
-            <p>
-              The proposed living-cell interface co-delivers a selected OR with Orco and a calcium reporter in HEK293T, then reads activation optically.
-              Published heterologous insect-OR panels that used HEK cells, Orco, and GCaMP6 for VOC profiling motivate this layered design
+              Insect ORs are not GPCRs. The OR–Orco complex is a
+              <strong>heteromeric ligand-gated ion channel</strong>
               <span class="cite-wrap">
-                <a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023-a" aria-describedby="cite-preview-zboray-2023">[1]</a>
-                <span class="cite-preview" id="cite-preview-zboray-2023" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span>
-              </span>.
-              Orco’s role as a conserved co-receptor in insect OR cation channels is supported by structural work
+                <a class="cite" href="#ref-sato-2008" id="cite-sato-2008-a" aria-describedby="cite-preview-sato-2008">[1]</a>
+                <span class="cite-preview" id="cite-preview-sato-2008" role="tooltip">Sato et al., 2008 — full entry in References &amp; Credits.</span>
+              </span>,
+              so no additional signal-transduction cascade is required in a heterologous host.
+              When a VOC binds the tuning OR, the channel opens and extracellular Ca²⁺ enters the cell.
+              GCaMP6f is a published genetically encoded indicator of cytosolic Ca²⁺
               <span class="cite-wrap">
-                <a class="cite" href="#ref-butterwick-2018" id="cite-butterwick-2018" aria-describedby="cite-preview-butterwick-2018">[2]</a>
-                <span class="cite-preview" id="cite-preview-butterwick-2018" role="tooltip">Butterwick et al., 2018 — full entry in References &amp; Credits.</span>
-              </span>.
+                <a class="cite" href="#ref-chen-2013" id="cite-chen-2013-a" aria-describedby="cite-preview-chen-2013">[6]</a>
+                <span class="cite-preview" id="cite-preview-chen-2013" role="tooltip">Chen et al., 2013 — full entry in References &amp; Credits.</span>
+              </span>,
+              so the intended optical output of this architecture is a fluorescence rise.
+              That is the entire detection mechanism as designed, and it is why a simple mammalian host such as HEK293 is sufficient.
             </p>
 
-            <figure class="wiki-figure" id="fig-bio-architecture">
-              <div class="wiki-figure__media">
-                <svg viewBox="0 0 720 300" role="img" aria-label="Proposed biological sensing architecture: VOC or agonist, optional OBP, OR with Orco in HEK293T, GCaMP6 fluorescence, then export to model and hardware.">
-                  <text x="360" y="24" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="12" fill="#555555" letter-spacing="1">Proposed biological interface</text>
+            <figure class="wiki-figure design-breakout" id="fig-sense-mechanism">
+              <div class="wiki-figure__media design-fig-scroll" tabindex="0" role="region" aria-label="Figure 1. Horizontal schematic of VOC recognition through GCaMP6f fluorescence. Scroll sideways on a narrow screen.">
+                <svg class="design-schema design-schema--wide" viewBox="0 0 920 420" width="920" height="420" role="img" aria-labelledby="fig-sense-title fig-sense-desc">
+                  <title id="fig-sense-title">VOC to fluorescence mechanism in a mammalian cell membrane</title>
+                  <desc id="fig-sense-desc">Editorial schematic. Extracellular space above a plasma-membrane bilayer; cytoplasm below. A VOC approaches a tuning OR paired with Orco. The heteromeric channel opens. Calcium ions enter the cytoplasm and are reported by N-terminal GCaMP6f as fluorescence. Not experimental data and not a molecular structure.</desc>
+                  <defs>
+                    <pattern id="fig1-lipid" width="14" height="8" patternUnits="userSpaceOnUse">
+                      <circle cx="3" cy="4" r="1.4" fill="#2f5d56" opacity="0.45"></circle>
+                      <circle cx="10" cy="4" r="1.4" fill="#2f5d56" opacity="0.45"></circle>
+                    </pattern>
+                    <pattern id="fig1-or-hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                      <path d="M0 0 V7" stroke="#0a0a0a" stroke-width="1"></path>
+                    </pattern>
+                    <marker id="fig1-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                      <path d="M0 1.2 L9 5 L0 8.8 Z" fill="#0a0a0a"></path>
+                    </marker>
+                  </defs>
+                  <rect x="0" y="0" width="920" height="148" fill="#f7f7f3"></rect>
+                  <rect x="0" y="148" width="920" height="64" fill="url(#fig1-lipid)" stroke="#2f5d56" stroke-width="1.5"></rect>
+                  <rect x="0" y="212" width="920" height="208" fill="#eef6f0"></rect>
+                  <text x="18" y="36" font-family="ui-monospace, Consolas, monospace" font-size="11" letter-spacing="0.12em" fill="#555555">EXTRACELLULAR</text>
+                  <text x="18" y="186" font-family="ui-monospace, Consolas, monospace" font-size="11" letter-spacing="0.12em" fill="#2f5d56">PLASMA MEMBRANE</text>
+                  <text x="18" y="248" font-family="ui-monospace, Consolas, monospace" font-size="11" letter-spacing="0.12em" fill="#0b6b35">CYTOPLASM</text>
 
-                  <rect x="24" y="48" width="120" height="88" fill="none" stroke="#0a0a0a" stroke-width="2"></rect>
-                  <text x="84" y="84" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0a0a0a">Stimulus</text>
-                  <text x="84" y="108" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#333333">VOC / agonist</text>
+                  <text x="118" y="28" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#0a0a0a">1 · VOC</text>
+                  <text x="360" y="28" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#0a0a0a">2 · OR + Orco complex</text>
+                  <text x="560" y="28" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#0a0a0a">3 · Channel opening</text>
+                  <text x="790" y="28" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#0a0a0a">4 · Ca²⁺ → GCaMP6f</text>
+                  <path d="M170 24 H300" stroke="#0a0a0a" stroke-width="1.2" fill="none" marker-end="url(#fig1-arrow)"></path>
+                  <path d="M455 24 H500" stroke="#0a0a0a" stroke-width="1.2" fill="none" marker-end="url(#fig1-arrow)"></path>
+                  <path d="M655 24 H720" stroke="#0a0a0a" stroke-width="1.2" fill="none" marker-end="url(#fig1-arrow)"></path>
 
-                  <rect x="168" y="48" width="120" height="88" fill="none" stroke="#888888" stroke-width="2" stroke-dasharray="4 3"></rect>
-                  <text x="228" y="84" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0a0a0a">OBP</text>
-                  <text x="228" y="108" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#555555">Optional</text>
+                  <g data-feature="voc">
+                    <circle cx="118" cy="88" r="16" fill="none" stroke="#0a0a0a" stroke-width="1.8"></circle>
+                    <circle cx="118" cy="88" r="6" fill="#0a0a0a"></circle>
+                    <text x="118" y="122" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#0a0a0a">VOC</text>
+                    <path d="M138 88 H250" stroke="#0a0a0a" stroke-width="1.4" fill="none" marker-end="url(#fig1-arrow)"></path>
+                  </g>
 
-                  <rect x="312" y="40" width="168" height="104" fill="none" stroke="#0a0a0a" stroke-width="2"></rect>
-                  <text x="396" y="72" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0a0a0a">HEK293T host</text>
-                  <text x="396" y="96" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#333333">Selected OR + Orco</text>
-                  <text x="396" y="118" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#333333">Essential core</text>
+                  <g data-feature="or">
+                    <rect x="250" y="132" width="70" height="96" fill="url(#fig1-or-hatch)" stroke="#0a0a0a" stroke-width="1.8"></rect>
+                    <text x="285" y="184" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0a0a0a">OR</text>
+                    <text x="285" y="248" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="11" fill="#555555">tuning</text>
+                  </g>
+                  <g data-feature="channel">
+                    <rect x="328" y="140" width="46" height="80" fill="#ffffff" stroke="#0b6b35" stroke-width="1.8" stroke-dasharray="3 2"></rect>
+                    <text x="351" y="178" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#0b6b35">open</text>
+                    <text x="351" y="192" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#0b6b35">pore</text>
+                  </g>
+                  <g data-feature="orco">
+                    <rect x="382" y="132" width="78" height="96" fill="#dce8e4" stroke="#2f5d56" stroke-width="1.8"></rect>
+                    <text x="421" y="184" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#2f5d56">Orco</text>
+                    <text x="421" y="248" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="11" fill="#555555">co-receptor</text>
+                  </g>
 
-                  <rect x="504" y="48" width="192" height="88" fill="none" stroke="#0a0a0a" stroke-width="2"></rect>
-                  <text x="600" y="84" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0a0a0a">GCaMP6 readout</text>
-                  <text x="600" y="108" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#333333">Optical calcium report</text>
+                  <g data-feature="calcium">
+                    <circle cx="351" cy="112" r="11" fill="none" stroke="#0b6b35" stroke-width="1.6"></circle>
+                    <text x="351" y="116" text-anchor="middle" font-family="Georgia, serif" font-size="10" fill="#0b6b35">Ca²⁺</text>
+                    <circle cx="333" cy="112" r="11" fill="none" stroke="#0b6b35" stroke-width="1.6"></circle>
+                    <text x="333" y="116" text-anchor="middle" font-family="Georgia, serif" font-size="10" fill="#0b6b35">Ca²⁺</text>
+                    <circle cx="369" cy="112" r="11" fill="none" stroke="#0b6b35" stroke-width="1.6"></circle>
+                    <text x="369" y="116" text-anchor="middle" font-family="Georgia, serif" font-size="10" fill="#0b6b35">Ca²⁺</text>
+                    <path d="M351 124 V250" stroke="#0b6b35" stroke-width="1.6" fill="none" marker-end="url(#fig1-arrow)"></path>
+                    <circle cx="338" cy="268" r="11" fill="#e7f7ec" stroke="#0b6b35" stroke-width="1.6"></circle>
+                    <text x="338" y="272" text-anchor="middle" font-family="Georgia, serif" font-size="10" fill="#0b6b35">Ca²⁺</text>
+                    <circle cx="364" cy="292" r="11" fill="#e7f7ec" stroke="#0b6b35" stroke-width="1.6"></circle>
+                    <text x="364" y="296" text-anchor="middle" font-family="Georgia, serif" font-size="10" fill="#0b6b35">Ca²⁺</text>
+                    <text x="351" y="330" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#0b6b35">Ca²⁺ influx</text>
+                  </g>
 
-                  <path d="M144 92 H168" stroke="#0a0a0a" stroke-width="2" fill="none"></path>
-                  <path d="M288 92 H312" stroke="#0a0a0a" stroke-width="2" fill="none"></path>
-                  <path d="M480 92 H504" stroke="#0a0a0a" stroke-width="2" fill="none"></path>
+                  <g data-feature="gcamp6f">
+                    <path d="M421 228 V258" stroke="#2f5d56" stroke-width="1.8" fill="none"></path>
+                    <text x="448" y="242" font-family="ui-monospace, Consolas, monospace" font-size="11" fill="#2f5d56">N-terminus</text>
+                    <rect x="500" y="248" width="150" height="72" fill="#e7f7ec" stroke="#0b6b35" stroke-width="1.8"></rect>
+                    <circle cx="534" cy="284" r="14" fill="none" stroke="#1fd36a" stroke-width="2"></circle>
+                    <circle cx="534" cy="284" r="4" fill="#1fd36a"></circle>
+                    <text x="618" y="278" text-anchor="middle" font-family="Georgia, serif" font-size="15" fill="#0b6b35">GCaMP6f</text>
+                    <text x="618" y="296" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="11" fill="#0b6b35">cytosolic sensor</text>
+                    <path d="M650 258 L668 236 L686 258" fill="none" stroke="#1fd36a" stroke-width="1.6"></path>
+                    <path d="M662 248 L680 226 L698 248" fill="none" stroke="#1fd36a" stroke-width="1.6"></path>
+                    <text x="790" y="238" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0b6b35">fluorescence</text>
+                    <text x="790" y="256" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="11" fill="#555555">optical output</text>
+                  </g>
+                  <text x="460" y="404" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="11" fill="#555555">Concept illustration — not experimental data · not a structure</text>
+                </svg>
 
-                  <rect x="120" y="188" width="200" height="72" fill="none" stroke="#0a0a0a" stroke-width="2"></rect>
-                  <text x="220" y="220" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0a0a0a">Export to Model</text>
-                  <text x="220" y="242" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#333333">Time series / features</text>
-
-                  <rect x="400" y="188" width="200" height="72" fill="none" stroke="#0a0a0a" stroke-width="2"></rect>
-                  <text x="500" y="220" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0a0a0a">Hardware path</text>
-                  <text x="500" y="242" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#333333">Later optical acquisition</text>
-
-                  <path d="M600 136 V168 H220 V188" stroke="#0a0a0a" stroke-width="2" fill="none"></path>
-                  <path d="M600 168 H500 V188" stroke="#0a0a0a" stroke-width="2" fill="none"></path>
-
-                  <text x="360" y="288" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="11" fill="#555555">Concept illustration — not experimental data</text>
+                <svg class="design-schema design-schema--narrow" viewBox="0 0 360 640" width="360" height="640" role="img" aria-labelledby="fig-sense-title-n fig-sense-desc-n">
+                  <title id="fig-sense-title-n">Stacked VOC to fluorescence mechanism</title>
+                  <desc id="fig-sense-desc-n">Same mechanism as the wide figure, stacked for narrow screens: VOC, OR/Orco in the membrane, calcium influx, then cytosolic GCaMP6f fluorescence.</desc>
+                  <defs>
+                    <pattern id="fig1n-lipid" width="14" height="8" patternUnits="userSpaceOnUse">
+                      <circle cx="3" cy="4" r="1.4" fill="#2f5d56" opacity="0.45"></circle>
+                      <circle cx="10" cy="4" r="1.4" fill="#2f5d56" opacity="0.45"></circle>
+                    </pattern>
+                    <pattern id="fig1n-or-hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                      <path d="M0 0 V7" stroke="#0a0a0a" stroke-width="1"></path>
+                    </pattern>
+                    <marker id="fig1n-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                      <path d="M0 1.2 L9 5 L0 8.8 Z" fill="#0a0a0a"></path>
+                    </marker>
+                  </defs>
+                  <rect x="0" y="0" width="360" height="168" fill="#f7f7f3"></rect>
+                  <rect x="0" y="168" width="360" height="72" fill="url(#fig1n-lipid)" stroke="#2f5d56" stroke-width="1.5"></rect>
+                  <rect x="0" y="240" width="360" height="400" fill="#eef6f0"></rect>
+                  <text x="16" y="28" font-family="ui-monospace, Consolas, monospace" font-size="12" letter-spacing="0.1em" fill="#555555">EXTRACELLULAR</text>
+                  <text x="16" y="212" font-family="ui-monospace, Consolas, monospace" font-size="12" letter-spacing="0.1em" fill="#2f5d56">MEMBRANE</text>
+                  <text x="16" y="268" font-family="ui-monospace, Consolas, monospace" font-size="12" letter-spacing="0.1em" fill="#0b6b35">CYTOPLASM</text>
+                  <circle cx="180" cy="72" r="18" fill="none" stroke="#0a0a0a" stroke-width="1.8"></circle>
+                  <circle cx="180" cy="72" r="7" fill="#0a0a0a"></circle>
+                  <text x="180" y="108" text-anchor="middle" font-family="Georgia, serif" font-size="15" fill="#0a0a0a">1 · VOC</text>
+                  <path d="M180 116 V160" stroke="#0a0a0a" stroke-width="1.5" marker-end="url(#fig1n-arrow)"></path>
+                  <rect x="78" y="152" width="64" height="100" fill="url(#fig1n-or-hatch)" stroke="#0a0a0a" stroke-width="1.8"></rect>
+                  <text x="110" y="208" text-anchor="middle" font-family="Georgia, serif" font-size="15" fill="#0a0a0a">OR</text>
+                  <rect x="150" y="160" width="52" height="84" fill="#ffffff" stroke="#0b6b35" stroke-width="1.8" stroke-dasharray="3 2"></rect>
+                  <text x="176" y="206" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="11" fill="#0b6b35">pore</text>
+                  <rect x="210" y="152" width="72" height="100" fill="#dce8e4" stroke="#2f5d56" stroke-width="1.8"></rect>
+                  <text x="246" y="208" text-anchor="middle" font-family="Georgia, serif" font-size="15" fill="#2f5d56">Orco</text>
+                  <text x="180" y="270" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0a0a0a">2–3 · channel opening</text>
+                  <path d="M176 244 V320" stroke="#0b6b35" stroke-width="1.6" marker-end="url(#fig1n-arrow)"></path>
+                  <circle cx="176" cy="344" r="13" fill="#e7f7ec" stroke="#0b6b35" stroke-width="1.6"></circle>
+                  <text x="176" y="349" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#0b6b35">Ca²⁺</text>
+                  <text x="176" y="378" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0b6b35">Ca²⁺ influx</text>
+                  <rect x="86" y="408" width="188" height="88" fill="#e7f7ec" stroke="#0b6b35" stroke-width="1.8"></rect>
+                  <circle cx="124" cy="452" r="16" fill="none" stroke="#1fd36a" stroke-width="2"></circle>
+                  <circle cx="124" cy="452" r="5" fill="#1fd36a"></circle>
+                  <text x="198" y="448" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#0b6b35">GCaMP6f</text>
+                  <text x="198" y="470" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="12" fill="#0b6b35">4 · fluorescence</text>
+                  <text x="180" y="622" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="11" fill="#555555">Concept illustration — not data</text>
                 </svg>
               </div>
               <figcaption>
                 <span class="wiki-figure__num">Figure 1.</span>
-                <span class="wiki-figure__title"> Proposed biological sensing architecture.</span>
-                <p class="wiki-figure__explain">Essential core: selected OR, Orco, HEK293T host, and GCaMP6 optical report. Dashed OBP box is an optional hypothesis, not a required subsystem.</p>
+                <span class="wiki-figure__title"> Engineering smell into light.</span>
+                <p class="wiki-figure__explain">
+                  A VOC is recognised by a tuning OR assembled with Orco as a heteromeric ligand-gated ion channel
+                  <a class="cite" href="#ref-sato-2008">[1]</a>.
+                  Channel opening admits extracellular Ca²⁺ into the cytoplasm, where N-terminal GCaMP6f reports the rise as fluorescence
+                  <a class="cite" href="#ref-chen-2013">[6]</a>.
+                  Compartment labels, hatch (OR), fill (Orco), and Ca²⁺ text mark meaning independently of colour.
+                </p>
                 <ul class="wiki-figure__meta">
                   <li><span class="wiki-figure__badge">Concept illustration — not experimental data</span></li>
-                  <li><strong>Source:</strong> Local SVG created for the AeroSense design page.</li>
-                  <li><strong>Evidence status:</strong> Planned / proposed architecture.</li>
-                  <li><strong>License / attribution:</strong> Created for NTHU AeroSense wiki; reuse under site CC BY 4.0 terms once published.</li>
-                </ul>
+                  <li><strong>Attribution:</strong> Illustration by NTHU iGEM 2026. Mechanism drawn from Sato et al. (2008) and Chen et al. (2013); not copied from published figures.</li>
+                  <li><strong>Evidence status:</strong> Design schematic, not an AeroSense assay trace.</li>
+            </ul>
               </figcaption>
             </figure>
 
-            <div class="table-scroll" tabindex="0" role="region" aria-label="Essential components versus options">
+            <ol class="design-steps" aria-label="Odor sensing mechanism">
+              <li>
+                <h3>1. VOC recognition</h3>
+                <p>The tuning OR determines ligand specificity. Orco is the shared co-receptor in every sensing cell.</p>
+              </li>
+              <li>
+                <h3>2. OR/Orco channel opening</h3>
+                <p>Ligand binding opens the heteromeric cation channel. No GPCR second-messenger pathway is required.</p>
+              </li>
+              <li>
+                <h3>3. Ca²⁺ influx</h3>
+                <p>Extracellular Ca²⁺ enters through the open channel into the cytosol.</p>
+              </li>
+              <li>
+                <h3>4. GCaMP6f fluorescence</h3>
+                <p>Cytosolic GCaMP6f is the intended optical reporter of that Ca²⁺ rise. This is the designed Sense-layer output, not a measured AeroSense trace.</p>
+              </li>
+            </ol>
+          </section>
+
+          <section class="section-block" id="two-modules" data-reveal>
+            <span id="construct-strategy" class="anchor-alias"></span>
+            <h2>Two modules, one cell</h2>
+            <p>
+              The sensor is not a single plasmid. Ligand identity and optical reporting are split so that the same Orco–GCaMP6f reporter can pair with any one of the nine tuning receptors in the same cell.
+            </p>
+            <ul class="design-modules">
+              <li>
+                <article class="design-card" id="module-a-card">
+                  <p class="design-card__kicker">Module A</p>
+                  <h3 class="design-card__title">OR sensing module</h3>
+                  <p><strong>Contributes:</strong> one tuning OR (ligand specificity) and mCherry (same-transcript expression marker).</p>
+                  <p><strong>Architecture:</strong> bicistronic CMV mRNA. The OR is translated cap-dependently; EMCV IRES then translates mCherry as a separate protein.</p>
+                  <p><a href="#module-1">Full Module 1 specifications</a></p>
+                </article>
+              </li>
+              <li>
+                <article class="design-card" id="module-b-card">
+                  <p class="design-card__kicker">Module B</p>
+                  <h3 class="design-card__title">Orco–GCaMP6f reporting module</h3>
+                  <p><strong>Contributes:</strong> the universal co-receptor Orco and the Ca²⁺ indicator, as one fusion protein.</p>
+                  <p><strong>Architecture:</strong> a single ORF, GCaMP6f–(GGGGS)<sub>3</sub>–DmOrco, not a bicistronic cassette.</p>
+                  <p><a href="#module-2">Full Module 2 specifications</a></p>
+                </article>
+              </li>
+            </ul>
+            <figure class="wiki-figure design-breakout" id="fig-constructs">
+              <div class="wiki-figure__media design-fig-scroll" tabindex="0" role="region" aria-label="Figure 2. Linear maps of Module 1 and Module 2. Scroll sideways on a narrow screen.">
+                <svg class="design-schema" viewBox="0 0 960 300" width="960" height="300" role="img" aria-labelledby="fig-constructs-title fig-constructs-desc">
+                  <title id="fig-constructs-title">Two-module plasmid architecture on pcDNA3.1(+)</title>
+                  <desc id="fig-constructs-desc">Module 1 is bicistronic: CMV enhancer/promoter, Kozak, OR, STOP, EMCV IRES, mCherry, STOP, BGH poly(A). Module 2 is a single ORF: CMV enhancer/promoter, Kozak, RSET leader, GCaMP6f, GGGGS three linker, DmOrco, STOP, BGH poly(A). Feature identity is given by text labels, not colour alone. Lengths are not drawn to scale.</desc>
+                  <defs>
+                    <pattern id="fig2-or-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                      <path d="M0 0 V6" stroke="#0a0a0a" stroke-width="0.8"></path>
+                    </pattern>
+                  </defs>
+                  <text x="24" y="28" font-family="ui-monospace, Consolas, monospace" font-size="12" letter-spacing="0.08em" fill="#555555">MODULE 1 · BICISTRONIC SENSING CASSETTE · 5′ → 3′</text>
+                  <g data-module="1" data-feature="cmv">
+                    <rect x="24" y="44" width="118" height="56" fill="#f5f5f1" stroke="#0a0a0a" stroke-width="1.6"></rect>
+                    <text x="83" y="68" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#555555">PROMOTER</text>
+                    <text x="83" y="84" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#0a0a0a">CMV</text>
+                  </g>
+                  <g data-module="1" data-feature="kozak">
+                    <rect x="148" y="44" width="52" height="56" fill="#ffffff" stroke="#0a0a0a" stroke-width="1.6"></rect>
+                    <text x="174" y="68" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#555555">KOZAK</text>
+                    <text x="174" y="84" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#0a0a0a">GCCACC</text>
+                  </g>
+                  <g data-module="1" data-feature="or">
+                    <rect x="206" y="44" width="132" height="56" fill="url(#fig2-or-hatch)" stroke="#0a0a0a" stroke-width="1.6"></rect>
+                    <text x="272" y="68" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#555555">CDS</text>
+                    <text x="272" y="84" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#0a0a0a">OR</text>
+                  </g>
+                  <g data-module="1" data-feature="stop-or">
+                    <rect x="344" y="44" width="40" height="56" fill="#ffffff" stroke="#555555" stroke-width="1.6"></rect>
+                    <text x="364" y="76" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="11" fill="#555555">STOP</text>
+                  </g>
+                  <g data-module="1" data-feature="emcv-ires">
+                    <rect x="390" y="44" width="118" height="56" fill="#ffffff" stroke="#0a0a0a" stroke-width="1.6" stroke-dasharray="4 3"></rect>
+                    <text x="449" y="68" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#555555">IRES</text>
+                    <text x="449" y="84" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#0a0a0a">EMCV</text>
+                  </g>
+                  <g data-module="1" data-feature="mcherry">
+                    <rect x="514" y="44" width="132" height="56" fill="#f8ecec" stroke="#9c3d3d" stroke-width="1.6"></rect>
+                    <text x="580" y="68" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#9c3d3d">MARKER</text>
+                    <text x="580" y="84" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#9c3d3d">mCherry</text>
+                  </g>
+                  <g data-module="1" data-feature="stop-mcherry">
+                    <rect x="652" y="44" width="40" height="56" fill="#ffffff" stroke="#555555" stroke-width="1.6"></rect>
+                    <text x="672" y="76" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="11" fill="#555555">STOP</text>
+                  </g>
+                  <g data-module="1" data-feature="bgh-polya">
+                    <rect x="698" y="44" width="118" height="56" fill="#f5f5f1" stroke="#0a0a0a" stroke-width="1.6"></rect>
+                    <text x="757" y="68" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#555555">3′ END</text>
+                    <text x="757" y="84" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#0a0a0a">BGH poly(A)</text>
+                  </g>
+                  <text x="24" y="122" font-family="Georgia, serif" font-size="12" fill="#555555">One CMV mRNA → two proteins. OR is cap-dependent; mCherry is IRES-dependent. Not drawn to scale.</text>
+                  <text x="24" y="168" font-family="ui-monospace, Consolas, monospace" font-size="12" letter-spacing="0.08em" fill="#555555">MODULE 2 · SINGLE-ORF REPORTER · 5′ → 3′</text>
+                  <g data-module="2" data-feature="cmv">
+                    <rect x="24" y="184" width="118" height="56" fill="#f5f5f1" stroke="#0a0a0a" stroke-width="1.6"></rect>
+                    <text x="83" y="208" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#555555">PROMOTER</text>
+                    <text x="83" y="224" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#0a0a0a">CMV</text>
+                  </g>
+                  <g data-module="2" data-feature="kozak">
+                    <rect x="148" y="184" width="52" height="56" fill="#ffffff" stroke="#0a0a0a" stroke-width="1.6"></rect>
+                    <text x="174" y="208" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#555555">KOZAK</text>
+                    <text x="174" y="224" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#0a0a0a">GCCACC</text>
+                  </g>
+                  <g data-module="2" data-feature="rset">
+                    <rect x="206" y="184" width="78" height="56" fill="#ffffff" stroke="#0a0a0a" stroke-width="1.6"></rect>
+                    <text x="245" y="208" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#555555">LEADER</text>
+                    <text x="245" y="224" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#0a0a0a">RSET</text>
+                  </g>
+                  <g data-module="2" data-feature="gcamp6f">
+                    <rect x="290" y="184" width="132" height="56" fill="#e7f7ec" stroke="#0b6b35" stroke-width="1.6"></rect>
+                    <text x="356" y="208" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#0b6b35">SENSOR</text>
+                    <text x="356" y="224" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#0b6b35">GCaMP6f</text>
+                  </g>
+                  <g data-module="2" data-feature="linker">
+                    <rect x="428" y="184" width="118" height="56" fill="#ffffff" stroke="#2f5d56" stroke-width="1.6"></rect>
+                    <text x="487" y="208" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#2f5d56">LINKER</text>
+                    <text x="487" y="224" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#2f5d56">(GGGGS)3</text>
+                  </g>
+                  <g data-module="2" data-feature="dmorco">
+                    <rect x="552" y="184" width="132" height="56" fill="#dce8e4" stroke="#2f5d56" stroke-width="1.6"></rect>
+                    <text x="618" y="208" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#2f5d56">CDS</text>
+                    <text x="618" y="224" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#2f5d56">DmOrco</text>
+                  </g>
+                  <g data-module="2" data-feature="stop">
+                    <rect x="690" y="184" width="40" height="56" fill="#ffffff" stroke="#555555" stroke-width="1.6"></rect>
+                    <text x="710" y="216" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="11" fill="#555555">STOP</text>
+                  </g>
+                  <g data-module="2" data-feature="bgh-polya">
+                    <rect x="736" y="184" width="118" height="56" fill="#f5f5f1" stroke="#0a0a0a" stroke-width="1.6"></rect>
+                    <text x="795" y="208" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#555555">3′ END</text>
+                    <text x="795" y="224" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#0a0a0a">BGH poly(A)</text>
+                  </g>
+                  <text x="24" y="262" font-family="Georgia, serif" font-size="12" fill="#555555">One open reading frame: GCaMP6f fused to Orco. Shared pcDNA3.1(+) backbone (NeoR / AmpR not shown). Not drawn to scale.</text>
+                  <text x="480" y="290" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="11" fill="#555555">Design map of synthesised cassettes — not a sequenced chromatogram</text>
+                </svg>
+              </div>
+              <div class="design-inspector" data-inspector="overview">
+                <p class="design-inspector__hint" id="insp-overview-hint">Inspect a cassette feature. Each control is an in-page link to that feature’s note. With JavaScript, the note also appears in this panel.</p>
+                <div class="design-inspector__tools">
+                  <p class="design-inspector__group-label" id="insp-m1-tools-label">Module 1 features</p>
+                  <div class="design-inspector__hits" role="group" aria-labelledby="insp-m1-tools-label">
+                    <a class="design-inspector__hit" href="#spec-m1-cmv" data-module="1" data-feature="cmv" aria-current="false" aria-controls="insp-overview">CMV</a>
+                    <a class="design-inspector__hit" href="#spec-m1-kozak" data-module="1" data-feature="kozak" aria-current="false" aria-controls="insp-overview">Kozak</a>
+                    <a class="design-inspector__hit" href="#spec-m1-or" data-module="1" data-feature="or" aria-current="false" aria-controls="insp-overview">OR</a>
+                    <a class="design-inspector__hit" href="#spec-m1-stop-or" data-module="1" data-feature="stop-or" aria-current="false" aria-controls="insp-overview">STOP after OR</a>
+                    <a class="design-inspector__hit" href="#spec-m1-emcv-ires" data-module="1" data-feature="emcv-ires" aria-current="false" aria-controls="insp-overview">EMCV IRES</a>
+                    <a class="design-inspector__hit" href="#spec-m1-mcherry" data-module="1" data-feature="mcherry" aria-current="false" aria-controls="insp-overview">mCherry</a>
+                    <a class="design-inspector__hit" href="#spec-m1-stop-mcherry" data-module="1" data-feature="stop-mcherry" aria-current="false" aria-controls="insp-overview">STOP after mCherry</a>
+                    <a class="design-inspector__hit" href="#spec-m1-bgh-polya" data-module="1" data-feature="bgh-polya" aria-current="false" aria-controls="insp-overview">BGH poly(A)</a>
+                  </div>
+                  <p class="design-inspector__group-label" id="insp-m2-tools-label">Module 2 features</p>
+                  <div class="design-inspector__hits" role="group" aria-labelledby="insp-m2-tools-label">
+                    <a class="design-inspector__hit" href="#spec-m2-cmv" data-module="2" data-feature="cmv" aria-current="false" aria-controls="insp-overview">CMV</a>
+                    <a class="design-inspector__hit" href="#spec-m2-kozak" data-module="2" data-feature="kozak" aria-current="false" aria-controls="insp-overview">Kozak</a>
+                    <a class="design-inspector__hit" href="#spec-m2-rset" data-module="2" data-feature="rset" aria-current="false" aria-controls="insp-overview">RSET</a>
+                    <a class="design-inspector__hit" href="#spec-m2-gcamp6f" data-module="2" data-feature="gcamp6f" aria-current="false" aria-controls="insp-overview">GCaMP6f</a>
+                    <a class="design-inspector__hit" href="#spec-m2-linker" data-module="2" data-feature="linker" aria-current="false" aria-controls="insp-overview">(GGGGS)<sub>3</sub></a>
+                    <a class="design-inspector__hit" href="#spec-m2-dmorco" data-module="2" data-feature="dmorco" aria-current="false" aria-controls="insp-overview">DmOrco</a>
+                    <a class="design-inspector__hit" href="#spec-m2-stop" data-module="2" data-feature="stop" aria-current="false" aria-controls="insp-overview">STOP</a>
+                    <a class="design-inspector__hit" href="#spec-m2-bgh-polya" data-module="2" data-feature="bgh-polya" aria-current="false" aria-controls="insp-overview">BGH poly(A)</a>
+                  </div>
+                </div>
+                <div class="design-inspector__panel" id="insp-overview" data-inspector-panel aria-labelledby="insp-overview-hint">
+                  <h3>Cassette inspector</h3>
+                  <p>Choose a labelled block in Figure 2. The panel shows the feature name, role, design rationale, and any caveat from the Design source.</p>
+                </div>
+                <div class="visually-hidden" data-inspector-empty>
+                  <h3>Cassette inspector</h3>
+                  <p>Choose a labelled block in Figure 2. The panel shows the feature name, role, design rationale, and any caveat from the Design source.</p>
+                </div>
+                <p class="visually-hidden" data-inspector-live aria-live="polite"></p>
+              </div>
+              <figcaption>
+                <span class="wiki-figure__num">Figure 2.</span>
+                <span class="wiki-figure__title"> Two modules, one backbone.</span>
+                <p class="wiki-figure__explain">
+                  Module 1 places mCherry after an EMCV IRES so the receptor and the red marker are separate proteins.
+                  Module 2 encodes one fusion protein, GCaMP6f–(GGGGS)<sub>3</sub>–DmOrco.
+                  Block labels identify each feature; coral marks mCherry and green marks GCaMP6f as secondary cues.
+                  Lengths are not to scale and are not used as sequence measurements.
+                </p>
+                <ul class="wiki-figure__meta">
+                  <li><span class="wiki-figure__badge">Design map — not a sequenced chromatogram</span></li>
+                  <li><strong>Attribution:</strong> Illustration by NTHU iGEM 2026 from the team Design source architecture.</li>
+            </ul>
+              </figcaption>
+            </figure>
+            <p>
+              In this architecture, GCaMP6f is fused to Orco’s intracellular N-terminus so the indicator and co-receptor are one polypeptide.
+              OR–Orco channel assembly is the published detection mechanism
+              <a class="cite" href="#ref-sato-2008">[1]</a>;
+              this page does not report that assembly or trafficking has been measured in AeroSense cells.
+              Parts inventory and Registry packaging live on
+              <a href="parts.html">Parts</a>.
+            </p>
+          </section>
+
+          <section class="section-block" id="design-evolution" data-reveal>
+            <h2>Design evolution</h2>
+            <p>
+              Three revisions were made before the final build. They are summarised here.
+              The complete Design → Build → Test → Learn record belongs on
+              <a href="engineering.html#biological-cycles">Engineering · Biological sensing cycles</a>.
+              This page explains why the final architecture was chosen; it does not substitute for that iteration history.
+            </p>
+            <p>Everything that follows describes the <strong>final constructs as synthesised</strong>.</p>
+
+            <ol class="design-evolve">
+              <li class="design-evolve__item">
+                <h3>Vector consolidation</h3>
+                <p><strong>Change:</strong> all constructs moved onto a single pcDNA3.1(+) backbone.</p>
+                <p><strong>Reason:</strong> the initial backbone lacked a mammalian promoter and polyadenylation signal, so HEK293 cells could not transcribe the inserts.</p>
+              </li>
+              <li class="design-evolve__item design-evolve__item--major">
+                <h3>Reporter architecture <span class="design-evolve__flag">Major design decision</span></h3>
+                <p><strong>Change:</strong> Orco module changed from Orco–IRES–GCaMP6 to a direct <strong>GCaMP6f–linker–Orco translational fusion</strong>.</p>
+                <p>
+                  <strong>Reason recorded for the change:</strong> the IRES-driven GCaMP6 was expressed at only a fraction of the upstream cistron, producing a barely detectable
+                  <dfn class="term" data-term="vuaa1" tabindex="0">VUAA1</dfn>
+                  response.
+                  An IRES-driven sensor is expressed at a reduced level relative to the upstream cistron
+                  <span class="cite-wrap">
+                    <a class="cite" href="#ref-ibrahimi-2009" id="cite-ibrahimi-2009-a" aria-describedby="cite-preview-ibrahimi-2009">[7]</a>
+                    <span class="cite-preview" id="cite-preview-ibrahimi-2009" role="tooltip">Ibrahimi et al., 2009 — full entry in References &amp; Credits.</span>
+                  </span>
+                  — that citation supports the IRES expression-ratio rationale, not an AeroSense VUAA1 dataset.
+                  The barely detectable VUAA1 wording is the documented reason this team abandoned a bicistronic calcium reporter.
+                </p>
+                <figure class="wiki-figure design-breakout" id="fig-reporter-evolution" data-reporter-switch data-reporter-state="final">
+                  <div class="design-switch">
+                    <p class="design-switch__label" id="reporter-switch-label">Reporter architecture</p>
+                    <div class="design-switch__tabs" role="tablist" aria-labelledby="reporter-switch-label">
+                      <button type="button" role="tab" id="tab-reporter-earlier" data-reporter-tab="earlier" aria-controls="panel-reporter-earlier" aria-selected="false">Earlier design</button>
+                      <button type="button" role="tab" id="tab-reporter-final" data-reporter-tab="final" aria-controls="panel-reporter-final" aria-selected="true" tabindex="0">Final design</button>
+                    </div>
+                  </div>
+                  <div class="wiki-figure__media design-fig-scroll" tabindex="0" role="region" aria-label="Figure 3. Design evolution from Orco–IRES–GCaMP6 to GCaMP6f–Orco fusion. Scroll sideways on a narrow screen.">
+                    <svg class="design-schema" viewBox="0 0 800 340" width="800" height="340" role="img" aria-labelledby="fig-evol-title fig-evol-desc">
+                      <title id="fig-evol-title">Design evolution of the Orco reporter: IRES cassette versus translational fusion</title>
+                      <desc id="fig-evol-desc">Previous concept: Orco, then IRES, then GCaMP6, with the downstream reporter labelled as reduced relative to the upstream cistron. Final architecture: GCaMP6f, flexible GGGGS three linker, Orco as one protein, labelled 1 to 1 stoichiometry. The figure is labelled Design evolution, not a measured performance improvement.</desc>
+                      <text x="400" y="28" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="13" letter-spacing="0.14em" fill="#0a0a0a">DESIGN EVOLUTION</text>
+                      <g data-reporter-view="earlier">
+                      <text x="24" y="58" font-family="ui-monospace, Consolas, monospace" font-size="11" letter-spacing="0.08em" fill="#555555">PREVIOUS CONCEPT</text>
+                      <g data-architecture="previous" data-feature="orco">
+                        <rect x="24" y="70" width="150" height="58" fill="#dce8e4" stroke="#2f5d56" stroke-width="1.6"></rect>
+                        <text x="99" y="94" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#2f5d56">UPSTREAM CISTRON</text>
+                        <text x="99" y="112" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#2f5d56">Orco</text>
+                      </g>
+                      <g data-architecture="previous" data-feature="ires">
+                        <rect x="186" y="70" width="130" height="58" fill="#ffffff" stroke="#0a0a0a" stroke-width="1.6" stroke-dasharray="4 3"></rect>
+                        <text x="251" y="94" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#555555">IRES</text>
+                        <text x="251" y="112" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0a0a0a">IRES</text>
+                      </g>
+                      <g data-architecture="previous" data-feature="gcamp">
+                        <rect x="328" y="70" width="170" height="58" fill="#e7f7ec" stroke="#0b6b35" stroke-width="1.6" opacity="0.55"></rect>
+                        <text x="413" y="94" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#0b6b35">DOWNSTREAM CISTRON</text>
+                        <text x="413" y="112" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0b6b35">GCaMP6</text>
+                      </g>
+                      <text x="99" y="148" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#0a0a0a">full upstream translation</text>
+                      <text x="413" y="148" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#555555">reduced downstream translation</text>
+                      <text x="24" y="176" font-family="Georgia, serif" font-size="13" fill="#0a0a0a">Orco–IRES–GCaMP6. IRES-driven GCaMP6 is expressed at only a fraction of the upstream cistron.</text>
+                      </g>
+
+                      <path d="M400 190 V214" stroke="#0a0a0a" stroke-width="1.4" fill="none"></path>
+                      <polygon points="400,218 394,208 406,208" fill="#0a0a0a"></polygon>
+                      <text x="412" y="210" font-family="ui-monospace, Consolas, monospace" font-size="11" fill="#0a0a0a">FINAL</text>
+
+                      <g data-reporter-view="final">
+                      <g data-architecture="final" data-feature="gcamp6f">
+                        <rect x="24" y="230" width="170" height="58" fill="#e7f7ec" stroke="#0b6b35" stroke-width="1.6"></rect>
+                        <text x="109" y="254" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#0b6b35">SENSOR</text>
+                        <text x="109" y="272" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0b6b35">GCaMP6f</text>
+                      </g>
+                      <g data-architecture="final" data-feature="linker">
+                        <rect x="206" y="230" width="150" height="58" fill="#ffffff" stroke="#2f5d56" stroke-width="1.6"></rect>
+                        <text x="281" y="254" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#2f5d56">FLEXIBLE LINKER</text>
+                        <text x="281" y="272" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#2f5d56">(GGGGS)3</text>
+                      </g>
+                      <g data-architecture="final" data-feature="orco">
+                        <rect x="368" y="230" width="170" height="58" fill="#dce8e4" stroke="#2f5d56" stroke-width="1.6"></rect>
+                        <text x="453" y="254" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#2f5d56">CO-RECEPTOR</text>
+                        <text x="453" y="272" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#2f5d56">Orco</text>
+                      </g>
+                      <text x="281" y="308" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#0a0a0a">One protein · 1:1 reporter:Orco stoichiometry at translation</text>
+                      <text x="400" y="330" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="11" fill="#555555">No measured fold-change is shown · not a results figure</text>
+                      </g>
+                    </svg>
+                  </div>
+                    <div class="design-switch__panel" id="panel-reporter-earlier" role="tabpanel" data-reporter-panel="earlier" aria-labelledby="tab-reporter-earlier" hidden>
+                      <p><strong>Problem.</strong> The IRES-driven GCaMP6 was expressed at only a fraction of the upstream cistron, producing a barely detectable VUAA1 response — that VUAA1 wording is this team’s documented reason for abandoning the earlier cassette, not a Results figure. Separately, an IRES-driven sensor is expressed at a reduced level relative to the upstream cistron <a class="cite" href="#ref-ibrahimi-2009">[7]</a>, and GCaMP6f is intrinsically dim at resting Ca²⁺ <a class="cite" href="#ref-chen-2013">[6]</a>.</p>
+                      <p><strong>Design decision.</strong> Previous concept: Orco–IRES–GCaMP6.</p>
+                      <p><strong>Expected engineering benefit.</strong> None is claimed for this earlier cassette. Bicistronic expression was explicitly <em>not</em> acceptable for a dim calcium sensor, which is why the Orco module uses a fusion instead.</p>
+                    </div>
+                    <div class="design-switch__panel" id="panel-reporter-final" role="tabpanel" data-reporter-panel="final" aria-labelledby="tab-reporter-final">
+                      <p><strong>Problem.</strong> The IRES-driven GCaMP6 was expressed at only a fraction of the upstream cistron, producing a barely detectable VUAA1 response — that VUAA1 wording is this team’s documented reason for abandoning the earlier cassette, not a Results figure. Separately, an IRES-driven sensor is expressed at a reduced level relative to the upstream cistron <a class="cite" href="#ref-ibrahimi-2009">[7]</a>, and GCaMP6f is intrinsically dim at resting Ca²⁺ <a class="cite" href="#ref-chen-2013">[6]</a>.</p>
+                      <p><strong>Design decision.</strong> Orco module changed from Orco–IRES–GCaMP6 to a direct GCaMP6f–linker–Orco translational fusion.</p>
+                      <p><strong>Expected engineering benefit.</strong> A translational fusion sets reporter:Orco stoichiometry at translation (1:1 as designed). That is the change chosen to address the weak-signal problem described on <a href="engineering.html#biological-cycles">Engineering</a>. It is design rationale, not a quantified performance result on this page.</p>
+                    </div>
+                  <figcaption>
+                    <span class="wiki-figure__num">Figure 3.</span>
+                    <span class="wiki-figure__title"> Reporter architecture — design evolution.</span>
+                    <p class="wiki-figure__explain">
+                      Previous concept: Orco–IRES–GCaMP6. The IRES-driven reporter is a separate, downstream translation product and is therefore expressed at only a fraction of the upstream cistron
+                      <a class="cite" href="#ref-ibrahimi-2009">[7]</a>.
+                      Final: a GCaMP6f–flexible linker–Orco translational fusion, which sets reporter:Orco stoichiometry at the protein level.
+                      This diagram explains a design choice. It is not a quantified performance comparison and does not display an invented percentage improvement.
+                    </p>
+                    <ul class="wiki-figure__meta">
+                      <li><span class="wiki-figure__badge">Design evolution — not a measured performance plot</span></li>
+                      <li><strong>Attribution:</strong> Illustration by NTHU iGEM 2026 from the team Design source. Reduced IRES expression is cited to Ibrahimi et al. (2009), not as an AeroSense assay result.</li>
+            </ul>
+                  </figcaption>
+                </figure>
+                <p class="notice design-callout design-callout--limit">
+                  The VUAA1 wording above is the documented reason the fusion was chosen. It is not a results package for the GCaMP6f–Orco constructs, and it does <strong>not</strong> mean the fusion architecture has been functionally validated.
+                  Engineering records imaging / VUAA1 comparison as still pending
+                  (<a href="engineering.html#wl-cycle-2">Wet Lab Cycle 2</a>).
+                  Iteration evidence belongs on <a href="engineering.html#track-wetlab">Engineering · Wet Lab</a>; measured traces belong on <a href="results.html">Results</a>.
+                </p>
+              </li>
+              <li class="design-evolve__item">
+                <h3>N-terminal tag removal</h3>
+                <p><strong>Change:</strong> trafficking and epitope tags removed from the final OR constructs.</p>
+                <p><strong>Reason:</strong> simplified the coding sequence and minimised perturbation of receptor folding.</p>
+              </li>
+            </ol>
+          </section>
+
+          <section class="section-block" id="module-1" data-reveal>
+            <h2>Module 1 — OR sensing plasmids</h2>
+            <p>Nine plasmids share one cassette layout. Only the OR open reading frame changes.</p>
+
+            <h3>Architecture</h3>
+            <figure class="construct-map" id="map-module-1" data-inspector="1">
+              <figcaption>
+                <span class="wiki-figure__title"> Module 1 cassette (accessible map; see also Figure 2).</span>
+              </figcaption>
+              <p class="construct-map__lede">
+                CMV enhancer/promoter → Kozak (<code>GCCACC</code>) → OR ORF → STOP → EMCV IRES → mCherry → STOP → BGH poly(A), with SV40 promoter → NeoR, ColE1 ori, and AmpR on the shared backbone.
+                Inventory:
+                <a href="parts.html">Parts</a>.
+              </p>
+              <ol class="construct-map__track" aria-label="Module 1 elements from 5′ to 3′">
+                <li class="construct-map__block construct-map__block--promoter">
+                  <a class="construct-map__hit" href="#spec-m1-cmv" data-module="1" data-feature="cmv" aria-current="false" aria-controls="insp-m1">
+                    <span class="construct-map__role">Promoter</span>
+                    <span class="construct-map__name">CMV</span>
+                  </a>
+                </li>
+                <li class="construct-map__block">
+                  <a class="construct-map__hit" href="#spec-m1-kozak" data-module="1" data-feature="kozak" aria-current="false" aria-controls="insp-m1">
+                    <span class="construct-map__role">Kozak</span>
+                    <span class="construct-map__name">GCCACC</span>
+                  </a>
+                </li>
+                <li class="construct-map__block construct-map__block--cds">
+                  <a class="construct-map__hit" href="#spec-m1-or" data-module="1" data-feature="or" aria-current="false" aria-controls="insp-m1">
+                    <span class="construct-map__role">CDS</span>
+                    <span class="construct-map__name">OR</span>
+                  </a>
+                </li>
+                <li class="construct-map__block">
+                  <a class="construct-map__hit" href="#spec-m1-stop-or" data-module="1" data-feature="stop-or" aria-current="false" aria-controls="insp-m1">
+                    <span class="construct-map__role">Stop</span>
+                    <span class="construct-map__name">STOP</span>
+                  </a>
+                </li>
+                <li class="construct-map__block construct-map__block--ires">
+                  <a class="construct-map__hit" href="#spec-m1-emcv-ires" data-module="1" data-feature="emcv-ires" aria-current="false" aria-controls="insp-m1">
+                    <span class="construct-map__role">IRES</span>
+                    <span class="construct-map__name">EMCV</span>
+                  </a>
+                </li>
+                <li class="construct-map__block construct-map__block--reporter">
+                  <a class="construct-map__hit" href="#spec-m1-mcherry" data-module="1" data-feature="mcherry" aria-current="false" aria-controls="insp-m1">
+                    <span class="construct-map__role">Marker</span>
+                    <span class="construct-map__name">mCherry</span>
+                  </a>
+                </li>
+                <li class="construct-map__block">
+                  <a class="construct-map__hit" href="#spec-m1-stop-mcherry" data-module="1" data-feature="stop-mcherry" aria-current="false" aria-controls="insp-m1">
+                    <span class="construct-map__role">Stop</span>
+                    <span class="construct-map__name">STOP</span>
+                  </a>
+                </li>
+                <li class="construct-map__block construct-map__block--term">
+                  <a class="construct-map__hit" href="#spec-m1-bgh-polya" data-module="1" data-feature="bgh-polya" aria-current="false" aria-controls="insp-m1">
+                    <span class="construct-map__role">3′ end</span>
+                    <span class="construct-map__name">BGH poly(A)</span>
+                  </a>
+                </li>
+              </ol>
+              <div class="design-inspector__panel" id="insp-m1" data-inspector-panel>
+                <h3>Module 1 inspector</h3>
+                <p>Select a cassette feature to read its role, design rationale, and any caveat from the Design source.</p>
+              </div>
+              <div class="visually-hidden" data-inspector-empty>
+                <h3>Module 1 inspector</h3>
+                <p>Select a cassette feature to read its role, design rationale, and any caveat from the Design source.</p>
+              </div>
+              <p class="visually-hidden" data-inspector-live aria-live="polite"></p>
+              <p class="construct-map__caveat" role="note">Accessible cassette list matching Figure 2 — not a sequenced chromatogram</p>
+            </figure>
+
+            <h3>Bicistronic expression</h3>
+            <p class="design-callout design-callout--why">
+              One CMV-driven mRNA encodes two separate proteins. Ribosomes translate the OR cap-dependently; the internal ribosome entry site then re-initiates translation of mCherry as an independent polypeptide.
+              mCherry is therefore not fused to the receptor.
+            </p>
+
+            <details class="design-spec-details">
+              <summary>Module 1 plasmid specifications (lengths and selection markers)</summary>
+              <div class="table-scroll" tabindex="0" role="region" aria-label="Module 1 plasmid specifications">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Feature</th>
+                    <th scope="col">Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Backbone</td>
+                    <td>pcDNA3.1(+), 5,428 bp</td>
+                  </tr>
+                  <tr>
+                    <td>Kozak sequence</td>
+                    <td><code>GCCACC</code> immediately 5′ of each ATG</td>
+                  </tr>
+                  <tr>
+                    <td>OR open reading frame</td>
+                    <td>1,164–1,242 bp (387–413 aa, receptor-dependent). Individual OR lengths are not listed here beyond that range.</td>
+                  </tr>
+                  <tr>
+                    <td>EMCV IRES</td>
+                    <td>587 bp</td>
+                  </tr>
+                  <tr>
+                    <td>mCherry</td>
+                    <td>711 bp (236 aa, ~26 kDa)</td>
+                  </tr>
+                  <tr>
+                    <td>Total plasmid</td>
+                    <td>≈ 7.9–8.0 kb</td>
+                  </tr>
+                  <tr>
+                    <td>Mammalian selection</td>
+                    <td>NeoR (G418)</td>
+                  </tr>
+                  <tr>
+                    <td>Bacterial selection</td>
+                    <td>AmpR</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            </details>
+
+            <h3>Receptor panel and codon optimisation</h3>
+            <p>
+              Nine tuning receptors were selected to span distinct chemical classes of plant and pathogen VOCs.
+              The roster and the Zboray overlap are shown in
+              <a href="#receptor-panel">Receptor panel</a>.
+            </p>
+            <p>
+              All nine ORFs are codon-optimised for human expression (CTG constitutes ~92% of leucine codons; GC3 ≈ 0.83).
+              Native <i>Drosophila</i> codon usage is a documented cause of poor OR expression in mammalian cells, and codon optimisation has been shown to rescue stable expression of otherwise non-functional insect ORs in HEK293
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-roberts-2021" id="cite-roberts-2021" aria-describedby="cite-preview-roberts-2021">[2]</a>
+                <span class="cite-preview" id="cite-preview-roberts-2021" role="tooltip">Roberts et al., 2021 — full entry in References &amp; Credits.</span>
+              </span>.
+            </p>
+
+            <h3>What mCherry does and does not report</h3>
+            <p class="design-callout design-callout--limit">
+              Because mCherry is translated from the <strong>same transcript</strong> but as a <strong>separate protein</strong>, red fluorescence confirms that the cassette is transcribed and that the IRES has fired.
+              It does <strong>not</strong> report receptor folding or trafficking to the plasma membrane.
+              Functional OR expression is established only by the calcium response itself — VUAA1 for the Orco channel, and the reference ligand for the tuning receptor.
+              See <a href="#reporters">What the reporters actually tell us</a>.
+            </p>
+          </section>
+
+          <section class="section-block" id="receptor-panel" data-reveal>
+            <span id="receptor-selection" class="anchor-alias"></span>
+            <h2>Receptor panel</h2>
+            <p>Nine tuning receptors:</p>
+            <div class="design-or-grid" data-or-grid>
+              <p class="design-or-grid__legend" id="or-grid-legend">
+                The only categorical distinction on this page is overlap with the Zboray et al. platform versus the remaining receptors. No ligand specificities, EC50 values, response levels, expression outcomes, or membrane-localisation claims are assigned to individual receptors.
+              </p>
+              <ul class="design-or-grid__list" aria-labelledby="or-grid-legend">
+                <li>
+                  <a class="design-or-grid__hit" href="#spec-or-Or22a" data-or="Or22a" aria-current="false" aria-controls="or-detail">
+                    <span class="design-or-grid__name">Or22a</span>
+                    <span class="visually-hidden">Not listed as overlapping the Zboray et al. platform</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="design-or-grid__hit design-or-grid__hit--overlap" href="#spec-or-Or85b" data-or="Or85b" aria-current="false" aria-controls="or-detail">
+                    <span class="design-or-grid__name">Or85b</span>
+                    <span class="design-or-grid__tag">Overlaps the Zboray et al. platform</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="design-or-grid__hit" href="#spec-or-Or35a" data-or="Or35a" aria-current="false" aria-controls="or-detail">
+                    <span class="design-or-grid__name">Or35a</span>
+                    <span class="visually-hidden">Not listed as overlapping the Zboray et al. platform</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="design-or-grid__hit" href="#spec-or-Or67a" data-or="Or67a" aria-current="false" aria-controls="or-detail">
+                    <span class="design-or-grid__name">Or67a</span>
+                    <span class="visually-hidden">Not listed as overlapping the Zboray et al. platform</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="design-or-grid__hit" href="#spec-or-Or7a" data-or="Or7a" aria-current="false" aria-controls="or-detail">
+                    <span class="design-or-grid__name">Or7a</span>
+                    <span class="visually-hidden">Not listed as overlapping the Zboray et al. platform</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="design-or-grid__hit" href="#spec-or-Or59b" data-or="Or59b" aria-current="false" aria-controls="or-detail">
+                    <span class="design-or-grid__name">Or59b</span>
+                    <span class="visually-hidden">Not listed as overlapping the Zboray et al. platform</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="design-or-grid__hit" href="#spec-or-Or42a" data-or="Or42a" aria-current="false" aria-controls="or-detail">
+                    <span class="design-or-grid__name">Or42a</span>
+                    <span class="visually-hidden">Not listed as overlapping the Zboray et al. platform</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="design-or-grid__hit design-or-grid__hit--overlap" href="#spec-or-Or98a" data-or="Or98a" aria-current="false" aria-controls="or-detail">
+                    <span class="design-or-grid__name">Or98a</span>
+                    <span class="design-or-grid__tag">Overlaps the Zboray et al. platform</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="design-or-grid__hit" href="#spec-or-Or19a" data-or="Or19a" aria-current="false" aria-controls="or-detail">
+                    <span class="design-or-grid__name">Or19a</span>
+                    <span class="visually-hidden">Not listed as overlapping the Zboray et al. platform</span>
+                  </a>
+                </li>
+            </ul>
+              <div class="design-or-grid__panel" id="or-detail" data-or-panel>
+                <h3>Receptor detail</h3>
+                <p>Select a receptor. The panel repeats only source-backed panel information: identity, Zboray overlap or the cautious novelty wording, and codon optimisation that applies to all nine ORFs.</p>
+              </div>
+              <div class="visually-hidden" data-or-empty>
+                <h3>Receptor detail</h3>
+                <p>Select a receptor. The panel repeats only source-backed panel information: identity, Zboray overlap or the cautious novelty wording, and codon optimisation that applies to all nine ORFs.</p>
+              </div>
+            </div>
+            <p>
+              Only <strong>Or85b</strong> and <strong>Or98a</strong> overlap with the seven receptors characterised by Zboray <i>et al.</i>
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023-a" aria-describedby="cite-preview-zboray-2023">[5]</a>
+                <span class="cite-preview" id="cite-preview-zboray-2023" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span>
+              </span>
+              in this platform.
+              The remaining seven are, to our knowledge, new to a cell-based heterologous olfactory panel — which is both the novelty and the principal technical risk of our panel.
+            </p>
+            <p>
+              Notably, Zboray <i>et al.</i> reported that some <i>Drosophila</i> OR lines expressed well and responded to VUAA1 yet gave no VOC-specific response; we therefore treat receptor-level functional validation as a distinct experimental milestone rather than an assumption.
+            </p>
+            <p>No ligand specificities, potencies, or AeroSense response values are assigned to individual receptors on this page.</p>
+          </section>
+
+          <section class="section-block" id="module-2" data-reveal>
+            <h2>Module 2 — GCaMP6f–Orco reporting plasmid</h2>
+            <p>One plasmid. One open reading frame. Not a bicistronic construct.</p>
+
+            <h3>Final architecture</h3>
+            <figure class="construct-map" id="map-module-2" data-inspector="2">
+              <figcaption>
+                <span class="wiki-figure__title"> Module 2 cassette (accessible map; see also Figure 2).</span>
+              </figcaption>
+              <p class="construct-map__lede">
+                CMV enhancer/promoter → Kozak (<code>GCCACC</code>) → RSET leader → GCaMP6f → (GGGGS)<sub>3</sub> linker → DmOrco → STOP → BGH poly(A), with SV40 promoter → NeoR and AmpR on the shared backbone.
+              </p>
+              <ol class="construct-map__track" aria-label="Module 2 elements from 5′ to 3′">
+                <li class="construct-map__block construct-map__block--promoter">
+                  <a class="construct-map__hit" href="#spec-m2-cmv" data-module="2" data-feature="cmv" aria-current="false" aria-controls="insp-m2">
+                    <span class="construct-map__role">Promoter</span>
+                    <span class="construct-map__name">CMV</span>
+                  </a>
+                </li>
+                <li class="construct-map__block">
+                  <a class="construct-map__hit" href="#spec-m2-kozak" data-module="2" data-feature="kozak" aria-current="false" aria-controls="insp-m2">
+                    <span class="construct-map__role">Kozak</span>
+                    <span class="construct-map__name">GCCACC</span>
+                  </a>
+                </li>
+                <li class="construct-map__block">
+                  <a class="construct-map__hit" href="#spec-m2-rset" data-module="2" data-feature="rset" aria-current="false" aria-controls="insp-m2">
+                    <span class="construct-map__role">Leader</span>
+                    <span class="construct-map__name">RSET</span>
+                  </a>
+                </li>
+                <li class="construct-map__block construct-map__block--reporter">
+                  <a class="construct-map__hit" href="#spec-m2-gcamp6f" data-module="2" data-feature="gcamp6f" aria-current="false" aria-controls="insp-m2">
+                    <span class="construct-map__role">Sensor</span>
+                    <span class="construct-map__name">GCaMP6f</span>
+                  </a>
+                </li>
+                <li class="construct-map__block construct-map__block--linker">
+                  <a class="construct-map__hit" href="#spec-m2-linker" data-module="2" data-feature="linker" aria-current="false" aria-controls="insp-m2">
+                    <span class="construct-map__role">Linker</span>
+                    <span class="construct-map__name">(GGGGS)<sub>3</sub></span>
+                  </a>
+                </li>
+                <li class="construct-map__block construct-map__block--cds">
+                  <a class="construct-map__hit" href="#spec-m2-dmorco" data-module="2" data-feature="dmorco" aria-current="false" aria-controls="insp-m2">
+                    <span class="construct-map__role">CDS</span>
+                    <span class="construct-map__name">DmOrco</span>
+                  </a>
+                </li>
+                <li class="construct-map__block">
+                  <a class="construct-map__hit" href="#spec-m2-stop" data-module="2" data-feature="stop" aria-current="false" aria-controls="insp-m2">
+                    <span class="construct-map__role">Stop</span>
+                    <span class="construct-map__name">STOP</span>
+                  </a>
+                </li>
+                <li class="construct-map__block construct-map__block--term">
+                  <a class="construct-map__hit" href="#spec-m2-bgh-polya" data-module="2" data-feature="bgh-polya" aria-current="false" aria-controls="insp-m2">
+                    <span class="construct-map__role">3′ end</span>
+                    <span class="construct-map__name">BGH poly(A)</span>
+                  </a>
+                </li>
+              </ol>
+              <div class="design-inspector__panel" id="insp-m2" data-inspector-panel>
+                <h3>Module 2 inspector</h3>
+                <p>Select a cassette feature to read its role, design rationale, and any caveat from the Design source.</p>
+              </div>
+              <div class="visually-hidden" data-inspector-empty>
+                <h3>Module 2 inspector</h3>
+                <p>Select a cassette feature to read its role, design rationale, and any caveat from the Design source.</p>
+              </div>
+              <p class="visually-hidden" data-inspector-live aria-live="polite"></p>
+              <p class="construct-map__caveat" role="note">Accessible cassette list matching Figure 2 — not a sequenced chromatogram</p>
+            </figure>
+
+            <details class="design-spec-details">
+              <summary>Module 2 plasmid specifications (lengths and sequence coordinates)</summary>
+              <div class="table-scroll" tabindex="0" role="region" aria-label="Module 2 plasmid specifications">
+              <table class="goal-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Feature</th>
+                    <th scope="col">Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Backbone</td>
+                    <td>pcDNA3.1(+)</td>
+                  </tr>
+                  <tr>
+                    <td>Total plasmid</td>
+                    <td>8,293 bp</td>
+                  </tr>
+                  <tr>
+                    <td>Coding sequence</td>
+                    <td>2,856 bp → 951 aa, ≈ 105 kDa</td>
+                  </tr>
+                  <tr>
+                    <td>GCaMP6f</td>
+                    <td>Nucleotide positions 1,022–2,266 (RS20/M13 – cpEGFP – calmodulin). The Design source does not state whether that numbering is on the plasmid or on the coding sequence.</td>
+                  </tr>
+                  <tr>
+                    <td>Linker</td>
+                    <td>(GGGGS)<sub>3</sub>, 15 aa flexible glycine–serine linker</td>
+                  </tr>
+                  <tr>
+                    <td>DmOrco</td>
+                    <td>486 aa, human codon-optimised</td>
+                  </tr>
+                  <tr>
+                    <td>Internal stop codons</td>
+                    <td>None (verified by <i>in silico</i> translation)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            </details>
+
+            <h3>Why a single ORF</h3>
+            <p class="design-callout design-callout--decision">
+              A translational fusion is designed to give <strong>1:1 stoichiometry</strong> between sensor and receptor at translation.
+              This is the change that addressed the weak-signal problem described on
+              <a href="engineering.html#biological-cycles">Engineering</a>:
+              an IRES-driven sensor is expressed at a reduced level relative to the upstream cistron
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-ibrahimi-2009" id="cite-ibrahimi-2009-b" aria-describedby="cite-preview-ibrahimi-2009-b">[7]</a>
+                <span class="cite-preview" id="cite-preview-ibrahimi-2009-b" role="tooltip">Ibrahimi et al., 2009 — full entry in References &amp; Credits.</span>
+              </span>,
+              and because GCaMP6f is intrinsically dim at resting Ca²⁺ and its signal is transient
+              <a class="cite" href="#ref-chen-2013">[6]</a>,
+              that expression deficit made the readout nearly undetectable.
+              Citation [7] is the IRES-ratio literature; it is not an AeroSense functional dataset.
+            </p>
+
+            <h3>N-terminal GCaMP6f</h3>
+            <p class="design-callout design-callout--decision">
+              Insect OR/Orco topology places the N-terminus in the cytosol
+              <a class="cite" href="#ref-benton-2006">[3]</a>
+              <a class="cite" href="#ref-butterwick-2018">[4]</a>.
+              GCaMP6f is therefore fused at the N-terminus of Orco, not the C-terminus.
+              The topological argument is expanded in
+              <a href="#topology">Why topology matters</a>.
+            </p>
+
+            <h3>(GGGGS)<sub>3</sub> linker</h3>
+            <p>
+              The (GGGGS)<sub>3</sub> linker was chosen to give GCaMP6f enough conformational freedom to undergo its Ca²⁺-driven change while keeping it close to the channel.
+              Glycine is used for backbone flexibility and serine to keep the linker hydrophilic.
+              The Design source states that the sequence forms no secondary structure and contains no protease-sensitive motifs; this page does not report a structural assay or a named computational check of those properties.
+              The three repeats were synthesised with <strong>diversified synonymous codons</strong> to avoid a tandem DNA repeat, which is a common cause of synthesis failure and deletion.
+            </p>
+
+            <h3>RSET leader</h3>
+            <p>
+              The construct retains the short RSET leader (His<sub>6</sub> + T7 tag + Xpress epitope) carried by the parent GCaMP6f plasmid.
+              It is kept as an N-terminal tagging utility: an intended anti-His handle for confirming full-length fusion protein by western blot at the expected ~105 kDa.
+              This page does not report that the leader has been shown experimentally to be inert in AeroSense cells.
+              That western blot is a planned identity check, not a result published on this page.
+            </p>
+          </section>
+
+          <section class="section-block" id="topology" data-reveal>
+            <h2>Why topology matters</h2>
+            <p class="design-callout design-callout--decision">
+              N-terminal placement of GCaMP6f is the central orientation decision in Module 2. It follows published receptor topology; it is not a claim that AeroSense has re-determined that topology.
+            </p>
+            <p class="design-callout design-callout--why">
+              Insect ORs and Orco adopt an <strong>inverted membrane topology</strong> relative to vertebrate GPCRs: the <strong>N-terminus is intracellular</strong> and the C-terminus extracellular
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-benton-2006" id="cite-benton-2006" aria-describedby="cite-preview-benton-2006">[3]</a>
+                <span class="cite-preview" id="cite-preview-benton-2006" role="tooltip">Benton et al., 2006 — full entry in References &amp; Credits.</span>
+              </span>,
+              confirmed structurally by cryo-EM of Orco
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-butterwick-2018" id="cite-butterwick-2018" aria-describedby="cite-preview-butterwick-2018">[4]</a>
+                <span class="cite-preview" id="cite-preview-butterwick-2018" role="tooltip">Butterwick et al., 2018 — full entry in References &amp; Credits.</span>
+              </span>.
+            </p>
+            <p class="design-callout design-callout--limit">
+              GCaMP6f must reside in the <strong>cytosol</strong> to sense the Ca²⁺ entering through the channel.
+              Fusing it to Orco’s C-terminus would place the sensor in the extracellular space, where millimolar Ca²⁺ would saturate it permanently and render it blind to channel opening.
+            </p>
+            <p>Placing GCaMP6f N-terminally is therefore required by that topology, and it has a second, expected design consequence:</p>
+            <ul class="design-claim-split">
+              <li class="design-callout design-callout--why"><strong>Literature-supported requirement:</strong> the sensor faces the cytoplasm.</li>
+              <li class="design-callout design-callout--limit"><strong>Design hypothesis / expected benefit:</strong> the sensor is tethered at the mouth of the channel, where the local Ca²⁺ microdomain is highest — giving a larger fluorescence change than a freely diffusing cytosolic sensor. That comparison is a rationale, not an AeroSense measurement on this page.</li>
+            </ul>
+
+            <figure class="wiki-figure design-breakout" id="fig-topology" data-topo-state="orientation">
+              <div class="design-switch" data-topo-switch>
+                <p class="design-switch__label" id="topo-switch-label">Orco orientation</p>
+                <div class="design-switch__tabs" role="group" aria-labelledby="topo-switch-label">
+                  <button type="button" data-topo="orientation" aria-pressed="true" aria-controls="panel-topo-orientation">Our orientation</button>
+                  <button type="button" data-topo="why" aria-pressed="false" aria-controls="panel-topo-why">Why orientation matters</button>
+                </div>
+                <div class="design-switch__panel" id="panel-topo-orientation" data-topo-panel="orientation">
+                  <p>GCaMP6f is placed N-terminally, fused to Orco’s intracellular N-terminus in the cytoplasm, so the sensor faces the cytosol.</p>
+                </div>
+                <div class="design-switch__panel" id="panel-topo-why" data-topo-panel="why" hidden>
+                  <p>The N-terminus is intracellular and the C-terminus extracellular. Ca²⁺ influx from the extracellular space must be read in the cytosol, so a cytosolic calcium indicator is required. Fusing GCaMP6f to Orco’s C-terminus would place the sensor in millimolar extracellular Ca²⁺ and saturate it permanently.</p>
+                </div>
+              </div>
+              <div class="wiki-figure__media design-fig-scroll" tabindex="0" role="region" aria-label="Figure 4. Orco membrane topology with N-terminal GCaMP6f. Scroll sideways on a narrow screen if needed.">
+                <svg class="design-schema" viewBox="0 0 720 520" width="720" height="520" role="img" aria-labelledby="fig-topo-title fig-topo-desc">
+                  <title id="fig-topo-title">Orco inverted topology with N-terminal GCaMP6f in the cytoplasm</title>
+                  <desc id="fig-topo-desc">Membrane cross-section. Extracellular space at the top, cytoplasm at the bottom. Orco spans the bilayer with the C-terminus outside and the N-terminus inside. GCaMP6f is fused to the intracellular N-terminus. Calcium ions pass through an open pore from the extracellular side into the cytoplasm. Schematic only; not a cryo-EM reconstruction.</desc>
+                  <defs>
+                    <pattern id="fig4-lipid" width="16" height="10" patternUnits="userSpaceOnUse">
+                      <circle cx="4" cy="5" r="1.6" fill="#2f5d56" opacity="0.4"></circle>
+                      <circle cx="12" cy="5" r="1.6" fill="#2f5d56" opacity="0.4"></circle>
+                    </pattern>
+                    <marker id="fig4-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                      <path d="M0 1.2 L9 5 L0 8.8 Z" fill="#0b6b35"></path>
+                    </marker>
+                  </defs>
+                  <rect x="0" y="0" width="720" height="188" fill="#f7f7f3"></rect>
+                  <rect x="0" y="188" width="720" height="72" fill="url(#fig4-lipid)" stroke="#2f5d56" stroke-width="1.6"></rect>
+                  <rect x="0" y="260" width="720" height="260" fill="#eef6f0"></rect>
+                  <text x="24" y="36" font-family="ui-monospace, Consolas, monospace" font-size="13" letter-spacing="0.14em" fill="#555555">EXTRACELLULAR</text>
+                  <text x="24" y="230" font-family="ui-monospace, Consolas, monospace" font-size="13" letter-spacing="0.14em" fill="#2f5d56">PLASMA MEMBRANE</text>
+                  <text x="24" y="292" font-family="ui-monospace, Consolas, monospace" font-size="13" letter-spacing="0.14em" fill="#0b6b35">CYTOPLASM</text>
+
+                  <g data-callout="c-terminus">
+                  <text x="360" y="64" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#0a0a0a">C-terminus (extracellular)</text>
+                  <path d="M360 74 V132" stroke="#2f5d56" stroke-width="1.8" fill="none"></path>
+                  <text x="430" y="110" font-family="ui-monospace, Consolas, monospace" font-size="12" fill="#2f5d56">C</text>
+                  </g>
+
+                  <g data-feature="orco">
+                    <rect x="268" y="132" width="36" height="164" fill="#dce8e4" stroke="#2f5d56" stroke-width="1.7"></rect>
+                    <rect x="312" y="140" width="36" height="148" fill="#dce8e4" stroke="#2f5d56" stroke-width="1.7"></rect>
+                    <rect x="372" y="140" width="36" height="148" fill="#dce8e4" stroke="#2f5d56" stroke-width="1.7"></rect>
+                    <rect x="416" y="132" width="36" height="164" fill="#dce8e4" stroke="#2f5d56" stroke-width="1.7"></rect>
+                    <rect x="348" y="148" width="24" height="132" fill="#ffffff" stroke="#0b6b35" stroke-width="1.6" stroke-dasharray="3 2"></rect>
+                    <text x="360" y="176" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="11" fill="#0b6b35">pore</text>
+                    <text x="360" y="204" text-anchor="middle" font-family="Georgia, serif" font-size="18" fill="#2f5d56">Orco</text>
+                  </g>
+
+                  <g data-feature="calcium" data-callout="calcium">
+                    <circle cx="348" cy="96" r="12" fill="none" stroke="#0b6b35" stroke-width="1.5"></circle>
+                    <text x="348" y="100" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#0b6b35">Ca²⁺</text>
+                    <circle cx="372" cy="96" r="12" fill="none" stroke="#0b6b35" stroke-width="1.5"></circle>
+                    <text x="372" y="100" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#0b6b35">Ca²⁺</text>
+                    <path d="M360 110 V330" stroke="#0b6b35" stroke-width="1.7" fill="none" marker-end="url(#fig4-arrow)"></path>
+                    <circle cx="348" cy="348" r="12" fill="#e7f7ec" stroke="#0b6b35" stroke-width="1.5"></circle>
+                    <text x="348" y="352" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#0b6b35">Ca²⁺</text>
+                    <circle cx="376" cy="368" r="12" fill="#e7f7ec" stroke="#0b6b35" stroke-width="1.5"></circle>
+                    <text x="376" y="372" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#0b6b35">Ca²⁺</text>
+                    <text x="430" y="360" font-family="Georgia, serif" font-size="13" fill="#0b6b35">Ca²⁺ influx</text>
+                  </g>
+
+                  <g data-feature="n-terminus" data-callout="n-terminus">
+                    <path d="M286 296 V338" stroke="#2f5d56" stroke-width="1.8" fill="none"></path>
+                    <text x="248" y="328" font-family="Georgia, serif" font-size="14" fill="#0a0a0a">N-terminus</text>
+                    <text x="248" y="346" font-family="ui-monospace, Consolas, monospace" font-size="11" fill="#555555">intracellular</text>
+                  </g>
+
+                  <g data-feature="gcamp6f" data-callout="gcamp6f">
+                    <rect x="214" y="390" width="292" height="72" fill="#e7f7ec" stroke="#0b6b35" stroke-width="1.8"></rect>
+                    <circle cx="250" cy="426" r="16" fill="none" stroke="#1fd36a" stroke-width="2"></circle>
+                    <circle cx="250" cy="426" r="5" fill="#1fd36a"></circle>
+                    <text x="380" y="422" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#0b6b35">GCaMP6f</text>
+                    <text x="380" y="442" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="12" fill="#0b6b35">cytosolic Ca²⁺ sensor</text>
+                  </g>
+
+                  <g class="design-topo-ours">
+                    <text x="24" y="488" font-family="Georgia, serif" font-size="13" fill="#0b6b35">Our orientation: GCaMP6f on the cytosolic N-terminus</text>
+                  </g>
+                  <g class="design-topo-why">
+                    <rect x="508" y="268" width="196" height="118" fill="#ffffff" stroke="#0a0a0a" stroke-width="1.6"></rect>
+                    <text x="520" y="290" font-family="ui-monospace, Consolas, monospace" font-size="11" fill="#555555">WHY ORIENTATION MATTERS</text>
+                    <text x="520" y="312" font-family="Georgia, serif" font-size="12" fill="#0a0a0a">N-terminus intracellular</text>
+                    <text x="520" y="330" font-family="Georgia, serif" font-size="12" fill="#0a0a0a">C-terminus extracellular</text>
+                    <text x="520" y="348" font-family="Georgia, serif" font-size="12" fill="#0b6b35">Ca²⁺ influx through the pore</text>
+                    <text x="520" y="366" font-family="Georgia, serif" font-size="12" fill="#0b6b35">cytosolic indicator required</text>
+                  </g>
+
+                  <a href="#ref-benton-2006">
+                    <text x="520" y="64" font-family="ui-monospace, Consolas, monospace" font-size="12" fill="#0a0a0a">inverted topology [3]</text>
+                  </a>
+                  <a href="#ref-butterwick-2018">
+                    <text x="520" y="82" font-family="ui-monospace, Consolas, monospace" font-size="12" fill="#0a0a0a">Orco cryo-EM [4]</text>
+                  </a>
+                  <text x="360" y="506" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="11" fill="#555555">Schematic — not a cryo-EM reconstruction or AeroSense structure</text>
+                </svg>
+              </div>
+              <figcaption>
+                <span class="wiki-figure__num">Figure 4.</span>
+                <span class="wiki-figure__title"> Why GCaMP6f is fused at the intracellular N-terminus.</span>
+                <p class="wiki-figure__explain">
+                  Insect ORs and Orco have an inverted topology relative to vertebrate GPCRs: N-terminus intracellular, C-terminus extracellular
+                  <a class="cite" href="#ref-benton-2006">[3]</a>,
+                  confirmed structurally for Orco
+                  <a class="cite" href="#ref-butterwick-2018">[4]</a>.
+                  GCaMP6f is therefore placed on the cytoplasmic N-terminus so it can sense channel Ca²⁺.
+                  A C-terminal fusion would put the sensor in millimolar extracellular Ca²⁺ and saturate it.
+                  The local-microdomain advantage of tethering is a design hypothesis, not an AeroSense measurement.
+                </p>
+                <ul class="wiki-figure__meta">
+                  <li><span class="wiki-figure__badge">Schematic — not experimental data</span></li>
+                  <li><strong>Attribution:</strong> Illustration by NTHU iGEM 2026; topology based on Benton et al. (2006) and Butterwick et al. (2018). Not copied from published figures.</li>
+            </ul>
+              </figcaption>
+            </figure>
+          </section>
+
+          <section class="section-block" id="shared-backbone" data-reveal>
+            <span id="why-hek293t" class="anchor-alias"></span>
+            <h2>Shared backbone: pcDNA3.1(+)</h2>
+            <p>
+              All ten plasmids use the same vector, which simplifies cloning, sequencing, and selection.
+              The overview and codon-optimisation text treat <strong>HEK293</strong> as a sufficient heterologous host because no GPCR machinery is required
+              (matching Engineering wet-lab wording in <code>engineering_content.md</code>).
+              The SV40 origin is specified for episomal amplification in <strong>HEK293T</strong> (large T antigen positive).
+              Those host statements are not collapsed into a single chassis name on this page.
+              Site-wide HEK293 vs HEK293T identity remains <strong>not frozen</strong> (see also Safety / Engineering chassis notes) — do not treat the names as interchangeable.
+            </p>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="pcDNA3.1(+) elements and functions">
               <table class="goal-table">
                 <thead>
                   <tr>
                     <th scope="col">Element</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Class</th>
-                    <th scope="col">Decision basis</th>
+                    <th scope="col">Function</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Selected <i>Drosophila</i> OR</td>
-                    <td>Ligand-tuned recognition</td>
-                    <td>Essential (once panel approved)</td>
-                    <td>Design question + literature panels
-                      <span class="cite-wrap">
-                        <a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023-b" aria-describedby="cite-preview-zboray-2023">[1]</a>
-                        <span class="cite-preview" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span>
-                      </span>
-                    </td>
+                    <td>CMV enhancer/promoter</td>
+                    <td>Strong constitutive transcription in HEK293</td>
                   </tr>
                   <tr>
-                    <td>Orco</td>
-                    <td>Co-receptor for functional OR channels</td>
-                    <td>Essential</td>
-                    <td>Structural / channel context
-                      <span class="cite-wrap">
-                        <a class="cite" href="#ref-butterwick-2018" id="cite-butterwick-2018-b" aria-describedby="cite-preview-butterwick-2018">[2]</a>
-                        <span class="cite-preview" role="tooltip">Butterwick et al., 2018 — full entry in References &amp; Credits.</span>
-                      </span>
-                    </td>
+                    <td>BGH poly(A)</td>
+                    <td>mRNA termination and stabilisation</td>
                   </tr>
                   <tr>
-                    <td>HEK293T</td>
-                    <td>Heterologous expression host</td>
-                    <td>Essential (current chassis choice)</td>
-                    <td>Team proposal + published HEK OR panels; see <a href="#why-hek293t">Why HEK293T?</a></td>
+                    <td>NeoR (SV40 promoter)</td>
+                    <td>G418 selection of stable mammalian lines</td>
                   </tr>
                   <tr>
-                    <td>GCaMP6</td>
-                    <td>Calcium → fluorescence report</td>
-                    <td>Essential (variant open)</td>
-                    <td>Indicator family
-                      <span class="cite-wrap">
-                        <a class="cite" href="#ref-chen-2013" id="cite-chen-2013-a" aria-describedby="cite-preview-chen-2013">[3]</a>
-                        <span class="cite-preview" id="cite-preview-chen-2013" role="tooltip">Chen et al., 2013 — full entry in References &amp; Credits.</span>
-                      </span>;
-                      panel context
-                      <span class="cite-wrap">
-                        <a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023-c" aria-describedby="cite-preview-zboray-2023">[1]</a>
-                        <span class="cite-preview" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span>
-                      </span>
-                    </td>
+                    <td>AmpR / ColE1 ori</td>
+                    <td>Propagation and selection in <i>E. coli</i></td>
                   </tr>
                   <tr>
-                    <td><dfn class="term" data-term="obp" tabindex="0">Odorant-binding protein (OBP)</dfn></td>
-                    <td>Possible aid for hydrophobic VOC delivery in aqueous media</td>
-                    <td>Hypothesis / optional</td>
-                    <td>Proposal option; not required until experiments show benefit</td>
+                    <td>T7 and BGH priming sites</td>
+                    <td>Sequencing across both insert junctions</td>
                   </tr>
                   <tr>
-                    <td>Microfluidic / multi-well delivery</td>
-                    <td>Stimulus presentation format</td>
-                    <td>Option</td>
-                    <td>Open — see VOC-response assay design</td>
+                    <td>SV40 origin</td>
+                    <td>Episomal amplification in HEK293T (large T antigen positive)</td>
                   </tr>
                 </tbody>
               </table>
             </div>
-          </section>
-
-          <section class="section-block" id="construct-strategy" data-reveal>
-            <h2>Construct strategy</h2>
-            <p>
-              Two expression assemblies are proposed so OR identity reporting and Orco/calcium reporting can be co-delivered.
-              Sequence files, Registry IDs, and verification status live on
-              <a href="parts.html">Parts</a>;
-              this section states only the design logic. Diagrams remain concept illustrations until sequence-checked maps exist.
-            </p>
-
-            <figure class="construct-map" id="design-construct-a">
-              <figcaption>
-                <span class="wiki-figure__num">Figure 2.</span>
-                <span class="wiki-figure__title"> Construct A concept — OR with IRES–mCherry.</span>
-              </figcaption>
-              <p class="construct-map__lede">
-                Proposal concept: CAG promoter → selected OR CDS → EMCV IRES → mCherry → polyadenylation signal.
-                Inventory and Registry bridge:
-                <a href="parts.html#construct-a">Parts · Construct A</a>.
-              </p>
-              <ol class="construct-map__track" aria-label="Construct A concept elements from 5′ to 3′">
-                <li class="construct-map__block"><a href="parts.html#part-cag"><span class="construct-map__role">Promoter</span><span class="construct-map__name">CAG</span></a></li>
-                <li class="construct-map__block"><a href="parts.html#part-or-cds"><span class="construct-map__role">CDS</span><span class="construct-map__name">Selected OR</span></a></li>
-                <li class="construct-map__block"><a href="parts.html#part-emcv-ires"><span class="construct-map__role">IRES</span><span class="construct-map__name">EMCV</span></a></li>
-                <li class="construct-map__block"><a href="parts.html#part-mcherry"><span class="construct-map__role">Reporter</span><span class="construct-map__name">mCherry</span></a></li>
-                <li class="construct-map__block"><a href="parts.html#part-bgh-polya"><span class="construct-map__role">3′ end</span><span class="construct-map__name">poly(A)</span></a></li>
-              </ol>
-              <p class="construct-map__caveat" role="note">Concept illustration — verify against final sequence</p>
-              <ul class="wiki-figure__meta">
-                <li><span class="wiki-figure__badge">Concept illustration — verify against final sequence</span></li>
-                <li><strong>Rationale:</strong> Bicistronic OR and mCherry expression is intended to report transfection/expression without forcing an OR–fluorophore fusion (proposal design; confirm on map).</li>
-                <li><strong>Evidence status:</strong> Planned / proposal concept.</li>
-                <li><strong>Open:</strong> promoter identity, OR CDS, junctions, selection cassette, backbone.</li>
-              </ul>
-            </figure>
-
-            <figure class="construct-map" id="design-construct-b">
-              <figcaption>
-                <span class="wiki-figure__num">Figure 3.</span>
-                <span class="wiki-figure__title"> Construct B concept — GCaMP–Orco fusion under an inducible promoter.</span>
-              </figcaption>
-              <p class="construct-map__lede">
-                Proposal concept: inducible promoter → GCaMP6 → GSG linker → Orco CDS → polyadenylation signal.
-                Inventory and Registry bridge:
-                <a href="parts.html#construct-b">Parts · Construct B</a>.
-              </p>
-              <ol class="construct-map__track" aria-label="Construct B concept elements from 5′ to 3′">
-                <li class="construct-map__block"><a href="parts.html#part-inducible-promoter"><span class="construct-map__role">Promoter</span><span class="construct-map__name">Inducible</span></a></li>
-                <li class="construct-map__block"><a href="parts.html#part-gcamp6"><span class="construct-map__role">Reporter</span><span class="construct-map__name">GCaMP6</span></a></li>
-                <li class="construct-map__block"><a href="parts.html#part-gsg"><span class="construct-map__role">Linker</span><span class="construct-map__name">GSG</span></a></li>
-                <li class="construct-map__block"><a href="parts.html#part-orco"><span class="construct-map__role">CDS</span><span class="construct-map__name">Orco</span></a></li>
-                <li class="construct-map__block"><a href="parts.html#part-polya-b"><span class="construct-map__role">3′ end</span><span class="construct-map__name">poly(A)</span></a></li>
-              </ol>
-              <p class="construct-map__caveat" role="note">Concept illustration — verify against final sequence</p>
-              <ul class="wiki-figure__meta">
-                <li><span class="wiki-figure__badge">Concept illustration — verify against final sequence</span></li>
-                <li><strong>Rationale:</strong> A single GCaMP–Orco fusion is intended to couple co-receptor delivery with calcium reporting; proposal text places GCaMP6 N-terminal to Orco (confirm orientation on map).</li>
-                <li><strong>Evidence status:</strong> Planned / proposal concept.</li>
-                <li><strong>Open:</strong> inducible promoter identity (proposal notes Ptet-T6), GCaMP6 variant, linker, selection/transactivator requirements.</li>
-              </ul>
-            </figure>
-          </section>
-
-          <section class="section-block" id="why-hek293t" data-reveal>
-            <h2>Why HEK293T?</h2>
-            <p>
-              <strong>Team rationale (proposal):</strong> HEK293T is the planned mammalian host for heterologous OR/Orco expression and optical calcium imaging in AeroSense.
-              The proposal also discusses practical transfection and imaging workflows in adherent culture.
-            </p>
-            <p>
-              <strong>Literature support:</strong> Insect ORs have been co-expressed with Orco and GCaMP6 in HEK-line panels for odorant profiling
-              <span class="cite-wrap">
-                <a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023-d" aria-describedby="cite-preview-zboray-2023">[1]</a>
-                <span class="cite-preview" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span>
-              </span>.
-              That precedent supports HEK cells as a workable chassis class; it does not prove that AeroSense constructs will behave identically.
-            </p>
-            <p class="notice">
-              This page does <strong>not</strong> claim that HEK293T has “no background current,” zero endogenous olfactory signaling, or universal suitability for every VOC.
-              Those statements would need team-approved measurements or carefully scoped citations. Chassis limitations (growth media, transfection variability, optical autofluorescence, containment) remain open experimental risks.
+            <p class="design-callout design-callout--decision">
+              The backbone was chosen <strong>without a WPRE element</strong>.
+              WPRE modestly increases expression, but it is not explicitly listed on the iGEM White List; omitting it was the team’s design intent to stay within categories understood as pre-approved.
+              That sentence is not a White List badge, a Safety Committee determination, or a substitute for checking the current 2026 iGEM Safety Rules before freeze.
+              The SV40 origin is specified to recover part of that expression in HEK293T by increasing plasmid copy number.
             </p>
           </section>
 
-          <section class="section-block" id="receptor-selection" data-reveal>
-            <h2>Receptor selection</h2>
-            <p>
-              Receptor choice determines which VOC patterns the array can, in principle, report. Until the team approves a final panel, candidates remain literature- and proposal-derived examples only.
-            </p>
-            <div class="table-scroll" tabindex="0" role="region" aria-label="Receptor selection status">
-              <table class="goal-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Topic</th>
-                    <th scope="col">Current wiki status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Selection criteria</td>
-                    <td>
-                      <span class="placeholder-field">[TEAM CONTENT REQUIRED]</span>
-                      — e.g. published ligand breadth, heterologous expressibility, application VOC relevance, cloning feasibility.
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Candidate receptor panel</td>
-                    <td>
-                      Proposal / literature examples discussed for planning: Or10a, Or13a, Or47a (and related receptors in published HEK panels)
-                      <span class="cite-wrap">
-                        <a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023-e" aria-describedby="cite-preview-zboray-2023">[1]</a>
-                        <span class="cite-preview" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span>
-                      </span>.
-                      Broader OR repertoire context:
-                      <span class="cite-wrap">
-                        <a class="cite" href="#ref-robertson-2003" id="cite-robertson-2003" aria-describedby="cite-preview-robertson-2003">[4]</a>
-                        <span class="cite-preview" id="cite-preview-robertson-2003" role="tooltip">Robertson et al., 2003 — full entry in References &amp; Credits.</span>
-                      </span>.
-                      <strong>Final approved panel:</strong>
-                      <span class="placeholder-field">[TEAM CONTENT REQUIRED]</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Target VOC rationale</td>
-                    <td>
-                      Application domains discussed in the proposal include agricultural, environmental, food, and medical VOC contexts.
-                      Primary 2026 VOC set:
-                      <span class="placeholder-field">[TEAM CONTENT REQUIRED]</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Source databases / literature</td>
-                    <td>
-                      Planning references include published heterologous panels
-                      <span class="cite-wrap">
-                        <a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023-f" aria-describedby="cite-preview-zboray-2023">[1]</a>
-                        <span class="cite-preview" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span>
-                      </span>
-                      and genome-scale OR family description
-                      <span class="cite-wrap">
-                        <a class="cite" href="#ref-robertson-2003" id="cite-robertson-2003-b" aria-describedby="cite-preview-robertson-2003">[4]</a>
-                        <span class="cite-preview" role="tooltip">Robertson et al., 2003 — full entry in References &amp; Credits.</span>
-                      </span>.
-                      Sequence-database accessions used by AeroSense:
-                      <span class="placeholder-field">[TEAM CONTENT REQUIRED]</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Final decision</td>
-                    <td>
-                      <span class="placeholder-field">[TEAM CONTENT REQUIRED]</span>
-                      — no receptor panel is marked approved on this wiki.
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+          <section class="section-block" id="reporters" data-reveal>
+            <span id="functional-validation" class="anchor-alias"></span>
+            <h2>What the reporters actually tell us</h2>
+            <p>Fluorescence is not automatically function. The two optical proteins answer different questions.</p>
+            <div class="design-can-cannot">
+              <article class="design-card design-callout design-callout--evidence" aria-labelledby="can-tell-heading">
+                <h3 id="can-tell-heading">Can tell</h3>
+                <ul class="limitation-list">
+                  <li>
+                    <strong>mCherry can</strong> support evidence that the Module 1 cassette is transcribed and that the IRES has fired, because mCherry is a separate polypeptide from the same mRNA.
+                  </li>
+                  <li>
+                    <strong>GCaMP6f can</strong> report calcium-dependent fluorescence when the indicator is in the cytosol and Ca²⁺ rises.
+                  </li>
+                  <li>
+                    <strong>A Ca²⁺ response to VUAA1</strong> is the intended functional readout of the Orco channel; a response to the tuning receptor’s reference ligand is the intended readout of OR specificity. Those assays are defined here as interpretation rules, not as completed measurements.
+                  </li>
+            </ul>
+              </article>
+              <article class="design-card design-callout design-callout--limit" aria-labelledby="cannot-tell-heading">
+                <h3 id="cannot-tell-heading">Cannot tell</h3>
+                <ul class="limitation-list">
+                  <li>
+                    <strong>mCherry cannot</strong> by itself prove OR folding, plasma-membrane trafficking, or VOC responsiveness.
+                  </li>
+                  <li>
+                    <strong>GCaMP fluorescence cannot</strong> be interpreted as OR/Orco function without controls that separate channel activity from reporter artifacts, vehicle effects, and expression failure.
+                  </li>
+                  <li>
+                    <strong>Neither reporter</strong> substitutes for receptor-level VOC validation. Zboray <i>et al.</i> observed VUAA1-positive lines that still lacked VOC-specific responses
+                    <span class="cite-wrap">
+                      <a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023-b" aria-describedby="cite-preview-zboray-2023-b">[5]</a>
+                      <span class="cite-preview" id="cite-preview-zboray-2023-b" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span>
+                    </span>.
+                  </li>
+            </ul>
+              </article>
             </div>
           </section>
 
-          <section class="section-block" id="functional-validation" data-reveal>
-            <h2>Functional validation design</h2>
-            <p>
-              Before VOC-response claims, the design requires a control matrix that separates Orco-dependent channel activity, reporter artifacts, and expression failure.
-              <dfn class="term" data-term="vuaa1" tabindex="0">VUAA1</dfn> is planned as an Orco-family agonist functional control based on published agonism of insect odorant receptor ion channels
-              <span class="cite-wrap">
-                <a class="cite" href="#ref-jones-2011" id="cite-jones-2011-a" aria-describedby="cite-preview-jones-2011">[5]</a>
-                <span class="cite-preview" id="cite-preview-jones-2011" role="tooltip">Jones et al., 2011 — full entry in References &amp; Credits.</span>
-              </span>.
-              Later Orco structural and mutagenesis work discusses VUAA1-related binding and translocation mechanisms
-              <span class="cite-wrap">
-                <a class="cite" href="#ref-pacalon-2023" id="cite-pacalon-2023-a" aria-describedby="cite-preview-pacalon-2023">[6]</a>
-                <span class="cite-preview" id="cite-preview-pacalon-2023" role="tooltip">Pacalon et al., 2023 — full entry in References &amp; Credits.</span>
-              </span>;
-              an author correction was published in 2024
-              <span class="cite-wrap">
-                <a class="cite" href="#ref-pacalon-2024-corr" id="cite-pacalon-2024-corr" aria-describedby="cite-preview-pacalon-2024-corr">[7]</a>
-                <span class="cite-preview" id="cite-preview-pacalon-2024-corr" role="tooltip">Pacalon et al., 2024 author correction — full entry in References &amp; Credits.</span>
-              </span>.
-              Any specific residue or binding-mechanism claim used for AeroSense mutagenesis must be re-checked by the team against the corrected article before it is treated as design truth.
-            </p>
-            <div class="table-scroll" tabindex="0" role="region" aria-label="Functional validation design matrix">
-              <table class="goal-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Control / measurement</th>
-                    <th scope="col">Proposed purpose</th>
-                    <th scope="col">Acceptance logic</th>
-                    <th scope="col">Evidence status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>VUAA1 agonist control</td>
-                    <td>Probe Orco-dependent channel activity when constructs are present</td>
-                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span> — do not treat proposal concentrations or % ΔF as observed results</td>
-                    <td>Planned design</td>
-                  </tr>
-                  <tr>
-                    <td>Vehicle control</td>
-                    <td>Separate solvent / handling effects from agonist or VOC effects</td>
-                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
-                    <td>Planned design</td>
-                  </tr>
-                  <tr>
-                    <td>OR/Orco negative controls</td>
-                    <td>Incomplete combinations (e.g. missing OR, missing Orco, or reporter-only concepts) to test dependence</td>
-                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
-                    <td>Planned design</td>
-                  </tr>
-                  <tr>
-                    <td>Expression control</td>
-                    <td>mCherry and/or GCaMP baseline presence as transfection/expression check</td>
-                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
-                    <td>Planned design</td>
-                  </tr>
-                  <tr>
-                    <td>Calcium-signal measurement</td>
-                    <td>Time-resolved GCaMP fluorescence under defined imaging settings</td>
-                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED: metric and analysis rule]</span></td>
-                    <td>Planned design</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <p class="notice">
-              Proposal numbers for transfection efficiency, fluorescence fold-change, or agonist working concentration are planning language only.
-              They are not inserted here as AeroSense observations. Record actual execution on
-              <a href="experiments.html">Experiments</a>
-              and outcomes on
-              <a href="results.html">Results</a>.
-            </p>
-          </section>
-
-          <section class="section-block" id="voc-assay" data-reveal>
-            <h2>VOC-response assay design</h2>
-            <p>
-              After functional controls are defined, VOC assays should test whether selected OR/Orco combinations produce stimulus-linked optical responses that can be exported to Model.
-              Only team-approved assay details are stated as design commitments; unapproved proposal details stay marked open.
-            </p>
-            <div class="table-scroll" tabindex="0" role="region" aria-label="VOC-response assay design fields">
-              <table class="goal-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Design field</th>
-                    <th scope="col">Approved detail</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Exposure format</td>
-                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span> — proposal discusses well-plate imaging and possible microfluidic formats; neither is locked here</td>
-                  </tr>
-                  <tr>
-                    <td>Concentration strategy</td>
-                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span> — do not treat proposal example micromolar values as AeroSense results</td>
-                  </tr>
-                  <tr>
-                    <td>Timing / washout</td>
-                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
-                  </tr>
-                  <tr>
-                    <td>Randomization / blinding</td>
-                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
-                  </tr>
-                  <tr>
-                    <td>Controls</td>
-                    <td>Must reuse the functional-validation control set above; VOC-specific blanks:
-                      <span class="placeholder-field">[TEAM CONTENT REQUIRED]</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Biological / technical replicates</td>
-                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
-                  </tr>
-                  <tr>
-                    <td>Data exported to Model</td>
-                    <td>Intended product: fluorescence time series or derived feature vectors with stimulus metadata — schema
-                      <span class="placeholder-field">[TEAM CONTENT REQUIRED]</span>
-                      (see <a href="#interfaces">Interfaces</a>)
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <section class="section-block" id="optimization" data-reveal>
-            <h2>Receptor optimization strategy</h2>
-            <p>
-              Structure-guided mutagenesis remains an active proposal track for improving VOC responses after a baseline OR/Orco/GCaMP system works.
-              It is an investigation strategy, not evidence that optimized mutants already exist.
-            </p>
-            <ol class="goal-list">
+          <section class="section-block" id="limitations" data-reveal>
+            <span id="risks" class="anchor-alias"></span>
+            <h2>Design considerations and honest limitations</h2>
+            <ul class="limitation-list design-callout design-callout--limit">
               <li>
-                <strong>Structure prediction:</strong> predict OR–Orco assemblies with team-chosen structure tools
-                <span class="placeholder-field">[TEAM CONTENT REQUIRED: tool versions]</span>.
-                Cryo-EM Orco structure provides co-receptor context
+                <strong>No epitope tag on the receptors.</strong>
+                Final OR constructs carry no FLAG or trafficking tag. That keeps the receptor sequence minimal and avoids perturbing folding of a multipass membrane protein, but it means there is <strong>no OR-specific antibody handle</strong>: surface immunostaining cannot confirm membrane localisation independently of function. Receptor expression must therefore be inferred functionally.
+                Should trafficking prove limiting for a given receptor, published strategies — an N-terminal rhodopsin tag and ER-export signal
                 <span class="cite-wrap">
-                  <a class="cite" href="#ref-butterwick-2018" id="cite-butterwick-2018-c" aria-describedby="cite-preview-butterwick-2018">[2]</a>
-                  <span class="cite-preview" role="tooltip">Butterwick et al., 2018 — full entry in References &amp; Credits.</span>
-                </span>.
-              </li>
-              <li>
-                <strong>Docking:</strong> screen candidate VOCs against modeled pockets with team-chosen docking methods
-                <span class="placeholder-field">[TEAM CONTENT REQUIRED]</span>.
-                Docking scores are hypotheses, not measured affinities.
-              </li>
-              <li>
-                <strong>Candidate-residue selection:</strong> prioritize positions for mutagenesis only after team review of models and literature.
-                If Pacalon et al. (2023) residue or binding-mechanism statements are used
-                <span class="cite-wrap">
-                  <a class="cite" href="#ref-pacalon-2023" id="cite-pacalon-2023-b" aria-describedby="cite-preview-pacalon-2023">[6]</a>
-                  <span class="cite-preview" role="tooltip">Pacalon et al., 2023 — full entry in References &amp; Credits.</span>
-                </span>,
-                verify them against the 2024 author correction
-                <span class="cite-wrap">
-                  <a class="cite" href="#ref-pacalon-2024-corr" id="cite-pacalon-2024-corr-b" aria-describedby="cite-preview-pacalon-2024-corr">[7]</a>
-                  <span class="cite-preview" role="tooltip">Pacalon et al., 2024 author correction — full entry in References &amp; Credits.</span>
+                  <a class="cite" href="#ref-miazzi-2019" id="cite-miazzi-2019" aria-describedby="cite-preview-miazzi-2019">[8]</a>
+                  <span class="cite-preview" id="cite-preview-miazzi-2019" role="tooltip">Miazzi et al., 2019 — full entry in References &amp; Credits.</span>
                 </span>
-                before any residue list is treated as design-approved.
-                Specific AeroSense mutagenesis targets:
-                <span class="placeholder-field">[TEAM CONTENT REQUIRED]</span>.
+                — are available as a second-generation revision, not as part of the current constructs.
               </li>
               <li>
-                <strong>Site-directed mutagenesis:</strong> introduce approved variants into Construct A (or the verified OR plasmid) using a team-approved kit/protocol.
+                <strong>The EMCV poly(C) tract.</strong>
+                The IRES region contains a 10× cytosine homopolymer. It is a known synthesis-difficulty region, but it is a genuine feature of the EMCV 5′ element and was deliberately retained rather than recoded.
               </li>
               <li>
-                <strong>Functional rescreening:</strong> re-run the control matrix and VOC assay design; retain only variants with experimental support.
+                <strong>Bicistronic expression ratio.</strong>
+                mCherry is expressed below the level of the receptor by design. For an expression marker this is acceptable, since mCherry is bright and constitutive; it was explicitly <em>not</em> acceptable for a dim calcium sensor, which is why the Orco module uses a fusion instead.
               </li>
-            </ol>
-            <p class="notice">
-              Risk of model-driven false confidence: attractive docking energies or predicted binding poses can prioritize the wrong residues.
-              Computational ranking must not be reported as experimental affinity, potency, or AeroSense sensing performance.
-            </p>
+              <li>
+                <strong>Panel risk.</strong>
+                Seven of nine receptors are, to our knowledge, new to a cell-based heterologous olfactory panel. Receptor-level VOC function is not assumed from expression or from VUAA1.
+              </li>
+            </ul>
           </section>
 
-          <section class="section-block" id="trade-offs" data-reveal>
-            <h2>Design alternatives and trade-offs</h2>
-            <div class="table-scroll" tabindex="0" role="region" aria-label="Design alternatives and trade-offs">
+          <section class="section-block" id="verification" data-reveal>
+            <h2>Verification</h2>
+            <p class="design-callout design-callout--evidence">
+              Sequence checks, synthesis, Sanger reads, and living-cell function are different claims.
+              They are not collapsed into a single “Verified” status.
+            </p>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Verification layers for the Design constructs">
               <table class="goal-table">
                 <thead>
                   <tr>
-                    <th scope="col">Decision</th>
-                    <th scope="col">Options considered</th>
-                    <th scope="col">Trade-off</th>
-                    <th scope="col">Current status</th>
+                    <th scope="col">Layer</th>
+                    <th scope="col">What this design source states</th>
+                    <th scope="col">Status on this page</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Expression mode</td>
-                    <td>Transient co-transfection vs stable lines</td>
-                    <td>Transient is faster for early POC; stable lines aid repeatability but need selection and validation</td>
-                    <td>Proposal emphasizes early co-transfection; stable strategy not locked —
-                      <span class="placeholder-field">[TEAM CONTENT REQUIRED]</span>
+                    <td>
+                      <div class="evidence-status" data-status="completed-awaiting">
+                        <span class="evidence-status__label">In silico</span>
+                        <span class="evidence-status__value">Design check recorded</span>
+                      </div>
                     </td>
-                  </tr>
-                  <tr>
-                    <td>GCaMP variant</td>
-                    <td>GCaMP6s vs GCaMP6f (or later sensors)</td>
-                    <td>Slower/sensitive vs faster kinetics
-                      <span class="cite-wrap">
-                        <a class="cite" href="#ref-chen-2013" id="cite-chen-2013-b" aria-describedby="cite-preview-chen-2013">[3]</a>
-                        <span class="cite-preview" role="tooltip">Chen et al., 2013 — full entry in References &amp; Credits.</span>
-                      </span>
+                    <td>
+                      All ten constructs were verified <i>in silico</i> before synthesis — reading frame, absence of internal stop codons, Kozak context, junction integrity, and absence of internal sites for the intended cloning strategy.
+                      Every codon-optimised coding sequence was translated and compared against its FlyBase reference; all encode proteins identical to the reference.
                     </td>
-                    <td>Open — confirm on construct map (<a href="parts.html#part-gcamp6">Parts</a>)</td>
+                    <td>In silico identity and frame checks, as stated. No sequence files are embedded here.</td>
                   </tr>
                   <tr>
-                    <td>Readout instrument</td>
-                    <td>Fluorescence microscopy vs plate reader</td>
-                    <td>Microscopy gives spatial/time detail; plate readers scale throughput but change optics and analysis</td>
-                    <td>Open —
-                      <span class="placeholder-field">[TEAM CONTENT REQUIRED]</span>
+                    <td>
+                      <div class="evidence-status" data-status="in-progress">
+                        <span class="evidence-status__label">Synthesis</span>
+                        <span class="evidence-status__value">Constructs as synthesised</span>
+                      </div>
                     </td>
-                  </tr>
-                  <tr>
-                    <td>OBP inclusion</td>
-                    <td>Include vs omit OBP expression</td>
-                    <td>May help hydrophobic VOC delivery; adds genetic and assay complexity</td>
-                    <td>Optional hypothesis — not essential in Figure 1</td>
-                  </tr>
-                  <tr>
-                    <td>Receptor breadth</td>
-                    <td>Single OR vs multi-OR array</td>
-                    <td>Single OR simplifies interpretation; multiple ORs enable pattern vectors for Model</td>
-                    <td>Array intended long-term; first validated OR set
-                      <span class="placeholder-field">[TEAM CONTENT REQUIRED]</span>
+                    <td>
+                      The page describes the <strong>final constructs as synthesised</strong>: ten plasmids on pcDNA3.1(+).
                     </td>
+                    <td>Construct-status statement from the design source. Not functional validation.</td>
                   </tr>
                   <tr>
-                    <td>Live-cell maintenance</td>
-                    <td>Short assay windows vs longer culture / ALI concepts</td>
-                    <td>Longer maintenance may improve realism but increases contamination and drift risk</td>
-                    <td>Open — coordinate with Hardware sample handling</td>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Sanger</span>
+                        <span class="evidence-status__value">Method specified</span>
+                      </div>
+                    </td>
+                    <td>
+                      Sanger verification uses the T7 forward and BGH reverse priming sites for the two junctions plus internal primers, with one read deliberately crossing the linker region of the Orco construct where a repeat-driven deletion would otherwise hide.
+                    </td>
+                    <td>Plan / method. Completion of those reads is not claimed on this page.</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="evidence-status" data-status="planned">
+                        <span class="evidence-status__label">Function</span>
+                        <span class="evidence-status__value">Not claimed here</span>
+                      </div>
+                    </td>
+                    <td>
+                      Functional OR expression is defined as a calcium response (VUAA1 for Orco; reference ligand for the tuning receptor).
+                      Receptor-level functional validation is a distinct experimental milestone.
+                    </td>
+                    <td>
+                      See <a href="experiments.html">Experiments</a> and <a href="results.html">Results</a>.
+                      Do not read this Design page as a completed VUAA1 or VOC dataset.
+                    </td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </section>
 
-          <section class="section-block" id="interfaces" data-reveal>
-            <h2>Interfaces with Model and Hardware</h2>
+          <section class="section-block" id="continue" data-reveal>
+            <h2>Continue the evidence chain</h2>
             <p>
-              Exact file schemas and optical settings are not team-approved yet. The table states the intended contracts and marks missing fields explicitly.
+              This page stops at architecture and design rationale.
+              <a href="parts.html">Parts</a> owns reusable components;
+              <a href="engineering.html#biological-cycles">Engineering</a> owns DBTL iterations;
+              <a href="experiments.html">Experiments</a> owns protocols;
+              <a href="results.html">Results</a> owns measured evidence;
+              <a href="hardware.html">Hardware</a> owns the optical/electronic reader;
+              <a href="model.html">Model</a> owns computational decoding.
             </p>
-            <div class="table-scroll" tabindex="0" role="region" aria-label="Model and Hardware interface contracts">
-              <table class="goal-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Contract item</th>
-                    <th scope="col">Wet-lab → Model</th>
-                    <th scope="col">Wet-lab ↔ Hardware</th>
-                    <th scope="col">Owner / open field</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Fluorescence units</td>
-                    <td>Raw intensity or ΔF/F<sub>0</sub> with stated definition</td>
-                    <td>Comparable optical quantity under documented gain/filter settings</td>
-                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
-                  </tr>
-                  <tr>
-                    <td>Timing</td>
-                    <td>Sample timestamps or frame rate; stimulus onset markers</td>
-                    <td>Acquisition clock alignment with stimulus delivery</td>
-                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
-                  </tr>
-                  <tr>
-                    <td>Metadata</td>
-                    <td>OR identity, construct lot, passage, stimulus ID, vehicle, replicate IDs</td>
-                    <td>Well/channel map, optical path revision, temperature if controlled</td>
-                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED: schema]</span></td>
-                  </tr>
-                  <tr>
-                    <td>Normalization responsibilities</td>
-                    <td>Model should document whether baseline subtraction, per-well scaling, or AL-inspired transforms are applied</td>
-                    <td>Hardware firmware/software must not silently rescale without a provenance flag</td>
-                    <td>Split ownership — document on <a href="model.html">Model</a> / <a href="hardware.html">Hardware</a></td>
-                  </tr>
-                  <tr>
-                    <td>Optical constraints</td>
-                    <td>N/A (model consumes numbers)</td>
-                    <td>Excitation/emission must match GCaMP-class fluorescence; reject excitation bleed-through</td>
-                    <td>Hardware design still reconciling components — see Hardware page status</td>
-                  </tr>
-                  <tr>
-                    <td>Sample handling</td>
-                    <td>Stimulus IDs must match exported columns</td>
-                    <td>Containment-compatible loading; no claim of field deployment readiness</td>
-                    <td>Coordinate with <a href="safety-and-security.html">Safety &amp; Security</a></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <ul class="design-continue">
+              <li class="design-card">
+                <h3 class="design-card__title"><a href="parts.html">Parts</a></h3>
+                <p>Exact reusable components, inventory rows, and Registry packaging. No <code>BBa_</code> identifiers are invented here.</p>
+              </li>
+              <li class="design-card">
+                <h3 class="design-card__title"><a href="engineering.html#biological-cycles">Engineering</a></h3>
+                <p>Design iterations: vector consolidation, reporter-architecture change, and tag removal as Build/Test/Learn cycles with evidence rails.</p>
+              </li>
+              <li class="design-card">
+                <h3 class="design-card__title"><a href="experiments.html">Experiments</a></h3>
+                <p>Assay procedures, transfection, and the control matrix that makes GCaMP and mCherry interpretable.</p>
+              </li>
+              <li class="design-card">
+                <h3 class="design-card__title"><a href="results.html">Results</a></h3>
+                <p>Measured evidence only. Design rationale and proposal expectations are not results.</p>
+              </li>
+              <li class="design-card">
+                <h3 class="design-card__title"><a href="hardware.html">Hardware</a></h3>
+                <p>Optical and electronic reader. Not part of the biological architecture on this page.</p>
+              </li>
+              <li class="design-card">
+                <h3 class="design-card__title"><a href="model.html">Model</a></h3>
+                <p>Computational decoding of the sensor array. Not part of the plasmid design on this page.</p>
+              </li>
+            </ul>
           </section>
 
-          <section class="section-block" id="risks" data-reveal>
-            <h2>Design risks and fallback paths</h2>
-            <div class="table-scroll" tabindex="0" role="region" aria-label="Design risks and fallback paths">
-              <table class="goal-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Risk</th>
-                    <th scope="col">Why it is credible</th>
-                    <th scope="col">Fallback path</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Construct map ≠ proposal concept</td>
-                    <td>Promoters, fusions, and selection cassettes still need verification on <a href="parts.html">Parts</a></td>
-                    <td>Freeze the verified map; update diagrams and inventory before assays</td>
-                  </tr>
-                  <tr>
-                    <td>No Orco-dependent VUAA1 response</td>
-                    <td>Agonism is literature-supported
-                      <span class="cite-wrap">
-                        <a class="cite" href="#ref-jones-2011" id="cite-jones-2011-b" aria-describedby="cite-preview-jones-2011">[5]</a>
-                        <span class="cite-preview" role="tooltip">Jones et al., 2011 — full entry in References &amp; Credits.</span>
-                      </span>,
-                      but AeroSense DNA/chassis may fail expression or trafficking
-                    </td>
-                    <td>Debug expression controls; simplify Construct B; postpone VOC claims</td>
-                  </tr>
-                  <tr>
-                    <td>GCaMP signal too weak or too noisy for Model</td>
-                    <td>Indicator kinetics and imaging settings matter
-                      <span class="cite-wrap">
-                        <a class="cite" href="#ref-chen-2013" id="cite-chen-2013-c" aria-describedby="cite-preview-chen-2013">[3]</a>
-                        <span class="cite-preview" role="tooltip">Chen et al., 2013 — full entry in References &amp; Credits.</span>
-                      </span>
-                    </td>
-                    <td>Retune imaging; consider alternate GCaMP variant after team decision; do not invent performance numbers</td>
-                  </tr>
-                  <tr>
-                    <td>Wrong OR panel for target VOCs</td>
-                    <td>Panel not yet approved</td>
-                    <td>Re-select from literature-supported candidates; keep Model schema receptor-agnostic</td>
-                  </tr>
-                  <tr>
-                    <td>Docking-led mutagenesis wastes cycle time</td>
-                    <td>Scores ≠ affinity</td>
-                    <td>Require experimental rescreen gates; limit mutant library size</td>
-                  </tr>
-                  <tr>
-                    <td>Hardware optical path not yet reconciled</td>
-                    <td>Project audit notes controller/optics conflicts outside this page</td>
-                    <td>Validate biology on lab microscopy first; freeze hardware contract only after Hardware page settles</td>
-                  </tr>
-                  <tr>
-                    <td>Over-claiming from proposal schedule</td>
-                    <td>Roadmap language is easy to misread as completion</td>
-                    <td>Keep Planned labels; publish results only with linked evidence on Results</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+          <section id="design-feature-catalog" class="design-static-record" aria-labelledby="feature-catalog-heading">
+            <h2 id="feature-catalog-heading">Cassette feature record</h2>
+            <p>Role, rationale, and caveats for every labelled cassette feature. The inspector copies these notes when JavaScript is available.</p>
+            <article id="spec-m1-cmv" data-module="1" data-feature="cmv">
+              <h3>CMV enhancer/promoter</h3>
+              <p><strong>Role.</strong> Strong constitutive transcription in HEK293.</p>
+              <p><strong>Design rationale.</strong> All ten plasmids use the same vector, which simplifies cloning, sequencing, and selection. This is a bicistronic design: one CMV-driven mRNA encodes two separate proteins.</p>
+            </article>
+            <article id="spec-m1-kozak" data-module="1" data-feature="kozak">
+              <h3>Kozak (<code>GCCACC</code>)</h3>
+              <p><strong>Role.</strong> Kozak sequence immediately 5′ of each ATG.</p>
+              <p><strong>Design rationale.</strong> <code>GCCACC</code> is placed immediately 5′ of each ATG. In silico sequence checks include Kozak context.</p>
+            </article>
+            <article id="spec-m1-or" data-module="1" data-feature="or">
+              <h3>OR open reading frame</h3>
+              <p><strong>Role.</strong> One <i>Drosophila melanogaster</i> odorant receptor, which confers ligand specificity.</p>
+              <p><strong>Design rationale.</strong> Nine plasmids share one cassette layout. Only the OR open reading frame changes. Length is 1,164–1,242 bp (387–413 aa, receptor-dependent). All nine ORFs are codon-optimised for human expression (CTG constitutes ~92% of leucine codons; GC3 ≈ 0.83).</p>
+              <p><strong>Caveat.</strong> Final OR constructs carry no FLAG or trafficking tag. This keeps the receptor sequence minimal and avoids perturbing the folding of a multipass membrane protein, but it means there is no OR-specific antibody handle: surface immunostaining cannot be used to confirm membrane localisation independently of function. Receptor expression must therefore be inferred functionally. No ligand specificities are assigned to individual receptors on this page.</p>
+            </article>
+            <article id="spec-m1-stop-or" data-module="1" data-feature="stop-or">
+              <h3>STOP (after OR ORF)</h3>
+              <p><strong>Role.</strong> Terminates the receptor open reading frame so OR and mCherry are separate proteins.</p>
+              <p><strong>Design rationale.</strong> Architecture: CMV enhancer/promoter → Kozak (<code>GCCACC</code>) → OR ORF → STOP → EMCV IRES → mCherry → STOP → BGH poly(A). One CMV-driven mRNA encodes two separate proteins.</p>
+            </article>
+            <article id="spec-m1-emcv-ires" data-module="1" data-feature="emcv-ires">
+              <h3>EMCV IRES</h3>
+              <p><strong>Role.</strong> Internal ribosome entry site that re-initiates translation of mCherry as an independent polypeptide.</p>
+              <p><strong>Design rationale.</strong> Ribosomes translate the OR cap-dependently; the IRES then re-initiates mCherry. Specification: 587 bp.</p>
+              <p><strong>Caveat.</strong> The IRES region contains a 10× cytosine homopolymer. It is a known synthesis-difficulty region, but it is a genuine feature of the EMCV 5′ element and was deliberately retained rather than recoded. mCherry is expressed below the level of the receptor by design. For an expression marker this is acceptable, since mCherry is bright and constitutive; it was explicitly <em>not</em> acceptable for a dim calcium sensor.</p>
+            </article>
+            <article id="spec-m1-mcherry" data-module="1" data-feature="mcherry">
+              <h3>mCherry</h3>
+              <p><strong>Role.</strong> Bicistronic transcription / IRES marker (711 bp; 236 aa, ~26 kDa).</p>
+              <p><strong>Design rationale.</strong> Because mCherry is translated from the same transcript but as a separate protein, red fluorescence confirms that the cassette is transcribed and that the IRES has fired.</p>
+              <p><strong>Caveat.</strong> It does not report receptor folding or trafficking to the plasma membrane. Functional OR expression is established only by the calcium response itself — VUAA1 for the Orco channel, and the reference ligand for the tuning receptor.</p>
+            </article>
+            <article id="spec-m1-stop-mcherry" data-module="1" data-feature="stop-mcherry">
+              <h3>STOP (after mCherry)</h3>
+              <p><strong>Role.</strong> Terminates the mCherry open reading frame so the marker is a separate protein.</p>
+              <p><strong>Design rationale.</strong> Architecture places STOP after mCherry, before BGH poly(A). mCherry is therefore not fused to the receptor.</p>
+            </article>
+            <article id="spec-m1-bgh-polya" data-module="1" data-feature="bgh-polya">
+              <h3>BGH poly(A)</h3>
+              <p><strong>Role.</strong> mRNA termination and stabilisation.</p>
+              <p><strong>Design rationale.</strong> Shared on the pcDNA3.1(+) backbone with T7 and BGH priming sites for sequencing across both insert junctions.</p>
+            </article>
+            <article id="spec-m2-cmv" data-module="2" data-feature="cmv">
+              <h3>CMV enhancer/promoter</h3>
+              <p><strong>Role.</strong> Strong constitutive transcription in HEK293.</p>
+              <p><strong>Design rationale.</strong> All ten plasmids use the same vector. Module 2 is a single open reading frame encoding one fusion protein — not a bicistronic construct.</p>
+            </article>
+            <article id="spec-m2-kozak" data-module="2" data-feature="kozak">
+              <h3>Kozak (<code>GCCACC</code>)</h3>
+              <p><strong>Role.</strong> Kozak sequence immediately 5′ of each ATG.</p>
+              <p><strong>Design rationale.</strong> <code>GCCACC</code> is placed immediately 5′ of the fusion ATG. In silico sequence checks include Kozak context.</p>
+            </article>
+            <article id="spec-m2-rset" data-module="2" data-feature="rset">
+              <h3>RSET leader</h3>
+              <p><strong>Role.</strong> Short leader (His<sub>6</sub> + T7 tag + Xpress epitope) retained from the parent GCaMP6f plasmid.</p>
+              <p><strong>Design rationale.</strong> It is retained from the parent GCaMP6f plasmid as an intended anti-His handle for confirming full-length fusion protein by western blot at the expected ~105 kDa. This page does not report experimental inertness in AeroSense cells.</p>
+              <p><strong>Caveat.</strong> That western blot is a planned identity check, not a result published on this page.</p>
+            </article>
+            <article id="spec-m2-gcamp6f" data-module="2" data-feature="gcamp6f">
+              <h3>GCaMP6f</h3>
+              <p><strong>Role.</strong> Genetically encoded calcium indicator (nucleotide positions 1,022–2,266; RS20/M13 – cpEGFP – calmodulin). The Design source does not state whether that numbering is on the plasmid or on the coding sequence.</p>
+              <p><strong>Design rationale.</strong> GCaMP6f must reside in the cytosol to sense the Ca²⁺ entering through the channel. It is placed N-terminally because insect OR/Orco topology places the N-terminus in the cytosol.</p>
+              <p><strong>Caveat.</strong> GCaMP6f is intrinsically dim at resting Ca²⁺ and its signal is transient, which is why an IRES-driven sensor was not used in this module.</p>
+            </article>
+            <article id="spec-m2-linker" data-module="2" data-feature="linker">
+              <h3>(GGGGS)<sub>3</sub> linker</h3>
+              <p><strong>Role.</strong> 15 aa flexible glycine–serine linker between GCaMP6f and DmOrco.</p>
+              <p><strong>Design rationale.</strong> The linker was chosen to give GCaMP6f enough conformational freedom to undergo its Ca²⁺-driven change while keeping it close to the channel. Glycine is used for backbone flexibility and serine to keep the linker hydrophilic. The Design source states that the sequence forms no secondary structure and contains no protease-sensitive motifs; this page does not report a structural assay or a named computational check. The three repeats were synthesised with diversified synonymous codons to avoid a tandem DNA repeat, which is a common cause of synthesis failure and deletion.</p>
+            </article>
+            <article id="spec-m2-dmorco" data-module="2" data-feature="dmorco">
+              <h3>DmOrco</h3>
+              <p><strong>Role.</strong> Universal co-receptor. 486 aa, human codon-optimised.</p>
+              <p><strong>Design rationale.</strong> The reporting module is Orco fused to GCaMP6f as one protein: GCaMP6f–(GGGGS)<sub>3</sub>–DmOrco. Insect ORs are not GPCRs; the OR–Orco complex is a heteromeric ligand-gated ion channel.</p>
+            </article>
+            <article id="spec-m2-stop" data-module="2" data-feature="stop">
+              <h3>STOP</h3>
+              <p><strong>Role.</strong> Terminates the single fusion open reading frame.</p>
+              <p><strong>Design rationale.</strong> Module 2 is one ORF, not a bicistronic construct. Internal stop codons: none (verified by <i>in silico</i> translation).</p>
+            </article>
+            <article id="spec-m2-bgh-polya" data-module="2" data-feature="bgh-polya">
+              <h3>BGH poly(A)</h3>
+              <p><strong>Role.</strong> mRNA termination and stabilisation.</p>
+              <p><strong>Design rationale.</strong> Shared on the pcDNA3.1(+) backbone with T7 and BGH priming sites for sequencing across both insert junctions.</p>
+            </article>
+          </section>
+
+          <section id="design-or-catalog" class="design-static-record" aria-labelledby="or-catalog-heading">
+            <h2 id="or-catalog-heading">Receptor notes</h2>
+            <p>The nine tuning receptors, with only the Zboray-overlap distinction assigned on this page.</p>
+            <article id="spec-or-Or22a" data-or="Or22a">
+              <h3>Or22a</h3>
+              <p><strong>Panel role.</strong> One of nine tuning receptors selected to span distinct chemical classes of plant and pathogen VOCs.</p>
+              <p>The remaining seven are, to our knowledge, new to a cell-based heterologous olfactory panel — which is both the novelty and the principal technical risk of our panel.</p>
+              <p>All nine ORFs are codon-optimised for human expression (CTG constitutes ~92% of leucine codons; GC3 ≈ 0.83).</p>
+              <p>No ligand specificities, potencies, or AeroSense response values are assigned to individual receptors on this page.</p>
+            </article>
+            <article id="spec-or-Or85b" data-or="Or85b">
+              <h3>Or85b</h3>
+              <p><strong>Panel role.</strong> One of nine tuning receptors selected to span distinct chemical classes of plant and pathogen VOCs.</p>
+              <p>Only <strong>Or85b</strong> and <strong>Or98a</strong> overlap with the seven receptors characterised by Zboray <i>et al.</i> in this platform.</p>
+              <p>All nine ORFs are codon-optimised for human expression (CTG constitutes ~92% of leucine codons; GC3 ≈ 0.83).</p>
+              <p>No ligand specificities, potencies, or AeroSense response values are assigned to individual receptors on this page.</p>
+            </article>
+            <article id="spec-or-Or35a" data-or="Or35a">
+              <h3>Or35a</h3>
+              <p><strong>Panel role.</strong> One of nine tuning receptors selected to span distinct chemical classes of plant and pathogen VOCs.</p>
+              <p>The remaining seven are, to our knowledge, new to a cell-based heterologous olfactory panel — which is both the novelty and the principal technical risk of our panel.</p>
+              <p>All nine ORFs are codon-optimised for human expression (CTG constitutes ~92% of leucine codons; GC3 ≈ 0.83).</p>
+              <p>No ligand specificities, potencies, or AeroSense response values are assigned to individual receptors on this page.</p>
+            </article>
+            <article id="spec-or-Or67a" data-or="Or67a">
+              <h3>Or67a</h3>
+              <p><strong>Panel role.</strong> One of nine tuning receptors selected to span distinct chemical classes of plant and pathogen VOCs.</p>
+              <p>The remaining seven are, to our knowledge, new to a cell-based heterologous olfactory panel — which is both the novelty and the principal technical risk of our panel.</p>
+              <p>All nine ORFs are codon-optimised for human expression (CTG constitutes ~92% of leucine codons; GC3 ≈ 0.83).</p>
+              <p>No ligand specificities, potencies, or AeroSense response values are assigned to individual receptors on this page.</p>
+            </article>
+            <article id="spec-or-Or7a" data-or="Or7a">
+              <h3>Or7a</h3>
+              <p><strong>Panel role.</strong> One of nine tuning receptors selected to span distinct chemical classes of plant and pathogen VOCs.</p>
+              <p>The remaining seven are, to our knowledge, new to a cell-based heterologous olfactory panel — which is both the novelty and the principal technical risk of our panel.</p>
+              <p>All nine ORFs are codon-optimised for human expression (CTG constitutes ~92% of leucine codons; GC3 ≈ 0.83).</p>
+              <p>No ligand specificities, potencies, or AeroSense response values are assigned to individual receptors on this page.</p>
+            </article>
+            <article id="spec-or-Or59b" data-or="Or59b">
+              <h3>Or59b</h3>
+              <p><strong>Panel role.</strong> One of nine tuning receptors selected to span distinct chemical classes of plant and pathogen VOCs.</p>
+              <p>The remaining seven are, to our knowledge, new to a cell-based heterologous olfactory panel — which is both the novelty and the principal technical risk of our panel.</p>
+              <p>All nine ORFs are codon-optimised for human expression (CTG constitutes ~92% of leucine codons; GC3 ≈ 0.83).</p>
+              <p>No ligand specificities, potencies, or AeroSense response values are assigned to individual receptors on this page.</p>
+            </article>
+            <article id="spec-or-Or42a" data-or="Or42a">
+              <h3>Or42a</h3>
+              <p><strong>Panel role.</strong> One of nine tuning receptors selected to span distinct chemical classes of plant and pathogen VOCs.</p>
+              <p>The remaining seven are, to our knowledge, new to a cell-based heterologous olfactory panel — which is both the novelty and the principal technical risk of our panel.</p>
+              <p>All nine ORFs are codon-optimised for human expression (CTG constitutes ~92% of leucine codons; GC3 ≈ 0.83).</p>
+              <p>No ligand specificities, potencies, or AeroSense response values are assigned to individual receptors on this page.</p>
+            </article>
+            <article id="spec-or-Or98a" data-or="Or98a">
+              <h3>Or98a</h3>
+              <p><strong>Panel role.</strong> One of nine tuning receptors selected to span distinct chemical classes of plant and pathogen VOCs.</p>
+              <p>Only <strong>Or85b</strong> and <strong>Or98a</strong> overlap with the seven receptors characterised by Zboray <i>et al.</i> in this platform.</p>
+              <p>All nine ORFs are codon-optimised for human expression (CTG constitutes ~92% of leucine codons; GC3 ≈ 0.83).</p>
+              <p>No ligand specificities, potencies, or AeroSense response values are assigned to individual receptors on this page.</p>
+            </article>
+            <article id="spec-or-Or19a" data-or="Or19a">
+              <h3>Or19a</h3>
+              <p><strong>Panel role.</strong> One of nine tuning receptors selected to span distinct chemical classes of plant and pathogen VOCs.</p>
+              <p>The remaining seven are, to our knowledge, new to a cell-based heterologous olfactory panel — which is both the novelty and the principal technical risk of our panel.</p>
+              <p>All nine ORFs are codon-optimised for human expression (CTG constitutes ~92% of leucine codons; GC3 ≈ 0.83).</p>
+              <p>No ligand specificities, potencies, or AeroSense response values are assigned to individual receptors on this page.</p>
+            </article>
           </section>
         </article>
       </main>
@@ -885,18 +1651,29 @@
       <section class="references" aria-labelledby="references-heading" id="references" data-reveal>
         <h2 id="references-heading">References &amp; Credits</h2>
         <ol class="ref-list">
-          <li id="ref-zboray-2023">
-            <span class="ref-authors">Zboray, K., Toth, A. V., Miskolczi, T. D., Pesti, K., Casanova, E., Kreidl, E., Mike, A., Szenes, Á., Sági, L., &amp; Lukacs, P.</span>
-            <span class="ref-year">(2023).</span>
-            <span class="ref-title">High-throughput ligand profile characterization in novel cell lines expressing seven heterologous insect olfactory receptors for the detection of volatile plant biomarkers.</span>
-            <span class="ref-venue"><i>Scientific Reports</i>, <span class="ref-volume">13</span>, Article 21757.</span>
-            <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/s41598-023-47455-4" rel="noopener noreferrer">10.1038/s41598-023-47455-4</a>.</span>
-            <a class="ref-backlink" href="#cite-zboray-2023-a">Back to citation</a>
-            <a class="ref-backlink" href="#cite-zboray-2023-b">2</a>
-            <a class="ref-backlink" href="#cite-zboray-2023-c">3</a>
-            <a class="ref-backlink" href="#cite-zboray-2023-d">4</a>
-            <a class="ref-backlink" href="#cite-zboray-2023-e">5</a>
-            <a class="ref-backlink" href="#cite-zboray-2023-f">6</a>
+          <li id="ref-sato-2008">
+            <span class="ref-authors">Sato, K., Pellegrino, M., Nakagawa, T., Nakagawa, T., Vosshall, L. B., &amp; Touhara, K.</span>
+            <span class="ref-year">(2008).</span>
+            <span class="ref-title">Insect olfactory receptors are heteromeric ligand-gated ion channels.</span>
+            <span class="ref-venue"><i>Nature</i>, <span class="ref-volume">452</span>, 1002–1006.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/nature06850" rel="noopener noreferrer">10.1038/nature06850</a>.</span>
+            <a class="ref-backlink" href="#cite-sato-2008-a">Back to citation</a>
+          </li>
+          <li id="ref-roberts-2021">
+            <span class="ref-authors">Roberts, R. E., Yuvaraj, J. K., &amp; Andersson, M. N.</span>
+            <span class="ref-year">(2021).</span>
+            <span class="ref-title">Codon optimization of insect odorant receptor genes may increase their stable expression for functional characterization in HEK293 cells.</span>
+            <span class="ref-venue"><i>Frontiers in Cellular Neuroscience</i>, <span class="ref-volume">15</span>, 744401.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.3389/fncel.2021.744401" rel="noopener noreferrer">10.3389/fncel.2021.744401</a>.</span>
+            <a class="ref-backlink" href="#cite-roberts-2021">Back to citation</a>
+          </li>
+          <li id="ref-benton-2006">
+            <span class="ref-authors">Benton, R., Sachse, S., Michnick, S. W., &amp; Vosshall, L. B.</span>
+            <span class="ref-year">(2006).</span>
+            <span class="ref-title">Atypical membrane topology and heteromeric function of <i>Drosophila</i> odorant receptors <i>in vivo</i>.</span>
+            <span class="ref-venue"><i>PLoS Biology</i>, <span class="ref-volume">4</span>(2), e20.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1371/journal.pbio.0040020" rel="noopener noreferrer">10.1371/journal.pbio.0040020</a>.</span>
+            <a class="ref-backlink" href="#cite-benton-2006">Back to citation</a>
           </li>
           <li id="ref-butterwick-2018">
             <span class="ref-authors">Butterwick, J. A., del Mármol, J., Kim, K. H., Kahlson, M. A., Rogow, J. A., Walz, T., &amp; Ruta, V.</span>
@@ -905,8 +1682,15 @@
             <span class="ref-venue"><i>Nature</i>, <span class="ref-volume">560</span>(7719), 447–452.</span>
             <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/s41586-018-0420-8" rel="noopener noreferrer">10.1038/s41586-018-0420-8</a>.</span>
             <a class="ref-backlink" href="#cite-butterwick-2018">Back to citation</a>
-            <a class="ref-backlink" href="#cite-butterwick-2018-b">2</a>
-            <a class="ref-backlink" href="#cite-butterwick-2018-c">3</a>
+          </li>
+          <li id="ref-zboray-2023">
+            <span class="ref-authors">Zboray, K., Toth, A. V., Miskolczi, T. D., Pesti, K., Casanova, E., Kreidl, E., Mike, A., Szenes, Á., Sági, L., &amp; Lukacs, P.</span>
+            <span class="ref-year">(2023).</span>
+            <span class="ref-title">High-throughput ligand profile characterization in novel cell lines expressing seven heterologous insect olfactory receptors for the detection of volatile plant biomarkers.</span>
+            <span class="ref-venue"><i>Scientific Reports</i>, <span class="ref-volume">13</span>, Article 21757.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/s41598-023-47455-4" rel="noopener noreferrer">10.1038/s41598-023-47455-4</a>.</span>
+            <a class="ref-backlink" href="#cite-zboray-2023-a">Back to citation</a>
+            <a class="ref-backlink" href="#cite-zboray-2023-b">2</a>
           </li>
           <li id="ref-chen-2013">
             <span class="ref-authors">Chen, T.-W., Wardill, T. J., Sun, Y., Pulver, S. R., Renninger, S. L., Baohan, A., Schreiter, E. R., Kerr, R. A., Orger, M. B., Jayaraman, V., Looger, L. L., Svoboda, K., &amp; Kim, D. S.</span>
@@ -915,78 +1699,48 @@
             <span class="ref-venue"><i>Nature</i>, <span class="ref-volume">499</span>(7458), 295–300.</span>
             <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/nature12354" rel="noopener noreferrer">10.1038/nature12354</a>.</span>
             <a class="ref-backlink" href="#cite-chen-2013-a">Back to citation</a>
-            <a class="ref-backlink" href="#cite-chen-2013-b">2</a>
-            <a class="ref-backlink" href="#cite-chen-2013-c">3</a>
           </li>
-          <li id="ref-robertson-2003">
-            <span class="ref-authors">Robertson, H. M., Warr, C. G., &amp; Carlson, J. R.</span>
-            <span class="ref-year">(2003).</span>
-            <span class="ref-title">Molecular evolution of the insect chemoreceptor gene superfamily in <i>Drosophila melanogaster</i>.</span>
-            <span class="ref-venue"><i>Proceedings of the National Academy of Sciences of the United States of America</i>, <span class="ref-volume">100</span>(Suppl. 2), 14537–14542.</span>
-            <span class="ref-doi">DOI: <a href="https://doi.org/10.1073/pnas.2335847100" rel="noopener noreferrer">10.1073/pnas.2335847100</a>.</span>
-            <a class="ref-backlink" href="#cite-robertson-2003">Back to citation</a>
-            <a class="ref-backlink" href="#cite-robertson-2003-b">2</a>
+          <li id="ref-ibrahimi-2009">
+            <span class="ref-authors">Ibrahimi, A., Vande Velde, G., Reumers, V., Toelen, J., Thiry, I., Vandeputte, C., Vets, S., Deroose, C. M., Bormans, G., Baekelandt, V., Debyser, Z., &amp; Gijsbers, R.</span>
+            <span class="ref-year">(2009).</span>
+            <span class="ref-title">Highly efficient multicistronic lentiviral vectors with peptide 2A sequences.</span>
+            <span class="ref-venue"><i>Human Gene Therapy</i>, <span class="ref-volume">20</span>(8), 845–860.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1089/hum.2008.188" rel="noopener noreferrer">10.1089/hum.2008.188</a>.</span>
+            <a class="ref-backlink" href="#cite-ibrahimi-2009-a">Back to citation</a>
+            <a class="ref-backlink" href="#cite-ibrahimi-2009-b">2</a>
           </li>
-          <li id="ref-jones-2011">
-            <span class="ref-authors">Jones, P. L., Pask, G. M., Rinker, D. C., &amp; Zwiebel, L. J.</span>
-            <span class="ref-year">(2011).</span>
-            <span class="ref-title">Functional agonism of insect odorant receptor ion channels.</span>
-            <span class="ref-venue"><i>Proceedings of the National Academy of Sciences of the United States of America</i>, <span class="ref-volume">108</span>(21), 8821–8825.</span>
-            <span class="ref-doi">DOI: <a href="https://doi.org/10.1073/pnas.1102425108" rel="noopener noreferrer">10.1073/pnas.1102425108</a>.</span>
-            <a class="ref-backlink" href="#cite-jones-2011-a">Back to citation</a>
-            <a class="ref-backlink" href="#cite-jones-2011-b">2</a>
-          </li>
-          <li id="ref-pacalon-2023">
-            <span class="ref-authors">Pacalon, J., Audic, G., Magnat, J., Philip, M., Golebiowski, J., Moreau, C. J., &amp; Topin, J.</span>
-            <span class="ref-year">(2023).</span>
-            <span class="ref-title">Elucidation of the structural basis for ligand binding and translocation in conserved insect odorant receptor co-receptors.</span>
-            <span class="ref-venue"><i>Nature Communications</i>, <span class="ref-volume">14</span>, Article 8182.</span>
-            <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/s41467-023-44058-5" rel="noopener noreferrer">10.1038/s41467-023-44058-5</a>.</span>
-            <a class="ref-backlink" href="#cite-pacalon-2023-a">Back to citation</a>
-            <a class="ref-backlink" href="#cite-pacalon-2023-b">2</a>
-            <p class="ref-note">
-              When using this paper for residue identities or binding mechanisms, the team must verify claims against the 2024 author correction
-              (<a href="#ref-pacalon-2024-corr">ref [7]</a>) before approving mutagenesis targets.
-            </p>
-          </li>
-          <li id="ref-pacalon-2024-corr">
-            <span class="ref-authors">Pacalon, J., Audic, G., Magnat, J., Philip, M., Golebiowski, J., Moreau, C. J., &amp; Topin, J.</span>
-            <span class="ref-year">(2024).</span>
-            <span class="ref-title">Author Correction: Elucidation of the structural basis for ligand binding and translocation in conserved insect odorant receptor co-receptors.</span>
-            <span class="ref-venue"><i>Nature Communications</i>, <span class="ref-volume">15</span>, Article 4398.</span>
-            <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/s41467-024-48896-9" rel="noopener noreferrer">10.1038/s41467-024-48896-9</a>.</span>
-            <a class="ref-backlink" href="#cite-pacalon-2024-corr">Back to citation</a>
-            <a class="ref-backlink" href="#cite-pacalon-2024-corr-b">2</a>
-            <p class="ref-note">
-              Correction notice recorded here so residue/binding claims drawn from the 2023 article are re-checked before use in AeroSense design decisions.
-            </p>
+          <li id="ref-miazzi-2019">
+            <span class="ref-authors">Miazzi, F., Hoyer, C., Sachse, S., Knaden, M., Wicher, D., Hansson, B. S., &amp; Lavista-Llanos, S.</span>
+            <span class="ref-year">(2019).</span>
+            <span class="ref-title">Optimization of insect odorant receptor trafficking and functional expression via transient transfection in HEK293 cells.</span>
+            <span class="ref-venue"><i>Chemical Senses</i>, <span class="ref-volume">44</span>(8), 673–682.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1093/chemse/bjz062" rel="noopener noreferrer">10.1093/chemse/bjz062</a>.</span>
+            <a class="ref-backlink" href="#cite-miazzi-2019">Back to citation</a>
           </li>
         </ol>
-        <ul class="credit-list">
-          <li>Biological architecture and construct concepts summarized from the team’s April 2026 proposal package; verified maps override proposal wording.</li>
-          <li>Figure 1 is a local SVG concept illustration; Figures 2–3 reuse the Parts construct-map pattern and link to <a href="parts.html">Parts</a>.</li>
-          <li>No experimental gels, docking plots, or assay traces are embedded on this page.</li>
-        </ul>
       </section>
     </div>
 
     <div class="page-toc-slot">
     <details class="page-toc" open>
-      <summary class="toc__summary"><span class="toc__label">On this page</span></summary>
+      <summary class="toc__summary">
+        <span class="toc__label">On this page</span>
+</summary>
       <nav aria-label="Table of contents">
         <ol>
-          <li><a href="#design-question"><span class="tech-label">01</span> Design question</a></li>
-          <li><a href="#design-requirements"><span class="tech-label">02</span> Design requirements</a></li>
-          <li><a href="#architecture"><span class="tech-label">03</span> System architecture</a></li>
-          <li><a href="#construct-strategy"><span class="tech-label">04</span> Construct strategy</a></li>
-          <li><a href="#why-hek293t"><span class="tech-label">05</span> Why HEK293T?</a></li>
-          <li><a href="#receptor-selection"><span class="tech-label">06</span> Receptor selection</a></li>
-          <li><a href="#functional-validation"><span class="tech-label">07</span> Functional validation design</a></li>
-          <li><a href="#voc-assay"><span class="tech-label">08</span> VOC-response assay design</a></li>
-          <li><a href="#optimization"><span class="tech-label">09</span> Receptor optimization strategy</a></li>
-          <li><a href="#trade-offs"><span class="tech-label">10</span> Design alternatives and trade-offs</a></li>
-          <li><a href="#interfaces"><span class="tech-label">11</span> Interfaces with Model and Hardware</a></li>
-          <li><a href="#risks"><span class="tech-label">12</span> Design risks and fallback paths</a></li>
+          <li><a href="#at-a-glance"><span class="tech-label">01</span> Design at a glance</a></li>
+          <li><a href="#how-aerosense-senses"><span class="tech-label">02</span> How AeroSense senses an odor</a></li>
+          <li><a href="#two-modules"><span class="tech-label">03</span> Two modules, one cell</a></li>
+          <li><a href="#design-evolution"><span class="tech-label">04</span> Design evolution</a></li>
+          <li><a href="#module-1"><span class="tech-label">05</span> Module 1 — OR sensing plasmids</a></li>
+          <li><a href="#receptor-panel"><span class="tech-label">06</span> Receptor panel</a></li>
+          <li><a href="#module-2"><span class="tech-label">07</span> Module 2 — GCaMP6f–Orco</a></li>
+          <li><a href="#topology"><span class="tech-label">08</span> Why topology matters</a></li>
+          <li><a href="#shared-backbone"><span class="tech-label">09</span> Shared backbone</a></li>
+          <li><a href="#reporters"><span class="tech-label">10</span> What the reporters tell us</a></li>
+          <li><a href="#limitations"><span class="tech-label">11</span> Design limitations</a></li>
+          <li><a href="#verification"><span class="tech-label">12</span> Verification</a></li>
+          <li><a href="#continue"><span class="tech-label">13</span> Continue the evidence chain</a></li>
           <li><a href="#references"><span class="tech-label">Ref</span> References &amp; Credits</a></li>
         </ol>
       </nav>
@@ -1009,34 +1763,46 @@
             <li><a href="engineering.html">Engineering</a></li>
             <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
             <li><a href="notebook.html">Notebook</a></li>
-          </ul>
+            </ul>
         </div>
         <div class="footer-col">
           <h2>Team</h2>
           <ul>
             <li><a href="members.html">Members</a></li>
             <li><a href="attributions.html">Attributions</a></li>
-          </ul>
+            </ul>
           <h2>Wet Lab</h2>
           <ul>
             <li><a href="parts.html">Parts</a></li>
             <li><a href="design.html">Design</a></li>
             <li><a href="experiments.html">Experiments</a></li>
             <li><a href="results.html">Results</a></li>
-          </ul>
+            </ul>
         </div>
         <div class="footer-col">
           <h2>Dry Lab</h2>
           <ul>
             <li><a href="model.html">Model</a></li>
             <li><a href="hardware.html">Hardware</a></li>
-          </ul>
+            </ul>
           <h2>Human Practices</h2>
           <ul>
             <li><a href="human-practices.html">Integrated Human Practices</a></li>
             <li><a href="education.html">Education</a></li>
+            <li><a href="entrepreneurship.html">Entrepreneurship</a></li>
+            <li><a href="sustainability.html">Sustainability</a></li>
+            <li><a href="learning-platform.html">Learning Lab</a></li>
           </ul>
         </div>
+      </div>
+
+      <div class="footer-partners" aria-labelledby="footer-partners-label">
+        <h2 class="footer-partners__title" id="footer-partners-label">Collaborators &amp; Sponsors</h2>
+        <ul class="footer-partners__list">
+          <li><span class="footer-partners__name">iST Group</span> — professional schematic &amp; PCB review (<a href="attributions.html#attr-ist-group">Attributions</a>)</li>
+          <li><span class="footer-partners__name">National Tsing Hua University</span> — institutional host</li>
+          <li><a href="attributions.html#external">Full collaborators, sponsors &amp; credits</a></li>
+        </ul>
       </div>
 
       <div class="footer-meta">
@@ -1044,12 +1810,12 @@
           <li><a href="https://www.linkedin.com/company/aerosensebio/" rel="noopener noreferrer">LinkedIn</a></li>
           <li><a href="https://www.instagram.com/igem_tsinghua/" rel="noopener noreferrer">Instagram</a></li>
           <li><a href="mailto:aerosensebio@gmail.com">aerosensebio@gmail.com</a></li>
-        </ul>
+            </ul>
         <ul class="footer-legal">
           <li><a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer">Source on GitLab</a></li>
           <li>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">Creative Commons Attribution 4.0 International</a></li>
           <li><a href="attributions.html#responsible-ai">Attributions &amp; Responsible AI</a></li>
-        </ul>
+            </ul>
         <p class="footer-copy">© 2026 NTHU · AeroSense</p>
       </div>
     </div>

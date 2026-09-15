@@ -26,8 +26,16 @@
         </span>
       </a>
       <div class="header-tools">
-        <a class="btn-search" href="index.html#site-map" aria-haspopup="dialog" aria-controls="project-search">Project Search</a>
-        <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+        <a class="btn-search" href="index.html#site-map" aria-haspopup="dialog" aria-controls="project-search" aria-label="Project Search" title="Project Search">
+          <svg class="header-icon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M15.5 15.5L21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span class="btn-search__label">Project Search</span>
+        </a>
+        <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+          <span class="nav-toggle__icon" aria-hidden="true"><span></span><span></span><span></span></span>
+        </button>
       </div>
       <nav class="site-nav" id="site-nav" aria-label="Primary">
         <ul class="nav-root">
@@ -71,12 +79,15 @@
               <li><a href="hardware.html" aria-current="page">Hardware</a></li>
             </ul>
           </li>
-          <li class="nav-item nav-item--dropdown">
+                    <li class="nav-item nav-item--dropdown">
             <span class="nav-label-static">Human Practices</span>
             <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-hp">Human Practices</button>
             <ul class="nav-submenu" id="submenu-hp">
               <li><a href="human-practices.html">Integrated Human Practices</a></li>
               <li><a href="education.html">Education</a></li>
+              <li><a href="entrepreneurship.html">Entrepreneurship</a></li>
+              <li><a href="sustainability.html">Sustainability</a></li>
+              <li><a href="learning-platform.html">Learning Lab</a></li>
             </ul>
           </li>
         </ul>
@@ -99,7 +110,6 @@
         </div>
         <div class="search-dialog__actions">
           <button type="submit">Search</button>
-          <button type="button" data-search-close>Close</button>
         </div>
       </form>
       <p id="project-search-count" class="search-dialog__count" aria-live="polite" aria-atomic="true">0 results</p>
@@ -265,7 +275,7 @@
           <section class="section-block" id="how-aerosense-reads" data-reveal>
             <h2>How AeroSense reads light</h2>
             <p>
-              The current sensing chain is:
+              The <strong>current</strong> sensing chain (ESP32-standalone; no Raspberry&nbsp;Pi host) is:
               <strong>470 nm LED → sample → photodiode → transimpedance amplifier → 16-bit ADC → ESP32 → DLIA / preprocessing → server or user interface</strong>.
             </p>
 
@@ -603,7 +613,7 @@
                   <li><span class="wiki-figure__badge">Illustrative</span> <span class="wiki-figure__badge">Interaction</span></li>
                   <li><strong>Evidence status:</strong> Completed design architecture with prototype firmware parameters — not bench data.</li>
                   <li><strong>Underlying data:</strong> Not applicable — no measured dataset is shown.</li>
-                </ul>
+            </ul>
               </figcaption>
             </figure>
 
@@ -656,7 +666,7 @@
                   <li><strong>Source:</strong> Local SVG created for the AeroSense wiki Hardware page.</li>
                   <li><strong>Evidence status:</strong> Completed design architecture — not bench data.</li>
                   <li><strong>Underlying data:</strong> Not applicable — no measured dataset is shown.</li>
-                </ul>
+            </ul>
               </figcaption>
             </figure>
 
@@ -824,7 +834,7 @@
                 <li>internal optical baffling;</li>
                 <li>fixed LED–sample–detector geometry; and</li>
                 <li>a blank-sample leakage test.</li>
-              </ul>
+            </ul>
               <p><strong>These features are treated as measurement requirements, not cosmetic enclosure features.</strong></p>
 
               <div class="hw-pending">
@@ -927,7 +937,7 @@
                           <li><span class="hw-opt__swatch" aria-hidden="true"></span>Intended fluorescence (labeled path)</li>
                           <li><span class="hw-opt__swatch hw-opt__swatch--leak" aria-hidden="true"></span>Conceptual excitation leakage (dashed)</li>
                           <li><span class="hw-opt__swatch hw-opt__swatch--req" aria-hidden="true"></span>Measurement requirement, not a measured result</li>
-                        </ul>
+            </ul>
                       </div>
 
                       <div class="hw-opt__notes">
@@ -952,7 +962,7 @@
                             <li>Internal optical baffling</li>
                             <li>Fixed LED–sample–detector geometry</li>
                             <li>Blank-sample leakage test</li>
-                          </ul>
+            </ul>
                           <p><strong>These features are treated as measurement requirements, not cosmetic enclosure features.</strong></p>
                         </article>
                       </div>
@@ -967,7 +977,7 @@
                     <li><span class="wiki-figure__badge">Illustrative</span> <span class="wiki-figure__badge">Interaction</span></li>
                     <li><strong>Evidence status:</strong> Optical concept — pending final optical specification / validation.</li>
                     <li><strong>Underlying data:</strong> Not applicable — no measured optical dataset is shown.</li>
-                  </ul>
+            </ul>
                 </figcaption>
               </figure>
 
@@ -1436,10 +1446,6 @@
                 <span class="cite-wrap">
                   <a class="cite" href="#ref-ti-lmp7721" id="cite-lmp-c" aria-describedby="cite-preview-lmp">[5]</a>
                   <span class="cite-preview" role="tooltip">Texas Instruments LMP7721 datasheet — full entry in References &amp; Credits.</span>
-                </span>
-                <span class="cite-wrap">
-                  <a class="cite" href="#ref-nthu-hw-archive" id="cite-archive-a" aria-describedby="cite-preview-archive">[12]</a>
-                  <span class="cite-preview" id="cite-preview-archive" role="tooltip">NTHU AeroSense hardware design archive — full entry in References &amp; Credits.</span>
                 </span>.
               </p>
               <p>
@@ -1553,7 +1559,7 @@
                   <ul class="wiki-figure__meta">
                     <li><span class="wiki-figure__badge">Illustrative</span></li>
                     <li><strong>Evidence status:</strong> Design process — completed as a V2 review lesson.</li>
-                  </ul>
+            </ul>
                 </figcaption>
               </figure>
             </article>
@@ -1843,7 +1849,7 @@
                   <li><span class="wiki-figure__badge">Illustrative</span> <span class="wiki-figure__badge">Interaction</span></li>
                   <li><strong>Evidence status:</strong> Prototype firmware architecture — not observed spectrum, SNR, or 4 × 4 crosstalk.</li>
                   <li><strong>Underlying data:</strong> Not applicable — traces are generated from the provisional frequencies 137, 173, 211, and 257 Hz for explanation only.</li>
-                </ul>
+            </ul>
               </figcaption>
             </figure>
 
@@ -1892,7 +1898,12 @@
           <section class="section-block" id="engineering-iterations" data-reveal>
             <h2>From V1 failure to a manufacturable weak-signal reader</h2>
             <p>
-              Completing a PCB layout was not treated as engineering success. V1 reached a four-layer conceptual layout, a formal audit showed it was <strong>not ready for fabrication</strong>, professional review re-evaluated the weak-signal path, and those lessons informed V2. The path is <strong>V1 → review → learn → V2</strong>. This page is the Hardware summary, not the full Design–Build–Test–Learn record.
+              Completing a PCB layout was not treated as engineering success. V1 reached a four-layer conceptual layout, a formal audit showed it was <strong>not ready for fabrication</strong>, professional review re-evaluated the weak-signal path, and those lessons informed V2. The path is <strong>V1 → review → learn → V2</strong>. This page is the Hardware summary, not the full Design–Build–Test–Learn record —
+              <a href="engineering.html#track-hardware">see Engineering · Hardware</a>.
+            </p>
+            <p class="notice" role="note">
+              <strong>Current architecture:</strong> ESP32-standalone reader with portable-power direction (USB-C / battery path designed; not physically validated).
+              Any Raspberry&nbsp;Pi interface below is an <strong>earlier design / superseded</strong> V1 choice, not the current reader.
             </p>
 
             <ol class="hw-path" aria-label="Hardware iteration path">
@@ -1902,8 +1913,8 @@
               <li><span>V2</span> Layout completed 11 Sep · fabrication pending</li>
             </ol>
 
-            <h3>V1 — a useful failure</h3>
-            <p>Our first complete PCB placed the LED drivers, photodiode interface, TIA, ADC, voltage reference, ESP32, regulators, and the original Raspberry Pi interface on a four-layer board. V1 passed the conceptual architecture stage. The archived <strong>2 August</strong> report then recorded:</p>
+            <h3>V1 — a useful failure <span class="hw-chip hw-chip--design">Earlier design / superseded</span></h3>
+            <p>Our first complete PCB placed the LED drivers, photodiode interface, TIA, ADC, voltage reference, ESP32, regulators, and the original Raspberry&nbsp;Pi interface on a four-layer board. That Pi interface is <strong>not</strong> part of the current V2 architecture. V1 passed the conceptual architecture stage. The archived <strong>2 August</strong> report then recorded (<a href="engineering.html#fig-e-h1b">Engineering · Figure E-H1B</a>):</p>
             <div class="hw-audit" role="group" aria-label="V1 design-rule audit counts">
               <div class="hw-audit__item"><strong>73</strong><span>DRC violations</span></div>
               <div class="hw-audit__item"><strong>4</strong><span>Unconnected items</span></div>
@@ -2007,10 +2018,10 @@
                   </dl>
                 </article>
                 <article class="hw-diff__panel" data-diff="pi">
-                  <h4>Raspberry Pi removal / standalone ESP32</h4>
+                  <h4>Raspberry Pi removal / standalone ESP32 <span class="hw-chip hw-chip--design">Earlier design superseded</span></h4>
                   <dl class="hw-iter__dl">
                     <dt>Problem</dt>
-                    <dd>The early architecture combined an ESP32 with a Raspberry Pi. After reviewing computational requirements, the Pi did not provide an indispensable function inside the reader.</dd>
+                    <dd>The early (<strong>superseded</strong>) architecture combined an ESP32 with a Raspberry Pi. After reviewing computational requirements, the Pi did not provide an indispensable function inside the reader.</dd>
                     <dt>Why it mattered</dt>
                     <dd>A second computing platform added intended PCB area, power consumption, thermal load, mechanical complexity, and dependence on another host.</dd>
                     <dt>V1</dt>
@@ -2124,7 +2135,7 @@
                 <ul class="wiki-figure__meta">
                   <li><span class="wiki-figure__badge">Illustrative</span></li>
                   <li><strong>Evidence status:</strong> Design iteration — not a photograph of a validated instrument.</li>
-                </ul>
+            </ul>
               </figcaption>
             </figure>
 
@@ -2316,7 +2327,7 @@
                   <li><span class="wiki-figure__badge">Design render</span> <span class="wiki-figure__badge">Interaction</span></li>
                   <li><strong>Evidence status:</strong> Current layout file + 3D capture — V2 fabrication pending.</li>
                   <li><strong>Underlying data:</strong> Footprint coordinates in the project KiCad PCB; images copied from <code>PCB layout/3D_top.png</code> and <code>3D_bottom.png</code> without editing pixel content.</li>
-                </ul>
+            </ul>
               </figcaption>
             </figure>
 
@@ -3126,24 +3137,15 @@
             <span class="ref-title">TPS61023 3.7-A Boost Converter with 0.5-V Ultra-Low Input Voltage — Datasheet, Rev. B.</span>
             <a class="ref-backlink" href="#cite-boost-a">Back to citation</a>
           </li>
-          <li id="ref-nthu-hw-archive">
-            <span class="ref-authors">NTHU iGEM 2026 AeroSense Bio.</span>
-            <span class="ref-title">Hardware Design Archive and Fluorescence Detection Hardware Module Design Report.</span>
-            <span class="ref-venue">Team documentation.</span>
-            <a class="ref-backlink" href="#cite-archive-a">Back to citation</a>
-          </li>
         </ol>
-        <ul class="credit-list">
-          <li>Related wiki page (not a reference): <a href="engineering.html">Engineering</a> for the full DBTL record; <a href="design.html#interfaces">Design · Interfaces with Model and Hardware</a>.</li>
-          <li>Figures H1–H7 are local concept graphics or KiCad 3D captures, not experimental data. Figures H2, H3, H5, and H7 are in-page explorers. Datasheet, first-order calculation, conceptual FDM traces, and PCB hotspot notes remain design documentation, not measured instrument performance. Figure H7 images were copied from the project layout folder without editing pixel content.</li>
-          <li>No hardware source files are published as wiki downloads on this page yet.</li>
-        </ul>
       </section>
     </div>
 
     <div class="page-toc-slot">
     <details class="page-toc" open>
-      <summary class="toc__summary"><span class="toc__label">On this page</span></summary>
+      <summary class="toc__summary">
+        <span class="toc__label">On this page</span>
+</summary>
       <nav aria-label="Table of contents">
         <ol>
           <li><a href="#why-hardware"><span class="tech-label">01</span> Why hardware?</a></li>
@@ -3177,34 +3179,46 @@
             <li><a href="engineering.html">Engineering</a></li>
             <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
             <li><a href="notebook.html">Notebook</a></li>
-          </ul>
+            </ul>
         </div>
         <div class="footer-col">
           <h2>Team</h2>
           <ul>
             <li><a href="members.html">Members</a></li>
             <li><a href="attributions.html">Attributions</a></li>
-          </ul>
+            </ul>
           <h2>Wet Lab</h2>
           <ul>
             <li><a href="parts.html">Parts</a></li>
             <li><a href="design.html">Design</a></li>
             <li><a href="experiments.html">Experiments</a></li>
             <li><a href="results.html">Results</a></li>
-          </ul>
+            </ul>
         </div>
         <div class="footer-col">
           <h2>Dry Lab</h2>
           <ul>
             <li><a href="model.html">Model</a></li>
             <li><a href="hardware.html">Hardware</a></li>
-          </ul>
+            </ul>
           <h2>Human Practices</h2>
           <ul>
             <li><a href="human-practices.html">Integrated Human Practices</a></li>
             <li><a href="education.html">Education</a></li>
+            <li><a href="entrepreneurship.html">Entrepreneurship</a></li>
+            <li><a href="sustainability.html">Sustainability</a></li>
+            <li><a href="learning-platform.html">Learning Lab</a></li>
           </ul>
         </div>
+      </div>
+
+      <div class="footer-partners" aria-labelledby="footer-partners-label">
+        <h2 class="footer-partners__title" id="footer-partners-label">Collaborators &amp; Sponsors</h2>
+        <ul class="footer-partners__list">
+          <li><span class="footer-partners__name">iST Group</span> — professional schematic &amp; PCB review (<a href="attributions.html#attr-ist-group">Attributions</a>)</li>
+          <li><span class="footer-partners__name">National Tsing Hua University</span> — institutional host</li>
+          <li><a href="attributions.html#external">Full collaborators, sponsors &amp; credits</a></li>
+        </ul>
       </div>
 
       <div class="footer-meta">
@@ -3212,12 +3226,12 @@
           <li><a href="https://www.linkedin.com/company/aerosensebio/" rel="noopener noreferrer">LinkedIn</a></li>
           <li><a href="https://www.instagram.com/igem_tsinghua/" rel="noopener noreferrer">Instagram</a></li>
           <li><a href="mailto:aerosensebio@gmail.com">aerosensebio@gmail.com</a></li>
-        </ul>
+            </ul>
         <ul class="footer-legal">
           <li><a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer">Source on GitLab</a></li>
           <li>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">Creative Commons Attribution 4.0 International</a></li>
           <li><a href="attributions.html#responsible-ai">Attributions &amp; Responsible AI</a></li>
-        </ul>
+            </ul>
         <p class="footer-copy">© 2026 NTHU · AeroSense</p>
       </div>
     </div>

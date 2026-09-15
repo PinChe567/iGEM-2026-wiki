@@ -668,6 +668,80 @@
   max-width: min(56rem, 100%);
 }
 
+.page-contribution .contrib-chain--map {
+  position: relative;
+  max-width: min(56rem, 100%);
+}
+
+.page-contribution .contrib-chain__caption {
+  max-width: var(--contrib-prose);
+  margin: 0 0 var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--color-ink-muted);
+}
+
+.page-contribution .contrib-chain__prompt {
+  display: none;
+}
+
+.page-contribution .contrib-chain__travel {
+  display: none;
+  width: 100%;
+  height: 2.75rem;
+  margin: 0 0 var(--space-2);
+  color: var(--color-ink);
+  overflow: visible;
+}
+
+.page-contribution .contrib-chain__track {
+  color: var(--color-rule);
+}
+
+.page-contribution .contrib-chain__progress {
+  color: var(--color-signal-text);
+}
+
+.page-contribution .contrib-chain__glyph {
+  color: var(--color-ink-muted);
+}
+
+.page-contribution .contrib-chain__detail {
+  margin: 0 0 var(--space-3);
+  padding: 0 0 var(--space-3) calc(1.75rem + var(--space-3));
+  border-bottom: var(--border-w) solid var(--color-rule);
+}
+
+.page-contribution .contrib-chain--map > ol > li > a {
+  border-bottom: 0;
+}
+
+.page-contribution .contrib-chain--map > ol > li:last-child .contrib-chain__detail {
+  border-bottom: 0;
+  margin-bottom: 0;
+}
+
+.page-contribution .contrib-chain__detail p {
+  margin: 0;
+  max-width: none;
+  font-size: var(--text-sm);
+}
+
+.page-contribution .contrib-chain__transform {
+  margin-bottom: var(--space-1);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--pkg-accent, var(--color-ink));
+}
+
+.page-contribution .contrib-chain--map > ol > li:hover > a,
+.page-contribution .contrib-chain--map > ol > li:focus-within > a {
+  background: var(--color-paper-soft);
+  box-shadow: inset 3px 0 0 var(--pkg-accent, var(--color-ink));
+  padding-left: var(--space-3);
+}
+
 @media (max-width: 479px) {
   .page-contribution .cite-preview {
     width: min(18rem, calc(100vw - 2.5rem));
@@ -1002,6 +1076,170 @@
 
   .page-contribution .contrib-chain--hero > ol > li:not(:last-child) a {
     background-position: 1.85rem 0.95rem;
+  }
+
+  .page-contribution .contrib-chain--map {
+    padding-bottom: 8.5rem;
+  }
+
+  .page-contribution .contrib-chain--map > ol > li:not(:last-child) a {
+    background-image: none;
+  }
+
+  .page-contribution .contrib-chain--map .contrib-chain__travel {
+    display: block;
+  }
+
+  .page-contribution .contrib-chain--map .contrib-chain__detail {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(100% - 8.25rem);
+    z-index: 1;
+    margin: 0;
+    padding: var(--space-3) 0 0;
+    border: 0;
+    border-top: var(--border-w) solid var(--color-rule);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .page-contribution .contrib-chain--map > ol > li:hover .contrib-chain__detail,
+  .page-contribution .contrib-chain--map > ol > li:focus-within .contrib-chain__detail {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .page-contribution .contrib-chain--map:has([data-cat="biology"] a:is(:hover, :focus, :focus-visible)) [data-glyph="biology"],
+  .page-contribution .contrib-chain--map:has([data-cat="hardware"] a:is(:hover, :focus, :focus-visible)) [data-glyph="biology"],
+  .page-contribution .contrib-chain--map:has([data-cat="hardware"] a:is(:hover, :focus, :focus-visible)) [data-glyph="hardware"],
+  .page-contribution .contrib-chain--map:has([data-cat="data"] a:is(:hover, :focus, :focus-visible)) [data-glyph="biology"],
+  .page-contribution .contrib-chain--map:has([data-cat="data"] a:is(:hover, :focus, :focus-visible)) [data-glyph="hardware"],
+  .page-contribution .contrib-chain--map:has([data-cat="data"] a:is(:hover, :focus, :focus-visible)) [data-glyph="data"],
+  .page-contribution .contrib-chain--map:has([data-cat="model"] a:is(:hover, :focus, :focus-visible)) [data-glyph="biology"],
+  .page-contribution .contrib-chain--map:has([data-cat="model"] a:is(:hover, :focus, :focus-visible)) [data-glyph="hardware"],
+  .page-contribution .contrib-chain--map:has([data-cat="model"] a:is(:hover, :focus, :focus-visible)) [data-glyph="data"],
+  .page-contribution .contrib-chain--map:has([data-cat="model"] a:is(:hover, :focus, :focus-visible)) [data-glyph="model"],
+  .page-contribution .contrib-chain--map:has([data-cat="hp"] a:is(:hover, :focus, :focus-visible)) [data-glyph="biology"],
+  .page-contribution .contrib-chain--map:has([data-cat="hp"] a:is(:hover, :focus, :focus-visible)) [data-glyph="hardware"],
+  .page-contribution .contrib-chain--map:has([data-cat="hp"] a:is(:hover, :focus, :focus-visible)) [data-glyph="data"],
+  .page-contribution .contrib-chain--map:has([data-cat="hp"] a:is(:hover, :focus, :focus-visible)) [data-glyph="model"],
+  .page-contribution .contrib-chain--map:has([data-cat="hp"] a:is(:hover, :focus, :focus-visible)) [data-glyph="hp"] {
+    color: var(--color-ink);
+  }
+
+  .page-contribution .contrib-chain--map:has([data-cat="biology"] a:is(:hover, :focus, :focus-visible)) .contrib-chain__progress {
+    stroke-dashoffset: 100;
+  }
+
+  .page-contribution .contrib-chain--map:has([data-cat="hardware"] a:is(:hover, :focus, :focus-visible)) .contrib-chain__progress {
+    stroke-dashoffset: 75;
+  }
+
+  .page-contribution .contrib-chain--map:has([data-cat="data"] a:is(:hover, :focus, :focus-visible)) .contrib-chain__progress {
+    stroke-dashoffset: 50;
+  }
+
+  .page-contribution .contrib-chain--map:has([data-cat="model"] a:is(:hover, :focus, :focus-visible)) .contrib-chain__progress {
+    stroke-dashoffset: 25;
+  }
+
+  .page-contribution .contrib-chain--map:has([data-cat="hp"] a:is(:hover, :focus, :focus-visible)) .contrib-chain__progress {
+    stroke-dashoffset: 0;
+  }
+
+  .page-contribution .contrib-chain__prompt {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(100% - 8.25rem);
+    margin: 0;
+    padding: var(--space-3) 0 0;
+    border-top: var(--border-w) solid var(--color-rule);
+    font-size: var(--text-sm);
+    color: var(--color-ink-muted);
+  }
+
+  .page-contribution .contrib-chain--map:has(li:hover) .contrib-chain__prompt,
+  .page-contribution .contrib-chain--map:has(li:focus-within) .contrib-chain__prompt {
+    visibility: hidden;
+  }
+}
+
+@media (hover: none) {
+  .page-contribution .contrib-chain--map {
+    padding-bottom: 0;
+  }
+
+  .page-contribution .contrib-chain--map .contrib-chain__detail {
+    position: static;
+    top: auto;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    margin: 0 0 var(--space-3);
+    padding: 0 0 var(--space-3) calc(1.75rem + var(--space-3));
+    border-bottom: var(--border-w) solid var(--color-rule);
+    border-top: 0;
+  }
+
+  .page-contribution .contrib-chain__prompt {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-contribution .contrib-chain__progress,
+  .page-contribution .contrib-chain__glyph,
+  .page-contribution .contrib-chain--map .contrib-chain__detail {
+    transition: none;
+    transition-delay: 0s;
+  }
+
+  .page-contribution .contrib-chain--map .contrib-chain__progress,
+  .page-contribution .contrib-chain--map:has(a:is(:hover, :focus, :focus-visible)) .contrib-chain__progress {
+    stroke-dashoffset: 100;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .page-contribution .contrib-chain__progress {
+    transition: stroke-dashoffset var(--motion-med) var(--ease);
+  }
+
+  .page-contribution .contrib-chain__glyph {
+    transition: color var(--motion-fast) var(--ease);
+  }
+
+  .page-contribution .contrib-chain--map .contrib-chain__detail {
+    transition:
+      opacity var(--motion-med) var(--ease),
+      visibility var(--motion-med) var(--ease);
+  }
+
+  .page-contribution .contrib-chain--map:has([data-cat="hardware"] a:is(:hover, :focus, :focus-visible)) [data-glyph="hardware"],
+  .page-contribution .contrib-chain--map:has([data-cat="data"] a:is(:hover, :focus, :focus-visible)) [data-glyph="hardware"],
+  .page-contribution .contrib-chain--map:has([data-cat="model"] a:is(:hover, :focus, :focus-visible)) [data-glyph="hardware"],
+  .page-contribution .contrib-chain--map:has([data-cat="hp"] a:is(:hover, :focus, :focus-visible)) [data-glyph="hardware"] {
+    transition-delay: 70ms;
+  }
+
+  .page-contribution .contrib-chain--map:has([data-cat="data"] a:is(:hover, :focus, :focus-visible)) [data-glyph="data"],
+  .page-contribution .contrib-chain--map:has([data-cat="model"] a:is(:hover, :focus, :focus-visible)) [data-glyph="data"],
+  .page-contribution .contrib-chain--map:has([data-cat="hp"] a:is(:hover, :focus, :focus-visible)) [data-glyph="data"] {
+    transition-delay: 140ms;
+  }
+
+  .page-contribution .contrib-chain--map:has([data-cat="model"] a:is(:hover, :focus, :focus-visible)) [data-glyph="model"],
+  .page-contribution .contrib-chain--map:has([data-cat="hp"] a:is(:hover, :focus, :focus-visible)) [data-glyph="model"] {
+    transition-delay: 210ms;
+  }
+
+  .page-contribution .contrib-chain--map:has([data-cat="hp"] a:is(:hover, :focus, :focus-visible)) [data-glyph="hp"] {
+    transition-delay: 280ms;
   }
 }
 
@@ -2101,7 +2339,9 @@
   .page-contribution .contrib-explorer__reset,
   .page-contribution .contrib-adapt__switch,
   .page-contribution .contrib-adapt__vs,
-  .page-contribution .contrib-matrix__more {
+  .page-contribution .contrib-matrix__more,
+  .page-contribution .contrib-chain__travel,
+  .page-contribution .contrib-chain__prompt {
     display: none !important;
   }
 
@@ -2114,6 +2354,17 @@
   .page-contribution .contrib-legend {
     display: block;
     grid-template-columns: none;
+  }
+
+  .page-contribution .contrib-chain--map {
+    padding-bottom: 0;
+  }
+
+  .page-contribution .contrib-chain--map .contrib-chain__detail {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
   }
 
   .page-contribution .contrib-adapt [data-col],

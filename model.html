@@ -4,11 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Model · AeroSense · NTHU iGEM 2026</title>
-  <meta name="description" content="AeroSense computational model: AL-inspired contrast processing and MB-inspired sparse representations for receptor-response patterns, with provenance, assumptions, and evaluation status.">
+  <meta name="description" content="AeroSense Model: a fly-inspired Brian2 spiking network for gas classification on the KT Batch1–3 sensor array. Pooled stratified baseline (macro-F1 0.868, seed 100); cross-batch drift evaluation not yet performed.">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/model.css">
   <script src="js/main.js" defer></script>
   <script src="js/glossary.js" defer></script>
   <script src="js/search.js" defer></script>
+  <script src="js/model.js" defer></script>
 </head>
 <body class="page-model">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -24,8 +26,16 @@
         </span>
       </a>
       <div class="header-tools">
-        <a class="btn-search" href="index.html#site-map" aria-haspopup="dialog" aria-controls="project-search">Project Search</a>
-        <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+        <a class="btn-search" href="index.html#site-map" aria-haspopup="dialog" aria-controls="project-search" aria-label="Project Search" title="Project Search">
+          <svg class="header-icon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M15.5 15.5L21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span class="btn-search__label">Project Search</span>
+        </a>
+        <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+          <span class="nav-toggle__icon" aria-hidden="true"><span></span><span></span><span></span></span>
+        </button>
       </div>
       <nav class="site-nav" id="site-nav" aria-label="Primary">
         <ul class="nav-root">
@@ -69,12 +79,15 @@
               <li><a href="hardware.html">Hardware</a></li>
             </ul>
           </li>
-          <li class="nav-item nav-item--dropdown">
+                    <li class="nav-item nav-item--dropdown">
             <span class="nav-label-static">Human Practices</span>
             <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-hp">Human Practices</button>
             <ul class="nav-submenu" id="submenu-hp">
               <li><a href="human-practices.html">Integrated Human Practices</a></li>
               <li><a href="education.html">Education</a></li>
+              <li><a href="entrepreneurship.html">Entrepreneurship</a></li>
+              <li><a href="sustainability.html">Sustainability</a></li>
+              <li><a href="learning-platform.html">Learning Lab</a></li>
             </ul>
           </li>
         </ul>
@@ -97,7 +110,6 @@
         </div>
         <div class="search-dialog__actions">
           <button type="submit">Search</button>
-          <button type="button" data-search-close>Close</button>
         </div>
       </form>
       <p id="project-search-count" class="search-dialog__count" aria-live="polite" aria-atomic="true">0 results</p>
@@ -116,946 +128,1814 @@
               <li aria-current="page">Model</li>
             </ol>
           </nav>
-          <span class="page-kicker">12 / Dry Lab</span>
-          <h1>Model</h1>
-          <p class="page-purpose">From receptor-response patterns to interpretable odor representations</p>
-          <span class="status-label status-label--planned">Proposed pipeline · no implemented code or verified metrics yet</span>
+          <span class="page-kicker">12 / Dry Lab · Decode layer</span>
+          <h1>A fly-inspired spiking network for gas classification</h1>
+          <p class="page-purpose">
+            A Brian2 PN→KC→MBON model on the KT Batch1–3 metal-oxide aging corpus — with a pooled baseline and an open question on drift robustness.
+          </p>
+          <span class="status-label status-label--signal">Pooled baseline reported · cross-batch drift evaluation not yet performed</span>
+
+          <div class="model-hero__grid">
+            <div class="model-hero__copy">
+              <p class="page-lede model-prose">
+                Electronic noses often fail as sensors age; insects keep recognizing odors anyway.
+                This page documents a
+                <dfn class="term" data-term="snn" tabindex="0">spiking neural network (SNN)</dfn>
+                organized like the
+                <dfn class="term" data-term="mb" tabindex="0">mushroom body</dfn>
+                and asks whether sparse expand–sparsify–learn coding can help gas classification without an explicit drift-correction stage.
+                The current evidence answers pooled-class separability (macro-F1 0.868, seed 100) — not yet cross-batch drift robustness.
+              </p>
+              <a class="model-scroll-cue" href="#evidence-snapshot">
+                <span class="model-scroll-cue__mark" aria-hidden="true">↓</span>
+                Scroll to explore the model
+              </a>
+            </div>
+            <figure class="model-hero__visual" aria-labelledby="model-hero-visual-title">
+              <figcaption class="visually-hidden">Placeholder for a future schematic linking sensor aging to PN → KC → APL → MBON coding. No plot is shown.</figcaption>
+              <p class="model-hero__visual-kicker">Schematic reserved</p>
+              <p class="model-hero__visual-title" id="model-hero-visual-title">Sensor aging → fly olfactory motif</p>
+              <p class="model-hero__visual-note">
+                No fabricated plot. A team-generated schematic can replace this placeholder when available.
+              </p>
+            </figure>
+          </div>
         </header>
 
         <article class="page-article prose">
-          <section class="section-block" id="question-and-role" data-reveal>
-            <h2>Question and role in the project</h2>
-            <div class="evidence-status" data-status="planned">
-              <span class="evidence-status__label">Status</span>
-              <span class="evidence-status__value">Planned</span>
-            </div>
+
+          <!-- 2. Evidence Snapshot -->
+          <section class="section-block section-block--story" id="evidence-snapshot" data-reveal aria-labelledby="evidence-snapshot-heading">
+            <span class="section-kicker">02 · Snapshot</span>
+            <h2 id="evidence-snapshot-heading">Evidence Snapshot</h2>
             <p>
-              The model track asks whether fluorescence-derived receptor-response vectors can be transformed into more separable odor codes by an
-              <dfn class="term" data-term="al" tabindex="0">antennal lobe (AL)</dfn>-inspired contrast step and a
-              <dfn class="term" data-term="mb" tabindex="0">mushroom body (MB)</dfn>-inspired sparse projection before classification, and whether those stages improve separation relative to simpler baselines
+              Four facts to orient the page. Completed numbers are labeled as such; planned work is not shown as finished.
+            </p>
+            <ul class="model-snapshot" role="list">
+              <li class="model-snapshot__card">
+                <p class="model-snapshot__label">Baseline macro-F1</p>
+                <p class="model-snapshot__value">0.868</p>
+                <p class="model-snapshot__meta">Pooled random-split baseline · seed 100</p>
+                <p class="model-snapshot__note">Not yet a cross-batch drift validation.</p>
+              </li>
+              <li class="model-snapshot__card">
+                <p class="model-snapshot__label">Dataset / classes</p>
+                <p class="model-snapshot__value model-snapshot__value--text">KT Batch1–3</p>
+                <p class="model-snapshot__meta">14-channel metal-oxide array · five gases (SO₂, NO₂, toluene, ethanol, NH₃)</p>
+                <p class="model-snapshot__note">Multi-month aging study · faulty Batch2 devices 1–2 excluded.</p>
+              </li>
+              <li class="model-snapshot__card">
+                <p class="model-snapshot__label">SNN architecture</p>
+                <p class="model-snapshot__value model-snapshot__value--text">PN → KC → MBON</p>
+                <p class="model-snapshot__meta">Sparse random expansion, APL-like inhibition, STDP readout in Brian2</p>
+                <p class="model-snapshot__note">Baseline: PCA-8 · KC=1000 · <code>p_pn_kc</code>=0.05.</p>
+              </li>
+              <li class="model-snapshot__card">
+                <p class="model-snapshot__label">Evaluation status</p>
+                <p class="model-snapshot__value model-snapshot__value--text">Partial</p>
+                <p class="model-snapshot__meta"><span class="model-snapshot__status">Preliminary</span> pooled stratified split · seed 100 · <span class="model-snapshot__status model-snapshot__status--planned">Pending</span> cross-batch / ablation</p>
+                <p class="model-snapshot__note">No VALIDATED file-backed Model metrics in this repository yet.</p>
+              </li>
+            </ul>
+          </section>
+
+          <!-- 3. The Drift Problem -->
+          <section class="section-block section-block--story" id="drift-problem" data-reveal aria-labelledby="drift-problem-heading">
+            <span class="section-kicker">03 · Problem</span>
+            <h2 id="drift-problem-heading">The Drift Problem</h2>
+            <p>
+              Electronic noses pair chemical-sensor arrays with pattern-recognition algorithms for gas and odor identification — from environmental monitoring to food quality control and disease screening
               <span class="cite-wrap">
-                <a class="cite" href="#ref-dasgupta-2017" id="cite-dasgupta-2017-a" aria-describedby="cite-preview-dasgupta-2017">[1]</a>
-                <span class="cite-preview" id="cite-preview-dasgupta-2017" role="tooltip">Dasgupta et al., 2017 — full entry in References &amp; Credits.</span>
+                <a class="cite" href="#ref-marco-2012" id="cite-marco-2012-a" aria-describedby="cite-preview-marco-2012">[1]</a>
+                <span class="cite-preview" id="cite-preview-marco-2012" role="tooltip">Marco &amp; Gutiérrez-Gálvez, 2012 — full entry in References &amp; Credits.</span>
               </span>.
-              That question is also framed as Engineering cycle
-              <a href="engineering.html#model-c1">C1</a>.
             </p>
             <p>
-              <strong>Decision supported (intended):</strong> which receptor-panel features, preprocessing choices, and decoding stages to keep, revise, or drop when building odor-pattern classifiers for AeroSense assays.
+              Metal-oxide and conducting-polymer arrays share a well-documented failure mode: <strong>sensor drift</strong>.
+              Responses to the same analyte shift over days to months through poisoning, aging, and environmental fluctuation, so classifiers trained on early measurements degrade on later ones
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-marco-2012" id="cite-marco-2012-b" aria-describedby="cite-preview-marco-2012">[1]</a>
+              </span>
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-vergara-2012" id="cite-vergara-2012-a" aria-describedby="cite-preview-vergara-2012">[2]</a>
+                <span class="cite-preview" id="cite-preview-vergara-2012" role="tooltip">Vergara et al., 2012 — full entry in References &amp; Credits.</span>
+              </span>.
             </p>
             <p>
-              <strong>Consumers of the output (intended):</strong> the wet-lab team (panel composition and assay design), the hardware team (sampling and feature handoff), and future wiki readers who need a reproducible decoding method—not a black-box accuracy claim.
-            </p>
-            <p>
-              <strong>What would be done differently because of it:</strong> once evaluated, the model should change receptor selection, experiment design, or hardware sampling only when a documented metric comparison supports that change. No such closed feedback loop has been recorded yet; see
-              <a href="#project-impact">How the model informed the project</a>.
+              Common mitigations — recalibration with labeled references, classifier ensembles, or explicit drift-correction transforms — help, but usually demand extra calibration data or an explicit model of the drift process itself
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-vergara-2012" id="cite-vergara-2012-b" aria-describedby="cite-preview-vergara-2012">[2]</a>
+              </span>.
             </p>
             <p class="notice">
-              Biological language on this page is analogy. “AL-inspired” and “MB-inspired” mean computational stages motivated by insect olfactory motifs; they are not claims of biological identity to antennal-lobe or mushroom-body circuits.
+              This page’s completed baseline does <strong>not</strong> claim that sensor-drift robustness has already been demonstrated. That requires a cross-batch or temporal evaluation still marked Planned below.
             </p>
           </section>
 
-          <section class="section-block" id="inputs-outputs" data-reveal>
-            <h2>Inputs and outputs</h2>
+          <!-- 4. Why the Fly Brain? -->
+          <section class="section-block section-block--story" id="why-fly-brain" data-reveal aria-labelledby="why-fly-brain-heading">
+            <span class="section-kicker">04 · Biological inspiration</span>
+            <h2 id="why-fly-brain-heading">Why the Fly Brain?</h2>
             <p>
-              Exact file schemas are not team-approved yet. The table lists only fields already named in the Design interface contract or in the proposed representation pipeline; frozen column names and units remain open (see
-              <a href="design.html#interfaces">Design · Interfaces with Model and Hardware</a>).
+              <i>Drosophila</i> olfaction faces an analogous reliability problem: recognize odors despite concentration change, background chemistry, and receptor adaptation over a lifetime.
             </p>
-            <div class="table-scroll" tabindex="0" role="region" aria-label="Model inputs and outputs">
-              <table class="goal-table">
+            <p>
+              Odor information enters the antennal lobe and is relayed by
+              <dfn class="term" data-term="pn" tabindex="0">projection neurons (PNs)</dfn>
+              to the mushroom body, where a much larger
+              <dfn class="term" data-term="kc" tabindex="0">Kenyon cell (KC)</dfn>
+              population receives sparse, largely random PN→KC connectivity
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-turner-2008" id="cite-turner-2008-a" aria-describedby="cite-preview-turner-2008">[3]</a>
+                <span class="cite-preview" id="cite-preview-turner-2008" role="tooltip">Turner et al., 2008 — full entry in References &amp; Credits.</span>
+              </span>
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-caron-2013" id="cite-caron-2013-a" aria-describedby="cite-preview-caron-2013">[4]</a>
+                <span class="cite-preview" id="cite-preview-caron-2013" role="tooltip">Caron et al., 2013 — full entry in References &amp; Credits.</span>
+              </span>.
+            </p>
+            <p>
+              Random expansion into a high-dimensional space, combined with global feedback inhibition from the anterior paired lateral (APL) neuron that enforces sparse KC activity, yields decorrelated, near-orthogonal odor codes
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-lin-2014" id="cite-lin-2014-a" aria-describedby="cite-preview-lin-2014">[5]</a>
+                <span class="cite-preview" id="cite-preview-lin-2014" role="tooltip">Lin et al., 2014 — full entry in References &amp; Credits.</span>
+              </span>.
+              Those KC representations are read out by
+              <dfn class="term" data-term="mbon" tabindex="0">mushroom body output neurons (MBONs)</dfn>
+              through synapses shaped by learning, including STDP-like plasticity
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-aso-2014" id="cite-aso-2014-a" aria-describedby="cite-preview-aso-2014">[6]</a>
+                <span class="cite-preview" id="cite-preview-aso-2014" role="tooltip">Aso et al., 2014 — full entry in References &amp; Credits.</span>
+              </span>.
+            </p>
+
+            <h3 id="fly-mapping">From Fly Olfaction to AeroSense</h3>
+            <p>
+              Select each stage to see how a biological motif maps onto our Brian2 pipeline. Both biological and computational labels stay visible; the toggle only changes emphasis.
+            </p>
+
+            <figure class="model-map" data-model-map data-map-view="bio" aria-labelledby="fly-mapping model-map-caption">
+              <div class="model-map__header">
+                <div>
+                  <p class="model-map__heading" id="model-map-heading">Expand → sparsify → learn the readout</p>
+                  <p class="model-map__lede">
+                    Conceptual mapping from insect olfactory stages to the e-nose SNN. Not a literal anatomical simulation.
+                  </p>
+                </div>
+                <div class="model-map__controls">
+                  <div class="model-map__toggle" role="group" aria-label="Label emphasis">
+                    <button type="button" data-map-view="bio" aria-pressed="true">Biological view</button>
+                    <button type="button" data-map-view="comp" aria-pressed="false">Computational view</button>
+                  </div>
+                  <button type="button" class="model-map__play" data-map-play aria-describedby="model-map-demo-hint">Play sparse-coding demo</button>
+                </div>
+              </div>
+              <p id="model-map-demo-hint" class="visually-hidden">
+                Optional one-shot animation. Respects reduced-motion preferences. Stage buttons remain available without the demo.
+              </p>
+
+              <div class="model-map__diagram" aria-hidden="true">
+                <svg class="model-map__svg" viewBox="0 0 960 220" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                  <title>Fly-inspired computational pathway diagram</title>
+                  <path class="map-flow-line" d="M70 110 H890"/>
+                  <path class="map-flow-pulse" d="M70 110 H890"/>
+
+                  <g data-map-node="input">
+                    <rect class="map-node-shell" x="20" y="78" width="88" height="64" rx="0"/>
+                    <text class="map-label-bio" x="64" y="108" text-anchor="middle">Input</text>
+                    <text class="map-label-comp" x="64" y="124" text-anchor="middle">features</text>
+                  </g>
+
+                  <g data-map-node="pn">
+                    <rect class="map-node-shell" x="140" y="78" width="88" height="64" rx="0"/>
+                    <text class="map-label-bio" x="184" y="108" text-anchor="middle">PN</text>
+                    <text class="map-label-comp" x="184" y="124" text-anchor="middle">bins</text>
+                  </g>
+
+                  <g data-map-node="expansion">
+                    <rect class="map-node-shell" x="260" y="70" width="110" height="80" rx="0"/>
+                    <text class="map-label-bio" x="315" y="100" text-anchor="middle">PN→KC</text>
+                    <text class="map-label-comp" x="315" y="118" text-anchor="middle">random</text>
+                    <text class="map-label-comp" x="315" y="132" text-anchor="middle">expand</text>
+                  </g>
+
+                  <g data-map-node="apl">
+                    <circle class="map-apl-halo" cx="430" cy="42" r="26"/>
+                    <circle class="map-node-shell" cx="430" cy="42" r="20"/>
+                    <text class="map-label-bio" x="430" y="46" text-anchor="middle">APL</text>
+                    <path class="map-flow-line" d="M430 62 V88"/>
+                  </g>
+
+                  <g data-map-node="kc">
+                    <rect class="map-node-shell" x="390" y="88" width="160" height="96" rx="0"/>
+                    <text class="map-label-bio" x="470" y="108" text-anchor="middle">KC population</text>
+                    <text class="map-label-comp" x="470" y="122" text-anchor="middle">sparse code</text>
+                    <!-- illustrative sparse subset: filled+solid stroke = active; dashed = silent (not color alone) -->
+                    <circle class="map-kc-dot" cx="412" cy="140" r="5"/>
+                    <circle class="map-kc-dot" cx="428" cy="140" r="5"/>
+                    <circle class="map-kc-dot is-sparse-active" cx="444" cy="140" r="5"/>
+                    <circle class="map-kc-dot" cx="460" cy="140" r="5"/>
+                    <circle class="map-kc-dot" cx="476" cy="140" r="5"/>
+                    <circle class="map-kc-dot is-sparse-active" cx="492" cy="140" r="5"/>
+                    <circle class="map-kc-dot" cx="508" cy="140" r="5"/>
+                    <circle class="map-kc-dot" cx="524" cy="140" r="5"/>
+                    <circle class="map-kc-dot" cx="420" cy="156" r="5"/>
+                    <circle class="map-kc-dot is-sparse-active" cx="436" cy="156" r="5"/>
+                    <circle class="map-kc-dot" cx="452" cy="156" r="5"/>
+                    <circle class="map-kc-dot" cx="468" cy="156" r="5"/>
+                    <circle class="map-kc-dot" cx="484" cy="156" r="5"/>
+                    <circle class="map-kc-dot" cx="500" cy="156" r="5"/>
+                    <circle class="map-kc-dot is-sparse-active" cx="516" cy="156" r="5"/>
+                    <text class="map-label-comp" x="470" y="174" text-anchor="middle">solid=active · dashed=silent</text>
+                  </g>
+
+                  <g data-map-node="mbon">
+                    <rect class="map-node-shell" x="590" y="78" width="110" height="64" rx="0"/>
+                    <text class="map-label-bio" x="645" y="108" text-anchor="middle">MBON</text>
+                    <text class="map-label-comp" x="645" y="124" text-anchor="middle">STDP</text>
+                  </g>
+
+                  <g data-map-node="output">
+                    <rect class="map-node-shell" x="740" y="78" width="120" height="64" rx="0"/>
+                    <text class="map-label-bio" x="800" y="108" text-anchor="middle">Class</text>
+                    <text class="map-label-comp" x="800" y="124" text-anchor="middle">argmax</text>
+                  </g>
+                </svg>
+              </div>
+
+              <ul class="model-map__stages" role="list" aria-label="Pathway stages">
+                <li class="model-map__stage">
+                  <button type="button" class="model-map__stage-btn" data-map-stage="input" aria-pressed="false" aria-controls="model-map-panel">
+                    <span class="model-map__bio">Sensor input</span>
+                    <span class="model-map__comp">Encoded features</span>
+                  </button>
+                </li>
+                <li class="model-map__stage">
+                  <button type="button" class="model-map__stage-btn" data-map-stage="pn" aria-pressed="true" aria-controls="model-map-panel">
+                    <span class="model-map__bio">PN</span>
+                    <span class="model-map__comp">PCA bins → spikes</span>
+                  </button>
+                </li>
+                <li class="model-map__stage">
+                  <button type="button" class="model-map__stage-btn" data-map-stage="expansion" aria-pressed="false" aria-controls="model-map-panel">
+                    <span class="model-map__bio">PN→KC expand</span>
+                    <span class="model-map__comp">Random sparse links</span>
+                  </button>
+                </li>
+                <li class="model-map__stage">
+                  <button type="button" class="model-map__stage-btn" data-map-stage="apl" aria-pressed="false" aria-controls="model-map-panel">
+                    <span class="model-map__bio">APL inhibition</span>
+                    <span class="model-map__comp">Global sparsify</span>
+                  </button>
+                </li>
+                <li class="model-map__stage">
+                  <button type="button" class="model-map__stage-btn" data-map-stage="kc" aria-pressed="false" aria-controls="model-map-panel">
+                    <span class="model-map__bio">KC population</span>
+                    <span class="model-map__comp">Sparse code</span>
+                  </button>
+                </li>
+                <li class="model-map__stage">
+                  <button type="button" class="model-map__stage-btn" data-map-stage="mbon" aria-pressed="false" aria-controls="model-map-panel">
+                    <span class="model-map__bio">MBON</span>
+                    <span class="model-map__comp">STDP readout</span>
+                  </button>
+                </li>
+                <li class="model-map__stage">
+                  <button type="button" class="model-map__stage-btn" data-map-stage="output" aria-pressed="false" aria-controls="model-map-panel">
+                    <span class="model-map__bio">Odor / gas class</span>
+                    <span class="model-map__comp">Classification</span>
+                  </button>
+                </li>
+            </ul>
+
+              <div class="model-map__panel" id="model-map-panel" data-map-panel tabindex="-1" aria-live="polite">
+                <h4 class="model-map__panel-title">PN-like units</h4>
+                <dl class="model-map__panel-grid">
+                  <div>
+                    <dt>Biological role</dt>
+                    <dd>Projection neurons relay olfactory information from the antennal lobe toward the mushroom body.</dd>
+                  </div>
+                  <div>
+                    <dt>Computational implementation</dt>
+                    <dd>Each principal-component axis is discretized into <code>pn_bins</code> = 20 bins; a sample activates one PN spike index per axis, forming a sparse combinatorial PN pattern.</dd>
+                  </div>
+                  <div>
+                    <dt>Key parameter(s)</dt>
+                    <dd><code>pca_dim = 8 · pn_bins = 20</code></dd>
+                  </div>
+                  <div>
+                    <dt>Why it may matter for robustness</dt>
+                    <dd>Hypothesis: a combinatorial PN code may preserve relative structure across inputs even when absolute sensor amplitudes shift — to be tested under cross-batch evaluation, not assumed.</dd>
+                  </div>
+                </dl>
+              </div>
+
+              <figcaption class="model-map__caption" id="model-map-caption">
+                Figure. Conceptual biology→computation mapping for the AeroSense Model (PN→KC→APL→MBON).
+                Stage diagrams and the sparse-coding demo are explanatory schematics, not anatomical reconstructions or experimental spike recordings.
+                Robustness wording in the panel is framed as hypothesis where drift robustness has not yet been measured.
+              </figcaption>
+            </figure>
+
+            <p>
+              The motif — expand, sparsify, then learn the readout — already travels beyond neuroscience: it appears in fly-inspired similarity search
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-dasgupta-2017" id="cite-dasgupta-2017-a" aria-describedby="cite-preview-dasgupta-2017">[7]</a>
+                <span class="cite-preview" id="cite-preview-dasgupta-2017" role="tooltip">Dasgupta et al., 2017 — full entry in References &amp; Credits.</span>
+              </span>
+              and in insect-inspired chemical-sensor classifiers
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-schmuker-2007" id="cite-schmuker-2007-a" aria-describedby="cite-preview-schmuker-2007">[8]</a>
+                <span class="cite-preview" id="cite-preview-schmuker-2007" role="tooltip">Schmuker &amp; Schneider, 2007 — full entry in References &amp; Credits.</span>
+              </span>
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-imam-2020" id="cite-imam-2020-a" aria-describedby="cite-preview-imam-2020">[9]</a>
+                <span class="cite-preview" id="cite-preview-imam-2020" role="tooltip">Imam &amp; Cleland, 2020 — full entry in References &amp; Credits.</span>
+              </span>.
+            </p>
+            <p class="notice">
+              Biological language on this page is analogy. “Fly-inspired” names computational stages motivated by insect circuits; it is not a claim of biological identity.
+            </p>
+          </section>
+
+          <!-- 5. From Sensor Signal to Spikes -->
+          <section class="section-block section-block--tech" id="sensor-to-spikes" data-reveal aria-labelledby="sensor-to-spikes-heading">
+            <span class="section-kicker">05 · Computational translation</span>
+            <h2 id="sensor-to-spikes-heading">From Sensor Signal to Spikes</h2>
+            <p>
+              One gas exposure becomes a sparse PN spike pattern the SNN can train on.
+              The walkthrough below is for a non-ML reader; expandable panels hold the preprocessing detail a computational reviewer needs.
+            </p>
+
+            <aside class="model-leak-guard" role="note" aria-labelledby="leak-guard-title">
+              <p class="model-leak-guard__kicker" id="leak-guard-title">Leakage Guard</p>
+              <p class="model-leak-guard__rule">
+                PCA and preprocessing parameters are fit on <strong>training data only</strong>.
+              </p>
+              <p class="model-leak-guard__detail">
+                Held-out Test exposures never enter the PCA fit
+                <span class="cite-wrap">
+                  <a class="cite" href="#ref-jolliffe-2002" id="cite-jolliffe-2002-a" aria-describedby="cite-preview-jolliffe-2002">[10]</a>
+                  <span class="cite-preview" id="cite-preview-jolliffe-2002" role="tooltip">Jolliffe, 2002 — full entry in References &amp; Credits.</span>
+                </span>.
+                Missing-value medians used for imputation follow the same train-only discipline in the documented method.
+                This is an evaluation-integrity rule, not a drift-robustness claim.
+              </p>
+            </aside>
+
+            <div class="model-panel-grid" role="group" aria-label="Dataset summary">
+              <article class="model-info-panel" aria-labelledby="dataset-panel-heading">
+                <h3 id="dataset-panel-heading">Dataset</h3>
+                <dl class="model-info-panel__list">
+                  <div>
+                    <dt>Corpus</dt>
+                    <dd>KT Batch1–3 (metal-oxide sensor aging study; doctoral thesis source)</dd>
+                  </div>
+                  <div>
+                    <dt>Channels</dt>
+                    <dd>14 sensor channels</dd>
+                  </div>
+                  <div>
+                    <dt>Gas classes</dt>
+                    <dd>Five: SO₂, NO₂, toluene, ethanol, NH₃</dd>
+                  </div>
+                  <div>
+                    <dt>Conditions</dt>
+                    <dd>Multiple concentrations and humidity levels · multi-month / ~seven-month aging context</dd>
+                  </div>
+                  <div>
+                    <dt>Exclusions</dt>
+                    <dd>Known-faulty units removed before analysis: Batch2, devices 1–2</dd>
+                  </div>
+                  <div>
+                    <dt>Feature matrix in this wiki</dt>
+                    <dd><span class="placeholder-field">Not archived in this repository</span></dd>
+                  </div>
+                </dl>
+                <p class="model-info-panel__note">
+                  Not AeroSense fluorescence / agricultural VOC data. Transfer path:
+                  <a href="#aerosense-bridge">From Public Sensor Data to AeroSense</a>.
+                </p>
+              </article>
+            </div>
+
+            <h3 id="signal-pipeline">Data pipeline</h3>
+            <p>
+              Follow one exposure from the raw KT recording into the SNN. Select a step for a plain-language note.
+            </p>
+
+            <div class="model-pipe" data-model-pipe data-active-step="raw" role="region" aria-label="Interactive data pipeline from raw recording to SNN">
+              <ol class="model-pipe__track" role="list">
+                <li>
+                  <button type="button" class="model-pipe__step is-active" data-pipe-step="raw" aria-pressed="true" aria-controls="pipe-step-panel">
+                    <span class="model-pipe__index">01</span>
+                    <span class="model-pipe__label">Raw KT recording</span>
+                  </button>
+                </li>
+                <li>
+                  <button type="button" class="model-pipe__step" data-pipe-step="dilute" aria-pressed="false" aria-controls="pipe-step-panel">
+                    <span class="model-pipe__index">02</span>
+                    <span class="model-pipe__label">Dilute baseline</span>
+                  </button>
+                </li>
+                <li>
+                  <button type="button" class="model-pipe__step" data-pipe-step="test" aria-pressed="false" aria-controls="pipe-step-panel">
+                    <span class="model-pipe__index">03</span>
+                    <span class="model-pipe__label">Test exposure</span>
+                  </button>
+                </li>
+                <li>
+                  <button type="button" class="model-pipe__step" data-pipe-step="delta" aria-pressed="false" aria-controls="pipe-step-panel">
+                    <span class="model-pipe__index">04</span>
+                    <span class="model-pipe__label">Delta features</span>
+                  </button>
+                </li>
+                <li>
+                  <button type="button" class="model-pipe__step" data-pipe-step="impute" aria-pressed="false" aria-controls="pipe-step-panel">
+                    <span class="model-pipe__index">05</span>
+                    <span class="model-pipe__label">Missing values</span>
+                  </button>
+                </li>
+                <li>
+                  <button type="button" class="model-pipe__step" data-pipe-step="pca" aria-pressed="false" aria-controls="pipe-step-panel">
+                    <span class="model-pipe__index">06</span>
+                    <span class="model-pipe__label">Train-only PCA</span>
+                  </button>
+                </li>
+                <li>
+                  <button type="button" class="model-pipe__step" data-pipe-step="bins" aria-pressed="false" aria-controls="pipe-step-panel">
+                    <span class="model-pipe__index">07</span>
+                    <span class="model-pipe__label">PN bins</span>
+                  </button>
+                </li>
+                <li>
+                  <button type="button" class="model-pipe__step" data-pipe-step="spikes" aria-pressed="false" aria-controls="pipe-step-panel">
+                    <span class="model-pipe__index">08</span>
+                    <span class="model-pipe__label">PN spikes</span>
+                  </button>
+                </li>
+                <li>
+                  <button type="button" class="model-pipe__step" data-pipe-step="snn" aria-pressed="false" aria-controls="pipe-step-panel">
+                    <span class="model-pipe__index">09</span>
+                    <span class="model-pipe__label">SNN</span>
+                  </button>
+                </li>
+              </ol>
+
+              <div class="model-pipe__panel" id="pipe-step-panel" data-pipe-panel tabindex="-1" aria-live="polite">
+                <h4 class="model-pipe__panel-title">Raw KT recording</h4>
+                <p>
+                  A multi-channel metal-oxide time series for one experimental run on the KT Batch1–3 corpus.
+                  Recordings alternate clean-air and gas-exposure segments before any feature is computed.
+                </p>
+              </div>
+            </div>
+
+            <h3 id="delta-features">Feature extraction — what “delta” means</h3>
+            <p>
+              For every Test segment, each sensor’s response is measured against a baseline from the preceding Dilute (clean-air) segment.
+              Three signed deltas are taken per sensor, plus baseline-relative counterparts.
+            </p>
+
+            <figure class="model-feat" aria-labelledby="feat-caption">
+              <div class="model-feat__banner" role="status">
+                <span class="model-feat__banner-kicker">Conceptual diagram</span>
+                <span>Not a real KT trace — no example recordings are archived in this repository.</span>
+              </div>
+              <div class="model-feat__svg-wrap">
+              <svg class="model-feat__svg" viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="feat-svg-title feat-svg-desc">
+                <title id="feat-svg-title">Conceptual Dilute and Test segments with baseline and delta features</title>
+                <desc id="feat-svg-desc">
+                  Schematic single-sensor voltage versus time. A Dilute clean-air segment sets a horizontal baseline.
+                  A Test gas segment rises above baseline. Markers indicate delta-median, delta-steady at the end of Test,
+                  and delta-peak at the largest deviation. This drawing uses invented schematic shapes, not measured samples.
+                  Full definitions are listed in text below the figure.
+                </desc>
+                <!-- axes -->
+                <line x1="48" y1="28" x2="48" y2="200" stroke="#0a0a0a" stroke-width="1.5"/>
+                <line x1="48" y1="200" x2="690" y2="200" stroke="#0a0a0a" stroke-width="1.5"/>
+                <text x="40" y="24" text-anchor="end" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#555">sensor</text>
+                <text x="690" y="216" text-anchor="end" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#555">time</text>
+
+                <!-- Dilute / Test bands -->
+                <rect x="60" y="40" width="220" height="160" fill="#f5f5f1"/>
+                <rect x="280" y="40" width="360" height="160" fill="#f3faf6"/>
+                <text x="170" y="58" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#0a0a0a">Dilute (clean air)</text>
+                <text x="460" y="58" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#0a0a0a">Test (gas exposure)</text>
+
+                <!-- baseline -->
+                <line x1="60" y1="150" x2="640" y2="150" stroke="#0b6b35" stroke-width="1.5" stroke-dasharray="6 4"/>
+                <text x="648" y="154" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#0b6b35">baseline</text>
+
+                <!-- schematic trace (explicitly non-data) -->
+                <path d="M70 148 C110 146, 150 152, 200 149 C240 147, 260 150, 275 148
+                         C300 120, 330 70, 380 62 C430 55, 480 78, 520 95
+                         C560 110, 600 118, 635 122"
+                      fill="none" stroke="#0a0a0a" stroke-width="2"/>
+
+                <!-- delta-peak marker -->
+                <line x1="380" y1="62" x2="380" y2="150" stroke="#0a0a0a" stroke-width="1"/>
+                <circle cx="380" cy="62" r="4" fill="#1fd36a" stroke="#0a0a0a" stroke-width="1"/>
+                <text x="388" y="58" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#0a0a0a">delta-peak</text>
+
+                <!-- delta-steady marker -->
+                <line x1="620" y1="120" x2="620" y2="150" stroke="#0a0a0a" stroke-width="1"/>
+                <circle cx="620" cy="120" r="4" fill="#ffffff" stroke="#0a0a0a" stroke-width="1.5"/>
+                <text x="560" y="112" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#0a0a0a">delta-steady</text>
+
+                <!-- delta-median callout -->
+                <text x="460" y="178" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#555">delta-median · over Test samples</text>
+
+                <text x="360" y="248" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="11" fill="#555">SCHEMATIC ONLY · replace with archived KT example</text>
+              </svg>
+              </div>
+              <ul class="model-feat__defs" aria-label="Delta feature definitions">
+                <li>
+                  <strong>Baseline</strong>
+                  <span>Median of the preceding Dilute segment’s final readings.</span>
+                </li>
+                <li>
+                  <strong>delta-median</strong>
+                  <span>Signed deviation of the Test segment’s median response from baseline.</span>
+                </li>
+                <li>
+                  <strong>delta-steady</strong>
+                  <span>Median of the Test segment’s final samples, as a signed delta from baseline.</span>
+                </li>
+                <li>
+                  <strong>delta-peak</strong>
+                  <span>Largest-magnitude deviation from baseline over the full Test exposure.</span>
+                </li>
+                <li>
+                  <strong>Baseline-relative variants</strong>
+                  <span>The same quantities expressed relative to the baseline level (counterparts of the signed deltas), forming the full per-sensor feature set across all 14 channels.</span>
+                </li>
+            </ul>
+              <figcaption id="feat-caption" class="model-feat__caption">
+                Figure. Conceptual single-channel schematic of Dilute → baseline → Test deltas (not measured KT samples).
+                A real archived exposure trace and tabulated feature vector are not yet present in this repository.
+              </figcaption>
+            </figure>
+
+            <details class="model-disclose" id="full-preprocessing">
+              <summary>Full preprocessing details</summary>
+              <div class="model-disclose__body">
+                <ol>
+                  <li>
+                    <strong>Segment structure.</strong> Each raw recording alternates Dilute (clean-air) and Test (gas-exposure) segments.
+                  </li>
+                  <li>
+                    <strong>Baseline.</strong> For every Test segment, baseline = median of the preceding Dilute segment’s final readings.
+                  </li>
+                  <li>
+                    <strong>Per-sensor deltas.</strong> Extract signed <em>delta-median</em>, <em>delta-steady</em>, and <em>delta-peak</em>, plus their baseline-relative counterparts → one feature vector spanning all 14 sensors.
+                  </li>
+                  <li>
+                    <strong>Fault filtering.</strong> Exclude known-faulty Batch2 devices 1–2 before analysis.
+                  </li>
+                  <li>
+                    <strong>Missing values.</strong> Median-impute missing feature entries (train-side discipline under the Leakage Guard).
+                  </li>
+                  <li>
+                    <strong>PCA.</strong> Fit PCA on the training split only; project to <code>pca_dim</code> = 8 in the v0 baseline
+                    <span class="cite-wrap">
+                      <a class="cite" href="#ref-jolliffe-2002" id="cite-jolliffe-2002-b" aria-describedby="cite-preview-jolliffe-2002">[10]</a>
+                    </span>.
+                  </li>
+                  <li>
+                    <strong>PN discretization.</strong> Each PC axis → <code>pn_bins</code> = 20 bins; one active PN index per axis → sparse combinatorial PN spike pattern (antennal-lobe / glomerular analogy).
+                  </li>
+                  <li>
+                    <strong>Hand-off.</strong> PN spikes drive the Brian2 PN→KC→MBON network
+                    (<a href="#network">Inside the network</a>).
+                  </li>
+                </ol>
+                <p class="notice">
+                  No closed-form feature equations appear in <code>model_content.md</code> beyond these operational definitions; the schematic above is the primary visual explanation.
+                </p>
+              </div>
+            </details>
+          </section>
+
+          <!-- 6. Data anchor (detail lives in Sensor → Spikes) -->
+          <section class="section-block section-block--tech" id="data-and-network" data-reveal aria-labelledby="data-heading">
+            <span class="section-kicker">06 · Data</span>
+            <h2 id="data-heading">Data: KT Batch1–3</h2>
+            <p>
+              Full dataset facts are in the
+              <a href="#sensor-to-spikes">Dataset panel</a>
+              (14 channels · five gases · Batch2 devices 1–2 excluded).
+              KT is a surrogate aging corpus for Decode development — not AeroSense fluorescence data
+              (<a href="#aerosense-bridge">bridge section</a>).
+              Feature tables and example traces are not archived in this wiki repository.
+            </p>
+          </section>
+
+          <section class="section-block section-block--tech" id="network" data-reveal aria-labelledby="network-heading">
+            <span class="section-kicker">07 · Network</span>
+            <h2 id="network-heading">Inside the PN–KC–APL–MBON Network</h2>
+            <p>
+              The spiking network is implemented in the Brian2 simulator
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-stimberg-2019" id="cite-stimberg-2019-a" aria-describedby="cite-preview-stimberg-2019">[11]</a>
+                <span class="cite-preview" id="cite-preview-stimberg-2019" role="tooltip">Stimberg et al., 2019 — full entry in References &amp; Credits.</span>
+              </span>
+              using conductance-based leaky integrate-and-fire (LIF) neurons with AMPA/GABA/ACh synaptic dynamics.
+            </p>
+
+            <ul class="model-layers" role="list">
+              <li class="model-layers__item">
+                <h3>PN</h3>
+                <p class="model-layers__bio">Projection-neuron analogue · sparse combinatorial spike code from binned PCA axes</p>
+                <p>Feeds the expansion stage; one active bin index per principal-component axis.</p>
+              </li>
+              <li class="model-layers__item">
+                <h3>KC</h3>
+                <p class="model-layers__bio">Kenyon-cell expansion · <code>kc_num</code> = 1000</p>
+                <p>
+                  Sparse fixed-weight random PN→KC connectivity (<code>p_pn_kc</code> = 0.05), mirroring divergent wiring in <i>Drosophila</i>
+                  <span class="cite-wrap">
+                    <a class="cite" href="#ref-turner-2008" id="cite-turner-2008-b" aria-describedby="cite-preview-turner-2008">[3]</a>
+                  </span>
+                  <span class="cite-wrap">
+                    <a class="cite" href="#ref-caron-2013" id="cite-caron-2013-b" aria-describedby="cite-preview-caron-2013">[4]</a>
+                  </span>.
+                </p>
+              </li>
+              <li class="model-layers__item">
+                <h3>APL-like inhibition</h3>
+                <p class="model-layers__bio">Global feedback · sparsify and decorrelate</p>
+                <p>
+                  A global inhibitory pathway (<code>w_apl_kc</code>, <code>lateral</code>) feeds back onto all KCs, analogous to APL
+                  <span class="cite-wrap">
+                    <a class="cite" href="#ref-lin-2014" id="cite-lin-2014-b" aria-describedby="cite-preview-lin-2014">[5]</a>
+                  </span>.
+                  An intrinsic-plasticity term (<code>ip</code>) slowly adapts each KC’s firing threshold to recent activity so sparsity stays bounded.
+                </p>
+              </li>
+              <li class="model-layers__item">
+                <h3>MBON readout</h3>
+                <p class="model-layers__bio">Learned classifier · STDP on KC→MBON weights</p>
+                <p>
+                  All-to-all excitatory KC→MBON synapses evolve under an event-driven, pair-based STDP rule (<code>learning_rate</code>)
+                  <span class="cite-wrap">
+                    <a class="cite" href="#ref-song-2000" id="cite-song-2000-a" aria-describedby="cite-preview-song-2000">[12]</a>
+                    <span class="cite-preview" id="cite-preview-song-2000" role="tooltip">Song et al., 2000 — full entry in References &amp; Credits.</span>
+                  </span>
+                  — the same “fixed random expansion, learned readout” strategy used at real KC→MBON synapses
+                  <span class="cite-wrap">
+                    <a class="cite" href="#ref-aso-2014" id="cite-aso-2014-b" aria-describedby="cite-preview-aso-2014">[6]</a>
+                  </span>.
+                </p>
+              </li>
+            </ul>
+
+            <div class="model-figure-slot" role="status" aria-label="Network diagram placeholder">
+              <p class="model-figure-slot__kicker">Figure reserved</p>
+              <p>
+                Architecture diagram (PN → sparse KC expansion → APL inhibition → MBON readout) is not yet archived under <code>fig/model/</code>. No placeholder result graphic is shown.
+              </p>
+            </div>
+
+            <details class="model-disclose">
+              <summary>Baseline network parameters</summary>
+              <div class="model-disclose__body">
+                <p>
+                  Full baseline table (with train/eval hyperparameters) lives under
+                  <a href="#model-parameters">Training &amp; Evaluation · Model parameters</a>.
+                  Headline network values from <code>model_content.md</code>:
+                </p>
+                <ul class="model-param-list">
+                  <li><code>kc_num</code><span>1000</span></li>
+                  <li><code>p_pn_kc</code><span>0.05</span></li>
+                  <li><code>w_kc_mbon</code><span>10</span></li>
+                  <li><code>learning_rate</code><span>0.025</span></li>
+                  <li><code>w_apl_kc</code> / <code>lateral</code> / <code>ip</code><span>Named in method · numeric baselines not archived</span></li>
+                  <li>Neuron / synapse model<span>Conductance-based LIF · AMPA / GABA / ACh in Brian2</span></li>
+            </ul>
+              </div>
+            </details>
+          </section>
+
+          <!-- 7. Training & Evaluation -->
+          <section class="section-block section-block--tech" id="training-evaluation" data-reveal aria-labelledby="training-evaluation-heading">
+            <span class="section-kicker">08 · Evaluation protocol</span>
+            <h2 id="training-evaluation-heading">Training &amp; Evaluation</h2>
+            <p>
+              The v0 baseline learns only the KC→MBON readout with STDP, then scores held-out exposures.
+              The split used here is pooled and stratified by gas label — it does <strong>not</strong> test temporal or cross-batch sensor drift
+              (<a href="#drift-robustness">Drift Robustness</a>).
+            </p>
+
+            <div class="model-panel-grid model-panel-grid--two">
+              <article class="model-info-panel" aria-labelledby="eval-panel-heading">
+                <h3 id="eval-panel-heading">Evaluation protocol</h3>
+                <dl class="model-info-panel__list">
+                  <div>
+                    <dt>Split strategy</dt>
+                    <dd>
+                      Stratified train/test split by gas label on the <strong>pooled</strong> Batch1–3 exposures.
+                      <em>Not</em> a train-earlier / test-later or cross-batch drift protocol.
+                      Train/test ratio and exposure count <em>N</em> are
+                      <span class="placeholder-field">not stated in model_content.md</span>
+                      and are not invented here.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Seed</dt>
+                    <dd><code>seed</code> = 100 (single fixed seed for reported baseline runs)</dd>
+                  </div>
+                  <div>
+                    <dt>Training cycles</dt>
+                    <dd><code>cycles</code> = 300 presentations; only KC→MBON weights update via STDP</dd>
+                  </div>
+                  <div>
+                    <dt>Test iterations</dt>
+                    <dd><code>test_iterations</code> = 50 presentations per checkpoint</dd>
+                  </div>
+                  <div>
+                    <dt>Decision rule</dt>
+                    <dd>Predicted class = MBON unit with the strongest response (argmax)</dd>
+                  </div>
+                  <div>
+                    <dt>Metrics scored</dt>
+                    <dd>Macro-averaged precision, recall, and F1 per training cycle</dd>
+                  </div>
+                  <div>
+                    <dt>Published baseline headline</dt>
+                    <dd>
+                      Macro F1 = <strong>0.868</strong>
+                      <span class="model-info-panel__tag">Pooled random-split · seed 100</span>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Macro precision / recall</dt>
+                    <dd>
+                      Scored by the protocol; separate headline values are
+                      <span class="placeholder-field">not listed in model_content.md</span>
+                      (archive the classification report when releasing runs).
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Model configuration source</dt>
+                    <dd>
+                      Intended: versioned TOML presets at <code>model/config/*.toml</code>.
+                      <span class="placeholder-field">No TOML files are present in this wiki repository</span>
+                      — baseline numbers below are taken from <code>model_content.md</code> prose.
+                    </dd>
+                  </div>
+                </dl>
+                <p class="model-info-panel__note">
+                  Logging intent (when code is released): fully resolved config, spike rasters, per-class reports via
+                  <code>model_evaluation/performance_analysis.py</code>
+                  (<span class="placeholder-field">(script not in this repository)</span>.
+                </p>
+              </article>
+
+              <article class="model-info-panel model-info-panel--warn" aria-labelledby="eval-not-drift-heading">
+                <h3 id="eval-not-drift-heading">What this split does <em>not</em> show</h3>
+                <p>
+                  A pooled stratified random split answers: “Can the SNN separate the five gases when train and test draws mix the same overall pool?”
+                </p>
+                <p>
+                  It does <strong>not</strong> answer: “Does accuracy hold when the sensor array has aged into a later batch?”
+                  That requires the planned cross-batch / temporal evaluation.
+                </p>
+                <p class="model-info-panel__note">
+                  Do not read F1 = 0.868 as drift-robustness evidence.
+                </p>
+              </article>
+            </div>
+
+            <details class="model-disclose" id="model-parameters" open>
+              <summary>Model parameters</summary>
+              <div class="model-disclose__body">
+                <p>
+                  Baseline (v0) values from <code>model_content.md</code>.
+                  Prefer replacing this table with values read from archived <code>model/config/*.toml</code> once those files are committed.
+                </p>
+                <div class="table-scroll" tabindex="0" role="region" aria-label="Baseline model parameters">
+                  <table class="goal-table model-param-table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Parameter</th>
+                        <th scope="col">Baseline value</th>
+                        <th scope="col">Biological / computational meaning</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row"><code>pca_dim</code></th>
+                        <td>8</td>
+                        <td>PCA dimensionality after train-only fit; compresses the multi-sensor feature vector before PN encoding.</td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><code>pn_bins</code></th>
+                        <td>20</td>
+                        <td>Bins per principal-component axis; one active PN index per axis (PN-like spike code).</td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><code>kc_num</code></th>
+                        <td>1000</td>
+                        <td>Kenyon-cell population size — high-dimensional expansion stage.</td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><code>p_pn_kc</code></th>
+                        <td>0.05</td>
+                        <td>Sparse random PN→KC connection probability (fly-like divergent wiring).</td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><code>w_apl_kc</code></th>
+                        <td><span class="placeholder-field">Numeric value not stated in model_content.md</span></td>
+                        <td>Strength of APL-like global inhibition onto KCs (named in method; no archived TOML value).</td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><code>w_kc_mbon</code></th>
+                        <td>10</td>
+                        <td>Initial / baseline KC→MBON excitatory weight scale before STDP adaptation.</td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><code>learning_rate</code></th>
+                        <td>0.025</td>
+                        <td>STDP learning rate on KC→MBON synapses (only plastic pathway in reported training).</td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><code>cycles</code></th>
+                        <td>300</td>
+                        <td>Number of training presentations of spike-encoded exposures.</td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><code>test_iterations</code></th>
+                        <td>50</td>
+                        <td>Test presentations per checkpoint for held-out classification.</td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><code>seed</code></th>
+                        <td>100</td>
+                        <td>Fixed random seed for the reported baseline run.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p class="notice">
+                  Also named in the method without archived numeric baselines: <code>lateral</code>, <code>ip</code> (intrinsic plasticity).
+                  No <code>model/config/*.toml</code> was found in this repository at build time of this page.
+                </p>
+              </div>
+            </details>
+          </section>
+
+          <!-- 8–10. Evidence framework (A–G) -->
+          <section class="section-block section-block--story" id="performance" data-reveal aria-labelledby="performance-heading">
+            <span class="section-kicker">09 · Evidence</span>
+            <h2 id="performance-heading">Evidence &amp; Results</h2>
+            <p>
+              Repo inspection found <strong>no archived ML result files</strong> in this wiki tree (no metric CSV/JSON/NPY, no confusion-matrix or F1 plots, no TOML run logs).
+              Numbers below are therefore limited to what <code>model_content.md</code> states, with Engineering/Notebook used only as integrity cross-links — never as substitute charts.
+            </p>
+
+            <ul class="model-ev-legend" aria-label="Evidence status key">
+              <li><span class="model-ev-badge model-ev-badge--validated">Validated</span> File-backed, gated result ready for citation</li>
+              <li><span class="model-ev-badge model-ev-badge--preliminary">Preliminary</span> Text-reported result; incomplete gates or missing artifacts</li>
+              <li><span class="model-ev-badge model-ev-badge--pending">Analysis pending</span> Experiment not run or not archived here</li>
+            </ul>
+
+            <!-- A. Current pooled baseline -->
+            <article class="model-ev model-ev--primary" id="evidence-baseline" aria-labelledby="evidence-baseline-heading">
+              <header class="model-ev__head">
+                <p class="model-ev__kicker">A · Current pooled baseline</p>
+                <span class="model-ev-badge model-ev-badge--preliminary">Preliminary</span>
+              </header>
+              <h3 id="evidence-baseline-heading">Fly-SNN v0 on KT Batch1–3</h3>
+              <p class="model-ev__metric" aria-label="Macro F1 0.868">
+                <span class="model-ev__metric-value">0.868</span>
+                <span class="model-ev__metric-label">macro-F1</span>
+              </p>
+              <p class="model-ev__scope"><strong>Pooled random-split baseline · seed 100</strong></p>
+              <p class="model-ev__caveat">
+                This establishes classification feasibility but does not by itself test temporal sensor-drift robustness.
+              </p>
+              <div class="table-scroll" tabindex="0" role="region" aria-label="Baseline evidence table">
+                <table class="goal-table">
+                  <caption class="visually-hidden">Accessible summary of the current pooled baseline</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Field</th>
+                      <th scope="col">Value</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Source</th>
+                      <td><code>model_content.md</code> (no classification-report file in repo)</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Split</th>
+                      <td>Stratified by gas label on the pooled Batch1–3 set (not cross-batch / temporal)</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Train/test ratio</th>
+                      <td><span class="placeholder-field">Not stated in model_content.md</span></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Exposure count N</th>
+                      <td><span class="placeholder-field">Not stated in model_content.md</span></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Preset</th>
+                      <td>PCA-8 · KC=1000 · <code>p_pn_kc</code>=0.05 · <code>w_kc_mbon</code>=10 · <code>learning_rate</code>=0.025</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Seed</th>
+                      <td>100 (single seed)</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Archived plot / CSV</th>
+                      <td><span class="placeholder-field">Missing in this repository</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="notice">
+                Engineering Dry Lab also records a gated candidate <code>w_kc_mbon</code>=13 at macro F1 0.8870 (fixed seed) and a text baseline 0.8676 — see
+                <a href="engineering.html#track-drylab">Engineering · Dry Lab</a>.
+                Those are integrity/history notes, not a replacement “best model” claim on this page.
+              </p>
+            </article>
+
+            <div class="model-ev-grid" role="list">
+              <!-- B. Conventional ML baselines -->
+              <article class="model-ev model-ev--pending" id="baseline-comparison" role="listitem" aria-labelledby="baseline-comparison-heading">
+                <header class="model-ev__head">
+                  <p class="model-ev__kicker">B · Conventional ML baselines</p>
+                  <span class="model-ev-badge model-ev-badge--pending">Analysis pending</span>
+                </header>
+                <h3 id="baseline-comparison-heading">Baseline comparison</h3>
+                <p>
+                  No side-by-side result table comparing the v0 fly-SNN against Logistic Regression, SVM, Random Forest, or PCA+SVM under the <em>same</em> pooled protocol is archived here.
+                  Notebook/Engineering prose mentions classical SVM/ELM/DAELM work in the lab history, but those numbers are not file-backed for a Model-page comparison chart.
+                </p>
+                <p class="model-ev__why">
+                  <strong>Why it matters:</strong> without matched simple baselines, it is hard to show that the biological motifs add value beyond a standard classifier on the same features.
+                </p>
+                <ul class="model-ev__todo">
+                  <li>Logistic Regression — not archived</li>
+                  <li>SVM / PCA+SVM — mentioned in lab notes; no Model-matched table</li>
+                  <li>Random Forest — not present in repo results</li>
+            </ul>
+              </article>
+
+              <!-- C. Cross-batch -->
+              <article class="model-ev model-ev--pending" id="drift-robustness" role="listitem" aria-labelledby="drift-robustness-heading">
+                <header class="model-ev__head">
+                  <p class="model-ev__kicker">C · Cross-batch / temporal drift</p>
+                  <span class="model-ev-badge model-ev-badge--pending">Analysis pending</span>
+                </header>
+                <h3 id="drift-robustness-heading">Drift evaluation design (empty)</h3>
+                <p>
+                  <code>model_content.md</code> states cross-batch drift evaluation is <strong>not yet performed</strong> for this SNN.
+                  The matrix below is an <em>evaluation checklist</em>, not a heatmap of results — every cell is pending.
+                </p>
+                <div class="table-scroll" tabindex="0" role="region" aria-label="Planned cross-batch evaluation matrix with no results filled">
+                  <table class="goal-table model-ev-matrix">
+                    <caption>
+                      Planned train→test batch checks. Cells show status only; no F1 values are invented.
+                      Contrast with panel A (pooled random split).
+                    </caption>
+                    <thead>
+                      <tr>
+                        <th scope="col">Train ↓ \ Test →</th>
+                        <th scope="col">Batch1</th>
+                        <th scope="col">Batch2</th>
+                        <th scope="col">Batch3</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">Batch1</th>
+                        <td><span class="model-ev-cell model-ev-cell--na">n/a</span></td>
+                        <td><span class="model-ev-cell model-ev-cell--pending">Pending</span></td>
+                        <td><span class="model-ev-cell model-ev-cell--pending">Pending</span></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Batch1+2</th>
+                        <td><span class="model-ev-cell model-ev-cell--na">n/a</span></td>
+                        <td><span class="model-ev-cell model-ev-cell--na">n/a</span></td>
+                        <td><span class="model-ev-cell model-ev-cell--pending">Pending</span></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Earlier→later (temporal)</th>
+                        <td colspan="3"><span class="model-ev-cell model-ev-cell--pending">Pending — train earlier exposures, test later</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p class="model-ev__why">
+                  <strong>Random split ≠ drift test.</strong> Panel A asks whether gases separate in a mixed pool.
+                  This panel asks whether a model trained on earlier sensor ages still works later.
+                </p>
+              </article>
+
+              <!-- D. Multi-seed -->
+              <article class="model-ev model-ev--pending" id="multi-seed" role="listitem" aria-labelledby="multi-seed-heading">
+                <header class="model-ev__head">
+                  <p class="model-ev__kicker">D · Multi-seed uncertainty</p>
+                  <span class="model-ev-badge model-ev-badge--pending">Analysis pending</span>
+                </header>
+                <h3 id="multi-seed-heading">Seed distribution for v0</h3>
+                <p>
+                  The published macro-F1 = 0.868 is a <strong>single-seed</strong> result (<code>seed</code> = 100).
+                  No repeated-seed CSV or interval for this v0 baseline is archived in the repository.
+                </p>
+                <p class="model-ev__why">
+                  Engineering Dry Lab documents why single-seed headlines can mislead (text-reported 3-seed framing on earlier configs) —
+                  <a href="engineering.html#track-drylab">Engineering · Dry Lab</a> —
+                  but that narrative is not a file-backed uncertainty band for the Model v0 number on this page.
+                </p>
+                <p class="notice">Multi-seed validation for v0 is listed under <a href="#limitations">Limitations &amp; Next Steps</a>.</p>
+              </article>
+
+              <!-- E. Ablation -->
+              <article class="model-ev model-ev--pending" id="ablation" role="listitem" aria-labelledby="ablation-heading">
+                <header class="model-ev__head">
+                  <p class="model-ev__kicker">E · Ablation</p>
+                  <span class="model-ev-badge model-ev-badge--pending">Analysis pending</span>
+                </header>
+                <h3 id="ablation-heading">Which motifs matter?</h3>
+                <p>
+                  No closed ablation experiment with archived metrics is present.
+                  The checklist below is the intended contrast set — <strong>no numerical bars</strong> are drawn.
+                </p>
+                <ul class="model-ev-ablate" aria-label="Planned ablation contrasts">
+                  <li><span>Full model</span><span class="model-ev-cell model-ev-cell--pending">Pending</span></li>
+                  <li><span>− APL / global inhibition</span><span class="model-ev-cell model-ev-cell--pending">Pending</span></li>
+                  <li><span>− sparse PN→KC expansion</span><span class="model-ev-cell model-ev-cell--pending">Pending</span></li>
+                  <li><span>− STDP learned readout</span><span class="model-ev-cell model-ev-cell--pending">Pending</span></li>
+                  <li><span>− intrinsic plasticity (<code>ip</code>)</span><span class="model-ev-cell model-ev-cell--pending">Pending</span></li>
+            </ul>
+                <p class="model-ev__why">
+                  <strong>Purpose:</strong> answer which biological design motifs contribute to performance under a matched split and seed protocol.
+                </p>
+              </article>
+
+              <!-- F. Robustness -->
+              <article class="model-ev model-ev--pending" id="robustness-tests" role="listitem" aria-labelledby="robustness-tests-heading">
+                <header class="model-ev__head">
+                  <p class="model-ev__kicker">F · Robustness tests</p>
+                  <span class="model-ev-badge model-ev-badge--pending">Analysis pending</span>
+                </header>
+                <h3 id="robustness-tests-heading">Controlled stress tests</h3>
+                <p>No populated robustness suite is archived for the Model page.</p>
+                <ul class="model-ev__todo">
+                  <li>Noise injection — pending</li>
+                  <li>Baseline offset / simulated drift — pending</li>
+                  <li>Concentration shift — pending</li>
+                  <li>Batch shift — pending (see panel C)</li>
+                  <li>Mixture conditions — pending</li>
+            </ul>
+                <p class="notice">
+                  Engineering notes a quantization / bit-precision probe that was later invalidated by a Brian2 clock-scheduling bug pending re-measurement —
+                  not reused here as Model robustness evidence.
+                </p>
+              </article>
+
+              <!-- G. Per-class -->
+              <article class="model-ev model-ev--pending" id="per-class" role="listitem" aria-labelledby="per-class-heading">
+                <header class="model-ev__head">
+                  <p class="model-ev__kicker">G · Per-class behavior</p>
+                  <span class="model-ev-badge model-ev-badge--pending">Analysis pending</span>
+                </header>
+                <h3 id="per-class-heading">Confusion matrix &amp; per-class F1</h3>
+                <p>
+                  Method text says runs should log per-class classification reports, but no report, confusion matrix, or per-class F1 table is present in this repository.
+                </p>
+                <div class="model-figure-slot" role="status">
+                  <p class="model-figure-slot__kicker">Figure slot reserved</p>
+                  <p>
+                    When archived: confusion matrix for SO₂ / NO₂ / toluene / ethanol / NH₃, per-class F1, and major confusion pairs — with sample counts and an accessible data table.
+                    No decorative empty matrix is drawn with fake counts.
+                  </p>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <!-- 11. What Did the Model Teach Us? -->
+          <section class="section-block section-block--story" id="what-we-learned" data-reveal aria-labelledby="what-we-learned-heading">
+            <span class="section-kicker">12 · Evidence → decision</span>
+            <h2 id="what-we-learned-heading">What Did the Model Teach Us?</h2>
+            <p>
+              Not a free-form discussion — each card is an evidence → interpretation → design consequence chain.
+              Only chains supported by <code>model_content.md</code> or documented Dry Lab records on this wiki are shown.
+              Where a test is missing, the consequence is marked <strong>Decision pending validation</strong>, not filled with speculation.
+            </p>
+
+            <div class="model-decision-grid" role="list">
+
+              <article class="model-decision" role="listitem" aria-labelledby="dec-baseline-title">
+                <header class="model-decision__head">
+                  <h3 id="dec-baseline-title">Keep a pooled reference baseline</h3>
+                  <span class="model-decision__status model-decision__status--implemented">Implemented</span>
+                </header>
+                <dl class="model-decision__flow">
+                  <div>
+                    <dt>Evidence</dt>
+                    <dd>
+                      Fly-SNN v0 reaches macro-F1 = <strong>0.868</strong> on a pooled stratified split at seed 100
+                      (<code>model_content.md</code>; Preliminary — see <a href="#evidence-baseline">Evidence A</a>).
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Interpretation</dt>
+                    <dd>
+                      Under mixed-pool conditions, the PN→KC→MBON pipeline can separate the five KT gas classes well enough to serve as a <em>text-documented</em> comparison anchor for later encoding, connectivity, and sampling changes.
+                      Full run-level reproducibility still needs archived configs, seeds beyond 100, and metric files
+                      (<a href="#reproduce">Reproduce</a>).
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Design consequence</dt>
+                    <dd>
+                      Retain the documented v0 preset (PCA-8, KC=1000, <code>p_pn_kc</code>=0.05, <code>w_kc_mbon</code>=10, <code>learning_rate</code>=0.025) as the comparison anchor.
+                      Do not replace it with the Engineering <code>w_kc_mbon</code>=13 candidate until multi-seed / k-fold gates pass.
+                    </dd>
+                  </div>
+                </dl>
+                <p class="model-decision__source">Source: <code>model_content.md</code>; candidate gate cross-check — <a href="engineering.html#track-drylab">Engineering · Dry Lab</a>.</p>
+              </article>
+
+              <article class="model-decision" role="listitem" aria-labelledby="dec-drift-title">
+                <header class="model-decision__head">
+                  <h3 id="dec-drift-title">Do not treat pooled F1 as drift proof</h3>
+                  <span class="model-decision__status model-decision__status--proposed">Proposed</span>
+                </header>
+                <dl class="model-decision__flow">
+                  <div>
+                    <dt>Evidence</dt>
+                    <dd>
+                      <code>model_content.md</code> states that cross-batch / temporal drift evaluation is <strong>not yet performed</strong> for this SNN
+                      (<a href="#drift-robustness">Evidence C</a>).
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Interpretation</dt>
+                    <dd>
+                      Pooled random-split performance answers gas separability in a mixed pool.
+                      It does not answer how much baseline / batch drift the classifier can tolerate after sensors age.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Design consequence</dt>
+                    <dd>
+                      Validation strategy: require an explicit train-earlier / test-later (or cross-batch) protocol before any public robustness claim.
+                      <strong>Decision pending validation</strong> on how much drift AeroSense can tolerate.
+                    </dd>
+                  </div>
+                </dl>
+                <p class="model-decision__source">Source: <code>model_content.md</code> method + limitations framing.</p>
+              </article>
+
+              <article class="model-decision" role="listitem" aria-labelledby="dec-seed-title">
+                <header class="model-decision__head">
+                  <h3 id="dec-seed-title">Require multi-seed reporting before promotion</h3>
+                  <span class="model-decision__status model-decision__status--proposed">Standing rule · v0 multi-seed still pending</span>
+                </header>
+                <dl class="model-decision__flow">
+                  <div>
+                    <dt>Evidence</dt>
+                    <dd>
+                      Dry Lab Cycle 0 documented that a single-seed F1 near ~0.90 was luck; a 3-seed mean framing was closer to ~0.85 on the configs tested
+                      (<a href="engineering.html#track-drylab">Engineering · Dry Lab</a>).
+                      The Model v0 headline remains single-seed (100).
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Interpretation</dt>
+                    <dd>
+                      Seed variance can dominate apparent gains. A “better” preset is not trustworthy until across-seed statistics exist.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Design consequence</dt>
+                    <dd>
+                      Standing validation rule: do not promote a candidate over v0 on a single seed.
+                      Multi-seed uncertainty for the published 0.868 baseline itself remains <strong>Decision pending validation</strong>
+                      (<a href="#multi-seed">Evidence D</a>).
+                    </dd>
+                  </div>
+                </dl>
+                <p class="model-decision__source">Source: Engineering Dry Lab Cycle 0 (wiki-documented integrity lesson).</p>
+              </article>
+
+              <article class="model-decision" role="listitem" aria-labelledby="dec-scaler-title">
+                <header class="model-decision__head">
+                  <h3 id="dec-scaler-title">Do not rank sensor/receptor channels from unstandardized PCA yet</h3>
+                  <span class="model-decision__status model-decision__status--proposed">Proposed</span>
+                </header>
+                <dl class="model-decision__flow">
+                  <div>
+                    <dt>Evidence</dt>
+                    <dd>
+                      Engineering Cycle 0 found the SNN PCA path lacked <code>StandardScaler</code>, so sensor-importance rankings tracked raw magnitude (e.g. S13 vs S6) rather than clean separability, disagreeing with standardized SVM / ANOVA-F diagnostics.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Interpretation</dt>
+                    <dd>
+                      Without scale control, “which channels matter?” answers can be artifacts.
+                      That blocks a trustworthy answer to how many distinguishable receptor/sensor channels are useful for AeroSense panel design.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Design consequence</dt>
+                    <dd>
+                      Queue adding <code>StandardScaler</code> before PCA and re-run LOSO / ranking comparisons before using channel importance to change receptor-panel strategy.
+                      <strong>Decision pending validation.</strong>
+                    </dd>
+                  </div>
+                </dl>
+                <p class="model-decision__source">Source: <a href="engineering.html#track-drylab">Engineering · Dry Lab</a> Cycle 0 (queued redesign; not closed).</p>
+              </article>
+
+              <article class="model-decision" role="listitem" aria-labelledby="dec-precision-title">
+                <header class="model-decision__head">
+                  <h3 id="dec-precision-title">Hold hardware precision requirements until re-measurement</h3>
+                  <span class="model-decision__status model-decision__status--awaiting">Decision pending validation</span>
+                </header>
+                <dl class="model-decision__flow">
+                  <div>
+                    <dt>Evidence</dt>
+                    <dd>
+                      Engineering Cycle 1 explored ADC / state quantization as a precision budget for an eventual hardware e-nose, then found <code>quantize_states</code> was scheduled on the wrong Brian2 clock — prior bit-sweep conclusions are invalidated pending rerun.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Interpretation</dt>
+                    <dd>
+                      We do not yet have a validated answer to how much signal / numeric quality the classifier requires, or what measurement quality Hardware must preserve for Decode.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Design consequence</dt>
+                    <dd>
+                      Do not set Hardware bit-depth or analog-fidelity requirements from those invalidated numbers.
+                      Re-measure after the clock fix, then revisit Read-layer specs.
+                      <strong>Decision pending validation</strong> — awaiting re-measurement (not yet AeroSense fluorescence data).
+                    </dd>
+                  </div>
+                </dl>
+                <p class="model-decision__source">Source: <a href="engineering.html#track-drylab">Engineering · Dry Lab</a> Cycle 1.</p>
+              </article>
+            </div>
+
+            <h3 id="open-design-questions">AeroSense design questions still open</h3>
+            <p>
+              These are the Decode-layer questions the Model is meant to inform.
+              None are answered quantitatively on this page until the matching analyses exist.
+            </p>
+            <ul class="model-open-q" role="list">
+              <li>
+                <span class="model-open-q__q">How much signal quality does the classifier require?</span>
+                <span class="model-open-q__a">Decision pending validation.</span>
+              </li>
+              <li>
+                <span class="model-open-q__q">How much baseline drift can be tolerated?</span>
+                <span class="model-open-q__a">Decision pending validation. (Needs Evidence C.)</span>
+              </li>
+              <li>
+                <span class="model-open-q__q">How many distinguishable receptor/sensor channels are useful?</span>
+                <span class="model-open-q__a">Decision pending validation. (Needs scaler-fixed ranking + AeroSense matrix.)</span>
+              </li>
+              <li>
+                <span class="model-open-q__q">Does sparse coding improve class separation?</span>
+                <span class="model-open-q__a">Decision pending validation. (Needs Evidence E.)</span>
+              </li>
+              <li>
+                <span class="model-open-q__q">Does inhibition improve robustness?</span>
+                <span class="model-open-q__a">Decision pending validation. (Needs Evidence C + E.)</span>
+              </li>
+              <li>
+                <span class="model-open-q__q">Which errors/classes need more receptor information?</span>
+                <span class="model-open-q__a">Decision pending validation. (Needs Evidence G.)</span>
+              </li>
+              <li>
+                <span class="model-open-q__q">What measurement quality should Hardware preserve?</span>
+                <span class="model-open-q__a">Decision pending validation. (Linked to precision re-measurement.)</span>
+              </li>
+            </ul>
+
+            <h3 id="feedback-loop">Model ↔ Experiment Feedback Loop</h3>
+            <p>
+              AeroSense is Sense → Read → Decode → Act.
+              The Model is the <strong>Decode</strong> layer: its job is eventually to read receptor-response patterns from the biological sensing layer — not to stop at an external metal-oxide benchmark.
+            </p>
+            <p class="notice">
+              KT Batch1–3 is a <strong>benchmark / surrogate development dataset</strong> used to build and stress-test the Decode pipeline while aging/batch structure is known.
+              It is <strong>not</strong> final biological validation of AeroSense OR/GCaMP assays.
+            </p>
+
+            <figure class="model-loop" aria-labelledby="feedback-loop model-loop-caption">
+              <ol class="model-loop__steps" aria-label="Measure to redesign feedback loop">
+                <li class="model-loop__step" data-layer="sense">
+                  <span class="model-loop__index">01</span>
+                  <strong>Measure</strong>
+                  <p>Wet Lab / sensing layer produces a response (today: KT surrogate; target: AeroSense receptor fluorescence features).</p>
+                  <span class="model-loop__layer">Sense · Wet Lab</span>
+                </li>
+                <li class="model-loop__step" data-layer="read">
+                  <span class="model-loop__index">02</span>
+                  <strong>Encode</strong>
+                  <p>Hardware Read path (or archived sensor export) turns the measurement into a versioned feature vector.</p>
+                  <span class="model-loop__layer">Read · Hardware</span>
+                </li>
+                <li class="model-loop__step model-loop__step--here" data-layer="decode">
+                  <span class="model-loop__index">03</span>
+                  <strong>Model</strong>
+                  <p>Fly-inspired SNN maps features → class scores (this page).</p>
+                  <span class="model-loop__layer">Decode · Model</span>
+                  <span class="model-loop__now">You are here</span>
+                </li>
+                <li class="model-loop__step" data-layer="decode">
+                  <span class="model-loop__index">04</span>
+                  <strong>Evaluate uncertainty / error</strong>
+                  <p>Splits, seeds, ablations, drift tests, per-class errors — only where archived.</p>
+                  <span class="model-loop__layer">Decode · Evaluation</span>
+                </li>
+                <li class="model-loop__step" data-layer="act">
+                  <span class="model-loop__index">05</span>
+                  <strong>Change design</strong>
+                  <p>Update sensing panel, measurement quality, or model hyperparameters — only from validated evidence.</p>
+                  <span class="model-loop__layer">Act · Design change</span>
+                </li>
+                <li class="model-loop__step" data-layer="sense">
+                  <span class="model-loop__index">06</span>
+                  <strong>Measure again</strong>
+                  <p>Close the loop with a new assay / export (EXP-AS-07 path when available).</p>
+                  <span class="model-loop__layer">Sense · Wet Lab</span>
+                </li>
+              </ol>
+
+              <div class="model-loop__stack" role="group" aria-label="Sense Read Decode Act stack">
+                <a class="model-loop__stack-item" href="design.html">Sense<br><span>Wet Lab / Design</span></a>
+                <a class="model-loop__stack-item" href="hardware.html">Read<br><span>Hardware</span></a>
+                <a class="model-loop__stack-item model-loop__stack-item--here" href="model.html">Decode<br><span>Model</span></a>
+                <span class="model-loop__stack-item">Act<br><span>Decision / QC</span></span>
+              </div>
+
+              <figcaption id="model-loop-caption" class="model-loop__caption">
+                Feedback loop linking Wet Lab, Hardware, and Model.
+                No closed AeroSense fluorescence → Model → redesign cycle is claimed yet; KT work develops Decode methods on a surrogate aging corpus.
+              </figcaption>
+            </figure>
+          </section>
+
+          <!-- 12. Project Integration -->
+          <section class="section-block section-block--story" id="aerosense-bridge" data-reveal aria-labelledby="aerosense-bridge-heading">
+            <span class="section-kicker">13 · Project integration</span>
+            <h2 id="aerosense-bridge-heading">From Public Sensor Data to AeroSense</h2>
+            <p>
+              AeroSense’s product stack is Sense → Read → Decode → Act:
+              <a href="description.html">Description</a>,
+              <a href="hardware.html">Hardware</a>,
+              <a href="design.html">Design</a>.
+              The evidence→decision cards and
+              <a href="#feedback-loop">Model ↔ Experiment Feedback Loop</a>
+              above state what has — and has not — transferred from the KT surrogate into project choices.
+            </p>
+            <p>
+              The Model track currently develops the <strong>Decode</strong> idea on KT Batch1–3, a real metal-oxide aging corpus.
+              That is honest surrogate engineering, not a substitute for decoding AeroSense receptor-response patterns.
+            </p>
+            <p>
+              Transfer to AeroSense assays will require a versioned fluorescence / receptor-response feature matrix (planned export path
+              <a href="experiments.html#exp-as-07">EXP-AS-07</a>
+              and
+              <a href="results.html#model-results">Results · Model results</a>),
+              the same leakage-safe split discipline, and an explicit statement of domain shift between metal-oxide voltages and GCaMP-derived features.
+            </p>
+            <p class="notice">
+              No closed fluorescence-Model feedback loop is claimed on this page: there is not yet dated evidence that this decoder changed receptor selection or hardware sampling based on AeroSense assay metrics.
+            </p>
+          </section>
+
+          <!-- 13. Reproduce -->
+          <section class="section-block section-block--tech" id="reproduce" data-reveal aria-labelledby="reproduce-heading">
+            <span class="section-kicker">14 · Reproducibility</span>
+            <h2 id="reproduce-heading">Reproduce Our Model</h2>
+            <p>
+              This section is for another iGEM team that wants to rebuild the Decode pipeline.
+              Paths below were checked against <strong>this wiki repository</strong>.
+              Intended host for a future code release:
+              <a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer">gitlab.igem.org/2026/nthu</a>
+              (Contribution marks the neuromorphic package as <strong>not released</strong>).
+            </p>
+
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Reproducibility inventory">
+              <table class="goal-table model-repro-table">
                 <thead>
                   <tr>
-                    <th scope="col">Field / object</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Unit / type (as stated)</th>
-                    <th scope="col">Schema status</th>
+                    <th scope="col">Resource</th>
+                    <th scope="col">Status in this repository</th>
+                    <th scope="col">What is known</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Fluorescence quantity</td>
-                    <td>Input from wet-lab / hardware</td>
-                    <td>Raw intensity or <dfn class="term" data-term="delta-f-over-f0" tabindex="0">ΔF/F<sub>0</sub></dfn> with a stated definition</td>
-                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
+                    <th scope="row">Source-code location</th>
+                    <td><span class="model-repro-pill model-repro-pill--missing">Not in this wiki tree</span></td>
+                    <td>
+                      Intended later:
+                      <a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer">GitLab 2026/nthu</a>.
+                      Package triage:
+                      <a href="contribution.html#pkg-model">Contribution · pkg-model</a>.
+                    </td>
                   </tr>
                   <tr>
-                    <td>Timing</td>
-                    <td>Input metadata for time series</td>
-                    <td>Sample timestamps or frame rate; stimulus onset markers</td>
-                    <td><span class="placeholder-field">[TEAM CONTENT REQUIRED]</span></td>
+                    <th scope="row"><code>model/config/*.toml</code></th>
+                    <td><span class="model-repro-pill model-repro-pill--missing">Missing</span></td>
+                    <td>Referenced in <code>model_content.md</code> as the versioned preset source for every experiment; no TOML files found here.</td>
                   </tr>
                   <tr>
-                    <td>OR identity</td>
-                    <td>Channel / panel metadata</td>
-                    <td>Identifier string (construct-level)</td>
-                    <td>Named in Design; schema freeze pending</td>
+                    <th scope="row">Preprocessing code</th>
+                    <td><span class="model-repro-pill model-repro-pill--missing">Missing</span></td>
+                    <td>Method documented on this page (<a href="#sensor-to-spikes">From Sensor Signal to Spikes</a>); implementation scripts not archived.</td>
                   </tr>
                   <tr>
-                    <td>Construct lot</td>
-                    <td>Metadata</td>
-                    <td>Lot / batch identifier</td>
-                    <td>Named in Design; schema freeze pending</td>
+                    <th scope="row">Model training code (Brian2 SNN)</th>
+                    <td><span class="model-repro-pill model-repro-pill--missing">Missing</span></td>
+                    <td>Simulator credited as Brian2 <span class="cite-wrap"><a class="cite" href="#ref-stimberg-2019" id="cite-stimberg-2019-b" aria-describedby="cite-preview-stimberg-2019">[11]</a></span>; training entrypoint not in this repository.</td>
                   </tr>
                   <tr>
-                    <td>Passage</td>
-                    <td>Metadata</td>
-                    <td>Culture passage index</td>
-                    <td>Named in Design; schema freeze pending</td>
+                    <th scope="row"><code>model_evaluation/performance_analysis.py</code></th>
+                    <td><span class="model-repro-pill model-repro-pill--missing">Missing</span></td>
+                    <td>Named in <code>model_content.md</code> for cross-preset comparison; file not present.</td>
                   </tr>
                   <tr>
-                    <td>Stimulus ID</td>
-                    <td>Label / condition key</td>
-                    <td>Stimulus identifier matching exported columns</td>
-                    <td>Named in Design; schema freeze pending</td>
+                    <th scope="row">Dependency / environment pin</th>
+                    <td><span class="model-repro-pill model-repro-pill--missing">Missing</span></td>
+                    <td>No <code>requirements.txt</code>, <code>environment.yml</code>, or lockfile for the Model track in this repository. See repository README / command pending documentation.</td>
                   </tr>
                   <tr>
-                    <td>Vehicle</td>
-                    <td>Control / condition metadata</td>
-                    <td>Vehicle identifier</td>
-                    <td>Named in Design; schema freeze pending</td>
+                    <th scope="row">Random seed</th>
+                    <td><span class="model-repro-pill model-repro-pill--doc">Documented</span></td>
+                    <td><code>seed</code> = 100 for the reported v0 baseline.</td>
                   </tr>
                   <tr>
-                    <td>Replicate IDs</td>
-                    <td>Metadata</td>
-                    <td>Biological / technical replicate identifiers</td>
-                    <td>Named in Design; schema freeze pending</td>
+                    <th scope="row">Dataset source</th>
+                    <td><span class="model-repro-pill model-repro-pill--doc">Documented (external)</span></td>
+                    <td>
+                      KT Batch1–3 metal-oxide aging study (14 channels; SO₂, NO₂, toluene, ethanol, NH₃), drawn from an accompanying doctoral thesis
+                      (<a href="#data-and-network">Data</a>).
+                      Feature matrices are <strong>not</strong> archived in this wiki tree.
+                    </td>
                   </tr>
                   <tr>
-                    <td>Normalization provenance flag</td>
-                    <td>Interface constraint</td>
-                    <td>Boolean / enum indicating whether baseline subtraction, per-well scaling, or AL-inspired transforms were applied</td>
-                    <td>Ownership split documented; encoding pending</td>
+                    <th scope="row">Train / test split</th>
+                    <td><span class="model-repro-pill model-repro-pill--doc">Documented</span></td>
+                    <td>Stratified by gas label on the <strong>pooled</strong> Batch1–3 exposures. Not a cross-batch / temporal split. Train/test ratio and exposure count <em>N</em> are not stated in <code>model_content.md</code>.</td>
                   </tr>
                   <tr>
-                    <td>Response vector <span class="tech-label">x</span></td>
-                    <td>Proposed model input after feature extraction</td>
-                    <td>Vector in ℝ<sup>N</sup>; per-receptor feature such as normalized fluorescence change (proposal: ΔF<sub>norm</sub>)</td>
-                    <td>Proposed — feature definition not frozen by code</td>
+                    <th scope="row">Output-file structure</th>
+                    <td><span class="model-repro-pill model-repro-pill--missing">Not archived</span></td>
+                    <td>Method intends logging of fully resolved config, spike rasters, and per-class classification reports; no example run directory in this repository.</td>
                   </tr>
                   <tr>
-                    <td>Class / condition label</td>
-                    <td>Supervised training target (proposed)</td>
-                    <td>Categorical label tied to stimulus ID / study design</td>
-                    <td>Not schema-frozen; no labeled AeroSense dataset published</td>
+                    <th scope="row">Saved classification reports</th>
+                    <td><span class="model-repro-pill model-repro-pill--missing">Missing</span></td>
+                    <td>None found under this wiki tree.</td>
                   </tr>
                   <tr>
-                    <td>Predicted label or similarity score</td>
-                    <td>Proposed model output</td>
-                    <td>Softmax class scores or Hamming / dot-product similarity to a reference code</td>
-                    <td>Proposed in team proposal; not implemented in repo</td>
-                  </tr>
-                  <tr>
-                    <td>Uncertainty</td>
-                    <td>Proposed reporting object</td>
-                    <td><span class="placeholder-field">Not defined — no calibrated uncertainty schema yet</span></td>
-                    <td>Pending team definition</td>
+                    <th scope="row">License / reuse</th>
+                    <td><span class="model-repro-pill model-repro-pill--doc">Wiki content only</span></td>
+                    <td>
+                      This wiki is licensed under
+                      <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">CC BY 4.0</a>.
+                      Model code/data licenses remain pending package release
+                      (<a href="contribution.html#pkg-model">Contribution · pkg-model</a>).
+                    </td>
                   </tr>
                 </tbody>
               </table>
             </div>
-          </section>
 
-          <section class="section-block" id="pipeline-overview" data-reveal>
-            <h2>Pipeline overview</h2>
+            <h3 id="repro-workflow">Intended reproduction workflow</h3>
             <p>
-              End-to-end flow as designed for AeroSense. Stages are labeled by implementation status in this repository and related wiki scaffolding—not by proposal intent alone.
+              No executable commands for the Model track were discoverable in this repository
+              (site <code>README.md</code> covers Blender showcase tooling only, not SNN training).
+              Until a Model README ships with the code package, treat the steps below as the documented pipeline order — not as runnable shell recipes.
             </p>
-            <ol class="pipeline-list">
+            <ol class="model-repro-flow" aria-label="Reproduction workflow">
               <li>
-                <span class="stage-tag stage-tag--proposed">Proposed</span>
-                <strong>Preprocessing</strong> — register raw fluorescence with metadata; apply documented baseline rules (
-                <a href="experiments.html#exp-as-07">EXP-AS-07</a>).
+                <span class="model-repro-flow__n">01</span>
+                <div>
+                  <strong>Get data</strong>
+                  <p>Obtain KT Batch1–3 from the thesis source described in Methods. Exclude Batch2 devices 1–2. Feature release in this wiki: pending.</p>
+                  <p class="model-repro-flow__cmd">See repository README / command pending documentation.</p>
+                </div>
               </li>
               <li>
-                <span class="stage-tag stage-tag--proposed">Proposed</span>
-                <strong>Response-vector extraction</strong> — map each receptor channel’s time series to a fixed feature (proposal: normalized fluorescence change).
+                <span class="model-repro-flow__n">02</span>
+                <div>
+                  <strong>Preprocess</strong>
+                  <p>Dilute baseline → delta features → median impute → train-only PCA → PN bins (<a href="#sensor-to-spikes">pipeline</a>).</p>
+                  <p class="model-repro-flow__cmd">See repository README / command pending documentation.</p>
+                </div>
               </li>
               <li>
-                <span class="stage-tag stage-tag--proposed">Proposed</span>
-                <strong>AL-inspired processing</strong> — pattern normalization plus global and lateral inhibition for contrast enhancement.
+                <span class="model-repro-flow__n">03</span>
+                <div>
+                  <strong>Select config</strong>
+                  <p>Load a versioned TOML preset from <code>model/config/*.toml</code> (path referenced; files missing here). v0 values are listed under <a href="#model-parameters">Model parameters</a>.</p>
+                  <p class="model-repro-flow__cmd">See repository README / command pending documentation.</p>
+                </div>
               </li>
               <li>
-                <span class="stage-tag stage-tag--proposed">Proposed</span>
-                <strong>MB-inspired sparse representation</strong> — sparse random projection and threshold / winner selection toward a locality-sensitive binary code
-                <span class="cite-wrap">
-                  <a class="cite" href="#ref-dasgupta-2017" id="cite-dasgupta-2017-b" aria-describedby="cite-preview-dasgupta-2017">[1]</a>
-                  <span class="cite-preview" role="tooltip">Dasgupta et al., 2017 — full entry in References &amp; Credits.</span>
-                </span>.
+                <span class="model-repro-flow__n">04</span>
+                <div>
+                  <strong>Train</strong>
+                  <p>Brian2 SNN; <code>cycles</code> = 300; STDP on KC→MBON only; <code>seed</code> = 100 for the reported baseline.</p>
+                  <p class="model-repro-flow__cmd">See repository README / command pending documentation.</p>
+                </div>
               </li>
               <li>
-                <span class="stage-tag stage-tag--proposed">Proposed</span>
-                <strong>Classifier</strong> — similarity to reference codes and/or linear softmax readout (proposal); compare against simpler baselines (proposal names PCA and SVM).
+                <span class="model-repro-flow__n">05</span>
+                <div>
+                  <strong>Evaluate</strong>
+                  <p>Held-out stratified test; <code>test_iterations</code> = 50; macro precision / recall / F1; intended helper <code>model_evaluation/performance_analysis.py</code>.</p>
+                  <p class="model-repro-flow__cmd">See repository README / command pending documentation.</p>
+                </div>
               </li>
               <li>
-                <span class="stage-tag stage-tag--proposed">Proposed</span>
-                <strong>Evaluation / feedback</strong> — metrics, ablations, and engineering learn/change records on
-                <a href="results.html#model-results">Results</a>
-                and
-                <a href="engineering.html#model-c1">Engineering C1</a>.
+                <span class="model-repro-flow__n">06</span>
+                <div>
+                  <strong>Reproduce figure / table</strong>
+                  <p>Regenerate Evidence A table / confusion matrix from saved reports. No figure assets are archived under <code>fig/model/</code> in this repository.</p>
+                  <p class="model-repro-flow__cmd">See repository README / command pending documentation.</p>
+                </div>
               </li>
             </ol>
-            <p class="notice">
-              <span class="stage-tag stage-tag--implemented">Implemented</span>
-              No pipeline stage has an executed, versioned code path in this wiki tree. Contribution package
-              <a href="contribution.html#pkg-model">pkg-model</a>
-              remains In development without a public entry point.
-            </p>
-          </section>
 
-          <section class="section-block" id="data-provenance" data-reveal>
-            <h2>Data provenance</h2>
-            <div class="table-scroll" tabindex="0" role="region" aria-label="Data provenance status">
-              <table class="goal-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Topic</th>
-                    <th scope="col">Current record</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Public data</td>
-                    <td>Proposal milestones mention initial training on a public dataset. <span class="placeholder-field">No named public dataset, accession, or license recorded for AeroSense model use</span>.</td>
-                  </tr>
-                  <tr>
-                    <td>Team-generated data</td>
-                    <td>Planned via fluorescence assays and <a href="experiments.html#exp-as-07">EXP-AS-07</a> export. <span class="placeholder-field">No published AeroSense feature matrix</span>.</td>
-                  </tr>
-                  <tr>
-                    <td>Inclusion / exclusion</td>
-                    <td>Not defined beyond Design metadata requirements and EXP-AS-07 QC scaffold (missing metadata fails export).</td>
-                  </tr>
-                  <tr>
-                    <td>Preprocessing disclosure</td>
-                    <td>Required by Design: baseline subtraction, per-well scaling, and AL-inspired transforms must be documented; hardware must not silently rescale without a provenance flag.</td>
-                  </tr>
-                  <tr>
-                    <td>Splits</td>
-                    <td>Proposal mentions 5-fold cross-validation as an evaluation plan. <strong>No split implementation exists in code here</strong>, so no leakage-prevention procedure is claimed.</td>
-                  </tr>
-                  <tr>
-                    <td>Leakage prevention</td>
-                    <td><span class="placeholder-field">Not evidenced — requires code that groups by replicate / batch / plate before splitting</span></td>
-                  </tr>
-                  <tr>
-                    <td>Dataset version</td>
-                    <td><span class="placeholder-field">Unpublished</span></td>
-                  </tr>
-                  <tr>
-                    <td>License</td>
-                    <td>Wiki content under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">CC BY 4.0</a>. Model data/code licenses remain <span class="placeholder-field">pending release</span>.</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <section class="section-block" id="preprocessing" data-reveal>
-            <h2>Preprocessing and response extraction</h2>
-            <p>
-              Intended path: convert continuous fluorescence traces into a fixed-length receptor-response vector before AL-inspired processing. Protocol scaffolding lives in
-              <a href="experiments.html#exp-as-07">EXP-AS-07</a>; interface ownership is stated on
-              <a href="design.html#interfaces">Design</a>.
-              GCaMP-class fluorescence reporting is the sensing context for these traces
-              <span class="cite-wrap">
-                <a class="cite" href="#ref-chen-2013" id="cite-chen-2013" aria-describedby="cite-preview-chen-2013">[2]</a>
-                <span class="cite-preview" id="cite-preview-chen-2013" role="tooltip">Chen et al., 2013 — full entry in References &amp; Credits.</span>
-              </span>.
-            </p>
-            <div class="table-scroll" tabindex="0" role="region" aria-label="Preprocessing items and confirmation status">
-              <table class="goal-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Item</th>
-                    <th scope="col">What is known</th>
-                    <th scope="col">Confirmation</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Baseline definition (F<sub>0</sub>)</td>
-                    <td>Must be stated when ΔF/F<sub>0</sub> is used</td>
-                    <td><span class="placeholder-field">Not confirmed in code or approved SOP</span></td>
-                  </tr>
-                  <tr>
-                    <td>Response metric</td>
-                    <td>Proposal uses ΔF<sub>norm</sub> (normalized fluorescence change) per receptor; Design allows raw intensity or ΔF/F<sub>0</sub></td>
-                    <td>Notation not reconciled in an implementation</td>
-                  </tr>
-                  <tr>
-                    <td>Time-windowing</td>
-                    <td>Stimulus onset markers and sampling interval are required interface items</td>
-                    <td><span class="placeholder-field">Window length / aggregation rule pending</span></td>
-                  </tr>
-                  <tr>
-                    <td>Normalization</td>
-                    <td>Pattern normalization is proposed as the first AL-inspired step (see below)</td>
-                    <td>Not code-validated</td>
-                  </tr>
-                  <tr>
-                    <td>Missing values</td>
-                    <td>EXP-AS-07: missing metadata fails export</td>
-                    <td>Imputation / channel-drop policy not specified</td>
-                  </tr>
-                  <tr>
-                    <td>Quality control</td>
-                    <td>Include negative/vehicle traces when acquired; raw↔processed linkage required</td>
-                    <td>Numeric QC thresholds not published</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <p class="notice">
-              No ΔF/F<sub>0</sub> formula, ROI averaging rule, or feature JSON schema is filled here without an approved analysis script or frozen interface file.
-            </p>
-
-            <figure class="equation-block" aria-labelledby="eq-response-caption">
-              <figcaption id="eq-response-caption" class="equation-block__caption">Equation placeholder A — Per-receptor response feature (proposal draft)</figcaption>
-              <div class="equation-block__math">
-                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" alttext="x sub i equals Delta F norm, i">
-                  <mrow>
-                    <msub><mi>x</mi><mi>i</mi></msub>
-                    <mo>=</mo>
-                    <msub>
-                      <mrow>
-                        <mi mathvariant="normal">Δ</mi><mi>F</mi>
-                      </mrow>
-                      <mrow>
-                        <mi>norm</mi><mo>,</mo><mi>i</mi>
-                      </mrow>
-                    </msub>
-                  </mrow>
-                </math>
+            <details class="model-disclose" id="repro-param-table">
+              <summary>Full parameter table</summary>
+              <div class="model-disclose__body">
+                <p>
+                  Same v0 table as
+                  <a href="#model-parameters">Training &amp; Evaluation · Model parameters</a>.
+                  Values from <code>model_content.md</code> (no TOML read-back possible).
+                </p>
+                <div class="table-scroll" tabindex="0" role="region" aria-label="Full baseline parameter table">
+                  <table class="goal-table model-param-table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Parameter</th>
+                        <th scope="col">Baseline value</th>
+                        <th scope="col">Biological / computational meaning</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row"><code>pca_dim</code></th>
+                        <td>8</td>
+                        <td>Train-only PCA dimensionality before PN encoding.</td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><code>pn_bins</code></th>
+                        <td>20</td>
+                        <td>Bins per PC axis; one active PN index per axis.</td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><code>kc_num</code></th>
+                        <td>1000</td>
+                        <td>Kenyon-cell population size.</td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><code>p_pn_kc</code></th>
+                        <td>0.05</td>
+                        <td>Sparse random PN→KC connection probability.</td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><code>w_apl_kc</code></th>
+                        <td><span class="placeholder-field">Not stated in model_content.md</span></td>
+                        <td>APL-like global inhibition strength (named only).</td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><code>w_kc_mbon</code></th>
+                        <td>10</td>
+                        <td>Baseline KC→MBON weight scale.</td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><code>learning_rate</code></th>
+                        <td>0.025</td>
+                        <td>STDP learning rate on KC→MBON.</td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><code>cycles</code></th>
+                        <td>300</td>
+                        <td>Training presentations.</td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><code>test_iterations</code></th>
+                        <td>50</td>
+                        <td>Test presentations per checkpoint.</td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><code>seed</code></th>
+                        <td>100</td>
+                        <td>Fixed random seed for reported v0 run.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p class="notice">Also named without archived numeric baselines: <code>lateral</code>, <code>ip</code>.</p>
               </div>
-              <p class="equation-block__plain">
-                Plain language: for receptor channel <i>i</i>, the scalar feature <i>x<sub>i</sub></i> is the proposal’s normalized fluorescence change for that channel. Units depend on how ΔF<sub>norm</sub> is defined (dimensionless relative change if it is a ΔF/F<sub>0</sub>-class quantity).
-              </p>
-              <p class="equation-block__audit" role="note">
-                Audit: the proposal states the symbol but does not give an executable expression for ΔF<sub>norm</sub> (baseline window, peak vs area, or scaling). No repository code was available to resolve it. Treat as a labeled placeholder until the analysis script defines F<sub>0</sub> and the response operator.
-              </p>
-            </figure>
+            </details>
 
-            <figure class="equation-block" aria-labelledby="eq-vector-caption">
-              <figcaption id="eq-vector-caption" class="equation-block__caption">Equation 1 — Odor response vector (proposal draft)</figcaption>
-              <div class="equation-block__math">
-                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" alttext="x equals the vector x sub 1 through x sub N, an element of real N-space">
-                  <mrow>
-                    <mi>x</mi>
-                    <mo>=</mo>
-                    <mrow>
-                      <mo>[</mo>
-                      <msub><mi>x</mi><mn>1</mn></msub>
-                      <mo>,</mo>
-                      <msub><mi>x</mi><mn>2</mn></msub>
-                      <mo>,</mo>
-                      <mi>…</mi>
-                      <mo>,</mo>
-                      <msub><mi>x</mi><mi>N</mi></msub>
-                      <mo>]</mo>
-                    </mrow>
-                    <mo>∈</mo>
-                    <msup><mi>ℝ</mi><mi>N</mi></msup>
-                  </mrow>
-                </math>
+            <details class="model-disclose" id="repro-pseudocode">
+              <summary>Pseudocode</summary>
+              <div class="model-disclose__body">
+                <p>Operational outline from <code>model_content.md</code> — not a runnable script.</p>
+                <pre class="model-code" tabindex="0"><code>exclude faulty Batch2 devices 1–2
+for each recording:
+  locate Dilute / Test segments
+  baseline ← median(final Dilute readings)
+  extract delta-median, delta-steady, delta-peak (+ baseline-relative)
+feature_matrix ← stack per-exposure vectors (14 sensors)
+split ← stratified_by_gas_label(feature_matrix)   # pooled; not cross-batch
+impute missing values with train-split medians
+PCA.fit(train_features only)                      # leakage guard
+Z_train, Z_test ← PCA.transform(...)
+PN_spikes ← discretize_each_axis(Z, pn_bins=20)
+train Brian2 PN→KC→MBON for cycles=300 with seed=100
+  update only KC→MBON via STDP (learning_rate=0.025)
+evaluate test exposures for test_iterations=50
+  predict ← argmax(MBON responses)
+  score macro precision / recall / F1
+log resolved config, spike rasters, per-class reports  # intended; not archived here</code></pre>
               </div>
-              <p class="equation-block__plain">
-                Plain language: one odor trial is represented as a length-<i>N</i> vector whose entries are the per-receptor features. <i>N</i> is the number of receptor channels in the panel (dimensionless count).
-              </p>
-            </figure>
-          </section>
+            </details>
 
-          <section class="section-block" id="al-inspired" data-reveal>
-            <h2>AL-inspired layer</h2>
-            <p>
-              <strong>Analogy:</strong> insect antennal-lobe circuits can sharpen odor patterns through inhibition among channels, including roles for local neurons and projection-neuron pathways
-              <span class="cite-wrap">
-                <a class="cite" href="#ref-dasgupta-2017" id="cite-dasgupta-2017-c" aria-describedby="cite-preview-dasgupta-2017">[1]</a>
-                <span class="cite-preview" role="tooltip">Dasgupta et al., 2017 — full entry in References &amp; Credits.</span>
-              </span>.
-            </p>
-            <p>
-              <strong>Mechanism (computational):</strong> a proposed discrete-time update that (i) converts intensity-like vectors into relative pattern codes, (ii) subtracts a global activity term, and (iii) applies weighted lateral inhibition across receptor channels. This is an engineered contrast transform, not a biophysically faithful AL simulation.
-            </p>
-
-            <figure class="equation-block" aria-labelledby="eq-norm-caption">
-              <figcaption id="eq-norm-caption" class="equation-block__caption">Equation 2 — Pattern normalization (interpreted proposal draft)</figcaption>
-              <div class="equation-block__math">
-                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" alttext="r sub i equals x sub i divided by the sum from j equals 1 to N of x sub j">
-                  <mrow>
-                    <msub><mi>r</mi><mi>i</mi></msub>
-                    <mo>=</mo>
-                    <mfrac>
-                      <msub><mi>x</mi><mi>i</mi></msub>
-                      <mrow>
-                        <munderover>
-                          <mo>∑</mo>
-                          <mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow>
-                          <mi>N</mi>
-                        </munderover>
-                        <msub><mi>x</mi><mi>j</mi></msub>
-                      </mrow>
-                    </mfrac>
-                  </mrow>
-                </math>
+            <details class="model-disclose" id="repro-schema">
+              <summary>Data schema</summary>
+              <div class="model-disclose__body">
+                <div class="table-scroll" tabindex="0" role="region" aria-label="Documented data schema">
+                  <table class="goal-table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Field / stage</th>
+                        <th scope="col">Content (as documented)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">Raw recording</th>
+                        <td>14-channel metal-oxide time series; Dilute (clean air) alternating with Test (gas)</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Label</th>
+                        <td>One of five gases: SO₂, NO₂, toluene, ethanol, NH₃ (plus concentration / humidity context in the thesis study)</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Batch context</th>
+                        <td>KT Batch1–3; multi-month / ~seven-month aging study</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Exclusions</th>
+                        <td>Batch2 devices 1–2 removed before analysis</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Per-exposure features</th>
+                        <td>Signed delta-median, delta-steady, delta-peak and baseline-relative counterparts across 14 sensors</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Model input</th>
+                        <td>PCA (<code>pca_dim</code>=8) → PN bin spikes (<code>pn_bins</code>=20 per axis)</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Machine-readable schema file</th>
+                        <td><span class="placeholder-field">Not archived (e.g. no data_dictionary.csv for Model features in this repo)</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
-              <p class="equation-block__plain">
-                Plain language: each channel is divided by the sum of all channel responses so the vector emphasizes relative pattern rather than overall intensity. <i>r<sub>i</sub></i> is dimensionless if <i>x</i> entries share a common relative-fluorescence unit; the denominator must be nonzero.
-              </p>
-              <p class="equation-block__audit" role="note">
-                Audit: the proposal’s linearized equation writes the same symbol <i>r<sub>i</sub></i> on both sides of the fraction. No code was available to confirm the intended numerator. Equation 2 records the standard L1-style interpretation consistent with the surrounding “intensity → pattern coding” text. Confirm against the implementation before claiming equivalence.
-              </p>
-            </figure>
+            </details>
 
-            <figure class="equation-block" aria-labelledby="eq-dynamics-caption">
-              <figcaption id="eq-dynamics-caption" class="equation-block__caption">Equation 3 — Global and lateral inhibition update (proposal draft)</figcaption>
-              <div class="equation-block__math">
-                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" alttext="x sub i of t plus 1 equals x sub i of t plus r sub i minus alpha times g of t minus beta times the sum over j not equal to i of W sub i j times x sub j of t">
-                  <mrow>
-                    <msub>
-                      <mi>x</mi>
-                      <mi>i</mi>
-                    </msub>
-                    <mo>(</mo><mi>t</mi><mo>+</mo><mn>1</mn><mo>)</mo>
-                    <mo>=</mo>
-                    <msub><mi>x</mi><mi>i</mi></msub>
-                    <mo>(</mo><mi>t</mi><mo>)</mo>
-                    <mo>+</mo>
-                    <msub><mi>r</mi><mi>i</mi></msub>
-                    <mo>−</mo>
-                    <mi>α</mi>
-                    <mo>⁢</mo>
-                    <mi>g</mi><mo>(</mo><mi>t</mi><mo>)</mo>
-                    <mo>−</mo>
-                    <mi>β</mi>
-                    <munder>
-                      <mo>∑</mo>
-                      <mrow><mi>j</mi><mo>≠</mo><mi>i</mi></mrow>
-                    </munder>
-                    <msub><mi>W</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub>
-                    <msub><mi>x</mi><mi>j</mi></msub>
-                    <mo>(</mo><mi>t</mi><mo>)</mo>
-                  </mrow>
-                </math>
-              </div>
-              <p class="equation-block__plain">
-                Plain language: at discrete step <i>t</i> (iteration index of the contrast transform, not necessarily assay clock time), each channel is driven by its normalized input <i>r<sub>i</sub></i>, reduced by a global inhibition term scaled by <i>α</i>, and reduced by lateral inhibition from other channels scaled by <i>β</i> and weights <i>W<sub>ij</sub></i>. Symbols and units are listed in
-                <a href="#assumptions">Assumptions and parameter provenance</a>.
-              </p>
-            </figure>
-
-            <figure class="equation-block" aria-labelledby="eq-global-caption">
-              <figcaption id="eq-global-caption" class="equation-block__caption">Equation 4 — Global inhibition activity (interpreted proposal draft)</figcaption>
-              <div class="equation-block__math">
-                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" alttext="g of t equals one over N times the sum from j equals 1 to N of x sub j of t">
-                  <mrow>
-                    <mi>g</mi><mo>(</mo><mi>t</mi><mo>)</mo>
-                    <mo>=</mo>
-                    <mfrac>
-                      <mn>1</mn>
-                      <mi>N</mi>
-                    </mfrac>
-                    <munderover>
-                      <mo>∑</mo>
-                      <mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow>
-                      <mi>N</mi>
-                    </munderover>
-                    <msub><mi>x</mi><mi>j</mi></msub>
-                    <mo>(</mo><mi>t</mi><mo>)</mo>
-                  </mrow>
-                </math>
-              </div>
-              <p class="equation-block__plain">
-                Plain language: <i>g(t)</i> is the mean activity across all <i>N</i> channels at step <i>t</i>, used as a global background/strength signal. It shares the activity unit of <i>x<sub>j</sub>(t)</i>.
-              </p>
-              <p class="equation-block__audit" role="note">
-                Audit: the proposal’s linearized form sums <i>x<sub>i</sub>(t)</i> while indexing the sum by <i>j</i>. Equation 4 uses the mean over <i>x<sub>j</sub>(t)</i>, which matches the prose definition (“average of all receptor activity”). Confirm in code before locking.
-              </p>
-            </figure>
-          </section>
-
-          <section class="section-block" id="mb-inspired" data-reveal>
-            <h2>MB-inspired layer</h2>
-            <p>
-              <strong>Analogy:</strong> Kenyon cells in the mushroom body receive sparse, expanded inputs and form sparse odor codes; computational work links this motif to locality-sensitive hashing
-              <span class="cite-wrap">
-                <a class="cite" href="#ref-dasgupta-2017" id="cite-dasgupta-2017-d" aria-describedby="cite-preview-dasgupta-2017">[1]</a>
-                <span class="cite-preview" role="tooltip">Dasgupta et al., 2017 — full entry in References &amp; Credits.</span>
-              </span>.
-            </p>
-            <p>
-              <strong>Mechanism (computational):</strong> project the AL-layer output <i>y</i> ∈ ℝ<sup>N</sup> through a sparse random matrix into a higher dimension, then threshold to a binary code. This is a designed sparse expansion, not a claim that AeroSense reproduces biological Kenyon-cell physiology.
-            </p>
-
-            <figure class="equation-block" aria-labelledby="eq-proj-caption">
-              <figcaption id="eq-proj-caption" class="equation-block__caption">Equation 5 — Sparse random projection (proposal draft)</figcaption>
-              <div class="equation-block__math">
-                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" alttext="z equals W to the MB times y, where W to the MB is a K by N matrix and K is much greater than N">
-                  <mrow>
-                    <mi>z</mi>
-                    <mo>=</mo>
-                    <msup><mi>W</mi><mtext>MB</mtext></msup>
-                    <mi>y</mi>
-                    <mo>,</mo>
-                    <mspace width="0.5em"/>
-                    <msup><mi>W</mi><mtext>MB</mtext></msup>
-                    <mo>∈</mo>
-                    <msup><mi>ℝ</mi><mrow><mi>K</mi><mo>×</mo><mi>N</mi></mrow></msup>
-                    <mo>,</mo>
-                    <mi>K</mi>
-                    <mo>≫</mo>
-                    <mi>N</mi>
-                  </mrow>
-                </math>
-              </div>
-              <p class="equation-block__plain">
-                Plain language: the contrast-enhanced receptor vector <i>y</i> is multiplied by a sparse matrix <i>W</i><sup>MB</sup> to produce a high-dimensional activation vector <i>z</i> with <i>K</i> units. Proposal ranges: <i>K</i> ≈ 1000–5000; each MB unit connects randomly to about 5–10 inputs. A separate proposal sentence also cites ~10% PN→KC-like connectivity—these two connectivity statements are not yet reconciled in code.
-              </p>
-            </figure>
-
-            <figure class="equation-block" aria-labelledby="eq-thresh-caption">
-              <figcaption id="eq-thresh-caption" class="equation-block__caption">Equation 6 — Sparse threshold / winner selection (proposal draft)</figcaption>
-              <div class="equation-block__math">
-                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" alttext="h sub k equals 1 if z sub k is greater than theta, otherwise 0; h is a binary vector of length K">
-                  <mrow>
-                    <msub><mi>h</mi><mi>k</mi></msub>
-                    <mo>=</mo>
-                    <mrow>
-                      <mo>{</mo>
-                      <mtable columnalign="left">
-                        <mtr>
-                          <mtd><mn>1</mn></mtd>
-                          <mtd><mrow><mtext>if </mtext><msub><mi>z</mi><mi>k</mi></msub><mo>&gt;</mo><mi>θ</mi></mrow></mtd>
-                        </mtr>
-                        <mtr>
-                          <mtd><mn>0</mn></mtd>
-                          <mtd><mtext>otherwise</mtext></mtd>
-                        </mtr>
-                      </mtable>
-                    </mrow>
-                    <mo>,</mo>
-                    <mspace width="0.5em"/>
-                    <mi>h</mi>
-                    <mo>∈</mo>
-                    <msup>
-                      <mrow><mo>{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>}</mo></mrow>
-                      <mi>K</mi>
-                    </msup>
-                  </mrow>
-                </math>
-              </div>
-              <p class="equation-block__plain">
-                Plain language: only units above threshold <i>θ</i> fire in the binary code <i>h</i>. The proposal suggests keeping the top ~5% most active units (winner-style sparsity). <i>h<sub>k</sub></i> is dimensionless (binary).
-              </p>
-            </figure>
-          </section>
-
-          <section class="section-block" id="classifier-training" data-reveal>
-            <h2>Classifier and training</h2>
-            <div class="evidence-status" data-status="planned">
-              <span class="evidence-status__label">Status</span>
-              <span class="evidence-status__value">Planned</span>
-            </div>
-            <p>
-              Two proposal readouts operate on the sparse code <i>h</i>:
-            </p>
-            <figure class="equation-block" aria-labelledby="eq-sim-caption">
-              <figcaption id="eq-sim-caption" class="equation-block__caption">Equation 7 — Reference similarity (proposal draft)</figcaption>
-              <div class="equation-block__math">
-                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" alttext="similarity equals h dot h sub ref">
-                  <mrow>
-                    <mi>similarity</mi>
-                    <mo>=</mo>
-                    <mi>h</mi>
-                    <mo>⋅</mo>
-                    <msub><mi>h</mi><mtext>ref</mtext></msub>
-                  </mrow>
-                </math>
-              </div>
-              <p class="equation-block__plain">
-                Plain language: compare a trial code to a stored reference code by a dot product (count of shared active bits for binary vectors). Dimensionless score.
-              </p>
-            </figure>
-
-            <figure class="equation-block" aria-labelledby="eq-softmax-caption">
-              <figcaption id="eq-softmax-caption" class="equation-block__caption">Equation 8 — Linear softmax classifier (proposal draft)</figcaption>
-              <div class="equation-block__math">
-                <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" alttext="y hat equals softmax of W sub c times h">
-                  <mrow>
-                    <mover><mi>y</mi><mo>^</mo></mover>
-                    <mo>=</mo>
-                    <mi>softmax</mi>
-                    <mo>(</mo>
-                    <msub><mi>W</mi><mi>c</mi></msub>
-                    <mi>h</mi>
-                    <mo>)</mo>
-                  </mrow>
-                </math>
-              </div>
-              <p class="equation-block__plain">
-                Plain language: a linear map <i>W<sub>c</sub></i> turns the sparse code into class scores, then softmax converts scores into a probability-like vector <i>ŷ</i> over classes. No trained <i>W<sub>c</sub></i> is published.
-              </p>
-            </figure>
-
-            <div class="table-scroll" tabindex="0" role="region" aria-label="Classifier and training status">
-              <table class="goal-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Topic</th>
-                    <th scope="col">Recorded plan</th>
-                    <th scope="col">Evidence in repo</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Algorithm</td>
-                    <td>Similarity and/or linear softmax on sparse codes; optional edge/SNN directions mentioned in proposal materials</td>
-                    <td>Not implemented here</td>
-                  </tr>
-                  <tr>
-                    <td>Loss / objective</td>
-                    <td><span class="placeholder-field">Not specified in an approved training script</span></td>
-                    <td>None</td>
-                  </tr>
-                  <tr>
-                    <td>Hyperparameter selection</td>
-                    <td>Proposal lists refinement of α, β, sparsity, and classifier settings</td>
-                    <td>No search log</td>
-                  </tr>
-                  <tr>
-                    <td>Split strategy</td>
-                    <td>Proposal mentions 5-fold cross-validation</td>
-                    <td><strong>Not claimed</strong> — no code evidence</td>
-                  </tr>
-                  <tr>
-                    <td>Baselines</td>
-                    <td>Proposal names PCA and SVM comparisons; Engineering C1 requires a simpler baseline comparison</td>
-                    <td>No metrics table</td>
-                  </tr>
-                  <tr>
-                    <td>Reproducibility</td>
-                    <td>Seed policy, dependency pin, and entry point required for release</td>
-                    <td>See <a href="#reproducibility">Reproducibility</a></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <p class="notice">
-              No accuracy, power, or generalization advantage is claimed on this page. Proposal target numbers (for example, accuracy thresholds in internal planning notes) are goals, not results.
-            </p>
-          </section>
-
-          <section class="section-block" id="assumptions" data-reveal>
-            <h2>Assumptions and parameter provenance</h2>
-            <p>
-              Values below come from the team proposal’s stated ranges or are marked unknown. None are fitted to published AeroSense data.
-            </p>
-            <div class="table-scroll table-scroll--sticky-first" tabindex="0" role="region" aria-label="Assumptions and parameter provenance">
-              <table class="goal-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Symbol</th>
-                    <th scope="col">Definition</th>
-                    <th scope="col">Unit</th>
-                    <th scope="col">Value / range</th>
-                    <th scope="col">Source</th>
-                    <th scope="col">Fitted / fixed</th>
-                    <th scope="col">Sensitivity</th>
-                    <th scope="col">Limitation</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><i>N</i></td>
-                    <td>Number of receptor channels in the response vector</td>
-                    <td>count</td>
-                    <td>Panel-dependent</td>
-                    <td>Design / Parts panel</td>
-                    <td>Fixed per experiment</td>
-                    <td>Unknown</td>
-                    <td>Panel not frozen</td>
-                  </tr>
-                  <tr>
-                    <td><i>x<sub>i</sub></i></td>
-                    <td>Per-receptor response feature</td>
-                    <td>relative fluorescence (if ΔF-class) or raw intensity</td>
-                    <td>Data-dependent</td>
-                    <td>Proposal + Design interface</td>
-                    <td>Measured / derived</td>
-                    <td>Unknown</td>
-                    <td>ΔF<sub>norm</sub> formula unresolved</td>
-                  </tr>
-                  <tr>
-                    <td><i>r<sub>i</sub></i></td>
-                    <td>Pattern-normalized channel weight</td>
-                    <td>dimensionless (L1 shares)</td>
-                    <td>Derived from <i>x</i></td>
-                    <td>Proposal (interpreted Eq. 2)</td>
-                    <td>Derived</td>
-                    <td>Unknown</td>
-                    <td>Numerator symbol ambiguous in proposal</td>
-                  </tr>
-                  <tr>
-                    <td><i>t</i></td>
-                    <td>Discrete update index of AL-inspired dynamics</td>
-                    <td>iteration</td>
-                    <td><span class="placeholder-field">Step count unset</span></td>
-                    <td>Proposal dynamics</td>
-                    <td>Fixed hyperparameter (intended)</td>
-                    <td>Unknown</td>
-                    <td>Not wall-clock assay time unless mapped</td>
-                  </tr>
-                  <tr>
-                    <td><i>α</i></td>
-                    <td>Global inhibition strength</td>
-                    <td>matches activity / g scaling</td>
-                    <td><span class="placeholder-field">Unset</span></td>
-                    <td>Proposal symbol</td>
-                    <td>Intended tunable / later fit</td>
-                    <td>Not analyzed</td>
-                    <td>No calibration data</td>
-                  </tr>
-                  <tr>
-                    <td><i>β</i></td>
-                    <td>Lateral inhibition strength</td>
-                    <td>matches <i>W<sub>ij</sub> x<sub>j</sub></i> scaling</td>
-                    <td><span class="placeholder-field">Unset</span></td>
-                    <td>Proposal symbol</td>
-                    <td>Intended tunable / later fit</td>
-                    <td>Not analyzed</td>
-                    <td>No calibration data</td>
-                  </tr>
-                  <tr>
-                    <td><i>W<sub>ij</sub></i></td>
-                    <td>Lateral inhibition weight from channel <i>j</i> to <i>i</i></td>
-                    <td>dimensionless or activity<sup>−1</sup> (unset)</td>
-                    <td><span class="placeholder-field">Matrix rule unset</span></td>
-                    <td>Proposal</td>
-                    <td>Fixed structure vs learned — undecided</td>
-                    <td>Unknown</td>
-                    <td>Initialization not specified</td>
-                  </tr>
-                  <tr>
-                    <td><i>g(t)</i></td>
-                    <td>Mean channel activity at step <i>t</i></td>
-                    <td>same as <i>x</i></td>
-                    <td>Derived</td>
-                    <td>Proposal (interpreted Eq. 4)</td>
-                    <td>Derived</td>
-                    <td>—</td>
-                    <td>Index typo in proposal source</td>
-                  </tr>
-                  <tr>
-                    <td><i>y</i></td>
-                    <td>AL-layer output vector</td>
-                    <td>same family as <i>x</i> after updates</td>
-                    <td>Derived</td>
-                    <td>Proposal</td>
-                    <td>Derived</td>
-                    <td>Unknown</td>
-                    <td>Stopping criterion for Eq. 3 unset</td>
-                  </tr>
-                  <tr>
-                    <td><i>K</i></td>
-                    <td>Number of MB-inspired units</td>
-                    <td>count</td>
-                    <td>1000–5000 (example range)</td>
-                    <td>Proposal</td>
-                    <td>Fixed hyperparameter (intended)</td>
-                    <td>Not analyzed</td>
-                    <td>Example only</td>
-                  </tr>
-                  <tr>
-                    <td><i>W</i><sup>MB</sup></td>
-                    <td>Sparse random projection matrix</td>
-                    <td>dimensionless weights (unset scale)</td>
-                    <td>~5–10 inputs per row; also ~10% connectivity mentioned elsewhere</td>
-                    <td>Proposal (two statements)</td>
-                    <td>Fixed random (intended)</td>
-                    <td>Not analyzed</td>
-                    <td>Connectivity statements conflict until code freezes one rule</td>
-                  </tr>
-                  <tr>
-                    <td><i>θ</i></td>
-                    <td>Sparsity threshold on <i>z<sub>k</sub></i></td>
-                    <td>same as <i>z</i></td>
-                    <td>Top ~5% active (proposal option)</td>
-                    <td>Proposal</td>
-                    <td>Fixed rule (intended)</td>
-                    <td>Not analyzed</td>
-                    <td>Percentile vs absolute threshold undecided in code</td>
-                  </tr>
-                  <tr>
-                    <td><i>W<sub>c</sub></i></td>
-                    <td>Classifier weight matrix</td>
-                    <td>maps binary/code space → logits</td>
-                    <td><span class="placeholder-field">Untrained</span></td>
-                    <td>Proposal</td>
-                    <td>Intended fitted</td>
-                    <td>N/A</td>
-                    <td>No dataset / loss yet</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <section class="section-block" id="validation" data-reveal>
-            <h2>Validation</h2>
-            <div class="empty-state" role="status">
-              <h3 class="empty-state__title">No verified model metrics</h3>
-              <p>
-                Confidence intervals, baseline tables, ablations, calibration curves, robustness tests, and external or experimental validation are unpublished. Result slots remain empty on
-                <a href="results.html#model-results">Results · Model results</a>
-                (<code>res-EXP-AS-07</code>.
-              </p>
-            </div>
-            <ul>
-              <li><strong>Real metrics with variation:</strong> none published.</li>
-              <li><strong>Baselines:</strong> planned (PCA / SVM named in proposal; simpler baseline required by Engineering C1) — not run here.</li>
-              <li><strong>Ablations:</strong> planned conceptually (with vs without AL-inspired / MB-inspired stages) — not run.</li>
-              <li><strong>Calibration:</strong> not defined.</li>
-              <li><strong>Robustness:</strong> proposal milestones list noise, drift, and mixture checks — not executed as AeroSense results.</li>
-              <li><strong>External / experimental validation:</strong> planned after in-house matrices exist; not claimed.</li>
+            <details class="model-disclose" id="repro-outputs">
+              <summary>Output files</summary>
+              <div class="model-disclose__body">
+                <p>Intended per <code>model_content.md</code> (none of these example artifacts are present in this wiki tree):</p>
+                <ul>
+                  <li>Fully resolved run configuration (from the TOML preset)</li>
+                  <li>Spike rasters</li>
+                  <li>Per-class classification reports</li>
+                  <li>Optional: figures/tables regenerated by <code>model_evaluation/performance_analysis.py</code></li>
             </ul>
-            <p class="notice">
-              This page does not include synthetic performance plots or design-only confusion matrices.
-            </p>
+                <p class="model-repro-flow__cmd">See repository README / command pending documentation.</p>
+              </div>
+            </details>
           </section>
 
-          <section class="section-block" id="uncertainty-failure" data-reveal>
-            <h2>Uncertainty and failure modes</h2>
+          <!-- 14. Limitations -->
+          <section class="section-block section-block--story" id="limitations" data-reveal aria-labelledby="limitations-heading">
+            <span class="section-kicker">15 · Limitations</span>
+            <h2 id="limitations-heading">Limitations &amp; Next Steps</h2>
             <p>
-              Anticipated failure modes for this sensing/decoding setting. They are risk statements, not observed AeroSense failure statistics.
+              Scope boundaries for the Decode track. Each item states what the current evidence supports, what remains uncertain, and the next validation.
             </p>
-            <div class="table-scroll" tabindex="0" role="region" aria-label="Uncertainty and failure modes">
-              <table class="goal-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Mode</th>
-                    <th scope="col">Why it matters here</th>
-                    <th scope="col">Mitigation plan (not yet evidenced)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Domain shift</td>
-                    <td>Public training distributions (if used) may not match HEK OR/GCaMP6 assay statistics</td>
-                    <td>Provenance-labeled in-house validation; report dataset mismatch explicitly</td>
-                  </tr>
-                  <tr>
-                    <td>Mixed odors</td>
-                    <td>Overlapping receptor patterns; sparse codes may collide</td>
-                    <td>Mixture test sets; compare against baselines</td>
-                  </tr>
-                  <tr>
-                    <td>Concentration effects</td>
-                    <td>Intensity coding can dominate pattern coding if normalization fails</td>
-                    <td>Document pattern normalization; test concentration series</td>
-                  </tr>
-                  <tr>
-                    <td>Small data</td>
-                    <td>High-<i>K</i> codes and classifiers overfit easily</td>
-                    <td>Strong baselines; freeze hyperparameters before final test</td>
-                  </tr>
-                  <tr>
-                    <td>Correlated samples</td>
-                    <td>Wells/plates/batches are not independent</td>
-                    <td>Group-aware splits — <strong>not implemented yet</strong></td>
-                  </tr>
-                  <tr>
-                    <td>Class imbalance</td>
-                    <td>Stimulus libraries and controls may be uneven</td>
-                    <td>Report class counts; avoid headline accuracy alone</td>
-                  </tr>
-                  <tr>
-                    <td>Sensor / assay drift</td>
-                    <td>Passage, lot, optics, and bleaching change responses over time</td>
-                    <td>Metadata covariates; hardware provenance flags</td>
-                  </tr>
-                  <tr>
-                    <td>Out-of-distribution inputs</td>
-                    <td>Unknown VOCs or failed wells</td>
-                    <td><span class="placeholder-field">Uncertainty / reject rule not defined</span></td>
-                  </tr>
-                </tbody>
-              </table>
+
+            <div class="model-limit-panel" role="list">
+              <article class="model-limit" role="listitem">
+                <h3>Pooled split ≠ drift robustness</h3>
+                <dl>
+                  <div>
+                    <dt>Current evidence</dt>
+                    <dd>v0 macro-F1 = 0.868 on a pooled stratified random split (<a href="#evidence-baseline">Evidence A</a>).</dd>
+                  </div>
+                  <div>
+                    <dt>What remains uncertain</dt>
+                    <dd>Whether accuracy holds under temporal / cross-batch sensor aging. That evaluation is not yet performed for this SNN (<a href="#drift-robustness">Evidence C</a>).</dd>
+                  </div>
+                  <div>
+                    <dt>Next validation</dt>
+                    <dd>Publish a train-earlier / test-later or Batch1→Batch2 / Batch1→Batch3 / Batch1+2→Batch3 matrix with archived metrics.</dd>
+                  </div>
+                </dl>
+              </article>
+
+              <article class="model-limit" role="listitem">
+                <h3>Single fixed random seed</h3>
+                <dl>
+                  <div>
+                    <dt>Current evidence</dt>
+                    <dd>Reported baseline uses <code>seed</code> = 100 only (<code>model_content.md</code>).</dd>
+                  </div>
+                  <div>
+                    <dt>What remains uncertain</dt>
+                    <dd>Seed-to-seed variance of the v0 preset; whether any single-seed candidate (including Engineering’s gated <code>w_kc_mbon</code>=13 / 0.8870) is stable (<a href="#multi-seed">Evidence D</a>).</dd>
+                  </div>
+                  <div>
+                    <dt>Next validation</dt>
+                    <dd>Multi-seed / k-fold distribution for v0 before promoting alternatives.</dd>
+                  </div>
+                </dl>
+              </article>
+
+              <article class="model-limit" role="listitem">
+                <h3>KT metal-oxide benchmark ≠ AeroSense biological validation</h3>
+                <dl>
+                  <div>
+                    <dt>Current evidence</dt>
+                    <dd>Methods and results on this page use KT Batch1–3 as a surrogate aging corpus for Decode development.</dd>
+                  </div>
+                  <div>
+                    <dt>What remains uncertain</dt>
+                    <dd>Transfer to receptor-fluorescence feature distributions from AeroSense OR/GCaMP assays (domain shift, channel count, noise structure).</dd>
+                  </div>
+                  <div>
+                    <dt>Next validation</dt>
+                    <dd>Repeat the protocol on a versioned in-house matrix (planned path <a href="experiments.html#exp-as-07">EXP-AS-07</a> / <a href="results.html#model-results">Results · Model</a>).</dd>
+                  </div>
+                </dl>
+              </article>
+
+              <article class="model-limit" role="listitem">
+                <h3>Missing matched baselines, ablations, robustness, and per-class reports</h3>
+                <dl>
+                  <div>
+                    <dt>Current evidence</dt>
+                    <dd>Evidence panels B, E, F, and G are Analysis pending — no archived comparison tables, motif ablations, controlled stress tests, or confusion matrices in this repository.</dd>
+                  </div>
+                  <div>
+                    <dt>What remains uncertain</dt>
+                    <dd>Whether fly-inspired motifs outperform simple classifiers on the same features; which motifs drive gains; error structure across gas classes; tolerance to noise / offset / mixtures.</dd>
+                  </div>
+                  <div>
+                    <dt>Next validation</dt>
+                    <dd>Archive matched ML baselines, architecture ablations, robustness suite, and per-class reports under a pinned environment.</dd>
+                  </div>
+                </dl>
+              </article>
+
+              <article class="model-limit" role="listitem">
+                <h3>Code and artifacts not yet released in this wiki tree</h3>
+                <dl>
+                  <div>
+                    <dt>Current evidence</dt>
+                    <dd>Method text and wiki narrative only. No TOML, training code, evaluation script, or classification reports were found here (<a href="#reproduce">Reproduce</a>).</dd>
+                  </div>
+                  <div>
+                    <dt>What remains uncertain</dt>
+                    <dd>Bit-for-bit reproducibility by an external team from this repository alone.</dd>
+                  </div>
+                  <div>
+                    <dt>Next validation</dt>
+                    <dd>Ship the Contribution neuromorphic package with README commands, environment pin, and example outputs on the team GitLab host.</dd>
+                  </div>
+                </dl>
+              </article>
             </div>
           </section>
 
-          <section class="section-block" id="project-impact" data-reveal>
-            <h2>How the model informed the project</h2>
-            <div class="evidence-status" data-status="planned">
-              <span class="evidence-status__label">Status</span>
-              <span class="evidence-status__value">Planned</span>
-            </div>
-            <p>
-              No closed modeling feedback has been recorded yet: there is no dated evidence that model outputs changed receptor selection, experiment design, hardware sampling, or another project decision. Engineering cycle
-              <a href="engineering.html#model-c1">C1</a>
-              still lists Build / Test / Learn / Change as incomplete.
-            </p>
-            <p>
-              When feedback occurs, this section should cite the metric comparison, the decision taken, and the Notebook / Results anchors that document it.
-            </p>
-          </section>
-
-          <section class="section-block" id="reproducibility" data-reveal>
-            <h2>Reproducibility</h2>
-            <div class="table-scroll" tabindex="0" role="region" aria-label="Reproducibility checklist">
-              <table class="goal-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Item</th>
-                    <th scope="col">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Code</td>
-                    <td>No runnable model entry point released. Team GitLab home: <a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer">gitlab.igem.org/2026/nthu</a> (presence of a team project page is not a claim that model code is published there).</td>
-                  </tr>
-                  <tr>
-                    <td>Data</td>
-                    <td><span class="placeholder-field">No versioned feature matrix published</span></td>
-                  </tr>
-                  <tr>
-                    <td>Environment</td>
-                    <td><span class="placeholder-field">Dependency pin pending</span> (see also <a href="contribution.html#pkg-model">Contribution · pkg-model</a>)</td>
-                  </tr>
-                  <tr>
-                    <td>Seed policy</td>
-                    <td><span class="placeholder-field">Not defined</span></td>
-                  </tr>
-                  <tr>
-                    <td>Run instructions</td>
-                    <td><span class="placeholder-field">Not available</span></td>
-                  </tr>
-                  <tr>
-                    <td>Expected outputs</td>
-                    <td><span class="placeholder-field">Not available</span></td>
-                  </tr>
-                  <tr>
-                    <td>License</td>
-                    <td>Page text: <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">CC BY 4.0</a>. Code/data license: pending release packaging.</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <section class="section-block" id="results-limitations" data-reveal>
-            <h2>Results and limitations</h2>
-            <p>
-              Measured model performance, figures, and failure statistics belong on
-              <a href="results.html#model-results">Results</a>
-              so this page does not duplicate every plot. Current limitation: the decoding pipeline is a documented design with proposal-draft mathematics; it is not an evaluated AeroSense classifier.
-            </p>
-            <ul>
-              <li>Equations 2 and 4 include explicit index/notation audit notes unresolved without code.</li>
-              <li>MB connectivity is described both as ~5–10 synapses per unit and as ~10% sparse projection in proposal text—only one rule should ship.</li>
-              <li>No train/validation/test leakage controls can be asserted without an implementation.</li>
-              <li>Edge-deployment, low-power, or superior-accuracy claims are out of scope until measured against baselines.</li>
-            </ul>
-          </section>
         </article>
       </main>
 
@@ -1067,6 +1947,48 @@
       <section class="references" aria-labelledby="references-heading" id="references" data-reveal>
         <h2 id="references-heading">References &amp; Credits</h2>
         <ol class="ref-list">
+          <li id="ref-marco-2012">
+            <span class="ref-authors">Marco, S., &amp; Gutiérrez-Gálvez, A.</span>
+            <span class="ref-year">(2012).</span>
+            <span class="ref-title">Signal and data processing for machine olfaction and chemical sensing: A review.</span>
+            <span class="ref-venue"><i>IEEE Sensors Journal</i>, <span class="ref-volume">12</span>(11), 3189–3214.</span>
+            <a class="ref-backlink" href="#cite-marco-2012-a">Back to citation</a>
+          </li>
+          <li id="ref-vergara-2012">
+            <span class="ref-authors">Vergara, A., Vembu, S., Ayhan, T., Ryan, M. A., Homer, M. L., &amp; Huerta, R.</span>
+            <span class="ref-year">(2012).</span>
+            <span class="ref-title">Chemical gas sensor drift compensation using classifier ensembles.</span>
+            <span class="ref-venue"><i>Sensors and Actuators B: Chemical</i>, <span class="ref-volume">166–167</span>, 320–329.</span>
+            <a class="ref-backlink" href="#cite-vergara-2012-a">Back to citation</a>
+          </li>
+          <li id="ref-turner-2008">
+            <span class="ref-authors">Turner, G. C., Bhandawat, V., &amp; Wilson, R. I.</span>
+            <span class="ref-year">(2008).</span>
+            <span class="ref-title">Olfactory representations by Drosophila mushroom body neurons.</span>
+            <span class="ref-venue"><i>Journal of Neurophysiology</i>, <span class="ref-volume">99</span>(2), 734–746.</span>
+            <a class="ref-backlink" href="#cite-turner-2008-a">Back to citation</a>
+          </li>
+          <li id="ref-caron-2013">
+            <span class="ref-authors">Caron, S. J. C., Ruta, V., Abbott, L. F., &amp; Axel, R.</span>
+            <span class="ref-year">(2013).</span>
+            <span class="ref-title">Random convergence of olfactory inputs in the Drosophila mushroom body.</span>
+            <span class="ref-venue"><i>Nature</i>, <span class="ref-volume">497</span>, 113–117.</span>
+            <a class="ref-backlink" href="#cite-caron-2013-a">Back to citation</a>
+          </li>
+          <li id="ref-lin-2014">
+            <span class="ref-authors">Lin, A. C., Bygrave, A. M., de Calignon, A., Lee, T., &amp; Miesenböck, G.</span>
+            <span class="ref-year">(2014).</span>
+            <span class="ref-title">Sparse, decorrelated odor coding in the mushroom body enhances learned odor discrimination.</span>
+            <span class="ref-venue"><i>Nature Neuroscience</i>, <span class="ref-volume">17</span>(4), 559–568.</span>
+            <a class="ref-backlink" href="#cite-lin-2014-a">Back to citation</a>
+          </li>
+          <li id="ref-aso-2014">
+            <span class="ref-authors">Aso, Y., et al.</span>
+            <span class="ref-year">(2014).</span>
+            <span class="ref-title">Mushroom body output neurons encode valence and guide memory-based action selection in Drosophila.</span>
+            <span class="ref-venue"><i>eLife</i>, <span class="ref-volume">3</span>, e04580.</span>
+            <a class="ref-backlink" href="#cite-aso-2014-a">Back to citation</a>
+          </li>
           <li id="ref-dasgupta-2017">
             <span class="ref-authors">Dasgupta, S., Stevens, C. F., &amp; Navlakha, S.</span>
             <span class="ref-year">(2017).</span>
@@ -1074,47 +1996,67 @@
             <span class="ref-venue"><i>Science</i>, <span class="ref-volume">358</span>(6364), 793–796.</span>
             <span class="ref-doi">DOI: <a href="https://doi.org/10.1126/science.aam9868" rel="noopener noreferrer">10.1126/science.aam9868</a>.</span>
             <a class="ref-backlink" href="#cite-dasgupta-2017-a">Back to citation</a>
-            <a class="ref-backlink" href="#cite-dasgupta-2017-b">2</a>
-            <a class="ref-backlink" href="#cite-dasgupta-2017-c">3</a>
-            <a class="ref-backlink" href="#cite-dasgupta-2017-d">4</a>
           </li>
-          <li id="ref-chen-2013">
-            <span class="ref-authors">Chen, T.-W., Wardill, T. J., Sun, Y., Pulver, S. R., Renninger, S. L., Baohan, A., Schreiter, E. R., Kerr, R. A., Orger, M. B., Jayaraman, V., Looger, L. L., Svoboda, K., &amp; Kim, D. S.</span>
-            <span class="ref-year">(2013).</span>
-            <span class="ref-title">Ultrasensitive fluorescent proteins for imaging neuronal activity.</span>
-            <span class="ref-venue"><i>Nature</i>, <span class="ref-volume">499</span>(7458), 295–300.</span>
-            <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/nature12354" rel="noopener noreferrer">10.1038/nature12354</a>.</span>
-            <span class="ref-note">Contextual GCaMP fluorescence literature linked from EXP-AS-07; not a claim that AeroSense data were taken from this paper.</span>
-            <a class="ref-backlink" href="#cite-chen-2013">Back to citation</a>
+          <li id="ref-schmuker-2007">
+            <span class="ref-authors">Schmuker, M., &amp; Schneider, G.</span>
+            <span class="ref-year">(2007).</span>
+            <span class="ref-title">Processing and classification of chemical data inspired by insect olfaction.</span>
+            <span class="ref-venue"><i>Proceedings of the National Academy of Sciences</i>, <span class="ref-volume">104</span>(51), 20285–20289.</span>
+            <a class="ref-backlink" href="#cite-schmuker-2007-a">Back to citation</a>
+          </li>
+          <li id="ref-imam-2020">
+            <span class="ref-authors">Imam, N., &amp; Cleland, T. A.</span>
+            <span class="ref-year">(2020).</span>
+            <span class="ref-title">Rapid online learning and robust recall in a neuromorphic olfactory circuit.</span>
+            <span class="ref-venue"><i>Nature Machine Intelligence</i>, <span class="ref-volume">2</span>, 181–191.</span>
+            <a class="ref-backlink" href="#cite-imam-2020-a">Back to citation</a>
+          </li>
+          <li id="ref-jolliffe-2002">
+            <span class="ref-authors">Jolliffe, I. T.</span>
+            <span class="ref-year">(2002).</span>
+            <span class="ref-title">Principal Component Analysis</span>
+            <span class="ref-venue">(2nd ed.). Springer.</span>
+            <a class="ref-backlink" href="#cite-jolliffe-2002-a">Back to citation</a>
+          </li>
+          <li id="ref-stimberg-2019">
+            <span class="ref-authors">Stimberg, M., Brette, R., &amp; Goodman, D. F. M.</span>
+            <span class="ref-year">(2019).</span>
+            <span class="ref-title">Brian 2, an intuitive and efficient neural simulator.</span>
+            <span class="ref-venue"><i>eLife</i>, <span class="ref-volume">8</span>, e47314.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.7554/eLife.47314" rel="noopener noreferrer">10.7554/eLife.47314</a>.</span>
+            <a class="ref-backlink" href="#cite-stimberg-2019-a">Back to citation</a>
+          </li>
+          <li id="ref-song-2000">
+            <span class="ref-authors">Song, S., Miller, K. D., &amp; Abbott, L. F.</span>
+            <span class="ref-year">(2000).</span>
+            <span class="ref-title">Competitive Hebbian learning through spike-timing-dependent synaptic plasticity.</span>
+            <span class="ref-venue"><i>Nature Neuroscience</i>, <span class="ref-volume">3</span>(9), 919–926.</span>
+            <a class="ref-backlink" href="#cite-song-2000-a">Back to citation</a>
           </li>
         </ol>
-        <ul class="credit-list">
-          <li>Related wiki page (not a reference): <a href="design.html#interfaces">Design · Interfaces with Model and Hardware</a>.</li>
-          <li>Conceptual sparse / locality-sensitive inspiration from Dasgupta et al. (2017); no third-party model code was reused.</li>
-          <li>Proposal mathematics were audited for wiki presentation; unresolved index issues are labeled on Equations 2 and 4 and Placeholder A. No experimental model figures appear on this page.</li>
-        </ul>
+        <h3 class="model-credits-heading">Credits</h3>
       </section>
     </div>
 
     <div class="page-toc-slot">
     <details class="page-toc" open>
-      <summary class="toc__summary"><span class="toc__label">On this page</span></summary>
+      <summary class="toc__summary">
+        <span class="toc__label">On this page</span>
+</summary>
       <nav aria-label="Table of contents">
         <ol>
-          <li><a href="#question-and-role"><span class="tech-label">01</span> Question and role</a></li>
-          <li><a href="#inputs-outputs"><span class="tech-label">02</span> Inputs and outputs</a></li>
-          <li><a href="#pipeline-overview"><span class="tech-label">03</span> Pipeline overview</a></li>
-          <li><a href="#data-provenance"><span class="tech-label">04</span> Data provenance</a></li>
-          <li><a href="#preprocessing"><span class="tech-label">05</span> Preprocessing</a></li>
-          <li><a href="#al-inspired"><span class="tech-label">06</span> AL-inspired layer</a></li>
-          <li><a href="#mb-inspired"><span class="tech-label">07</span> MB-inspired layer</a></li>
-          <li><a href="#classifier-training"><span class="tech-label">08</span> Classifier and training</a></li>
-          <li><a href="#assumptions"><span class="tech-label">09</span> Assumptions</a></li>
-          <li><a href="#validation"><span class="tech-label">10</span> Validation</a></li>
-          <li><a href="#uncertainty-failure"><span class="tech-label">11</span> Uncertainty</a></li>
-          <li><a href="#project-impact"><span class="tech-label">12</span> Project impact</a></li>
-          <li><a href="#reproducibility"><span class="tech-label">13</span> Reproducibility</a></li>
-          <li><a href="#results-limitations"><span class="tech-label">14</span> Results and limitations</a></li>
+          <li><a href="#evidence-snapshot"><span class="tech-label">01</span> Evidence Snapshot</a></li>
+          <li><a href="#drift-problem"><span class="tech-label">02</span> Drift Problem</a></li>
+          <li><a href="#why-fly-brain"><span class="tech-label">03</span> Why the Fly Brain</a></li>
+          <li><a href="#sensor-to-spikes"><span class="tech-label">04</span> Sensor → Spikes</a></li>
+          <li><a href="#data-and-network"><span class="tech-label">05</span> Data</a></li>
+          <li><a href="#network"><span class="tech-label">06</span> Network</a></li>
+          <li><a href="#training-evaluation"><span class="tech-label">07</span> Training &amp; Evaluation</a></li>
+          <li><a href="#performance"><span class="tech-label">08</span> Evidence &amp; Results</a></li>
+          <li><a href="#what-we-learned"><span class="tech-label">09</span> What Did the Model Teach Us</a></li>
+          <li><a href="#aerosense-bridge"><span class="tech-label">10</span> AeroSense Bridge</a></li>
+          <li><a href="#reproduce"><span class="tech-label">11</span> Reproduce</a></li>
+          <li><a href="#limitations"><span class="tech-label">12</span> Limitations</a></li>
           <li><a href="#references"><span class="tech-label">Ref</span> References &amp; Credits</a></li>
         </ol>
       </nav>
@@ -1137,34 +2079,46 @@
             <li><a href="engineering.html">Engineering</a></li>
             <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
             <li><a href="notebook.html">Notebook</a></li>
-          </ul>
+            </ul>
         </div>
         <div class="footer-col">
           <h2>Team</h2>
           <ul>
             <li><a href="members.html">Members</a></li>
             <li><a href="attributions.html">Attributions</a></li>
-          </ul>
+            </ul>
           <h2>Wet Lab</h2>
           <ul>
             <li><a href="parts.html">Parts</a></li>
             <li><a href="design.html">Design</a></li>
             <li><a href="experiments.html">Experiments</a></li>
             <li><a href="results.html">Results</a></li>
-          </ul>
+            </ul>
         </div>
         <div class="footer-col">
           <h2>Dry Lab</h2>
           <ul>
             <li><a href="model.html">Model</a></li>
             <li><a href="hardware.html">Hardware</a></li>
-          </ul>
+            </ul>
           <h2>Human Practices</h2>
           <ul>
             <li><a href="human-practices.html">Integrated Human Practices</a></li>
             <li><a href="education.html">Education</a></li>
+            <li><a href="entrepreneurship.html">Entrepreneurship</a></li>
+            <li><a href="sustainability.html">Sustainability</a></li>
+            <li><a href="learning-platform.html">Learning Lab</a></li>
           </ul>
         </div>
+      </div>
+
+      <div class="footer-partners" aria-labelledby="footer-partners-label">
+        <h2 class="footer-partners__title" id="footer-partners-label">Collaborators &amp; Sponsors</h2>
+        <ul class="footer-partners__list">
+          <li><span class="footer-partners__name">iST Group</span> — professional schematic &amp; PCB review (<a href="attributions.html#attr-ist-group">Attributions</a>)</li>
+          <li><span class="footer-partners__name">National Tsing Hua University</span> — institutional host</li>
+          <li><a href="attributions.html#external">Full collaborators, sponsors &amp; credits</a></li>
+        </ul>
       </div>
 
       <div class="footer-meta">
@@ -1172,12 +2126,12 @@
           <li><a href="https://www.linkedin.com/company/aerosensebio/" rel="noopener noreferrer">LinkedIn</a></li>
           <li><a href="https://www.instagram.com/igem_tsinghua/" rel="noopener noreferrer">Instagram</a></li>
           <li><a href="mailto:aerosensebio@gmail.com">aerosensebio@gmail.com</a></li>
-        </ul>
+            </ul>
         <ul class="footer-legal">
           <li><a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer">Source on GitLab</a></li>
           <li>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">Creative Commons Attribution 4.0 International</a></li>
           <li><a href="attributions.html#responsible-ai">Attributions &amp; Responsible AI</a></li>
-        </ul>
+            </ul>
         <p class="footer-copy">© 2026 NTHU · AeroSense</p>
       </div>
     </div>
