@@ -1,6 +1,6 @@
 /**
- * Education page — philosophy loop + Story / Evidence view.
- * Evidence View highlights existing labels. It does not hide content or invent results.
+ * Education page — ephemeral misconception check.
+ * Visitor answers are not stored, sent, or logged.
  */
 (function (root) {
   "use strict";
@@ -33,12 +33,13 @@
   };
 
   var EVIDENCE_TAGS = [
+    { id: "status", label: "Status", hint: "delivery vs evaluation" },
+    { id: "measurement", label: "Evidence", hint: "what was measured" },
+    { id: "method", label: "Method", hint: "how we would measure" },
     { id: "dialogue", label: "Dialogue", hint: "participant discussion" },
-    { id: "measurement", label: "Measurement", hint: "pre/post assessment" },
-    { id: "iteration", label: "Iteration", hint: "game redesign" },
-    { id: "project-change", label: "Project change", hint: "risk communication revision" },
-    { id: "reusable-resource", label: "Reusable resource", hint: "teacher toolkit" },
-    { id: "limitation", label: "Limitation", hint: "unpublished or bounded claim" },
+    { id: "iteration", label: "Iteration", hint: "what changed" },
+    { id: "reusable-resource", label: "Reuse", hint: "what others can run" },
+    { id: "limitation", label: "Limitation", hint: "what evidence does not show" },
   ];
 
   function tagMeta(id) {
@@ -66,6 +67,7 @@
     var marks = rootEl.querySelectorAll("[data-edu-tags]");
     Array.prototype.forEach.call(marks, function (el) {
       if (el.querySelector(".edu-etags")) return;
+      if (el.closest("[data-chain-static]")) return;
       var ids = (el.getAttribute("data-edu-tags") || "")
         .trim()
         .split(/\s+/)
@@ -114,10 +116,14 @@
     if (live) {
       live.textContent =
         next === "evidence"
-          ? "Evidence View on. Labels are highlighted. No content was hidden."
-          : "Story View on. Narrative reading order is unchanged.";
+          ? "Evidence View on. Scanning labels are highlighted. No facts or limitations were hidden."
+          : "Story View on. Narrative reading order is unchanged. Limitations remain visible.";
     }
-    if (next !== "evidence") setFilter("");
+    if (next !== "evidence") {
+      setFilter("");
+      setLegendOpen(false);
+    }
+    syncChainView(next);
     if (persist) {
       try {
         var url = new URL(window.location.href);
@@ -127,10 +133,6 @@
       } catch (err) {
         /* ignore */
       }
-    }
-    var legend = document.querySelector("[data-edu-legend]");
-    if (legend && next === "evidence" && window.matchMedia("(max-width: 839px)").matches) {
-      setLegendOpen(false);
     }
   }
 
@@ -151,6 +153,32 @@
     if (!legend || !toggle) return;
     legend.classList.toggle("is-open", open);
     toggle.setAttribute("aria-expanded", open ? "true" : "false");
+  }
+
+  function fillLegend(legend) {
+    var list = legend.querySelector("[data-edu-legend-list]");
+    if (!list || list.children.length) return;
+    EVIDENCE_TAGS.forEach(function (meta) {
+      var item = document.createElement("li");
+      var btn = document.createElement("button");
+      var chip = document.createElement("span");
+      var kind = document.createElement("span");
+      var hint = document.createElement("span");
+      btn.type = "button";
+      btn.setAttribute("data-edu-filter", meta.id);
+      btn.setAttribute("aria-pressed", "false");
+      chip.className = "edu-etag";
+      chip.setAttribute("data-edu-tag", meta.id);
+      kind.className = "edu-etag__kind";
+      kind.textContent = meta.label;
+      hint.className = "edu-etag__note";
+      hint.textContent = meta.hint;
+      chip.appendChild(kind);
+      chip.appendChild(hint);
+      btn.appendChild(chip);
+      item.appendChild(btn);
+      list.appendChild(item);
+    });
   }
 
   function initPhilosophyLoop() {
@@ -191,6 +219,7 @@
 
     var legend = document.querySelector("[data-edu-legend]");
     if (legend) {
+      fillLegend(legend);
       legend.addEventListener("click", function (event) {
         var toggle = event.target.closest("[data-edu-legend-toggle]");
         if (toggle) {
@@ -203,6 +232,24 @@
         setFilter(document.body.getAttribute("data-edu-filter") === id ? "" : id);
       });
     }
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key !== "Escape") return;
+      var search = document.getElementById("project-search");
+      if (search && search.open) return;
+      var openLegend = document.querySelector("[data-edu-legend].is-open");
+      if (openLegend) {
+        setLegendOpen(false);
+        return;
+      }
+      if (document.body.getAttribute("data-edu-filter")) {
+        setFilter("");
+        return;
+      }
+      if (document.body.getAttribute("data-edu-view") === "evidence") {
+        setView("story", true);
+      }
+    });
 
     var requested = "";
     try {
@@ -218,9 +265,217 @@
   root.AerosenseEducation.hydrateEvidenceMarks = hydrateEvidenceMarks;
   root.AerosenseEducation.escapeEvidenceHtml = escapeHtml;
 
+  function initDecideFirst() {
+    var root = document.querySelector("[data-edu-decide]");
+    if (!root) return;
+
+    var items = root.querySelectorAll("[data-edu-item]");
+    var coda = root.querySelector("[data-edu-coda]");
+
+    function paintDots(holder, rejected, held, revealed) {
+      if (!holder) return;
+      holder.textContent = "";
+      var total = rejected + held;
+      var i;
+      var cell;
+      for (i = 0; i < total; i++) {
+        cell = document.createElement("span");
+        cell.className = "edu-decide__cell";
+        cell.setAttribute("aria-hidden", "true");
+        cell.style.setProperty("--cell-i", String(i));
+        if (revealed) {
+          cell.setAttribute("data-kind", i < rejected ? "rejected" : "held");
+        }
+        holder.appendChild(cell);
+      }
+    }
+
+    function markChoice(item, selectedInput) {
+      var labels = item.querySelectorAll(".edu-decide__choice");
+      Array.prototype.forEach.call(labels, function (label) {
+        var radio = label.querySelector("input");
+        label.classList.toggle("is-selected", radio === selectedInput);
+      });
+    }
+
+    function visitorLine(choseCorrect, rejected, held) {
+      if (choseCorrect) {
+        return (
+          "You disagreed. In the initial sample, " +
+          rejected +
+          " of 28 also rejected this statement. Your choice is not recorded and is not part of that sample."
+        );
+      }
+      return (
+        "You agreed. In the initial sample, " +
+        held +
+        " of 28 also did not reject this statement. Your choice is not recorded and is not part of that sample."
+      );
+    }
+
+    function liveLine(choseCorrect, rejected, held) {
+      var result =
+        rejected +
+        " of 28 rejected this statement; " +
+        held +
+        " of 28 did not. Scientifically, the claim should be rejected.";
+      if (choseCorrect) {
+        return "You disagreed. " + result;
+      }
+      return "You agreed. " + result;
+    }
+
+    function allAnswered() {
+      var i;
+      for (i = 0; i < items.length; i++) {
+        if (!items[i].classList.contains("is-answered")) return false;
+      }
+      return true;
+    }
+
+    Array.prototype.forEach.call(items, function (item) {
+      var rejected = parseInt(item.getAttribute("data-rejected"), 10);
+      var held = parseInt(item.getAttribute("data-held"), 10);
+      var holder = item.querySelector(".edu-decide__dots");
+      paintDots(holder, rejected, held, false);
+    });
+
+    root.addEventListener("change", function (event) {
+      var input = event.target;
+      if (!input || input.type !== "radio") return;
+      var item = input.closest("[data-edu-item]");
+      if (!item || !root.contains(item)) return;
+
+      var rejected = parseInt(item.getAttribute("data-rejected"), 10);
+      var held = parseInt(item.getAttribute("data-held"), 10);
+      var correct = item.getAttribute("data-correct");
+      var choseCorrect = input.value === correct;
+      var result = item.querySelector(".edu-decide__result");
+      var live = item.querySelector(".edu-decide__live");
+      var visitor = item.querySelector("[data-edu-visitor]");
+      var holder = item.querySelector(".edu-decide__dots");
+
+      var legend = item.querySelector(".edu-decide__legend");
+      var chartText = item.querySelector(".edu-decide__chart-text");
+
+      item.classList.add("is-answered");
+      markChoice(item, input);
+      paintDots(holder, rejected, held, true);
+      if (legend) legend.hidden = false;
+      if (holder) {
+        holder.setAttribute(
+          "aria-label",
+          rejected + " of 28 respondents rejected this statement; " + held + " of 28 did not."
+        );
+      }
+      if (chartText) {
+        chartText.textContent = "Filled squares rejected the claim. Slashed squares did not. Each square is one of the 28 respondents.";
+      }
+      if (visitor) visitor.textContent = visitorLine(choseCorrect, rejected, held);
+      if (live) live.textContent = liveLine(choseCorrect, rejected, held);
+      if (result) result.hidden = false;
+
+      if (coda && allAnswered()) coda.hidden = false;
+    });
+  }
+
+  function syncChainView(view) {
+    var root = document.querySelector("[data-edu-chain]");
+    if (!root) return;
+    var next = view === "evidence" ? "evidence" : "story";
+    root.setAttribute("data-chain-view", next);
+    var live = root.querySelector("[data-chain-view-live]");
+    var tags = root.querySelectorAll(".edu-chain__tags");
+    Array.prototype.forEach.call(tags, function (el) {
+      el.setAttribute("aria-hidden", next === "story" ? "true" : "false");
+    });
+    if (live) {
+      live.textContent =
+        next === "evidence"
+          ? "Chain scanning labels are visible. No chain content was hidden."
+          : "Chain scanning labels are tucked. The measurement path is unchanged.";
+    }
+  }
+
+  function initMeasurementChain() {
+    var root = document.querySelector("[data-edu-chain]");
+    if (!root) return;
+
+    var panel = root.querySelector("[data-chain-panel]");
+    var nodes = root.querySelectorAll("[data-chain-node]");
+    var staticList = root.querySelector("[data-chain-static]");
+
+    if (staticList) staticList.setAttribute("hidden", "");
+    if (panel) panel.removeAttribute("hidden");
+
+    function showNode(id, fromKeyboard) {
+      var source = root.querySelector('[data-chain-source="' + id + '"]');
+      if (!source || !panel) return;
+      var clone = source.cloneNode(true);
+      clone.removeAttribute("id");
+      clone.removeAttribute("data-chain-source");
+      var heading = clone.querySelector("h4");
+      if (heading) {
+        var title = document.createElement("h3");
+        title.id = "edu-chain-panel-title";
+        title.textContent = heading.textContent;
+        heading.parentNode.replaceChild(title, heading);
+      }
+      while (panel.firstChild) panel.removeChild(panel.firstChild);
+      panel.appendChild(clone);
+      Array.prototype.forEach.call(nodes, function (node) {
+        var on = node.getAttribute("data-chain-node") === id;
+        if (on) node.setAttribute("aria-current", "true");
+        else node.removeAttribute("aria-current");
+      });
+      if (fromKeyboard && panel.focus) {
+        panel.setAttribute("tabindex", "-1");
+      }
+    }
+
+    root.addEventListener("click", function (event) {
+      var node = event.target.closest("[data-chain-node]");
+      if (!node || !root.contains(node)) return;
+      event.preventDefault();
+      showNode(node.getAttribute("data-chain-node"), false);
+    });
+
+    root.addEventListener("keydown", function (event) {
+      var node = event.target.closest("[data-chain-node]");
+      if (!node || !root.contains(node)) return;
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      showNode(node.getAttribute("data-chain-node"), true);
+    });
+
+    syncChainView(document.body.getAttribute("data-edu-view") || "story");
+    showNode("a-survey", false);
+  }
+
+  function initLabPath() {
+    var nav = document.querySelector("[data-edu-labpath]");
+    if (!nav) return;
+    var links = nav.querySelectorAll("[data-lab-node]");
+    function setCurrent(id) {
+      Array.prototype.forEach.call(links, function (link) {
+        var on = link.getAttribute("data-lab-node") === id;
+        if (on) link.setAttribute("aria-current", "location");
+        else link.removeAttribute("aria-current");
+      });
+    }
+    nav.addEventListener("click", function (event) {
+      var link = event.target.closest("[data-lab-node]");
+      if (!link || !nav.contains(link)) return;
+      setCurrent(link.getAttribute("data-lab-node"));
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     initPhilosophyLoop();
     hydrateEvidenceMarks(document);
     initEvidenceView();
+    initDecideFirst();
+    initMeasurementChain();
+    initLabPath();
   });
 })(window);

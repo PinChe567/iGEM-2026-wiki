@@ -39,10 +39,15 @@
       });
     }
 
-    function closeMobileNav() {
+    function setMobileNavOpen(open) {
       if (!toggle) return;
-      toggle.setAttribute("aria-expanded", "false");
-      nav.classList.remove("is-open");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      nav.classList.toggle("is-open", open);
+    }
+
+    function closeMobileNav() {
+      setMobileNavOpen(false);
     }
 
     function closeAllMenus() {
@@ -53,8 +58,7 @@
     if (toggle) {
       toggle.addEventListener("click", function () {
         var open = toggle.getAttribute("aria-expanded") === "true";
-        toggle.setAttribute("aria-expanded", open ? "false" : "true");
-        nav.classList.toggle("is-open", !open);
+        setMobileNavOpen(!open);
         if (open) closeSubmenus(null);
       });
     }
@@ -153,7 +157,7 @@
 
   /* ---------- TOC current section ---------- */
   function initTocSpy() {
-    var links = qsa('.page-toc a[href^="#"], .desc-jump a[href^="#"]');
+    var links = qsa('.page-toc a[href^="#"], .desc-jump a[href^="#"], .saf-jump a[href^="#"]');
     if (!links.length) return;
 
     function mark(id) {
@@ -485,9 +489,117 @@
       "Heterologous insect olfactory receptors expressed in mammalian cell lines for odorant / volatile profiling.",
       "Demonstrates a living-cell sensor route for plant-related VOC biomarker detection (literature context, not AeroSense data).",
     ],
+    "ref-w-zboray-2023": [
+      "Heterologous insect olfactory receptors expressed in mammalian cell lines for odorant / volatile profiling.",
+      "Demonstrates a living-cell sensor route for plant-related VOC biomarker detection (literature context, not AeroSense data).",
+    ],
     "ref-chen-2013": [
       "Introduces ultrasensitive GCaMP6 fluorescent calcium indicators for imaging activity.",
       "Supports calcium / fluorescence reporting as an optical readout modality (contextual literature).",
+    ],
+    "ref-w-chen-2013": [
+      "Introduces ultrasensitive GCaMP6 fluorescent calcium indicators for imaging activity.",
+      "Supports calcium / fluorescence reporting as an optical readout modality (contextual literature).",
+    ],
+    "ref-sato-2008": [
+      "Shows insect odorant receptors form heteromeric ligand-gated ion channels with Orco.",
+      "Core mechanistic rationale for OR–Orco sensing without a GPCR cascade in heterologous hosts.",
+    ],
+    "ref-roberts-2021": [
+      "Codon optimization can improve stable expression of insect OR genes in HEK293 cells.",
+      "Supports expression-engineering choices for heterologous OR panels.",
+    ],
+    "ref-benton-2006": [
+      "Demonstrates atypical membrane topology and heteromeric OR–Orco function in vivo.",
+      "Topology evidence used when placing reporters relative to Orco termini.",
+    ],
+    "ref-w-benton-2006": [
+      "Demonstrates atypical membrane topology and heteromeric OR–Orco function in vivo.",
+      "Topology evidence used when placing reporters relative to Orco termini.",
+    ],
+    "ref-ibrahimi-2009": [
+      "Characterizes multicistronic lentiviral vectors using 2A peptides and related co-expression strategies.",
+      "Literature context for IRES / multicistronic reporter expression trade-offs.",
+    ],
+    "ref-w-ibrahimi-2009": [
+      "Characterizes multicistronic lentiviral vectors using 2A peptides and related co-expression strategies.",
+      "Literature context for IRES / multicistronic reporter expression trade-offs.",
+    ],
+    "ref-miazzi-2019": [
+      "Optimizes trafficking and functional expression of insect ORs in transient HEK293 assays.",
+      "Supports assay and expression-design choices for heterologous OR testing.",
+    ],
+    "ref-w-jones-2011": [
+      "Reports functional agonism of insect odorant receptor ion channels.",
+      "Supports VUAA1 as an Orco-family agonist useful for functional controls.",
+    ],
+    "ref-w-butterwick-2018": [
+      "Cryo-EM structure of an insect odorant receptor / Orco ion channel complex.",
+      "Structural context for OR–Orco channel architecture in design discussions.",
+    ],
+    "ref-scofield-1994": [
+      "Classic frequency-domain description of lock-in amplification.",
+      "Foundational context for digital lock-in recovery of weak periodic optical signals.",
+    ],
+    "ref-marco-2012": [
+      "Reviews signal and data processing for machine olfaction / electronic noses.",
+      "Background for conventional e-nose pipelines that AeroSense compares against conceptually.",
+    ],
+    "ref-vergara-2012": [
+      "Public chemical gas sensor drift dataset used widely in e-nose machine learning.",
+      "Dataset context for drift-robust classification benchmarks (not AeroSense wet-lab data).",
+    ],
+    "ref-turner-2008": [
+      "Olfactory representations and coding ideas that motivate sparse / combinatorial models.",
+      "Biological inspiration only — not an AeroSense measurement.",
+    ],
+    "ref-lin-2014": [
+      "Mushroom-body circuit organization relevant to sparse odor coding analogies.",
+      "Supports fly-inspired computational framing on the Model page.",
+    ],
+    "ref-aso-2014": [
+      "Comprehensive mushroom-body output neuron map in Drosophila.",
+      "Anatomical inspiration for MBON-style readout stages in the computational analogy.",
+    ],
+    "ref-schmuker-2007": [
+      "Early computational olfaction / classification work used as baseline inspiration.",
+      "Historical context for sparse or biologically motivated odor classifiers.",
+    ],
+    "ref-imam-2020": [
+      "Neuromorphic / olfactory-computation framing for rapid odor identification.",
+      "Supports discussing biologically inspired algorithms versus conventional ML baselines.",
+    ],
+    "ref-jolliffe-2002": [
+      "Standard reference on principal component analysis.",
+      "Used when discussing conventional dimensionality reduction baselines.",
+    ],
+    "ref-stimberg-2019": [
+      "Brian 2 simulator for spiking neural networks.",
+      "Software context for the Dry Lab / Model Brian2 experiments.",
+    ],
+    "ref-d-stimberg-2019": [
+      "Brian 2 simulator for spiking neural networks.",
+      "Software context for the Dry Lab / Model Brian2 experiments.",
+    ],
+    "ref-song-2000": [
+      "Spike-timing-dependent plasticity (STDP) classic reference.",
+      "Learning-rule context for spiking-network training discussions.",
+    ],
+    "ref-cheng-2025": [
+      "Hybrid neural networks in the Drosophila mushroom body linked to olfactory preference.",
+      "Research lineage / inspiration — not AeroSense field accuracy claims.",
+    ],
+    "ref-wced-1987": [
+      "Brundtland Report definition of sustainable development.",
+      "Foundational sustainability framing used on the Sustainability page.",
+    ],
+    "ref-un-2015": [
+      "UN 2030 Agenda and Sustainable Development Goals.",
+      "Common SDG vocabulary used to situate AeroSense pathways.",
+    ],
+    "ref-meadows-2008": [
+      "Systems-thinking primer used when discussing leverage points and trade-offs.",
+      "Conceptual framing for sustainability pathway mapping.",
     ],
     "ref-tovar-2019": [
       "Frequency-division multiplexing of fluorescence excitation onto a shared detector.",

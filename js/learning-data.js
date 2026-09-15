@@ -4,9 +4,10 @@
  *
  * Question IDs (item.id) are storage keys. Never rename an existing id.
  * Shared misconception IDs stay stable across tools:
- *   survey            — public survey (not implemented in this file)
- *   game              — educational games (not implemented in this file)
+ *   survey            — initial public diagnostic (wording match only; not stored here)
+ *   game              — Odor Pixel Suite (G1/G2/G3 IDs live in the game repo, not this file)
  *   learning-platform — Learning Lab pre/post (this catalog)
+ * Do not tag an item with a source unless that instrument actually uses the ID.
  * Keep the same item.id on pre-test and post-test. No backend yet.
  *
  * Adding a quiz item:
@@ -29,7 +30,7 @@
   var ITEM_BANK = {
     MYTH_MOLD_REMOVE: {
       id: "MYTH_MOLD_REMOVE",
-      sources: ITEM_SOURCES,
+      sources: ["survey", "learning-platform"],
       construct: "visible-mold-vs-remaining-food",
       question: "“If I remove the moldy part, the rest is always safe.” What is the most accurate evaluation?",
       choices: [
@@ -52,7 +53,7 @@
     },
     MYTH_HEAT_DESTROY: {
       id: "MYTH_HEAT_DESTROY",
-      sources: ITEM_SOURCES,
+      sources: ["survey", "learning-platform"],
       construct: "heating-vs-mycotoxin-stability",
       question: "“Heating completely removes all mycotoxin risk.” What is the most accurate evaluation?",
       choices: [
@@ -75,7 +76,7 @@
     },
     MYTH_LOOK_SMELL_SAFE: {
       id: "MYTH_LOOK_SMELL_SAFE",
-      sources: ITEM_SOURCES,
+      sources: ["survey", "learning-platform"],
       construct: "sensory-inspection-vs-mycotoxin-status",
       question: "If food looks and smells normal, can mycotoxin risk be ruled out?",
       choices: [
@@ -98,7 +99,7 @@
     },
     SYN_SENSE_ELEMENT: {
       id: "SYN_SENSE_ELEMENT",
-      sources: ITEM_SOURCES,
+      sources: ["learning-platform"],
       construct: "biological-sensing-element",
       question: "What is AeroSense’s planned biological sensing element?",
       choices: [
@@ -121,7 +122,7 @@
     },
     SYN_GCAMP_ROLE: {
       id: "SYN_GCAMP_ROLE",
-      sources: ITEM_SOURCES,
+      sources: ["learning-platform"],
       construct: "gcamp-as-optical-reporter",
       question: "What role does GCaMP play in this sensing chain?",
       choices: [
@@ -144,7 +145,7 @@
     },
     SYN_CONTAINMENT: {
       id: "SYN_CONTAINMENT",
-      sources: ITEM_SOURCES,
+      sources: ["learning-platform"],
       construct: "living-sensor-containment",
       question: "Why is containment necessary for a living odor sensor?",
       choices: [
@@ -167,7 +168,7 @@
     },
     DEC_PATTERN_CODE: {
       id: "DEC_PATTERN_CODE",
-      sources: ITEM_SOURCES,
+      sources: ["learning-platform"],
       construct: "odor-as-receptor-pattern",
       question: "A single odor is generally represented by what?",
       choices: [
@@ -190,7 +191,7 @@
     },
     DEC_SPARSE_WHY: {
       id: "DEC_SPARSE_WHY",
-      sources: ITEM_SOURCES,
+      sources: ["learning-platform"],
       construct: "why-contrast-and-sparse",
       question: "Why use contrast enhancement or sparse representation in a pattern pipeline?",
       choices: [
@@ -213,7 +214,7 @@
     },
     DEC_AI_RELIABLE: {
       id: "DEC_AI_RELIABLE",
-      sources: ITEM_SOURCES,
+      sources: ["learning-platform"],
       construct: "ai-does-not-auto-validate",
       question: "Does AI automatically make a sensor result reliable?",
       choices: [
@@ -236,7 +237,7 @@
     },
     ACT_SCREENING_MEANS: {
       id: "ACT_SCREENING_MEANS",
-      sources: ITEM_SOURCES,
+      sources: ["learning-platform"],
       construct: "screening-not-verdict",
       question: "What does an AeroSense screening result represent?",
       choices: [
@@ -259,7 +260,7 @@
     },
     ACT_MEDIUM_TRIGGER: {
       id: "ACT_MEDIUM_TRIGGER",
-      sources: ITEM_SOURCES,
+      sources: ["learning-platform"],
       construct: "medium-risk-next-action",
       question: "What should a medium-risk screening result generally trigger?",
       choices: [
@@ -282,7 +283,7 @@
     },
     ACT_REPLACE_CONFIRM: {
       id: "ACT_REPLACE_CONFIRM",
-      sources: ITEM_SOURCES,
+      sources: ["learning-platform"],
       construct: "screening-cannot-replace-confirmatory",
       question:
         "True or false: An early-warning sensing platform should automatically replace official confirmatory testing.",
@@ -296,7 +297,7 @@
     },
     q1: {
       id: "q1",
-      sources: ITEM_SOURCES,
+      sources: ["learning-platform"],
       construct: "olfaction-first-detects-molecules",
       question: "What does the olfactory system first detect?",
       choices: [
@@ -319,7 +320,7 @@
     },
     q2: {
       id: "q2",
-      sources: ITEM_SOURCES,
+      sources: ["learning-platform"],
       construct: "combinatorial-receptor-coding",
       question: "How can a limited number of receptors represent many odors?",
       choices: [
@@ -342,7 +343,7 @@
     },
     q3: {
       id: "q3",
-      sources: ITEM_SOURCES,
+      sources: ["learning-platform"],
       construct: "odor-not-one-receptor",
       question: "True or false: An odor must activate exactly one receptor to be identified.",
       choices: [

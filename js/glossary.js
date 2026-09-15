@@ -37,11 +37,11 @@
     },
     drosophila: {
       term: "Drosophila",
-      def: "A genus of flies; AeroSense plans use olfactory receptors from Drosophila melanogaster as a design reference, not as a live animal sensor.",
+      def: "A genus of flies. AeroSense documents chemically synthesised odorant-receptor sequences from Drosophila melanogaster as a design reference. Final project organism inventory pending team confirmation.",
     },
     vuaa1: {
       term: "VUAA1",
-      def: "A synthetic Orco-family agonist used experimentally to activate insect odorant receptor co-receptor channels.",
+      def: "A synthetic Orco-family agonist specified for activating insect odorant receptor co-receptor channels. Named as a planned research reagent, not as a completed assay record on this wiki.",
     },
     hek293t: {
       term: "HEK293T",
