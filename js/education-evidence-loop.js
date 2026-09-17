@@ -648,8 +648,8 @@
         },
         design: {
           summary: "Guide, slides/worksheets, answer key, license — not released.",
-          text: "Planned packet: facilitator notes, source list, accessibility check, and a license statement. See pkg-education.",
-          links: [{ href: "contribution.html#pkg-education", label: "Contribution · pkg-education" }],
+          text: "Planned packet: facilitator notes, source list, accessibility check, and a license statement.",
+          links: [{ href: "education.html#toolkit", label: "Education · teacher toolkit" }],
         },
         engage: {
           pending: true,

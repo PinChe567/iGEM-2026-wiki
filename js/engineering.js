@@ -1,6 +1,6 @@
 /**
- * Engineering page — accordion architecture + cycle stage switchers.
- * Without JS, native <details> remain fully usable.
+ * Engineering page — in-place cycle viewer, DBTLR dial, figure notes.
+ * Without JS, Cycle 1 remains visible in each track.
  */
 (function () {
   "use strict";
@@ -155,12 +155,6 @@
     });
   }
 
-  function initCycle(root) {
-    /* DBTL stages stay stacked in the document. Stage links are in-page jumps. */
-    var live = qs("[data-eng-stage-live]", root);
-    if (live) live.hidden = true;
-  }
-
   function initFigureDisclosures() {
     var keepCaption = {
       "eng-cycle__figure-id": true,
@@ -210,62 +204,6 @@
     document.body.classList.add("eng-figures-collapsed");
   }
 
-  function initOrientationSync() {
-    var mq = window.matchMedia("(min-width: 1024px)");
-    function apply() {
-      var horizontal = mq.matches;
-      qsa("[data-eng-orient]").forEach(function (el) {
-        el.setAttribute("aria-orientation", horizontal ? "horizontal" : "vertical");
-      });
-    }
-    apply();
-    if (typeof mq.addEventListener === "function") {
-      mq.addEventListener("change", apply);
-    } else if (typeof mq.addListener === "function") {
-      mq.addListener(apply);
-    }
-  }
-
-  var suppressExclusive = false;
-
-  function isAccordionDetails(node) {
-    return node && node.tagName === "DETAILS" && node.classList && node.classList.contains("eng-acc");
-  }
-
-  function openAncestors(el) {
-    var node = el;
-    while (node && node !== document.body) {
-      if (isAccordionDetails(node)) node.open = true;
-      node = node.parentElement;
-    }
-  }
-
-  function closeOtherStreams(keep) {
-    qsa(".eng-acc--stream").forEach(function (acc) {
-      if (acc !== keep) acc.open = false;
-    });
-  }
-
-  function closeSiblingCycles(keep) {
-    var parent = keep.parentElement;
-    if (!parent) return;
-    Array.prototype.forEach.call(parent.children, function (el) {
-      if (el !== keep && el.hasAttribute && el.hasAttribute("data-eng-cycle-acc")) {
-        el.open = false;
-      }
-    });
-  }
-
-  function closeAllAccordions() {
-    qsa(".eng-acc--stream, .eng-acc--group, .eng-acc--cycle, .eng-acc--log").forEach(function (acc) {
-      acc.open = false;
-    });
-  }
-
-  function initAccordion() {
-    /* Cycle and stream records are visible articles. Remaining details are figure/evidence notes. */
-  }
-
   function initGlanceThumbs() {
     qsa(".eng-glance__thumb img").forEach(function (img) {
       function markMissing() {
@@ -296,36 +234,234 @@
     "glance-wetlab": "stream-wetlab",
     "glance-hardware": "group-hardware",
     "glance-model": "group-model",
+    "glance-hp": "beyond-the-bench",
+    "wl-cycle-0": "wl-cycle-1",
+    "dl-cycle-0": "dl-cycle-1",
+    "model-cycle-1": "dl-cycle-1",
+    "model-cycle-2": "dl-cycle-2",
+    "hw-cycle-0": "hw-cycle-1",
   };
 
-  function syncFromHash() {
-    var hash = (location.hash || "").replace(/^#/, "");
-    if (!hash) return;
-    var mapped = HASH_OPEN[hash] || hash;
-    var target = document.getElementById(mapped) || document.getElementById(hash);
-    if (!target) return;
+  var STAGE_LABELS = {
+    design: "Design",
+    build: "Build",
+    test: "Test",
+    learn: "Learn",
+    redesign: "Redesign",
+  };
+  var STAGE_INDEX = {
+    design: 0,
+    build: 1,
+    test: 2,
+    learn: 3,
+    redesign: 4,
+  };
 
-    suppressExclusive = true;
+  var viewers = [];
+  var dial = null;
+  var dialLive = null;
+  var stageObserver = null;
+  var observedStages = [];
 
-    var cycleAcc = null;
-    if (target.hasAttribute && target.hasAttribute("data-eng-cycle-acc")) {
-      cycleAcc = target;
-    } else if (target.closest) {
-      cycleAcc = target.closest("[data-eng-cycle-acc]");
+  function trackHeading(viewer) {
+    return qs(".eng-track__title", viewer) || qs(".eng-track__head", viewer) || viewer;
+  }
+
+  function selectCycle(viewer, cycle, options) {
+    options = options || {};
+    var cycleKey = String(cycle);
+    var tabs = qsa("[data-cycle-tab]", viewer);
+    var panels = qsa("[data-cycle-panel]", viewer);
+    var activePanel = null;
+
+    tabs.forEach(function (tab) {
+      var on = tab.getAttribute("data-cycle-tab") === cycleKey;
+      tab.setAttribute("aria-selected", on ? "true" : "false");
+      tab.setAttribute("tabindex", on ? "0" : "-1");
+      tab.classList.toggle("is-active", on);
+    });
+    panels.forEach(function (panel) {
+      var on = panel.getAttribute("data-cycle-panel") === cycleKey;
+      panel.hidden = !on;
+      panel.classList.toggle("is-active", on);
+      if (on) activePanel = panel;
+    });
+
+    if (options.hash !== false && activePanel && activePanel.id) {
+      var next = "#" + activePanel.id;
+      if (location.hash !== next) {
+        if (options.hash === "push") {
+          history.pushState(null, "", next);
+        } else {
+          history.replaceState(null, "", next);
+        }
+      }
     }
-    if (cycleAcc) {
-      cycleAcc.open = true;
+
+    refreshStageObserver();
+    updateDialFromViewport();
+
+    if (options.scroll === "track") {
+      var heading = trackHeading(viewer);
+      if (heading && typeof heading.scrollIntoView === "function") {
+        heading.scrollIntoView({ block: "start" });
+      }
     }
+    return activePanel;
+  }
 
-    openAncestors(target);
+  function initCycleViewer(viewer) {
+    var tabs = qsa("[data-cycle-tab]", viewer);
+    var panels = qsa("[data-cycle-panel]", viewer);
+    if (!tabs.length || !panels.length) return;
+    viewers.push(viewer);
 
-    suppressExclusive = false;
+    tabs.forEach(function (tab, index) {
+      tab.addEventListener("click", function () {
+        selectCycle(viewer, tab.getAttribute("data-cycle-tab"), { hash: "replace", scroll: "none" });
+      });
+      tab.addEventListener("keydown", function (event) {
+        var next = null;
+        if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+          next = tabs[(index + 1) % tabs.length];
+        } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+          next = tabs[(index - 1 + tabs.length) % tabs.length];
+        } else if (event.key === "Home") {
+          next = tabs[0];
+        } else if (event.key === "End") {
+          next = tabs[tabs.length - 1];
+        }
+        if (!next) return;
+        event.preventDefault();
+        selectCycle(viewer, next.getAttribute("data-cycle-tab"), { hash: "replace", scroll: "none" });
+        next.focus();
+      });
+    });
+  }
 
-    window.requestAnimationFrame(function () {
-      if (typeof target.scrollIntoView === "function") {
-        target.scrollIntoView({ block: "start" });
+  function visibleStages() {
+    return qsa("[data-cycle-panel]:not([hidden]) [data-eng-stage]");
+  }
+
+  function nearestStage() {
+    var stages = visibleStages();
+    if (!stages.length) return null;
+    var mark = window.innerHeight * 0.4;
+    var best = null;
+    var bestDist = Infinity;
+    stages.forEach(function (el) {
+      var rect = el.getBoundingClientRect();
+      if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+      var dist = Math.abs(rect.top - mark);
+      if (dist < bestDist) {
+        bestDist = dist;
+        best = el;
       }
     });
+    return best;
+  }
+
+  function setDial(stage, track) {
+    if (!dial) return;
+    if (!stage) {
+      dial.hidden = true;
+      return;
+    }
+    dial.hidden = false;
+    var prev = dial.getAttribute("data-dbtlr-dial");
+    dial.setAttribute("data-dbtlr-dial", stage);
+    if (track) dial.setAttribute("data-dbtlr-track", track);
+    if (dialLive) dialLive.textContent = STAGE_LABELS[stage] || stage;
+    dial.style.setProperty("--dbtlr-index", String(STAGE_INDEX[stage] || 0));
+    if (prev && prev !== stage) {
+      dial.classList.remove("is-ticking");
+      void dial.offsetWidth;
+      dial.classList.add("is-ticking");
+    }
+  }
+
+  function updateDialFromViewport() {
+    var stageEl = nearestStage();
+    if (!stageEl) {
+      setDial(null);
+      return;
+    }
+    var viewer = stageEl.closest("[data-cycle-viewer]");
+    var track = viewer ? viewer.getAttribute("data-eng-track") : "";
+    setDial(stageEl.getAttribute("data-eng-stage"), track);
+  }
+
+  function refreshStageObserver() {
+    if (!window.IntersectionObserver) {
+      updateDialFromViewport();
+      return;
+    }
+    if (!stageObserver) {
+      stageObserver = new IntersectionObserver(
+        function () {
+          updateDialFromViewport();
+        },
+        {
+          root: null,
+          rootMargin: "-35% 0px -45% 0px",
+          threshold: [0, 0.15, 0.35, 0.6, 1],
+        }
+      );
+    }
+    observedStages.forEach(function (el) {
+      stageObserver.unobserve(el);
+    });
+    observedStages = visibleStages();
+    observedStages.forEach(function (el) {
+      stageObserver.observe(el);
+    });
+    updateDialFromViewport();
+  }
+
+  function resolveHash(hash) {
+    hash = (hash || "").replace(/^#/, "");
+    if (!hash) return null;
+    var mapped = HASH_OPEN[hash] || hash;
+    var el = document.getElementById(mapped) || document.getElementById(hash);
+    if (!el) return null;
+    var panel = null;
+    if (el.hasAttribute && el.hasAttribute("data-cycle-panel")) {
+      panel = el;
+    } else if (el.closest) {
+      panel = el.closest("[data-cycle-panel]");
+    }
+    var viewer = panel && panel.closest ? panel.closest("[data-cycle-viewer]") : null;
+    if (!viewer && el.closest) {
+      viewer = el.closest("[data-cycle-viewer]");
+    }
+    return {
+      hash: hash,
+      mapped: mapped,
+      el: el,
+      panel: panel,
+      viewer: viewer,
+      cycle: panel ? panel.getAttribute("data-cycle-panel") : null,
+      isCycleId: !!(panel && (el === panel || HASH_OPEN[hash])),
+    };
+  }
+
+  function syncFromHash(options) {
+    options = options || {};
+    var ctx = resolveHash(location.hash);
+    if (!ctx) return;
+    if (ctx.viewer && ctx.cycle) {
+      selectCycle(ctx.viewer, ctx.cycle, { hash: false, scroll: "none" });
+      if (options.scroll !== false) {
+        var heading = trackHeading(ctx.viewer);
+        if (heading && typeof heading.scrollIntoView === "function") {
+          heading.scrollIntoView({ block: "start" });
+        }
+      }
+      return;
+    }
+    if (options.scroll !== false && ctx.el && typeof ctx.el.scrollIntoView === "function") {
+      ctx.el.scrollIntoView({ block: "start" });
+    }
   }
 
   function ready(fn) {
@@ -337,15 +473,35 @@
   }
 
   ready(function () {
-    qsa("[data-eng-cycle]").forEach(initCycle);
+    dial = qs("[data-dbtlr-dial]");
+    dialLive = qs("[data-dbtlr-live]");
+    qsa("[data-cycle-viewer]").forEach(initCycleViewer);
     qsa("[data-eng-ba]").forEach(initBeforeAfter);
     qsa("[data-eng-ladder]").forEach(initLadder);
     qsa("[data-eng-diag]").forEach(initDiag);
-    initOrientationSync();
     initFigureDisclosures();
-    initAccordion();
     initGlanceThumbs();
-    syncFromHash();
-    window.addEventListener("hashchange", syncFromHash);
+    refreshStageObserver();
+    window.addEventListener("scroll", updateDialFromViewport, { passive: true });
+    window.addEventListener("resize", updateDialFromViewport);
+
+    document.addEventListener("click", function (event) {
+      var link = event.target.closest ? event.target.closest('a[href^="#"]') : null;
+      if (!link) return;
+      var href = link.getAttribute("href") || "";
+      if (href.length < 2) return;
+      var ctx = resolveHash(href);
+      if (!ctx || !ctx.viewer || !ctx.cycle) return;
+      event.preventDefault();
+      selectCycle(ctx.viewer, ctx.cycle, { hash: "push", scroll: "track" });
+    });
+
+    syncFromHash({ scroll: true });
+    window.addEventListener("hashchange", function () {
+      syncFromHash({ scroll: true });
+    });
+    window.addEventListener("popstate", function () {
+      syncFromHash({ scroll: false });
+    });
   });
 })();

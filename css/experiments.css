@@ -3,8 +3,6 @@
  Editorial scientific interface: measure, hierarchy, quiet chrome. */
 
 .page-experiments {
- --exp-prose: var(--reading-max);
- --exp-figure: min(100%, 54rem);
  --exp-wash: var(--color-paper-soft);
  --exp-rule: var(--color-rule);
  --exp-min: 0.875rem;
@@ -37,19 +35,28 @@
 .page-experiments .shell--with-toc .exp-repro,
 .page-experiments .shell--with-toc .exp-source,
 .page-experiments .shell--with-toc .exp-ctrl {
- max-width: var(--exp-prose);
- width: auto;
+ max-width: var(--content-reading);
+ width: 100%;
+ margin-left: 0;
+ margin-right: auto;
 }
 
-.page-experiments .exp-flow,
 .page-experiments .exp-glance,
 .page-experiments .exp-params,
-.page-experiments .table-scroll,
 .page-experiments .exp-proto__head,
 .page-experiments .wiki-figure,
 .page-experiments .exp-figure {
- max-width: var(--exp-figure);
+ max-width: none;
  min-width: 0;
+}
+
+.page-experiments .exp-flow,
+.page-experiments .table-scroll {
+ width: 100%;
+ max-width: none;
+ min-width: 0;
+ margin-left: 0;
+ margin-right: auto;
 }
 
 .page-experiments .anchor-alias {
@@ -69,7 +76,7 @@
 }
 
 .page-experiments .exp-disclaimer {
- max-width: var(--exp-prose);
+ max-width: var(--content-reading);
  margin: 0 0 var(--space-4);
  padding: var(--space-3) 0;
  font-size: var(--text-sm);
@@ -118,6 +125,7 @@
  }
 
  .page-experiments .page-toc {
+ /* TOC column at mid-width, not a content lane */
  border: var(--border-w) solid var(--exp-rule);
  max-width: 36rem;
  }
@@ -151,22 +159,6 @@
 
  .page-experiments .page-toc:not([open]) nav {
  display: none !important;
- }
-}
-
-@media (min-width: 1100px) {
- .page-experiments .shell--with-toc {
- grid-template-columns: minmax(0, 1fr) var(--toc-width);
- }
-
- .page-experiments {
- --exp-figure: min(100%, 56rem);
- }
-}
-
-@media (min-width: 1440px) {
- .page-experiments {
- --exp-figure: min(100%, 58rem);
  }
 }
 
@@ -479,7 +471,8 @@
 .page-experiments .exp-proto__head h2 {
  margin: 0;
  font-size: var(--text-2xl);
- max-width: 22ch;
+ width: 100%;
+ max-width: none;
  padding-top: 0;
 }
 
@@ -508,13 +501,12 @@
 
 .page-experiments .page-article .section-block > h2 {
  font-size: var(--text-2xl);
- max-width: 28ch;
 }
 
 .page-experiments .page-article .section-block > h3,
 .page-experiments .exp-proto h3 {
  font-size: var(--text-md);
- max-width: var(--exp-prose);
+ max-width: var(--content-reading);
  margin-top: var(--space-6);
 }
 
@@ -525,7 +517,7 @@
  letter-spacing: 0.06em;
  text-transform: uppercase;
  color: var(--color-ink-muted);
- max-width: var(--exp-prose);
+ max-width: var(--content-reading);
 }
 
 .page-experiments .exp-method-steps {
@@ -642,7 +634,7 @@
 
 /* ---------- Callouts: grouping only, not every paragraph ---------- */
 .page-experiments .exp-box {
- max-width: var(--exp-prose);
+ max-width: var(--content-reading);
  margin: 0 0 var(--space-5);
  padding: var(--space-4) var(--space-5);
  border: var(--border-w) solid var(--exp-rule);
@@ -744,7 +736,7 @@
 }
 
 .page-experiments .exp-repro {
- max-width: var(--exp-prose);
+ max-width: var(--content-reading);
  margin: 0 0 var(--space-5);
  padding: var(--space-4) var(--space-5);
  border: var(--border-w) solid var(--exp-rule);
@@ -783,7 +775,7 @@
 }
 
 .page-experiments .exp-source {
- max-width: var(--exp-prose);
+ max-width: var(--content-reading);
  margin: 0 0 var(--space-5);
  font-size: var(--text-sm);
  color: var(--color-ink-muted);
@@ -802,7 +794,7 @@
 
 /* ---------- Secondary notes (native details; content is in the HTML) ---------- */
 .page-experiments .exp-notes {
- max-width: var(--exp-prose);
+ max-width: var(--content-reading);
  margin: 0 0 var(--space-5);
  border: var(--border-w) solid var(--exp-rule);
  background: var(--color-paper);
@@ -902,7 +894,7 @@ html:not(.js) .page-experiments .exp-tools {
 /* ---------- Equation ---------- */
 .page-experiments .exp-eq {
  margin: 0 0 var(--space-5);
- max-width: 42rem;
+ max-width: none;
  padding: 1rem 1.25rem;
  border: var(--border-w) solid var(--exp-rule);
  border-left: 3px solid var(--color-signal);
@@ -1211,7 +1203,7 @@ html:not(.js) .page-experiments .exp-tools {
  width: 100%;
  height: auto;
  display: block;
- max-width: 40rem;
+ max-width: none;
  background: var(--color-paper);
  border: var(--border-w) solid var(--exp-rule);
 }
@@ -1220,12 +1212,12 @@ html:not(.js) .page-experiments .exp-tools {
  margin: var(--space-4) 0 0;
  padding-left: 1.2rem;
  font-size: var(--text-sm);
- max-width: var(--exp-prose);
+ max-width: var(--content-reading);
 }
 
 .page-experiments .exp-norm {
  margin: var(--space-5) 0 0;
- max-width: 36rem;
+ max-width: none;
 }
 
 .page-experiments .exp-norm__label,
@@ -1299,10 +1291,6 @@ html:not(.js) .page-experiments .exp-tools {
 
 /* ---------- Mobile ---------- */
 @media (max-width: 767px) {
- .page-experiments {
- --exp-figure: 100%;
- }
-
  .page-experiments .page-hero h1,
  .page-experiments .page-article .section-block > h2,
  .page-experiments .exp-proto__head h2 {
@@ -1504,7 +1492,7 @@ html:not(.js) .page-experiments .exp-tools {
 /* ---------- Protocol filter ---------- */
 .page-experiments .exp-protocol-filter {
  margin: 0 0 var(--space-6);
- max-width: var(--exp-figure);
+ max-width: none;
 }
 
 .page-experiments .exp-protocol-filter__label {

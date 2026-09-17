@@ -774,7 +774,7 @@
         "negative-or-inconclusive",
       ],
       relatedLinks: [
-        { label: "Engineering · Wet Lab Cycle 1", href: "engineering.html#wl-cycle-1" },
+        { label: "Engineering · Wet Lab Cycle 2", href: "engineering.html#wl-cycle-2" },
         { label: "Design · Module 2", href: "design.html#module-2" },
         { label: "Experiments · EXP-AS-04", href: "experiments.html#exp-as-04" },
       ],
@@ -823,7 +823,7 @@
       ],
       tags: ["fusion", "gcamp6f", "orco", "construct-design", "needs-update"],
       relatedLinks: [
-        { label: "Engineering · Wet Lab Cycle 2", href: "engineering.html#wl-cycle-2" },
+        { label: "Engineering · Wet Lab Cycle 3", href: "engineering.html#wl-cycle-3" },
         { label: "Design · Module 2", href: "design.html#module-2" },
         { label: "Parts page", href: "parts.html" },
       ],

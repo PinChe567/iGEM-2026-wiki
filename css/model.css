@@ -3,9 +3,6 @@
  No chart libraries, no fabricated result visuals. */
 
 .page-model {
- --model-content-max: 80rem; /* ~1280px */
- --model-prose: var(--reading-max);
- --model-figure: min(52rem, 100%);
  overflow-x: clip;
  max-width: 100%;
 }
@@ -32,7 +29,7 @@
  font-size: var(--text-lg);
  font-family: var(--font-editorial);
  font-style: italic;
- max-width: var(--model-prose);
+ max-width: var(--content-reading);
 }
 
 .page-model .page-lede,
@@ -42,7 +39,7 @@
 .page-model .notice,
 .page-model .empty-state,
 .page-model .model-prose {
- max-width: var(--model-prose);
+ max-width: var(--content-reading);
 }
 
 /* Restore readable measure even when shared shell--with-toc widens prose */
@@ -53,8 +50,10 @@
  .page-model .shell--with-toc .notice,
  .page-model .shell--with-toc .empty-state,
  .page-model .shell--with-toc .model-prose {
- max-width: var(--model-prose);
- width: auto;
+ max-width: var(--content-reading);
+ width: 100%;
+ margin-left: 0;
+ margin-right: auto;
  }
 }
 
@@ -82,7 +81,7 @@
 }
 
 .page-model .model-hero__copy > p {
- max-width: var(--model-prose);
+ max-width: var(--content-reading);
 }
 
 .page-model .model-hero__visual {
@@ -187,7 +186,7 @@
 
 .page-model .section-block h3 {
  margin-top: var(--space-5);
- max-width: var(--model-prose);
+ max-width: var(--content-reading);
 }
 
 /* ---------- Evidence snapshot ---------- */
@@ -277,7 +276,7 @@
  margin: var(--space-5) 0 0;
  padding: 0;
  list-style: none;
- max-width: var(--model-figure);
+ max-width: none;
  border-top: var(--border-w) solid var(--color-rule);
 }
 
@@ -350,7 +349,7 @@
 .page-model .model-disclose {
  margin: var(--space-4) 0 0;
  border: var(--border-w) solid var(--color-rule);
- max-width: var(--model-figure);
+ max-width: none;
  background: var(--color-paper);
 }
 
@@ -432,7 +431,7 @@
  margin: var(--space-5) 0 0;
  border: var(--border-w) dashed var(--color-rule);
  padding: var(--space-4);
- max-width: var(--model-figure);
+ max-width: none;
  background: var(--color-paper-soft);
 }
 
@@ -454,7 +453,7 @@
  margin: var(--space-5) 0 0;
  padding: 0;
  list-style: none;
- max-width: var(--model-figure);
+ max-width: none;
 }
 
 .page-model .model-learn-list > li {
@@ -578,7 +577,7 @@
 
 .page-model .model-map__lede {
  margin: var(--space-2) 0 0;
- max-width: 52ch;
+ max-width: var(--content-reading);
  font-size: var(--text-sm);
  color: var(--map-muted);
 }
@@ -876,7 +875,7 @@
 .page-model .model-map__panel-grid dd {
  margin: 0;
  font-size: var(--text-sm);
- max-width: 54ch;
+ max-width: var(--content-reading);
 }
 
 .page-model .model-map__panel-grid code {
@@ -1035,7 +1034,7 @@
 
 .page-model .model-leak-guard__detail {
  margin: var(--space-3) 0 0;
- max-width: var(--model-prose);
+ max-width: var(--content-reading);
  font-size: var(--text-sm);
  color: var(--color-ink-muted);
 }
@@ -1225,7 +1224,7 @@
 
 .page-model .model-pipe__panel p {
  margin: 0;
- max-width: var(--model-prose);
+ max-width: var(--content-reading);
  font-size: var(--text-sm);
 }
 
@@ -1510,7 +1509,7 @@
 .page-model .model-ev__scope {
  margin: 0 0 var(--space-2);
  font-size: var(--text-md);
- max-width: var(--model-prose);
+ max-width: var(--content-reading);
 }
 
 .page-model .model-ev__caveat {
@@ -1518,13 +1517,13 @@
  padding: var(--space-3) var(--space-4);
  border-left: 3px solid var(--color-signal);
  background: var(--color-paper);
- max-width: var(--model-prose);
+ max-width: var(--content-reading);
  font-size: var(--text-sm);
 }
 
 .page-model .model-ev__why,
 .page-model .model-ev > p {
- max-width: var(--model-prose);
+ max-width: var(--content-reading);
  font-size: var(--text-sm);
 }
 
@@ -1532,7 +1531,7 @@
  margin: var(--space-3) 0 0;
  padding-left: 1.2rem;
  font-size: var(--text-sm);
- max-width: var(--model-prose);
+ max-width: var(--content-reading);
 }
 
 .page-model .model-ev-grid {
@@ -1587,7 +1586,7 @@
  padding: 0;
  list-style: none;
  border-top: var(--border-w) solid var(--color-rule);
- max-width: 36rem;
+ max-width: none;
 }
 
 .page-model .model-ev-ablate li {
@@ -2016,7 +2015,7 @@
 .page-model .model-repro-flow p {
  margin: 0 0 var(--space-2);
  font-size: var(--text-sm);
- max-width: var(--model-prose);
+ max-width: var(--content-reading);
 }
 
 .page-model .model-repro-flow__cmd {
@@ -2107,7 +2106,7 @@
 }
 
 .page-model .model-ref-lede {
- max-width: var(--model-prose);
+ max-width: var(--content-reading);
  font-size: var(--text-sm);
  color: var(--color-ink-muted);
 }

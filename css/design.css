@@ -2,8 +2,6 @@
  All selectors are scoped under .page-design. Site tokens first. */
 
 .page-design {
- --design-prose: var(--reading-max);
- --design-figure: min(100%, 58rem);
  --design-sense: var(--color-coral-text);
  --design-calcium: var(--color-signal-text);
  --design-reporter: #9c3d3d;
@@ -19,8 +17,10 @@
 .page-design .shell--with-toc .page-article .section-block > p,
 .page-design .shell--with-toc .page-article .section-block > ul:not([class]),
 .page-design .shell--with-toc .page-article .section-block > ol:not([class]) {
- max-width: var(--design-prose);
- width: auto;
+ max-width: var(--content-reading);
+ width: 100%;
+ margin-left: 0;
+ margin-right: auto;
 }
 
 .page-design .wiki-figure,
@@ -31,9 +31,6 @@
  min-width: 0;
 }
 
-.page-design .design-breakout,
-.page-design .wiki-figure.design-breakout,
-.page-design .construct-map,
 .page-design .design-glance,
 .page-design .design-modules,
 .page-design .design-or-grid,
@@ -45,11 +42,11 @@
 .page-design .design-spec-details,
 .page-design .design-inspector,
 .page-design .design-status-row {
- max-width: var(--design-figure);
+ max-width: none;
 }
 
 .page-design .shell--with-toc .wiki-figure.design-breakout {
- max-width: var(--design-figure);
+ max-width: none;
 }
 
 /* ---------- Typography hierarchy ---------- */
@@ -62,7 +59,7 @@
  font-family: var(--font-editorial);
  font-size: var(--text-xl);
  line-height: var(--leading-tight);
- max-width: 28ch;
+ max-width: var(--content-reading);
 }
 
 .page-design .page-lede {
@@ -88,7 +85,6 @@
 .page-design .page-article .section-block > h2 {
  margin-top: 0;
  font-size: var(--text-2xl);
- max-width: 28ch;
 }
 
 .page-design .page-article .section-block > h2::before {
@@ -112,11 +108,11 @@
  font-size: var(--text-md);
  letter-spacing: 0.01em;
  color: var(--color-ink);
- max-width: var(--design-prose);
+ max-width: var(--content-reading);
 }
 
 .page-design .wiki-figure figcaption {
- max-width: var(--design-prose);
+ max-width: var(--content-reading);
 }
 
 .page-design .wiki-figure__num {
@@ -217,7 +213,7 @@
 
 /* ---------- Callouts: decision / why / limitation / evidence ---------- */
 .page-design .design-callout {
- max-width: var(--design-prose);
+ max-width: var(--content-reading);
  margin: 0 0 var(--space-5);
  padding: var(--space-4);
  border: var(--border-w) solid var(--design-rule);
@@ -287,7 +283,7 @@
  padding: 0;
  display: grid;
  gap: var(--space-3);
- max-width: var(--design-figure);
+ max-width: none;
 }
 
 .page-design .design-claim-split .design-callout {
@@ -446,10 +442,6 @@
 
 /* 768: still one column for conceptual pairs; 2-col receptors */
 @media (max-width: 768px) {
- .page-design {
- --design-figure: 100%;
- }
-
  .page-design .page-hero h1,
  .page-design .page-purpose,
  .page-design .page-article .section-block > h2 {
@@ -558,18 +550,6 @@
  }
 }
 
-@media (min-width: 1440px) {
- .page-design {
- --design-figure: min(100%, 64rem);
- }
-}
-
-@media (min-width: 1920px) {
- .page-design {
- --design-figure: min(100%, 68rem);
- }
-}
-
 /* Override the 720px two-column rules in styles.css for Design */
 @media (min-width: 720px) and (max-width: 1023px) {
  .page-design .design-glance,
@@ -599,7 +579,7 @@
 }
 
 .page-design .design-static-record {
- max-width: var(--design-prose);
+ max-width: var(--content-reading);
  margin: var(--space-8) 0 0;
  padding-top: var(--space-7);
  border-top: var(--border-w) solid var(--design-rule);
@@ -724,6 +704,13 @@ html.js .page-design.is-design-enhanced #fig-constructs svg g[data-feature] {
 }
 
 .page-design .construct-map,
+.page-design .wiki-figure.design-breakout {
+ width: 100%;
+ max-width: none;
+ margin-left: 0;
+ margin-right: 0;
+}
+
 .page-design .design-glance {
  margin-bottom: var(--space-6);
 }
@@ -734,7 +721,7 @@ html.js .page-design.is-design-enhanced #fig-constructs svg g[data-feature] {
  list-style: none;
  margin: 0 0 var(--space-5);
  padding: 0;
- max-width: var(--design-figure);
+ max-width: none;
 }
 
 .page-design .design-req li,

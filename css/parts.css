@@ -1,8 +1,6 @@
 /* Parts page scoped under .page-parts. Shared tokens from styles.css. */
 
 .page-parts {
- --parts-prose: var(--reading-max);
- --parts-figure: min(100%, 58rem);
  --parts-or: var(--color-ink);
  --parts-orco: #8a5a18;
  --parts-gcamp: var(--color-signal-text);
@@ -16,7 +14,10 @@
 .page-parts .shell--with-toc .page-article .section-block > p,
 .page-parts .shell--with-toc .page-article .section-block > ul:not([class]),
 .page-parts .shell--with-toc .page-article .section-block > ol:not([class]) {
- max-width: var(--parts-prose);
+ width: 100%;
+ max-width: var(--content-reading);
+ margin-left: 0;
+ margin-right: auto;
 }
 
 .page-parts .cite-preview {
@@ -30,10 +31,9 @@
 }
 
 .page-parts .page-hero h1,
-.page-parts .page-article .section-block > h2,
 .page-parts .page-purpose,
 .page-parts .page-lede {
- max-width: min(100%, var(--parts-prose));
+ max-width: min(100%, var(--content-reading));
  overflow-wrap: anywhere;
 }
 
@@ -44,19 +44,19 @@
 }
 
 .page-parts .page-article .section-block > h2 {
- max-width: min(24ch, 100%);
+ max-width: none;
 }
 
 .page-parts .page-purpose {
  font-family: var(--font-editorial);
  font-size: var(--text-lg);
  line-height: var(--leading-tight);
- max-width: min(48ch, 100%);
+ max-width: var(--content-reading);
 }
 
 .page-parts .page-lede {
  font-size: var(--text-base);
- max-width: min(var(--parts-prose), 100%);
+ max-width: min(var(--content-reading), 100%);
 }
 
 .page-parts .page-article > .section-block {
@@ -73,25 +73,29 @@
 .page-parts .page-article .section-block > h2 {
  margin-top: 0;
  font-size: var(--text-2xl);
- max-width: min(24ch, 100%);
+ max-width: none;
 }
 
 .page-parts .wiki-figure,
-.page-parts .construct-map,
-.page-parts .table-scroll,
 .page-parts .parts-metrics,
 .page-parts .parts-build,
-.page-parts .parts-explorer,
 .page-parts .parts-decisions,
 .page-parts .parts-qc,
-.page-parts .parts-atlas,
-.page-parts .parts-tabs {
- max-width: var(--parts-figure);
+.page-parts .parts-atlas {
+ max-width: none;
+ min-width: 0;
+}
+
+.page-parts .parts-explorer,
+.page-parts .construct-map,
+.page-parts .parts-tabs,
+.page-parts .table-scroll {
+ max-width: none;
  min-width: 0;
 }
 
 .page-parts .wiki-figure.parts-breakout {
- max-width: var(--parts-figure);
+ max-width: none;
 }
 
 /* Metrics: type, not giant cards */
@@ -150,7 +154,7 @@
  flex-wrap: wrap;
  gap: var(--space-2) var(--space-4);
  margin: var(--space-4) 0 0;
- max-width: var(--parts-figure);
+ max-width: none;
 }
 
 .page-parts .parts-key a {
@@ -210,7 +214,7 @@
  margin: var(--space-3) 0 0;
  font-size: var(--text-sm);
  color: var(--color-ink-muted);
- max-width: var(--parts-figure);
+ max-width: none;
 }
 
 /* Three-layer diagram */
@@ -295,6 +299,7 @@
 }
 
 .page-parts .parts-channel svg {
+ /* Intentional narrow component: compact OR channel schematic */
  width: 100%;
  max-width: 28rem;
  height: auto;
@@ -643,6 +648,7 @@
 }
 
 .page-parts .parts-lightbox {
+ /* Overlay dialog, not a page content lane */
  border: var(--border-w) solid var(--color-rule);
  padding: 0;
  max-width: min(72rem, calc(100% - 1.5rem));
@@ -813,7 +819,7 @@
  margin: var(--space-2) 0 0;
  font-size: var(--text-sm);
  color: var(--color-ink-muted);
- max-width: 52ch;
+ max-width: var(--content-reading);
 }
 
 .page-parts .parts-inspector {
@@ -1226,7 +1232,7 @@ html.js .page-parts .parts-catalog__tools {
 
 .page-parts .parts-catalog__filter-note {
  margin: var(--space-2) 0 0;
- max-width: 62ch;
+ max-width: var(--content-reading);
  font-size: var(--text-sm);
  color: var(--color-ink-muted);
 }
@@ -1610,7 +1616,7 @@ html:not(.js) .page-parts .parts-copy {
 .page-parts .parts-notes {
  display: grid;
  gap: var(--space-3);
- max-width: var(--parts-figure);
+ max-width: none;
 }
 
 .page-parts .parts-notes details {
@@ -1698,7 +1704,7 @@ html:not(.js) .page-parts .parts-copy {
 
 .page-parts .parts-rfc-lede {
  margin: 0 0 var(--space-3);
- max-width: var(--parts-prose);
+ max-width: var(--content-reading);
 }
 
 .page-parts .parts-rfc-table__group th {
@@ -1715,7 +1721,7 @@ html:not(.js) .page-parts .parts-copy {
  list-style: none;
  margin: 0;
  padding: 0;
- max-width: var(--parts-figure);
+ max-width: none;
  border-top: var(--border-w) solid var(--color-rule);
 }
 
@@ -1760,7 +1766,7 @@ html:not(.js) .page-parts .parts-copy {
 
 /* Plasmid atlas */
 .page-parts .parts-atlas-note {
- max-width: var(--parts-figure);
+ max-width: none;
  padding: var(--space-3) var(--space-4);
  border: var(--border-w) solid var(--color-rule);
  background: var(--color-paper-soft);
@@ -1773,7 +1779,7 @@ html:not(.js) .page-parts .parts-copy {
 
 .page-parts .parts-atlas__group-lede {
  margin: 0 0 var(--space-4);
- max-width: var(--parts-prose);
+ max-width: var(--content-reading);
 }
 
 .page-parts .parts-atlas {
@@ -1929,18 +1935,8 @@ html:not(.js) .page-parts .parts-copy {
  min-width: 0;
  }
 
- .page-parts {
- --parts-figure: min(100%, 64rem);
- }
-
  .page-parts .parts-atlas--sensing {
  grid-template-columns: 1fr 1fr 1fr;
- }
-}
-
-@media (min-width: 1440px) {
- .page-parts {
- --parts-figure: min(100%, 72rem);
  }
 }
 
@@ -2060,7 +2056,7 @@ html:not(.js) .page-parts .parts-tabs__panel[hidden] {
  list-style: none;
  border: var(--border-w) solid var(--color-rule);
  background: var(--color-rule);
- max-width: var(--parts-figure);
+ max-width: none;
 }
 
 .page-parts .parts-collection-pillars > li {
@@ -2086,7 +2082,7 @@ html:not(.js) .page-parts .parts-tabs__panel[hidden] {
 }
 
 .page-parts .parts-collection__mCherry {
- max-width: var(--parts-prose);
+ max-width: var(--content-reading);
  font-size: var(--text-sm);
  color: var(--color-ink-muted);
 }
@@ -2127,6 +2123,7 @@ html:not(.js) .page-parts .parts-tabs__panel[hidden] {
 }
 
 .page-parts .parts-drawer {
+ /* Overlay drawer, not a page content lane */
  border: var(--border-w) solid var(--color-rule);
  padding: 0;
  max-width: min(32rem, calc(100% - 2rem));
@@ -2253,7 +2250,7 @@ html:not(.js) .page-parts .parts-tabs__panel[hidden] {
 /* Build the biological sensor */
 .page-parts .parts-builder__intro {
  margin: 0 0 var(--space-5);
- max-width: min(46rem, 100%);
+ max-width: var(--content-reading);
 }
 
 .page-parts .parts-builder__intro h2 {

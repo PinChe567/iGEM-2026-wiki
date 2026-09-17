@@ -26,7 +26,7 @@
 
   function initDiscloseAria() {
     qsa(
-      "details.hp-checkpoint__evidence, details.hp-cp__more, details.hp-disclose, details.hp-chapternav__mobile"
+      "details.hp-checkpoint__evidence, details.hp-disclose, details.hp-chapternav__mobile"
     ).forEach(function (el) {
       var summary = qs("summary", el);
       if (!summary) return;
@@ -207,44 +207,261 @@
     });
   }
 
-  function initRelmap() {
-    var map = qs("[data-hp-relmap]");
+  function initOdorMap() {
+    var map = qs("[data-hp-odor-map]");
     if (!map) return;
-    qsa(".hp-relmap__node--side", map).forEach(function (a) {
-      a.addEventListener("click", function () {
-        var all = qs("[data-eng-filter='all']");
-        if (all) all.click();
+    var cats = qsa("[data-hp-odor-cat]", map);
+    var drawer = qs("[data-hp-odor-drawer]", map);
+    var drawerTitle = qs("[data-hp-odor-drawer-title]", map);
+    var drawerBody = qs("[data-hp-odor-drawer-body]", map);
+    var drawerClose = qs("[data-hp-odor-drawer-close]", map);
+
+    function isMobileMap() {
+      return window.matchMedia("(max-width: 839px)").matches;
+    }
+
+    function closeAll() {
+      cats.forEach(function (cat) {
+        cat.classList.remove("is-open");
+        var btn = qs(".hp-odor__node", cat);
+        var pop = qs(".hp-odor__pop", cat);
+        if (btn) btn.setAttribute("aria-expanded", "false");
+        if (pop) pop.hidden = true;
+      });
+      if (drawer) drawer.hidden = true;
+      if (drawerBody) drawerBody.innerHTML = "";
+    }
+
+    function openCat(cat) {
+      var btn = qs(".hp-odor__node", cat);
+      var pop = qs(".hp-odor__pop", cat);
+      var name = qs(".hp-odor__cat-name", cat);
+      var orgs = qs(".hp-odor__orgs", cat);
+      var wasOpen = cat.classList.contains("is-open");
+      closeAll();
+      if (wasOpen) return;
+
+      cat.classList.add("is-open");
+      if (btn) btn.setAttribute("aria-expanded", "true");
+
+      if (isMobileMap()) {
+        if (drawerTitle) drawerTitle.textContent = name ? name.textContent : "";
+        if (drawerBody && orgs) drawerBody.appendChild(orgs.cloneNode(true));
+        if (drawer) drawer.hidden = false;
+      } else if (pop) {
+        pop.hidden = false;
+      }
+    }
+
+    cats.forEach(function (cat) {
+      var btn = qs(".hp-odor__node", cat);
+      if (!btn) return;
+      btn.addEventListener("click", function (event) {
+        event.stopPropagation();
+        openCat(cat);
       });
     });
+
+    if (drawerClose) {
+      drawerClose.addEventListener("click", closeAll);
+    }
+
+    doc.addEventListener("click", function (event) {
+      if (!map.contains(event.target)) closeAll();
+    });
+
+    doc.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") closeAll();
+    });
+
+    window.addEventListener("resize", closeAll);
   }
 
   function initRoad() {
     var road = qs("[data-hp-road]");
     if (!road) return;
     var checkpoints = qsa("[data-hp-checkpoint]", road);
-    var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
     if (!checkpoints.length) return;
+    checkpoints.forEach(function (cp) {
+      cp.classList.add("is-lit");
+    });
+  }
 
-    if (reduceMotion || !("IntersectionObserver" in window)) {
-      checkpoints.forEach(function (cp) {
-        cp.classList.add("is-lit");
+  function isMobileDetail() {
+    return window.matchMedia("(max-width: 900px)").matches;
+  }
+
+  function initHpDetailPanel() {
+    var panel = qs("[data-hp-detail-panel]");
+    var empty = qs("[data-hp-detail-empty]", panel);
+    var content = qs("#hp-detail-panel-content", panel);
+    var closeBtn = qs("[data-hp-detail-close]", panel);
+    var buttons = qsa("[data-hp-open-detail]");
+    if (!panel || !content || !buttons.length) return;
+
+    var ids = buttons
+      .map(function (btn) {
+        return btn.getAttribute("data-checkpoint-id");
+      })
+      .filter(Boolean);
+
+    function setExpanded(id) {
+      buttons.forEach(function (btn) {
+        btn.setAttribute(
+          "aria-expanded",
+          btn.getAttribute("data-checkpoint-id") === id ? "true" : "false"
+        );
       });
-      return;
     }
 
-    var observer = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add("is-lit");
-        });
-      },
-      { rootMargin: "0px 0px -18% 0px", threshold: 0.28 }
-    );
-    checkpoints.forEach(function (cp) {
-      observer.observe(cp);
+    function closeMobile() {
+      panel.classList.remove("is-open");
+      if (isMobileDetail()) {
+        setExpanded(null);
+      }
+    }
+
+    function renderCheckpointDetail(id, opts) {
+      opts = opts || {};
+      var article = doc.getElementById(id);
+      if (!article) return;
+
+      var nameEl = qs(".hp-cp__name", article);
+      var dateEl = qs(".hp-cp__date", article);
+      var catEl = qs(".hp-cp__cat", article);
+      var decisionEl = qs(".hp-cp__decision", article);
+      var source = qs(".hp-cp__full .hp-cp__dl", article);
+      var portraitWraps = qsa(".hp-cp__portrait", article);
+
+      qsa(".hp-cp.is-active, .hp-road-stop.is-active").forEach(function (el) {
+        el.classList.remove("is-active");
+      });
+      article.classList.add("is-active");
+      var stop = article.closest(".hp-road-stop");
+      if (stop) stop.classList.add("is-active");
+      setExpanded(id);
+
+      var portraits = doc.createElement("div");
+      portraits.className = "hp-detail__portraits";
+      portraitWraps.forEach(function (wrap) {
+        portraits.appendChild(wrap.cloneNode(true));
+      });
+
+      var idx = ids.indexOf(id);
+      var prevId = idx > 0 ? ids[idx - 1] : "";
+      var nextId = idx >= 0 && idx < ids.length - 1 ? ids[idx + 1] : "";
+
+      content.innerHTML = "";
+      var top = doc.createElement("div");
+      top.className = "hp-detail__top";
+      top.appendChild(portraits);
+
+      var who = doc.createElement("div");
+      var cat = doc.createElement("p");
+      cat.className = "hp-cp__cat";
+      cat.textContent = catEl ? catEl.textContent : "";
+      var heading = doc.createElement("h2");
+      heading.id = "hp-detail-heading";
+      heading.tabIndex = -1;
+      heading.textContent = nameEl ? nameEl.textContent : "";
+      var meta = doc.createElement("p");
+      meta.className = "hp-detail__meta";
+      meta.textContent = dateEl ? dateEl.textContent : "";
+      var take = doc.createElement("p");
+      take.className = "hp-detail__take";
+      take.textContent = decisionEl ? decisionEl.textContent : "";
+      who.appendChild(cat);
+      who.appendChild(heading);
+      who.appendChild(meta);
+      who.appendChild(take);
+      top.appendChild(who);
+      content.appendChild(top);
+
+      if (source) {
+        content.appendChild(source.cloneNode(true));
+      }
+
+      var nav = doc.createElement("div");
+      nav.className = "hp-detail__nav";
+      var prevBtn = doc.createElement("button");
+      prevBtn.type = "button";
+      prevBtn.textContent = "Previous checkpoint";
+      prevBtn.disabled = !prevId;
+      var nextBtn = doc.createElement("button");
+      nextBtn.type = "button";
+      nextBtn.textContent = "Next checkpoint";
+      nextBtn.disabled = !nextId;
+      nav.appendChild(prevBtn);
+      nav.appendChild(nextBtn);
+      content.appendChild(nav);
+
+      prevBtn.addEventListener("click", function () {
+        if (prevId) renderCheckpointDetail(prevId, { focus: opts.focus });
+      });
+      nextBtn.addEventListener("click", function () {
+        if (nextId) renderCheckpointDetail(nextId, { focus: opts.focus });
+      });
+
+      if (empty) empty.hidden = true;
+      content.hidden = false;
+      panel.classList.add("is-open");
+
+      if (opts.focus) {
+        heading.focus();
+      }
+    }
+
+    buttons.forEach(function (button) {
+      button.addEventListener("click", function (event) {
+        var id = button.getAttribute("data-checkpoint-id");
+        renderCheckpointDetail(id, { focus: event.detail === 0 });
+      });
     });
+
+    if (closeBtn) {
+      closeBtn.addEventListener("click", closeMobile);
+    }
+
+    doc.addEventListener("keydown", function (event) {
+      if (event.key !== "Escape") return;
+      if (isMobileDetail() && panel.classList.contains("is-open")) {
+        closeMobile();
+      }
+    });
+
+    function openFromHash() {
+      var hash = (location.hash || "").replace(/^#/, "");
+      if (!hash) return;
+      if (ids.indexOf(hash) === -1) {
+        var host = doc.getElementById(hash);
+        if (!host) return;
+        var cp = host.closest ? host.closest("[data-hp-checkpoint]") : null;
+        if (cp && cp.id) hash = cp.id;
+      }
+      if (ids.indexOf(hash) !== -1) {
+        renderCheckpointDetail(hash, { focus: false });
+      }
+    }
+
+    qsa("[data-hp-odor-map] a[href^='#']").forEach(function (a) {
+      a.addEventListener("click", function () {
+        var id = (a.getAttribute("href") || "").slice(1);
+        window.setTimeout(function () {
+          if (ids.indexOf(id) !== -1) {
+            renderCheckpointDetail(id, { focus: false });
+            return;
+          }
+          var target = doc.getElementById(id);
+          var cp = target && target.closest ? target.closest("[data-hp-checkpoint]") : null;
+          if (cp && ids.indexOf(cp.id) !== -1) {
+            renderCheckpointDetail(cp.id, { focus: false });
+          }
+        }, 0);
+      });
+    });
+
+    window.addEventListener("hashchange", openFromHash);
+    openFromHash();
   }
 
   function initEngagements() {
@@ -312,8 +529,9 @@
     initMobileNavOpen();
     initPortraits();
     initRoad();
+    initHpDetailPanel();
     initEngagements();
-    initRelmap();
+    initOdorMap();
     setNavHeight();
     window.addEventListener("resize", setNavHeight);
     var mobile = qs(".hp-chapternav__mobile");

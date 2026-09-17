@@ -3,8 +3,6 @@
  No new palette families. Accents are mixes of existing ink / signal tokens. */
 
 .page-description {
- --desc-prose: var(--reading-max);
- --desc-visual: 76rem; /* ~1216px */
  --accent-sense: var(--aero-signal);
  --accent-read: var(--aero-cyan);
  --accent-decode: var(--aero-violet);
@@ -39,7 +37,7 @@
 
 /* Keep long prose in a readable column even when the TOC shell stretches --measure. */
 .page-description .page-purpose {
- max-width: var(--desc-prose);
+ max-width: var(--content-reading);
  font-family: var(--font-editorial);
  font-size: var(--text-lg);
  font-style: italic;
@@ -57,37 +55,48 @@
 .page-description .boundary-list,
 .page-description .goal-list,
 .page-description .success-list {
- max-width: var(--desc-prose);
+ max-width: var(--content-reading);
 }
 
 .page-description .shell--with-toc .page-article .section-block > p,
 .page-description .shell--with-toc .page-lede,
 .page-description .shell--with-toc .page-purpose,
 .page-description .shell--with-toc .notice {
- max-width: var(--desc-prose);
- width: auto;
+ max-width: var(--content-reading);
+ width: 100%;
+ margin-left: 0;
+ margin-right: auto;
+}
+
+.page-description .desc-glance,
+.page-description .desc-strip,
+.page-description .desc-vocab,
+.page-description .desc-integrity,
+.page-description .desc-window,
+.page-description .wiki-figure {
+ width: 100%;
+ max-width: none;
+ margin-left: 0;
+ margin-right: 0;
 }
 
 .page-description .desc-visual,
-.page-description .desc-glance,
-.page-description .desc-strip,
 .page-description .desc-flow,
 .page-description .desc-hp,
 .page-description .desc-scope,
 .page-description .desc-ladder,
-.page-description .desc-vocab,
-.page-description .desc-integrity,
 .page-description .desc-compare-wrap,
 .page-description .desc-timeline,
-.page-description .desc-window,
 .page-description .desc-mech,
 .page-description .desc-prior,
-.page-description .wiki-figure,
 .page-description .table-scroll,
 .page-description .layer-detail,
 .page-description .journey-section,
 .page-description .explore-list {
- max-width: min(var(--desc-visual), 100%);
+ width: 100%;
+ max-width: none;
+ margin-left: 0;
+ margin-right: 0;
 }
 
 .page-description .page-hero h1,
@@ -142,7 +151,7 @@
  align-items: flex-start;
  gap: 0.15rem;
  margin: 2rem 0;
- max-width: 40rem;
+ max-width: var(--content-reading);
  font-family: var(--font-display);
  font-weight: 400;
  background: transparent;
@@ -173,7 +182,7 @@
 }
 
 .desc-thesis {
- max-width: 42rem;
+ max-width: var(--content-reading);
  margin: 0 0 var(--space-5);
  font-size: var(--text-md);
  line-height: 1.55;
@@ -309,7 +318,7 @@
 
 .page-description .desc-caption {
  margin: var(--space-3) 0 0;
- max-width: var(--desc-prose);
+ max-width: var(--content-reading);
  font-size: var(--text-sm);
  color: var(--color-ink-muted);
  text-align: left;
@@ -369,7 +378,7 @@
  grid-template-columns: 1fr;
  gap: 0;
  margin: var(--space-5) 0 var(--space-6);
- max-width: min(var(--desc-visual), 100%);
+ max-width: none;
  border: var(--border-w) solid var(--color-rule);
 }
 
@@ -868,7 +877,7 @@
 /* ---------- Central pipeline: Sense --- Read --- Decode --- Act (Figure 3) ---------- */
 
 .desc-flow-figure {
- max-width: min(var(--desc-visual), 100%);
+ max-width: none;
 }
 
 .desc-flow {
@@ -1420,7 +1429,7 @@ html.js .desc-flow__stage:not(:last-child)::after {
  margin: 0 0 var(--space-5);
  padding: 0;
  list-style: none;
- max-width: var(--desc-prose);
+ max-width: var(--content-reading);
  border: var(--border-w) solid var(--color-rule);
 }
 
@@ -1712,7 +1721,7 @@ html.js .desc-flow__stage:not(:last-child)::after {
 /* ---------- Current status / integrity ---------- */
 
 .desc-integrity__principle {
- max-width: var(--desc-prose);
+ max-width: var(--content-reading);
  margin: 0 0 var(--space-5);
  font-family: var(--font-display);
  font-size: var(--text-lg);
@@ -1767,7 +1776,7 @@ html.js .desc-flow__stage:not(:last-child)::after {
 .desc-status {
  margin: var(--space-5) 0 0;
  padding: var(--space-5);
- max-width: var(--desc-prose);
+ max-width: var(--content-reading);
  border: var(--border-w) solid var(--color-ink);
  background: var(--color-paper);
  text-align: left;
@@ -1796,7 +1805,7 @@ html.js .desc-flow__stage:not(:last-child)::after {
  list-style: none;
  margin: var(--space-5) 0 var(--space-5);
  padding: 0;
- max-width: 46rem;
+ max-width: none;
  border: var(--border-w) solid var(--color-rule);
 }
 
@@ -1855,7 +1864,7 @@ html.js .desc-flow__stage:not(:last-child)::after {
 }
 
 .desc-hp__link {
- max-width: var(--desc-prose);
+ max-width: var(--content-reading);
 }
 
 .desc-hp__link a {
@@ -1945,7 +1954,7 @@ html.js .desc-flow__stage:not(:last-child)::after {
  counter-reset: desc-next;
  margin: var(--space-5) 0 0;
  padding: 0;
- max-width: var(--desc-prose);
+ max-width: var(--content-reading);
 }
 
 .desc-next-steps li {
@@ -1993,7 +2002,7 @@ html.js .desc-flow__stage:not(:last-child)::after {
 }
 
 .page-description .wiki-figure {
- max-width: min(var(--desc-visual), 100%);
+ max-width: none;
 }
 
 .page-description .wiki-figure__media {
@@ -2093,12 +2102,6 @@ html.js .desc-flow__stage:not(:last-child)::after {
 @media (max-width: 959px) {
  .page-description .wiki-figure {
  scroll-margin-top: calc(var(--header-offset) + var(--space-3));
- }
-}
-
-@media (min-width: 1440px) {
- .page-description .shell--with-toc {
- column-gap: var(--space-6);
  }
 }
 
