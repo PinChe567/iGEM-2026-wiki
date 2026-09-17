@@ -130,15 +130,66 @@
               <li aria-current="page">Engineering</li>
             </ol>
           </nav>
-          <nav class="lab-chain" aria-label="Lab evidence chain">
-            <p class="lab-chain__sub">Why → How → Iteration → Evidence → Chronology</p>
-            <ol class="lab-chain__list">
-              <li><a href="design.html">Design</a></li>
-              <li><a href="experiments.html">Experiments</a></li>
-              <li><a href="engineering.html" aria-current="page">Engineering</a></li>
-              <li><a href="results.html">Results</a></li>
-              <li><a href="notebook.html">Notebook</a></li>
+          <nav class="wl-path" aria-label="Research navigation">
+            <p class="wl-path__label">Wet Lab</p>
+            <ol class="wl-path__primary">
+              <li>
+                <a href="design.html">
+                  <span class="wl-path__name">Design</span>
+                  <span class="wl-path__role">Why</span>
+                </a>
+              </li>
+              <li>
+                <a href="experiments.html">
+                  <span class="wl-path__name">Experiments</span>
+                  <span class="wl-path__role">How</span>
+                </a>
+              </li>
+              <li>
+                <a href="results.html">
+                  <span class="wl-path__name">Results</span>
+                  <span class="wl-path__role">Evidence</span>
+                </a>
+              </li>
             </ol>
+            <ul class="wl-path__secondary">
+              <li>
+                <a href="engineering.html" aria-current="page">
+                  <span class="wl-path__sec-name">Engineering</span>
+                  <span class="wl-path__sec-role">Iterations &amp; redesign</span>
+                  <span class="wl-path__now">current</span>
+                </a>
+              </li>
+              <li>
+                <a href="notebook.html">
+                  <span class="wl-path__sec-name">Notebook</span>
+                  <span class="wl-path__sec-role">Chronology</span>
+                </a>
+              </li>
+            </ul>
+            <div class="proj-ev">
+              <p class="proj-ev__label">Project evidence</p>
+              <ul class="proj-ev__list">
+                <li>
+                  <a href="results.html">
+                    <span class="proj-ev__domain">Wet Lab</span>
+                    <span class="proj-ev__go">Results</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="hardware.html">
+                    <span class="proj-ev__domain">Hardware</span>
+                    <span class="proj-ev__go">Hardware</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="model.html">
+                    <span class="proj-ev__domain">Model</span>
+                    <span class="proj-ev__go">Model</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
           </nav>
           <span class="page-kicker">Engineering</span>
           <h1>Engineering AeroSense</h1>
@@ -161,12 +212,14 @@
           <span id="map-panel-act" class="anchor-alias"></span>
         </header>
 
+
+
         <article class="page-article prose">
           
           <section class="section-block eng-glance" id="engineering-at-a-glance" data-reveal aria-labelledby="eng-glance-heading">
             <p class="eng-eyebrow">Overview</p>
             <h2 id="eng-glance-heading">Engineering at a glance</h2>
-            <p class="eng-glance__lede">Three tracks. Starting point, turning point, current state — then open cycles for the full record.</p>
+            <p class="eng-glance__lede">Three technical tracks plus Human Practices boundary conditions. Starting point, turning point, current state — then open cycles for the full record.</p>
             <div class="eng-glance__flow" role="table" aria-label="Engineering tracks at a glance">
               <div class="eng-glance__axis" aria-hidden="true">
                 <span>Starting point</span><span>Turning point</span><span>Current design</span>
@@ -176,6 +229,7 @@
                 <div class="eng-glance__track">
                   <span class="eng-glance__num">01</span>
                   <span class="eng-glance__name">Wet Lab</span>
+                  <span class="eng-glance__cycles">3 cycles</span>
                 </div>
                 <dl>
                   <div><dt>Starting point</dt><dd>Cloning backbone + Orco→IRES→GCaMP would report in HEK293.</dd></div>
@@ -189,6 +243,7 @@
                 <div class="eng-glance__track">
                   <span class="eng-glance__num">02</span>
                   <span class="eng-glance__name">Dry Lab · Hardware</span>
+                  <span class="eng-glance__cycles">3 cycles</span>
                 </div>
                 <dl>
                   <div><dt>Starting point</dt><dd>High analog gain + ESP32 + Raspberry Pi on V1 would read weak fluorescence.</dd></div>
@@ -202,6 +257,7 @@
                 <div class="eng-glance__track">
                   <span class="eng-glance__num">03</span>
                   <span class="eng-glance__name">Dry Lab · Model</span>
+                  <span class="eng-glance__cycles">2 cycles</span>
                 </div>
                 <dl>
                   <div><dt>Starting point</dt><dd>A strong single-seed F1 and unstandardized PCA rankings were trustworthy.</dd></div>
@@ -210,6 +266,20 @@
                 </dl>
                 <span class="eng-glance__cta">View cycles →</span>
               </a>
+
+              <a class="eng-glance__row" id="glance-hp" href="#beyond-the-bench" data-eng-glance="hp">
+                <div class="eng-glance__track">
+                  <span class="eng-glance__num">04</span>
+                  <span class="eng-glance__name">Human Practices</span>
+                  <span class="eng-glance__cycles">Boundary conditions · not a cycle track</span>
+                </div>
+                <dl>
+                  <div><dt>Role</dt><dd>Not a fourth technical cycle track. Interviews changed claim boundaries and survival conditions.</dd></div>
+                  <div><dt>Turning point</dt><dd>Beachhead, sensing element, screening claim, not cheaper-than-GC-MS.</dd></div>
+                  <div><dt>Current design</dt><dd>Four decisions stay on this page; interviews live on Integrated Human Practices.</dd></div>
+                </dl>
+                <span class="eng-glance__cta">View boundaries →</span>
+              </a>
             </div>
           </section>
 
@@ -217,42 +287,42 @@
           <section class="section-block eng-cycles" id="engineering-cycles" data-reveal aria-labelledby="eng-cycles-heading">
             <p class="eng-eyebrow">Records</p>
             <h2 id="eng-cycles-heading">Engineering cycles</h2>
-            <p>Each workstream opens with a cycle map. Full Cycle articles follow in reading order, with Design → Build → Test → Learn → Redesign visible.</p>
+            <p>Each workstream shows one cycle at a time. Switch cycles in place; Design → Build → Test → Learn → Redesign stay in the record.</p>
 
             <span id="track-wetlab" class="anchor-alias"></span>
             
-            <section class="eng-track" id="stream-wetlab" data-eng-track="wetlab">
+            <section class="eng-track eng-track--wet" id="stream-wetlab" data-eng-track="wetlab" data-cycle-viewer data-cycle-prefix="wl-cycle">
               <header class="eng-track__head">
                 <p class="eng-track__kicker">Technical workstream</p>
                 <h3 class="eng-track__title">Wet Lab</h3>
                 <p class="eng-track__line">3 cycles · cloning backbone → weak IRES reporter → fusion</p>
                 <p class="eng-track__now">Current state: GCaMP6f–Orco fusion entering transfection / imaging</p>
+                <p class="eng-acc__note" role="note"><strong>Chassis naming:</strong> this track uses <strong>HEK293</strong> as written in wet-lab engineering records. Other pages often write HEK293T; identity is not frozen site-wide.</p>
               </header>
-                <nav class="eng-cycle-map" aria-label="Wet Lab cycle map">
-                  <ol>
-                    <li><a href="#wl-cycle-0"><span class="eng-cycle-map__num">0</span> <span class="eng-cycle-map__title">Transcription-competent vector</span></a></li>
-                    <li><a href="#wl-cycle-1"><span class="eng-cycle-map__num">1</span> <span class="eng-cycle-map__title">Weak IRES reporter</span></a></li>
-                    <li><a href="#wl-cycle-2"><span class="eng-cycle-map__num">2</span> <span class="eng-cycle-map__title">Fusion redesign</span></a></li>
-                  </ol>
+                <nav class="eng-cycle-tabs" role="tablist" aria-orientation="horizontal" aria-label="Wet Lab cycles">
+                  <button type="button" class="eng-cycle-tabs__btn is-active" role="tab" id="wl-cycle-tab-1" data-cycle-tab="1" aria-selected="true" aria-controls="wl-cycle-1" tabindex="0">Cycle 1</button>
+                  <button type="button" class="eng-cycle-tabs__btn" role="tab" id="wl-cycle-tab-2" data-cycle-tab="2" aria-selected="false" aria-controls="wl-cycle-2" tabindex="-1">Cycle 2</button>
+                  <button type="button" class="eng-cycle-tabs__btn" role="tab" id="wl-cycle-tab-3" data-cycle-tab="3" aria-selected="false" aria-controls="wl-cycle-3" tabindex="-1">Cycle 3</button>
                 </nav>
-<p class="eng-acc__note" role="note"><strong>Chassis naming:</strong> this track uses <strong>HEK293</strong> as written in wet-lab engineering records. Other pages often write HEK293T; identity is not frozen site-wide.</p>
+                <div class="eng-cycle-stage">
+
                 
 <article
                 class="eng-cycle eng-cycle--wet"
-                id="wl-cycle-0"
+                id="wl-cycle-1"
                 data-eng-cycle
                 data-eng-track="wetlab"
-                data-eng-cycle-num="0"
-                aria-labelledby="wl-cycle-0-title"
-              >
+                data-eng-cycle-num="1"
+               
+               data-cycle-panel="1" role="tabpanel" aria-labelledby="wl-cycle-tab-1">
                 <header class="eng-cycle__head">
                   <div class="eng-cycle__meta">
                     <p class="eng-cycle__track">
                       <span class="eng-cycle__track-layer">Wet Lab</span>
                       <span class="eng-cycle__track-name">Wet Lab</span>
                     </p>
-                    <h4 class="eng-cycle__title" id="wl-cycle-0-title">
-                      <span class="eng-cycle__num">Cycle 0</span>
+                    <h4 class="eng-cycle__title" id="wl-cycle-1-title">
+                      <span class="eng-cycle__num">Cycle 1</span>
                       Establishing a transcription-competent vector
                     </h4>
                   </div>
@@ -263,12 +333,6 @@
                       <span class="eng-ev-status__value">REVIEW-SUPPORTED</span>
                     </span>
                   </p>
-                  <nav class="eng-cycle__iter" aria-label="Wet Lab cycle navigation">
-                    <span class="eng-cycle__iter-label">Cycles</span>
-                    <a class="eng-cycle__iter-link" href="#wl-cycle-0" aria-current="page" aria-label="Wet Lab cycle 0">0</a>
-                    <a class="eng-cycle__iter-link" href="#wl-cycle-1" aria-label="Wet Lab cycle 1">1</a>
-                    <a class="eng-cycle__iter-link" href="#wl-cycle-2" aria-label="Wet Lab cycle 2">2</a>
-                  </nav>
                 </header>
 
                 <aside class="eng-cycle__elc" data-eng-elc aria-label="Evidence, learning, and change summary">
@@ -292,12 +356,12 @@
                 <div class="eng-ba eng-ba--construct" data-eng-ba aria-label="Before and after construct backbone">
                   <p class="eng-ba__kicker">Construct backbone — before / after</p>
                   <div class="eng-ba__tabs" aria-orientation="horizontal" aria-label="Initial backbone versus pcDNA3.1">
-                    <button type="button" class="eng-ba__tab" role="tab" id="wl-c0-ba-before" aria-controls="wl-c0-ba-panel-before" data-eng-ba-btn="before">Before · cloning backbone</button>
-                    <button type="button" class="eng-ba__tab" role="tab" id="wl-c0-ba-after" aria-controls="wl-c0-ba-panel-after" data-eng-ba-btn="after">After · pcDNA3.1(+)</button>
+                    <button type="button" class="eng-ba__tab" role="tab" id="wl-c1-ba-before" aria-controls="wl-c1-ba-panel-before" data-eng-ba-btn="before">Before · cloning backbone</button>
+                    <button type="button" class="eng-ba__tab" role="tab" id="wl-c1-ba-after" aria-controls="wl-c1-ba-panel-after" data-eng-ba-btn="after">After · pcDNA3.1(+)</button>
                   </div>
                   <p class="eng-ba__live" data-eng-ba-live aria-live="polite">Showing Before · cloning backbone</p>
                   <div class="eng-ba__panels">
-                    <div class="eng-ba__panel" id="wl-c0-ba-panel-before" aria-labelledby="wl-c0-ba-before" data-eng-ba-panel="before">
+                    <div class="eng-ba__panel" id="wl-c1-ba-panel-before" aria-labelledby="wl-c1-ba-before" data-eng-ba-panel="before">
                       <div class="eng-construct" aria-hidden="false">
                         <div class="eng-construct__block eng-construct__block--ok">ColE1 ori</div>
                         <div class="eng-construct__block eng-construct__block--ok">bla</div>
@@ -309,7 +373,7 @@
                       <p class="eng-ba__headline">High-copy cloning backbone</p>
                       <p>Propagates in bacteria. Cannot support the intended mammalian transcription.</p>
                     </div>
-                    <div class="eng-ba__panel" id="wl-c0-ba-panel-after" aria-labelledby="wl-c0-ba-after" data-eng-ba-panel="after">
+                    <div class="eng-ba__panel" id="wl-c1-ba-panel-after" aria-labelledby="wl-c1-ba-after" data-eng-ba-panel="after">
                       <div class="eng-construct" aria-hidden="false">
                         <div class="eng-construct__block eng-construct__block--signal">CMV</div>
                         <div class="eng-construct__block eng-construct__block--insert">Insert CDS</div>
@@ -327,33 +391,26 @@
                   <p>Verify that every host-required expression element exists <strong>before ordering / synthesis</strong> — not after delivery. Written up for other teams on <a href="contribution.html">Contribution</a>.</p>
                 </div>
 
-                <div class="eng-cycle__stage-nav" aria-label="DBTL stages for Wet Lab Cycle 0" aria-orientation="vertical" data-eng-orient>
-                  <a class="eng-cycle__stage-btn" href="#wl-c0-panel-design"><span class="eng-cycle__stage-mark" aria-hidden="true">01</span><span class="eng-cycle__stage-name">Design</span></a>
-                  <a class="eng-cycle__stage-btn" href="#wl-c0-panel-build"><span class="eng-cycle__stage-mark" aria-hidden="true">02</span><span class="eng-cycle__stage-name">Build</span></a>
-                  <a class="eng-cycle__stage-btn" href="#wl-c0-panel-test"><span class="eng-cycle__stage-mark" aria-hidden="true">03</span><span class="eng-cycle__stage-name">Test</span></a>
-                  <a class="eng-cycle__stage-btn" href="#wl-c0-panel-learn"><span class="eng-cycle__stage-mark" aria-hidden="true">04</span><span class="eng-cycle__stage-name">Learn</span></a>
-                  <a class="eng-cycle__stage-btn" href="#wl-c0-panel-redesign"><span class="eng-cycle__stage-mark" aria-hidden="true">05</span><span class="eng-cycle__stage-name">Redesign</span></a>
-                </div>
 
                 <div class="eng-cycle__panels">
-                  <section class="eng-cycle__panel" id="wl-c0-panel-design" aria-labelledby="wl-c0-tab-design" data-eng-stage-panel="design">
+                  <section class="eng-cycle__panel" id="wl-c1-panel-design" data-eng-stage="design">
                     <h5 class="eng-cycle__panel-title">Design</h5>
                     <p>Our first synthesised constructs were delivered in a high-copy cloning backbone. We intended to express them directly in HEK293.</p>
                   </section>
-                  <section class="eng-cycle__panel" id="wl-c0-panel-build" aria-labelledby="wl-c0-tab-build" data-eng-stage-panel="build">
+                  <section class="eng-cycle__panel" id="wl-c1-panel-build" data-eng-stage="build">
                     <h5 class="eng-cycle__panel-title">Build</h5>
                     <p>Constructs were received as plasmid DNA in the supplied backbone.</p>
                   </section>
-                  <section class="eng-cycle__panel" id="wl-c0-panel-test" aria-labelledby="wl-c0-tab-test" data-eng-stage-panel="test">
+                  <section class="eng-cycle__panel" id="wl-c1-panel-test" data-eng-stage="test">
                     <h5 class="eng-cycle__panel-title">Test</h5>
                     <p>Before transfection, we annotated the backbone sequence in full. It contained a ColE1 origin, a β-lactamase gene and sequencing adapters — and <strong>no mammalian promoter and no polyadenylation signal</strong>.</p>
                   </section>
-                  <section class="eng-cycle__panel" id="wl-c0-panel-learn" aria-labelledby="wl-c0-tab-learn" data-eng-stage-panel="learn">
+                  <section class="eng-cycle__panel" id="wl-c1-panel-learn" data-eng-stage="learn">
                     <h5 class="eng-cycle__panel-title">Learn</h5>
                     <p>The construct could be propagated in <em>E. coli</em> but could never be transcribed in a mammalian cell.</p>
                     <p>We evaluated two rescue routes: overlap-extension PCR to build a linear CMV–insert–polyA cassette, or moving to a proper mammalian expression vector.</p>
                   </section>
-                  <section class="eng-cycle__panel" id="wl-c0-panel-redesign" aria-labelledby="wl-c0-tab-redesign" data-eng-stage-panel="redesign">
+                  <section class="eng-cycle__panel" id="wl-c1-panel-redesign" data-eng-stage="redesign">
                     <h5 class="eng-cycle__panel-title">Redesign</h5>
                     <p>We chose the vector route and consolidated <strong>all ten constructs onto pcDNA3.1(+)</strong>, which supplies a CMV promoter, a BGH polyadenylation signal, and a NeoR cassette for G418 selection.</p>
                   </section>
@@ -373,14 +430,14 @@
   <p class="eng-evidence-card__kicker">Evidence status</p>
   <p class="eng-evidence-card__title">Backbone annotation / pcDNA3.1(+) screenshot</p>
   <p class="eng-evidence-card__status">Primary image not archived</p>
-  <p class="eng-evidence-card__detail">Cycle&nbsp;0 describes sequence annotation before cassette synthesis, but no backbone screenshot or vendor annotation export is present in this repository.</p>
+  <p class="eng-evidence-card__detail">Cycle&nbsp;1 describes sequence annotation before cassette synthesis, but no backbone screenshot or vendor annotation export is present in this repository.</p>
   
 </div>
   </div>
   <figcaption>
   <p class="eng-cycle__figure-id">Figure E-W0</p>
   <p class="eng-cycle__figure-title">Cloning backbone → sequence annotation → pcDNA3.1(+)</p>
-  <p class="eng-cycle__figure-tested"><span class="eng-cycle__figure-meta-label">Inspected / tested</span> Host-element verification step claimed in Cycle&nbsp;0.</p>
+  <p class="eng-cycle__figure-tested"><span class="eng-cycle__figure-meta-label">Inspected / tested</span> Host-element verification step claimed in Cycle&nbsp;1.</p>
   <p class="eng-cycle__figure-demo"><span class="eng-cycle__figure-meta-label">What you are seeing</span> Evidence-status card only.</p>
   
   <p class="eng-cycle__figure-supports"><span class="eng-cycle__figure-meta-label">Supports</span> Process claim in text only until an archived screenshot is added.</p>
@@ -402,20 +459,20 @@
                 
 <article
                 class="eng-cycle eng-cycle--wet"
-                id="wl-cycle-1"
+                id="wl-cycle-2"
                 data-eng-cycle
                 data-eng-track="wetlab"
-                data-eng-cycle-num="1"
-                aria-labelledby="wl-cycle-1-title"
-              >
+                data-eng-cycle-num="2"
+               
+               data-cycle-panel="2" role="tabpanel" aria-labelledby="wl-cycle-tab-2" hidden>
                 <header class="eng-cycle__head">
                   <div class="eng-cycle__meta">
                     <p class="eng-cycle__track">
                       <span class="eng-cycle__track-layer">Wet Lab</span>
                       <span class="eng-cycle__track-name">Wet Lab</span>
                     </p>
-                    <h4 class="eng-cycle__title" id="wl-cycle-1-title">
-                      <span class="eng-cycle__num">Cycle 1</span>
+                    <h4 class="eng-cycle__title" id="wl-cycle-2-title">
+                      <span class="eng-cycle__num">Cycle 2</span>
                       Orco–IRES–GCaMP6 gave a very weak signal
                     </h4>
                   </div>
@@ -426,12 +483,6 @@
                       <span class="ev-status__label">DATA</span>
                     </span>
                   </p>
-                  <nav class="eng-cycle__iter" aria-label="Wet Lab cycle navigation">
-                    <span class="eng-cycle__iter-label">Cycles</span>
-                    <a class="eng-cycle__iter-link" href="#wl-cycle-0" aria-label="Wet Lab cycle 0">0</a>
-                    <a class="eng-cycle__iter-link" href="#wl-cycle-1" aria-current="page" aria-label="Wet Lab cycle 1">1</a>
-                    <a class="eng-cycle__iter-link" href="#wl-cycle-2" aria-label="Wet Lab cycle 2">2</a>
-                  </nav>
                 </header>
 
                 <aside class="eng-cycle__elc" data-eng-elc aria-label="Evidence, learning, and change summary">
@@ -447,7 +498,7 @@
                     </div>
                     <div data-eng-elc-cell="change">
                       <dt>Change</dt>
-                      <dd>Redesign the reporting module as a translational fusion (Cycle&nbsp;2) to restore 1:1 stoichiometry and pore-proximal sensing.</dd>
+                      <dd>Redesign the reporting module as a translational fusion (Cycle&nbsp;3) to restore 1:1 stoichiometry and pore-proximal sensing.</dd>
                     </div>
                   </dl>
                 </aside>
@@ -488,26 +539,19 @@
                   </div>
                 </div>
 
-                <div class="eng-cycle__stage-nav" aria-label="DBTL stages for Wet Lab Cycle 1" aria-orientation="vertical" data-eng-orient>
-                  <a class="eng-cycle__stage-btn" href="#wl-c1-panel-design"><span class="eng-cycle__stage-mark" aria-hidden="true">01</span><span class="eng-cycle__stage-name">Design</span></a>
-                  <a class="eng-cycle__stage-btn" href="#wl-c1-panel-build"><span class="eng-cycle__stage-mark" aria-hidden="true">02</span><span class="eng-cycle__stage-name">Build</span></a>
-                  <a class="eng-cycle__stage-btn" href="#wl-c1-panel-test"><span class="eng-cycle__stage-mark" aria-hidden="true">03</span><span class="eng-cycle__stage-name">Test</span></a>
-                  <a class="eng-cycle__stage-btn" href="#wl-c1-panel-learn"><span class="eng-cycle__stage-mark" aria-hidden="true">04</span><span class="eng-cycle__stage-name">Learn</span></a>
-                  <a class="eng-cycle__stage-btn" href="#wl-c1-panel-redesign"><span class="eng-cycle__stage-mark" aria-hidden="true">05</span><span class="eng-cycle__stage-name">Redesign</span></a>
-                </div>
 
                 <div class="eng-cycle__panels">
-                  <section class="eng-cycle__panel" id="wl-c1-panel-design" aria-labelledby="wl-c1-tab-design" data-eng-stage-panel="design">
+                  <section class="eng-cycle__panel" id="wl-c2-panel-design" data-eng-stage="design">
                     <h5 class="eng-cycle__panel-title">Design</h5>
                     <p>Our first reporting module used a <strong>bicistronic</strong> architecture:</p>
                     <p class="eng-cycle__signal-chain"><strong>CMV → Orco → STOP → EMCV IRES → GCaMP6 → STOP → polyA</strong></p>
                     <p>Intent: Orco and GCaMP6 as separate, native proteins — Orco without a fusion partner; free cytosolic GCaMP6 for Ca²⁺ sensing. The same bicistronic pattern was used for OR–IRES–mCherry modules, which appeared to work.</p>
                   </section>
-                  <section class="eng-cycle__panel" id="wl-c1-panel-build" aria-labelledby="wl-c1-tab-build" data-eng-stage-panel="build">
+                  <section class="eng-cycle__panel" id="wl-c2-panel-build" data-eng-stage="build">
                     <h5 class="eng-cycle__panel-title">Build</h5>
                     <p>The construct was synthesised and transfected into HEK293 cells alongside the OR modules.</p>
                   </section>
-                  <section class="eng-cycle__panel" id="wl-c1-panel-test" aria-labelledby="wl-c1-tab-test" data-eng-stage-panel="test">
+                  <section class="eng-cycle__panel" id="wl-c2-panel-test" data-eng-stage="test">
                     <h5 class="eng-cycle__panel-title">Test</h5>
                     <p>We applied <strong>VUAA1</strong>, the universal Orco agonist <span class="cite-wrap"><a class="cite" href="#ref-w-jones-2011" id="cite-w2-a" aria-describedby="cite-preview-cite-w2-a">[2]</a><span class="cite-preview" id="cite-preview-cite-w2-a" role="tooltip">Jones et al., 2011 — full entry in References.</span></span>, which is intended to open the OR–Orco channel and therefore to stress the intended Orco–Ca²⁺–GCaMP reporting pathway in a single measurement.</p>
                     <p>Result: a <strong>real but very weak green fluorescence increase</strong> — visible on careful inspection but too small to record reliably or quantify (<a href="#fig-e-w1">Figure E-W1</a> — primary image/trace not archived).</p>
@@ -518,7 +562,7 @@
                       (<a href="#wl-diagnostic-logic">Diagnostic logic</a>).
                     </p>
                   </section>
-                  <section class="eng-cycle__panel" id="wl-c1-panel-learn" aria-labelledby="wl-c1-tab-learn" data-eng-stage-panel="learn">
+                  <section class="eng-cycle__panel" id="wl-c2-panel-learn" data-eng-stage="learn">
                     <h5 class="eng-cycle__panel-title">Learn</h5>
                     <p>
                       Initial hypothesis (poor Orco expression) was challenged by re-reading the construct map:
@@ -532,9 +576,9 @@
                       <a href="#wl-diagnostic-logic">Diagnostic logic</a>.
                     </p>
                   </section>
-                  <section class="eng-cycle__panel" id="wl-c1-panel-redesign" aria-labelledby="wl-c1-tab-redesign" data-eng-stage-panel="redesign">
+                  <section class="eng-cycle__panel" id="wl-c2-panel-redesign" data-eng-stage="redesign">
                     <h5 class="eng-cycle__panel-title">Redesign</h5>
-                    <p>Move to a translational fusion that restores 1:1 stoichiometry and places the sensor at the channel mouth — Cycle&nbsp;2.</p>
+                    <p>Move to a translational fusion that restores 1:1 stoichiometry and places the sensor at the channel mouth — Cycle&nbsp;3.</p>
                   </section>
                 </div>
 
@@ -572,7 +616,7 @@
                     <h5>Related page / link</h5>
                     <ul>
                       <li><a href="design.html">Design</a> · <a href="parts.html">Parts</a></li>
-                      <li><a href="#wl-cycle-2" aria-label="Wet Lab cycle 2">Cycle 2 · fusion redesign</a></li>
+                      <li><a href="#wl-cycle-3" aria-label="Wet Lab cycle 2">Cycle 3 · fusion redesign</a></li>
             </ul>
                   </div>
                 </footer>
@@ -581,20 +625,20 @@
                 
 <article
                 class="eng-cycle eng-cycle--wet eng-cycle--ongoing"
-                id="wl-cycle-2"
+                id="wl-cycle-3"
                 data-eng-cycle
                 data-eng-track="wetlab"
-                data-eng-cycle-num="2"
-                aria-labelledby="wl-cycle-2-title"
-              >
+                data-eng-cycle-num="3"
+               
+               data-cycle-panel="3" role="tabpanel" aria-labelledby="wl-cycle-tab-3" hidden>
                 <header class="eng-cycle__head">
                   <div class="eng-cycle__meta">
                     <p class="eng-cycle__track">
                       <span class="eng-cycle__track-layer">Wet Lab</span>
                       <span class="eng-cycle__track-name">Wet Lab · Ongoing</span>
                     </p>
-                    <h4 class="eng-cycle__title" id="wl-cycle-2-title">
-                      <span class="eng-cycle__num">Cycle 2 · Ongoing</span>
+                    <h4 class="eng-cycle__title" id="wl-cycle-3-title">
+                      <span class="eng-cycle__num">Cycle 3 · Ongoing</span>
                       GCaMP6f–(GGGGS)₃–Orco translational fusion
                     </h4>
                   </div>
@@ -605,12 +649,6 @@
                       <span class="ev-status__label">PROTOTYPE</span>
                     </span>
                   </p>
-                  <nav class="eng-cycle__iter" aria-label="Wet Lab cycle navigation">
-                    <span class="eng-cycle__iter-label">Cycles</span>
-                    <a class="eng-cycle__iter-link" href="#wl-cycle-0" aria-label="Wet Lab cycle 0">0</a>
-                    <a class="eng-cycle__iter-link" href="#wl-cycle-1" aria-label="Wet Lab cycle 1">1</a>
-                    <a class="eng-cycle__iter-link" href="#wl-cycle-2" aria-current="page" aria-label="Wet Lab cycle 2">2</a>
-                  </nav>
                 </header>
 
                 <div class="eng-ongoing-banner" role="status">
@@ -642,12 +680,12 @@
                 <div class="eng-ba eng-ba--construct" data-eng-ba aria-label="Old versus new reporter architecture">
                   <p class="eng-ba__kicker">Reporter architecture — before / after</p>
                   <div class="eng-ba__tabs" aria-orientation="horizontal" aria-label="IRES versus translational fusion">
-                    <button type="button" class="eng-ba__tab" role="tab" id="wl-c2-ba-before" aria-controls="wl-c2-ba-panel-before" data-eng-ba-btn="before">Old · IRES</button>
-                    <button type="button" class="eng-ba__tab" role="tab" id="wl-c2-ba-after" aria-controls="wl-c2-ba-panel-after" data-eng-ba-btn="after">New · fusion</button>
+                    <button type="button" class="eng-ba__tab" role="tab" id="wl-c3-ba-before" aria-controls="wl-c3-ba-panel-before" data-eng-ba-btn="before">Old · IRES</button>
+                    <button type="button" class="eng-ba__tab" role="tab" id="wl-c3-ba-after" aria-controls="wl-c3-ba-panel-after" data-eng-ba-btn="after">New · fusion</button>
                   </div>
                   <p class="eng-ba__live" data-eng-ba-live aria-live="polite">Showing Old · IRES</p>
                   <div class="eng-ba__panels">
-                    <div class="eng-ba__panel" id="wl-c2-ba-panel-before" aria-labelledby="wl-c2-ba-before" data-eng-ba-panel="before">
+                    <div class="eng-ba__panel" id="wl-c3-ba-panel-before" aria-labelledby="wl-c3-ba-before" data-eng-ba-panel="before">
                       <div class="eng-construct eng-construct--flow">
                         <div class="eng-construct__block">Orco</div>
                         <span class="eng-construct__sep" aria-hidden="true">→</span>
@@ -659,7 +697,7 @@
                       </div>
                       <p>Two cistrons; sensor translation IRES-dependent; sensor free in cytosol.</p>
                     </div>
-                    <div class="eng-ba__panel" id="wl-c2-ba-panel-after" aria-labelledby="wl-c2-ba-after" data-eng-ba-panel="after">
+                    <div class="eng-ba__panel" id="wl-c3-ba-panel-after" aria-labelledby="wl-c3-ba-after" data-eng-ba-panel="after">
                       <div class="eng-construct eng-construct--flow">
                         <div class="eng-construct__block eng-construct__block--signal">GCaMP6f</div>
                         <span class="eng-construct__sep" aria-hidden="true">→</span>
@@ -688,8 +726,8 @@
                   Topology lecture: <a href="design.html#topology">Design · topology</a>.
                 </p>
 
-                <div class="eng-criteria" aria-labelledby="wl-c2-criteria-heading">
-                  <h5 id="wl-c2-criteria-heading">Acceptance criteria vs observed result</h5>
+                <div class="eng-criteria" aria-labelledby="wl-c3-criteria-heading">
+                  <h5 id="wl-c3-criteria-heading">Acceptance criteria vs observed result</h5>
                   <div class="eng-criteria__grid">
                     <div class="eng-criteria__col eng-criteria__col--criterion">
                       <p class="eng-criteria__label">Success criterion <span aria-hidden="true">(defined in advance)</span></p>
@@ -705,37 +743,30 @@
                   </div>
                 </div>
 
-                <div class="eng-cycle__stage-nav" aria-label="DBTL stages for Wet Lab Cycle 2" aria-orientation="vertical" data-eng-orient>
-                  <a class="eng-cycle__stage-btn" href="#wl-c2-panel-design"><span class="eng-cycle__stage-mark" aria-hidden="true">01</span><span class="eng-cycle__stage-name">Design</span></a>
-                  <a class="eng-cycle__stage-btn" href="#wl-c2-panel-build"><span class="eng-cycle__stage-mark" aria-hidden="true">02</span><span class="eng-cycle__stage-name">Build</span></a>
-                  <a class="eng-cycle__stage-btn" href="#wl-c2-panel-test"><span class="eng-cycle__stage-mark" aria-hidden="true">03</span><span class="eng-cycle__stage-name">Test</span></a>
-                  <a class="eng-cycle__stage-btn" href="#wl-c2-panel-learn"><span class="eng-cycle__stage-mark" aria-hidden="true">04</span><span class="eng-cycle__stage-name">Learn</span></a>
-                  <a class="eng-cycle__stage-btn" href="#wl-c2-panel-redesign"><span class="eng-cycle__stage-mark" aria-hidden="true">05</span><span class="eng-cycle__stage-name">Redesign</span></a>
-                </div>
 
                 <div class="eng-cycle__panels">
-                  <section class="eng-cycle__panel" id="wl-c2-panel-design" aria-labelledby="wl-c2-tab-design" data-eng-stage-panel="design">
+                  <section class="eng-cycle__panel" id="wl-c3-panel-design" data-eng-stage="design">
                     <h5 class="eng-cycle__panel-title">Design</h5>
                     <p class="eng-cycle__signal-chain"><strong>CMV → Kozak → RSET → GCaMP6f → (GGGGS)₃ → DmOrco → STOP → polyA</strong></p>
-                    <p>Single-ORF fusion chosen after Cycle&nbsp;1. Construct WHY: <a href="design.html#module-2">Design · Module 2</a>.</p>
+                    <p>Single-ORF fusion chosen after Cycle&nbsp;2. Construct WHY: <a href="design.html#module-2">Design · Module 2</a>.</p>
                   </section>
-                  <section class="eng-cycle__panel" id="wl-c2-panel-build" aria-labelledby="wl-c2-tab-build" data-eng-stage-panel="build">
+                  <section class="eng-cycle__panel" id="wl-c3-panel-build" data-eng-stage="build">
                     <h5 class="eng-cycle__panel-title">Build</h5>
                     <p>Computational checks before synthesis: reading frame 2,856&nbsp;bp / 951&nbsp;aa in frame; 0 internal stops; Kozak <code>GCCACCATGG</code>; domain order GCaMP6f → linker → Orco; N-terminal cytosolic orientation; no internal cloning-site conflicts.</p>
                     <p>Linker DNA had three identical 15&nbsp;bp repeats — diversified with synonymous codons before ordering. Final plasmid 8,293&nbsp;bp in pcDNA3.1(+); vendor sequence matched. Registered as <strong>BBa_26E11Z80</strong>.</p>
                   </section>
-                  <section class="eng-cycle__panel" id="wl-c2-panel-test" aria-labelledby="wl-c2-tab-test" data-eng-stage-panel="test">
+                  <section class="eng-cycle__panel" id="wl-c3-panel-test" data-eng-stage="test">
                     <h5 class="eng-cycle__panel-title">Test</h5>
                     <p><strong>In progress.</strong> See success criteria vs observed result above — criteria are fixed; results are not filled in.</p>
                   </section>
-                  <section class="eng-cycle__panel" id="wl-c2-panel-learn" aria-labelledby="wl-c2-tab-learn" data-eng-stage-panel="learn">
+                  <section class="eng-cycle__panel" id="wl-c3-panel-learn" data-eng-stage="learn">
                     <h5 class="eng-cycle__panel-title">Learn</h5>
                     <div class="eng-pending-block" role="status">
                       <p class="eng-pending-block__kicker">○ PENDING data</p>
                       <p>Planned comparison: VUAA1-evoked ΔF/F₀ for <code>Orco–IRES–GCaMP6</code> versus <code>GCaMP6f–(GGGGS)₃–Orco</code> on the same plate under identical conditions. Useful functional comparison of the redesign as a whole — <strong>not</strong> a strict single-variable proof (see architecture caveat above).</p>
                     </div>
                   </section>
-                  <section class="eng-cycle__panel" id="wl-c2-panel-redesign" aria-labelledby="wl-c2-tab-redesign" data-eng-stage-panel="redesign">
+                  <section class="eng-cycle__panel" id="wl-c3-panel-redesign" data-eng-stage="redesign">
                     <h5 class="eng-cycle__panel-title">Redesign</h5>
                     <div class="eng-pending-block" role="status">
                       <p class="eng-pending-block__kicker">○ PENDING data</p>
@@ -747,7 +778,7 @@
                 <footer class="eng-cycle__footer">
                   <div class="eng-cycle__decision">
                     <h5>Key decision (open)</h5>
-                    <p>Hold the fusion design through imaging; let quantitative VUAA1 / Ca²⁺-free controls decide whether Cycle&nbsp;1’s revised hypothesis holds.</p>
+                    <p>Hold the fusion design through imaging; let quantitative VUAA1 / Ca²⁺-free controls decide whether Cycle&nbsp;2’s revised hypothesis holds.</p>
                   </div>
                   <div class="eng-cycle__figures">
                     <h5>Related figure(s)</h5>
@@ -761,7 +792,7 @@
   <p class="eng-cycle__figure-id">Figure E-W2</p>
   <p class="eng-cycle__figure-title">GCaMP6f–(GGGGS)₃–Orco construct map</p>
   <p class="eng-cycle__figure-tested"><span class="eng-cycle__figure-meta-label">Inspected / tested</span> Designed translational fusion cassette (map export).</p>
-  <p class="eng-cycle__figure-demo"><span class="eng-cycle__figure-meta-label">What you are seeing</span> Team plasmid/construct map PNG for the Cycle&nbsp;2 fusion architecture.</p>
+  <p class="eng-cycle__figure-demo"><span class="eng-cycle__figure-meta-label">What you are seeing</span> Team plasmid/construct map PNG for the Cycle&nbsp;3 fusion architecture.</p>
   <p class="eng-cycle__figure-date"><span class="eng-cycle__figure-meta-label">Date / version</span> Construct map export on file in wiki plasmid/</p>
   <p class="eng-cycle__figure-supports"><span class="eng-cycle__figure-meta-label">Supports</span> That the fusion ORF architecture (GCaMP6f → linker → Orco) was designed and mapped.</p>
   <p class="eng-cycle__figure-limit"><span class="eng-cycle__figure-meta-label">Does not prove</span> Functional superiority over IRES, membrane trafficking, or VUAA1 ΔF/F₀ (imaging comparison still planned).</p>
@@ -779,6 +810,7 @@
                 </footer>
               </article>
 
+                </div>
                 <section class="eng-hw-meta" id="wl-side-decisions" aria-labelledby="wl-rfc-heading">
                 <p class="eng-eyebrow">Recorded decision</p>
                 <h4 id="wl-rfc-heading">Not recoding restriction sites</h4>
@@ -792,7 +824,7 @@
                 <p class="eng-eyebrow">Diagnostic logic</p>
                 <h4 id="wl-diag-heading">Ionomycin × VUAA1 matrix</h4>
                 <p>
-                  Cycle&nbsp;1 taught that “no signal” is not one failure. Two independent controls separate reporter vs channel:
+                  Cycle&nbsp;2 taught that “no signal” is not one failure. Two independent controls separate reporter vs channel:
                   <strong>ionomycin</strong> (Ca²⁺ ionophore — bypasses the channel) and <strong>VUAA1</strong> (Orco agonist — full chain).
                 </p>
 
@@ -826,7 +858,7 @@
                   </div>
                   <p class="eng-diag__note">
                     Static reference — not a live assay. Implementation status of ionomycin in the SOP: <a href="experiments.html">Experiments</a>.
-                    Running both localises a failure faster; this is the control set we wish we had applied at the start of Cycle&nbsp;1.
+                    Running both localises a failure faster; this is the control set we wish we had applied at the start of Cycle&nbsp;2.
                   </p>
                 </div>
               </section>
@@ -836,28 +868,27 @@
             <span id="track-hardware" class="anchor-alias"></span>
             <span id="track-drylab" class="anchor-alias"></span>
             <span id="stream-drylab" class="anchor-alias"></span>
-<section class="eng-track" id="group-hardware" data-eng-track="hardware">
+<section class="eng-track eng-track--hw" id="group-hardware" data-eng-track="hardware" data-cycle-viewer data-cycle-prefix="hw-cycle">
               <header class="eng-track__head">
                 <p class="eng-track__kicker">Dry Lab</p>
                 <h3 class="eng-track__title">Dry Lab · Hardware</h3>
                 <p class="eng-track__line">3 cycles · V1 → professional review → V2</p>
                 <p class="eng-track__now">Current state: V2 entering fabrication / validation</p>
               </header>
-                <nav class="eng-cycle-map" aria-label="Hardware cycle map">
-                  <ol>
-                    <li><a href="#hw-cycle-1"><span class="eng-cycle-map__num">1</span> <span class="eng-cycle-map__title">Measurable circuit</span></a></li>
-                    <li><a href="#hw-cycle-2"><span class="eng-cycle-map__num">2</span> <span class="eng-cycle-map__title">Remove unused compute</span></a></li>
-                    <li><a href="#hw-cycle-3"><span class="eng-cycle-map__num">3</span> <span class="eng-cycle-map__title">From PCB to instrument</span></a></li>
-                  </ol>
+                <nav class="eng-cycle-tabs" role="tablist" aria-orientation="horizontal" aria-label="Hardware cycles">
+                  <button type="button" class="eng-cycle-tabs__btn is-active" role="tab" id="hw-cycle-tab-1" data-cycle-tab="1" aria-selected="true" aria-controls="hw-cycle-1" tabindex="0">Cycle 1</button>
+                  <button type="button" class="eng-cycle-tabs__btn" role="tab" id="hw-cycle-tab-2" data-cycle-tab="2" aria-selected="false" aria-controls="hw-cycle-2" tabindex="-1">Cycle 2</button>
+                  <button type="button" class="eng-cycle-tabs__btn" role="tab" id="hw-cycle-tab-3" data-cycle-tab="3" aria-selected="false" aria-controls="hw-cycle-3" tabindex="-1">Cycle 3</button>
                 </nav>
+                <div class="eng-cycle-stage">
 <article
                 class="eng-cycle"
                 id="hw-cycle-1"
                 data-eng-cycle
                 data-eng-track="hardware"
                 data-eng-cycle-num="1"
-                aria-labelledby="hw-cycle-1-title"
-              >
+               
+               data-cycle-panel="1" role="tabpanel" aria-labelledby="hw-cycle-tab-1">
                 <header class="eng-cycle__head">
                   <div class="eng-cycle__meta">
                     <p class="eng-cycle__track">
@@ -882,12 +913,6 @@
                     </span>
                   </p>
 
-                  <nav class="eng-cycle__iter" aria-label="Hardware cycle navigation">
-                    <span class="eng-cycle__iter-label">Cycles</span>
-                    <a class="eng-cycle__iter-link" href="#hw-cycle-1" aria-current="page" aria-label="Hardware cycle 1">1</a>
-                    <a class="eng-cycle__iter-link" href="#hw-cycle-2" aria-label="Hardware cycle 2">2</a>
-                    <a class="eng-cycle__iter-link" href="#hw-cycle-3" aria-label="Hardware cycle 3">3</a>
-                  </nav>
                 </header>
 
                 <aside class="eng-cycle__elc" data-eng-elc aria-label="Evidence, learning, and change summary">
@@ -950,36 +975,14 @@
                   </div>
                 </div>
 
-                <div class="eng-cycle__stage-nav" aria-label="Design Build Test Learn Redesign stages for Hardware Cycle 1" aria-orientation="vertical" data-eng-orient>
-                  <a class="eng-cycle__stage-btn" href="#hw-c1-panel-design">
-                    <span class="eng-cycle__stage-mark" aria-hidden="true">01</span>
-                    <span class="eng-cycle__stage-name">Design</span>
-                  </a>
-                  <a class="eng-cycle__stage-btn" href="#hw-c1-panel-build">
-                    <span class="eng-cycle__stage-mark" aria-hidden="true">02</span>
-                    <span class="eng-cycle__stage-name">Build</span>
-                  </a>
-                  <a class="eng-cycle__stage-btn" href="#hw-c1-panel-test">
-                    <span class="eng-cycle__stage-mark" aria-hidden="true">03</span>
-                    <span class="eng-cycle__stage-name">Test</span>
-                  </a>
-                  <a class="eng-cycle__stage-btn" href="#hw-c1-panel-learn">
-                    <span class="eng-cycle__stage-mark" aria-hidden="true">04</span>
-                    <span class="eng-cycle__stage-name">Learn</span>
-                  </a>
-                  <a class="eng-cycle__stage-btn" href="#hw-c1-panel-redesign">
-                    <span class="eng-cycle__stage-mark" aria-hidden="true">05</span>
-                    <span class="eng-cycle__stage-name">Redesign</span>
-                  </a>
-                </div>
 
                 <div class="eng-cycle__panels">
                   <section
                     class="eng-cycle__panel"
                    
                     id="hw-c1-panel-design"
-                    aria-labelledby="hw-c1-tab-design"
-                    data-eng-stage-panel="design"
+                   
+                    data-eng-stage="design"
                    
                   >
                     <h5 class="eng-cycle__panel-title">Design</h5>
@@ -997,8 +1000,8 @@
                     class="eng-cycle__panel"
                    
                     id="hw-c1-panel-build"
-                    aria-labelledby="hw-c1-tab-build"
-                    data-eng-stage-panel="build"
+                   
+                    data-eng-stage="build"
                    
                   >
                     <h5 class="eng-cycle__panel-title">Build</h5>
@@ -1016,8 +1019,8 @@
                     class="eng-cycle__panel"
                    
                     id="hw-c1-panel-test"
-                    aria-labelledby="hw-c1-tab-test"
-                    data-eng-stage-panel="test"
+                   
+                    data-eng-stage="test"
                    
                   >
                     <h5 class="eng-cycle__panel-title">Test</h5>
@@ -1064,8 +1067,8 @@
                     class="eng-cycle__panel"
                    
                     id="hw-c1-panel-learn"
-                    aria-labelledby="hw-c1-tab-learn"
-                    data-eng-stage-panel="learn"
+                   
+                    data-eng-stage="learn"
                    
                   >
                     <h5 class="eng-cycle__panel-title">Learn</h5>
@@ -1086,8 +1089,8 @@
                     class="eng-cycle__panel"
                    
                     id="hw-c1-panel-redesign"
-                    aria-labelledby="hw-c1-tab-redesign"
-                    data-eng-stage-panel="redesign"
+                   
+                    data-eng-stage="redesign"
                    
                   >
                     <h5 class="eng-cycle__panel-title">Redesign</h5>
@@ -1237,8 +1240,8 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
                 data-eng-cycle
                 data-eng-track="hardware"
                 data-eng-cycle-num="2"
-                aria-labelledby="hw-cycle-2-title"
-              >
+               
+               data-cycle-panel="2" role="tabpanel" aria-labelledby="hw-cycle-tab-2" hidden>
                 <header class="eng-cycle__head">
                   <div class="eng-cycle__meta">
                     <p class="eng-cycle__track">
@@ -1263,12 +1266,6 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
                     </span>
                   </p>
 
-                  <nav class="eng-cycle__iter" aria-label="Hardware cycle navigation">
-                    <span class="eng-cycle__iter-label">Cycles</span>
-                    <a class="eng-cycle__iter-link" href="#hw-cycle-1" aria-label="Hardware cycle 1">1</a>
-                    <a class="eng-cycle__iter-link" href="#hw-cycle-2" aria-current="page" aria-label="Hardware cycle 2">2</a>
-                    <a class="eng-cycle__iter-link" href="#hw-cycle-3" aria-label="Hardware cycle 3">3</a>
-                  </nav>
                 </header>
 
                 <p class="eng-cycle__evidence-note" role="note">
@@ -1328,31 +1325,9 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
                   </div>
                 </div>
 
-                <div class="eng-cycle__stage-nav" aria-label="Design Build Test Learn Redesign stages for Hardware Cycle 2" aria-orientation="vertical" data-eng-orient>
-                  <a class="eng-cycle__stage-btn" href="#hw-c2-panel-design">
-                    <span class="eng-cycle__stage-mark" aria-hidden="true">01</span>
-                    <span class="eng-cycle__stage-name">Design</span>
-                  </a>
-                  <a class="eng-cycle__stage-btn" href="#hw-c2-panel-build">
-                    <span class="eng-cycle__stage-mark" aria-hidden="true">02</span>
-                    <span class="eng-cycle__stage-name">Build</span>
-                  </a>
-                  <a class="eng-cycle__stage-btn" href="#hw-c2-panel-test">
-                    <span class="eng-cycle__stage-mark" aria-hidden="true">03</span>
-                    <span class="eng-cycle__stage-name">Review</span>
-                  </a>
-                  <a class="eng-cycle__stage-btn" href="#hw-c2-panel-learn">
-                    <span class="eng-cycle__stage-mark" aria-hidden="true">04</span>
-                    <span class="eng-cycle__stage-name">Learn</span>
-                  </a>
-                  <a class="eng-cycle__stage-btn" href="#hw-c2-panel-redesign">
-                    <span class="eng-cycle__stage-mark" aria-hidden="true">05</span>
-                    <span class="eng-cycle__stage-name">Redesign</span>
-                  </a>
-                </div>
 
                 <div class="eng-cycle__panels">
-                  <section class="eng-cycle__panel" id="hw-c2-panel-design" aria-labelledby="hw-c2-tab-design" data-eng-stage-panel="design">
+                  <section class="eng-cycle__panel" id="hw-c2-panel-design" data-eng-stage="design">
                     <h5 class="eng-cycle__panel-title">Design question</h5>
                     <p>The original architecture used both an ESP32 and a Raspberry&nbsp;Pi.</p>
                     <p>The intended division of labor was:</p>
@@ -1362,7 +1337,7 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
             </ul>
                   </section>
 
-                  <section class="eng-cycle__panel" id="hw-c2-panel-build" aria-labelledby="hw-c2-tab-build" data-eng-stage-panel="build">
+                  <section class="eng-cycle__panel" id="hw-c2-panel-build" data-eng-stage="build">
                     <h5 class="eng-cycle__panel-title">Build</h5>
                     <p>
                       This cycle did not add a new fabricated assembly. The “build” was the architecture itself: a dual-processor V1 concept that still carried a Raspberry&nbsp;Pi interface on the four-layer board from Cycle&nbsp;1.
@@ -1370,7 +1345,7 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
                     <p>Circuit-level detail stays on the <a href="hardware.html">Hardware</a> page; here we track only the compute/power decision.</p>
                   </section>
 
-                  <section class="eng-cycle__panel" id="hw-c2-panel-test" aria-labelledby="hw-c2-tab-test" data-eng-stage-panel="test">
+                  <section class="eng-cycle__panel" id="hw-c2-panel-test" data-eng-stage="test">
                     <h5 class="eng-cycle__panel-title">Test / review</h5>
                     <p>Instead of assuming both processors were necessary, we mapped every required function to the available hardware.</p>
                     <p>
@@ -1381,7 +1356,7 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
                     </p>
                   </section>
 
-                  <section class="eng-cycle__panel" id="hw-c2-panel-learn" aria-labelledby="hw-c2-tab-learn" data-eng-stage-panel="learn">
+                  <section class="eng-cycle__panel" id="hw-c2-panel-learn" data-eng-stage="learn">
                     <h5 class="eng-cycle__panel-title">Learn</h5>
                     <p>The Raspberry&nbsp;Pi did not provide a unique measurement function, while it added:</p>
                     <ul class="eng-cost-list">
@@ -1394,7 +1369,7 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
             </ul>
                   </section>
 
-                  <section class="eng-cycle__panel" id="hw-c2-panel-redesign" aria-labelledby="hw-c2-tab-redesign" data-eng-stage-panel="redesign">
+                  <section class="eng-cycle__panel" id="hw-c2-panel-redesign" data-eng-stage="redesign">
                     <h5 class="eng-cycle__panel-title">Redesign</h5>
                     <p>We therefore removed the Raspberry&nbsp;Pi from V2 and redesigned the device as a standalone ESP32-based reader.</p>
                     <p>
@@ -1455,8 +1430,8 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
                 data-eng-cycle
                 data-eng-track="hardware"
                 data-eng-cycle-num="3"
-                aria-labelledby="hw-cycle-3-title"
-              >
+               
+               data-cycle-panel="3" role="tabpanel" aria-labelledby="hw-cycle-tab-3" hidden>
                 <header class="eng-cycle__head">
                   <div class="eng-cycle__meta">
                     <p class="eng-cycle__track">
@@ -1481,12 +1456,6 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
                     </span>
                   </p>
 
-                  <nav class="eng-cycle__iter" aria-label="Hardware cycle navigation">
-                    <span class="eng-cycle__iter-label">Cycles</span>
-                    <a class="eng-cycle__iter-link" href="#hw-cycle-1" aria-label="Hardware cycle 1">1</a>
-                    <a class="eng-cycle__iter-link" href="#hw-cycle-2" aria-label="Hardware cycle 2">2</a>
-                    <a class="eng-cycle__iter-link" href="#hw-cycle-3" aria-current="page" aria-label="Hardware cycle 3">3</a>
-                  </nav>
                 </header>
 
                 <div class="eng-ongoing-banner" role="status">
@@ -1515,31 +1484,9 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
                   </dl>
                 </aside>
 
-                <div class="eng-cycle__stage-nav" aria-label="Design Build Test Learn Redesign stages for Hardware Cycle 3" aria-orientation="vertical" data-eng-orient>
-                  <a class="eng-cycle__stage-btn" href="#hw-c3-panel-design">
-                    <span class="eng-cycle__stage-mark" aria-hidden="true">01</span>
-                    <span class="eng-cycle__stage-name">Design</span>
-                  </a>
-                  <a class="eng-cycle__stage-btn" href="#hw-c3-panel-build">
-                    <span class="eng-cycle__stage-mark" aria-hidden="true">02</span>
-                    <span class="eng-cycle__stage-name">Build</span>
-                  </a>
-                  <a class="eng-cycle__stage-btn" href="#hw-c3-panel-test">
-                    <span class="eng-cycle__stage-mark" aria-hidden="true">03</span>
-                    <span class="eng-cycle__stage-name">Test plan</span>
-                  </a>
-                  <a class="eng-cycle__stage-btn" href="#hw-c3-panel-learn">
-                    <span class="eng-cycle__stage-mark" aria-hidden="true">04</span>
-                    <span class="eng-cycle__stage-name">Learn</span>
-                  </a>
-                  <a class="eng-cycle__stage-btn" href="#hw-c3-panel-redesign">
-                    <span class="eng-cycle__stage-mark" aria-hidden="true">05</span>
-                    <span class="eng-cycle__stage-name">Redesign</span>
-                  </a>
-                </div>
 
                 <div class="eng-cycle__panels">
-                  <section class="eng-cycle__panel" id="hw-c3-panel-design" aria-labelledby="hw-c3-tab-design" data-eng-stage-panel="design">
+                  <section class="eng-cycle__panel" id="hw-c3-panel-design" data-eng-stage="design">
                     <h5 class="eng-cycle__panel-title">Design</h5>
                     <p>The current iteration integrates:</p>
                     <ul class="eng-scope-list">
@@ -1553,7 +1500,7 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
             </ul>
                   </section>
 
-                  <section class="eng-cycle__panel" id="hw-c3-panel-build" aria-labelledby="hw-c3-tab-build" data-eng-stage-panel="build">
+                  <section class="eng-cycle__panel" id="hw-c3-panel-build" data-eng-stage="build">
                     <h5 class="eng-cycle__panel-title">Build</h5>
                     <p>
                       By September&nbsp;11, the revised V2 PCB placement and layout had been completed with professional engineering support.
@@ -1564,13 +1511,13 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
                     <p>Instrument enclosure, optics assembly, and firmware bring-up remain ahead of the validation ladder below.</p>
                   </section>
 
-                  <section class="eng-cycle__panel" id="hw-c3-panel-test" aria-labelledby="hw-c3-tab-test" data-eng-stage-panel="test">
+                  <section class="eng-cycle__panel" id="hw-c3-panel-test" data-eng-stage="test">
                     <h5 class="eng-cycle__panel-title">Test</h5>
                     <p role="note"><strong>No physical V2 test has been executed yet.</strong> This stage is therefore not an evidence-bearing TEST — it only records the <strong>PLANNED</strong> validation order after fabrication.</p>
                     <p>Method ownership and acceptance criteria for each rung: <a href="hardware.html">Hardware</a>. Ladder UI below is documentation only.</p>
                   </section>
 
-                  <section class="eng-cycle__panel" id="hw-c3-panel-learn" aria-labelledby="hw-c3-tab-learn" data-eng-stage-panel="learn">
+                  <section class="eng-cycle__panel" id="hw-c3-panel-learn" data-eng-stage="learn">
                     <h5 class="eng-cycle__panel-title">Learn</h5>
                     <div class="eng-pending-block" role="status">
                       <p class="eng-pending-block__kicker">○ PENDING — ADD RESULT</p>
@@ -1578,7 +1525,7 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
                     </div>
                   </section>
 
-                  <section class="eng-cycle__panel" id="hw-c3-panel-redesign" aria-labelledby="hw-c3-tab-redesign" data-eng-stage-panel="redesign">
+                  <section class="eng-cycle__panel" id="hw-c3-panel-redesign" data-eng-stage="redesign">
                     <h5 class="eng-cycle__panel-title">Redesign</h5>
                     <div class="eng-pending-block" role="status">
                       <p class="eng-pending-block__kicker">○ PENDING — ADD RESULT</p>
@@ -1719,6 +1666,7 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
                 </footer>
               </article>
 
+                </div>
                     <section class="eng-hw-meta eng-hw-meta--external" id="hw-professional-review" aria-labelledby="hw-pro-review-heading">
                 <p class="eng-eyebrow">Attribution</p>
                 <h4 id="hw-pro-review-heading">Professional engineering review</h4>
@@ -1746,35 +1694,34 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
 
 
                 
-            <section class="eng-track" id="group-model" data-eng-track="model">
+            <section class="eng-track eng-track--model" id="group-model" data-eng-track="model" data-cycle-viewer data-cycle-prefix="dl-cycle">
               <header class="eng-track__head">
                 <p class="eng-track__kicker">Dry Lab</p>
                 <h3 class="eng-track__title">Dry Lab · Model</h3>
                 <p class="eng-track__line">2 cycles · multi-seed discipline → gated OFAT candidate</p>
                 <p class="eng-track__now">Current state: baseline held; improvements queued behind a validation gate</p>
               </header>
-                <nav class="eng-cycle-map" aria-label="Model cycle map">
-                  <ol>
-                    <li><a href="#dl-cycle-0"><span class="eng-cycle-map__num">0</span> <span class="eng-cycle-map__title">Multi-seed discipline</span></a></li>
-                    <li><a href="#dl-cycle-1"><span class="eng-cycle-map__num">1</span> <span class="eng-cycle-map__title">Precision budget / OFAT gate</span></a></li>
-                  </ol>
+                <nav class="eng-cycle-tabs" role="tablist" aria-orientation="horizontal" aria-label="Model cycles">
+                  <button type="button" class="eng-cycle-tabs__btn is-active" role="tab" id="dl-cycle-tab-1" data-cycle-tab="1" aria-selected="true" aria-controls="dl-cycle-1" tabindex="0">Cycle 1</button>
+                  <button type="button" class="eng-cycle-tabs__btn" role="tab" id="dl-cycle-tab-2" data-cycle-tab="2" aria-selected="false" aria-controls="dl-cycle-2" tabindex="-1">Cycle 2</button>
                 </nav>
+                <div class="eng-cycle-stage">
 <article
                 class="eng-cycle eng-cycle--dry"
-                id="dl-cycle-0"
+                id="dl-cycle-1"
                 data-eng-cycle
                 data-eng-track="drylab"
-                data-eng-cycle-num="0"
-                aria-labelledby="dl-cycle-0-title"
-              >
+                data-eng-cycle-num="1"
+               
+               data-cycle-panel="1" role="tabpanel" aria-labelledby="dl-cycle-tab-1">
                 <header class="eng-cycle__head">
                   <div class="eng-cycle__meta">
                     <p class="eng-cycle__track">
                       <span class="eng-cycle__track-layer">Dry Lab</span>
                       <span class="eng-cycle__track-name">Model</span>
                     </p>
-                    <h4 class="eng-cycle__title" id="dl-cycle-0-title">
-                      <span class="eng-cycle__num">Cycle 0</span>
+                    <h4 class="eng-cycle__title" id="dl-cycle-1-title">
+                      <span class="eng-cycle__num">Cycle 1</span>
                       Data integrity, multi-seed discipline, and an unstandardized-PCA artifact
                     </h4>
                   </div>
@@ -1785,11 +1732,6 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
                       <span class="ev-status__label">DATA</span>
                     </span>
                   </p>
-                  <nav class="eng-cycle__iter" aria-label="Dry Lab cycle navigation">
-                    <span class="eng-cycle__iter-label">Cycles</span>
-                    <a class="eng-cycle__iter-link" href="#dl-cycle-0" aria-current="page" aria-label="Dry Lab cycle 0">0</a>
-                    <a class="eng-cycle__iter-link" href="#dl-cycle-1" aria-label="Dry Lab cycle 1">1</a>
-                  </nav>
                 </header>
 
                 <aside class="eng-cycle__elc" data-eng-elc aria-label="Evidence, learning, and change summary">
@@ -1810,7 +1752,7 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
                   </dl>
                 </aside>
 
-                <ol class="eng-story-flow" aria-label="Cycle 0 reasoning chain">
+                <ol class="eng-story-flow" aria-label="Cycle 1 reasoning chain">
                   <li><span class="eng-story-flow__n">1</span><strong>Data cleaning</strong><span>105 contaminated Batch2 files isolated</span></li>
                   <li class="eng-story-flow__arrow" aria-hidden="true">→</li>
                   <li><span class="eng-story-flow__n">2</span><strong>Multi-seed check</strong><span>seeds 100 / 102 / 104</span></li>
@@ -1865,33 +1807,26 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
                   </p>
                 </div>
 
-                <div class="eng-cycle__stage-nav" aria-label="DBTL stages for Dry Lab · Model Cycle 0" aria-orientation="vertical" data-eng-orient>
-                  <a class="eng-cycle__stage-btn" href="#dl-c0-panel-design"><span class="eng-cycle__stage-mark" aria-hidden="true">01</span><span class="eng-cycle__stage-name">Design</span></a>
-                  <a class="eng-cycle__stage-btn" href="#dl-c0-panel-build"><span class="eng-cycle__stage-mark" aria-hidden="true">02</span><span class="eng-cycle__stage-name">Build</span></a>
-                  <a class="eng-cycle__stage-btn" href="#dl-c0-panel-test"><span class="eng-cycle__stage-mark" aria-hidden="true">03</span><span class="eng-cycle__stage-name">Test</span></a>
-                  <a class="eng-cycle__stage-btn" href="#dl-c0-panel-learn"><span class="eng-cycle__stage-mark" aria-hidden="true">04</span><span class="eng-cycle__stage-name">Learn</span></a>
-                  <a class="eng-cycle__stage-btn" href="#dl-c0-panel-redesign"><span class="eng-cycle__stage-mark" aria-hidden="true">05</span><span class="eng-cycle__stage-name">Redesign</span></a>
-                </div>
 
                 <div class="eng-cycle__panels">
-                  <section class="eng-cycle__panel" id="dl-c0-panel-design" aria-labelledby="dl-c0-tab-design" data-eng-stage-panel="design">
+                  <section class="eng-cycle__panel" id="dl-c1-panel-design" data-eng-stage="design">
                     <h5 class="eng-cycle__panel-title">Design</h5>
                     <p>Three open questions before trusting later numbers: is the sensor data clean, is a single-seed F1 reproducible, and which sensors actually carry information?</p>
                   </section>
-                  <section class="eng-cycle__panel" id="dl-c0-panel-build" aria-labelledby="dl-c0-tab-build" data-eng-stage-panel="build">
+                  <section class="eng-cycle__panel" id="dl-c1-panel-build" data-eng-stage="build">
                     <h5 class="eng-cycle__panel-title">Build</h5>
                     <p>Isolated 105 contaminated Batch2 files (53 dev1 + 52&nbsp;dev2; Batch2 255→150 files) rather than deleting untracked raw data; added <code>-drop-contaminated</code> (default on).</p>
                     <p>Same config across three seeds (100/102/104) and three PCA dims (3/5/8); compared dropping S6 via standardized-PCA SVM vs the SNN’s unstandardized PCA→bin path.</p>
                   </section>
-                  <section class="eng-cycle__panel" id="dl-c0-panel-test" aria-labelledby="dl-c0-tab-test" data-eng-stage-panel="test">
+                  <section class="eng-cycle__panel" id="dl-c1-panel-test" data-eng-stage="test">
                     <h5 class="eng-cycle__panel-title">Test</h5>
                     <p>See the multi-seed framing and sensor-contradiction panels above for the numbers we treat as evidence.</p>
                   </section>
-                  <section class="eng-cycle__panel" id="dl-c0-panel-learn" aria-labelledby="dl-c0-tab-learn" data-eng-stage-panel="learn">
+                  <section class="eng-cycle__panel" id="dl-c1-panel-learn" data-eng-stage="learn">
                     <h5 class="eng-cycle__panel-title">Learn</h5>
                     <p>Single-seed results cannot be trusted as stable. Sensor contradiction root cause: missing <code>StandardScaler</code> on SNN PCA → magnitude-driven “importance.”</p>
                   </section>
-                  <section class="eng-cycle__panel" id="dl-c0-panel-redesign" aria-labelledby="dl-c0-tab-redesign" data-eng-stage-panel="redesign">
+                  <section class="eng-cycle__panel" id="dl-c1-panel-redesign" data-eng-stage="redesign">
                     <h5 class="eng-cycle__panel-title">Redesign</h5>
                     <p>Standing rule: every later sweep must report across-seed statistics, never a single number — later sweeps are explicitly gated before results can replace baseline.</p>
                     <p>Queued (not closed): add <code>StandardScaler</code> to SNN PCA and re-run LOSO / ANOVA-F to test whether rankings reshuffle once magnitude no longer dominates.</p>
@@ -1920,7 +1855,7 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
   <figcaption>
   <p class="eng-cycle__figure-id">Figure E-D1</p>
   <p class="eng-cycle__figure-title">Multi-seed performance framing</p>
-  <p class="eng-cycle__figure-tested"><span class="eng-cycle__figure-meta-label">Inspected / tested</span> Multi-seed F1 / pca_dim checks described in Dry Lab · Model Cycle&nbsp;0.</p>
+  <p class="eng-cycle__figure-tested"><span class="eng-cycle__figure-meta-label">Inspected / tested</span> Multi-seed F1 / pca_dim checks described in Dry Lab · Model Cycle&nbsp;1.</p>
   <p class="eng-cycle__figure-demo"><span class="eng-cycle__figure-meta-label">What you are seeing</span> Status card only — no archived plot.</p>
   
   <p class="eng-cycle__figure-supports"><span class="eng-cycle__figure-meta-label">Supports</span> Process discipline (refuse single-seed headlines) as documented in text.</p>
@@ -1935,7 +1870,7 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
   <p class="eng-evidence-card__kicker">Evidence status</p>
   <p class="eng-evidence-card__title">Sensor-importance contradiction (SVM / LOSO / ANOVA-F)</p>
   <p class="eng-evidence-card__status">Primary comparison plot not archived</p>
-  <p class="eng-evidence-card__detail">The contradiction is described in Dry Lab · Model Cycle&nbsp;0 text. Supporting ranking tables/plots were not found in the repository.</p>
+  <p class="eng-evidence-card__detail">The contradiction is described in Dry Lab · Model Cycle&nbsp;1 text. Supporting ranking tables/plots were not found in the repository.</p>
   
 </div>
   </div>
@@ -1988,20 +1923,20 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
                     
 <article
                 class="eng-cycle eng-cycle--dry eng-cycle--invalidated"
-                id="dl-cycle-1"
+                id="dl-cycle-2"
                 data-eng-cycle
                 data-eng-track="drylab"
-                data-eng-cycle-num="1"
-                aria-labelledby="dl-cycle-1-title"
-              >
+                data-eng-cycle-num="2"
+               
+               data-cycle-panel="2" role="tabpanel" aria-labelledby="dl-cycle-tab-2" hidden>
                 <header class="eng-cycle__head">
                   <div class="eng-cycle__meta">
                     <p class="eng-cycle__track">
                       <span class="eng-cycle__track-layer">Dry Lab</span>
                       <span class="eng-cycle__track-name">Model · Integrity</span>
                     </p>
-                    <h4 class="eng-cycle__title" id="dl-cycle-1-title">
-                      <span class="eng-cycle__num">Cycle 1</span>
+                    <h4 class="eng-cycle__title" id="dl-cycle-2-title">
+                      <span class="eng-cycle__num">Cycle 2</span>
                       A hardware precision budget, systematic sweep, and pending validation gate
                     </h4>
                   </div>
@@ -2012,11 +1947,6 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
                       <span class="eng-ev-status__value">INVALIDATED / RERUN REQUIRED</span>
                     </span>
                   </p>
-                  <nav class="eng-cycle__iter" aria-label="Dry Lab cycle navigation">
-                    <span class="eng-cycle__iter-label">Cycles</span>
-                    <a class="eng-cycle__iter-link" href="#dl-cycle-0" aria-label="Dry Lab cycle 0">0</a>
-                    <a class="eng-cycle__iter-link" href="#dl-cycle-1" aria-current="page" aria-label="Dry Lab cycle 1">1</a>
-                  </nav>
                 </header>
 
                 <div class="eng-bug-banner" role="status">
@@ -2104,30 +2034,23 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
                       <strong>CANDIDATE — validation gate pending</strong>
                     </p>
                     <p class="eng-candidate__note">
-                      Applying Cycle&nbsp;0’s rule: a seed=100-only improvement of this size is <strong>not</strong> yet trustworthy as “better.”
+                      Applying Cycle&nbsp;1’s rule: a seed=100-only improvement of this size is <strong>not</strong> yet trustworthy as “better.”
                       Multi-seed / k-fold gate must run before this can replace <code>baseline</code>.
                     </p>
                   </div>
                 </div>
 
-                <div class="eng-cycle__stage-nav" aria-label="DBTL stages for Dry Lab · Model Cycle 1" aria-orientation="vertical" data-eng-orient>
-                  <a class="eng-cycle__stage-btn" href="#dl-c1-panel-design"><span class="eng-cycle__stage-mark" aria-hidden="true">01</span><span class="eng-cycle__stage-name">Design</span></a>
-                  <a class="eng-cycle__stage-btn" href="#dl-c1-panel-build"><span class="eng-cycle__stage-mark" aria-hidden="true">02</span><span class="eng-cycle__stage-name">Build</span></a>
-                  <a class="eng-cycle__stage-btn" href="#dl-c1-panel-test"><span class="eng-cycle__stage-mark" aria-hidden="true">03</span><span class="eng-cycle__stage-name">Test</span></a>
-                  <a class="eng-cycle__stage-btn" href="#dl-c1-panel-learn"><span class="eng-cycle__stage-mark" aria-hidden="true">04</span><span class="eng-cycle__stage-name">Learn</span></a>
-                  <a class="eng-cycle__stage-btn" href="#dl-c1-panel-redesign"><span class="eng-cycle__stage-mark" aria-hidden="true">05</span><span class="eng-cycle__stage-name">Redesign</span></a>
-                </div>
 
                 <div class="eng-cycle__panels">
-                  <section class="eng-cycle__panel" id="dl-c1-panel-design" aria-labelledby="dl-c1-tab-design" data-eng-stage-panel="design">
+                  <section class="eng-cycle__panel" id="dl-c2-panel-design" data-eng-stage="design">
                     <h5 class="eng-cycle__panel-title">Design</h5>
                     <p>Two questions: (a) for an eventual hardware e-nose, how much numeric precision does each stage need; (b) with a reproducible baseline (macro F1 = <strong>0.8676</strong>), can its neighborhood be searched systematically instead of by hand?</p>
                   </section>
-                  <section class="eng-cycle__panel" id="dl-c1-panel-build" aria-labelledby="dl-c1-tab-build" data-eng-stage-panel="build">
+                  <section class="eng-cycle__panel" id="dl-c2-panel-build" data-eng-stage="build">
                     <h5 class="eng-cycle__panel-title">Build</h5>
                     <p>Added <code>-adc-bits</code> and <code>-quantize-bits</code> / <code>-quantize-g-bits</code> / <code>-quantize-g-fs</code>; built OFAT sweep + refinement on the most sensitive factor.</p>
                   </section>
-                  <section class="eng-cycle__panel" id="dl-c1-panel-test" aria-labelledby="dl-c1-tab-test" data-eng-stage-panel="test">
+                  <section class="eng-cycle__panel" id="dl-c2-panel-test" data-eng-stage="test">
                     <h5 class="eng-cycle__panel-title">Test</h5>
                     <p>
                       Apparent results before the bug catch: raw 24-bit ADC downsampled losslessly to 16-bit; quantizing <code>v</code> to 10 bits cost −0.007 F1 (−0.013 with <code>g</code>); full bit sweep looked lossless to ~10 bits with a clear drop only at ≤5 bits.
@@ -2135,16 +2058,16 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
                     <p><strong>Those precision conclusions are now under INVALIDATED / RERUN REQUIRED</strong> because of the clock-scheduling bug documented above.</p>
                     <p>Sweep side: see candidate card — <code>w_kc_mbon=13</code> / 0.8870 remains gated.</p>
                   </section>
-                  <section class="eng-cycle__panel" id="dl-c1-panel-learn" aria-labelledby="dl-c1-tab-learn" data-eng-stage-panel="learn">
+                  <section class="eng-cycle__panel" id="dl-c2-panel-learn" data-eng-stage="learn">
                     <h5 class="eng-cycle__panel-title">Learn</h5>
                     <p>Future hardware precision budget should prioritize weight / PN-encoding resolution over analog neuron fidelity — subject to re-measurement after the quantize fix.</p>
-                    <p>Cycle&nbsp;0 rule applies directly: seed=100-only improvements are not yet “better.”</p>
+                    <p>Cycle&nbsp;1 rule applies directly: seed=100-only improvements are not yet “better.”</p>
                   </section>
-                  <section class="eng-cycle__panel" id="dl-c1-panel-redesign" aria-labelledby="dl-c1-tab-redesign" data-eng-stage-panel="redesign">
+                  <section class="eng-cycle__panel" id="dl-c2-panel-redesign" data-eng-stage="redesign">
                     <h5 class="eng-cycle__panel-title">Redesign</h5>
                     <p>Fixed clock scheduling; flagged bit-sweep numbers for re-measurement now that quantization runs on every real integration step.</p>
                     <p>Queued (not yet run): validation tool against <code>best_wmbon13_seed100</code> before it can replace <code>baseline</code>.</p>
-                    <p>Further probes spun up: CMA-ES KC readout ceiling (bypass STDP), continual-learning forgetting test, re-run of Cycle&nbsp;0 KC-coding SVM diagnostic against current best config.</p>
+                    <p>Further probes spun up: CMA-ES KC readout ceiling (bypass STDP), continual-learning forgetting test, re-run of Cycle&nbsp;1 KC-coding SVM diagnostic against current best config.</p>
                   </section>
                 </div>
 
@@ -2193,7 +2116,7 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
   <figcaption>
   <p class="eng-cycle__figure-id">Figure E-D5</p>
   <p class="eng-cycle__figure-title">Hyperparameter sweep (w_kc_mbon)</p>
-  <p class="eng-cycle__figure-tested"><span class="eng-cycle__figure-meta-label">Inspected / tested</span> OFAT / refinement sweep described in Dry Lab · Model Cycle&nbsp;1.</p>
+  <p class="eng-cycle__figure-tested"><span class="eng-cycle__figure-meta-label">Inspected / tested</span> OFAT / refinement sweep described in Dry Lab · Model Cycle&nbsp;2.</p>
   <p class="eng-cycle__figure-demo"><span class="eng-cycle__figure-meta-label">What you are seeing</span> Status card only.</p>
   
   <p class="eng-cycle__figure-supports"><span class="eng-cycle__figure-meta-label">Supports</span> That a candidate exists and must not be treated as final without gated rerun.</p>
@@ -2213,6 +2136,7 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
                 </footer>
               </article>
 
+                </div>
                     <section class="eng-hw-meta" id="dl-practice" aria-labelledby="dl-practice-heading">
                 <p class="eng-eyebrow">Practice</p>
                 <h4 id="dl-practice-heading">What this changed in our modeling practice</h4>
@@ -2227,7 +2151,7 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
           </section>
 
           
-          <section class="section-block eng-hp" id="beyond-the-bench" data-reveal aria-labelledby="eng-hp-heading">
+          <section class="section-block eng-hp eng-track--hp" id="beyond-the-bench" data-reveal aria-labelledby="eng-hp-heading">
             <span id="track-integrated" class="anchor-alias"></span>
             <span id="hp-ent-cycles" class="anchor-alias"></span>
             <span id="hp-edu-cycles" class="anchor-alias"></span>
@@ -2465,9 +2389,9 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
                   </li>
                   <li>
                     <span class="eng-repro__name">Reporter-architecture redesign narrative</span>
-                    <a href="#wl-cycle-1">Cycle 1</a>
-                    ·
                     <a href="#wl-cycle-2">Cycle 2</a>
+                    ·
+                    <a href="#wl-cycle-3">Cycle 3</a>
                     <span class="eng-repro__status">Failure knowledge + redesign rationale</span>
                   </li>
             </ul>
@@ -2498,7 +2422,7 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
                   <li><span class="eng-repro__name">ESP32 firmware</span><span class="eng-repro__status">Exists in team <code>hardware code/</code> outside the wiki site — <strong>not released yet</strong> here</span></li>
                   <li><span class="eng-repro__name">Gerber / drill manufacturing set</span><span class="eng-repro__status">Archived under parent PCB layout, not copied into wiki downloads — <strong>not released yet</strong> here</span></li>
                   <li><span class="eng-repro__name">Editable V2 KiCad project (unlocked)</span><span class="eng-repro__status">Locked 7z is available; full editable project packaging still in preparation</span></li>
-                  <li><span class="eng-repro__name">Orco–IRES–GCaMP6 construct map</span><span class="eng-repro__status">Cycle 1 map not in <code>plasmid/</code></span></li>
+                  <li><span class="eng-repro__name">Orco–IRES–GCaMP6 construct map</span><span class="eng-repro__status">Cycle 2 map not in <code>plasmid/</code></span></li>
                   <li><span class="eng-repro__name">Wet-lab protocol PDFs</span><span class="eng-repro__status">Transfection / VUAA1 assay write-ups not released as files</span></li>
                   <li><span class="eng-repro__name">Dry-lab code + configs</span><span class="eng-repro__status">Brian2 pipeline packaging for public release still in preparation</span></li>
             </ul>
@@ -2627,6 +2551,28 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
 
   </div>
 
+
+<aside class="eng-dbtlr-dial" aria-label="Current engineering stage" data-dbtlr-dial="design" data-dbtlr-track="wetlab" hidden>
+  <svg class="eng-dbtlr-dial__svg" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+    <circle class="eng-dbtlr-dial__guide" cx="60" cy="60" r="44" />
+    <g class="eng-dbtlr-dial__ring">
+      <path class="eng-dbtlr-dial__seg" data-dbtlr-seg="design" d="M60 16 A44 44 0 0 1 101.8 46.4" />
+      <path class="eng-dbtlr-dial__seg" data-dbtlr-seg="build" d="M101.8 46.4 A44 44 0 0 1 85.8 97.6" />
+      <path class="eng-dbtlr-dial__seg" data-dbtlr-seg="test" d="M85.8 97.6 A44 44 0 0 1 34.2 97.6" />
+      <path class="eng-dbtlr-dial__seg" data-dbtlr-seg="learn" d="M34.2 97.6 A44 44 0 0 1 18.2 46.4" />
+      <path class="eng-dbtlr-dial__seg" data-dbtlr-seg="redesign" d="M18.2 46.4 A44 44 0 0 1 60 16" />
+    </g>
+    <circle class="eng-dbtlr-dial__hub" cx="60" cy="60" r="23" />
+    <text class="eng-dbtlr-dial__center" x="60" y="64" text-anchor="middle">DBTLR</text>
+    <text class="eng-dbtlr-dial__letter" data-dbtlr-letter="design" x="60" y="12" text-anchor="middle">D</text>
+    <text class="eng-dbtlr-dial__letter" data-dbtlr-letter="build" x="114" y="50" text-anchor="middle">B</text>
+    <text class="eng-dbtlr-dial__letter" data-dbtlr-letter="test" x="93" y="112" text-anchor="middle">T</text>
+    <text class="eng-dbtlr-dial__letter" data-dbtlr-letter="learn" x="27" y="112" text-anchor="middle">L</text>
+    <text class="eng-dbtlr-dial__letter" data-dbtlr-letter="redesign" x="6" y="50" text-anchor="middle">R</text>
+  </svg>
+  <p class="eng-dbtlr-dial__live" data-dbtlr-live>Design</p>
+</aside>
+
 <footer class="site-footer">
     <div class="site-footer__inner">
       <p class="footer-mission">AeroSense is developing a bio-digital olfactory sensing platform that pairs living-cell receptor arrays with edge-capable computational models for complex odor recognition.</p>
@@ -2677,14 +2623,7 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
         </div>
       </div>
 
-      <div class="footer-partners" aria-labelledby="footer-partners-label">
-        <h2 class="footer-partners__title" id="footer-partners-label">Collaborators &amp; Sponsors</h2>
-        <ul class="footer-partners__list">
-          <li><span class="footer-partners__name">iST Group</span> — professional schematic &amp; PCB review (<a href="attributions.html#attr-ist-group">Attributions</a>)</li>
-          <li><span class="footer-partners__name">National Tsing Hua University</span> — institutional host</li>
-          <li><a href="attributions.html#external">Full collaborators, sponsors &amp; credits</a></li>
-        </ul>
-      </div>
+
 
       <div class="footer-meta">
         <ul class="footer-contacts">
