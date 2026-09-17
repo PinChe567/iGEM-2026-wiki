@@ -1,12 +1,6 @@
 /**
- * Engineering page interactions.
- * - Map track switcher
- * - Reusable Engineering Cycle stage switcher (data-eng-cycle)
- *
- * Progressive enhancement:
- * - Without JS, map panels and all DBTL stage panels remain readable in document order.
- * - No scroll-jacking; native anchors and history still work.
- * - Animations only explain selected-stage changes (short opacity/transform).
+ * Engineering page — accordion architecture + cycle stage switchers.
+ * Without JS, native <details> remain fully usable.
  */
 (function () {
   "use strict";
@@ -17,133 +11,6 @@
 
   function qsa(sel, ctx) {
     return Array.prototype.slice.call((ctx || document).querySelectorAll(sel));
-  }
-
-  function initMap(root) {
-    var tabs = qsa('[role="tab"][data-eng-track]', root);
-    var panels = qsa("[data-eng-panel]", root);
-    var live = qs("[data-eng-map-live]", root);
-    if (!tabs.length || !panels.length) return;
-
-    document.body.classList.add("eng-map-enhanced");
-    root.classList.add("is-enhanced");
-
-    var labels = {
-      read: "Showing READ · Hardware",
-      sense: "Showing SENSE · Wet Lab",
-      decode: "Showing DECODE · Dry Lab",
-      act: "Showing ACT · External evidence cases",
-    };
-
-    function select(tab, moveFocus) {
-      var id = tab.getAttribute("data-eng-track");
-      tabs.forEach(function (btn) {
-        var on = btn === tab;
-        btn.setAttribute("aria-selected", on ? "true" : "false");
-        btn.setAttribute("tabindex", on ? "0" : "-1");
-        btn.classList.toggle("is-active", on);
-      });
-      panels.forEach(function (panel) {
-        var on = panel.getAttribute("data-eng-panel") === id;
-        panel.classList.toggle("is-active", on);
-        panel.hidden = !on;
-      });
-      if (live) {
-        live.textContent = labels[id] || ("Showing " + id);
-      }
-      syncSignalActive(id);
-      if (moveFocus) {
-        tab.focus();
-      }
-    }
-
-    tabs.forEach(function (tab, index) {
-      tab.addEventListener("click", function () {
-        select(tab, false);
-      });
-      tab.addEventListener("keydown", function (event) {
-        var next = null;
-        if (event.key === "ArrowRight" || event.key === "ArrowDown") {
-          next = tabs[(index + 1) % tabs.length];
-        } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
-          next = tabs[(index - 1 + tabs.length) % tabs.length];
-        } else if (event.key === "Home") {
-          next = tabs[0];
-        } else if (event.key === "End") {
-          next = tabs[tabs.length - 1];
-        }
-        if (next) {
-          event.preventDefault();
-          select(next, true);
-        }
-      });
-    });
-
-    var initial =
-      tabs.filter(function (t) {
-        return t.getAttribute("aria-selected") === "true";
-      })[0] || tabs[0];
-    select(initial, false);
-
-    function syncFromHash() {
-      var hash = (location.hash || "").replace(/^#/, "");
-      if (!hash) return;
-      var map = {
-        "hw-cycle-1": "read",
-        "hw-cycle-2": "read",
-        "hw-cycle-3": "read",
-        "track-hardware": "read",
-        "hw-change-log": "read",
-        "hw-professional-review": "read",
-        "hw-do-differently": "read",
-        "hw-validation-ladder": "read",
-        "hw-c1-panel-design": "read",
-        "hw-c1-panel-build": "read",
-        "hw-c1-panel-test": "read",
-        "hw-c1-panel-learn": "read",
-        "hw-c1-panel-redesign": "read",
-        "fig-e-h1a": "read",
-        "fig-e-h1b": "read",
-        "fig-e-h1c": "read",
-        "fig-e-h1d": "read",
-        "fig-e-h2": "read",
-        "fig-e-h3": "read",
-        "wl-cycle-0": "sense",
-        "wl-cycle-1": "sense",
-        "wl-cycle-2": "sense",
-        "wl-side-decisions": "sense",
-        "wl-diagnostic-logic": "sense",
-        "fig-e-w0": "sense",
-        "fig-e-w1": "sense",
-        "fig-e-w2": "sense",
-        "track-wetlab": "sense",
-        "dl-cycle-0": "decode",
-        "dl-cycle-1": "decode",
-        "dl-practice": "decode",
-        "fig-e-d1": "decode",
-        "fig-e-d2": "decode",
-        "fig-e-d3": "decode",
-        "fig-e-d4": "decode",
-        "fig-e-d5": "decode",
-        "track-drylab": "decode",
-        "hp-ent-cycles": "act",
-        "hp-edu-cycles": "act",
-        "track-integrated": "act",
-        "beyond-the-bench": "act",
-        "xcase-beachhead": "act",
-        "xcase-screening": "act",
-        "xcase-claims": "act",
-      };
-      var track = map[hash];
-      if (!track) return;
-      var tab = tabs.filter(function (t) {
-        return t.getAttribute("data-eng-track") === track;
-      })[0];
-      if (tab) select(tab, false);
-    }
-
-    syncFromHash();
-    window.addEventListener("hashchange", syncFromHash);
   }
 
   function bindTablist(tabs, panels, options) {
@@ -226,7 +93,7 @@
       },
       labelFor: function (key, tab) {
         var label = tab && tab.textContent ? tab.textContent.trim() : "";
-        return label ? ("Showing " + label) : (key === "after" ? "Showing After" : "Showing Before");
+        return label ? "Showing " + label : key === "after" ? "Showing After" : "Showing Before";
       },
     });
   }
@@ -288,153 +155,12 @@
     });
   }
 
-  /**
-   * Reusable Engineering Cycle stage switcher.
-   */
   function initCycle(root) {
-    var tabs = qsa(".eng-cycle__stage-btn[data-eng-stage]", root);
-    var panels = qsa("[data-eng-stage-panel]", root);
+    /* DBTL stages stay stacked in the document. Stage links are in-page jumps. */
     var live = qs("[data-eng-stage-live]", root);
-    if (!tabs.length || !panels.length) return;
-
-    root.classList.add("is-enhanced");
-
-    var stageLabels = {
-      design: "Showing Design",
-      build: "Showing Build",
-      test: "Showing Test",
-      learn: "Showing Learn",
-      redesign: "Showing Redesign",
-    };
-
-    var elc = qs("[data-eng-elc]", root);
-
-    function updateElcLink(stage) {
-      if (!elc) return;
-      var link = stage === "redesign" || stage === "learn";
-      elc.classList.toggle("is-linked", link);
-      elc.classList.toggle("is-linked-redesign", stage === "redesign");
-      elc.classList.toggle("is-linked-learn", stage === "learn");
-    }
-
-    bindTablist(tabs, panels, {
-      live: live,
-      getKey: function (tab) {
-        return tab.getAttribute("data-eng-stage");
-      },
-      panelKey: function (panel) {
-        return panel.getAttribute("data-eng-stage-panel");
-      },
-      labelFor: function (key, tab) {
-        var nameEl = tab && qs(".eng-cycle__stage-name", tab);
-        if (nameEl && nameEl.textContent) {
-          return "Showing " + nameEl.textContent.trim();
-        }
-        return stageLabels[key] || ("Showing " + key);
-      },
-      onSelect: function (key) {
-        updateElcLink(key);
-      },
-    });
-
-    function syncStageFromHash() {
-      var hash = (location.hash || "").replace(/^#/, "");
-      if (!hash) return;
-      var panel = null;
-      try {
-        panel = qs("#" + (window.CSS && CSS.escape ? CSS.escape(hash) : hash.replace(/([^a-zA-Z0-9_-])/g, "\\$1")), root);
-      } catch (err) {
-        panel = null;
-      }
-      if (!panel || !panel.hasAttribute("data-eng-stage-panel")) return;
-      var stage = panel.getAttribute("data-eng-stage-panel");
-      var tab = tabs.filter(function (t) {
-        return t.getAttribute("data-eng-stage") === stage;
-      })[0];
-      if (tab) {
-        tab.click();
-      }
-    }
-
-    syncStageFromHash();
-    window.addEventListener("hashchange", syncStageFromHash);
+    if (live) live.hidden = true;
   }
 
-  function prefersReducedMotion() {
-    return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  }
-
-  function syncSignalActive(trackId) {
-    var signal = qs("[data-eng-signal]");
-    if (!signal) return;
-    qsa("[data-eng-signal-node]", signal).forEach(function (node) {
-      var on = node.getAttribute("data-eng-signal-node") === trackId;
-      node.classList.toggle("is-active", on);
-    });
-  }
-
-  function observeInView(el, className) {
-    if (!el) return;
-    if (!("IntersectionObserver" in window)) {
-      el.classList.add(className);
-      return;
-    }
-    var observer = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            el.classList.add(className);
-            if (!prefersReducedMotion()) {
-              el.classList.add("is-animating");
-            }
-          }
-        });
-      },
-      { threshold: 0.35, rootMargin: "0px 0px -8% 0px" }
-    );
-    observer.observe(el);
-  }
-
-  function initSignalPath() {
-    var signal = qs("[data-eng-signal]");
-    if (!signal) return;
-    observeInView(signal, "is-inview");
-    qsa(".eng-signal-path").forEach(function (path) {
-      observeInView(path, "is-inview");
-    });
-  }
-
-  function initHeroLoop() {
-    var loop = qs("[data-eng-hero-loop]");
-    if (!loop) return;
-    if (prefersReducedMotion()) {
-      loop.classList.add("is-static");
-      return;
-    }
-    observeInView(loop, "is-inview");
-  }
-
-  function initOrientationSync() {
-    var mq = window.matchMedia("(min-width: 1024px)");
-    function apply() {
-      var horizontal = mq.matches;
-      qsa("[data-eng-orient]").forEach(function (el) {
-        el.setAttribute("aria-orientation", horizontal ? "horizontal" : "vertical");
-      });
-    }
-    apply();
-    if (typeof mq.addEventListener === "function") {
-      mq.addEventListener("change", apply);
-    } else if (typeof mq.addListener === "function") {
-      mq.addListener(apply);
-    }
-  }
-
-  /**
-   * Collapse long figure captions / evidence notes so Related figure columns
-   * stay compact. Always keep figure id + title (and evidence kicker/title/status) visible.
-   * Without JS, full caption text remains readable in the document.
-   */
   function initFigureDisclosures() {
     var keepCaption = {
       "eng-cycle__figure-id": true,
@@ -467,12 +193,8 @@
 
     qsa(".eng-cycle__figure .eng-evidence-card").forEach(function (card) {
       if (card.querySelector(":scope > .eng-evidence-card__more")) return;
-      var rest = qsa(
-        ".eng-evidence-card__detail, .eng-evidence-card__missing",
-        card
-      );
+      var rest = qsa(".eng-evidence-card__detail, .eng-evidence-card__missing", card);
       if (!rest.length) return;
-
       var details = document.createElement("details");
       details.className = "eng-evidence-card__more";
       var summary = document.createElement("summary");
@@ -488,6 +210,124 @@
     document.body.classList.add("eng-figures-collapsed");
   }
 
+  function initOrientationSync() {
+    var mq = window.matchMedia("(min-width: 1024px)");
+    function apply() {
+      var horizontal = mq.matches;
+      qsa("[data-eng-orient]").forEach(function (el) {
+        el.setAttribute("aria-orientation", horizontal ? "horizontal" : "vertical");
+      });
+    }
+    apply();
+    if (typeof mq.addEventListener === "function") {
+      mq.addEventListener("change", apply);
+    } else if (typeof mq.addListener === "function") {
+      mq.addListener(apply);
+    }
+  }
+
+  var suppressExclusive = false;
+
+  function isAccordionDetails(node) {
+    return node && node.tagName === "DETAILS" && node.classList && node.classList.contains("eng-acc");
+  }
+
+  function openAncestors(el) {
+    var node = el;
+    while (node && node !== document.body) {
+      if (isAccordionDetails(node)) node.open = true;
+      node = node.parentElement;
+    }
+  }
+
+  function closeOtherStreams(keep) {
+    qsa(".eng-acc--stream").forEach(function (acc) {
+      if (acc !== keep) acc.open = false;
+    });
+  }
+
+  function closeSiblingCycles(keep) {
+    var parent = keep.parentElement;
+    if (!parent) return;
+    Array.prototype.forEach.call(parent.children, function (el) {
+      if (el !== keep && el.hasAttribute && el.hasAttribute("data-eng-cycle-acc")) {
+        el.open = false;
+      }
+    });
+  }
+
+  function closeAllAccordions() {
+    qsa(".eng-acc--stream, .eng-acc--group, .eng-acc--cycle, .eng-acc--log").forEach(function (acc) {
+      acc.open = false;
+    });
+  }
+
+  function initAccordion() {
+    /* Cycle and stream records are visible articles. Remaining details are figure/evidence notes. */
+  }
+
+  function initGlanceThumbs() {
+    qsa(".eng-glance__thumb img").forEach(function (img) {
+      function markMissing() {
+        var fig = img.closest ? img.closest(".eng-glance__thumb") : img.parentElement;
+        if (fig) fig.classList.add("is-missing");
+        img.hidden = true;
+      }
+      img.addEventListener("error", markMissing);
+      if (img.complete && img.naturalWidth === 0) markMissing();
+    });
+  }
+
+  var HASH_OPEN = {
+    "engineering-map": "engineering-at-a-glance",
+    "engineering-principle": "engineering-at-a-glance",
+    "tab-read": "group-hardware",
+    "map-panel-read": "group-hardware",
+    "track-hardware": "group-hardware",
+    "tab-sense": "stream-wetlab",
+    "map-panel-sense": "stream-wetlab",
+    "track-wetlab": "stream-wetlab",
+    "tab-decode": "group-model",
+    "map-panel-decode": "group-model",
+    "track-drylab": "group-model",
+    "tab-act": "beyond-the-bench",
+    "map-panel-act": "beyond-the-bench",
+    "track-integrated": "beyond-the-bench",
+    "glance-wetlab": "stream-wetlab",
+    "glance-hardware": "group-hardware",
+    "glance-model": "group-model",
+  };
+
+  function syncFromHash() {
+    var hash = (location.hash || "").replace(/^#/, "");
+    if (!hash) return;
+    var mapped = HASH_OPEN[hash] || hash;
+    var target = document.getElementById(mapped) || document.getElementById(hash);
+    if (!target) return;
+
+    suppressExclusive = true;
+
+    var cycleAcc = null;
+    if (target.hasAttribute && target.hasAttribute("data-eng-cycle-acc")) {
+      cycleAcc = target;
+    } else if (target.closest) {
+      cycleAcc = target.closest("[data-eng-cycle-acc]");
+    }
+    if (cycleAcc) {
+      cycleAcc.open = true;
+    }
+
+    openAncestors(target);
+
+    suppressExclusive = false;
+
+    window.requestAnimationFrame(function () {
+      if (typeof target.scrollIntoView === "function") {
+        target.scrollIntoView({ block: "start" });
+      }
+    });
+  }
+
   function ready(fn) {
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", fn);
@@ -497,16 +337,15 @@
   }
 
   ready(function () {
-    var map = qs("[data-eng-map]");
-    if (map) initMap(map);
-
     qsa("[data-eng-cycle]").forEach(initCycle);
     qsa("[data-eng-ba]").forEach(initBeforeAfter);
     qsa("[data-eng-ladder]").forEach(initLadder);
     qsa("[data-eng-diag]").forEach(initDiag);
-    initSignalPath();
-    initHeroLoop();
     initOrientationSync();
     initFigureDisclosures();
+    initAccordion();
+    initGlanceThumbs();
+    syncFromHash();
+    window.addEventListener("hashchange", syncFromHash);
   });
 })();

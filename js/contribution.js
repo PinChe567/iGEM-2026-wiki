@@ -13,11 +13,11 @@
     "wet-lab":
       "For Wet Lab teams: start with the OR/Orco adaptation map, the VUAA1 functional-assay protocol, the HEK293T transfection protocol, and the minimum experimental metadata in the data contract.",
     hardware:
-      "For Hardware teams: start with the weak-fluorescence reader, calibration workflow, FDM/DLIA implementation and troubleshooting notes.",
+      "For Dry Lab / Hardware teams: start with the weak-fluorescence reader, calibration workflow, FDM/DLIA implementation and troubleshooting notes.",
     data:
       "For Data teams: start with the shared measurement contract — experimental metadata, hardware metadata, and model-ready output — then the planned data dictionary and example datasets.",
     model:
-      "For Model teams: start with the baseline comparison ladder, AL-inspired processing, MB-inspired sparse projection, and the model-ready data contract.",
+      "For Dry Lab / Model teams: start with the baseline comparison ladder, AL-inspired processing, MB-inspired sparse projection, and the model-ready data contract.",
     hp:
       "For Human Practices teams: start with the stakeholder-to-design traceability format: Stakeholder → Observation → Insight → Design decision → Evidence needed → Re-evaluation.",
   };
@@ -177,11 +177,11 @@
     var issues = [];
 
     qsa(
-      ".contrib-pkg[data-contrib-state=\"validated\"], .contrib-rcard [data-contrib-state=\"validated\"], [data-contrib-matrix] [data-contrib-state=\"validated\"], [data-matrix-validated=\"validated\"], [data-matrix-validated=\"demonstrated\"]"
+      ".contrib-package[data-contrib-state=\"validated\"], .contrib-pkg[data-contrib-state=\"validated\"], .contrib-rcard [data-contrib-state=\"validated\"], [data-contrib-matrix] [data-contrib-state=\"validated\"], [data-matrix-validated=\"validated\"], [data-matrix-validated=\"demonstrated\"]"
     ).forEach(function (el) {
       var dest = el.getAttribute("data-evidence") || el.getAttribute("data-evidence-href");
       if (!dest) {
-        var host = el.closest("tr, .contrib-pkg, .contrib-rcard") || el;
+        var host = el.closest("tr, .contrib-package, .contrib-pkg, .contrib-rcard") || el;
         var evidenceLink = qs("a[data-evidence], [data-evidence]", host);
         dest = evidenceLink
           ? evidenceLink.getAttribute("data-evidence") || evidenceLink.getAttribute("data-evidence-href") || evidenceLink.getAttribute("href")
@@ -193,7 +193,7 @@
     });
 
     qsa(
-      ".contrib-pkg[data-contrib-state=\"released\"], .contrib-rcard [data-contrib-state=\"released\"], [data-matrix-open=\"released\"]"
+      ".contrib-package[data-contrib-state=\"released\"], .contrib-pkg[data-contrib-state=\"released\"], .contrib-rcard [data-contrib-state=\"released\"], [data-matrix-open=\"released\"]"
     ).forEach(function (el) {
       var href = el.getAttribute("data-resource") || el.getAttribute("data-resource-href");
       if (!href) {
@@ -322,6 +322,72 @@
     apply(readRoleFromUrl(), false);
   }
 
+  var suppressExclusive = false;
+
+  function initExclusiveDetails(selector) {
+    var items = qsa(selector);
+    if (!items.length) return;
+
+    items.forEach(function (el) {
+      el.addEventListener("toggle", function () {
+        if (suppressExclusive || !el.open) return;
+        items.forEach(function (other) {
+          if (other !== el && other.open) other.removeAttribute("open");
+        });
+      });
+    });
+  }
+
+  function findPackageForHash(hash) {
+    if (!hash) return null;
+    var id = hash.charAt(0) === "#" ? hash.slice(1) : hash;
+    if (!id) return null;
+    var target = document.getElementById(id);
+    if (!target) return null;
+    if (target.classList.contains("contrib-package")) return target;
+    return target.closest ? target.closest(".contrib-package") : null;
+  }
+
+  function findLessonForHash(hash) {
+    if (!hash) return null;
+    var id = hash.charAt(0) === "#" ? hash.slice(1) : hash;
+    if (!id) return null;
+    var target = document.getElementById(id);
+    if (!target) return null;
+    if (target.classList.contains("contrib-lesson")) return target;
+    return target.closest ? target.closest(".contrib-lesson") : null;
+  }
+
+  function openFromHash() {
+    var hash = window.location.hash || "";
+    var id = hash.charAt(0) === "#" ? hash.slice(1) : hash;
+    var pkg = findPackageForHash(hash);
+    if (pkg && !pkg.open) pkg.setAttribute("open", "");
+    var lesson = findLessonForHash(hash);
+    if (lesson && !lesson.open) lesson.setAttribute("open", "");
+    var target = id ? document.getElementById(id) : null;
+    if (!target) return;
+    window.requestAnimationFrame(function () {
+      target.scrollIntoView({ block: "start" });
+    });
+  }
+
+  function initDeepLinks() {
+    openFromHash();
+    window.addEventListener("hashchange", openFromHash);
+
+    qsa("[data-open-package]").forEach(function (link) {
+      link.addEventListener("click", function () {
+        var id = link.getAttribute("data-open-package");
+        var pkg = id ? document.getElementById(id) : null;
+        if (!pkg || !pkg.classList.contains("contrib-package")) return;
+        window.setTimeout(function () {
+          if (!pkg.open) pkg.setAttribute("open", "");
+        }, 0);
+      });
+    });
+  }
+
   function initPrintExpand() {
     var article = qs(".page-article");
     if (!article) return;
@@ -332,6 +398,7 @@
     function expand() {
       if (printing) return;
       printing = true;
+      suppressExclusive = true;
       opened = [];
       qsa("details:not([open])", article).forEach(function (el) {
         el.setAttribute("open", "");
@@ -346,6 +413,7 @@
       });
       opened = [];
       printing = false;
+      suppressExclusive = false;
     }
 
     window.addEventListener("beforeprint", expand);
@@ -364,6 +432,9 @@
 
   function boot() {
     initExplorer();
+    initExclusiveDetails(".contrib-package");
+    initExclusiveDetails(".contrib-lesson");
+    initDeepLinks();
     initPrintExpand();
     initIntegrityChecker();
   }

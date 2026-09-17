@@ -39,7 +39,7 @@
 
   /* Sync horizontal chapter nav + sticky TOC current section */
   function initChapterCurrent() {
-    var links = qsa(".ent-chapternav__scroller a[href^='#'], .page-toc a[href^='#']");
+    var links = qsa(".page-toc a[href^='#']:not(.back-to-top)");
     if (!links.length) return;
 
     var map = {};

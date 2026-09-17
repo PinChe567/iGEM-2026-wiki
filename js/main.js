@@ -137,11 +137,13 @@
     var btn = qs(".back-to-top");
     if (!btn) return;
 
-    var tocPinned = btn.classList.contains("page-toc__top");
-    var wide = window.matchMedia("(min-width: 960px)");
+    function pinnedToToc() {
+      return btn.parentElement && btn.parentElement.classList.contains("page-toc-slot")
+        && window.matchMedia("(min-width: 1100px)").matches;
+    }
 
     function update() {
-      if (tocPinned && wide.matches) {
+      if (pinnedToToc()) {
         btn.classList.add("is-visible");
         return;
       }
@@ -150,14 +152,13 @@
     }
 
     window.addEventListener("scroll", update, { passive: true });
-    if (wide.addEventListener) wide.addEventListener("change", update);
-    else if (wide.addListener) wide.addListener(update);
+    window.addEventListener("resize", update);
     update();
   }
 
   /* ---------- TOC current section ---------- */
   function initTocSpy() {
-    var links = qsa('.page-toc a[href^="#"], .desc-jump a[href^="#"], .saf-jump a[href^="#"]');
+    var links = qsa('.page-toc a[href^="#"]:not(.back-to-top)');
     if (!links.length) return;
 
     function mark(id) {
@@ -454,7 +455,7 @@
 
   /* ---------- TOC: keep numbers on one line; wrap title text ---------- */
   function initTocLabelWrap() {
-    qsa(".page-toc a").forEach(function (link) {
+    qsa(".page-toc a:not(.back-to-top)").forEach(function (link) {
       if (link.querySelector(".toc-text")) return;
       var label = qs(".tech-label", link);
       var text = doc.createElement("span");
@@ -593,10 +594,6 @@
       "Brundtland Report definition of sustainable development.",
       "Foundational sustainability framing used on the Sustainability page.",
     ],
-    "ref-un-2015": [
-      "UN 2030 Agenda and Sustainable Development Goals.",
-      "Common SDG vocabulary used to situate AeroSense pathways.",
-    ],
     "ref-meadows-2008": [
       "Systems-thinking primer used when discussing leverage points and trade-offs.",
       "Conceptual framing for sustainability pathway mapping.",
@@ -648,18 +645,6 @@
     "ref-zhai-2024": [
       "Literature context cited for the sensing / VOC challenge framing on Description.",
       "Does not substitute for AeroSense experimental results.",
-    ],
-    "ref-igem-project-safety": [
-      "iGEM Project Safety Form guidance for team responsibility documentation.",
-    ],
-    "ref-igem-check-in": [
-      "iGEM Check-In Form guidance for materials that require advance review.",
-    ],
-    "ref-igem-deliverables": [
-      "iGEM deliverables / attribution expectations for team documentation.",
-    ],
-    "ref-cc-by-40": [
-      "Creative Commons Attribution 4.0 license text for wiki reuse terms.",
     ],
   };
 

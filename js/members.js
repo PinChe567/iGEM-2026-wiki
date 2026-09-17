@@ -23,8 +23,8 @@
     var labels = {
       all: "all workstreams",
       "wet-lab": "Wet Lab",
-      model: "Model",
-      hardware: "Hardware",
+      model: "Dry Lab · Model",
+      hardware: "Dry Lab · Hardware",
       design: "Design",
       hp: "Human Practices",
       leadership: "Leadership",

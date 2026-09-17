@@ -17,12 +17,179 @@
 
   var STREAM_LABEL = {
     wetlab: "Wet Lab",
-    hardware: "Hardware",
     drylab: "Dry Lab",
+    hardware: "Dry Lab · Hardware",
+    model: "Dry Lab · Model",
     igem: "iGEM Official",
   };
 
-  var STREAM_ORDER = ["wetlab", "hardware", "drylab", "igem"];
+  var SUBSTREAM_LABEL = {
+    hardware: "Hardware",
+    model: "Model",
+  };
+
+  var LANE_DEFS = [
+    {
+      id: "wetlab",
+      stream: "wetlab",
+      substream: null,
+      label: "Wet Lab",
+      workstream: "Wet Lab",
+    },
+    {
+      id: "hardware",
+      stream: "drylab",
+      substream: "hardware",
+      label: "Hardware",
+      workstream: "Dry Lab",
+    },
+    {
+      id: "model",
+      stream: "drylab",
+      substream: "model",
+      label: "Model",
+      workstream: "Dry Lab",
+    },
+    {
+      id: "igem",
+      stream: "igem",
+      substream: null,
+      label: "iGEM Official",
+      workstream: "iGEM Official",
+    },
+  ];
+
+  var DAY_MS = 86400000;
+
+  var GANTT_PERIODS = [
+    {
+      id: "discover",
+      label: "DISCOVER & DESIGN",
+      shortLabel: "APR–JUN",
+      start: Date.UTC(YEAR, 3, 1),
+      end: Date.UTC(YEAR, 5, 30),
+    },
+    {
+      id: "build",
+      label: "BUILD & ITERATE",
+      shortLabel: "JUL–SEP",
+      start: Date.UTC(YEAR, 6, 1),
+      end: Date.UTC(YEAR, 8, 30),
+    },
+    {
+      id: "validate",
+      label: "VALIDATE & INTEGRATE",
+      shortLabel: "OCT–NOV",
+      start: Date.UTC(YEAR, 9, 1),
+      end: Date.UTC(YEAR, 10, 30),
+    },
+  ];
+
+  var GANTT_AXIS = {
+    start: GANTT_PERIODS[0].start,
+    end: inclusiveEndMs(GANTT_PERIODS[GANTT_PERIODS.length - 1].end),
+  };
+
+  function inclusiveEndMs(ms) {
+    return ms + DAY_MS;
+  }
+
+  function eventStream(ev) {
+    if (!ev) return "";
+    if (ev.stream === "hardware") return "drylab";
+    return ev.stream || "";
+  }
+
+  function eventSubstream(ev) {
+    if (!ev) return null;
+    if (ev.substream) return ev.substream;
+    if (ev.stream === "hardware") return "hardware";
+    if (ev.stream === "drylab") return "model";
+    return null;
+  }
+
+  function visualStreamKey(ev) {
+    var sub = eventSubstream(ev);
+    if (sub === "hardware") return "hardware";
+    return eventStream(ev) || "unknown";
+  }
+
+  function eventWorkstreamLabel(ev) {
+    var stream = eventStream(ev);
+    var sub = eventSubstream(ev);
+    if (stream === "igem") return STREAM_LABEL.igem;
+    if (stream === "wetlab") return STREAM_LABEL.wetlab;
+    if (stream === "drylab") {
+      if (sub === "hardware") return STREAM_LABEL.hardware;
+      if (sub === "model") return STREAM_LABEL.model;
+      return STREAM_LABEL.drylab;
+    }
+    return STREAM_LABEL[stream] || stream || "";
+  }
+
+  function turningPointLabel(tp) {
+    if (!tp) return "";
+    if (tp.substream === "hardware" || tp.stream === "hardware") {
+      return STREAM_LABEL.hardware;
+    }
+    if (tp.substream === "model" || (tp.stream === "drylab" && !tp.substream)) {
+      return STREAM_LABEL.model;
+    }
+    return STREAM_LABEL[tp.stream] || tp.stream || "";
+  }
+
+  function turningPointDate(tp, allEvents) {
+    var ids = tp.eventIds || [];
+    var i;
+    for (i = 0; i < ids.length; i += 1) {
+      var ev = eventById(allEvents, ids[i]);
+      if (ev && ev.startDate) return formatDateLabel(ev.startDate);
+    }
+    return "Undated";
+  }
+
+  function eventMatchesLane(ev, lane) {
+    if (!lane) return false;
+    if (eventStream(ev) !== lane.stream) return false;
+    if (lane.substream) return eventSubstream(ev) === lane.substream;
+    return true;
+  }
+
+  function laneVisible(lane, filters) {
+    if (!lane) return false;
+    if (lane.stream === "igem") return !filters || filters.showIgem !== false;
+    if (!filters || !filters.stream || filters.stream === "all") return true;
+    if (filters.stream === "wetlab") return lane.stream === "wetlab";
+    if (filters.stream === "drylab" || filters.stream === "drylab-all") {
+      if (lane.stream !== "drylab") return false;
+      if (!filters.substream || filters.substream === "all") return true;
+      return lane.substream === filters.substream;
+    }
+    if (filters.stream === "hardware") {
+      return lane.id === "hardware";
+    }
+    if (filters.stream === "model") {
+      return lane.id === "model";
+    }
+    return lane.stream === filters.stream;
+  }
+
+  function streamMatches(ev, filterStream, filterSubstream) {
+    var stream = eventStream(ev);
+    if (!filterStream || filterStream === "all") return true;
+    if (filterStream === "drylab-all" || filterStream === "drylab") {
+      if (stream !== "drylab") return false;
+      if (!filterSubstream || filterSubstream === "all") return true;
+      return eventSubstream(ev) === filterSubstream;
+    }
+    if (filterStream === "hardware") {
+      return stream === "drylab" && eventSubstream(ev) === "hardware";
+    }
+    if (filterStream === "model") {
+      return stream === "drylab" && eventSubstream(ev) === "model";
+    }
+    return stream === filterStream;
+  }
 
   var MONTH_SHORT = [
     "Jan",
@@ -37,6 +204,31 @@
     "Oct",
     "Nov",
     "Dec",
+  ];
+
+  var MONTH_FULL = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  var WEEKDAY_FULL = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
   ];
 
   var MONTH_LABEL = {
@@ -127,6 +319,7 @@
         endDate: official.endDate,
         datePrecision: "day",
         stream: "igem",
+        substream: null,
         category: official.category || "",
         status: "official",
         title: official.title,
@@ -168,7 +361,13 @@
 
   function eventsForStream(events, stream) {
     return events.filter(function (ev) {
-      return ev.stream === stream;
+      return eventStream(ev) === stream;
+    });
+  }
+
+  function eventsForSubstream(events, substream) {
+    return events.filter(function (ev) {
+      return eventStream(ev) === "drylab" && eventSubstream(ev) === substream;
     });
   }
 
@@ -251,7 +450,7 @@
 
   function fillStreamCards(root, events) {
     var live = qs("#nb-glance-live", root);
-    var streams = ["wetlab", "hardware", "drylab"];
+    var streams = ["wetlab", "drylab"];
     var total = 0;
 
     streams.forEach(function (stream) {
@@ -287,12 +486,32 @@
           nextEl.textContent = "";
         }
       }
+
+      if (stream === "drylab") {
+        ["hardware", "model"].forEach(function (sub) {
+          var subCard = qs('[data-substream-card="' + sub + '"]', card);
+          if (!subCard) return;
+          var subList = eventsForSubstream(list, sub);
+          var subStatus = deriveStreamStatus(subList);
+          var subMile = latestMilestone(subList);
+          subCard.setAttribute("data-stream-status-value", subStatus);
+          setStatusEl(qs("[data-substream-status]", subCard), subStatus);
+          var subCount = qs("[data-substream-count]", subCard);
+          if (subCount) subCount.textContent = String(subList.length);
+          var subMileEl = qs("[data-substream-milestone]", subCard);
+          if (subMileEl) {
+            subMileEl.textContent = subMile
+              ? subMile.title
+              : "No documented records yet";
+          }
+        });
+      }
     });
 
     if (live) {
       live.textContent =
         total +
-        " documented records across Wet Lab, Hardware and Dry Lab — counts computed from notebook-data.js.";
+        " documented records across Wet Lab and Dry Lab (Hardware | Model) — counts computed from notebook-data.js.";
     }
   }
 
@@ -355,6 +574,7 @@
     }
     return {
       stream: val("stream", "all"),
+      substream: val("substream", "all"),
       status: val("status", "all"),
       month: val("month", "all"),
       tag: val("tag", "all"),
@@ -376,7 +596,7 @@
   function filterEvents(teamEvents, filters, officialEvents) {
     var pool = chroniclePool(teamEvents, officialEvents || [], filters);
     return pool.filter(function (ev) {
-      if (filters.stream !== "all" && ev.stream !== filters.stream) return false;
+      if (!streamMatches(ev, filters.stream, filters.substream)) return false;
       if (filters.status !== "all") {
         if (ev.isOfficial) return false;
         if (ev.status !== filters.status) return false;
@@ -539,6 +759,75 @@
     return { undated: false, start: start, end: end };
   }
 
+  function daysInMonth(year, month) {
+    return new Date(Date.UTC(year, month, 0)).getUTCDate();
+  }
+
+  function dateBoundMs(value, bound) {
+    if (!value) return null;
+    var parts = String(value).split("-");
+    var y = parseInt(parts[0], 10);
+    var m = parseInt(parts[1], 10);
+    if (!y || !m) return null;
+    var d =
+      parts.length >= 3 ? parseInt(parts[2], 10) : NaN;
+    if (!d) {
+      d = bound === "end" ? daysInMonth(y, m) : 1;
+    }
+    return Date.UTC(y, m - 1, d);
+  }
+
+  function eventSpanMs(ev) {
+    if (!ev) return null;
+    var start = dateBoundMs(ev.startDate || ev.endDate, "start");
+    var end = dateBoundMs(ev.endDate || ev.startDate, "end");
+    if (start == null && end == null) return null;
+    if (start == null) start = end;
+    if (end == null) end = start;
+    if (end < start) end = start;
+    return { start: start, end: inclusiveEndMs(end) };
+  }
+
+  function axisPercent(ms, axis) {
+    var span = axis.end - axis.start;
+    if (!span) return 0;
+    var pct = ((ms - axis.start) / span) * 100;
+    if (pct < 0) return 0;
+    if (pct > 100) return 100;
+    return pct;
+  }
+
+  function overlapSpan(span, period) {
+    if (!span || !period) return null;
+    var start = Math.max(span.start, period.start);
+    var end = Math.min(span.end, inclusiveEndMs(period.end));
+    if (end <= start) return null;
+    return { start: start, end: end };
+  }
+
+  function assignTracksMs(placed) {
+    var tracks = [];
+    placed
+      .slice()
+      .sort(function (a, b) {
+        if (a.start !== b.start) return a.start - b.start;
+        return b.end - b.start - (a.end - a.start);
+      })
+      .forEach(function (item) {
+        var t;
+        for (t = 0; t < tracks.length; t += 1) {
+          if (tracks[t] <= item.start) {
+            tracks[t] = item.end;
+            item.track = t;
+            return;
+          }
+        }
+        item.track = tracks.length;
+        tracks.push(item.end);
+      });
+    return tracks.length;
+  }
+
   function overlapsMonth(ev, year, monthIndex) {
     var place = placementInYear(ev, year);
     if (!place || place.undated) return false;
@@ -569,7 +858,7 @@
   }
 
   function statusClass(ev) {
-    if (ev.isOfficial || ev.stream === "igem") return "igem";
+    if (ev.isOfficial || eventStream(ev) === "igem") return "igem";
     return STATUS_LABEL[ev.status] ? ev.status : "needs-update";
   }
 
@@ -656,6 +945,7 @@
     return {
       year: now.getFullYear(),
       monthIndex: now.getMonth(),
+      day: now.getDate(),
       monthKey: now.getFullYear() + "-" + pad2(now.getMonth() + 1),
       isChronicleYear: now.getFullYear() === YEAR,
     };
@@ -793,7 +1083,7 @@
         makeEl(
           "p",
           "nb-event-drawer__stream",
-          STREAM_LABEL[ev.stream] || ev.stream
+          eventWorkstreamLabel(ev)
         )
       );
 
@@ -992,18 +1282,28 @@
       }
 
       if (hasText(ev.references)) {
-        var refList = makeEl("ul", "nb-event-drawer__list");
+        var scholarlyList = makeEl("ul", "nb-event-drawer__list");
+        var technicalList = makeEl("ul", "nb-event-drawer__list");
         (ev.references || []).forEach(function (ref) {
           if (!ref) return;
+          var id = typeof ref === "string" ? "" : ref.id || "";
           var li = makeEl(
             "li",
             null,
             typeof ref === "string" ? ref : ref.text || ref.id || ""
           );
-          if (li.textContent) refList.appendChild(li);
+          if (!li.textContent) return;
+          if (id.indexOf("hw-ref-") === 0) {
+            technicalList.appendChild(li);
+          } else {
+            scholarlyList.appendChild(li);
+          }
         });
-        if (refList.childNodes.length) {
-          appendSection(bodyEl, "References", refList);
+        if (scholarlyList.childNodes.length) {
+          appendSection(bodyEl, "References", scholarlyList);
+        }
+        if (technicalList.childNodes.length) {
+          appendSection(bodyEl, "Technical sources & project files", technicalList);
         }
       }
 
@@ -1164,21 +1464,32 @@
     var calRoot = qs("[data-notebook-calendar]", root);
     if (!calRoot) return { render: function () {} };
 
-    var yearEl = qs("[data-cal-year]", calRoot);
-    var stripEl = qs("[data-cal-strip]", calRoot);
-    var agendaEl = qs("[data-cal-agenda]", calRoot);
-    var previewEl = qs("[data-cal-preview]", calRoot);
-    var previewTitle = qs("[data-cal-preview-title]", calRoot);
-    var previewMeta = qs("[data-cal-preview-meta]", calRoot);
+    var monthRoot = qs("[data-month-calendar]", calRoot);
+    var gridEl = qs("[data-cal-grid]", calRoot);
+    var agendaEl = qs("[data-cal-day-agenda]", calRoot);
+    var titleEl = qs("[data-cal-month-title]", calRoot);
+    var yearEl = qs(".nb-monthcal__year", calRoot);
+    var prevBtn = qs("[data-cal-prev]", calRoot);
+    var nextBtn = qs("[data-cal-next]", calRoot);
     var todayBtn = qs("[data-cal-today]", calRoot);
+    var monthSelect = qs("[data-cal-month-select]", calRoot);
 
+    var today = todayInfo();
     var state = {
-      focusMonth: null,
+      focusMonth: today.isChronicleYear ? today.monthIndex : 8,
+      selectedDate: null,
       selectedId: null,
     };
 
-    var today = todayInfo();
-    state.focusMonth = today.isChronicleYear ? today.monthIndex : 8;
+    if (today.isChronicleYear) {
+      state.selectedDate = makeDate(YEAR, today.monthIndex, today.day);
+    } else {
+      state.selectedDate = makeDate(YEAR, state.focusMonth, 1);
+    }
+
+    function makeDate(year, month, day) {
+      return new Date(year, month, day);
+    }
 
     function lookupEvent(id) {
       return eventById(teamEvents, id) || eventById(officialEvents, id);
@@ -1188,603 +1499,331 @@
       return filterEvents(teamEvents, getFilters(), officialEvents);
     }
 
-    function setPreview(ev) {
-      if (!previewEl) return;
-      if (!ev) {
-        previewEl.hidden = true;
-        return;
+    function daysInMonth(year, month) {
+      return new Date(year, month + 1, 0).getDate();
+    }
+
+    function firstWeekday(year, month) {
+      return new Date(year, month, 1).getDay();
+    }
+
+    function dateKey(year, month, day) {
+      return year + "-" + pad2(month + 1) + "-" + pad2(day);
+    }
+
+    function keyFromDate(date) {
+      if (!date) return "";
+      return dateKey(date.getFullYear(), date.getMonth(), date.getDate());
+    }
+
+    function eventsForDate(events, date) {
+      if (!date) return [];
+      var start = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
+      var end = start + DAY_MS;
+      return events.filter(function (ev) {
+        var span = eventSpanMs(ev);
+        if (!span) return false;
+        return span.start < end && span.end > start;
+      });
+    }
+
+    function indicatorStream(ev) {
+      if (eventStream(ev) === "igem") return "igem";
+      var vis = visualStreamKey(ev);
+      if (vis === "hardware") return "hardware";
+      if (vis === "model" || vis === "drylab") return "model";
+      return "wetlab";
+    }
+
+    function fillMonthSelect() {
+      if (!monthSelect || monthSelect.options.length) return;
+      MONTH_FULL.forEach(function (label, index) {
+        var opt = document.createElement("option");
+        opt.value = String(index);
+        opt.textContent = label;
+        monthSelect.appendChild(opt);
+      });
+    }
+
+    function syncChrome() {
+      if (titleEl) titleEl.textContent = MONTH_FULL[state.focusMonth] || "";
+      if (yearEl) yearEl.textContent = String(YEAR);
+      if (monthSelect) monthSelect.value = String(state.focusMonth);
+      if (prevBtn) prevBtn.disabled = state.focusMonth <= 0;
+      if (nextBtn) nextBtn.disabled = state.focusMonth >= 11;
+    }
+
+    function goToMonth(month) {
+      var next = Math.max(0, Math.min(11, Number(month)));
+      state.focusMonth = next;
+      if (
+        !state.selectedDate ||
+        state.selectedDate.getFullYear() !== YEAR ||
+        state.selectedDate.getMonth() !== state.focusMonth
+      ) {
+        if (today.isChronicleYear && today.monthIndex === state.focusMonth) {
+          state.selectedDate = makeDate(YEAR, state.focusMonth, today.day);
+        } else {
+          state.selectedDate = makeDate(YEAR, state.focusMonth, 1);
+        }
       }
-      previewEl.hidden = false;
-      if (previewTitle) previewTitle.textContent = ev.title;
-      if (previewMeta) {
-        previewMeta.textContent =
-          (STREAM_LABEL[ev.stream] || ev.stream) +
-          " · " +
-          (STATUS_LABEL[statusClass(ev)] || ev.status) +
-          " · " +
-          formatRange(ev);
+      renderMonth();
+      renderDayAgenda(state.selectedDate);
+    }
+
+    function selectDate(date) {
+      if (!date) return;
+      if (date.getFullYear() !== YEAR) return;
+      state.selectedDate = makeDate(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate()
+      );
+      if (state.focusMonth !== date.getMonth()) {
+        state.focusMonth = date.getMonth();
       }
+      renderMonth();
+      renderDayAgenda(state.selectedDate);
     }
 
     function openEvent(ev, trigger, fromHash) {
       if (!ev) return;
       state.selectedId = ev.id;
-      setPreview(ev);
-
-      var place = placementInYear(ev, YEAR);
-      if (place && !place.undated) {
-        state.focusMonth = place.start;
-        highlightFocusMonth();
-        openAgendaMonth(place.start, false);
-      } else if (place && place.undated) {
-        openAgendaMonth("undated", false);
+      var span = eventSpanMs(ev);
+      if (span) {
+        var start = new Date(span.start);
+        var pick = makeDate(
+          start.getUTCFullYear(),
+          start.getUTCMonth(),
+          start.getUTCDate()
+        );
+        if (today.isChronicleYear) {
+          var todayDate = makeDate(YEAR, today.monthIndex, today.day);
+          var todayMs = Date.UTC(YEAR, today.monthIndex, today.day);
+          if (span.start <= todayMs && span.end > todayMs) {
+            pick = todayDate;
+          }
+        }
+        if (pick.getFullYear() === YEAR) {
+          selectDate(pick);
+        }
       }
-
       if (drawerApi && drawerApi.open) {
         drawerApi.open(ev, trigger, fromHash);
       }
     }
 
-    function highlightFocusMonth() {
-      qsa("[data-cal-month]", calRoot).forEach(function (btn) {
-        var m = btn.getAttribute("data-cal-month");
-        var on = m !== "undated" && Number(m) === state.focusMonth;
-        btn.classList.toggle("is-focus-month", on);
-        btn.setAttribute("aria-current", on ? "true" : "false");
-      });
-      qsa("[data-cal-col]", calRoot).forEach(function (col) {
-        col.classList.toggle(
-          "is-focus-month",
-          Number(col.getAttribute("data-cal-col")) === state.focusMonth
-        );
-      });
-    }
 
-    function bindEventControls(node, ev) {
-      node.addEventListener("click", function () {
-        openEvent(ev, node, false);
+    function renderEventMarks(holder, dayEvents) {
+      holder.innerHTML = "";
+      var shown = dayEvents.slice(0, 3);
+      shown.forEach(function (ev) {
+        var st = statusClass(ev);
+        var mark = document.createElement("span");
+        mark.className =
+          "nb-monthcal__mark nb-monthcal__mark--" +
+          indicatorStream(ev) +
+          " nb-monthcal__mark--" +
+          st;
+        mark.setAttribute("aria-hidden", "true");
+        mark.title = ev.title || "";
+        if (st === "needs-update") mark.textContent = "!";
+        holder.appendChild(mark);
       });
-      node.addEventListener("keydown", function (event) {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          openEvent(ev, node, false);
-        }
-      });
-      node.addEventListener("focus", function () {
-        setPreview(ev);
-      });
-      if (!isCoarsePointer()) {
-        node.addEventListener("mouseenter", function () {
-          setPreview(ev);
-        });
-        node.addEventListener("mouseleave", function () {
-          if (state.selectedId !== ev.id) {
-            var active = document.activeElement;
-            if (
-              !active ||
-              !calRoot.contains(active) ||
-              !active.getAttribute("data-event-id")
-            ) {
-              if (!state.selectedId) setPreview(null);
-              else setPreview(lookupEvent(state.selectedId));
-            }
-          }
-        });
+      if (dayEvents.length > 3) {
+        var extra = document.createElement("span");
+        extra.className = "nb-monthcal__more";
+        extra.textContent = "+" + (dayEvents.length - 3);
+        holder.appendChild(extra);
       }
-      node.addEventListener("blur", function () {
-        window.setTimeout(function () {
-          if (state.selectedId) {
-            setPreview(lookupEvent(state.selectedId));
-          } else if (
-            !calRoot.contains(document.activeElement) ||
-            !document.activeElement ||
-            !document.activeElement.getAttribute("data-event-id")
-          ) {
-            setPreview(null);
-          }
-        }, 0);
-      });
     }
 
-    function renderStrip(events) {
-      if (!stripEl) return;
-      stripEl.innerHTML = "";
-      var frag = document.createDocumentFragment();
+    function renderMonth() {
+      if (!gridEl) return;
+      var events = matchedEvents();
+      var year = YEAR;
+      var month = state.focusMonth;
+      var lead = firstWeekday(year, month);
+      var count = daysInMonth(year, month);
+      var selectedKey = keyFromDate(state.selectedDate);
+      var todayKey =
+        today.isChronicleYear && today.monthIndex === month
+          ? dateKey(YEAR, today.monthIndex, today.day)
+          : "";
 
-      MONTH_SHORT.forEach(function (label, index) {
-        var count = events.filter(function (ev) {
-          return overlapsMonth(ev, YEAR, index);
-        }).length;
+      gridEl.innerHTML = "";
+      syncChrome();
+
+      var cell;
+      for (cell = 0; cell < lead; cell += 1) {
+        var pad = document.createElement("div");
+        pad.className = "nb-monthcal__day nb-monthcal__day--pad";
+        pad.setAttribute("aria-hidden", "true");
+        gridEl.appendChild(pad);
+      }
+
+      var day;
+      for (day = 1; day <= count; day += 1) {
+        var date = makeDate(year, month, day);
+        var key = dateKey(year, month, day);
+        var dayEvents = eventsForDate(events, date);
         var btn = document.createElement("button");
         btn.type = "button";
-        btn.className = "nb-cal-strip__btn";
-        btn.setAttribute("data-cal-month", String(index));
-        btn.setAttribute("aria-label", label + " " + YEAR + ", " + count + " records");
-        if (today.isChronicleYear && today.monthIndex === index) {
+        btn.className = "nb-monthcal__day";
+        btn.setAttribute("role", "gridcell");
+        btn.setAttribute("data-cal-day", key);
+        btn.setAttribute(
+          "aria-label",
+          WEEKDAY_FULL[date.getDay()] +
+            " " +
+            MONTH_FULL[month] +
+            " " +
+            day +
+            ", " +
+            year +
+            (dayEvents.length
+              ? ", " +
+                dayEvents.length +
+                (dayEvents.length === 1 ? " record" : " records")
+              : ", no records")
+        );
+        btn.setAttribute("aria-pressed", key === selectedKey ? "true" : "false");
+        if (key === selectedKey) btn.classList.add("is-selected");
+        if (key === todayKey) {
           btn.classList.add("is-today");
+          btn.setAttribute("aria-current", "date");
         }
-        btn.innerHTML =
-          '<span class="nb-cal-strip__label">' +
-          label +
-          "</span>" +
-          (count
-            ? '<span class="nb-cal-strip__count">' + count + "</span>"
-            : '<span class="nb-cal-strip__count nb-cal-strip__count--zero">0</span>');
-        btn.addEventListener("click", function () {
-          state.focusMonth = index;
-          highlightFocusMonth();
-          openAgendaMonth(index, true);
-        });
-        frag.appendChild(btn);
-      });
+        if (dayEvents.length) btn.classList.add("has-events");
 
-      var undatedCount = events.filter(function (ev) {
-        return !ev.startDate && !ev.endDate;
-      }).length;
-      if (undatedCount) {
-        var uBtn = document.createElement("button");
-        uBtn.type = "button";
-        uBtn.className = "nb-cal-strip__btn nb-cal-strip__btn--undated";
-        uBtn.setAttribute("data-cal-month", "undated");
-        uBtn.setAttribute(
-          "aria-label",
-          "Undated records needing update, " + undatedCount
+        var num = document.createElement("span");
+        num.className = "nb-monthcal__daynum";
+        num.textContent = String(day);
+        btn.appendChild(num);
+
+        var marks = document.createElement("div");
+        marks.className = "nb-monthcal__events";
+        renderEventMarks(marks, dayEvents);
+        btn.appendChild(marks);
+
+        btn.addEventListener(
+          "click",
+          (function (captured) {
+            return function () {
+              selectDate(captured);
+            };
+          })(date)
         );
-        uBtn.innerHTML =
-          '<span class="nb-cal-strip__label">Undated</span>' +
-          '<span class="nb-cal-strip__count">' +
-          undatedCount +
-          "</span>";
-        uBtn.addEventListener("click", function () {
-          openAgendaMonth("undated", true);
-        });
-        frag.appendChild(uBtn);
+
+        gridEl.appendChild(btn);
       }
 
-      stripEl.appendChild(frag);
-      highlightFocusMonth();
-    }
-
-    function renderYear(events) {
-      if (!yearEl) return;
-      yearEl.innerHTML = "";
-
-      var head = document.createElement("div");
-      head.className = "nb-cal-year__head";
-      head.setAttribute("aria-hidden", "true");
-      head.innerHTML = '<span class="nb-cal-year__lane-label"></span>';
-      MONTH_SHORT.forEach(function (label, index) {
-        var count = events.filter(function (ev) {
-          return overlapsMonth(ev, YEAR, index);
-        }).length;
-        var cell = document.createElement("span");
-        cell.className = "nb-cal-year__month";
-        cell.setAttribute("data-cal-col", String(index));
-        if (today.isChronicleYear && today.monthIndex === index) {
-          cell.classList.add("is-today");
-        }
-        cell.innerHTML =
-          "<strong>" +
-          label +
-          "</strong>" +
-          (count
-            ? '<span class="nb-cal-year__month-count">' + count + "</span>"
-            : "");
-        head.appendChild(cell);
-      });
-      yearEl.appendChild(head);
-
-      STREAM_ORDER.forEach(function (stream) {
-        if (stream === "igem" && getFilters().showIgem === false) return;
-
-        var laneEvents = events.filter(function (ev) {
-          return ev.stream === stream;
-        });
-        var placed = [];
-        var milestones = [];
-        var undated = [];
-
-        laneEvents.forEach(function (ev) {
-          var place = placementInYear(ev, YEAR);
-          if (!place) return;
-          if (place.undated) {
-            undated.push(ev);
-            return;
-          }
-          if (stream === "igem" || ev.isOfficial) {
-            milestones.push({
-              ev: ev,
-              col: place.start,
-            });
-            return;
-          }
-          placed.push({
-            ev: ev,
-            start: place.start,
-            end: place.end,
-            track: 0,
-          });
-        });
-
-        var trackCount = Math.max(1, assignTracks(placed));
-        var lane = document.createElement("div");
-        lane.className =
-          "nb-cal-lane nb-cal-lane--" +
-          stream +
-          (stream === "igem" ? " nb-cal-lane--official" : "");
-        lane.style.setProperty("--nb-cal-tracks", String(trackCount));
-
-        var label = document.createElement("div");
-        label.className = "nb-cal-lane__label";
-        label.innerHTML =
-          "<span>" +
-          (STREAM_LABEL[stream] || stream) +
-          '</span><span class="nb-cal-lane__count">' +
-          (placed.length + undated.length) +
-          "</span>";
-        lane.appendChild(label);
-
-        var track = document.createElement("div");
-        track.className = "nb-cal-lane__track";
-        track.setAttribute(
-          "role",
-          "group"
-        );
-        track.setAttribute(
-          "aria-label",
-          (STREAM_LABEL[stream] || stream) + " events in " + YEAR
-        );
-
-        for (var m = 0; m < 12; m += 1) {
-          var col = document.createElement("span");
-          col.className = "nb-cal-lane__col";
-          col.setAttribute("data-cal-col", String(m));
-          if (today.isChronicleYear && today.monthIndex === m) {
-            col.classList.add("is-today");
-          }
-          track.appendChild(col);
-        }
-
-        if (today.isChronicleYear) {
-          var marker = document.createElement("span");
-          marker.className = "nb-cal-lane__today-marker";
-          marker.style.gridColumn = String(today.monthIndex + 1);
-          marker.setAttribute("aria-hidden", "true");
-          track.appendChild(marker);
-        }
-
-        placed.forEach(function (item) {
-          var st = statusClass(item.ev);
-          var btn = document.createElement("button");
-          btn.type = "button";
-          btn.className =
-            "nb-cal-event nb-cal-event--" +
-            st +
-            " nb-cal-event--stream-" +
-            stream +
-            (item.ev.stream === "igem" ? " nb-cal-event--igem" : "");
-          btn.style.gridColumn =
-            item.start + 1 + " / " + (item.end + 2);
-          btn.style.gridRow = String(item.track + 1);
-          btn.setAttribute("data-event-id", item.ev.id);
-          btn.setAttribute("aria-pressed", "false");
-          btn.id = item.ev.id;
-          btn.title = item.ev.title + " · " + formatRange(item.ev);
-          btn.setAttribute(
-            "aria-label",
-            item.ev.title +
-              ", " +
-              (STREAM_LABEL[item.ev.stream] || item.ev.stream) +
-              ", " +
-              (STATUS_LABEL[st] || st) +
-              ", " +
-              formatRange(item.ev)
-          );
-
-          var badge =
-            st === "needs-update"
-              ? '<span class="nb-cal-event__badge" aria-hidden="true">!</span>'
-              : st === "ongoing"
-                ? '<span class="nb-cal-event__badge nb-cal-event__badge--now" aria-hidden="true">●</span>'
-                : st === "planned"
-                  ? '<span class="nb-cal-event__badge nb-cal-event__badge--plan" aria-hidden="true">◇</span>'
-                  : "";
-
-          btn.innerHTML =
-            '<span class="nb-cal-event__status" aria-hidden="true"></span>' +
-            '<span class="nb-cal-event__body">' +
-            '<span class="nb-cal-event__title">' +
-            conciseTitle(item.ev) +
-            "</span>" +
-            '<span class="nb-cal-event__when">' +
-            formatRange(item.ev) +
-            "</span>" +
-            "</span>" +
-            badge;
-
-          bindEventControls(btn, item.ev);
-          track.appendChild(btn);
-        });
-
-        milestones.forEach(function (item) {
-          var btn = document.createElement("button");
-          btn.type = "button";
-          btn.className =
-            "nb-cal-milestone nb-cal-event--igem nb-cal-event--milestone";
-          btn.style.gridColumn = String(item.col + 1);
-          btn.style.gridRow = "1";
-          btn.setAttribute("data-event-id", item.ev.id);
-          btn.setAttribute("aria-pressed", "false");
-          btn.id = item.ev.id;
-          btn.title = item.ev.title + " · " + formatRange(item.ev);
-          btn.setAttribute(
-            "aria-label",
-            item.ev.title +
-              ", iGEM Official, " +
-              formatRange(item.ev)
-          );
-          btn.innerHTML =
-            '<span class="nb-cal-milestone__mark" aria-hidden="true">◆</span>' +
-            '<span class="nb-cal-milestone__body">' +
-            '<span class="nb-cal-milestone__kicker">iGEM Official</span>' +
-            '<span class="nb-cal-milestone__title">' +
-            conciseTitle(item.ev) +
-            "</span>" +
-            '<span class="nb-cal-milestone__when">' +
-            formatRange(item.ev) +
-            "</span>" +
-            "</span>";
-          bindEventControls(btn, item.ev);
-          track.appendChild(btn);
-        });
-
-        if (!placed.length && !milestones.length && !undated.length) {
-          var empty = document.createElement("p");
-          empty.className = "nb-cal-lane__empty";
-          empty.textContent =
-            stream === "igem"
-              ? getFilters().showIgem === false
-                ? "Official iGEM milestones hidden — enable “Show iGEM milestones” in filters."
-                : "No official iGEM milestones in the dataset yet."
-              : "No matching records in this lane.";
-          track.appendChild(empty);
-        }
-
-        lane.appendChild(track);
-
-        if (undated.length) {
-          var undatedWrap = document.createElement("div");
-          undatedWrap.className = "nb-cal-lane__undated";
-          undated.forEach(function (ev) {
-            var st = statusClass(ev);
-            var chip = document.createElement("button");
-            chip.type = "button";
-            chip.className =
-              "nb-cal-event nb-cal-event--compact nb-cal-event--" + st;
-            chip.setAttribute("data-event-id", ev.id);
-            chip.id = ev.id;
-            chip.setAttribute("aria-pressed", "false");
-            chip.setAttribute(
-              "aria-label",
-              ev.title + ", undated, needs update"
-            );
-            chip.innerHTML =
-              '<span class="nb-cal-event__badge" aria-hidden="true">!</span>' +
-              '<span class="nb-cal-event__title">' +
-              conciseTitle(ev) +
-              "</span>";
-            bindEventControls(chip, ev);
-            undatedWrap.appendChild(chip);
-          });
-          lane.appendChild(undatedWrap);
-        }
-
-        yearEl.appendChild(lane);
-      });
-
-      highlightFocusMonth();
-    }
-
-    function eventsForAgendaMonth(events, monthKey) {
-      if (monthKey === "undated") {
-        return events.filter(function (ev) {
-          return !ev.startDate && !ev.endDate;
-        });
+      var trailing = (7 - ((lead + count) % 7)) % 7;
+      for (cell = 0; cell < trailing; cell += 1) {
+        var tail = document.createElement("div");
+        tail.className = "nb-monthcal__day nb-monthcal__day--pad";
+        tail.setAttribute("aria-hidden", "true");
+        gridEl.appendChild(tail);
       }
-      return events.filter(function (ev) {
-        return overlapsMonth(ev, YEAR, monthKey);
-      });
     }
 
-    function renderAgenda(events) {
+    function renderDayAgenda(date) {
       if (!agendaEl) return;
       agendaEl.innerHTML = "";
+      if (!date) return;
 
       var heading = document.createElement("h3");
-      heading.className = "nb-cal-agenda__heading";
+      heading.className = "nb-day-agenda__heading";
       heading.id = "nb-cal-agenda-heading";
-      heading.textContent = "Month agenda";
+      heading.textContent =
+        WEEKDAY_FULL[date.getDay()] +
+        " · " +
+        MONTH_FULL[date.getMonth()] +
+        " " +
+        date.getDate();
       agendaEl.appendChild(heading);
 
-      var note = document.createElement("p");
-      note.className = "nb-cal-agenda__note";
-      note.textContent =
-        "Inspect records by month. On small screens this agenda is the primary calendar.";
-      agendaEl.appendChild(note);
+      var dayEvents = eventsForDate(matchedEvents(), date)
+        .slice()
+        .sort(function (a, b) {
+          return (
+            dateSortKey(a.startDate || a.endDate) -
+            dateSortKey(b.startDate || b.endDate)
+          );
+        });
+
+      if (!dayEvents.length) {
+        var empty = document.createElement("p");
+        empty.className = "nb-day-agenda__empty";
+        empty.textContent = "No project records on this date.";
+        agendaEl.appendChild(empty);
+        return;
+      }
 
       var list = document.createElement("div");
-      list.className = "nb-cal-agenda__list";
+      list.className = "nb-day-agenda__list";
 
-      MONTH_SHORT.forEach(function (label, index) {
-        var monthEvents = eventsForAgendaMonth(events, index).sort(function (
-          a,
-          b
-        ) {
-          return eventEndKey(a) - eventEndKey(b);
+      dayEvents.forEach(function (ev) {
+        var st = statusClass(ev);
+        var card = document.createElement("article");
+        card.className =
+          "nb-day-agenda__item nb-day-agenda__item--" +
+          st +
+          " nb-day-agenda__item--" +
+          indicatorStream(ev);
+        card.setAttribute("data-event-id", ev.id);
+        card.setAttribute("data-stream", visualStreamKey(ev));
+
+        var status = document.createElement("p");
+        status.className = "nb-status nb-status--" + st;
+        var mark = document.createElement("span");
+        mark.className = "nb-status__mark";
+        mark.setAttribute("aria-hidden", "true");
+        var statusText = document.createElement("span");
+        statusText.className = "nb-status__text";
+        statusText.textContent = STATUS_LABEL[st] || ev.status;
+        status.appendChild(mark);
+        status.appendChild(statusText);
+
+        var stream = document.createElement("p");
+        stream.className = "nb-day-agenda__stream";
+        stream.textContent = eventWorkstreamLabel(ev);
+
+        var title = document.createElement("h4");
+        title.className = "nb-day-agenda__title";
+        title.textContent = ev.title;
+
+        var summary = document.createElement("p");
+        summary.className = "nb-day-agenda__summary";
+        summary.textContent = ev.shortSummary
+          ? truncate(String(ev.shortSummary), 220)
+          : formatRange(ev);
+
+        var openBtn = document.createElement("button");
+        openBtn.type = "button";
+        openBtn.className = "nb-day-agenda__open";
+        openBtn.setAttribute("data-event-id", ev.id);
+        openBtn.textContent = "View record →";
+        openBtn.addEventListener("click", function () {
+          openEvent(ev, openBtn, false);
         });
 
-        var details = document.createElement("details");
-        details.className = "nb-cal-month";
-        details.setAttribute("data-cal-agenda-month", String(index));
-        if (index === state.focusMonth) details.open = true;
-        if (today.isChronicleYear && today.monthIndex === index) {
-          details.classList.add("is-today");
-        }
-
-        var summary = document.createElement("summary");
-        summary.innerHTML =
-          "<span>" +
-          label +
-          " " +
-          YEAR +
-          "</span>" +
-          '<span class="nb-cal-month__count">' +
-          monthEvents.length +
-          (monthEvents.length === 1 ? " record" : " records") +
-          "</span>" +
-          (today.isChronicleYear && today.monthIndex === index
-            ? '<span class="nb-cal-month__today-tag">Current month</span>'
-            : "");
-        details.appendChild(summary);
-
-        var body = document.createElement("div");
-        body.className = "nb-cal-month__body";
-
-        if (!monthEvents.length) {
-          var empty = document.createElement("p");
-          empty.className = "nb-cal-month__empty";
-          empty.textContent = "No matching records this month.";
-          body.appendChild(empty);
-        } else {
-          monthEvents.forEach(function (ev) {
-            body.appendChild(buildAgendaCard(ev));
-          });
-        }
-
-        details.appendChild(body);
-        list.appendChild(details);
+        card.appendChild(status);
+        card.appendChild(stream);
+        card.appendChild(title);
+        card.appendChild(summary);
+        card.appendChild(openBtn);
+        list.appendChild(card);
       });
-
-      var undated = eventsForAgendaMonth(events, "undated");
-      if (undated.length) {
-        var uDetails = document.createElement("details");
-        uDetails.className = "nb-cal-month nb-cal-month--undated";
-        uDetails.setAttribute("data-cal-agenda-month", "undated");
-        var uSummary = document.createElement("summary");
-        uSummary.innerHTML =
-          "<span>Undated · needs update</span>" +
-          '<span class="nb-cal-month__count">' +
-          undated.length +
-          (undated.length === 1 ? " record" : " records") +
-          "</span>";
-        uDetails.appendChild(uSummary);
-        var uBody = document.createElement("div");
-        uBody.className = "nb-cal-month__body";
-        undated.forEach(function (ev) {
-          uBody.appendChild(buildAgendaCard(ev));
-        });
-        uDetails.appendChild(uBody);
-        list.appendChild(uDetails);
-      }
 
       agendaEl.appendChild(list);
-    }
-
-    function buildAgendaCard(ev) {
-      var st = statusClass(ev);
-      var card = document.createElement("article");
-      card.className =
-        "nb-cal-card nb-cal-card--" +
-        st +
-        " nb-cal-card--stream-" +
-        (ev.stream || "unknown") +
-        (ev.stream === "igem" ? " nb-cal-card--igem" : "");
-      card.setAttribute("data-event-id", ev.id);
-      card.setAttribute("data-stream", ev.stream || "");
-
-      var btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "nb-cal-card__hit";
-      btn.setAttribute("data-event-id", ev.id);
-      btn.setAttribute("aria-pressed", "false");
-      btn.setAttribute(
-        "aria-label",
-        "Open " +
-          ev.title +
-          ", " +
-          (STATUS_LABEL[st] || st) +
-          ", " +
-          formatRange(ev)
-      );
-
-      btn.innerHTML =
-        '<span class="nb-cal-card__top">' +
-        '<span class="nb-status nb-status--' +
-        st +
-        '"><span class="nb-status__mark" aria-hidden="true"></span><span class="nb-status__text">' +
-        (STATUS_LABEL[st] || st) +
-        "</span></span>" +
-        '<span class="nb-cal-card__stream">' +
-        (STREAM_LABEL[ev.stream] || ev.stream) +
-        "</span>" +
-        "</span>" +
-        (ev.isOfficial
-          ? '<span class="nb-cal-card__kicker">iGEM Official</span>'
-          : "") +
-        '<span class="nb-cal-card__title">' +
-        ev.title +
-        "</span>" +
-        '<span class="nb-cal-card__when">' +
-        formatRange(ev) +
-        "</span>";
-
-      bindEventControls(btn, ev);
-      card.appendChild(btn);
-      return card;
-    }
-
-    function openAgendaMonth(monthKey, scroll) {
-      qsa("[data-cal-agenda-month]", agendaEl).forEach(function (details) {
-        var key = details.getAttribute("data-cal-agenda-month");
-        var on =
-          monthKey === "undated"
-            ? key === "undated"
-            : key === String(monthKey);
-        details.open = on;
-        if (on && scroll) {
-          try {
-            details.scrollIntoView({
-              block: "nearest",
-              behavior: prefersReducedMotion() ? "auto" : "smooth",
-            });
-          } catch (e) {
-            details.scrollIntoView(true);
-          }
-        }
-      });
-      if (monthKey !== "undated") {
-        state.focusMonth = Number(monthKey);
-        highlightFocusMonth();
-      }
-    }
-
-    function shouldRenderYearGrid() {
-      return !(
-        window.matchMedia &&
-        window.matchMedia("(max-width: 768px)").matches
-      );
     }
 
     function render() {
       var events = matchedEvents();
       updateViewCounts(root, events.length);
-      renderStrip(events);
-      if (shouldRenderYearGrid()) {
-        renderYear(events);
-      } else if (yearEl) {
-        yearEl.innerHTML = "";
-      }
-      renderAgenda(events);
+      fillMonthSelect();
+      renderMonth();
+      renderDayAgenda(state.selectedDate);
 
       var openId =
         (drawerApi && drawerApi.currentId && drawerApi.currentId()) ||
@@ -1795,30 +1834,30 @@
       }
     }
 
-    if (window.matchMedia) {
-      var yearMq = window.matchMedia("(max-width: 768px)");
-      var onYearMq = debounce(function () {
-        render();
-      }, 120);
-      if (typeof yearMq.addEventListener === "function") {
-        yearMq.addEventListener("change", onYearMq);
-      } else if (typeof yearMq.addListener === "function") {
-        yearMq.addListener(onYearMq);
-      }
+    if (prevBtn) {
+      prevBtn.addEventListener("click", function () {
+        goToMonth(state.focusMonth - 1);
+      });
     }
-
+    if (nextBtn) {
+      nextBtn.addEventListener("click", function () {
+        goToMonth(state.focusMonth + 1);
+      });
+    }
+    if (monthSelect) {
+      monthSelect.addEventListener("change", function () {
+        goToMonth(Number(monthSelect.value));
+      });
+    }
     if (todayBtn) {
       todayBtn.addEventListener("click", function () {
         if (today.isChronicleYear) {
-          state.focusMonth = today.monthIndex;
-          highlightFocusMonth();
-          openAgendaMonth(today.monthIndex, true);
+          goToMonth(today.monthIndex);
+          selectDate(makeDate(YEAR, today.monthIndex, today.day));
         } else {
-          state.focusMonth = 8;
-          highlightFocusMonth();
-          openAgendaMonth(8, true);
-          todayBtn.textContent =
-            "Not in 2026 — jumped to September (project focus)";
+          goToMonth(8);
+          selectDate(makeDate(YEAR, 8, 1));
+          todayBtn.textContent = "Not in 2026 — jumped to September";
         }
       });
     }
@@ -1858,20 +1897,38 @@
 
     var navEl = qs("[data-tl-nav]", tlRoot);
     var streamEl = qs("[data-tl-stream-root]", tlRoot);
-    var chips = qsa("[data-tl-stream]", tlRoot);
+    var streamChips = qsa("[data-tl-stream]", tlRoot);
+    var subChips = qsa("[data-tl-substream]", tlRoot);
+    var subWrap = qs("[data-tl-substreams]", tlRoot);
 
-    function syncChips(stream) {
-      chips.forEach(function (chip) {
+    function syncChips(filters) {
+      var stream = filters.stream || "all";
+      var sub = filters.substream || "all";
+      if (stream === "drylab-all") stream = "drylab";
+      streamChips.forEach(function (chip) {
         var on = chip.getAttribute("data-tl-stream") === stream;
+        chip.classList.toggle("is-active", on);
+        chip.setAttribute("aria-pressed", on ? "true" : "false");
+      });
+      if (subWrap) subWrap.hidden = stream !== "drylab";
+      subChips.forEach(function (chip) {
+        var on = stream === "drylab" && chip.getAttribute("data-tl-substream") === sub;
         chip.classList.toggle("is-active", on);
         chip.setAttribute("aria-pressed", on ? "true" : "false");
       });
     }
 
-    chips.forEach(function (chip) {
+    streamChips.forEach(function (chip) {
       chip.addEventListener("click", function () {
         var stream = chip.getAttribute("data-tl-stream") || "all";
-        setStreamFilter(stream);
+        setStreamFilter(stream, "all");
+      });
+    });
+
+    subChips.forEach(function (chip) {
+      chip.addEventListener("click", function () {
+        var sub = chip.getAttribute("data-tl-substream") || "all";
+        setStreamFilter("drylab", sub);
       });
     });
 
@@ -1881,7 +1938,7 @@
 
     function render() {
       var filters = getFilters();
-      syncChips(filters.stream || "all");
+      syncChips(filters);
       var events = filterEvents(teamEvents, filters, officialEvents)
         .slice()
         .sort(function (a, b) {
@@ -1941,14 +1998,16 @@
         group.events.forEach(function (ev) {
           var st = statusClass(ev);
           var card = document.createElement("article");
+          var visual = visualStreamKey(ev);
           card.className =
             "nb-tl-card nb-tl-card--" +
             st +
             " nb-tl-card--stream-" +
-            (ev.stream || "unknown") +
-            (ev.stream === "igem" ? " nb-tl-card--igem" : "");
+            visual +
+            (eventStream(ev) === "igem" ? " nb-tl-card--igem" : "");
           card.setAttribute("data-event-id", ev.id);
-          card.setAttribute("data-stream", ev.stream || "");
+          card.setAttribute("data-stream", visual);
+          card.setAttribute("data-substream", eventSubstream(ev) || "");
 
           var keyLine = keyResultOrDecision(ev);
           card.innerHTML =
@@ -1957,7 +2016,7 @@
             formatRange(ev) +
             "</time>" +
             '<span class="nb-tl-card__stream">' +
-            (STREAM_LABEL[ev.stream] || ev.stream) +
+            eventWorkstreamLabel(ev) +
             "</span>" +
             '<span class="nb-status nb-status--' +
             st +
@@ -2011,64 +2070,192 @@
     var phasesEl = qs("[data-gantt-phases]", gRoot);
     var today = todayInfo();
 
+    function periodFlex(period) {
+      return inclusiveEndMs(period.end) - period.start;
+    }
+
+    function todayMs() {
+      if (!today.isChronicleYear) return null;
+      return Date.UTC(YEAR, today.monthIndex, today.day);
+    }
+
+    function todayOnAxis() {
+      var t = todayMs();
+      return t != null && t >= GANTT_AXIS.start && t < GANTT_AXIS.end;
+    }
+
+    function laneDisplayLabel(lane) {
+      if (lane.id === "igem") return "iGEM milestones";
+      return lane.label;
+    }
+
+    function spanDurationLabel(span) {
+      if (!span) return "Undated";
+      var days = Math.max(1, Math.round((span.end - span.start) / DAY_MS));
+      if (days === 1) return "1 day";
+      if (days < 14) return days + " days";
+      var weeks = Math.round(days / 7);
+      if (weeks < 9) return weeks + (weeks === 1 ? " week" : " weeks");
+      var months = Math.max(1, Math.round(days / 30.44));
+      return months + (months === 1 ? " month" : " months");
+    }
+
+    function ganttRowItems(filters) {
+      var items = [];
+      var wet = LANE_DEFS[0];
+      var hardware = LANE_DEFS[1];
+      var model = LANE_DEFS[2];
+      var igem = LANE_DEFS[3];
+      if (laneVisible(wet, filters)) {
+        items.push({ kind: "lane", lane: wet, branch: "" });
+      }
+      var showHw = laneVisible(hardware, filters);
+      var showModel = laneVisible(model, filters);
+      if (showHw || showModel) {
+        items.push({ kind: "group", id: "drylab", label: "Dry Lab" });
+        if (showHw && showModel) {
+          items.push({ kind: "lane", lane: hardware, branch: "├" });
+          items.push({ kind: "lane", lane: model, branch: "└" });
+        } else if (showHw) {
+          items.push({ kind: "lane", lane: hardware, branch: "└" });
+        } else {
+          items.push({ kind: "lane", lane: model, branch: "└" });
+        }
+      }
+      if (laneVisible(igem, filters)) {
+        items.push({ kind: "lane", lane: igem, branch: "" });
+      }
+      return items;
+    }
+
+    function appendPhaseGuides(track) {
+      GANTT_PERIODS.forEach(function (period, index) {
+        var guide = document.createElement("span");
+        guide.className =
+          "nb-gantt-chart__guide nb-gantt-chart__guide--" + period.id;
+        if (index === 0) guide.classList.add("is-first");
+        guide.style.left = axisPercent(period.start, GANTT_AXIS) + "%";
+        guide.style.width =
+          axisPercent(inclusiveEndMs(period.end), GANTT_AXIS) -
+          axisPercent(period.start, GANTT_AXIS) +
+          "%";
+        guide.setAttribute("aria-hidden", "true");
+        track.appendChild(guide);
+      });
+      if (todayOnAxis()) {
+        var line = document.createElement("span");
+        line.className = "nb-gantt-chart__today";
+        line.style.left = axisPercent(todayMs(), GANTT_AXIS) + "%";
+        line.setAttribute("aria-hidden", "true");
+        track.appendChild(line);
+      }
+    }
+
     function renderChart(events) {
       if (!chartEl) return;
       chartEl.innerHTML = "";
+      chartEl.className = "nb-gantt-view__chart nb-gantt-chart";
 
+      var filters = getFilters();
       var head = document.createElement("div");
       head.className = "nb-gantt-chart__head";
-      head.innerHTML = '<span class="nb-gantt-chart__corner"></span>';
-      MONTH_SHORT.forEach(function (label, index) {
+      head.appendChild(document.createElement("span")).className =
+        "nb-gantt-chart__corner";
+
+      var axis = document.createElement("div");
+      axis.className = "nb-gantt-chart__axis";
+      axis.setAttribute("aria-hidden", "true");
+      GANTT_PERIODS.forEach(function (period) {
         var cell = document.createElement("span");
-        cell.className = "nb-gantt-chart__month";
-        if (today.isChronicleYear && today.monthIndex === index) {
-          cell.classList.add("is-today");
-        }
-        cell.textContent = label;
-        head.appendChild(cell);
+        cell.className =
+          "nb-gantt-chart__period nb-gantt-chart__period--" + period.id;
+        cell.style.flexGrow = String(periodFlex(period));
+        cell.style.flexBasis = "0";
+        cell.innerHTML =
+          '<span class="nb-gantt-chart__period-range">' +
+          period.shortLabel +
+          '</span><span class="nb-gantt-chart__period-name">' +
+          period.label +
+          "</span>";
+        axis.appendChild(cell);
       });
+      if (todayOnAxis()) {
+        var todayMark = document.createElement("span");
+        todayMark.className = "nb-gantt-chart__today";
+        todayMark.style.left = axisPercent(todayMs(), GANTT_AXIS) + "%";
+        axis.appendChild(todayMark);
+      }
+      head.appendChild(axis);
       chartEl.appendChild(head);
 
-      STREAM_ORDER.forEach(function (stream) {
-        if (stream === "igem" && getFilters().showIgem === false) return;
+      function renderGroupRow(item) {
+        var row = document.createElement("div");
+        row.className =
+          "nb-gantt-chart__row nb-gantt-chart__row--group nb-gantt-chart__row--" +
+          item.id;
+        var label = document.createElement("div");
+        label.className = "nb-gantt-chart__label";
+        label.innerHTML = "<span>" + item.label + "</span>";
+        row.appendChild(label);
+        var track = document.createElement("div");
+        track.className = "nb-gantt-chart__track";
+        track.setAttribute("aria-hidden", "true");
+        appendPhaseGuides(track);
+        row.appendChild(track);
+        chartEl.appendChild(row);
+      }
 
+      function renderLaneRow(item) {
+        var lane = item.lane;
         var laneEvents = events.filter(function (ev) {
-          return ev.stream === stream;
+          return eventMatchesLane(ev, lane);
         });
         var placed = [];
         var markers = [];
 
         laneEvents.forEach(function (ev) {
-          var place = placementInYear(ev, YEAR);
-          if (!place) return;
-          if (place.undated) {
-            markers.push(ev);
+          var span = eventSpanMs(ev);
+          if (!span) {
+            markers.push({ ev: ev, undated: true });
             return;
           }
-          if (ev.stream === "igem" || ev.isOfficial) {
-            markers.push({ ev: ev, start: place.start, end: place.end });
+          if (span.end <= GANTT_AXIS.start || span.start >= GANTT_AXIS.end) {
+            return;
+          }
+          var start = Math.max(span.start, GANTT_AXIS.start);
+          var end = Math.min(span.end, GANTT_AXIS.end);
+          if (lane.stream === "igem" || ev.isOfficial) {
+            markers.push({ ev: ev, start: start, end: end });
             return;
           }
           placed.push({
             ev: ev,
-            start: place.start,
-            end: place.end,
+            start: start,
+            end: end,
             track: 0,
           });
         });
 
-        var trackCount = Math.max(1, assignTracks(placed));
+        var trackCount = Math.max(1, assignTracksMs(placed));
         var row = document.createElement("div");
         row.className =
-          "nb-gantt-chart__row" +
-          (stream === "igem" ? " nb-gantt-chart__row--official" : "");
+          "nb-gantt-chart__row nb-gantt-chart__row--" +
+          lane.id +
+          (item.branch ? " nb-gantt-chart__row--sub" : "") +
+          (lane.stream === "igem" ? " nb-gantt-chart__row--official" : "");
         row.style.setProperty("--nb-gantt-tracks", String(trackCount));
 
+        var name = laneDisplayLabel(lane);
         var label = document.createElement("div");
         label.className = "nb-gantt-chart__label";
         label.innerHTML =
+          (item.branch
+            ? '<span class="nb-gantt-chart__branch" aria-hidden="true">' +
+              item.branch +
+              "</span>"
+            : "") +
           "<span>" +
-          (STREAM_LABEL[stream] || stream) +
+          name +
           '</span><span class="nb-gantt-chart__count">' +
           laneEvents.length +
           "</span>";
@@ -2077,48 +2264,40 @@
         var track = document.createElement("div");
         track.className = "nb-gantt-chart__track";
         track.setAttribute("role", "group");
-        track.setAttribute(
-          "aria-label",
-          (STREAM_LABEL[stream] || stream) + " Gantt bands"
-        );
+        track.setAttribute("aria-label", name + " Gantt bands");
+        appendPhaseGuides(track);
 
-        for (var m = 0; m < 12; m += 1) {
-          var col = document.createElement("span");
-          col.className = "nb-gantt-chart__col";
-          if (today.isChronicleYear && today.monthIndex === m) {
-            col.classList.add("is-today");
-          }
-          track.appendChild(col);
-        }
-
-        if (today.isChronicleYear) {
-          var line = document.createElement("span");
-          line.className = "nb-gantt-chart__today";
-          line.style.gridColumn = String(today.monthIndex + 1);
-          line.setAttribute("aria-hidden", "true");
-          track.appendChild(line);
-        }
-
-        placed.forEach(function (item) {
-          var st = statusClass(item.ev);
+        placed.forEach(function (placedItem) {
+          var st = statusClass(placedItem.ev);
+          var visual = visualStreamKey(placedItem.ev);
+          var left = axisPercent(placedItem.start, GANTT_AXIS);
+          var right = axisPercent(placedItem.end, GANTT_AXIS);
+          var width = Math.max(right - left, 0.8);
           var btn = document.createElement("button");
           btn.type = "button";
-          btn.className = "nb-gantt-bar nb-gantt-bar--" + st;
-          btn.style.gridColumn = item.start + 1 + " / " + (item.end + 2);
-          btn.style.gridRow = String(item.track + 1);
-          btn.setAttribute("data-event-id", item.ev.id);
-          btn.title = item.ev.title + " · " + formatRange(item.ev);
+          btn.className =
+            "nb-gantt-bar nb-gantt-bar--" +
+            st +
+            " nb-gantt-bar--lane-" +
+            visual;
+          btn.style.left = left + "%";
+          btn.style.width = width + "%";
+          btn.style.top = "calc(0.35rem + " + placedItem.track + " * 2.55rem)";
+          btn.setAttribute("data-event-id", placedItem.ev.id);
+          btn.title = placedItem.ev.title + " · " + formatRange(placedItem.ev);
           btn.setAttribute(
             "aria-label",
-            item.ev.title +
+            placedItem.ev.title +
+              ", " +
+              name +
               ", " +
               (STATUS_LABEL[st] || st) +
               ", " +
-              formatRange(item.ev)
+              formatRange(placedItem.ev)
           );
           btn.innerHTML =
             '<span class="nb-gantt-bar__title">' +
-            conciseTitle(item.ev) +
+            conciseTitle(placedItem.ev) +
             "</span>" +
             (st === "ongoing"
               ? '<span class="nb-gantt-bar__now" aria-hidden="true">●</span>'
@@ -2127,23 +2306,34 @@
               ? '<span class="nb-gantt-bar__warn" aria-hidden="true">!</span>'
               : "");
           btn.addEventListener("click", function () {
-            if (typeof openRecord === "function") openRecord(item.ev, btn);
+            if (typeof openRecord === "function") {
+              openRecord(placedItem.ev, btn);
+            }
           });
           track.appendChild(btn);
         });
 
-        markers.forEach(function (item) {
-          var ev = item.ev || item;
-          var start = item.start != null ? item.start : 0;
+        markers.forEach(function (markerItem) {
+          var ev = markerItem.ev;
           var btn = document.createElement("button");
           btn.type = "button";
           btn.className =
             "nb-gantt-marker" +
-            (ev.stream === "igem" ? " nb-gantt-marker--igem" : " nb-gantt-marker--undated");
-          btn.style.gridColumn = String((start || 0) + 1);
+            (eventStream(ev) === "igem"
+              ? " nb-gantt-marker--igem"
+              : " nb-gantt-marker--undated");
+          btn.style.left = markerItem.undated
+            ? "0%"
+            : axisPercent(markerItem.start, GANTT_AXIS) + "%";
           btn.setAttribute("data-event-id", ev.id);
-          btn.title = ev.title;
-          btn.setAttribute("aria-label", ev.title + " (marker)");
+          btn.title = ev.title + (markerItem.undated ? "" : " · " + formatRange(ev));
+          btn.setAttribute(
+            "aria-label",
+            ev.title +
+              (markerItem.undated
+                ? " (undated marker)"
+                : ", " + formatRange(ev) + " (marker)")
+          );
           btn.textContent = "◆";
           btn.addEventListener("click", function () {
             if (typeof openRecord === "function") openRecord(ev, btn);
@@ -2155,7 +2345,7 @@
           var empty = document.createElement("p");
           empty.className = "nb-gantt-chart__empty";
           empty.textContent =
-            stream === "igem"
+            lane.stream === "igem"
               ? "No official iGEM milestones yet."
               : "No matching bands.";
           track.appendChild(empty);
@@ -2163,70 +2353,142 @@
 
         row.appendChild(track);
         chartEl.appendChild(row);
+      }
+
+      ganttRowItems(filters).forEach(function (item) {
+        if (item.kind === "group") renderGroupRow(item);
+        else renderLaneRow(item);
+      });
+    }
+
+    function appendPhaseEventList(container, list) {
+      var ul = document.createElement("ul");
+      list
+        .slice()
+        .sort(function (a, b) {
+          return eventEndKey(a) - eventEndKey(b);
+        })
+        .forEach(function (ev) {
+          var st = statusClass(ev);
+          var span = eventSpanMs(ev);
+          var li = document.createElement("li");
+          li.className =
+            "nb-gantt-duration nb-gantt-duration--" +
+            st +
+            " nb-gantt-duration--lane-" +
+            visualStreamKey(ev);
+          var btn = document.createElement("button");
+          btn.type = "button";
+          btn.setAttribute("data-gantt-phase-open", ev.id);
+          btn.innerHTML =
+            '<span class="nb-gantt-duration__meta">' +
+            '<span class="nb-status nb-status--' +
+            st +
+            '"><span class="nb-status__mark" aria-hidden="true"></span><span class="nb-status__text">' +
+            (STATUS_LABEL[st] || st) +
+            "</span></span>" +
+            '<span class="nb-gantt-duration__stream">' +
+            spanDurationLabel(span) +
+            "</span></span>" +
+            "<strong>" +
+            ev.title +
+            "</strong>";
+          li.appendChild(btn);
+          ul.appendChild(li);
+        });
+      container.appendChild(ul);
+    }
+
+    function laneEventsInPeriod(events, lane, period) {
+      return events.filter(function (ev) {
+        if (!eventMatchesLane(ev, lane)) return false;
+        var span = eventSpanMs(ev);
+        if (!span) return false;
+        return overlapSpan(span, period);
       });
     }
 
     function renderPhases(events) {
       if (!phasesEl) return;
       phasesEl.innerHTML = "";
+      var filters = getFilters();
       var heading = document.createElement("h3");
       heading.className = "nb-gantt-phases__heading";
-      heading.textContent = "Phase list";
+      heading.textContent = "By project phase";
       phasesEl.appendChild(heading);
+      var lede = document.createElement("p");
+      lede.className = "nb-gantt-phases__lede";
+      lede.textContent =
+        "Stacked by Discover, Build, and Validate. Duration and status are on the card; exact dates open in the record.";
+      phasesEl.appendChild(lede);
 
-      STREAM_ORDER.forEach(function (stream) {
-        if (stream === "igem" && getFilters().showIgem === false) return;
+      var rowItems = ganttRowItems(filters);
+      GANTT_PERIODS.forEach(function (period) {
+        var periodBlock = document.createElement("section");
+        periodBlock.className =
+          "nb-gantt-phases__period nb-gantt-phases__period--" + period.id;
+        periodBlock.innerHTML =
+          '<p class="nb-gantt-phases__when">' +
+          period.shortLabel +
+          "</p><h4>" +
+          period.label +
+          "</h4>";
+        var hasAny = false;
+        var dryGroup = null;
 
-        var list = events
-          .filter(function (ev) {
-            return ev.stream === stream;
-          })
-          .slice()
-          .sort(function (a, b) {
-            return eventEndKey(a) - eventEndKey(b);
-          });
-        var block = document.createElement("section");
-        block.className = "nb-gantt-phases__stream";
-        block.innerHTML =
-          "<h4>" +
-          (STREAM_LABEL[stream] || stream) +
-          " <span>(" +
-          list.length +
-          ")</span></h4>";
-        if (!list.length) {
-          var p = document.createElement("p");
-          p.className = "nb-gantt-phases__empty";
-          p.textContent =
-            stream === "igem"
-              ? "No official milestones in the dataset."
-              : "No matching records.";
-          block.appendChild(p);
-        } else {
-          var ul = document.createElement("ul");
-          list.forEach(function (ev) {
-            var st = statusClass(ev);
-            var li = document.createElement("li");
-            li.className = "nb-gantt-phases__item nb-gantt-phases__item--" + st;
-            li.innerHTML =
-              '<button type="button" data-gantt-phase-open="' +
-              ev.id +
-              '">' +
-              '<span class="nb-status nb-status--' +
-              st +
-              '"><span class="nb-status__mark" aria-hidden="true"></span><span class="nb-status__text">' +
-              (STATUS_LABEL[st] || st) +
-              "</span></span> " +
-              "<strong>" +
-              ev.title +
-              "</strong> · <time>" +
-              formatRange(ev) +
-              "</time></button>";
-            ul.appendChild(li);
-          });
-          block.appendChild(ul);
+        rowItems.forEach(function (item) {
+          if (item.kind === "group") {
+            dryGroup = document.createElement("div");
+            dryGroup.className =
+              "nb-gantt-phases__group nb-gantt-phases__group--" + item.id;
+            dryGroup.innerHTML = "<h5>" + item.label + "</h5>";
+            return;
+          }
+          var list = laneEventsInPeriod(events, item.lane, period);
+          if (!list.length) return;
+          hasAny = true;
+          var streamBlock = document.createElement("div");
+          streamBlock.className =
+            "nb-gantt-phases__stream nb-gantt-phases__stream--" + item.lane.id;
+          streamBlock.innerHTML =
+            "<h5>" +
+            (item.branch
+              ? '<span class="nb-gantt-chart__branch" aria-hidden="true">' +
+                item.branch +
+                "</span>"
+              : "") +
+            laneDisplayLabel(item.lane) +
+            " <span>(" +
+            list.length +
+            ")</span></h5>";
+          appendPhaseEventList(streamBlock, list);
+          if (item.branch && dryGroup) {
+            dryGroup.appendChild(streamBlock);
+            if (!dryGroup.parentNode) periodBlock.appendChild(dryGroup);
+          } else {
+            periodBlock.appendChild(streamBlock);
+          }
+        });
+
+        if (!hasAny) {
+          var empty = document.createElement("p");
+          empty.className = "nb-gantt-phases__empty";
+          empty.textContent = "No matching records in this phase.";
+          periodBlock.appendChild(empty);
         }
-        phasesEl.appendChild(block);
+        phasesEl.appendChild(periodBlock);
       });
+
+      var undated = events.filter(function (ev) {
+        return !eventSpanMs(ev);
+      });
+      if (undated.length) {
+        var uBlock = document.createElement("section");
+        uBlock.className = "nb-gantt-phases__period";
+        uBlock.innerHTML = "<h4>Undated</h4>";
+        appendPhaseEventList(uBlock, undated);
+        phasesEl.appendChild(uBlock);
+      }
 
       qsa("[data-gantt-phase-open]", phasesEl).forEach(function (btn) {
         btn.addEventListener("click", function () {
@@ -2268,11 +2530,12 @@
     var list = document.createElement("div");
     list.className = "nb-turning__list";
 
-    points.forEach(function (tp, index) {
-      var article = document.createElement("article");
-      article.className = "nb-tp";
-      article.id = tp.id;
-      article.setAttribute("data-tp-stream", tp.stream || "");
+    points.forEach(function (tp) {
+      var details = document.createElement("details");
+      details.className = "nb-turning-point";
+      details.id = tp.id;
+      details.setAttribute("data-tp-stream", tp.stream || "");
+      details.setAttribute("data-tp-substream", tp.substream || "");
 
       var links = (tp.eventIds || [])
         .map(function (id) {
@@ -2286,47 +2549,85 @@
         })
         .join(" · ");
 
-      article.innerHTML =
-        '<header class="nb-tp__head">' +
-        '<p class="nb-tp__index">Turning point ' +
-        (index + 1 < 10 ? "0" : "") +
-        (index + 1) +
-        "</p>" +
-        "<h3>" +
+      details.innerHTML =
+        '<summary class="nb-turning-point__summary">' +
+        '<span class="nb-turning-point__date">' +
+        turningPointDate(tp, allEvents) +
+        "</span>" +
+        '<span class="nb-turning-point__title">' +
         tp.title +
-        "</h3>" +
-        '<p class="nb-tp__stream">' +
-        (STREAM_LABEL[tp.stream] || tp.stream || "") +
-        "</p>" +
-        "</header>" +
-        '<ol class="nb-tp__chain">' +
-        '<li><span class="nb-tp__step">Before</span><p>' +
+        "</span>" +
+        "</summary>" +
+        '<div class="nb-turning-point__body">' +
+        (turningPointLabel(tp)
+          ? '<p class="nb-turning-point__stream">' +
+            turningPointLabel(tp) +
+            "</p>"
+          : "") +
+        "<p><strong>Before.</strong> " +
         tp.before +
-        "</p></li>" +
-        '<li><span class="nb-tp__step">Evidence / problem</span><p>' +
+        "</p>" +
+        "<p><strong>Evidence.</strong> " +
         tp.evidence +
-        "</p></li>" +
-        '<li><span class="nb-tp__step">Decision</span><p>' +
+        "</p>" +
+        "<p><strong>Decision.</strong> " +
         tp.decision +
-        "</p></li>" +
-        '<li><span class="nb-tp__step">After</span><p>' +
+        "</p>" +
+        "<p><strong>After.</strong> " +
         tp.after +
-        "</p></li>" +
-        "</ol>" +
-        '<p class="nb-tp__sources">Source records: ' +
-        links +
-        "</p>";
+        "</p>" +
+        (links
+          ? '<p class="nb-turning-point__sources">Source records: ' +
+            links +
+            "</p>"
+          : "") +
+        "</div>";
 
-      list.appendChild(article);
+      list.appendChild(details);
     });
 
     stage.appendChild(list);
+
+    function openFromHash() {
+      var id = (location.hash || "").replace(/^#/, "");
+      if (!id) return;
+      var el = document.getElementById(id);
+      if (el && el.classList.contains("nb-turning-point")) {
+        el.open = true;
+      }
+    }
+
+    openFromHash();
+    window.addEventListener("hashchange", openFromHash);
   }
 
-  function setFormStream(form, stream) {
+  function setFormStream(form, stream, substream) {
     if (!form) return;
+    var mapped = stream || "all";
+    if (mapped === "drylab-all") mapped = "drylab";
+    if (mapped === "hardware" || mapped === "model") {
+      if (form.elements.namedItem("substream")) {
+        form.elements.namedItem("substream").value = mapped;
+      }
+      mapped = "drylab";
+    }
     var el = form.elements.namedItem("stream");
-    if (el) el.value = stream || "all";
+    if (el) el.value = mapped;
+    var subEl = form.elements.namedItem("substream");
+    if (subEl) {
+      subEl.value = mapped === "drylab" ? substream || "all" : "all";
+    }
+    syncSubstreamFilter(form);
+  }
+
+  function syncSubstreamFilter(form) {
+    if (!form) return;
+    var streamEl = form.elements.namedItem("stream");
+    var isDry = streamEl && streamEl.value === "drylab";
+    var wrap = qs("[data-substream-filter]", form);
+    if (wrap) wrap.hidden = !isDry;
+    var subEl = form.elements.namedItem("substream");
+    if (subEl && !isDry) subEl.value = "all";
   }
 
   function initFilterShell(root) {
@@ -2366,6 +2667,7 @@
         getFilters: function () {
           return {
             stream: "all",
+            substream: "all",
             status: "all",
             month: "all",
             tag: "all",
@@ -2381,8 +2683,10 @@
     fillFilterOptions(form, teamEvents);
     var live = qs("[data-filter-live]", form);
     var searchInput = form.elements.namedItem("q");
+    syncSubstreamFilter(form);
 
     function apply() {
+      syncSubstreamFilter(form);
       var filters = readFilters(form);
       var matched = filterEvents(teamEvents, filters, officialEvents);
       var total = chroniclePool(teamEvents, officialEvents, filters).length;
@@ -2415,6 +2719,7 @@
       if (
         name === "showIgem" ||
         name === "stream" ||
+        name === "substream" ||
         name === "status" ||
         name === "month" ||
         name === "tag"
@@ -2441,8 +2746,8 @@
       getFilters: function () {
         return readFilters(form);
       },
-      setStream: function (stream) {
-        setFormStream(form, stream);
+      setStream: function (stream, substream) {
+        setFormStream(form, stream, substream);
         apply();
       },
       apply: apply,
@@ -2511,8 +2816,8 @@
       function () {
         return filterApi.getFilters();
       },
-      function (stream) {
-        filterApi.setStream(stream);
+      function (stream, substream) {
+        filterApi.setStream(stream, substream);
       },
       openRecord
     );

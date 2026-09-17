@@ -1,5 +1,6 @@
 /**
- * Description page — Sense → Read → Decode → Act panels.
+ * Description page — Sense → Read → Decode → Act panels
+ * (functional system architecture, not team workstream hierarchy).
  * Click left ticks to switch the right-hand stage. No scroll-jacking.
  */
 (function () {

@@ -662,6 +662,9 @@
     ],
     assemblyNotes: {
       cloningHostIntent: "seamless cloning into pcDNA3.1(+)",
+      rfc10Note:
+        "RFC 10 and RFC 1000 are independent Registry assembly standards. This index records RFC 10 only when a Registry compatibility field has been verified in-repo. Unverified parts stay Unknown — RFC 10 is never inferred from RFC 1000.",
+      rfc10VerifiedIds: [],
       rfc1000CompatibleSensing: ["Or85b", "Or59b", "Or42a", "Or98a"],
       rfc1000ViolationCount: 7,
       avoidDiagnosticEnzyme: "PstI",
@@ -730,11 +733,25 @@
     ],
   };
 
+  function rfcField(value) {
+    if (value === true) return true;
+    if (value === false) return false;
+    return "unknown";
+  }
+
+  function rfcLabel(value) {
+    if (value === true) return "Compatible";
+    if (value === false) return "Incompatible";
+    return "Unknown";
+  }
+
   function applyDefaults(part) {
     if (!part.registryUrl) part.registryUrl = null;
     if (!part.parentIds) part.parentIds = [];
     if (!part.childIds) part.childIds = [];
-    if (typeof part.rfc1000 === "undefined") part.rfc1000 = null;
+    /* RFC 10 is independent of RFC 1000. Unverified Registry status stays "unknown". */
+    part.rfc10 = rfcField(part.rfc10);
+    part.rfc1000 = rfcField(part.rfc1000);
     if (typeof part.plasmidMap === "undefined") part.plasmidMap = null;
     if (typeof part.characterization === "undefined") part.characterization = null;
     return part;
@@ -882,6 +899,18 @@
       var part = BY_ID[id];
       if (!part || part.rfc1000 !== true) addError(errors, id + " should be RFC 1000 compatible");
     });
+    PARTS.forEach(function (part) {
+      if (part.rfc10 !== true && part.rfc10 !== false && part.rfc10 !== "unknown") {
+        addError(errors, part.id + " rfc10 must be true, false, or \"unknown\"");
+      }
+      if (part.rfc1000 !== true && part.rfc1000 !== false && part.rfc1000 !== "unknown") {
+        addError(errors, part.id + " rfc1000 must be true, false, or \"unknown\"");
+      }
+      /* Do not infer RFC 10 from RFC 1000. Unverified RFC 10 must stay unknown. */
+      if (part.rfc10 !== "unknown") {
+        addError(errors, part.id + " RFC 10 is not Registry-verified in this index");
+      }
+    });
     if (rfcTrue.length !== 4) {
       addError(errors, "RFC 1000 compatible parts " + rfcTrue.length + " !== 4");
     }
@@ -984,6 +1013,8 @@
     getPart: getPart,
     listByCategory: listByCategory,
     finalPanelSensing: finalPanelSensing,
+    rfcField: rfcField,
+    rfcLabel: rfcLabel,
     validateCounts: validateCounts,
     validateAssets: validateAssets,
     validate: validate,

@@ -106,6 +106,9 @@
     }
     if (!id || !document.getElementById(id)) return;
     e.preventDefault();
+    if (PROTOCOL_IDS.indexOf(id) !== -1) {
+      applyProtocolFilter(id, { updateUrl: true });
+    }
     scrollToId(id);
     setHash(id);
     markNav(id);
@@ -113,6 +116,11 @@
 
   window.addEventListener("popstate", function () {
     var id = location.hash ? location.hash.slice(1) : "";
+    if (PROTOCOL_IDS.indexOf(id) !== -1) {
+      applyProtocolFilter(id, { updateUrl: false });
+    } else if (!id) {
+      applyProtocolFilter("all", { updateUrl: false });
+    }
     if (id && document.getElementById(id)) {
       scrollToId(id, "auto");
       markNav(id);
@@ -218,6 +226,91 @@
       document.body.removeChild(ta);
       if (ok) resolve();
       else reject(new Error("copy failed"));
+    });
+  }
+
+  /* G. Protocol filter — hide, do not remove, protocol sections. */
+  var filterRoot = document.querySelector("[data-protocol-filter]");
+  var protocolSections = Array.prototype.slice.call(
+    document.querySelectorAll(".exp-proto[data-protocol-id]")
+  );
+  var filterButtons = filterRoot
+    ? Array.prototype.slice.call(filterRoot.querySelectorAll("[data-protocol-id]"))
+    : [];
+
+  function protocolFromSearch() {
+    try {
+      return new URLSearchParams(window.location.search).get("protocol") || "";
+    } catch (err) {
+      return "";
+    }
+  }
+
+  function writeProtocolToUrl(id) {
+    try {
+      var url = new URL(window.location.href);
+      if (!id || id === "all") url.searchParams.delete("protocol");
+      else url.searchParams.set("protocol", id);
+      var next = url.pathname + url.search + url.hash;
+      if (next !== window.location.pathname + window.location.search + window.location.hash) {
+        history.replaceState(null, "", next);
+      }
+    } catch (err) {
+      /* ignore */
+    }
+  }
+
+  function applyProtocolFilter(id, opts) {
+    opts = opts || {};
+    if (PROTOCOL_IDS.indexOf(id) === -1) id = "all";
+    filterButtons.forEach(function (btn) {
+      btn.setAttribute(
+        "aria-pressed",
+        btn.getAttribute("data-protocol-id") === id ? "true" : "false"
+      );
+    });
+    protocolSections.forEach(function (section) {
+      var show = id === "all" || section.getAttribute("data-protocol-id") === id;
+      if (show) section.removeAttribute("hidden");
+      else section.setAttribute("hidden", "");
+    });
+    if (opts.updateUrl) writeProtocolToUrl(id);
+    if (id !== "all") markNav(id);
+    else markNav("");
+    announce(id === "all" ? "Showing all protocols." : "Showing " + id.replace(/-/g, " ") + ".");
+  }
+
+  function initialProtocol() {
+    var hash = (location.hash || "").replace(/^#/, "");
+    if (PROTOCOL_IDS.indexOf(hash) !== -1) return hash;
+    var query = protocolFromSearch();
+    if (PROTOCOL_IDS.indexOf(query) !== -1) return query;
+    return "all";
+  }
+
+  if (filterRoot && protocolSections.length) {
+    filterButtons.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var id = btn.getAttribute("data-protocol-id");
+        applyProtocolFilter(id, { updateUrl: true });
+        if (id && id !== "all") {
+          scrollToId(id);
+          setHash(id);
+        } else {
+          scrollToId("workflow");
+          setHash("workflow");
+        }
+      });
+    });
+    applyProtocolFilter(initialProtocol(), { updateUrl: false });
+    window.addEventListener("hashchange", function () {
+      var hash = (location.hash || "").replace(/^#/, "");
+      if (PROTOCOL_IDS.indexOf(hash) !== -1) {
+        applyProtocolFilter(hash, { updateUrl: true });
+      }
+    });
+    window.addEventListener("beforeprint", function () {
+      applyProtocolFilter("all", { updateUrl: false });
     });
   }
 

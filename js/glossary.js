@@ -123,6 +123,30 @@
       term: "POC",
       def: "Proof of concept — an early demonstration that a core idea can work under defined conditions.",
     },
+    rfc1000: {
+      term: "RFC1000",
+      def: "iGEM Registry assembly standard for composing BioBrick/RFC-compatible parts with defined prefix and suffix sites.",
+    },
+    biobrick: {
+      term: "BioBrick",
+      def: "A standardized genetic part format used in iGEM and related registries for modular DNA assembly.",
+    },
+    ies: {
+      term: "IRES",
+      def: "Internal ribosome entry site — an RNA element that can initiate translation of a downstream open reading frame independently of the 5′ cap.",
+    },
+    ires: {
+      term: "IRES",
+      def: "Internal ribosome entry site — an RNA element that can initiate translation of a downstream open reading frame independently of the 5′ cap.",
+    },
+    pcb: {
+      term: "PCB",
+      def: "Printed circuit board — the fabricated board that mounts and interconnects electronic components in the AeroSense reader.",
+    },
+    spi: {
+      term: "SPI",
+      def: "Serial Peripheral Interface — a synchronous serial bus commonly used between a microcontroller and peripherals such as ADCs.",
+    },
   };
 
   var activeTerm = null;

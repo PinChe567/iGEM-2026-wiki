@@ -15,7 +15,12 @@
  *   needs-update — source is too incomplete or internally contradictory to treat as settled
  *
  * datePrecision: day | range | month
- * stream: wetlab | hardware | drylab | igem
+ * stream: wetlab | drylab | igem
+ * substream: hardware | model | null
+ *   Technical workstreams: Wet Lab | Dry Lab.
+ *   Hardware and Model are Dry Lab substreams, not peers of Wet Lab.
+ *   Official iGEM milestones stay on stream igem (substream null).
+ *   Human Practices is a separate project stream and is not invented here.
  *
  * Extra fields (beyond the page schema, for integrity):
  *   output, hypothesis, interpretation, problem,
@@ -84,6 +89,7 @@
       endDate: official.endDate,
       datePrecision: "day",
       stream: "igem",
+      substream: null,
       category: official.category || "",
       status: "official",
       title: official.title,
@@ -104,6 +110,7 @@
       endDate: partial.endDate == null ? partial.startDate : partial.endDate,
       datePrecision: partial.datePrecision,
       stream: partial.stream,
+      substream: partial.substream == null ? null : partial.substream,
       category: partial.category || "",
       status: partial.status,
       title: partial.title,
@@ -167,7 +174,8 @@
       startDate: "2026-04-01",
       endDate: "2026-04-21",
       datePrecision: "range",
-      stream: "hardware",
+      stream: "drylab",
+      substream: "hardware",
       category: "project-setup",
       status: "completed",
       title: "Project Ideation and Team Formation",
@@ -190,7 +198,8 @@
       startDate: "2026-04-22",
       endDate: "2026-05-09",
       datePrecision: "range",
-      stream: "hardware",
+      stream: "drylab",
+      substream: "hardware",
       category: "requirements",
       status: "completed",
       title: "Literature Review and Hardware Requirements",
@@ -214,7 +223,8 @@
       startDate: "2026-05-10",
       endDate: "2026-06",
       datePrecision: "range",
-      stream: "hardware",
+      stream: "drylab",
+      substream: "hardware",
       category: "design",
       status: "completed",
       title: "Component Selection and First-Order Calculations",
@@ -241,7 +251,8 @@
       startDate: "2026-06",
       endDate: "2026-07",
       datePrecision: "range",
-      stream: "hardware",
+      stream: "drylab",
+      substream: "hardware",
       category: "pcb-design",
       status: "completed",
       title: "PCB V1 Schematic and Footprint Development",
@@ -270,7 +281,8 @@
       startDate: "2026-07",
       endDate: "2026-08-02",
       datePrecision: "range",
-      stream: "hardware",
+      stream: "drylab",
+      substream: "hardware",
       category: "pcb-design",
       status: "completed",
       title: "PCB V1 Layout — ERC/DRC Evaluation",
@@ -320,7 +332,8 @@
       startDate: "2026-08-02",
       endDate: "2026-08-28",
       datePrecision: "range",
-      stream: "hardware",
+      stream: "drylab",
+      substream: "hardware",
       category: "external-review",
       status: "completed",
       title: "Preparing for Professional PCB Review",
@@ -348,7 +361,8 @@
       startDate: "2026-08-28",
       endDate: "2026-09-03",
       datePrecision: "range",
-      stream: "hardware",
+      stream: "drylab",
+      substream: "hardware",
       category: "engineering-cycle",
       status: "completed",
       title: "Engineering Cycle 1: Professional Review",
@@ -391,7 +405,8 @@
       startDate: "2026-08-29",
       endDate: "2026-09",
       datePrecision: "range",
-      stream: "hardware",
+      stream: "drylab",
+      substream: "hardware",
       category: "engineering-cycle",
       status: "ongoing",
       title: "Engineering Cycle 2: System Simplification and PCB V2",
@@ -431,7 +446,8 @@
       startDate: "2026-09-03",
       endDate: "2026-09-11",
       datePrecision: "range",
-      stream: "hardware",
+      stream: "drylab",
+      substream: "hardware",
       category: "pcb-design",
       status: "completed",
       title: "V2 Schematic Correction and PCB Layout",
@@ -487,7 +503,8 @@
       startDate: "2026-09",
       endDate: "2026-09",
       datePrecision: "month",
-      stream: "hardware",
+      stream: "drylab",
+      substream: "hardware",
       category: "mechanical",
       status: "planned",
       title: "Mechanical Enclosure (Planned)",
@@ -510,7 +527,8 @@
       startDate: "2026-09",
       endDate: "2026-09",
       datePrecision: "month",
-      stream: "hardware",
+      stream: "drylab",
+      substream: "hardware",
       category: "manufacturing",
       status: "planned",
       title: "PCB Fabrication and Assembly (Planned)",
@@ -533,7 +551,8 @@
       startDate: "2026-09",
       endDate: "2026-10",
       datePrecision: "range",
-      stream: "hardware",
+      stream: "drylab",
+      substream: "hardware",
       category: "validation",
       status: "planned",
       title: "Electrical Bring-Up (Planned)",
@@ -563,7 +582,8 @@
       startDate: "2026-10",
       endDate: "2026-10",
       datePrecision: "month",
-      stream: "hardware",
+      stream: "drylab",
+      substream: "hardware",
       category: "validation",
       status: "planned",
       title: "Weak-Signal Validation (Planned)",
@@ -596,7 +616,8 @@
       startDate: "2026-10",
       endDate: "2026-10",
       datePrecision: "month",
-      stream: "hardware",
+      stream: "drylab",
+      substream: "hardware",
       category: "user-testing",
       status: "planned",
       title: "System and User Testing (Planned)",
@@ -632,7 +653,7 @@
       shortSummary:
         "Defined wet-lab scope around HEK293 OR + Orco–calcium-indicator lines. Exact April dates still need confirmation.",
       work:
-        "We established the AeroSense concept — a cell-based olfactory sensor for early detection of crop disease through plant volatile organic compounds (VOCs) — and divided responsibilities across wet lab, modeling and hardware. For the wet lab, the central task was defined as building HEK293 cell lines that co-express a Drosophila melanogaster odorant receptor (OR) with the universal co-receptor Orco fused to a calcium indicator.",
+        "Defined wet-lab scope around HEK293 OR + Orco–calcium-indicator lines. Mechanism and topology: Design — not restated here.",
       output: [
         "Project concept and receptor panel scope",
         "Wet-lab responsibility established",
@@ -658,9 +679,9 @@
       shortSummary:
         "Adopted insect OR–Orco ion-channel assay architecture in HEK293 with a nine-OR panel, following Zboray et al. (2023) as reference platform.",
       work:
-        "We reviewed the heterologous expression of insect ORs in mammalian cells. Three literature findings shaped the design: (1) insect ORs are not GPCRs — the OR–Orco complex is a heteromeric ligand-gated ion channel; (2) insect ORs and Orco have inverted membrane topology (intracellular N-terminus), constraining calcium-sensor fusion placement; (3) native Drosophila codon usage causes poor OR expression in mammalian cells; codon optimisation can rescue it. We adopted the assay architecture of Zboray et al. (2023) as our reference platform.",
+        "April–May literature review closed the assay architecture choice (OR + Orco–GCaMP in HEK293; nine-OR panel; Zboray et al. 2023 as reference). Construct WHY and topology: Design — not restated here.",
       output: [
-        "System architecture: OR + Orco–GCaMP6f in HEK293, Ca²⁺-triggered fluorescence",
+        "System architecture decision logged (see Design)",
         "Receptor panel: nine Drosophila ORs",
         "Assay design based on Zboray et al.",
       ],
@@ -672,7 +693,7 @@
       ],
       tags: ["literature", "assay-design", "orco"],
       relatedLinks: [
-        { label: "Design page", href: "design.html" },
+        { label: "Design · Module 2 / topology", href: "design.html#module-2" },
         { label: "Parts page", href: "parts.html" },
       ],
       sourceSection: "Wet lab · April–May · Literature review and system design",
@@ -726,19 +747,18 @@
       shortSummary:
         "VUAA1 challenge of Orco→IRES→GCaMP6 produced a very weak green fluorescence increase that could not be recorded reliably. Date and assay metadata missing.",
       work:
-        "We tested the first-generation bicistronic reporting module, Orco → IRES → GCaMP6, by applying VUAA1, the universal Orco agonist.",
+        "VUAA1 challenge of first-generation Orco → IRES → GCaMP6 (date / assay metadata incomplete in source).",
       observation:
-        "A real but very weak green fluorescence increase — visible on careful inspection, too small to record reliably or quantify.",
+        "Real but very weak green fluorescence increase — too small to record reliably or quantify.",
       result:
-        "Reported observation only: a weak green fluorescence increase under VUAA1 challenge that was too small to record reliably or quantify. Assay date, cell line, transfection method, VUAA1 concentration, observation method (microscope vs plate reader), and any image/trace are not recorded in the source. This notebook entry therefore does not treat membrane trafficking, channel assembly, or GCaMP Ca²⁺ responsiveness as independently demonstrated facts.",
+        "Observation only. No quantified ΔF/F₀ and no archived trace in this notebook entry.",
       hypothesis:
-        "Source initially hypothesized poor Orco expression as the cause of the weak signal.",
-      interpretation:
-        "Source interpretation (not independently evidenced in this notebook entry): the faint response was framed as not a null result, and amplitude rather than total absence of response was considered the issue. Mechanistic claims that Orco was expressed, had trafficked to the membrane, formed a functional channel, and that GCaMP6 was attached and Ca²⁺-responsive go beyond what the weak visual observation alone can establish. Source further interprets that in Orco–IRES–GCaMP6, GCaMP6 sits downstream of the IRES where expression is typically lower, so the sensor—not Orco—may have been the under-expressed component; and that OR–IRES–mCherry could look healthy because mCherry is bright, constitutive and cumulative. These explanations are retained as hypothesis/interpretation pending quantified assays and archived traces.",
+        "Source initially hypothesized poor Orco expression; later reframed as possible IRES-downstream reporter bottleneck (see Engineering).",
+      interpretation: null,
       learning:
-        "Distinguish observation (weak fluorescence increase) from mechanistic explanation. Quantified VUAA1 ΔF/F₀ comparison between IRES and fusion architectures remains planned (see wet-expression-validation-planned).",
+        "Chronology only here. Failure analysis: Engineering · Cycle 1. Planned IRES vs fusion comparison: Experiments / Results when data exist.",
       nextQuestion:
-        "Can we restore both sensor expression and proximity to the Ca²⁺ source?",
+        "Can we restore sensor amplitude with a fusion reporter? (→ Cycle 2)",
       needsUpdate: [
         "Record date (source heading is 🟥 [date]).",
         "Record cell line, transfection method, VUAA1 concentration, and observation method.",
@@ -754,8 +774,8 @@
         "negative-or-inconclusive",
       ],
       relatedLinks: [
-        { label: "Engineering · Wet lab track", href: "engineering.html#track-wetlab" },
-        { label: "Design · reporters", href: "design.html#reporters" },
+        { label: "Engineering · Wet Lab Cycle 1", href: "engineering.html#wl-cycle-1" },
+        { label: "Design · Module 2", href: "design.html#module-2" },
         { label: "Experiments · EXP-AS-04", href: "experiments.html#exp-as-04" },
       ],
       sourceNote:
@@ -776,9 +796,9 @@
       shortSummary:
         "Redesigned reporter as GCaMP6f–(GGGGS)₃–DmOrco; in-silico verification of ten constructs before synthesis. Exact July–August dates still flagged.",
       work:
-        "We redesigned the reporting module as a single open reading frame: GCaMP6f – (GGGGS)₃ – DmOrco. GCaMP6f is placed N-terminally because Orco's N-terminus is intracellular. In parallel we finalised the nine OR sensing modules. Pre-synthesis verification: all ten constructs were checked in silico (reading frame, internal stop codons, Kozak context, domain boundaries, junction integrity, internal restriction sites, tandem repeats and homopolymer runs). Every codon-optimised coding sequence was translated and compared against its FlyBase reference — all encode proteins identical to the reference. One issue was caught and corrected: the (GGGGS)₃ linker had been encoded as three identical 15 bp repeats; synonymous codon diversification was specified; the protein sequence is unchanged.",
+        "July–August: redesigned reporter as single ORF GCaMP6f–(GGGGS)₃–DmOrco; finalised nine OR modules; in-silico checks before synthesis (frame, stops, Kozak, junctions; linker synonymous-codon diversification). Construct WHY: Design · Module 2.",
       hypothesis:
-        "Design rationale in source: a fusion is intended to enforce 1:1 sensor-to-receptor stoichiometry with cap-dependent translation of both moieties and to tether the sensor near the channel mouth. This is design intent / interpretation of the Cycle 1 problem, not a measured wet-lab outcome in this entry.",
+        "Design intent: 1:1 stoichiometry and pore-proximal sensor — not a measured wet-lab outcome in this entry. See Engineering · Cycle 2.",
       output: [
         "Ten verified construct sequences",
         "Orco module: 8,293 bp in pcDNA3.1(+), ORF 2,856 bp → 951 aa",
@@ -803,11 +823,10 @@
       ],
       tags: ["fusion", "gcamp6f", "orco", "construct-design", "needs-update"],
       relatedLinks: [
-        { label: "Design · reporters", href: "design.html#reporters" },
+        { label: "Engineering · Wet Lab Cycle 2", href: "engineering.html#wl-cycle-2" },
+        { label: "Design · Module 2", href: "design.html#module-2" },
         { label: "Parts page", href: "parts.html" },
       ],
-      sourceSection:
-        "Wet lab · 🟥 July–August · Engineering Cycle 2 — redesign as a translational fusion",
     }),
 
     event({
@@ -999,6 +1018,7 @@
       endDate: "2026-04",
       datePrecision: "month",
       stream: "drylab",
+      substream: "model",
       category: "project-setup",
       status: "completed",
       title: "Establishing the Project Direction and Team Assignments",
@@ -1032,6 +1052,7 @@
       endDate: "2026-05",
       datePrecision: "month",
       stream: "drylab",
+      substream: "model",
       category: "codebase",
       status: "completed",
       title: "Getting Familiar with the Inherited Code and Data",
@@ -1064,6 +1085,7 @@
       endDate: "2026-06",
       datePrecision: "month",
       stream: "drylab",
+      substream: "model",
       category: "codebase",
       status: "completed",
       title: "Code Audit and Clarifying the Data Pipeline",
@@ -1102,6 +1124,7 @@
       endDate: "2026-07",
       datePrecision: "month",
       stream: "drylab",
+      substream: "model",
       category: "modeling",
       status: "completed",
       title: "Establishing Baselines: SVM/DAELM + Initial Fly-SNN Sweeps",
@@ -1137,6 +1160,7 @@
       endDate: "2026-08",
       datePrecision: "month",
       stream: "drylab",
+      substream: "model",
       category: "modeling",
       status: "completed",
       title:
@@ -1175,6 +1199,7 @@
       endDate: "2026-09",
       datePrecision: "month",
       stream: "drylab",
+      substream: "model",
       category: "modeling",
       status: "ongoing",
       title:
@@ -1215,6 +1240,7 @@
       endDate: "2026-11",
       datePrecision: "range",
       stream: "drylab",
+      substream: "model",
       category: "modeling",
       status: "planned",
       title: "October and November Evaluation Agenda (Planned)",
@@ -1248,6 +1274,7 @@
       id: "tp-vector-rescue",
       eventIds: ["wet-vector-rescue"],
       stream: "wetlab",
+      substream: null,
       title: "Mammalian expression vector rescue",
       before:
         "First synthesised constructs arrived in a high-copy cloning backbone that could be propagated in E. coli.",
@@ -1262,6 +1289,7 @@
       id: "tp-orco-reporter-redesign",
       eventIds: ["wet-orco-ires-weak-signal", "wet-fusion-redesign"],
       stream: "wetlab",
+      substream: null,
       title: "Orco reporter redesign after weak VUAA1 signal",
       before:
         "First-generation reporting module used a bicistronic Orco → IRES → GCaMP6 architecture.",
@@ -1275,7 +1303,8 @@
     {
       id: "tp-v1-do-not-fabricate",
       eventIds: ["hw-v1-drc-review"],
-      stream: "hardware",
+      stream: "drylab",
+      substream: "hardware",
       title: "Do not fabricate PCB V1",
       before:
         "A complete four-layer V1 layout integrated the optical driver, analog front end, ADC/reference, ESP32, regulators and Raspberry Pi interface.",
@@ -1289,7 +1318,8 @@
     {
       id: "tp-professional-review",
       eventIds: ["hw-professional-review-cycle-1"],
-      stream: "hardware",
+      stream: "drylab",
+      substream: "hardware",
       title: "Professional review resets design priorities",
       before:
         "V1 was prepared as a package for external schematic/layout review (including high-impedance TIA/guard and manufacturability scope).",
@@ -1303,7 +1333,8 @@
     {
       id: "tp-remove-raspberry-pi",
       eventIds: ["hw-v2-simplification"],
-      stream: "hardware",
+      stream: "drylab",
+      substream: "hardware",
       title: "Remove Raspberry Pi from the standalone reader",
       before:
         "V1 integrated a Raspberry Pi interface alongside ESP32 control.",
@@ -1318,6 +1349,7 @@
       id: "tp-snn-hyperparameter-breakthrough",
       eventIds: ["dry-snn-baseline", "dry-snn-hyperparameter-breakthrough"],
       stream: "drylab",
+      substream: "model",
       title: "SNN readout is tunable, not fundamentally capped",
       before:
         "July fly-SNN sweeps on a pooled split reached only ~0.545 best single-run F1 with unstable, non-monotonic learning curves, suggesting a stuck MBON readout.",
@@ -1374,7 +1406,8 @@
   }
 
   function summarize() {
-    var byStream = { hardware: 0, wetlab: 0, drylab: 0, igem: 0 };
+    var byStream = { wetlab: 0, drylab: 0, igem: 0 };
+    var bySubstream = { hardware: 0, model: 0 };
     var byStatus = { completed: 0, ongoing: 0, planned: 0, "needs-update": 0 };
     var needsUpdateFields = [];
     var contradictions = [];
@@ -1385,6 +1418,9 @@
     for (i = 0; i < EVENTS.length; i += 1) {
       ev = EVENTS[i];
       if (byStream[ev.stream] != null) byStream[ev.stream] += 1;
+      if (ev.substream && bySubstream[ev.substream] != null) {
+        bySubstream[ev.substream] += 1;
+      }
       if (byStatus[ev.status] != null) byStatus[ev.status] += 1;
       if (ev.needsUpdate && ev.needsUpdate.length) {
         needsUpdateFields.push({ id: ev.id, items: ev.needsUpdate.slice() });
@@ -1405,6 +1441,7 @@
       igemOfficialEvents: IGEM_OFFICIAL_EVENTS.length,
       sourceSectionsCovered: SOURCE_COVERAGE.length,
       byStream: byStream,
+      bySubstream: bySubstream,
       byStatus: byStatus,
       needsUpdateFields: needsUpdateFields,
       contradictions: contradictions,

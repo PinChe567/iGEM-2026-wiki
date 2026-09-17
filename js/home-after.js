@@ -49,33 +49,9 @@
     });
   }
 
-  function initSignalTeaser() {
-    var teaser = document.querySelector("[data-signal-teaser]");
-    if (!teaser) return;
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      teaser.classList.add("is-paused");
-      teaser.classList.add("is-still");
-      return;
-    }
-
-    if (!("IntersectionObserver" in window)) return;
-
-    var io = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          teaser.classList.toggle("is-paused", !entry.isIntersecting);
-        });
-      },
-      { root: null, threshold: 0.08 }
-    );
-    io.observe(teaser);
-  }
-
   function init() {
     initYouTube();
     initLazyImages();
-    initSignalTeaser();
   }
 
   if (document.readyState === "loading") {

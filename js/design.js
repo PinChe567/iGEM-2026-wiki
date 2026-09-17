@@ -129,13 +129,24 @@
 
     if (svg) {
       qsa("g[data-feature]", svg).forEach(function (g) {
+        g.setAttribute("tabindex", "0");
+        g.setAttribute("role", "button");
         g.addEventListener("click", function () {
+          activate(g, true);
+        });
+        g.addEventListener("keydown", function (event) {
+          if (event.key !== "Enter" && event.key !== " ") return;
+          event.preventDefault();
           activate(g, true);
         });
         g.addEventListener("mouseenter", function () {
           if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
             show(g.getAttribute("data-module"), g.getAttribute("data-feature"), false);
           }
+        });
+        g.addEventListener("focus", function () {
+          if (window.matchMedia("(hover: none)").matches) return;
+          show(g.getAttribute("data-module"), g.getAttribute("data-feature"), true);
         });
       });
     }
@@ -280,7 +291,7 @@
     var orName = target.getAttribute("data-or");
     if (moduleId && feature && initInspectors.show) {
       initInspectors.show(moduleId, feature, true);
-      var map = qs(moduleId === "2" ? "#map-module-2" : "#fig-constructs");
+      var map = qs("#fig-constructs");
       if (map && map.scrollIntoView) map.scrollIntoView({ block: "nearest" });
     }
     if (orName && initReceptorGrid.show) {

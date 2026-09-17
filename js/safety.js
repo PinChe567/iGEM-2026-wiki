@@ -1,5 +1,6 @@
 /**
- * Safety case explorer: SENSE → READ → DECODE → ACT.
+ * Safety case explorer: Sense → Read → Decode → Act functional architecture
+ * (not the team workstream hierarchy).
  * Progressive enhancement — every layer remains readable without JS.
  */
 (function () {
