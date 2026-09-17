@@ -1,14 +1,15 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Safety &amp; Security · AeroSense · NTHU iGEM 2026</title>
-  <meta name="description" content="Safety by design, evidence by verification: AeroSense treats containment, chemical handling, hardware protection, measurement integrity, interpretation, and deployment boundaries as one safety system.">
+  <meta name="description" content="Safety &amp; Security documents laboratory contained-use controls and the AeroSafe hazard→verification framework. Extra-lab live-cell use and real-world validation are not claimed.">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/safety.css">
   <script src="js/main.js" defer></script>
   <script src="js/glossary.js" defer></script>
+  <script src="js/microinteractions.js" defer></script>
   <script src="js/search.js" defer></script>
   <script src="js/safety.js" defer></script>
 </head>
@@ -75,8 +76,8 @@
             <span class="nav-label-static">Dry Lab</span>
             <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-drylab">Dry Lab</button>
             <ul class="nav-submenu" id="submenu-drylab">
-              <li><a href="model.html">Model</a></li>
               <li><a href="hardware.html">Hardware</a></li>
+              <li><a href="model.html">Model</a></li>
             </ul>
           </li>
                     <li class="nav-item nav-item--dropdown">
@@ -87,7 +88,6 @@
               <li><a href="education.html">Education</a></li>
               <li><a href="entrepreneurship.html">Entrepreneurship</a></li>
               <li><a href="sustainability.html">Sustainability</a></li>
-              <li><a href="learning-platform.html">Learning Lab</a></li>
             </ul>
           </li>
         </ul>
@@ -128,7 +128,7 @@
               <li aria-current="page">Safety &amp; Security</li>
             </ol>
           </nav>
-          <span class="page-kicker">04 / Project</span>
+          <span class="page-kicker">Safety &amp; Security</span>
           <h1>Safety &amp; Security</h1>
           <p class="page-purpose">Safety by Design. Evidence by Verification.</p>
           <p class="page-lede">
@@ -136,6 +136,28 @@
             A control that appears in a schematic is not, by itself, a verified result.
           </p>
           <span class="status-label">Laboratory contained-use scope · verifications planned · extra-lab live-cell use restricted</span>
+
+          <aside class="page-glance" aria-labelledby="saf-page-glance-title">
+            <h2 class="page-glance__title" id="saf-page-glance-title">At a glance</h2>
+            <dl class="page-glance__grid page-glance__grid--4">
+            <div class="page-glance__item">
+              <dt>Safety contribution</dt>
+              <dd>AeroSafe frames living-biosensor work as a hazard→control→verification→deployment decision chain.</dd>
+            </div>
+            <div class="page-glance__item">
+              <dt>Project risk management</dt>
+              <dd>Six domains use Implemented / Planned / Restricted labels with a risk register.</dd>
+            </div>
+            <div class="page-glance__item">
+              <dt>Real-world use</dt>
+              <dd>Restricted — iGEM 2026 scope is laboratory contained-use only.</dd>
+            </div>
+            <div class="page-glance__item">
+              <dt>Reusable framework</dt>
+              <dd>AeroSafe six-question safety-case structure is offered for reuse; not an external standard.</dd>
+            </div>
+            </dl>
+          </aside>
         </header>
 
         <article class="page-article prose">
@@ -178,11 +200,13 @@
                 <dl>
                   <div>
                     <dt>Main risk</dt>
-                    <dd>Exposure to genetically modified mammalian cells and cloning bacteria during culture, transfection, and waste handling.</dd>
+                    <dd>Exposure to genetically modified mammalian cells, cloning bacteria, or viable GM waste during culture and disposal.
+                      <span class="saf-glance__refs"><a href="#rr-bio-01">BIO-01</a>–<a href="#rr-bio-03">BIO-03</a></span></dd>
                   </div>
                   <div>
                     <dt>Main control</dt>
-                    <dd>Class&nbsp;II cabinet work for mammalian culture and BSL-1 practice for cloning, as named in team laboratory documents. White List status is not institutional approval.</dd>
+                    <dd>Class&nbsp;II cabinet work for mammalian culture and BSL-1 cloning practice, as named in team documents — White List status is not institutional approval.
+                      <span class="saf-glance__refs"><a href="#rr-bio-01">BIO-01</a>–<a href="#rr-bio-03">BIO-03</a></span></dd>
                   </div>
                 </dl>
                 <span class="saf-status" data-status="implemented"><span class="saf-status__mark" aria-hidden="true"></span>Implemented · Class&nbsp;II cabinet practice</span>
@@ -193,17 +217,19 @@
                 <dl>
                   <div>
                     <dt>Main risk</dt>
-                    <dd>Inhalation or dermal exposure to concentrated
+                    <dd>Inhalation or dermal exposure from concentrated
                       <dfn class="term" data-term="voc" tabindex="0">VOC</dfn>
-                      stocks,
-                      <dfn class="term" data-term="vuaa1" tabindex="0">VUAA1</dfn>,
-                      and DMSO.</dd>
+                      /
+                      <dfn class="term" data-term="vuaa1" tabindex="0">VUAA1</dfn>
+                      /
+                      DMSO stocks and related flammables.
+                      <span class="saf-glance__refs"><a href="#rr-chem-01">CHEM-01</a>, <a href="#rr-chem-04">CHEM-04</a></span></dd>
                   </div>
                   <div>
                     <dt>Main control</dt>
                     <dd>Fume-hood stock handling, small volumes, and
-                      <dfn class="term" data-term="sds" tabindex="0">SDS</dfn>-driven PPE.
-                      Exact VOC identities remain a planned / candidate panel.</dd>
+                      <dfn class="term" data-term="sds" tabindex="0">SDS</dfn>-driven PPE; exact VOC identities remain a planned / candidate panel.
+                      <span class="saf-glance__refs"><a href="#rr-chem-01">CHEM-01</a>–<a href="#rr-chem-05">CHEM-05</a></span></dd>
                   </div>
                 </dl>
                 <span class="saf-status" data-status="implemented"><span class="saf-status__mark" aria-hidden="true"></span>Implemented · fume-hood stock work</span>
@@ -215,11 +241,13 @@
                 <dl>
                   <div>
                     <dt>Main risk</dt>
-                    <dd>Battery misuse, electrical short, blue-light exposure, and enclosure failure on the portable reader.</dd>
+                    <dd>Battery misuse, electrical short, enclosure failure, or unnecessary ~470&nbsp;nm LED exposure on the portable reader.
+                      <span class="saf-glance__refs"><a href="#rr-hw-01">HW-01</a>–<a href="#rr-hw-03">HW-03</a>, <a href="#rr-opt-01">OPT-01</a></span></dd>
                   </div>
                   <div>
                     <dt>Main control</dt>
-                    <dd>Low-voltage architecture with datasheet protection features on the reference charger and boost; visible ~470&nbsp;nm LEDs rather than lasers. A schematic is not a safety test.</dd>
+                    <dd>Low-voltage architecture with datasheet protection features; visible LEDs rather than lasers — a schematic is not a safety test.
+                      <span class="saf-glance__refs"><a href="#rr-hw-01">HW-01</a>, <a href="#rr-hw-02">HW-02</a>, <a href="#rr-opt-01">OPT-01</a></span></dd>
                   </div>
                 </dl>
                 <span class="saf-status" data-status="implemented"><span class="saf-status__mark" aria-hidden="true"></span>Implemented · architecture</span>
@@ -230,11 +258,13 @@
                 <dl>
                   <div>
                     <dt>Main risk</dt>
-                    <dd>A technically invalid or over-confident output used as a food-safety verdict.</dd>
+                    <dd>A technically invalid or over-confident output treated as a food-safety verdict.
+                      <span class="saf-glance__refs"><a href="#rr-meas-03">MEAS-03</a>–<a href="#rr-meas-05">MEAS-05</a></span></dd>
                   </div>
                   <div>
                     <dt>Main control</dt>
-                    <dd>Separate “signal detected,” “measurement valid,” and “food-safety condition confirmed.” AeroSense is a proposed early-screening / risk-indication architecture, not a confirmatory diagnostic.</dd>
+                    <dd>Keep “signal detected,” “measurement valid,” and “food-safety condition confirmed” separate; this is a proposed early-screening / risk-indication architecture, not a confirmatory diagnostic.
+                      <span class="saf-glance__refs"><a href="#rr-meas-05">MEAS-05</a></span></dd>
                   </div>
                 </dl>
                 <span class="saf-status" data-status="implemented"><span class="saf-status__mark" aria-hidden="true"></span>Implemented · Q1–Q3 rule</span>
@@ -246,11 +276,13 @@
                 <dl>
                   <div>
                     <dt>Main risk</dt>
-                    <dd>Untrained bench work, and publication of identifiable survey or interview material without permission.</dd>
+                    <dd>Untrained bench work, or identifiable survey/interview material published without permission.
+                      <span class="saf-glance__refs"><a href="#rr-hum-01">HUM-01</a>–<a href="#rr-hum-02">HUM-02</a></span></dd>
                   </div>
                   <div>
                     <dt>Main control</dt>
-                    <dd>Training before bench work. Named quotations or identifiable professional comments are published only where explicit permission for attribution has been obtained.</dd>
+                    <dd>Training before bench work; named or identifiable comments published only with explicit attribution permission.
+                      <span class="saf-glance__refs"><a href="#rr-hum-01">HUM-01</a>, <a href="#rr-hum-02">HUM-02</a></span></dd>
                   </div>
                 </dl>
                 <span class="saf-status" data-status="implemented"><span class="saf-status__mark" aria-hidden="true"></span>Implemented · training requirement &amp; attribution rule</span>
@@ -262,11 +294,13 @@
                 <dl>
                   <div>
                     <dt>Main risk</dt>
-                    <dd>Treating a laboratory prototype as a field-ready living-cell cartridge, or as a confirmatory food-safety diagnostic.</dd>
+                    <dd>Treating a laboratory prototype as a field-ready living-cell cartridge or confirmatory food-safety diagnostic.
+                      <span class="saf-glance__refs"><a href="#rr-dep-01">DEP-01</a>–<a href="#rr-dep-03">DEP-03</a></span></dd>
                   </div>
                   <div>
                     <dt>Main control</dt>
-                    <dd>iGEM 2026 scope is laboratory contained-use only. Extra-laboratory use of live engineered cells is not authorized on this wiki.</dd>
+                    <dd>iGEM 2026 scope is laboratory contained-use only; extra-laboratory live engineered cells are not authorized on this wiki.
+                      <span class="saf-glance__refs"><a href="#rr-dep-01">DEP-01</a>, <a href="#rr-dep-02">DEP-02</a></span></dd>
                   </div>
                 </dl>
                 <span class="saf-status" data-status="restricted"><span class="saf-status__mark" aria-hidden="true"></span>Restricted · extra-lab live cells</span>
@@ -274,23 +308,7 @@
             </div>
           </section>
 
-          <nav class="saf-jump" aria-label="On this page">
-            <p class="saf-jump__label" id="saf-jump-label">Section navigation</p>
-            <ol>
-              <li><a href="#our-safety-case"><span class="tech-label">01</span> Safety case</a></li>
-              <li><a href="#safe-to-build"><span class="tech-label">02</span> Safe to build</a></li>
-              <li><a href="#safe-to-measure"><span class="tech-label">03</span> Safe to measure</a></li>
-              <li><a href="#safe-to-interpret"><span class="tech-label">04</span> Safe to interpret</a></li>
-              <li><a href="#safe-to-deploy"><span class="tech-label">05</span> Safe to deploy</a></li>
-              <li><a href="#people-and-data"><span class="tech-label">06</span> People &amp; data</a></li>
-              <li><a href="#biosecurity"><span class="tech-label">07</span> Biosecurity &amp; dual use</a></li>
-              <li><a href="#risk-register"><span class="tech-label">08</span> Risk register</a></li>
-              <li><a href="#safety-contribution"><span class="tech-label">09</span> AeroSafe</a></li>
-              <li><a href="#compliance"><span class="tech-label">10</span> Compliance</a></li>
-              <li><a href="#award-map"><span class="tech-label">11</span> Award map</a></li>
-              <li><a href="#references"><span class="tech-label">Ref</span> References</a></li>
-            </ol>
-          </nav>
+          
 
           <section class="section-block" id="our-safety-case" data-reveal>
             <span id="safety-by-design" class="anchor-alias"></span>
@@ -298,7 +316,9 @@
             <p>
               Safety follows the same chain as the instrument:
               <strong>Sense → Read → Decode → Act</strong>.
-              Each layer is scored with Hazard → Possible consequence → Control → Verification → Decision.
+              This is the functional system architecture, not the team workstream hierarchy.
+              Full Hazard → Possible consequence → Control → Verification → Status rows live only in the
+              <a href="#risk-register">Risk register</a>; each layer below is a compact index into those IDs.
               A control that appears in a schematic is not, by itself, a verified result.
             </p>
             <ol class="saf-chain" aria-label="Risk reasoning chain">
@@ -326,9 +346,9 @@
 
             <div class="saf-case" data-saf-case>
               <p class="saf-case__hint">
-                Select a layer to inspect its hazards. Without scripting, every layer is listed in full below.
+                Select a layer for a compact summary and register links. Without scripting, every layer summary remains below.
               </p>
-              <p class="saf-case__noscript">The four-node selector is an enhancement. All Sense, Read, Decode, and Act rows remain in the page source in order.</p>
+              <p class="saf-case__noscript">The four-node selector is an enhancement. Sense, Read, Decode, and Act summaries remain in the page source in order; full hazard rows are in the Risk register.</p>
               <p class="saf-case__live" data-saf-live aria-live="polite"></p>
 
               <div class="saf-case__board">
@@ -379,74 +399,25 @@
                       </p>
                       <span class="saf-status" data-status="implemented"><span class="saf-status__mark" aria-hidden="true"></span>Implemented · Class&nbsp;II cabinet practice</span>
                     </header>
-                    <ol class="saf-rows">
-                      <li>
-                        <h4>Engineered mammalian sensing cells</h4>
-                        <dl>
-                          <dt>Hazard</dt>
-                          <dd>Handling genetically modified human-origin cells during culture, transfection, imaging, and waste steps.</dd>
-                          <dt>Possible consequence</dt>
-                          <dd>Operator exposure. Residual risk remains because the line is of human origin and carries adenovirus-5 E1 DNA; White List eligibility is not a safety certificate and is not institutional approval.</dd>
-                          <dt>Control</dt>
-                          <dd>Class&nbsp;II cabinet work for mammalian culture, as named in Experiments. Extra-laboratory use of live engineered cells is not authorized on this wiki.</dd>
-                          <dt>Verification / evidence</dt>
-                          <dd>Cabinet practice is documented laboratory use. A vendor pathogen certificate and institutional authorization letter are not published. White List eligibility is a separate 2026 rules check, not assumed from the name HEK293/HEK293T.</dd>
-                          <dt>Status</dt>
-                          <dd><span class="saf-status" data-status="implemented"><span class="saf-status__mark" aria-hidden="true"></span>Implemented · Class&nbsp;II cabinet practice</span> <span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned · chassis freeze &amp; CoA</span></dd>
-                        </dl>
-                      </li>
-                      <li>
-                        <h4><i>E. coli</i> DH5α cloning</h4>
-                        <dl>
-                          <dt>Hazard</dt>
-                          <dd>Plasmid propagation in <i>Escherichia coli</i> DH5α, a laboratory K-12 derivative used for cloning.</dd>
-                          <dt>Possible consequence</dt>
-                          <dd>Operator or waste-stream exposure to cloning cultures. Laboratory-adapted K-12 strains are generally assessed as low environmental persistence; that does not authorize release.</dd>
-                          <dt>Control</dt>
-                          <dd>BSL-1 standard microbiological practice: bench disinfection, no mouth pipetting, handwashing, and autoclaving of culture waste.</dd>
-                          <dt>Verification / evidence</dt>
-                          <dd>Ordinary cloning practice is documented. Final 2026 White List / Check-In status must be checked against official team submissions. This wiki is not an approval document.</dd>
-                          <dt>Status</dt>
-                          <dd><span class="saf-status" data-status="implemented"><span class="saf-status__mark" aria-hidden="true"></span>Implemented · BSL-1 practice</span> <span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned · 2026 rules check</span></dd>
-                        </dl>
-                      </li>
-                      <li>
-                        <h4>VOC stocks, VUAA1, and DMSO</h4>
-                        <dl>
-                          <dt>Hazard</dt>
-                          <dd>Concentrated
-                            <dfn class="term" data-term="voc" tabindex="0">VOC</dfn>
-                            stocks,
-                            <dfn class="term" data-term="vuaa1" tabindex="0">VUAA1</dfn>
-                            (an Orco-family agonist with limited public toxicology), and DMSO, which can carry dissolved solutes through skin.</dd>
-                          <dt>Possible consequence</dt>
-                          <dd>Inhalation or dermal exposure, especially during stock preparation rather than dilute aqueous assays.</dd>
-                          <dt>Control</dt>
-                          <dd>Fume-hood stock handling, smallest practical volumes, gloves and eye protection, and
-                            <dfn class="term" data-term="sds" tabindex="0">SDS</dfn>-driven PPE.
-                            Assay concentrations of 1–100&nbsp;µM are a specified method, not a completed measurement record on this wiki.</dd>
-                          <dt>Verification / evidence</dt>
-                          <dd>Exact compound identities remain a planned / candidate panel. An SDS pack is not published. Experiments currently mark the VOC panel as unspecified.</dd>
-                          <dt>Status</dt>
-                          <dd><span class="saf-status" data-status="implemented"><span class="saf-status__mark" aria-hidden="true"></span>Implemented · fume-hood stock work</span> <span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned · SDS register</span></dd>
-                        </dl>
-                      </li>
-                      <li>
-                        <h4>Culture and biological waste</h4>
-                        <dl>
-                          <dt>Hazard</dt>
-                          <dd>Liquid and solid culture waste, including potentially viable genetically modified material.</dd>
-                          <dt>Possible consequence</dt>
-                          <dd>Operator exposure or viable material leaving the controlled waste route. Mammalian cells are culture-dependent; containment and inactivation are relied upon. Poor environmental fitness is not treated as a containment system. Environmental release is outside project scope and is not authorized.</dd>
-                          <dt>Control</dt>
-                          <dd>Disinfection and autoclave of mammalian waste; autoclave of bacterial cultures. Extra-laboratory release is not authorized for the iGEM project.</dd>
-                          <dt>Verification / evidence</dt>
-                          <dd>Waste routes are documented laboratory practice. Pickup logs and contractor account numbers are not published.</dd>
-                          <dt>Status</dt>
-                          <dd><span class="saf-status" data-status="implemented"><span class="saf-status__mark" aria-hidden="true"></span>Implemented · inactivation routes</span> <span class="saf-status" data-status="restricted"><span class="saf-status__mark" aria-hidden="true"></span>Restricted · extra-lab release</span></dd>
-                        </dl>
-                      </li>
-                    </ol>
+                    <p class="saf-case__layer-summary">
+                      Living-cell recognition hazards: engineered mammalian culture, DH5α cloning, VOC/VUAA1/DMSO stocks, and GM waste routes.
+                    </p>
+                    <ul class="saf-case__risk-ids" aria-label="Sense-layer register hazards">
+                      <li><a href="#rr-bio-01">BIO-01</a> · Accidental exposure to HEK293 / HEK293T culture</li>
+                      <li><a href="#rr-bio-02">BIO-02</a> · Accidental exposure to <i>E. coli</i> DH5α</li>
+                      <li><a href="#rr-chem-01">CHEM-01</a> · VOC stock inhalation or skin contact</li>
+                      <li><a href="#rr-chem-04">CHEM-04</a> · DMSO or methanol stocks</li>
+                      <li><a href="#rr-bio-03">BIO-03</a> · Viable genetically modified material in laboratory waste</li>
+                      <li><a href="#rr-dep-01">DEP-01</a> · Extra-laboratory live engineered-cell cartridge</li>
+                    </ul>
+                    <p class="saf-case__note">
+                      See also register: named
+                      <dfn class="term" data-term="vuaa1" tabindex="0">VUAA1</dfn>
+                      (limited public toxicology) is handled with concentrated VOC / DMSO stock practice under
+                      <a href="#rr-chem-01">CHEM-01</a> and <a href="#rr-chem-04">CHEM-04</a> — not as a separate invented hazard ID.
+                      Incomplete inventory and electroporation remain
+                      <a href="#rr-bio-04">BIO-04</a> / <a href="#rr-bio-05">BIO-05</a>.
+                    </p>
                   </article>
 
                   <article class="saf-case__panel" id="saf-panel-read" data-saf-panel="read" aria-labelledby="saf-node-read saf-title-read">
@@ -458,98 +429,24 @@
                       </p>
                       <span class="saf-status" data-status="implemented"><span class="saf-status__mark" aria-hidden="true"></span>Implemented · architecture</span>
                     </header>
-                    <ol class="saf-rows">
-                      <li>
-                        <h4>Li-ion / Li-polymer charging</h4>
-                        <dl>
-                          <dt>Hazard</dt>
-                          <dd>Incorrect charging of a single-cell portable pack (USB-C 5&nbsp;V → charger/power-path → battery → 5&nbsp;V boost).</dd>
-                          <dt>Possible consequence</dt>
-                          <dd>Heating or battery damage.</dd>
-                          <dt>Control</dt>
-                          <dd>Reference design uses a BQ24074-class charger with power-path and temperature-monitoring capability, and a TPS61023-class boost with load-disconnect, overvoltage, thermal, and short-circuit protection features. Those IC functions do not, by themselves, prove the assembled pack is safe.</dd>
-                          <dt>Verification / evidence</dt>
-                          <dd>Final battery model, charging current, and battery/PCB temperature are not published. Hardware documentation still lists fabrication and charge tests as pending.</dd>
-                          <dt>Status</dt>
-                          <dd><span class="saf-status" data-status="implemented"><span class="saf-status__mark" aria-hidden="true"></span>Implemented · reference architecture</span> <span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned · charge / temperature tests</span></dd>
-                        </dl>
-                      </li>
-                      <li>
-                        <h4>Electrical short and overheating</h4>
-                        <dl>
-                          <dt>Hazard</dt>
-                          <dd>Short circuits, exposed conductors, or component overheating on a low-voltage DC reader.</dd>
-                          <dt>Possible consequence</dt>
-                          <dd>Heating, component damage, or operator contact with an unsafe assembly.</dd>
-                          <dt>Control</dt>
-                          <dd>Current-limited / protected power architecture as designed; power-off before open-chassis work once an SOP exists.</dd>
-                          <dt>Verification / evidence</dt>
-                          <dd>Bring-up and abnormal-load tests are not published. A schematic is not a bring-up record.</dd>
-                          <dt>Status</dt>
-                          <dd><span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned · electrical bring-up</span></dd>
-                        </dl>
-                      </li>
-                      <li>
-                        <h4>Approximately 470&nbsp;nm LED exposure</h4>
-                        <dl>
-                          <dt>Hazard</dt>
-                          <dd>Visible blue excitation LEDs (Würth 155124BS73200 class, dominant wavelength ≈470&nbsp;nm), not lasers.</dd>
-                          <dt>Possible consequence</dt>
-                          <dd>Unnecessary eye exposure, and heating or photobleaching of the biological sample.</dd>
-                          <dt>Control</dt>
-                          <dd>The final enclosure is intended to block direct line of sight. A first-pass 5&nbsp;V / 100&nbsp;Ω calculation gives about 12–16&nbsp;mA and roughly 54&nbsp;mW <strong>electrical</strong> power per LED. That is not an optical-power or irradiance measurement.</dd>
-                          <dt>Verification / evidence</dt>
-                          <dd>Enclosure is pending in the hardware results table. Final LED current, duty cycle, irradiance, and temperature rise are not published.</dd>
-                          <dt>Status</dt>
-                          <dd><span class="saf-status" data-status="implemented"><span class="saf-status__mark" aria-hidden="true"></span>Implemented · LED selection</span> <span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned · enclosure / irradiance</span></dd>
-                        </dl>
-                      </li>
-                      <li>
-                        <h4>Cartridge containment</h4>
-                        <dl>
-                          <dt>Hazard</dt>
-                          <dd>A future living-cell cartridge that fails, leaks, or is used outside the laboratory.</dd>
-                          <dt>Possible consequence</dt>
-                          <dd>Biological exposure of the user, a food product, the environment, or reusable electronics.</dd>
-                          <dt>Control</dt>
-                          <dd>Specified future requirements: sealed containment, controlled insertion/removal, leak resistance, defined disposal, and physical separation from electronics. Engineered cells are not intended to be released onto or into food. During iGEM 2026 this remains a laboratory prototype, not a field cartridge.</dd>
-                          <dt>Verification / evidence</dt>
-                          <dd>No leak test is published. Cartridge design is not frozen.</dd>
-                          <dt>Status</dt>
-                          <dd><span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned · leak test after freeze</span> <span class="saf-status" data-status="restricted"><span class="saf-status__mark" aria-hidden="true"></span>Restricted · extra-lab live cells</span></dd>
-                        </dl>
-                      </li>
-                      <li>
-                        <h4>Excitation leakage</h4>
-                        <dl>
-                          <dt>Hazard</dt>
-                          <dd>Excitation light reaching the detector without a true fluorescence change.</dd>
-                          <dt>Possible consequence</dt>
-                          <dd>A false optical signal that can be decoded as biology.</dd>
-                          <dt>Control</dt>
-                          <dd>Specified filter, geometry, and baffle as a design control.</dd>
-                          <dt>Verification / evidence</dt>
-                          <dd>Blank-sample leakage tests are listed in the hardware validation ladder and remain pending.</dd>
-                          <dt>Status</dt>
-                          <dd><span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned · blank-sample test</span></dd>
-                        </dl>
-                      </li>
-                      <li>
-                        <h4>PCB leakage and contamination</h4>
-                        <dl>
-                          <dt>Hazard</dt>
-                          <dd>Board contamination or moisture on a very high-feedback
-                            <dfn class="term" data-term="tia" tabindex="0">TIA</dfn>.</dd>
-                          <dt>Possible consequence</dt>
-                          <dd>False current or drift that looks like a biological signal.</dd>
-                          <dt>Control</dt>
-                          <dd>Specified guarding, PCB cleanliness, short high-impedance traces, and enclosure protection — treated as both measurement-quality and safety controls.</dd>
-                          <dt>Verification / evidence</dt>
-                          <dd>Dark measurement is pending. No leakage figure is published.</dd>
-                          <dt>Status</dt>
-                          <dd><span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned · dark measurement</span></dd>
-                        </dl>
-                      </li>
+                    <p class="saf-case__layer-summary">
+                      Weak-fluorescence reader hazards: battery and power path, enclosure, ~470&nbsp;nm LED dose, optical leakage, high-Z TIA integrity, and future cartridge containment.
+                    </p>
+                    <ul class="saf-case__risk-ids" aria-label="Read-layer register hazards">
+                      <li><a href="#rr-hw-01">HW-01</a> · Incorrect battery charging</li>
+                      <li><a href="#rr-hw-02">HW-02</a> · Electrical short or abnormal load</li>
+                      <li><a href="#rr-hw-03">HW-03</a> · Exposed electronics</li>
+                      <li><a href="#rr-opt-01">OPT-01</a> · Direct viewing of ~470&nbsp;nm excitation</li>
+                      <li><a href="#rr-opt-02">OPT-02</a> · LED heating or excess optical dose</li>
+                      <li><a href="#rr-opt-03">OPT-03</a> · Excitation leakage or ambient-light contamination</li>
+                      <li><a href="#rr-meas-01">MEAS-01</a> · PCB leakage, moisture, or contamination on a high-Z TIA</li>
+                      <li><a href="#rr-dep-01">DEP-01</a> · Extra-laboratory live engineered-cell cartridge</li>
+                    </ul>
+                    <p class="saf-case__note">
+                      See also register: cartridge seal / leak / isolation requirements and the laboratory-only live-cell boundary are recorded under
+                      <a href="#rr-dep-01">DEP-01</a> (and commercial living-cell distribution under <a href="#rr-dep-02">DEP-02</a>).
+                      Autoclave and sharps remain <a href="#rr-hw-04">HW-04</a> / <a href="#rr-hw-05">HW-05</a> in Safe to build.
+                    </p>
                     </ol>
                   </article>
 
@@ -563,86 +460,21 @@
                       </p>
                       <span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned · QC / UI flags</span>
                     </header>
-                    <ol class="saf-rows">
-                      <li>
-                        <h4>Dark baseline failure</h4>
-                        <dl>
-                          <dt>Hazard</dt>
-                          <dd>Missing or unstable dark baseline before a measurement.</dd>
-                          <dt>Possible consequence</dt>
-                          <dd>Offset and drift converted into an apparent fluorescence change.</dd>
-                          <dt>Control</dt>
-                          <dd>Specified dark calibration as a gate: if the device cannot establish a baseline, it should not emit a confident biological conclusion.</dd>
-                          <dt>Verification / evidence</dt>
-                          <dd>Dark-noise measurement is pending on the hardware validation ladder.</dd>
-                          <dt>Status</dt>
-                          <dd><span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned · dark calibration evidence</span></dd>
-                        </dl>
-                      </li>
-                      <li>
-                        <h4>Saturation</h4>
-                        <dl>
-                          <dt>Hazard</dt>
-                          <dd>
-                            <dfn class="term" data-term="tia" tabindex="0">TIA</dfn>
-                            or
-                            <dfn class="term" data-term="adc" tabindex="0">ADC</dfn>
-                            saturation.</dd>
-                          <dt>Possible consequence</dt>
-                          <dd>A clipped sample mistaken for a biological peak or a null result.</dd>
-                          <dt>Control</dt>
-                          <dd>Specified saturation / QC flag so a saturated channel is labeled invalid rather than classified.</dd>
-                          <dt>Verification / evidence</dt>
-                          <dd>Dynamic-range tests are not published. Firmware is described as a prototype.</dd>
-                          <dt>Status</dt>
-                          <dd><span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned · dynamic-range test</span></dd>
-                        </dl>
-                      </li>
-                      <li>
-                        <h4>Low signal-to-noise</h4>
-                        <dl>
-                          <dt>Hazard</dt>
-                          <dd>A weak channel whose SNR is too low to support a decision.</dd>
-                          <dt>Possible consequence</dt>
-                          <dd>Noise decoded as odor, or a real change discarded without a validity flag.</dd>
-                          <dt>Control</dt>
-                          <dd>Specified retention of SNR (and related quality fields) in the output, not a classification-only display.</dd>
-                          <dt>Verification / evidence</dt>
-                          <dd>Final UI is not finalized. No SNR threshold is published as a verified operating limit.</dd>
-                          <dt>Status</dt>
-                          <dd><span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned · SNR gate in UI</span></dd>
-                        </dl>
-                      </li>
-                      <li>
-                        <h4>Calibration error</h4>
-                        <dl>
-                          <dt>Hazard</dt>
-                          <dd>Running without a current calibration, or applying the wrong calibration.</dd>
-                          <dt>Possible consequence</dt>
-                          <dd>A technically consistent number that is still the wrong measurement.</dd>
-                          <dt>Control</dt>
-                          <dd>Specified output fields include calibration status. Fluorescence calibration remains a later validation-ladder stage.</dd>
-                          <dt>Verification / evidence</dt>
-                          <dd>Fluorescence calibration is pending. No calibration certificate is claimed.</dd>
-                          <dt>Status</dt>
-                          <dd><span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned · calibration status flag</span></dd>
-                        </dl>
-                      </li>
-                      <li>
-                        <h4>Technically invalid measurement</h4>
-                        <dl>
-                          <dt>Hazard</dt>
-                          <dd>Any of the failures above, or an unflagged fault, presented as a biological result.</dd>
-                          <dt>Possible consequence</dt>
-                          <dd>A food-risk or odor decision made on data the instrument cannot defend.</dd>
-                          <dt>Control</dt>
-                          <dd>Three questions stay separate: was a signal detected; was the measurement technically valid; has a food-safety condition been confirmed. They are not equivalent.</dd>
-                          <dt>Verification / evidence</dt>
-                          <dd>This is an interpretive rule in team documents, not a shipped UI with logged invalid-measurement flags.</dd>
-                          <dt>Status</dt>
-                          <dd><span class="saf-status" data-status="implemented"><span class="saf-status__mark" aria-hidden="true"></span>Implemented · interpretation rule</span> <span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned · invalid-measurement flag</span></dd>
-                        </dl>
-                      </li>
+                    <p class="saf-case__layer-summary">
+                      Decode asks whether the digital sample is technically valid before any odor or food-risk wording.
+                    </p>
+                    <ul class="saf-case__risk-ids" aria-label="Decode-layer register hazards">
+                      <li><a href="#rr-meas-01">MEAS-01</a> · PCB leakage, moisture, or contamination on a high-Z TIA</li>
+                      <li><a href="#rr-meas-02">MEAS-02</a> · TIA or ADC saturation</li>
+                      <li><a href="#rr-meas-05">MEAS-05</a> · Invalid measurement converted into a biological conclusion</li>
+                      <li><a href="#rr-meas-06">MEAS-06</a> · Stakeholder report treated as experimental validation</li>
+                    </ul>
+                    <p class="saf-case__note">
+                      See also register: dark-baseline failure, low SNR, and wrong/missing calibration are not separate IDs —
+                      their specified gates (dark calibration, SNR retention in the output, calibration-status fields) are recorded under
+                      <a href="#rr-meas-01">MEAS-01</a> and <a href="#rr-meas-05">MEAS-05</a>.
+                      Quality-control flags are specified; the operator interface is not finalized.
+                    </p>
                     </ol>
                   </article>
 
@@ -656,67 +488,23 @@
                       </p>
                       <span class="saf-status" data-status="restricted"><span class="saf-status__mark" aria-hidden="true"></span>Restricted · extra-lab live-cell use</span>
                     </header>
-                    <ol class="saf-rows">
-                      <li>
-                        <h4>False negative</h4>
-                        <dl>
-                          <dt>Hazard</dt>
-                          <dd>A missed real risk, including an invalid measurement displayed as “clear.”</dd>
-                          <dt>Possible consequence</dt>
-                          <dd>Inappropriate reassurance — the most serious communication failure for an early-warning food-screening concept.</dd>
-                          <dt>Control</dt>
-                          <dd>Specified QC, confidence, and confirmatory-testing recommendation rather than a silent “safe.” Classification-only output is not the intended interface.</dd>
-                          <dt>Verification / evidence</dt>
-                          <dd>Biological validation of false-negative rate is pending. No field performance number is published.</dd>
-                          <dt>Status</dt>
-                          <dd><span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned · biological validation</span></dd>
-                        </dl>
-                      </li>
-                      <li>
-                        <h4>False positive</h4>
-                        <dl>
-                          <dt>Hazard</dt>
-                          <dd>A technically noisy or non-specific signal treated as a confirmed hazard.</dd>
-                          <dt>Possible consequence</dt>
-                          <dd>Unnecessary isolation, retesting, or disposal of food or produce.</dd>
-                          <dt>Control</dt>
-                          <dd>Specified retest plus confirmatory workflow. A screening band can guide follow-up; it cannot finish the chemical or legal question.</dd>
-                          <dt>Verification / evidence</dt>
-                          <dd>No published false-positive rate. Confirmatory testing remains a recommendation, not a completed operations protocol on this wiki.</dd>
-                          <dt>Status</dt>
-                          <dd><span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned · retest / confirmatory workflow</span></dd>
-                        </dl>
-                      </li>
-                      <li>
-                        <h4>Need for confirmatory testing</h4>
-                        <dl>
-                          <dt>Hazard</dt>
-                          <dd>Treating a VOC or fluorescence pattern as a mycotoxin concentration, a legal safety certificate, or a clinical result.</dd>
-                          <dt>Possible consequence</dt>
-                          <dd>Over-claiming: the Act layer answers the wrong question.</dd>
-                          <dt>Control</dt>
-                          <dd>Public language stays: signal detected ≠ measurement valid ≠ food-safety condition confirmed. AeroSense is a proposed early-screening / risk-indication architecture, not a standalone confirmatory diagnostic. High-risk or invalid outputs should recommend confirmatory laboratory testing.</dd>
-                          <dt>Verification / evidence</dt>
-                          <dd>This is claim-boundary language already used on Description, Hardware, Education, and IHP. It is not a regulatory determination.</dd>
-                          <dt>Status</dt>
-                          <dd><span class="saf-status" data-status="implemented"><span class="saf-status__mark" aria-hidden="true"></span>Implemented · claim boundary</span></dd>
-                        </dl>
-                      </li>
-                      <li>
-                        <h4>Deployment boundary</h4>
-                        <dl>
-                          <dt>Hazard</dt>
-                          <dd>Using a laboratory prototype, or a future living-cell cartridge, in a food facility or other non-laboratory setting during the iGEM project.</dd>
-                          <dt>Possible consequence</dt>
-                          <dd>Uncontained engineered cells, unvalidated measurements used as operational decisions, or an implied product authorization that does not exist.</dd>
-                          <dt>Control</dt>
-                          <dd>iGEM 2026 scope is laboratory contained-use only. Future extra-laboratory use would require containment validation, leak/failure testing, transport and disposal planning, regulatory determination, a defined user workflow, and real-world validation — none of which is claimed here. A sealed concept is not an approved product.</dd>
-                          <dt>Verification / evidence</dt>
-                          <dd>This is documented project scope, not a published institutional authorization letter.</dd>
-                          <dt>Status</dt>
-                          <dd><span class="saf-status" data-status="restricted"><span class="saf-status__mark" aria-hidden="true"></span>Restricted · extra-lab live-cell cartridges</span></dd>
-                        </dl>
-                      </li>
+                    <p class="saf-case__layer-summary">
+                      Act limits what a number is allowed to mean: false± communication harm, confirmatory-testing language, and the laboratory-only deployment boundary.
+                    </p>
+                    <ul class="saf-case__risk-ids" aria-label="Act-layer register hazards">
+                      <li><a href="#rr-meas-03">MEAS-03</a> · False negative if used for food-risk indication</li>
+                      <li><a href="#rr-meas-04">MEAS-04</a> · False positive if used for food-risk indication</li>
+                      <li><a href="#rr-meas-05">MEAS-05</a> · Invalid measurement converted into a biological conclusion</li>
+                      <li><a href="#rr-dep-01">DEP-01</a> · Extra-laboratory live engineered-cell cartridge</li>
+                      <li><a href="#rr-dep-02">DEP-02</a> · Commercial distribution of a living-cell device</li>
+                      <li><a href="#rr-dep-03">DEP-03</a> · Regulatory hypothesis treated as a determination</li>
+                    </ul>
+                    <p class="saf-case__note">
+                      See also register: public claim boundary remains signal detected ≠ measurement valid ≠ food-safety condition confirmed
+                      (<a href="#rr-meas-05">MEAS-05</a>; confirmatory laboratory testing is recommended for high-risk or invalid outputs
+                      (<a href="#rr-meas-03">MEAS-03</a> / <a href="#rr-meas-04">MEAS-04</a>.
+                      Until sufficient real-world validation exists, AeroSense is an early-screening / risk-indication concept, not a standalone confirmatory diagnostic.
+                    </p>
                     </ol>
                   </article>
                 </div>
@@ -993,7 +781,7 @@
                       <h4>
                         <dfn class="term" data-term="vuaa1" tabindex="0">VUAA1</dfn>
                       </h4>
-                      <p class="saf-chem__limit">PLANNED — Orco-family agonist specified in Experiments (DMSO stock, 50&nbsp;µM assay reference). Limited public toxicology; Jones 2011 is agonist literature, not an SDS. Not a completed assay record.</p>
+                      <p class="saf-chem__limit">PLANNED — Orco-family agonist specified in Experiments (DMSO stock, 50&nbsp;µM assay reference). Limited public toxicology; Jones 2011 <span class="cite-wrap"><a class="cite" href="#ref-jones-2011" id="cite-jones-2011" aria-describedby="cite-preview-jones-2011">[1]</a><span class="cite-preview" id="cite-preview-jones-2011" role="tooltip">Jones et al., 2011 — full entry in References.</span></span> is agonist literature, not an SDS. Not a completed assay record.</p>
                       <dl>
                         <dt>Hazard</dt>
                         <dd>Research chemical with limited toxicological characterisation. Treated conservatively as a potential irritant and toxicant.</dd>
@@ -1864,241 +1652,241 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr data-saf-row data-domain="biological" data-status="implemented">
+                    <tr id="rr-bio-01" data-risk-id="BIO-01" data-saf-row data-domain="biological" data-status="implemented">
                       <td data-label="Domain"><span class="saf-reg__domain">Biological</span></td>
-                      <th scope="row" data-label="Hazard">Accidental exposure to HEK293 / HEK293T culture</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">BIO-01</span> · Accidental exposure to HEK293 / HEK293T culture</th>
                       <td data-label="Consequence">Operator contact with a human-origin line that carries adenovirus-5 E1 DNA.</td>
                       <td data-label="Control">Class&nbsp;II cabinet work for mammalian culture, as named in Experiments. Extra-lab live cells are not authorized on this wiki.</td>
                       <td data-label="Evidence">Chassis is not frozen. No vendor CoA or institutional authorization letter is published. See <a href="#safe-to-build">Safe to build</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="implemented"><span class="saf-status__mark" aria-hidden="true"></span>Implemented</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="biological" data-status="implemented">
+                    <tr id="rr-bio-02" data-risk-id="BIO-02" data-saf-row data-domain="biological" data-status="implemented">
                       <td data-label="Domain"><span class="saf-reg__domain">Biological</span></td>
-                      <th scope="row" data-label="Hazard">Accidental exposure to <i>E. coli</i> DH5α</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">BIO-02</span> · Accidental exposure to <i>E. coli</i> DH5α</th>
                       <td data-label="Consequence">Operator or waste-stream exposure to cloning cultures.</td>
                       <td data-label="Control">BSL-1 standard microbiological practice: bench disinfection, no mouth pipetting, handwashing, autoclave of culture waste.</td>
                       <td data-label="Evidence">Final White List / Check-In status must be checked against official 2026 submissions. See <a href="#biological-materials">biological materials</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="implemented"><span class="saf-status__mark" aria-hidden="true"></span>Implemented</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="biological" data-status="implemented">
+                    <tr id="rr-bio-03" data-risk-id="BIO-03" data-saf-row data-domain="biological" data-status="implemented">
                       <td data-label="Domain"><span class="saf-reg__domain">Biological</span></td>
-                      <th scope="row" data-label="Hazard">Viable genetically modified material in laboratory waste</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">BIO-03</span> · Viable genetically modified material in laboratory waste</th>
                       <td data-label="Consequence">Cultures leaving the waste stream still viable.</td>
                       <td data-label="Control">Autoclave of bacterial cultures; mammalian waste disinfected then autoclaved. Containment and inactivation are relied upon. Environmental release is outside project scope.</td>
                       <td data-label="Evidence">Inactivation routes are laboratory practice. Pickup logs are not published. See <a href="#waste-incident">waste</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="implemented"><span class="saf-status__mark" aria-hidden="true"></span>Implemented</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="biological" data-status="planned">
+                    <tr id="rr-bio-04" data-risk-id="BIO-04" data-saf-row data-domain="biological" data-status="planned">
                       <td data-label="Domain"><span class="saf-reg__domain">Biological</span></td>
-                      <th scope="row" data-label="Hazard">Incomplete organism inventory</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">BIO-04</span> · Incomplete organism inventory</th>
                       <td data-label="Consequence">A missing host or animal-work item would leave waste, training, or iGEM Check-In incomplete.</td>
                       <td data-label="Control">Published list limited to documented cloning and mammalian sensing materials. Final project organism inventory pending team confirmation.</td>
                       <td data-label="Evidence">Chemically synthesised receptor sequences are documented. See <a href="#biological-materials">biological materials</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="biological" data-status="planned">
+                    <tr id="rr-bio-05" data-risk-id="BIO-05" data-saf-row data-domain="biological" data-status="planned">
                       <td data-label="Domain"><span class="saf-reg__domain">Biological</span></td>
-                      <th scope="row" data-label="Hazard">Electroporation high-voltage pulse</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">BIO-05</span> · Electroporation high-voltage pulse</th>
                       <td data-label="Consequence">Operator shock.</td>
                       <td data-label="Control">If electroporation is used: manufacturer procedure, cuvette chamber closed before discharge, trained operators only.</td>
                       <td data-label="Evidence">Electroporation versus Lipofectamine 3000 versus FuGene HD is unresolved. No training roster is published. See <a href="#hardware-hazards">equipment hazards</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="chemical" data-status="implemented">
+                    <tr id="rr-chem-01" data-risk-id="CHEM-01" data-saf-row data-domain="chemical" data-status="implemented">
                       <td data-label="Domain"><span class="saf-reg__domain">Chemical</span></td>
-                      <th scope="row" data-label="Hazard">VOC stock inhalation or skin contact</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">CHEM-01</span> · VOC stock inhalation or skin contact</th>
                       <td data-label="Consequence">The safety source treats this as the most realistic chemical harm: toxicity and CNS effects; some aromatics are suspected carcinogens.</td>
                       <td data-label="Control">Fume-hood stock preparation and dilution, smallest practical volumes, gloves, eye protection.</td>
                       <td data-label="Evidence">SDS pack not published. “VOCs are tested at 1–100&nbsp;µM” is a specified method, not a completed assay; exact identities remain a planned / candidate panel. See <a href="#chemical-voc">chemical hazards</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="implemented"><span class="saf-status__mark" aria-hidden="true"></span>Implemented</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="chemical" data-status="planned">
+                    <tr id="rr-chem-02" data-risk-id="CHEM-02" data-saf-row data-domain="chemical" data-status="planned">
                       <td data-label="Domain"><span class="saf-reg__domain">Chemical</span></td>
-                      <th scope="row" data-label="Hazard">Cresol (methylphenol) contact</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">CHEM-02</span> · Cresol (methylphenol) contact</th>
                       <td data-label="Consequence">Skin burns from toxic and corrosive stocks, if this class is later stored or used.</td>
                       <td data-label="Control">Additional corrosive handling in the fume hood; gloves; chemical-waste stream, not drain disposal.</td>
                       <td data-label="Evidence">PLANNED / CANDIDATE class from the safety source, not an in-use inventory. SDS not published. See <a href="#chemical-voc">chemical hazards</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="chemical" data-status="implemented">
+                    <tr id="rr-chem-03" data-risk-id="CHEM-03" data-saf-row data-domain="chemical" data-status="implemented">
                       <td data-label="Domain"><span class="saf-reg__domain">Chemical</span></td>
-                      <th scope="row" data-label="Hazard">Fire from flammable aromatics or solvents</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">CHEM-03</span> · Fire from flammable aromatics or solvents</th>
                       <td data-label="Consequence">Laboratory fire.</td>
                       <td data-label="Control">Flammables cabinet; VOC stocks kept away from ignition sources.</td>
                       <td data-label="Evidence">No inspection or drill record is published. See <a href="#chemical-voc">chemical hazards</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="implemented"><span class="saf-status__mark" aria-hidden="true"></span>Implemented</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="chemical" data-status="planned">
+                    <tr id="rr-chem-04" data-risk-id="CHEM-04" data-saf-row data-domain="chemical" data-status="planned">
                       <td data-label="Domain"><span class="saf-reg__domain">Chemical</span></td>
-                      <th scope="row" data-label="Hazard">DMSO or methanol stocks</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">CHEM-04</span> · DMSO or methanol stocks</th>
                       <td data-label="Consequence">Systemic toxicity; DMSO carries dissolved solutes through skin.</td>
                       <td data-label="Control">Fume hood for stock handling; gloves; flammables storage for methanol if later confirmed in-use.</td>
                       <td data-label="Evidence">DMSO is a planned vehicle in Experiments. Methanol is a source-document name, not an in-lab inventory fact. SDS not published. See <a href="#chemical-voc">chemical hazards</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="chemical" data-status="planned">
+                    <tr id="rr-chem-05" data-risk-id="CHEM-05" data-saf-row data-domain="chemical" data-status="planned">
                       <td data-label="Domain"><span class="saf-reg__domain">Chemical</span></td>
-                      <th scope="row" data-label="Hazard">G418 (Geneticin) powder</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">CHEM-05</span> · G418 (Geneticin) powder</th>
                       <td data-label="Consequence">Harmful aminoglycoside exposure, including powder aerosol when weighing.</td>
                       <td data-label="Control">Gloves; avoid powder aerosol; specified weighing practice.</td>
                       <td data-label="Evidence">G418 is a planned reagent in Experiments. A kill-curve result is not published. See <a href="#safe-to-build">Safe to build</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="hardware" data-status="planned">
+                    <tr id="rr-hw-01" data-risk-id="HW-01" data-saf-row data-domain="hardware" data-status="planned">
                       <td data-label="Domain"><span class="saf-reg__domain">Hardware</span></td>
-                      <th scope="row" data-label="Hazard">Incorrect battery charging</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">HW-01</span> · Incorrect battery charging</th>
                       <td data-label="Consequence">Heating or battery damage.</td>
                       <td data-label="Control">Reference USB-C → charger/power-path architecture (BQ24074 datasheet features). Compatible protected cell still to freeze.</td>
                       <td data-label="Evidence">IC datasheet ≠ assembled proof. Charge voltage, current, and temperature are not measured. Battery model is not frozen. See <a href="#safe-to-measure">Safe to measure</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="hardware" data-status="planned">
+                    <tr id="rr-hw-02" data-risk-id="HW-02" data-saf-row data-domain="hardware" data-status="planned">
                       <td data-label="Domain"><span class="saf-reg__domain">Hardware</span></td>
-                      <th scope="row" data-label="Hazard">Electrical short or abnormal load</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">HW-02</span> · Electrical short or abnormal load</th>
                       <td data-label="Consequence">Heating or component damage.</td>
-                      <td data-label="Control">Reference current-limited / protected power path, including TPS61023 datasheet protection features.</td>
+                      <td data-label="Control">Reference current-limited / protected power path, including TPS61023 datasheet protection features. Power-off before open-chassis work once an SOP exists.</td>
                       <td data-label="Evidence">Bring-up and abnormal-load tests are not published. PCB fabrication is pending. See <a href="#safe-to-measure">Safe to measure</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="hardware" data-status="planned">
+                    <tr id="rr-hw-03" data-risk-id="HW-03" data-saf-row data-domain="hardware" data-status="planned">
                       <td data-label="Domain"><span class="saf-reg__domain">Hardware</span></td>
-                      <th scope="row" data-label="Hazard">Exposed electronics</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">HW-03</span> · Exposed electronics</th>
                       <td data-label="Consequence">Accidental short or mechanical damage.</td>
                       <td data-label="Control">Enclosure as a mechanical barrier.</td>
                       <td data-label="Evidence">Enclosure is pending. Physical inspection is not published. See <a href="#safe-to-measure">Safe to measure</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="hardware" data-status="implemented">
+                    <tr id="rr-hw-04" data-risk-id="HW-04" data-saf-row data-domain="hardware" data-status="implemented">
                       <td data-label="Domain"><span class="saf-reg__domain">Hardware</span></td>
-                      <th scope="row" data-label="Hazard">Autoclave steam and pressure</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">HW-04</span> · Autoclave steam and pressure</th>
                       <td data-label="Consequence">Burns.</td>
                       <td data-label="Control">Institutional autoclave operating procedure; loads cooled before removal.</td>
                       <td data-label="Evidence">SOP is not cited on this wiki. See <a href="#hardware-hazards">equipment hazards</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="implemented"><span class="saf-status__mark" aria-hidden="true"></span>Implemented</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="hardware" data-status="implemented">
+                    <tr id="rr-hw-05" data-risk-id="HW-05" data-saf-row data-domain="hardware" data-status="implemented">
                       <td data-label="Domain"><span class="saf-reg__domain">Hardware</span></td>
-                      <th scope="row" data-label="Hazard">Sharps (needles, blades, glass pipettes)</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">HW-05</span> · Sharps (needles, blades, glass pipettes)</th>
                       <td data-label="Consequence">Puncture injury and contamination.</td>
                       <td data-label="Control">Designated puncture-resistant containers; no recapping of needles.</td>
                       <td data-label="Evidence">Practice is specified; no incident log is published. See <a href="#waste-incident">waste</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="implemented"><span class="saf-status__mark" aria-hidden="true"></span>Implemented</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="optical" data-status="planned">
+                    <tr id="rr-opt-01" data-risk-id="OPT-01" data-saf-row data-domain="optical" data-status="planned">
                       <td data-label="Domain"><span class="saf-reg__domain">Optical</span></td>
-                      <th scope="row" data-label="Hazard">Direct viewing of ~470&nbsp;nm excitation</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">OPT-01</span> · Direct viewing of ~470&nbsp;nm excitation</th>
                       <td data-label="Consequence">Unnecessary eye exposure.</td>
                       <td data-label="Control">Visible LEDs selected rather than lasers. Final enclosure is specified to block line of sight.</td>
                       <td data-label="Evidence">~12–16&nbsp;mA / ~54&nbsp;mW is an electrical calculation, not irradiance. Enclosure pending. See <a href="#safe-to-measure">Safe to measure</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="optical" data-status="planned">
+                    <tr id="rr-opt-02" data-risk-id="OPT-02" data-saf-row data-domain="optical" data-status="planned">
                       <td data-label="Domain"><span class="saf-reg__domain">Optical</span></td>
-                      <th scope="row" data-label="Hazard">LED heating or excess optical dose</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">OPT-02</span> · LED heating or excess optical dose</th>
                       <td data-label="Consequence">Sample heating or photobleaching that perturbs the biological measurement.</td>
                       <td data-label="Control">Drive only at the intensity and duty cycle required; pulsed or modulated operation is specified.</td>
                       <td data-label="Evidence">Final LED current, duty cycle, irradiance, and temperature rise are not measured. See <a href="#safe-to-measure">Safe to measure</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="optical" data-status="planned">
+                    <tr id="rr-opt-03" data-risk-id="OPT-03" data-saf-row data-domain="optical" data-status="planned">
                       <td data-label="Domain"><span class="saf-reg__domain">Optical</span></td>
-                      <th scope="row" data-label="Hazard">Excitation leakage or ambient-light contamination</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">OPT-03</span> · Excitation leakage or ambient-light contamination</th>
                       <td data-label="Consequence">False fluorescence signal.</td>
                       <td data-label="Control">Specified filter, geometry, and baffle.</td>
                       <td data-label="Evidence">Blank-sample test is not published. See <a href="#safe-to-measure">Safe to measure</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="measurement" data-status="planned">
+                    <tr id="rr-meas-01" data-risk-id="MEAS-01" data-saf-row data-domain="measurement" data-status="planned">
                       <td data-label="Domain"><span class="saf-reg__domain">Measurement</span></td>
-                      <th scope="row" data-label="Hazard">PCB leakage, moisture, or contamination on a high-Z TIA</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">MEAS-01</span> · PCB leakage, moisture, or contamination on a high-Z TIA</th>
                       <td data-label="Consequence">False current mistaken for biology.</td>
                       <td data-label="Control">Guard, cleanliness, short high-impedance traces, enclosure protection, dark calibration.</td>
                       <td data-label="Evidence">Dark measurement is pending. See <a href="#safe-to-measure">Safe to measure</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="measurement" data-status="planned">
+                    <tr id="rr-meas-02" data-risk-id="MEAS-02" data-saf-row data-domain="measurement" data-status="planned">
                       <td data-label="Domain"><span class="saf-reg__domain">Measurement</span></td>
-                      <th scope="row" data-label="Hazard">TIA or ADC saturation</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">MEAS-02</span> · TIA or ADC saturation</th>
                       <td data-label="Consequence">An invalid number presented as a result.</td>
                       <td data-label="Control">Specified QC / saturation flag.</td>
                       <td data-label="Evidence">Dynamic-range test pending. Interface is not finalized. See <a href="#safe-to-interpret">Safe to interpret</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="measurement" data-status="planned">
+                    <tr id="rr-meas-03" data-risk-id="MEAS-03" data-saf-row data-domain="measurement" data-status="planned">
                       <td data-label="Domain"><span class="saf-reg__domain">Measurement</span></td>
-                      <th scope="row" data-label="Hazard">False negative if used for food-risk indication</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">MEAS-03</span> · False negative if used for food-risk indication</th>
                       <td data-label="Consequence">Inappropriate reassurance.</td>
                       <td data-label="Control">Q1, Q2, and Q3 kept distinct; QC plus confirmatory-testing language; proposed early-screening / risk-indication architecture, not a standalone diagnostic.</td>
                       <td data-label="Evidence">Biological validation is pending. See <a href="#safe-to-interpret">Safe to interpret</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="measurement" data-status="planned">
+                    <tr id="rr-meas-04" data-risk-id="MEAS-04" data-saf-row data-domain="measurement" data-status="planned">
                       <td data-label="Domain"><span class="saf-reg__domain">Measurement</span></td>
-                      <th scope="row" data-label="Hazard">False positive if used for food-risk indication</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">MEAS-04</span> · False positive if used for food-risk indication</th>
                       <td data-label="Consequence">Unnecessary isolation, retesting, or disposal.</td>
                       <td data-label="Control">Retest criteria and a confirmatory-testing recommendation for high-risk or invalid outputs.</td>
                       <td data-label="Evidence">Biological validation is pending. See <a href="#safe-to-interpret">Safe to interpret</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="measurement" data-status="implemented">
+                    <tr id="rr-meas-05" data-risk-id="MEAS-05" data-saf-row data-domain="measurement" data-status="implemented">
                       <td data-label="Domain"><span class="saf-reg__domain">Measurement</span></td>
-                      <th scope="row" data-label="Hazard">Invalid measurement converted into a biological conclusion</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">MEAS-05</span> · Invalid measurement converted into a biological conclusion</th>
                       <td data-label="Consequence">A failed Q2 treated as a food-safety fact.</td>
-                      <td data-label="Control">Measurement Safety Principle: if the measurement is not technically trustworthy, do not emit a confident biological conclusion.</td>
+                      <td data-label="Control">Measurement Safety Principle: if the measurement is not technically trustworthy, do not emit a confident biological conclusion. Specified gates include dark baseline, SNR retention in the output (not classification-only), calibration-status fields, and an invalid / saturation flag so a failed technical gate is not classified as biology.</td>
                       <td data-label="Evidence">The interpretation rule is in use as documentation. An invalid-measurement UI flag is not implemented. See <a href="#safe-to-interpret">Safe to interpret</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="implemented"><span class="saf-status__mark" aria-hidden="true"></span>Implemented</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="human" data-status="implemented">
+                    <tr id="rr-hum-01" data-risk-id="HUM-01" data-saf-row data-domain="human" data-status="implemented">
                       <td data-label="Domain"><span class="saf-reg__domain">Human / Data</span></td>
-                      <th scope="row" data-label="Hazard">Untrained bench work</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">HUM-01</span> · Untrained bench work</th>
                       <td data-label="Consequence">Procedure failure and avoidable exposure.</td>
                       <td data-label="Control">Institutional laboratory safety and biosafety training required before bench work; supervision specified.</td>
                       <td data-label="Evidence">Training is laboratory practice. A dated roster is not published. See <a href="#people-and-data">People and data</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="implemented"><span class="saf-status__mark" aria-hidden="true"></span>Implemented</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="human" data-status="implemented">
+                    <tr id="rr-hum-02" data-risk-id="HUM-02" data-saf-row data-domain="human" data-status="implemented">
                       <td data-label="Domain"><span class="saf-reg__domain">Human / Data</span></td>
-                      <th scope="row" data-label="Hazard">Identifiable survey or interview data published without permission</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">HUM-02</span> · Identifiable survey or interview data published without permission</th>
                       <td data-label="Consequence">Privacy harm and unwanted public attribution.</td>
                       <td data-label="Control">Voluntary participation; data minimization; anonymity where actually true. Named quotations or identifiable professional comments are published only where explicit permission for attribution has been obtained.</td>
                       <td data-label="Evidence">A consent-form pack is not published. No IRB determination is claimed. See <a href="#people-and-data">People and data</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="implemented"><span class="saf-status__mark" aria-hidden="true"></span>Implemented</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="measurement" data-status="implemented">
+                    <tr id="rr-meas-06" data-risk-id="MEAS-06" data-saf-row data-domain="measurement" data-status="implemented">
                       <td data-label="Domain"><span class="saf-reg__domain">Measurement</span></td>
-                      <th scope="row" data-label="Hazard">Stakeholder report treated as experimental validation</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">MEAS-06</span> · Stakeholder report treated as experimental validation</th>
                       <td data-label="Consequence">A survey answer, interview comment, or literature claim worded as an AeroSense assay result, or as a food-safety confirmation.</td>
                       <td data-label="Control">Evidence-claim integrity: keep reported-to-us, inferred-by-team, literature, and experimentally validated as separate types. Q1–Q3 stay distinct.</td>
                       <td data-label="Evidence">The distinction is in use as documentation. See <a href="#safe-to-interpret">Safe to interpret</a> and <a href="#people-and-data">People and data</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="implemented"><span class="saf-status__mark" aria-hidden="true"></span>Implemented</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="deployment" data-status="restricted">
+                    <tr id="rr-dep-01" data-risk-id="DEP-01" data-saf-row data-domain="deployment" data-status="restricted">
                       <td data-label="Domain"><span class="saf-reg__domain">Deployment</span></td>
-                      <th scope="row" data-label="Hazard">Extra-laboratory live engineered-cell cartridge</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">DEP-01</span> · Extra-laboratory live engineered-cell cartridge</th>
                       <td data-label="Consequence">Biological exposure outside the laboratory, including to food, users, or reusable electronics.</td>
-                      <td data-label="Control">iGEM 2026 boundary is laboratory contained-use only. Containment concept is not permission to deploy.</td>
+                      <td data-label="Control">iGEM 2026 boundary is laboratory contained-use only. Containment concept is not permission to deploy. Specified future requirements (not a field product): sealed containment, controlled insertion/removal, leak resistance, defined disposal, and physical separation from electronics. Engineered cells are not intended to be released onto or into food.</td>
                       <td data-label="Evidence">Cartridge is not designed or leak-tested. See <a href="#safe-to-deploy">Safe to deploy</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="restricted"><span class="saf-status__mark" aria-hidden="true"></span>Restricted</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="deployment" data-status="restricted">
+                    <tr id="rr-dep-02" data-risk-id="DEP-02" data-saf-row data-domain="deployment" data-status="restricted">
                       <td data-label="Domain"><span class="saf-reg__domain">Deployment</span></td>
-                      <th scope="row" data-label="Hazard">Commercial distribution of a living-cell device</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">DEP-02</span> · Commercial distribution of a living-cell device</th>
                       <td data-label="Consequence">Unapproved distribution of contained live engineered mammalian cells.</td>
                       <td data-label="Control">No commercial living-cell authorization is claimed. A sealed concept is not an approved product. Regulatory determination is a future requirement.</td>
                       <td data-label="Evidence">The team has not obtained an authoritative determination. See <a href="#safe-to-deploy">Safe to deploy</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="restricted"><span class="saf-status__mark" aria-hidden="true"></span>Restricted</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="deployment" data-status="implemented">
+                    <tr id="rr-dep-03" data-risk-id="DEP-03" data-saf-row data-domain="deployment" data-status="implemented">
                       <td data-label="Domain"><span class="saf-reg__domain">Deployment</span></td>
-                      <th scope="row" data-label="Hazard">Regulatory hypothesis treated as a determination</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">DEP-03</span> · Regulatory hypothesis treated as a determination</th>
                       <td data-label="Consequence">A Taiwan device-class note, or a screening-versus-clinical distinction, worded as established law or as an authorization to deploy.</td>
                       <td data-label="Control">Four-layer split: documented framework / team interpretation / unresolved question / action before deployment. Label: regulatory hypothesis, not regulatory determination.</td>
                       <td data-label="Evidence">No classification letter is published. A biotech-law consult in IHP remains unfinished. See <a href="#safe-to-deploy">Safe to deploy</a>.</td>
                       <td data-label="Status"><span class="saf-status" data-status="implemented"><span class="saf-status__mark" aria-hidden="true"></span>Implemented</span></td>
                     </tr>
-                    <tr data-saf-row data-domain="biosecurity" data-status="implemented">
+                    <tr id="rr-biosec-01" data-risk-id="BIOSEC-01" data-saf-row data-domain="biosecurity" data-status="implemented">
                       <td data-label="Domain"><span class="saf-reg__domain">Biosecurity</span></td>
-                      <th scope="row" data-label="Hazard">Receptor-swap or pathogen-associated VOC expansion</th>
+                      <th scope="row" data-label="Hazard"><span class="saf-reg__id">BIOSEC-01</span> · Receptor-swap or pathogen-associated VOC expansion</th>
                       <td data-label="Consequence">Dual-use relevance increases if the intended product becomes a general-purpose receptor platform or a pathogen-associated detector.</td>
                       <td data-label="Control">Current documented scope is contained plant/fungal VOC risk indication. Broader pathogen-associated or general-purpose receptor engineering triggers re-review.</td>
                       <td data-label="Evidence">Present dual-use relevance is assessed as low but non-zero. That is not a clearance. Receptor-target expansion triggers re-review. See <a href="#biosecurity">Biosecurity</a>.</td>
@@ -2117,10 +1905,7 @@
               AeroSafe is a framework this team developed from AeroSense’s own laboratory-prototype work.
               It is <strong>not</strong> an established community standard, not an iGEM Safety Committee method, and not a claim that other teams must adopt it.
               It is a reusable way to keep engineered cells, a future cartridge, an optical/electronic reader, computational interpretation, and a real-world decision workflow from collapsing into a single “safe / unsafe” sentence.
-              <span class="cite-wrap">
-                <a class="cite" href="#ref-igem-rules" id="cite-igem-rules" aria-describedby="cite-preview-rules">[1]</a>
-                <span class="cite-preview" id="cite-preview-rules" role="tooltip">iGEM Safety and Security Policies — full entry in References &amp; Credits.</span>
-              </span>
+              <a class="tech-source" href="https://responsibility.igem.org/safety-policies" rel="noopener noreferrer" target="_blank">iGEM · Safety and Security Policies <span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>
             </p>
 
             <div class="saf-aero">
@@ -2159,37 +1944,17 @@
 
               <h3>Why a living biosensor needs this chain</h3>
               <p>
-                A food-risk indicator that uses live engineered cells is not only a wet-lab object.
-                Harm can appear in the cartridge, in the reader, in the software, or in how a person acts on the output.
+                A food-risk indicator that uses live engineered cells can fail in the cartridge, the reader, the software, or the decision workflow —
+                the worked Hazard → Consequence → Control → Verification example for this project is the
+                <a href="#risk-register">Risk register</a>, not a second parallel narrative.
               </p>
-              <ul class="saf-aero__why">
-                <li>
-                  <strong>Engineered cells</strong>
-                  <span>Contained-use practice, chassis identity, waste, and dual-use scope have to stay visible even when the sensing idea is modular.</span>
-                </li>
-                <li>
-                  <strong>Cartridges</strong>
-                  <span>A future living-cell interface must isolate biology from food, user, environment, and reusable electronics — and that isolation has to be tested, not drawn.</span>
-                </li>
-                <li>
-                  <strong>Optical / electronic readers</strong>
-                  <span>Battery, enclosure, LED dose, and high-impedance leakage can injure people or invent a false current that looks like biology.</span>
-                </li>
-                <li>
-                  <strong>Computational interpretation</strong>
-                  <span>Q1 (signal detected), Q2 (measurement valid), and Q3 (food-safety condition confirmed) are not equivalent. A classifier is not a confirmatory diagnostic.</span>
-                </li>
-                <li>
-                  <strong>Real-world decision workflows</strong>
-                  <span>False negatives, false positives, and extra-laboratory live cells are deployment questions. iGEM 2026 scope on this wiki stops at laboratory contained-use.</span>
-                </li>
-            </ul>
 
               <h3>Reusable outputs</h3>
               <p>
-                What exists today is this wiki: the Sense → Read → Decode → Act case, the risk register, and the deployment / dual-use boundaries.
-                Downloadable templates are <span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned</span>
-                — they are not linked because the files are not in this repository.
+                Downloadable AeroSafe templates are <span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned</span>
+                and are not linked because the files are not in this repository.
+                The live <a href="#risk-register">Risk register</a> on this page is the project’s worked example of the six-question chain —
+                it is <strong>not</strong> itself the reusable deliverable.
               </p>
               <!-- TODO: Publish AeroSafe safety-case template (markdown/PDF) and add a real download href. Do not invent a file. -->
               <!-- TODO: Publish risk-register template (CSV/markdown) from the live register columns. -->
@@ -2204,7 +1969,7 @@
                 </li>
                 <li>
                   <strong>Risk-register template</strong>
-                  <span>The six-column register used on this page, including Restricted as a first-class status — not a hidden row.</span>
+                  <span>A blank six-column register (including Restricted as a first-class status) modeled on this page’s project example — not a claim that the live table is the downloadable artifact.</span>
                   <span class="saf-status" data-status="planned"><span class="saf-status__mark" aria-hidden="true"></span>Planned · no file yet</span>
                 </li>
                 <li>
@@ -2238,10 +2003,7 @@
                 was chosen as a precautionary design decision.
                 That choice is not a White List badge, not a Safety Committee determination, and not proof that a parts Check-In was unnecessary.
                 See <a href="design.html">Design</a>
-                <span class="cite-wrap">
-                  <a class="cite" href="#ref-igem-whitelist" id="cite-whitelist-wpre" aria-describedby="cite-preview-whitelist">[2]</a>
-                  <span class="cite-preview" id="cite-preview-whitelist" role="tooltip">iGEM White List — full entry in References &amp; Credits.</span>
-                </span>.
+                <a class="tech-source" href="https://responsibility.igem.org/guidance/white-list" rel="noopener noreferrer" target="_blank">iGEM · White List <span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>.
               </p>
             </div>
           </section>
@@ -2261,16 +2023,10 @@
                 <span>
                   Official Project Safety Form and Check-In Form guidance:
                   <a href="https://responsibility.igem.org/safety-forms/project-safety" rel="noopener noreferrer">responsibility.igem.org/safety-forms/project-safety</a>
-                  <span class="cite-wrap">
-                    <a class="cite" href="#ref-igem-project-safety" id="cite-project-safety" aria-describedby="cite-preview-project-safety">[6]</a>
-                    <span class="cite-preview" id="cite-preview-project-safety" role="tooltip">iGEM Project Safety Form — full entry in References &amp; Credits.</span>
-                  </span>
+                  <a class="tech-source" href="https://responsibility.igem.org/safety-forms/project-safety" rel="noopener noreferrer" target="_blank">iGEM · Project Safety Form <span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>
                   and
                   <a href="https://responsibility.igem.org/safety-forms/check-in" rel="noopener noreferrer">responsibility.igem.org/safety-forms/check-in</a>
-                  <span class="cite-wrap">
-                    <a class="cite" href="#ref-igem-check-in" id="cite-check-in" aria-describedby="cite-preview-check-in">[7]</a>
-                    <span class="cite-preview" id="cite-preview-check-in" role="tooltip">iGEM Check-In Form — full entry in References &amp; Credits.</span>
-                  </span>.
+                  <a class="tech-source" href="https://responsibility.igem.org/safety-forms/check-in" rel="noopener noreferrer" target="_blank">iGEM · Check-In Form <span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>.
                   Team portal submission and approval status are not verified on this wiki. No receipt, screenshot, or Safety Committee determination is published.
                 </span>
               </li>
@@ -2305,10 +2061,7 @@
             <h2>2026 Safety &amp; Security award map</h2>
             <p>
               A navigation aid for the current Safety and Security award questions
-              <span class="cite-wrap">
-                <a class="cite" href="#ref-igem-special-awards" id="cite-special-awards" aria-describedby="cite-preview-special">[8]</a>
-                <span class="cite-preview" id="cite-preview-special" role="tooltip">iGEM Special Awards — full entry in References &amp; Credits.</span>
-              </span>.
+              <a class="tech-source" href="https://competition.igem.org/judging/awards/special" rel="noopener noreferrer" target="_blank">iGEM · Special Awards <span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>.
               This section does not answer “yes,” does not claim an award, and does not replace the official judging form.
             </p>
 
@@ -2361,15 +2114,12 @@
                     <dd>
                       iGEM White List, Check-In, and release-beyond-containment guidance cited as processes, not as team approvals.
                       Hardware ICs are cited from manufacturer datasheets, with the explicit caveat that a datasheet is not a bring-up result
-                      <span class="cite-wrap">
-                        <a class="cite" href="#ref-ti-bq2407x" id="cite-bq-saf" aria-describedby="cite-preview-bq">[9]</a>
-                        <span class="cite-preview" id="cite-preview-bq" role="tooltip">Texas Instruments BQ2407x datasheet — full entry in References &amp; Credits.</span>
-                      </span>.
+                      <a class="tech-source" href="https://www.ti.com/lit/ds/symlink/bq24074.pdf" rel="noopener noreferrer" target="_blank">Texas Instruments · BQ2407x datasheet <span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>.
                     </dd>
                     <dt>Where to inspect it</dt>
                     <dd>
                       <a href="#safe-to-measure">Safe to measure</a>,
-                      <a href="#references">References</a>,
+                      <a href="#references">References</a>.
                       <a href="hardware.html">Hardware</a>
                     </dd>
                     <dt>Remaining gap</dt>
@@ -2403,15 +2153,9 @@
                     <dt>Our evidence</dt>
                     <dd>
                       iGEM 2026 live engineered cells stay in the laboratory
-                      <span class="cite-wrap">
-                        <a class="cite" href="#ref-igem-release" id="cite-release" aria-describedby="cite-preview-release">[3]</a>
-                        <span class="cite-preview" id="cite-preview-release" role="tooltip">iGEM Release Beyond Containment — full entry in References &amp; Credits.</span>
-                      </span>.
+                      <a class="tech-source" href="https://responsibility.igem.org/safety-policies/release-beyond-containment" rel="noopener noreferrer" target="_blank">iGEM · Release Beyond Containment <span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>.
                       AeroSense is described as a proposed early-screening / risk-indication architecture, not as a standalone confirmatory diagnostic. No commercial living-cell authorization is claimed. Named quotations or identifiable professional comments are published only where explicit permission for attribution has been obtained.
-                      <span class="cite-wrap">
-                        <a class="cite" href="#ref-igem-human-subjects" id="cite-hs" aria-describedby="cite-preview-hs">[4]</a>
-                        <span class="cite-preview" id="cite-preview-hs" role="tooltip">iGEM Human Subjects Research — full entry in References &amp; Credits.</span>
-                      </span>.
+                      <a class="tech-source" href="https://responsibility.igem.org/safety-policies/human-subjects" rel="noopener noreferrer" target="_blank">iGEM · Human Subjects Research <span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>.
                     </dd>
                     <dt>Where to inspect it</dt>
                     <dd>
@@ -2435,88 +2179,64 @@
       </nav>
 
       <section class="references" aria-labelledby="references-heading" id="references" data-reveal>
-        <h2 id="references-heading">References &amp; Credits</h2>
+        <h2 id="references-heading">References</h2>
+        <p class="ref-papers-note">Numbered in-text markers such as [1] cite only papers. Documents, iGEM Foundation materials, and datasheets sit in a separate list below when this page uses them — they are not given [n] markers in the text.</p>
         <ol class="ref-list">
-          <li id="ref-igem-rules">
-            <span class="ref-authors">iGEM Foundation.</span>
-            <span class="ref-title">Safety and Security Policies (2026 competition guidance).</span>
-            <span class="ref-venue">Retrieved 14 September 2026 from <a href="https://responsibility.igem.org/safety-policies" rel="noopener noreferrer">https://responsibility.igem.org/safety-policies</a>.</span>
-            <a class="ref-backlink" href="#safe-to-deploy">Back to Safe to deploy</a>
-          </li>
-          <li id="ref-igem-whitelist">
-            <span class="ref-authors">iGEM Foundation.</span>
-            <span class="ref-title">White List.</span>
-            <span class="ref-venue">Retrieved 14 September 2026 from <a href="https://responsibility.igem.org/guidance/white-list" rel="noopener noreferrer">https://responsibility.igem.org/guidance/white-list</a>.</span>
-            <a class="ref-backlink" href="#cite-whitelist-wpre">Back to citation</a>
-          </li>
-          <li id="ref-igem-release">
-            <span class="ref-authors">iGEM Foundation.</span>
-            <span class="ref-title">Release Beyond Containment.</span>
-            <span class="ref-venue">Retrieved 14 September 2026 from <a href="https://responsibility.igem.org/safety-policies/release-beyond-containment" rel="noopener noreferrer">https://responsibility.igem.org/safety-policies/release-beyond-containment</a>.</span>
-            <a class="ref-backlink" href="#cite-release">Back to citation</a>
-          </li>
-          <li id="ref-igem-human-subjects">
-            <span class="ref-authors">iGEM Foundation.</span>
-            <span class="ref-title">Human Subjects Research.</span>
-            <span class="ref-venue">Retrieved 14 September 2026 from <a href="https://responsibility.igem.org/safety-policies/human-subjects" rel="noopener noreferrer">https://responsibility.igem.org/safety-policies/human-subjects</a>.</span>
-            <a class="ref-backlink" href="#people-and-data">Back to People and data</a>
-          </li>
-          <li id="ref-igem-surveys">
-            <span class="ref-authors">iGEM Foundation.</span>
-            <span class="ref-title">Surveys &amp; Interviews (Responsibility guidance).</span>
-            <span class="ref-venue">Retrieved 14 September 2026 from <a href="https://responsibility.igem.org/guidance/surveys-and-interviews" rel="noopener noreferrer">https://responsibility.igem.org/guidance/surveys-and-interviews</a>.</span>
-            <a class="ref-backlink" href="#people-and-data">Back to People and data</a>
-          </li>
-          <li id="ref-igem-project-safety">
-            <span class="ref-authors">iGEM Foundation.</span>
-            <span class="ref-title">Project Safety Form (Responsibility guidance).</span>
-            <span class="ref-venue">Retrieved from <a href="https://responsibility.igem.org/safety-forms/project-safety" rel="noopener noreferrer">https://responsibility.igem.org/safety-forms/project-safety</a>.</span>
-            <a class="ref-backlink" href="#compliance">Back to Compliance</a>
-          </li>
-          <li id="ref-igem-check-in">
-            <span class="ref-authors">iGEM Foundation.</span>
-            <span class="ref-title">Check-In Form (Responsibility guidance).</span>
-            <span class="ref-venue">Retrieved from <a href="https://responsibility.igem.org/safety-forms/check-in" rel="noopener noreferrer">https://responsibility.igem.org/safety-forms/check-in</a>.</span>
-            <a class="ref-backlink" href="#compliance">Back to Compliance</a>
-          </li>
-          <li id="ref-igem-special-awards">
-            <span class="ref-authors">iGEM Foundation.</span>
-            <span class="ref-title">Special Awards (including Safety and Security).</span>
-            <span class="ref-venue">Retrieved 14 September 2026 from <a href="https://competition.igem.org/judging/awards/special" rel="noopener noreferrer">https://competition.igem.org/judging/awards/special</a>.</span>
-            <a class="ref-backlink" href="#cite-special-awards">Back to citation</a>
-          </li>
-          <li id="ref-ti-bq2407x">
-            <span class="ref-authors">Texas Instruments.</span>
-            <span class="ref-title">BQ2407x Standalone 1-Cell 1.5-A Linear Battery Charger with PowerPath — Datasheet, Rev. N.</span>
-            <span class="ref-url">Retrieved from <a href="https://www.ti.com/lit/ds/symlink/bq24074.pdf" rel="noopener noreferrer">https://www.ti.com/lit/ds/symlink/bq24074.pdf</a>.</span>
-            <a class="ref-backlink" href="#cite-bq-saf">Back to citation</a>
-          </li>
-          <li id="ref-ti-tps61023">
-            <span class="ref-authors">Texas Instruments.</span>
-            <span class="ref-title">TPS61023 3.7-A Boost Converter with 0.5-V Ultra-Low Input Voltage — Datasheet, Rev. B.</span>
-            <span class="ref-url">Retrieved from <a href="https://www.ti.com/lit/ds/symlink/tps61023.pdf" rel="noopener noreferrer">https://www.ti.com/lit/ds/symlink/tps61023.pdf</a>.</span>
-            <a class="ref-backlink" href="#safe-to-measure">Back to Safe to measure</a>
-          </li>
-          <li id="ref-wurth-155124">
-            <span class="ref-authors">Würth Elektronik.</span>
-            <span class="ref-title">155124BS73200 WL-SMSW Side View LED — Datasheet.</span>
-            <span class="ref-url">Retrieved from <a href="https://www.we-online.com/components/products/datasheet/155124BS73200.pdf" rel="noopener noreferrer">https://www.we-online.com/components/products/datasheet/155124BS73200.pdf</a>.</span>
-            <a class="ref-backlink" href="#safe-to-measure">Back to Safe to measure</a>
-          </li>
-          <li id="ref-ti-lmp7721">
-            <span class="ref-authors">Texas Instruments.</span>
-            <span class="ref-title">LMP7721 3-Femtoampere Input Bias Current Precision Amplifier — Datasheet, Rev. E.</span>
-            <span class="ref-url">Retrieved from <a href="https://www.ti.com/lit/ds/symlink/lmp7721.pdf" rel="noopener noreferrer">https://www.ti.com/lit/ds/symlink/lmp7721.pdf</a>.</span>
-            <a class="ref-backlink" href="#safe-to-measure">Back to Safe to measure</a>
-          </li>
           <li id="ref-jones-2011">
             <span class="ref-authors">Jones, P. L., Pask, G. M., Rinker, D. C., &amp; Zwiebel, L. J.</span>
             <span class="ref-year">(2011).</span>
             <span class="ref-title">Functional agonism of insect odorant receptor ion channels.</span>
             <span class="ref-venue"><i>Proceedings of the National Academy of Sciences of the United States of America</i>, <span class="ref-volume">108</span>(21), 8821–8825.</span>
             <span class="ref-doi">DOI: <a href="https://doi.org/10.1073/pnas.1102425108" rel="noopener noreferrer">10.1073/pnas.1102425108</a>.</span>
+            <a class="ref-backlink" href="#cite-jones-2011">Back to citation</a>
           </li>
         </ol>
+        <div class="ref-docs" id="technical-sources">
+          <h3 id="technical-sources-heading">Documents, iGEM Foundation, and datasheets</h3>
+          <p class="ref-docs__note">These are not numbered. In-text markers such as [1] cite only the papers above.</p>
+          <h4>iGEM Foundation</h4>
+          <ul class="tech-source-list">
+          <li id="tech-igem-rules">
+            <a class="tech-source" href="https://responsibility.igem.org/safety-policies" rel="noopener noreferrer" target="_blank">iGEM · Safety and Security Policies <span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+          </li>
+          <li id="tech-igem-whitelist">
+            <a class="tech-source" href="https://responsibility.igem.org/guidance/white-list" rel="noopener noreferrer" target="_blank">iGEM · White List <span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+          </li>
+          <li id="tech-igem-release">
+            <a class="tech-source" href="https://responsibility.igem.org/safety-policies/release-beyond-containment" rel="noopener noreferrer" target="_blank">iGEM · Release Beyond Containment <span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+          </li>
+          <li id="tech-igem-human-subjects">
+            <a class="tech-source" href="https://responsibility.igem.org/safety-policies/human-subjects" rel="noopener noreferrer" target="_blank">iGEM · Human Subjects Research <span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+          </li>
+          <li id="tech-igem-surveys">
+            <a class="tech-source" href="https://responsibility.igem.org/guidance/surveys-and-interviews" rel="noopener noreferrer" target="_blank">iGEM · Surveys &amp; Interviews <span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+          </li>
+          <li id="tech-igem-project-safety">
+            <a class="tech-source" href="https://responsibility.igem.org/safety-forms/project-safety" rel="noopener noreferrer" target="_blank">iGEM · Project Safety Form <span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+          </li>
+          <li id="tech-igem-check-in">
+            <a class="tech-source" href="https://responsibility.igem.org/safety-forms/check-in" rel="noopener noreferrer" target="_blank">iGEM · Check-In Form <span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+          </li>
+          <li id="tech-igem-special-awards">
+            <a class="tech-source" href="https://competition.igem.org/judging/awards/special" rel="noopener noreferrer" target="_blank">iGEM · Special Awards <span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+          </li>
+        </ul>
+          <h4>Datasheets</h4>
+          <ul class="tech-source-list">
+          <li id="tech-ti-bq2407x">
+            <a class="tech-source" href="https://www.ti.com/lit/ds/symlink/bq24074.pdf" rel="noopener noreferrer" target="_blank">Texas Instruments · BQ2407x datasheet <span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+          </li>
+          <li id="tech-ti-tps61023">
+            <a class="tech-source" href="https://www.ti.com/lit/ds/symlink/tps61023.pdf" rel="noopener noreferrer" target="_blank">Texas Instruments · TPS61023 datasheet <span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+          </li>
+          <li id="tech-wurth-155124">
+            <a class="tech-source" href="https://www.we-online.com/components/products/datasheet/155124BS73200.pdf" rel="noopener noreferrer" target="_blank">Würth Elektronik · 155124BS73200 datasheet <span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+          </li>
+          <li id="tech-ti-lmp7721">
+            <a class="tech-source" href="https://www.ti.com/lit/ds/symlink/lmp7721.pdf" rel="noopener noreferrer" target="_blank">Texas Instruments · LMP7721 datasheet <span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+          </li>
+        </ul>
+        </div>
       </section>
     </div>
 
@@ -2526,24 +2246,19 @@
         <span class="toc__label">On this page</span>
 </summary>
       <nav aria-label="Table of contents">
-        <ol>
-          <li><a href="#safety-at-a-glance"><span class="tech-label">01</span> Safety at a glance</a></li>
+        <ol>          <li><a href="#safety-at-a-glance"><span class="tech-label">01</span> Safety at a glance</a></li>
           <li><a href="#our-safety-case"><span class="tech-label">02</span> Our safety case</a></li>
           <li><a href="#safe-to-build"><span class="tech-label">03</span> Safe to build</a></li>
           <li><a href="#safe-to-measure"><span class="tech-label">04</span> Safe to measure</a></li>
           <li><a href="#safe-to-interpret"><span class="tech-label">05</span> Safe to interpret</a></li>
           <li><a href="#safe-to-deploy"><span class="tech-label">06</span> Safe to deploy</a></li>
-          <li><a href="#people-and-data"><span class="tech-label">07</span> People and data</a></li>
-          <li><a href="#biosecurity"><span class="tech-label">08</span> Biosecurity &amp; dual use</a></li>
-          <li><a href="#risk-register"><span class="tech-label">09</span> Risk register</a></li>
-          <li><a href="#safety-contribution"><span class="tech-label">10</span> AeroSafe</a></li>
-          <li><a href="#compliance"><span class="tech-label">11</span> Compliance</a></li>
-          <li><a href="#award-map"><span class="tech-label">12</span> Award map</a></li>
-          <li><a href="#references"><span class="tech-label">Ref</span> References &amp; Credits</a></li>
-        </ol>
+          <li><a href="#biosecurity"><span class="tech-label">07</span> Biosecurity</a></li>
+          <li><a href="#risk-register"><span class="tech-label">08</span> Risk register</a></li>
+                  <li><a href="#references"><span class="tech-label">Ref</span> References</a></li>
+</ol>
       </nav>
     </details>
-      <a class="back-to-top page-toc__top" href="#main">Back to top</a>
+      <a class="back-to-top" href="#main">Back to top</a>
     </div>
   </div>
 
@@ -2559,37 +2274,40 @@
             <li><a href="description.html">Description</a></li>
             <li><a href="contribution.html">Contribution</a></li>
             <li><a href="engineering.html">Engineering</a></li>
-            <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
+            <li><a href="safety-and-security.html">Safety</a></li>
             <li><a href="notebook.html">Notebook</a></li>
-            </ul>
+          </ul>
         </div>
         <div class="footer-col">
           <h2>Team</h2>
           <ul>
             <li><a href="members.html">Members</a></li>
             <li><a href="attributions.html">Attributions</a></li>
-            </ul>
+          </ul>
+        </div>
+        <div class="footer-col">
           <h2>Wet Lab</h2>
           <ul>
             <li><a href="parts.html">Parts</a></li>
             <li><a href="design.html">Design</a></li>
             <li><a href="experiments.html">Experiments</a></li>
             <li><a href="results.html">Results</a></li>
-            </ul>
+          </ul>
         </div>
         <div class="footer-col">
           <h2>Dry Lab</h2>
           <ul>
-            <li><a href="model.html">Model</a></li>
             <li><a href="hardware.html">Hardware</a></li>
-            </ul>
+            <li><a href="model.html">Model</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
           <h2>Human Practices</h2>
           <ul>
             <li><a href="human-practices.html">Integrated Human Practices</a></li>
             <li><a href="education.html">Education</a></li>
             <li><a href="entrepreneurship.html">Entrepreneurship</a></li>
             <li><a href="sustainability.html">Sustainability</a></li>
-            <li><a href="learning-platform.html">Learning Lab</a></li>
           </ul>
         </div>
       </div>

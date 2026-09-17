@@ -1,14 +1,15 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Model · AeroSense · NTHU iGEM 2026</title>
-  <meta name="description" content="AeroSense Model: a fly-inspired Brian2 spiking network for gas classification on the KT Batch1–3 sensor array. Pooled stratified baseline (macro-F1 0.868, seed 100); cross-batch drift evaluation not yet performed.">
+  <title>Model · Dry Lab · AeroSense · NTHU iGEM 2026</title>
+  <meta name="description" content="AeroSense Model documents a Brian2 PN→KC→MBON gas classifier on the KT Batch1–3 corpus. Pooled baseline macro-F1 0.868 (seed 100); cross-batch drift evaluation and an in-wiki executable package remain pending.">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/model.css">
   <script src="js/main.js" defer></script>
   <script src="js/glossary.js" defer></script>
+  <script src="js/microinteractions.js" defer></script>
   <script src="js/search.js" defer></script>
   <script src="js/model.js" defer></script>
 </head>
@@ -75,8 +76,8 @@
             <span class="nav-label-static">Dry Lab</span>
             <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-drylab">Dry Lab</button>
             <ul class="nav-submenu" id="submenu-drylab">
-              <li><a href="model.html" aria-current="page">Model</a></li>
               <li><a href="hardware.html">Hardware</a></li>
+              <li><a href="model.html" aria-current="page">Model</a></li>
             </ul>
           </li>
                     <li class="nav-item nav-item--dropdown">
@@ -87,7 +88,6 @@
               <li><a href="education.html">Education</a></li>
               <li><a href="entrepreneurship.html">Entrepreneurship</a></li>
               <li><a href="sustainability.html">Sustainability</a></li>
-              <li><a href="learning-platform.html">Learning Lab</a></li>
             </ul>
           </li>
         </ul>
@@ -128,12 +128,38 @@
               <li aria-current="page">Model</li>
             </ol>
           </nav>
-          <span class="page-kicker">12 / Dry Lab · Decode layer</span>
+          <span class="page-kicker">Dry Lab · Model</span>
           <h1>A fly-inspired spiking network for gas classification</h1>
           <p class="page-purpose">
             A Brian2 PN→KC→MBON model on the KT Batch1–3 metal-oxide aging corpus — with a pooled baseline and an open question on drift robustness.
           </p>
           <span class="status-label status-label--signal">Pooled baseline reported · cross-batch drift evaluation not yet performed</span>
+
+          <aside class="page-glance" aria-labelledby="model-page-glance-title">
+            <h2 class="page-glance__title" id="model-page-glance-title">At a glance</h2>
+            <dl class="page-glance__grid page-glance__grid--5">
+            <div class="page-glance__item">
+              <dt>Approach</dt>
+              <dd>Brian2 PN→KC→MBON spiking network for gas classification without an explicit drift-correction stage.</dd>
+            </div>
+            <div class="page-glance__item">
+              <dt>Data</dt>
+              <dd>KT Batch1–3 14-channel metal-oxide corpus (five gases); faulty Batch2 devices 1–2 excluded.</dd>
+            </div>
+            <div class="page-glance__item">
+              <dt>Validation</dt>
+              <dd>Pooled stratified baseline only (macro-F1 0.868, seed 100); cross-batch drift tests not performed.</dd>
+            </div>
+            <div class="page-glance__item">
+              <dt>Design insight</dt>
+              <dd>Pooled F1 is kept as a comparison anchor and is not treated as drift-robustness proof.</dd>
+            </div>
+            <div class="page-glance__item">
+              <dt>Reproduce it</dt>
+              <dd>No executable model package is archived in this wiki tree.</dd>
+            </div>
+            </dl>
+          </aside>
 
           <div class="model-hero__grid">
             <div class="model-hero__copy">
@@ -207,7 +233,7 @@
               Electronic noses pair chemical-sensor arrays with pattern-recognition algorithms for gas and odor identification — from environmental monitoring to food quality control and disease screening
               <span class="cite-wrap">
                 <a class="cite" href="#ref-marco-2012" id="cite-marco-2012-a" aria-describedby="cite-preview-marco-2012">[1]</a>
-                <span class="cite-preview" id="cite-preview-marco-2012" role="tooltip">Marco &amp; Gutiérrez-Gálvez, 2012 — full entry in References &amp; Credits.</span>
+                <span class="cite-preview" id="cite-preview-marco-2012" role="tooltip">Marco &amp; Gutiérrez-Gálvez, 2012 — full entry in References.</span>
               </span>.
             </p>
             <p>
@@ -218,7 +244,7 @@
               </span>
               <span class="cite-wrap">
                 <a class="cite" href="#ref-vergara-2012" id="cite-vergara-2012-a" aria-describedby="cite-preview-vergara-2012">[2]</a>
-                <span class="cite-preview" id="cite-preview-vergara-2012" role="tooltip">Vergara et al., 2012 — full entry in References &amp; Credits.</span>
+                <span class="cite-preview" id="cite-preview-vergara-2012" role="tooltip">Vergara et al., 2012 — full entry in References.</span>
               </span>.
             </p>
             <p>
@@ -247,25 +273,25 @@
               population receives sparse, largely random PN→KC connectivity
               <span class="cite-wrap">
                 <a class="cite" href="#ref-turner-2008" id="cite-turner-2008-a" aria-describedby="cite-preview-turner-2008">[3]</a>
-                <span class="cite-preview" id="cite-preview-turner-2008" role="tooltip">Turner et al., 2008 — full entry in References &amp; Credits.</span>
+                <span class="cite-preview" id="cite-preview-turner-2008" role="tooltip">Turner et al., 2008 — full entry in References.</span>
               </span>
               <span class="cite-wrap">
                 <a class="cite" href="#ref-caron-2013" id="cite-caron-2013-a" aria-describedby="cite-preview-caron-2013">[4]</a>
-                <span class="cite-preview" id="cite-preview-caron-2013" role="tooltip">Caron et al., 2013 — full entry in References &amp; Credits.</span>
+                <span class="cite-preview" id="cite-preview-caron-2013" role="tooltip">Caron et al., 2013 — full entry in References.</span>
               </span>.
             </p>
             <p>
               Random expansion into a high-dimensional space, combined with global feedback inhibition from the anterior paired lateral (APL) neuron that enforces sparse KC activity, yields decorrelated, near-orthogonal odor codes
               <span class="cite-wrap">
                 <a class="cite" href="#ref-lin-2014" id="cite-lin-2014-a" aria-describedby="cite-preview-lin-2014">[5]</a>
-                <span class="cite-preview" id="cite-preview-lin-2014" role="tooltip">Lin et al., 2014 — full entry in References &amp; Credits.</span>
+                <span class="cite-preview" id="cite-preview-lin-2014" role="tooltip">Lin et al., 2014 — full entry in References.</span>
               </span>.
               Those KC representations are read out by
               <dfn class="term" data-term="mbon" tabindex="0">mushroom body output neurons (MBONs)</dfn>
               through synapses shaped by learning, including STDP-like plasticity
               <span class="cite-wrap">
                 <a class="cite" href="#ref-aso-2014" id="cite-aso-2014-a" aria-describedby="cite-preview-aso-2014">[6]</a>
-                <span class="cite-preview" id="cite-preview-aso-2014" role="tooltip">Aso et al., 2014 — full entry in References &amp; Credits.</span>
+                <span class="cite-preview" id="cite-preview-aso-2014" role="tooltip">Aso et al., 2014 — full entry in References.</span>
               </span>.
             </p>
 
@@ -441,16 +467,16 @@
               The motif — expand, sparsify, then learn the readout — already travels beyond neuroscience: it appears in fly-inspired similarity search
               <span class="cite-wrap">
                 <a class="cite" href="#ref-dasgupta-2017" id="cite-dasgupta-2017-a" aria-describedby="cite-preview-dasgupta-2017">[7]</a>
-                <span class="cite-preview" id="cite-preview-dasgupta-2017" role="tooltip">Dasgupta et al., 2017 — full entry in References &amp; Credits.</span>
+                <span class="cite-preview" id="cite-preview-dasgupta-2017" role="tooltip">Dasgupta et al., 2017 — full entry in References.</span>
               </span>
               and in insect-inspired chemical-sensor classifiers
               <span class="cite-wrap">
                 <a class="cite" href="#ref-schmuker-2007" id="cite-schmuker-2007-a" aria-describedby="cite-preview-schmuker-2007">[8]</a>
-                <span class="cite-preview" id="cite-preview-schmuker-2007" role="tooltip">Schmuker &amp; Schneider, 2007 — full entry in References &amp; Credits.</span>
+                <span class="cite-preview" id="cite-preview-schmuker-2007" role="tooltip">Schmuker &amp; Schneider, 2007 — full entry in References.</span>
               </span>
               <span class="cite-wrap">
                 <a class="cite" href="#ref-imam-2020" id="cite-imam-2020-a" aria-describedby="cite-preview-imam-2020">[9]</a>
-                <span class="cite-preview" id="cite-preview-imam-2020" role="tooltip">Imam &amp; Cleland, 2020 — full entry in References &amp; Credits.</span>
+                <span class="cite-preview" id="cite-preview-imam-2020" role="tooltip">Imam &amp; Cleland, 2020 — full entry in References.</span>
               </span>.
             </p>
             <p class="notice">
@@ -476,7 +502,7 @@
                 Held-out Test exposures never enter the PCA fit
                 <span class="cite-wrap">
                   <a class="cite" href="#ref-jolliffe-2002" id="cite-jolliffe-2002-a" aria-describedby="cite-preview-jolliffe-2002">[10]</a>
-                  <span class="cite-preview" id="cite-preview-jolliffe-2002" role="tooltip">Jolliffe, 2002 — full entry in References &amp; Credits.</span>
+                  <span class="cite-preview" id="cite-preview-jolliffe-2002" role="tooltip">Jolliffe, 2002 — full entry in References.</span>
                 </span>.
                 Missing-value medians used for imputation follow the same train-only discipline in the documented method.
                 This is an evaluation-integrity rule, not a drift-robustness claim.
@@ -738,7 +764,7 @@
               The spiking network is implemented in the Brian2 simulator
               <span class="cite-wrap">
                 <a class="cite" href="#ref-stimberg-2019" id="cite-stimberg-2019-a" aria-describedby="cite-preview-stimberg-2019">[11]</a>
-                <span class="cite-preview" id="cite-preview-stimberg-2019" role="tooltip">Stimberg et al., 2019 — full entry in References &amp; Credits.</span>
+                <span class="cite-preview" id="cite-preview-stimberg-2019" role="tooltip">Stimberg et al., 2019 — full entry in References.</span>
               </span>
               using conductance-based leaky integrate-and-fire (LIF) neurons with AMPA/GABA/ACh synaptic dynamics.
             </p>
@@ -780,7 +806,7 @@
                   All-to-all excitatory KC→MBON synapses evolve under an event-driven, pair-based STDP rule (<code>learning_rate</code>)
                   <span class="cite-wrap">
                     <a class="cite" href="#ref-song-2000" id="cite-song-2000-a" aria-describedby="cite-preview-song-2000">[12]</a>
-                    <span class="cite-preview" id="cite-preview-song-2000" role="tooltip">Song et al., 2000 — full entry in References &amp; Credits.</span>
+                    <span class="cite-preview" id="cite-preview-song-2000" role="tooltip">Song et al., 2000 — full entry in References.</span>
                   </span>
                   — the same “fixed random expansion, learned readout” strategy used at real KC→MBON synapses
                   <span class="cite-wrap">
@@ -1193,9 +1219,10 @@
                   <li>Batch shift — pending (see panel C)</li>
                   <li>Mixture conditions — pending</li>
             </ul>
-                <p class="notice">
-                  Engineering notes a quantization / bit-precision probe that was later invalidated by a Brian2 clock-scheduling bug pending re-measurement —
+                <p>
+                  Engineering notes a quantization / bit-precision probe that was later invalidated pending re-measurement —
                   not reused here as Model robustness evidence.
+                  History: <a href="engineering.html#track-drylab">Engineering · Dry Lab</a>.
                 </p>
               </article>
 
@@ -1304,8 +1331,8 @@
                   <div>
                     <dt>Evidence</dt>
                     <dd>
-                      Dry Lab Cycle 0 documented that a single-seed F1 near ~0.90 was luck; a 3-seed mean framing was closer to ~0.85 on the configs tested
-                      (<a href="engineering.html#track-drylab">Engineering · Dry Lab</a>).
+                      Dry Lab Cycle 0 documented that a single-seed F1 near ~0.90 was luck; a 3-seed mean framing was closer to ~0.85 on the configs tested.
+                      History: <a href="engineering.html#track-drylab">Engineering · Dry Lab</a>.
                       The Model v0 headline remains single-seed (100).
                     </dd>
                   </div>
@@ -1336,7 +1363,8 @@
                   <div>
                     <dt>Evidence</dt>
                     <dd>
-                      Engineering Cycle 0 found the SNN PCA path lacked <code>StandardScaler</code>, so sensor-importance rankings tracked raw magnitude (e.g. S13 vs S6) rather than clean separability, disagreeing with standardized SVM / ANOVA-F diagnostics.
+                      Engineering Cycle 0 found the SNN PCA path lacked <code>StandardScaler</code>, so sensor-importance rankings tracked raw magnitude rather than clean separability.
+                      History: <a href="engineering.html#track-drylab">Engineering · Dry Lab</a>.
                     </dd>
                   </div>
                   <div>
@@ -1366,7 +1394,8 @@
                   <div>
                     <dt>Evidence</dt>
                     <dd>
-                      Engineering Cycle 1 explored ADC / state quantization as a precision budget for an eventual hardware e-nose, then found <code>quantize_states</code> was scheduled on the wrong Brian2 clock — prior bit-sweep conclusions are invalidated pending rerun.
+                      Engineering Cycle 1 bit-sweep conclusions are invalidated pending rerun.
+                      History: <a href="engineering.html#track-drylab">Engineering · Dry Lab</a> Cycle 1.
                     </dd>
                   </div>
                   <div>
@@ -1427,7 +1456,8 @@
             <h3 id="feedback-loop">Model ↔ Experiment Feedback Loop</h3>
             <p>
               AeroSense is Sense → Read → Decode → Act.
-              The Model is the <strong>Decode</strong> layer: its job is eventually to read receptor-response patterns from the biological sensing layer — not to stop at an external metal-oxide benchmark.
+              This is the functional system architecture, not the team workstream hierarchy.
+              The Model is the <strong>Decode</strong> layer (Dry Lab · Model): its job is eventually to read receptor-response patterns from the biological sensing layer — not to stop at an external metal-oxide benchmark.
             </p>
             <p class="notice">
               KT Batch1–3 is a <strong>benchmark / surrogate development dataset</strong> used to build and stress-test the Decode pipeline while aging/batch structure is known.
@@ -1446,13 +1476,13 @@
                   <span class="model-loop__index">02</span>
                   <strong>Encode</strong>
                   <p>Hardware Read path (or archived sensor export) turns the measurement into a versioned feature vector.</p>
-                  <span class="model-loop__layer">Read · Hardware</span>
+                  <span class="model-loop__layer">Read · Dry Lab · Hardware</span>
                 </li>
                 <li class="model-loop__step model-loop__step--here" data-layer="decode">
                   <span class="model-loop__index">03</span>
                   <strong>Model</strong>
                   <p>Fly-inspired SNN maps features → class scores (this page).</p>
-                  <span class="model-loop__layer">Decode · Model</span>
+                  <span class="model-loop__layer">Decode · Dry Lab · Model</span>
                   <span class="model-loop__now">You are here</span>
                 </li>
                 <li class="model-loop__step" data-layer="decode">
@@ -1475,15 +1505,15 @@
                 </li>
               </ol>
 
-              <div class="model-loop__stack" role="group" aria-label="Sense Read Decode Act stack">
+              <div class="model-loop__stack" role="group" aria-label="Functional system architecture: Sense, Read, Decode, Act — not team workstreams">
                 <a class="model-loop__stack-item" href="design.html">Sense<br><span>Wet Lab / Design</span></a>
-                <a class="model-loop__stack-item" href="hardware.html">Read<br><span>Hardware</span></a>
-                <a class="model-loop__stack-item model-loop__stack-item--here" href="model.html">Decode<br><span>Model</span></a>
+                <a class="model-loop__stack-item" href="hardware.html">Read<br><span>Dry Lab · Hardware</span></a>
+                <a class="model-loop__stack-item model-loop__stack-item--here" href="model.html">Decode<br><span>Dry Lab · Model</span></a>
                 <span class="model-loop__stack-item">Act<br><span>Decision / QC</span></span>
               </div>
 
               <figcaption id="model-loop-caption" class="model-loop__caption">
-                Feedback loop linking Wet Lab, Hardware, and Model.
+                Feedback loop linking Wet Lab and Dry Lab (Hardware | Model).
                 No closed AeroSense fluorescence → Model → redesign cycle is claimed yet; KT work develops Decode methods on a surrogate aging corpus.
               </figcaption>
             </figure>
@@ -1494,7 +1524,7 @@
             <span class="section-kicker">13 · Project integration</span>
             <h2 id="aerosense-bridge-heading">From Public Sensor Data to AeroSense</h2>
             <p>
-              AeroSense’s product stack is Sense → Read → Decode → Act:
+              AeroSense’s product stack is Sense → Read → Decode → Act (functional system architecture, not the team workstream hierarchy):
               <a href="description.html">Description</a>,
               <a href="hardware.html">Hardware</a>,
               <a href="design.html">Design</a>.
@@ -1510,7 +1540,7 @@
               Transfer to AeroSense assays will require a versioned fluorescence / receptor-response feature matrix (planned export path
               <a href="experiments.html#exp-as-07">EXP-AS-07</a>
               and
-              <a href="results.html#model-results">Results · Model results</a>),
+              <a href="results.html#model">Results · Model</a>),
               the same leakage-safe split discipline, and an explicit statement of domain shift between metal-oxide voltages and GCaMP-derived features.
             </p>
             <p class="notice">
@@ -1893,7 +1923,7 @@ log resolved config, spike rasters, per-class reports  # intended; not archived 
                   </div>
                   <div>
                     <dt>Next validation</dt>
-                    <dd>Repeat the protocol on a versioned in-house matrix (planned path <a href="experiments.html#exp-as-07">EXP-AS-07</a> / <a href="results.html#model-results">Results · Model</a>).</dd>
+                    <dd>Repeat the protocol on a versioned in-house matrix (planned path <a href="experiments.html#exp-as-07">EXP-AS-07</a> / <a href="results.html#model">Results · Model</a>).</dd>
                   </div>
                 </dl>
               </article>
@@ -1940,12 +1970,13 @@ log resolved config, spike rasters, per-class reports  # intended; not archived 
       </main>
 
       <nav class="page-turn" aria-label="Page">
-        <a class="page-turn__prev" href="results.html"><span class="page-turn__dir">Previous</span><span class="page-turn__title">Results</span></a>
-        <a class="page-turn__next" href="hardware.html"><span class="page-turn__dir">Next</span><span class="page-turn__title">Hardware</span></a>
+        <a class="page-turn__prev" href="hardware.html"><span class="page-turn__dir">Previous</span><span class="page-turn__title">Hardware</span></a>
+        <a class="page-turn__next" href="human-practices.html"><span class="page-turn__dir">Next</span><span class="page-turn__title">Integrated Human Practices</span></a>
       </nav>
 
       <section class="references" aria-labelledby="references-heading" id="references" data-reveal>
-        <h2 id="references-heading">References &amp; Credits</h2>
+        <h2 id="references-heading">References</h2>
+        <p class="ref-papers-note">Numbered in-text markers such as [1] cite only papers. Documents, iGEM Foundation materials, and datasheets sit in a separate list below when this page uses them — they are not given [n] markers in the text.</p>
         <ol class="ref-list">
           <li id="ref-marco-2012">
             <span class="ref-authors">Marco, S., &amp; Gutiérrez-Gálvez, A.</span>
@@ -2034,7 +2065,6 @@ log resolved config, spike rasters, per-class reports  # intended; not archived 
             <a class="ref-backlink" href="#cite-song-2000-a">Back to citation</a>
           </li>
         </ol>
-        <h3 class="model-credits-heading">Credits</h3>
       </section>
     </div>
 
@@ -2044,24 +2074,19 @@ log resolved config, spike rasters, per-class reports  # intended; not archived 
         <span class="toc__label">On this page</span>
 </summary>
       <nav aria-label="Table of contents">
-        <ol>
-          <li><a href="#evidence-snapshot"><span class="tech-label">01</span> Evidence Snapshot</a></li>
+        <ol>          <li><a href="#evidence-snapshot"><span class="tech-label">01</span> Evidence Snapshot</a></li>
           <li><a href="#drift-problem"><span class="tech-label">02</span> Drift Problem</a></li>
           <li><a href="#why-fly-brain"><span class="tech-label">03</span> Why the Fly Brain</a></li>
           <li><a href="#sensor-to-spikes"><span class="tech-label">04</span> Sensor → Spikes</a></li>
-          <li><a href="#data-and-network"><span class="tech-label">05</span> Data</a></li>
-          <li><a href="#network"><span class="tech-label">06</span> Network</a></li>
-          <li><a href="#training-evaluation"><span class="tech-label">07</span> Training &amp; Evaluation</a></li>
-          <li><a href="#performance"><span class="tech-label">08</span> Evidence &amp; Results</a></li>
-          <li><a href="#what-we-learned"><span class="tech-label">09</span> What Did the Model Teach Us</a></li>
-          <li><a href="#aerosense-bridge"><span class="tech-label">10</span> AeroSense Bridge</a></li>
-          <li><a href="#reproduce"><span class="tech-label">11</span> Reproduce</a></li>
-          <li><a href="#limitations"><span class="tech-label">12</span> Limitations</a></li>
-          <li><a href="#references"><span class="tech-label">Ref</span> References &amp; Credits</a></li>
-        </ol>
+          <li><a href="#network"><span class="tech-label">05</span> Network</a></li>
+          <li><a href="#performance"><span class="tech-label">06</span> Evidence &amp; Results</a></li>
+          <li><a href="#aerosense-bridge"><span class="tech-label">07</span> AeroSense Bridge</a></li>
+          <li><a href="#limitations"><span class="tech-label">08</span> Limitations</a></li>
+                  <li><a href="#references"><span class="tech-label">Ref</span> References</a></li>
+</ol>
       </nav>
     </details>
-      <a class="back-to-top page-toc__top" href="#main">Back to top</a>
+      <a class="back-to-top" href="#main">Back to top</a>
     </div>
   </div>
 
@@ -2077,37 +2102,40 @@ log resolved config, spike rasters, per-class reports  # intended; not archived 
             <li><a href="description.html">Description</a></li>
             <li><a href="contribution.html">Contribution</a></li>
             <li><a href="engineering.html">Engineering</a></li>
-            <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
+            <li><a href="safety-and-security.html">Safety</a></li>
             <li><a href="notebook.html">Notebook</a></li>
-            </ul>
+          </ul>
         </div>
         <div class="footer-col">
           <h2>Team</h2>
           <ul>
             <li><a href="members.html">Members</a></li>
             <li><a href="attributions.html">Attributions</a></li>
-            </ul>
+          </ul>
+        </div>
+        <div class="footer-col">
           <h2>Wet Lab</h2>
           <ul>
             <li><a href="parts.html">Parts</a></li>
             <li><a href="design.html">Design</a></li>
             <li><a href="experiments.html">Experiments</a></li>
             <li><a href="results.html">Results</a></li>
-            </ul>
+          </ul>
         </div>
         <div class="footer-col">
           <h2>Dry Lab</h2>
           <ul>
-            <li><a href="model.html">Model</a></li>
             <li><a href="hardware.html">Hardware</a></li>
-            </ul>
+            <li><a href="model.html">Model</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
           <h2>Human Practices</h2>
           <ul>
             <li><a href="human-practices.html">Integrated Human Practices</a></li>
             <li><a href="education.html">Education</a></li>
             <li><a href="entrepreneurship.html">Entrepreneurship</a></li>
             <li><a href="sustainability.html">Sustainability</a></li>
-            <li><a href="learning-platform.html">Learning Lab</a></li>
           </ul>
         </div>
       </div>

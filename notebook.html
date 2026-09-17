@@ -1,14 +1,15 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Notebook · AeroSense · NTHU iGEM 2026</title>
-  <meta name="description" content="AeroSense 2026 project chronicle: chronological notebook of wet-lab, hardware, and dry-lab experiments, engineering iterations, decisions, and lessons. Planned work is labeled separately from completed work.">
+  <meta name="description" content="AeroSense 2026 project chronicle: chronological notebook of Wet Lab and Dry Lab (Hardware | Model) work, engineering iterations, decisions, and lessons. Planned work is labeled separately from completed work.">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/notebook.css">
   <script src="js/main.js" defer></script>
   <script src="js/glossary.js" defer></script>
+  <script src="js/microinteractions.js" defer></script>
   <script src="js/search.js" defer></script>
   <script src="js/notebook-data.js" defer></script>
   <script src="js/notebook.js" defer></script>
@@ -76,8 +77,8 @@
             <span class="nav-label-static">Dry Lab</span>
             <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-drylab">Dry Lab</button>
             <ul class="nav-submenu" id="submenu-drylab">
-              <li><a href="model.html">Model</a></li>
               <li><a href="hardware.html">Hardware</a></li>
+              <li><a href="model.html">Model</a></li>
             </ul>
           </li>
                     <li class="nav-item nav-item--dropdown">
@@ -88,7 +89,6 @@
               <li><a href="education.html">Education</a></li>
               <li><a href="entrepreneurship.html">Entrepreneurship</a></li>
               <li><a href="sustainability.html">Sustainability</a></li>
-              <li><a href="learning-platform.html">Learning Lab</a></li>
             </ul>
           </li>
         </ul>
@@ -129,11 +129,21 @@
               <li aria-current="page">Notebook</li>
             </ol>
           </nav>
-          <span class="page-kicker">NOTEBOOK · 2026 PROJECT CHRONICLE</span>
+          <nav class="lab-chain" aria-label="Lab evidence chain">
+            <p class="lab-chain__sub">Why → How → Iteration → Evidence → Chronology</p>
+            <ol class="lab-chain__list">
+              <li><a href="design.html">Design</a></li>
+              <li><a href="experiments.html">Experiments</a></li>
+              <li><a href="engineering.html">Engineering</a></li>
+              <li><a href="results.html">Results</a></li>
+              <li><a href="notebook.html" aria-current="page">Notebook</a></li>
+            </ol>
+          </nav>
+<span class="page-kicker">NOTEBOOK · 2026 PROJECT CHRONICLE</span>
           <h1>Notebook</h1>
-          <p class="page-purpose">Building AeroSense, one decision at a time.</p>
+          <p class="page-purpose">When work happened — chronology, not interpretation essays.</p>
           <p class="page-lede nb-hero__lede">
-            A chronological record of experiments, engineering iterations, decisions and lessons across Wet Lab, Hardware and Dry Lab.
+            Dated Wet Lab and Dry Lab (Hardware | Model) records. Design WHY, Engineering DBTL, and Results interpretation live on those pages — this chronicle only timestamps what was done.
           </p>
           <p class="nb-hero__motif" aria-hidden="true"></p>
         </header>
@@ -152,38 +162,13 @@
               <p class="notice">JavaScript is required to compute workstream counts from the notebook dataset. No fabricated summary figures are shown.</p>
             </noscript>
 
+            <p class="nb-glance__note">Technical workstreams: Wet Lab and Dry Lab. Hardware and Model are Dry Lab tracks.</p>
             <div class="nb-stream-grid" data-notebook-streams>
               <article class="nb-stream-card" data-stream-card="wetlab" aria-labelledby="nb-stream-wetlab-title">
                 <header class="nb-stream-card__header">
                   <span class="nb-stream-mark nb-stream-mark--wetlab" aria-hidden="true"></span>
-                  <p class="nb-stream-card__kicker">Sense</p>
+                  <p class="nb-stream-card__kicker">Technical workstream</p>
                   <h3 id="nb-stream-wetlab-title">Wet Lab</h3>
-                </header>
-                <p class="nb-status" data-stream-status>
-                  <span class="nb-status__mark" aria-hidden="true"></span>
-                  <span class="nb-status__text">Loading…</span>
-                </p>
-                <dl class="nb-stream-card__meta">
-                  <div>
-                    <dt>Documented records</dt>
-                    <dd data-stream-count>—</dd>
-                  </div>
-                  <div>
-                    <dt>Latest milestone</dt>
-                    <dd data-stream-milestone>—</dd>
-                  </div>
-                  <div data-stream-next-wrap hidden>
-                    <dt>Next</dt>
-                    <dd data-stream-next></dd>
-                  </div>
-                </dl>
-              </article>
-
-              <article class="nb-stream-card" data-stream-card="hardware" aria-labelledby="nb-stream-hardware-title">
-                <header class="nb-stream-card__header">
-                  <span class="nb-stream-mark nb-stream-mark--hardware" aria-hidden="true"></span>
-                  <p class="nb-stream-card__kicker">Read</p>
-                  <h3 id="nb-stream-hardware-title">Hardware</h3>
                 </header>
                 <p class="nb-status" data-stream-status>
                   <span class="nb-status__mark" aria-hidden="true"></span>
@@ -208,7 +193,7 @@
               <article class="nb-stream-card" data-stream-card="drylab" aria-labelledby="nb-stream-drylab-title">
                 <header class="nb-stream-card__header">
                   <span class="nb-stream-mark nb-stream-mark--drylab" aria-hidden="true"></span>
-                  <p class="nb-stream-card__kicker">Decode</p>
+                  <p class="nb-stream-card__kicker">Technical workstream</p>
                   <h3 id="nb-stream-drylab-title">Dry Lab</h3>
                 </header>
                 <p class="nb-status" data-stream-status>
@@ -229,6 +214,32 @@
                     <dd data-stream-next></dd>
                   </div>
                 </dl>
+                <div class="nb-stream-card__tracks" aria-label="Dry Lab substreams">
+                  <section class="nb-stream-track" data-substream-card="hardware" aria-labelledby="nb-substream-hardware-title">
+                    <header class="nb-stream-track__header">
+                      <span class="nb-stream-mark nb-stream-mark--hardware" aria-hidden="true"></span>
+                      <h4 id="nb-substream-hardware-title">Hardware</h4>
+                    </header>
+                    <p class="nb-status" data-substream-status>
+                      <span class="nb-status__mark" aria-hidden="true"></span>
+                      <span class="nb-status__text">Loading…</span>
+                    </p>
+                    <p class="nb-stream-track__count"><span data-substream-count>—</span> records</p>
+                    <p class="nb-stream-track__mile" data-substream-milestone>—</p>
+                  </section>
+                  <section class="nb-stream-track" data-substream-card="model" aria-labelledby="nb-substream-model-title">
+                    <header class="nb-stream-track__header">
+                      <span class="nb-stream-mark nb-stream-mark--drylab" aria-hidden="true"></span>
+                      <h4 id="nb-substream-model-title">Model</h4>
+                    </header>
+                    <p class="nb-status" data-substream-status>
+                      <span class="nb-status__mark" aria-hidden="true"></span>
+                      <span class="nb-status__text">Loading…</span>
+                    </p>
+                    <p class="nb-stream-track__count"><span data-substream-count>—</span> records</p>
+                    <p class="nb-stream-track__mile" data-substream-milestone>—</p>
+                  </section>
+                </div>
               </article>
             </div>
           </section>
@@ -248,7 +259,7 @@
             <details class="nb-filters-shell" data-nb-filters-shell open>
               <summary class="nb-filters-shell__summary">
                 <span class="nb-filters-shell__title">Filters</span>
-                <span class="nb-filters-shell__meta">Workstream · status · month · search</span>
+                <span class="nb-filters-shell__meta">Workstream · substream · status · month · search</span>
               </summary>
               <form class="nb-filters" data-notebook-filters aria-describedby="nb-filter-hint">
                 <p id="nb-filter-hint" class="nb-filters__hint">
@@ -258,11 +269,17 @@
                   <p>
                     <label for="nb-filter-stream">Workstream</label>
                     <select id="nb-filter-stream" name="stream">
-                      <option value="all" selected>All workstreams</option>
+                      <option value="all" selected>All</option>
                       <option value="wetlab">Wet Lab</option>
-                      <option value="hardware">Hardware</option>
                       <option value="drylab">Dry Lab</option>
-                      <option value="igem">iGEM official</option>
+                    </select>
+                  </p>
+                  <p data-substream-filter hidden>
+                    <label for="nb-filter-substream">Substream</label>
+                    <select id="nb-filter-substream" name="substream">
+                      <option value="all" selected>All</option>
+                      <option value="hardware">Hardware</option>
+                      <option value="model">Model</option>
                     </select>
                   </p>
                   <p>
@@ -344,41 +361,42 @@
             >
               <div class="nb-view-panel__head">
                 <h2 class="nb-view-panel__title" id="nb-calendar-heading">Calendar</h2>
-                <p class="nb-view-panel__lede">A 2026 mission log across Wet Lab, Hardware, Dry Lab, and official iGEM milestones. Planned work stays visually distinct from completed work.</p>
+                <p class="nb-view-panel__lede">One month at a time. Open a day to read that date’s Wet Lab, Dry Lab, and official iGEM records. Planned work stays visually distinct from completed work.</p>
               </div>
               <div class="nb-view-stage nb-view-stage--calendar" data-view-stage="calendar" aria-busy="false">
                 <div class="nb-cal" data-notebook-calendar>
-                  <div class="nb-cal__toolbar">
-                    <p class="nb-cal__year-label" id="nb-cal-year-label">2026</p>
-                    <div class="nb-cal__toolbar-actions">
-                      <button type="button" class="nb-cal__today" data-cal-today>Jump to current month</button>
+                  <div class="nb-monthcal" data-month-calendar>
+                    <header class="nb-monthcal__header">
+                      <button type="button" class="nb-monthcal__nav" data-cal-prev aria-label="Previous month">‹</button>
+                      <div class="nb-monthcal__heading">
+                        <p class="nb-monthcal__year">2026</p>
+                        <h3 data-cal-month-title>September</h3>
+                      </div>
+                      <button type="button" class="nb-monthcal__nav" data-cal-next aria-label="Next month">›</button>
+                    </header>
+
+                    <div class="nb-monthcal__tools">
+                      <button type="button" class="nb-monthcal__today" data-cal-today>Today</button>
+                      <label class="nb-monthcal__jump">
+                        <span class="visually-hidden">Jump to month</span>
+                        <select data-cal-month-select aria-label="Jump to month"></select>
+                      </label>
                       <p class="nb-cal__match" data-view-count>Records matching filters: —</p>
                     </div>
-                  </div>
 
-                  <nav class="nb-cal-strip" data-cal-strip aria-label="2026 month jump"></nav>
+                    <div class="nb-monthcal__weekdays" aria-hidden="true">
+                      <span><span class="nb-monthcal__wd-full">Sunday</span><span class="nb-monthcal__wd-short">S</span></span>
+                      <span><span class="nb-monthcal__wd-full">Monday</span><span class="nb-monthcal__wd-short">M</span></span>
+                      <span><span class="nb-monthcal__wd-full">Tuesday</span><span class="nb-monthcal__wd-short">T</span></span>
+                      <span><span class="nb-monthcal__wd-full">Wednesday</span><span class="nb-monthcal__wd-short">W</span></span>
+                      <span><span class="nb-monthcal__wd-full">Thursday</span><span class="nb-monthcal__wd-short">T</span></span>
+                      <span><span class="nb-monthcal__wd-full">Friday</span><span class="nb-monthcal__wd-short">F</span></span>
+                      <span><span class="nb-monthcal__wd-full">Saturday</span><span class="nb-monthcal__wd-short">S</span></span>
+                    </div>
 
-                  <div
-                    class="nb-cal-preview"
-                    data-cal-preview
-                    aria-live="polite"
-                    hidden
-                  >
-                    <p class="nb-cal-preview__kicker">Preview</p>
-                    <p class="nb-cal-preview__title" data-cal-preview-title></p>
-                    <p class="nb-cal-preview__meta" data-cal-preview-meta></p>
-                  </div>
+                    <div class="nb-monthcal__grid" data-cal-grid role="grid" aria-labelledby="nb-calendar-heading"></div>
 
-                  <p class="nb-cal-year-scroll-hint" data-cal-scroll-hint>
-                    Scroll sideways to browse the full year calendar.
-                  </p>
-
-                  <div class="nb-cal-year" data-cal-year role="region" aria-labelledby="nb-cal-year-label" tabindex="0">
-                    <!-- Year lanes rendered by notebook.js -->
-                  </div>
-
-                  <div class="nb-cal-agenda" data-cal-agenda role="region" aria-labelledby="nb-cal-agenda-heading">
-                    <!-- Month accordion / list rendered by notebook.js -->
+                    <section class="nb-day-agenda" data-cal-day-agenda aria-live="polite"></section>
                   </div>
                 </div>
 
@@ -389,7 +407,7 @@
                     <ol class="nb-cal-fallback" data-nb-fallback-static>
                       
               <li id="fallback-dry-direction">
-                <p class="nb-cal-fallback__meta"><span>Dry Lab</span> · <span>Completed</span> · <time>Apr 2026</time></p>
+                <p class="nb-cal-fallback__meta"><span>Dry Lab · Model</span> · <span>Completed</span> · <time>Apr 2026</time></p>
                 <h3>Establishing the Project Direction and Team Assignments</h3>
                 <p>Chose a fly-inspired SNN (PN → KC → MBON) direction for gas classification with emphasis on sensor-drift robustness; no concrete model data yet.</p>
               </li>
@@ -404,12 +422,12 @@
                 <p>Defined wet-lab scope around HEK293 OR + Orco–calcium-indicator lines. Exact April dates still need confirmation.</p>
               </li>
               <li id="fallback-hw-ideation">
-                <p class="nb-cal-fallback__meta"><span>Hardware</span> · <span>Completed</span> · <time>Apr 1, 2026 – Apr 21, 2026</time></p>
+                <p class="nb-cal-fallback__meta"><span>Dry Lab · Hardware</span> · <span>Completed</span> · <time>Apr 1, 2026 – Apr 21, 2026</time></p>
                 <h3>Project Ideation and Team Formation</h3>
                 <p>Established AeroSense direction and defined hardware as the fluorescence-to-digital measurement bridge.</p>
               </li>
               <li id="fallback-hw-literature-requirements">
-                <p class="nb-cal-fallback__meta"><span>Hardware</span> · <span>Completed</span> · <time>Apr 22, 2026 – May 9, 2026</time></p>
+                <p class="nb-cal-fallback__meta"><span>Dry Lab · Hardware</span> · <span>Completed</span> · <time>Apr 22, 2026 – May 9, 2026</time></p>
                 <h3>Literature Review and Hardware Requirements</h3>
                 <p>Reviewed fluorescence readout architectures and defined LED → sample → photodiode → TIA → ADC → MCU with major measurement risks.</p>
               </li>
@@ -419,22 +437,22 @@
                 <p>First synthesised constructs lacked mammalian promoter/polyA; decision to consolidate onto pcDNA3.1(+). Exact dates within May–July still flagged.</p>
               </li>
               <li id="fallback-dry-code-familiarization">
-                <p class="nb-cal-fallback__meta"><span>Dry Lab</span> · <span>Completed</span> · <time>May 2026</time></p>
+                <p class="nb-cal-fallback__meta"><span>Dry Lab · Model</span> · <span>Completed</span> · <time>May 2026</time></p>
                 <h3>Getting Familiar with the Inherited Code and Data</h3>
                 <p>Confirmed Brian2/original SNN could run in the new environment; noted dataset naming issues and suspected contamination.</p>
               </li>
               <li id="fallback-hw-component-selection">
-                <p class="nb-cal-fallback__meta"><span>Hardware</span> · <span>Completed</span> · <time>May 10, 2026 – Jun 2026</time></p>
+                <p class="nb-cal-fallback__meta"><span>Dry Lab · Hardware</span> · <span>Completed</span> · <time>May 10, 2026 – Jun 2026</time></p>
                 <h3>Component Selection and First-Order Calculations</h3>
                 <p>Converged on LED/PD/TIA/ADC/reference/ESP32 candidates; selected 100 MΩ as initial TIA feedback working point.</p>
               </li>
               <li id="fallback-dry-code-audit">
-                <p class="nb-cal-fallback__meta"><span>Dry Lab</span> · <span>Completed</span> · <time>Jun 2026</time></p>
+                <p class="nb-cal-fallback__meta"><span>Dry Lab · Model</span> · <span>Completed</span> · <time>Jun 2026</time></p>
                 <h3>Code Audit and Clarifying the Data Pipeline</h3>
                 <p>Verified inherited scripts; documented PC3×20 oracle ~0.85 F1 and SVM/ELM ~0.83; early SNN MBON readout only 0.34–0.55 F1.</p>
               </li>
               <li id="fallback-hw-v1-schematic">
-                <p class="nb-cal-fallback__meta"><span>Hardware</span> · <span>Completed</span> · <time>Jun 2026 – Jul 2026</time></p>
+                <p class="nb-cal-fallback__meta"><span>Dry Lab · Hardware</span> · <span>Completed</span> · <time>Jun 2026 – Jul 2026</time></p>
                 <h3>PCB V1 Schematic and Footprint Development</h3>
                 <p>Integrated the V1 signal chain in KiCad, including symbols/footprints and initial Raspberry Pi integration.</p>
               </li>
@@ -444,22 +462,22 @@
                 <p>Redesigned reporter as GCaMP6f–(GGGGS)₃–DmOrco; in-silico verification of ten constructs before synthesis. Exact July–August dates still flagged.</p>
               </li>
               <li id="fallback-dry-snn-baseline">
-                <p class="nb-cal-fallback__meta"><span>Dry Lab</span> · <span>Completed</span> · <time>Jul 2026</time></p>
+                <p class="nb-cal-fallback__meta"><span>Dry Lab · Model</span> · <span>Completed</span> · <time>Jul 2026</time></p>
                 <h3>Establishing Baselines: SVM/DAELM + Initial Fly-SNN Sweeps</h3>
                 <p>DAELM improved batch accuracies; best early fly-SNN single-run F1 ~0.545 with unstable non-monotonic learning curves.</p>
               </li>
               <li id="fallback-hw-v1-drc-review">
-                <p class="nb-cal-fallback__meta"><span>Hardware</span> · <span>Completed</span> · <time>Jul 2026 – Aug 2, 2026</time></p>
+                <p class="nb-cal-fallback__meta"><span>Dry Lab · Hardware</span> · <span>Completed</span> · <time>Jul 2026 – Aug 2, 2026</time></p>
                 <h3>PCB V1 Layout — ERC/DRC Evaluation</h3>
                 <p>Completed four-layer V1 layout; ERC/DRC found 73 DRC violations, 4 unconnected items, 7 ERC errors, 11 ERC warnings. Decision: do not fabricate V1.</p>
               </li>
               <li id="fallback-dry-snn-hyperparameter-breakthrough">
-                <p class="nb-cal-fallback__meta"><span>Dry Lab</span> · <span>Completed</span> · <time>Aug 2026</time></p>
+                <p class="nb-cal-fallback__meta"><span>Dry Lab · Model</span> · <span>Completed</span> · <time>Aug 2026</time></p>
                 <h3>Data Cleaning, Hyperparameter Breakthrough, Sensor/Precision Analysis, Repo Reorganization</h3>
                 <p>Contaminated rows removed (9726→8421); denser PN→KC + weaker lateral inhibition reached F1 0.800 (pca-3); documented baseline F1 0.868 under stated settings.</p>
               </li>
               <li id="fallback-hw-review-prep">
-                <p class="nb-cal-fallback__meta"><span>Hardware</span> · <span>Completed</span> · <time>Aug 2, 2026 – Aug 28, 2026</time></p>
+                <p class="nb-cal-fallback__meta"><span>Dry Lab · Hardware</span> · <span>Completed</span> · <time>Aug 2, 2026 – Aug 28, 2026</time></p>
                 <h3>Preparing for Professional PCB Review</h3>
                 <p>Contacted iST Group and prepared the KiCad/BOM/ERC-DRC package for external schematic and layout review.</p>
               </li>
@@ -469,12 +487,12 @@
                 <p>Ordered ten GenScript plasmids (nine OR modules + one Orco–GCaMP6f reporter) in pcDNA3.1(+).</p>
               </li>
               <li id="fallback-hw-professional-review-cycle-1">
-                <p class="nb-cal-fallback__meta"><span>Hardware</span> · <span>Completed</span> · <time>Aug 28, 2026 – Sep 3, 2026</time></p>
+                <p class="nb-cal-fallback__meta"><span>Dry Lab · Hardware</span> · <span>Completed</span> · <time>Aug 28, 2026 – Sep 3, 2026</time></p>
                 <h3>Engineering Cycle 1: Professional Review</h3>
                 <p>Professional review and internal re-evaluation identified correction needs across TIA/guard, ADC, reference, and ESP32 control paths.</p>
               </li>
               <li id="fallback-hw-v2-simplification">
-                <p class="nb-cal-fallback__meta"><span>Hardware</span> · <span>Ongoing</span> · <time>Aug 29, 2026 – Sep 2026</time></p>
+                <p class="nb-cal-fallback__meta"><span>Dry Lab · Hardware</span> · <span>Ongoing</span> · <time>Aug 29, 2026 – Sep 2026</time></p>
                 <h3>Engineering Cycle 2: System Simplification and PCB V2</h3>
                 <p>Redesign removes Raspberry Pi in favor of ESP32-standalone power/I/O architecture. Source status: Ongoing.</p>
               </li>
@@ -484,22 +502,22 @@
                 <p>September transformation/maxiprep/Sanger checklist is labeled 'Planned / completed' in the source — execution status unresolved; QC outputs pending.</p>
               </li>
               <li id="fallback-hw-bringup-planned">
-                <p class="nb-cal-fallback__meta"><span>Hardware</span> · <span>Planned</span> · <time>Sep 2026 – Oct 2026</time></p>
+                <p class="nb-cal-fallback__meta"><span>Dry Lab · Hardware</span> · <span>Planned</span> · <time>Sep 2026 – Oct 2026</time></p>
                 <h3>Electrical Bring-Up (Planned)</h3>
                 <p>Planned rail, ESP32, ADC, LED, and current-consumption bring-up tests after assembly.</p>
               </li>
               <li id="fallback-hw-enclosure-planned">
-                <p class="nb-cal-fallback__meta"><span>Hardware</span> · <span>Planned</span> · <time>Sep 2026</time></p>
+                <p class="nb-cal-fallback__meta"><span>Dry Lab · Hardware</span> · <span>Planned</span> · <time>Sep 2026</time></p>
                 <h3>Mechanical Enclosure (Planned)</h3>
                 <p>Planned opaque SolidWorks enclosure for optical geometry, ambient-light control, and sample placement.</p>
               </li>
               <li id="fallback-hw-fabrication-planned">
-                <p class="nb-cal-fallback__meta"><span>Hardware</span> · <span>Planned</span> · <time>Sep 2026</time></p>
+                <p class="nb-cal-fallback__meta"><span>Dry Lab · Hardware</span> · <span>Planned</span> · <time>Sep 2026</time></p>
                 <h3>PCB Fabrication and Assembly (Planned)</h3>
                 <p>Vendor-estimated fabrication/SMT through late September. Actual dates must replace forecast before freeze.</p>
               </li>
               <li id="fallback-dry-pipeline-cleanup">
-                <p class="nb-cal-fallback__meta"><span>Dry Lab</span> · <span>Ongoing</span> · <time>Sep 2026</time></p>
+                <p class="nb-cal-fallback__meta"><span>Dry Lab · Model</span> · <span>Ongoing</span> · <time>Sep 2026</time></p>
                 <h3>Pipeline Cleanup, Baseline Confirmation, New Optimization/Validation Methods (In Progress)</h3>
                 <p>September work in progress: reproducible reference remains F1=0.868; candidate F1=0.887 not k-fold-validated; CMA-ES and continual-learning pilots incomplete.</p>
               </li>
@@ -509,7 +527,7 @@
                 <p>Planned G418 kill curve, OR:Orco co-transfection by electroporation, and stable-pool selection.</p>
               </li>
               <li id="fallback-hw-v2-layout">
-                <p class="nb-cal-fallback__meta"><span>Hardware</span> · <span>Completed</span> · <time>Sep 3, 2026 – Sep 11, 2026</time></p>
+                <p class="nb-cal-fallback__meta"><span>Dry Lab · Hardware</span> · <span>Completed</span> · <time>Sep 3, 2026 – Sep 11, 2026</time></p>
                 <h3>V2 Schematic Correction and PCB Layout</h3>
                 <p>On September 11, the V2 PCB layout was reported complete. Fabrication/assembly and final reviews remain pending.</p>
               </li>
@@ -529,17 +547,17 @@
                 <p>Planned microscopy, anti-His blot, ionomycin, and 50 µM VUAA1 chain tests, including IRES vs fusion comparison.</p>
               </li>
               <li id="fallback-dry-oct-nov-planned">
-                <p class="nb-cal-fallback__meta"><span>Dry Lab</span> · <span>Planned</span> · <time>Oct 2026 – Nov 2026</time></p>
+                <p class="nb-cal-fallback__meta"><span>Dry Lab · Model</span> · <span>Planned</span> · <time>Oct 2026 – Nov 2026</time></p>
                 <h3>October and November Evaluation Agenda (Planned)</h3>
                 <p>Planned continual-learning analysis, SNN drift evaluation, weight quantization tests, and final model packaging decisions.</p>
               </li>
               <li id="fallback-hw-user-testing-planned">
-                <p class="nb-cal-fallback__meta"><span>Hardware</span> · <span>Planned</span> · <time>Oct 2026</time></p>
+                <p class="nb-cal-fallback__meta"><span>Dry Lab · Hardware</span> · <span>Planned</span> · <time>Oct 2026</time></p>
                 <h3>System and User Testing (Planned)</h3>
                 <p>Planned workflow tests with users not involved in hardware design, after basic electronic/optical validation.</p>
               </li>
               <li id="fallback-hw-weak-signal-validation-planned">
-                <p class="nb-cal-fallback__meta"><span>Hardware</span> · <span>Planned</span> · <time>Oct 2026</time></p>
+                <p class="nb-cal-fallback__meta"><span>Dry Lab · Hardware</span> · <span>Planned</span> · <time>Oct 2026</time></p>
                 <h3>Weak-Signal Validation (Planned)</h3>
                 <p>Planned dark-noise, leakage, calibration, FDM, crosstalk, SNR, and biological fluorescence measurements.</p>
               </li>
@@ -570,11 +588,17 @@
               </div>
               <div class="nb-view-stage nb-view-stage--timeline" data-view-stage="timeline">
                 <div class="nb-timeline" data-notebook-timeline>
-                  <div class="nb-timeline__toolbar" role="group" aria-label="Timeline workstream">
-                    <button type="button" class="nb-timeline__chip is-active" data-tl-stream="all" aria-pressed="true">All</button>
-                    <button type="button" class="nb-timeline__chip" data-tl-stream="wetlab" aria-pressed="false">Wet Lab</button>
-                    <button type="button" class="nb-timeline__chip" data-tl-stream="hardware" aria-pressed="false">Hardware</button>
-                    <button type="button" class="nb-timeline__chip" data-tl-stream="drylab" aria-pressed="false">Dry Lab</button>
+                  <div class="nb-timeline__toolbar">
+                    <div class="nb-timeline__chips" role="group" aria-label="Timeline workstream">
+                      <button type="button" class="nb-timeline__chip is-active" data-tl-stream="all" aria-pressed="true">All</button>
+                      <button type="button" class="nb-timeline__chip" data-tl-stream="wetlab" aria-pressed="false">Wet Lab</button>
+                      <button type="button" class="nb-timeline__chip" data-tl-stream="drylab" aria-pressed="false">Dry Lab</button>
+                    </div>
+                    <div class="nb-timeline__chips nb-timeline__chips--sub" data-tl-substreams hidden role="group" aria-label="Dry Lab substream">
+                      <button type="button" class="nb-timeline__chip is-active" data-tl-substream="all" aria-pressed="true">All</button>
+                      <button type="button" class="nb-timeline__chip" data-tl-substream="hardware" aria-pressed="false">Hardware</button>
+                      <button type="button" class="nb-timeline__chip" data-tl-substream="model" aria-pressed="false">Model</button>
+                    </div>
                   </div>
                   <p class="nb-timeline__match" data-view-count>Records matching filters: —</p>
                   <div class="nb-timeline__layout">
@@ -596,15 +620,15 @@
             >
               <div class="nb-view-panel__head">
                 <h2 class="nb-view-panel__title">Gantt</h2>
-                <p class="nb-view-panel__lede">Month-precision bands from the same notebook dataset. Planned work stays outlined/striped — not solid.</p>
+                <p class="nb-view-panel__lede">Three project phases — not months. Bars are placed from exact notebook dates across Discover &amp; Design, Build &amp; Iterate, and Validate &amp; Integrate. Hover or open a record for the precise range. Planned work stays outlined.</p>
               </div>
               <div class="nb-view-stage nb-view-stage--gantt" data-view-stage="gantt">
                 <div class="nb-gantt-view" data-notebook-gantt>
                   <p class="nb-gantt-view__match" data-view-count>Records matching filters: —</p>
-                  <div class="nb-gantt-view__scroll" data-gantt-scroll tabindex="0" role="region" aria-label="2026 Gantt chart, scroll horizontally on small screens">
+                  <div class="nb-gantt-view__chart-wrap" data-gantt-scroll role="region" aria-label="2026 Gantt chart by project phase">
                     <div class="nb-gantt-view__chart" data-gantt-chart></div>
                   </div>
-                  <div class="nb-gantt-view__phases" data-gantt-phases aria-label="Simplified phase list for small screens"></div>
+                  <div class="nb-gantt-view__phases" data-gantt-phases aria-label="Phase-stacked Gantt for small screens"></div>
                 </div>
               </div>
             </div>
@@ -620,37 +644,6 @@
             </p>
             <div class="nb-turning__stage" data-turning-points></div>
           </section>
-
-          <section class="section-block nb-integrity" id="data-integrity" data-reveal aria-labelledby="data-integrity-heading">
-            <div class="nb-section-head">
-              <span class="section-kicker">04 · Integrity</span>
-              <h2 id="data-integrity-heading">Data integrity</h2>
-            </div>
-            <ul class="nb-integrity__list">
-              <li>Canonical prose source: <code>notebook_content.md</code>. Structured events: <code>js/notebook-data.js</code>.</li>
-              <li><strong>Completed</strong> means the source describes work that was performed — not that every measurement succeeded.</li>
-              <li><strong>Planned</strong> and <strong>Ongoing</strong> stay labeled as such; they are never styled as completed accomplishments.</li>
-              <li><strong>Needs update</strong> marks missing dates, unresolved verification, or source contradictions.</li>
-              <li><strong>Evidence images</strong> appear in the event drawer only when a real repository file is listed in <code>evidenceImages</code> — no stock or simulated figures.</li>
-              <li><strong>iGEM Official</strong> milestones live in a separate verified dataset (<code>IGEM_OFFICIAL_EVENTS</code>) and remain visually distinct from AeroSense team work.</li>
-              <li>Negative and inconclusive results remain visible in the chronicle.</li>
-            </ul>
-
-            <h3 class="nb-integrity__sub">Experiment protocol anchors</h3>
-            <p class="nb-section-lede">
-              Stable deep links for Experiments / Results cross-references. These slots are not work-performed entries.
-            </p>
-            <ul class="nb-slot-index">
-              <li id="nb-EXP-AS-01"><a href="experiments.html#exp-as-01"><code>nb-EXP-AS-01</code></a></li>
-              <li id="nb-EXP-AS-02"><a href="experiments.html#exp-as-02"><code>nb-EXP-AS-02</code></a></li>
-              <li id="nb-EXP-AS-03"><a href="experiments.html#exp-as-03"><code>nb-EXP-AS-03</code></a></li>
-              <li id="nb-EXP-AS-04"><a href="experiments.html#exp-as-04"><code>nb-EXP-AS-04</code></a></li>
-              <li id="nb-EXP-AS-05"><a href="experiments.html#exp-as-05"><code>nb-EXP-AS-05</code></a></li>
-              <li id="nb-EXP-AS-06"><a href="experiments.html#exp-as-06"><code>nb-EXP-AS-06</code></a></li>
-              <li id="nb-EXP-AS-07"><a href="experiments.html#exp-as-07"><code>nb-EXP-AS-07</code></a></li>
-              <li id="nb-EXP-AS-08"><a href="experiments.html#exp-as-08"><code>nb-EXP-AS-08</code></a></li>
-            </ul>
-          </section>
         </article>
       </main>
 
@@ -658,10 +651,6 @@
         <a class="page-turn__prev" href="experiments.html"><span class="page-turn__dir">Previous</span><span class="page-turn__title">Experiments</span></a>
         <a class="page-turn__next" href="results.html"><span class="page-turn__dir">Next</span><span class="page-turn__title">Results</span></a>
       </nav>
-
-      <section class="references" aria-labelledby="references-heading" id="references" data-reveal>
-        <h2 id="references-heading">References &amp; Credits</h2>
-      </section>
     </div>
 
     <div class="page-toc-slot">
@@ -670,17 +659,14 @@
         <span class="toc__label">On this page</span>
 </summary>
       <nav aria-label="Table of contents">
-        <ol>
-          <li><a href="#at-a-glance"><span class="tech-label">01</span> 2026 at a glance</a></li>
+        <ol>          <li><a href="#at-a-glance"><span class="tech-label">01</span> 2026 at a glance</a></li>
           <li><a href="#chronicle-controls"><span class="tech-label">02</span> Explore the chronicle</a></li>
           <li><a href="#view-calendar"><span class="tech-label">03</span> Calendar</a></li>
           <li><a href="#turning-points"><span class="tech-label">04</span> Turning points</a></li>
-          <li><a href="#data-integrity"><span class="tech-label">05</span> Data integrity</a></li>
-          <li><a href="#references"><span class="tech-label">Ref</span> References &amp; Credits</a></li>
         </ol>
       </nav>
     </details>
-      <a class="back-to-top page-toc__top" href="#main">Back to top</a>
+      <a class="back-to-top" href="#main">Back to top</a>
     </div>
   </div>
 
@@ -716,37 +702,40 @@
             <li><a href="description.html">Description</a></li>
             <li><a href="contribution.html">Contribution</a></li>
             <li><a href="engineering.html">Engineering</a></li>
-            <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
+            <li><a href="safety-and-security.html">Safety</a></li>
             <li><a href="notebook.html">Notebook</a></li>
-            </ul>
+          </ul>
         </div>
         <div class="footer-col">
           <h2>Team</h2>
           <ul>
             <li><a href="members.html">Members</a></li>
             <li><a href="attributions.html">Attributions</a></li>
-            </ul>
+          </ul>
+        </div>
+        <div class="footer-col">
           <h2>Wet Lab</h2>
           <ul>
             <li><a href="parts.html">Parts</a></li>
             <li><a href="design.html">Design</a></li>
             <li><a href="experiments.html">Experiments</a></li>
             <li><a href="results.html">Results</a></li>
-            </ul>
+          </ul>
         </div>
         <div class="footer-col">
           <h2>Dry Lab</h2>
           <ul>
-            <li><a href="model.html">Model</a></li>
             <li><a href="hardware.html">Hardware</a></li>
-            </ul>
+            <li><a href="model.html">Model</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
           <h2>Human Practices</h2>
           <ul>
             <li><a href="human-practices.html">Integrated Human Practices</a></li>
             <li><a href="education.html">Education</a></li>
             <li><a href="entrepreneurship.html">Entrepreneurship</a></li>
             <li><a href="sustainability.html">Sustainability</a></li>
-            <li><a href="learning-platform.html">Learning Lab</a></li>
           </ul>
         </div>
       </div>

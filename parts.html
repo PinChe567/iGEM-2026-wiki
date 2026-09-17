@@ -1,15 +1,16 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Parts · AeroSense · NTHU iGEM 2026</title>
-  <meta name="description" content="AeroSense parts collection: 14 new basic parts, 10 new composites, and 2 reused Registry parts forming nine Drosophila OR sensing lines plus one GCaMP6f–Orco reporter.">
+  <title>Parts · AeroSense olfactory toolkit · NTHU iGEM 2026</title>
+  <meta name="description" content="AeroSense Parts indexes 14 new basic parts, 10 new composites, and 2 reused Registry parts forming nine Drosophila OR sensing lines with one shared GCaMP6f–Orco reporter. Characterization of AeroSense VOC assays remains pending.">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/parts.css">
   <script src="js/parts-data.js" defer></script>
   <script src="js/main.js" defer></script>
   <script src="js/glossary.js" defer></script>
+  <script src="js/microinteractions.js" defer></script>
   <script src="js/search.js" defer></script>
   <script src="js/parts.js" defer></script>
 </head>
@@ -76,8 +77,8 @@
             <span class="nav-label-static">Dry Lab</span>
             <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-drylab">Dry Lab</button>
             <ul class="nav-submenu" id="submenu-drylab">
-              <li><a href="model.html">Model</a></li>
               <li><a href="hardware.html">Hardware</a></li>
+              <li><a href="model.html">Model</a></li>
             </ul>
           </li>
                     <li class="nav-item nav-item--dropdown">
@@ -88,7 +89,6 @@
               <li><a href="education.html">Education</a></li>
               <li><a href="entrepreneurship.html">Entrepreneurship</a></li>
               <li><a href="sustainability.html">Sustainability</a></li>
-              <li><a href="learning-platform.html">Learning Lab</a></li>
             </ul>
           </li>
         </ul>
@@ -142,11 +142,11 @@
               <li aria-current="page">Parts</li>
             </ol>
           </nav>
-          <span class="page-kicker">LAB / PARTS</span>
+          <span class="page-kicker">Parts</span>
           <h1>AeroSense Parts Collection</h1>
           <p class="page-purpose">A modular <i>Drosophila</i> olfactory toolkit for building nine receptor-specific living-cell odor sensors with one shared fluorescence readout.</p>
           <p class="page-lede">
-            These parts form the biological sensing layer of AeroSense Bio, our platform for early odor-based fungal-risk screening.
+            These parts form the biological sensing layer of AeroSense, our platform for early odor-based fungal-risk screening.
             This wiki page explains and indexes the collection. Authoritative sequence and design records for registered parts live on the
             <a href="https://registry.igem.org/" rel="noopener noreferrer">iGEM Registry</a>.
           </p>
@@ -169,139 +169,96 @@
             </li>
             </ul>
           <p class="parts-motto">Swap the receptor. Keep the readout.</p>
-          <nav class="parts-key" aria-label="Three functional layers">
-            <a href="#layer-input" data-swatch="or">Input · nine ORs</a>
-            <a href="#layer-transduction" data-swatch="orco">Transduction · Orco</a>
-            <a href="#layer-output" data-swatch="gcamp">Output · GCaMP6f</a>
-          </nav>
+
+          <aside class="page-glance" aria-labelledby="parts-page-glance-title">
+            <h2 class="page-glance__title" id="parts-page-glance-title">At a glance</h2>
+            <dl class="page-glance__grid page-glance__grid--4">
+            <div class="page-glance__item">
+              <dt>Coherent collection</dt>
+              <dd>14 new basic parts, 10 new composites, and 2 reused Registry parts form nine OR sensing lines plus one shared reporter.</dd>
+            </div>
+            <div class="page-glance__item">
+              <dt>Functional system</dt>
+              <dd>Each line pairs a swappable OR module with shared Orco transduction and GCaMP6f readout.</dd>
+            </div>
+            <div class="page-glance__item">
+              <dt>Characterization</dt>
+              <dd>Literature EC₅₀ context is cited; AeroSense receptor VOC assay data are not claimed here.</dd>
+            </div>
+            <div class="page-glance__item">
+              <dt>Reuse</dt>
+              <dd>Registry IDs, reuse notes, and independent RFC 10 / RFC 1000 assembly fields are indexed for other teams.</dd>
+            </div>
+            </dl>
+          </aside>
           <p class="parts-find">
-            <a href="#explore">Find a Registry ID</a>
-            · <a href="#reuse-notes">Reuse notes</a>
-            · <a href="#assembly-qc">RFC 1000</a>
+            <a href="#sensor-builder">Build the sensor</a>
+            · <a href="#explore">Find a Registry ID</a>
+            · <a href="#plasmid-atlas">Plasmid atlas</a>
             · <a href="#references">Citations</a>
             · Architecture on <a href="design.html">Design</a>
           </p>
         </header>
 
         <article class="page-article prose">
-          <section class="section-block" id="three-layers" data-reveal>
-            <h2>One collection, three layers</h2>
+
+<section class="section-block" id="collection" data-reveal>
+            <h2>The AeroSense collection</h2>
             <p>
-              AeroSense needs two genetic modules co-expressed in the same cell: a <strong>sensing module</strong> that provides ligand specificity, and a <strong>reporting module</strong> that converts channel opening into fluorescence.
-              Insect odorant receptors are not GPCRs. The OR–Orco complex is a heteromeric
-              <strong>ligand-gated ion channel</strong>
-              <span class="cite-wrap">
-                <a class="cite" href="#ref-sato-2008" id="cite-sato-2008" aria-describedby="cite-preview-sato-2008">[1]</a>
-                <span class="cite-preview" id="cite-preview-sato-2008" role="tooltip">Sato et al., 2008 — full entry in References &amp; Credits.</span>
-              </span>,
-              so no additional signal-transduction machinery is required in a mammalian host. That is what makes the two-module design sufficient.
-            </p>
-            <p>
-              Each part occupies exactly one layer, which is what makes the panel modular: the specificity layer can be swapped without touching anything else.
-              Because Orco is universal across insect ORs, the reporting module never changes. Only the sensing module differs between cell lines.
-              Each line contributes one dimension to a response vector; the pattern across all nine — not any single receptor — identifies the odour.
+              A modular living-cell odor panel: <strong>nine interchangeable sensing composites</strong>,
+              <strong>one shared reporting module</strong> (<code>BBa_26E11Z80</code>, GCaMP6f–Orco),
+              plus supporting basic and reused parts (EMCV IRES, mCherry).
+              Insect OR–Orco biology is owned by
+              <a href="design.html#how-aerosense-senses">Design · how AeroSense senses</a> — one sentence here: ligand-gated OR/Orco channels feed a designed GCaMP6f fluorescence readout.
             </p>
 
-            <div class="parts-layers">
-              <ol class="parts-layers__stack" aria-label="Signal chain from input to measured output">
-                <li class="parts-layers__layer" id="layer-input" data-swatch="or">
-                  <span class="parts-layers__kicker">Input · specificity</span>
-                  <h3 class="parts-layers__title">Nine tuning ORs</h3>
-                  <p>The swappable element. Changing the odorant receptor retargets the sensor.</p>
-                  <ul class="parts-layers__ors">
-                    <li>Or7a</li>
-                    <li>Or22a</li>
-                    <li>Or35a</li>
-                    <li>Or42a</li>
-                    <li>Or59b</li>
-                    <li>Or67a</li>
-                    <li>Or85b</li>
-                    <li>Or98a</li>
-                    <li>Or19a</li>
+            <ul class="parts-collection-pillars" aria-label="Collection structure">
+              <li>
+                <span class="parts-collection-pillars__kicker">Sensing</span>
+                <strong>9 composites</strong>
+                <span>Swap only the OR CDS / specificity module.</span>
+                </li>
+              <li>
+                <span class="parts-collection-pillars__kicker">Reporting</span>
+                <strong>1 shared module</strong>
+                <span>GCaMP6f–(GGGGS)<sub>3</sub>–DmOrco stays fixed.</span>
+                </li>
+              <li>
+                <span class="parts-collection-pillars__kicker">Support</span>
+                <strong>Basics + 2 reused</strong>
+                <span>OR CDS parts, Orco, GCaMP6f, linker, IRES, mCherry.</span>
+                </li>
             </ul>
-                </li>
-                <li class="parts-layers__arrow" aria-hidden="true">↓</li>
-                <li class="parts-layers__layer" id="layer-transduction" data-swatch="orco">
-                  <span class="parts-layers__kicker">Transduction</span>
-                  <h3 class="parts-layers__title">DmOrco</h3>
-                  <p>
-                    Forms the ion-conducting pore with any tuning OR and chaperones it to the plasma membrane
-                    <span class="cite-wrap">
-                      <a class="cite" href="#ref-benton-2006" id="cite-benton-2006-d" aria-describedby="cite-preview-benton-2006">[3]</a>
-                      <span class="cite-preview" role="tooltip">Benton et al., 2006 — full entry in References &amp; Credits.</span>
-                    </span>.
-                    Common to every cell line.
-                  </p>
-                  <figure class="parts-channel" aria-hidden="false">
-                    <svg viewBox="0 0 320 120" width="320" height="120" role="img" aria-labelledby="fig-channel-title fig-channel-desc">
-                      <title id="fig-channel-title">Stylized heteromeric OR–Orco membrane channel</title>
-                      <desc id="fig-channel-desc">A plasma-membrane bilayer with overlapping OR and Orco lobes around a central pore. Calcium ions are shown entering the cell. The drawing does not specify subunit count or stoichiometry.</desc>
-                      <text x="8" y="16" font-family="ui-monospace, Consolas, monospace" font-size="10" letter-spacing="0.08em" fill="#555555">EXTRACELLULAR</text>
-                      <line x1="8" y1="48" x2="312" y2="48" stroke="#d8d8d2" stroke-width="6"></line>
-                      <line x1="8" y1="58" x2="312" y2="58" stroke="#d8d8d2" stroke-width="6"></line>
-                      <ellipse cx="118" cy="53" rx="42" ry="28" fill="#f5f5f1" stroke="#0a0a0a" stroke-width="1.4"></ellipse>
-                      <ellipse cx="168" cy="53" rx="46" ry="30" fill="#f3eee4" stroke="#8a5a18" stroke-width="1.6"></ellipse>
-                      <ellipse cx="214" cy="53" rx="38" ry="26" fill="#f5f5f1" stroke="#0a0a0a" stroke-width="1.4"></ellipse>
-                      <rect x="154" y="28" width="18" height="50" fill="#ffffff" stroke="#0a0a0a" stroke-width="1.2"></rect>
-                      <text x="118" y="57" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#0a0a0a">OR</text>
-                      <text x="186" y="57" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#8a5a18">Orco</text>
-                      <path d="M163 22 V12" stroke="#0b6b35" stroke-width="1.4" marker-end="none"></path>
-                      <polygon points="163,10 159,18 167,18" fill="#0b6b35"></polygon>
-                      <text x="172" y="16" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#0b6b35">Ca²⁺</text>
-                      <text x="8" y="112" font-family="ui-monospace, Consolas, monospace" font-size="10" letter-spacing="0.08em" fill="#555555">CYTOSOL · stoichiometry not specified</text>
-                    </svg>
-                  </figure>
-                </li>
-                <li class="parts-layers__arrow" aria-hidden="true">↓</li>
-                <li class="parts-layers__layer" id="layer-output" data-swatch="gcamp">
-                  <span class="parts-layers__kicker">Output · readout</span>
-                  <h3 class="parts-layers__title">GCaMP6f</h3>
-                  <p>Converts channel opening into a quantifiable fluorescence change — this is the intended fluorescence readout.</p>
-                </li>
-              </ol>
-              <aside class="parts-layers__marker" data-swatch="mcherry" aria-label="mCherry is not the sensing readout">
-                <span class="parts-layers__kicker">Side branch · not the measurement</span>
-                <h3 class="parts-layers__title">mCherry</h3>
-                <p><strong>Expression / transcription marker.</strong> Reports transcription of the OR cassette. Quality control only — not the odor readout.</p>
-              </aside>
-            </div>
-            <p>
-              Full plasmid architecture, including the pcDNA3.1(+) backbone, is documented on
-              <a href="design.html#construct-strategy">Design · construct strategy</a>.
+
+            <p class="parts-collection__mCherry">
+              mCherry is a QC / expression marker beside the channel, not the AeroSense measurement
+              (<a href="design.html#what-mcherry-reports">Design · mCherry</a>).
             </p>
           </section>
 
-          <section class="section-block" id="build-sensor" data-reveal>
-            <h2>Build an AeroSense sensor</h2>
-            <p>
-              Ligand binding at the OR–Orco channel admits Ca²⁺
-              <span class="cite-wrap">
-                <a class="cite" href="#ref-sato-2008" id="cite-sato-2008-b" aria-describedby="cite-preview-sato-2008">[1]</a>
-                <span class="cite-preview" role="tooltip">Sato et al., 2008 — full entry in References &amp; Credits.</span>
-              </span>.
-              N-terminal GCaMP6f is the designed reporter of that local rise as fluorescence.
-              The sensing cassette is bicistronic; the reporting cassette is one fusion protein. There is no signal peptide in the documented final architecture.
-              Choose a tuning receptor to see that only the OR CDS changes; the reporting module stays put.
-            </p>
-
-            <div class="parts-explorer" data-parts-explorer data-or="Or7a" data-feature="or">
+          <section class="section-block" id="sensor-builder" data-reveal>
+            <div class="parts-explorer" data-parts-explorer data-parts-builder data-or="Or7a" data-feature="or">
+              <header class="parts-builder__intro">
+                <h2>Build the biological sensor</h2>
+                <p class="parts-builder__lede">Explore how genetic parts become proteins and how those proteins form the sensing system.</p>
+              </header>
               <div class="parts-or-select">
-                <p class="parts-or-select__label" id="or-select-label">Final-panel tuning receptor</p>
-                <p class="parts-or-select__hint">Nine sensing lines. The reporting module does not change.</p>
+                <p class="parts-or-select__label" id="or-select-label">Choose a tuning receptor</p>
+                <p class="parts-or-select__hint">Selecting a receptor updates only the OR / specificity module in the sensing cassette. The reporting cassette does not change.</p>
                 <div class="parts-or-select__scroller">
                   <div class="parts-or-select__list" role="radiogroup" aria-labelledby="or-select-label">
-                    <a role="radio" aria-checked="true" aria-selected="true" tabindex="0" href="#part-BBa_26ZAGFK0" data-or="Or7a" data-composite="BBa_26ZAGFK0" data-cds="BBa_26VGDFA1" data-name="Or7a-IRES-mCherry" data-bp="2546" data-aa="413" data-rfc="false" data-map="plasmid/Or7a_IRES_mCherry.png" data-cds-bp="1242">Or7a</a>
-                    <a role="radio" aria-checked="false" aria-selected="false" href="#part-BBa_26WOX4B1" data-or="Or22a" data-composite="BBa_26WOX4B1" data-cds="BBa_26AIIWHV" data-name="Or22a-IRES-mCherry" data-bp="2498" data-aa="397" data-rfc="false" data-map="plasmid/Or22a_IRES_mCherry.png" data-cds-bp="1194">Or22a</a>
-                    <a role="radio" aria-checked="false" aria-selected="false" href="#part-BBa_26LLF3LM" data-or="Or35a" data-composite="BBa_26LLF3LM" data-cds="BBa_26HJ1RUT" data-name="Or35a-IRES-mCherry" data-bp="2534" data-aa="409" data-rfc="false" data-map="plasmid/Or35a_IRES_mCherry.png" data-cds-bp="1230">Or35a</a>
-                    <a role="radio" aria-checked="false" aria-selected="false" href="#part-BBa_26Q1Q094" data-or="Or42a" data-composite="BBa_26Q1Q094" data-cds="BBa_26UHN7NT" data-name="Or42a-IRES-mCherry" data-bp="2525" data-aa="406" data-rfc="true" data-map="plasmid/Or42a_IRES_mCherry.png" data-cds-bp="1221">Or42a</a>
-                    <a role="radio" aria-checked="false" aria-selected="false" href="#part-BBa_26Y7CI2H" data-or="Or59b" data-composite="BBa_26Y7CI2H" data-cds="BBa_26OJ8HGO" data-name="Or59b-IRES-mCherry" data-bp="2501" data-aa="398" data-rfc="true" data-map="plasmid/Or59b_IRES_mCherry.png" data-cds-bp="1197">Or59b</a>
-                    <a role="radio" aria-checked="false" aria-selected="false" href="#part-BBa_265G8CE1" data-or="Or67a" data-composite="BBa_265G8CE1" data-cds="BBa_26XXP4K7" data-name="Or67a-IRES-mCherry" data-bp="2528" data-aa="407" data-rfc="false" data-map="plasmid/Or67a_IRES_mCherry.png" data-cds-bp="1224">Or67a</a>
-                    <a role="radio" aria-checked="false" aria-selected="false" href="#part-BBa_26K1TU11" data-or="Or85b" data-composite="BBa_26K1TU11" data-cds="BBa_26DVVZIA" data-name="Or85b-IRES-mCherry" data-bp="2477" data-aa="390" data-rfc="true" data-map="plasmid/Or85b_IRES_mCherry.png" data-cds-bp="1173">Or85b</a>
-                    <a role="radio" aria-checked="false" aria-selected="false" href="#part-BBa_26TZLBMJ" data-or="Or98a" data-composite="BBa_26TZLBMJ" data-cds="BBa_26DG1NPK" data-name="Or98a-IRES-mCherry" data-bp="2498" data-aa="397" data-rfc="true" data-map="plasmid/Or98a_IRES_mCherry.png" data-cds-bp="1194">Or98a</a>
-                    <a role="radio" aria-checked="false" aria-selected="false" href="#part-BBa_2629NIWH" data-or="Or19a" data-composite="BBa_2629NIWH" data-cds="BBa_26HTXB02" data-name="Or19a-IRES-mCherry" data-bp="2468" data-aa="387" data-rfc="false" data-map="plasmid/Or19a_IRES_mCherry.png" data-cds-bp="1164">Or19a</a>
+                    <a role="radio" aria-checked="true" aria-selected="true" tabindex="0" href="#part-BBa_26ZAGFK0" data-or="Or7a" data-composite="BBa_26ZAGFK0" data-cds="BBa_26VGDFA1" data-name="Or7a-IRES-mCherry" data-bp="2546" data-aa="413" data-rfc="false" data-rfc10="unknown" data-rfc1000="no" data-map="plasmid/Or7a_IRES_mCherry.png" data-cds-bp="1242">Or7a</a>
+                    <a role="radio" aria-checked="false" aria-selected="false" href="#part-BBa_26WOX4B1" data-or="Or22a" data-composite="BBa_26WOX4B1" data-cds="BBa_26AIIWHV" data-name="Or22a-IRES-mCherry" data-bp="2498" data-aa="397" data-rfc="false" data-rfc10="unknown" data-rfc1000="no" data-map="plasmid/Or22a_IRES_mCherry.png" data-cds-bp="1194">Or22a</a>
+                    <a role="radio" aria-checked="false" aria-selected="false" href="#part-BBa_26LLF3LM" data-or="Or35a" data-composite="BBa_26LLF3LM" data-cds="BBa_26HJ1RUT" data-name="Or35a-IRES-mCherry" data-bp="2534" data-aa="409" data-rfc="false" data-rfc10="unknown" data-rfc1000="no" data-map="plasmid/Or35a_IRES_mCherry.png" data-cds-bp="1230">Or35a</a>
+                    <a role="radio" aria-checked="false" aria-selected="false" href="#part-BBa_26Q1Q094" data-or="Or42a" data-composite="BBa_26Q1Q094" data-cds="BBa_26UHN7NT" data-name="Or42a-IRES-mCherry" data-bp="2525" data-aa="406" data-rfc="true" data-rfc10="unknown" data-rfc1000="yes" data-map="plasmid/Or42a_IRES_mCherry.png" data-cds-bp="1221">Or42a</a>
+                    <a role="radio" aria-checked="false" aria-selected="false" href="#part-BBa_26Y7CI2H" data-or="Or59b" data-composite="BBa_26Y7CI2H" data-cds="BBa_26OJ8HGO" data-name="Or59b-IRES-mCherry" data-bp="2501" data-aa="398" data-rfc="true" data-rfc10="unknown" data-rfc1000="yes" data-map="plasmid/Or59b_IRES_mCherry.png" data-cds-bp="1197">Or59b</a>
+                    <a role="radio" aria-checked="false" aria-selected="false" href="#part-BBa_265G8CE1" data-or="Or67a" data-composite="BBa_265G8CE1" data-cds="BBa_26XXP4K7" data-name="Or67a-IRES-mCherry" data-bp="2528" data-aa="407" data-rfc="false" data-rfc10="unknown" data-rfc1000="no" data-map="plasmid/Or67a_IRES_mCherry.png" data-cds-bp="1224">Or67a</a>
+                    <a role="radio" aria-checked="false" aria-selected="false" href="#part-BBa_26K1TU11" data-or="Or85b" data-composite="BBa_26K1TU11" data-cds="BBa_26DVVZIA" data-name="Or85b-IRES-mCherry" data-bp="2477" data-aa="390" data-rfc="true" data-rfc10="unknown" data-rfc1000="yes" data-map="plasmid/Or85b_IRES_mCherry.png" data-cds-bp="1173">Or85b</a>
+                    <a role="radio" aria-checked="false" aria-selected="false" href="#part-BBa_26TZLBMJ" data-or="Or98a" data-composite="BBa_26TZLBMJ" data-cds="BBa_26DG1NPK" data-name="Or98a-IRES-mCherry" data-bp="2498" data-aa="397" data-rfc="true" data-rfc10="unknown" data-rfc1000="yes" data-map="plasmid/Or98a_IRES_mCherry.png" data-cds-bp="1194">Or98a</a>
+                    <a role="radio" aria-checked="false" aria-selected="false" href="#part-BBa_2629NIWH" data-or="Or19a" data-composite="BBa_2629NIWH" data-cds="BBa_26HTXB02" data-name="Or19a-IRES-mCherry" data-bp="2468" data-aa="387" data-rfc="false" data-rfc10="unknown" data-rfc1000="no" data-map="plasmid/Or19a_IRES_mCherry.png" data-cds-bp="1164">Or19a</a>
                   </div>
                 </div>
-                <p class="parts-or-select__noscript">Without JavaScript, open each composite in the collection table:
+                <p class="parts-or-select__noscript">Without JavaScript, open each composite in the catalogue:
                   <a href="#part-BBa_26ZAGFK0">Or7a</a>,
                   <a href="#part-BBa_26WOX4B1">Or22a</a>,
                   <a href="#part-BBa_26LLF3LM">Or35a</a>,
@@ -332,273 +289,155 @@
                     <dd><span data-or-bp>2,546</span> bp</dd>
                   </div>
                   <div>
+                    <dt>RFC 10</dt>
+                    <dd data-or-rfc10>Unknown</dd>
+                  </div>
+                  <div>
                     <dt>RFC 1000</dt>
                     <dd data-or-rfc>No</dd>
                   </div>
                 </dl>
                 </div>
-                <p class="parts-or-card__shared">Only the OR CDS changes. Shared reporting module: <a href="#map-reporting">GCaMP6f–Orco</a> (<code>BBa_26E11Z80</code>).</p>
+                <p class="parts-or-card__shared">Only the OR CDS changes. Shared reporting module: <a href="#map-reporting">GCaMP6f–Orco</a> (<code>BBa_26E11Z80</code>). Schematic topology does not change with receptor identity.</p>
               </div>
 
-              <div class="parts-explorer__stage">
-                <figure class="wiki-figure parts-breakout parts-mechanism" id="fig-mechanism">
-                  <div class="wiki-figure__media parts-mechanism__frame">
-                    <svg class="parts-mechanism__svg" viewBox="0 0 560 390" width="560" height="390" role="img" aria-labelledby="fig-mech-title fig-mech-desc">
-                      <title id="fig-mech-title">Membrane cross-section of the AeroSense living-cell sensor</title>
-                      <desc id="fig-mech-desc">Conceptual diagram. Extracellular VOC approaches a heteromeric OR/Orco ion channel in the plasma membrane. Calcium ions enter the cytosol. GCaMP6f sits on the cytosolic N-terminus of DmOrco and reports fluorescence. mCherry is a separate cytosolic expression marker, not part of the channel and not the measurement. Subunit stoichiometry is not specified.</desc>
-                      <text x="16" y="22" font-family="ui-monospace, Consolas, monospace" font-size="11" letter-spacing="0.12em" fill="#555555">EXTRACELLULAR</text>
-                      <g class="parts-voc" data-anim="voc">
-                        <circle cx="86" cy="58" r="22" fill="#ffffff" stroke="#0a0a0a" stroke-width="1.5"></circle>
-                        <text x="86" y="54" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#0a0a0a">VOC</text>
-                        <text x="86" y="70" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="9" fill="#555555">ligand</text>
-                      </g>
-                      <g class="parts-ca" data-anim="ca">
-                        <circle class="parts-ca__dot" cx="248" cy="92" r="5" fill="#0b6b35"></circle>
-                        <circle class="parts-ca__dot" cx="262" cy="80" r="4" fill="#0b6b35"></circle>
-                        <circle class="parts-ca__dot" cx="274" cy="94" r="4.5" fill="#0b6b35"></circle>
-                        <text x="286" y="88" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#0b6b35">Ca²⁺</text>
-                      </g>
-                      <rect x="16" y="128" width="528" height="10" fill="#d8d8d2"></rect>
-                      <rect x="16" y="146" width="528" height="10" fill="#d8d8d2"></rect>
-                      <text x="16" y="124" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#555555">MEMBRANE</text>
-                      <text x="400" y="124" font-family="Georgia, serif" font-size="11" fill="#555555">C-terminus extracellular</text>
-                      <g class="parts-hotspot" data-feature="or">
-                        <ellipse cx="214" cy="142" rx="48" ry="32" fill="#f5f5f1" stroke="#0a0a0a" stroke-width="1.6"></ellipse>
-                        <text x="200" y="138" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="9" fill="#555555">TUNING</text>
-                        <text x="200" y="154" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0a0a0a">OR</text>
-                      </g>
-                      <g class="parts-hotspot" data-feature="orco">
-                        <ellipse cx="292" cy="142" rx="52" ry="34" fill="#f3eee4" stroke="#8a5a18" stroke-width="1.7"></ellipse>
-                        <text x="304" y="138" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="9" fill="#8a5a18">PORE / CHAPERONE</text>
-                        <text x="304" y="154" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#8a5a18">Orco</text>
-                      </g>
-                      <rect class="parts-pore" x="246" y="118" width="14" height="48" fill="#ffffff" stroke="#0a0a0a" stroke-width="1.2"></rect>
-                      <text x="16" y="188" font-family="ui-monospace, Consolas, monospace" font-size="11" letter-spacing="0.12em" fill="#555555">CYTOSOL</text>
-                      <text x="16" y="204" font-family="Georgia, serif" font-size="11" fill="#555555">N-terminus intracellular · stoichiometry not specified</text>
-                      <line x1="292" y1="176" x2="292" y2="214" stroke="#8a5a18" stroke-width="1.4"></line>
-                      <g class="parts-hotspot parts-gcamp-node" data-feature="gcamp">
-                        <rect class="parts-gcamp-glow" x="236" y="214" width="112" height="52" fill="#e7f7ec" stroke="#0b6b35" stroke-width="1.7"></rect>
-                        <text x="292" y="236" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="9" fill="#0b6b35">READOUT</text>
-                        <text x="292" y="254" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0b6b35">GCaMP6f</text>
-                      </g>
-                      <g class="parts-hotspot" data-feature="mcherry">
-                        <rect x="400" y="214" width="132" height="64" fill="#ffffff" stroke="#9c3d3d" stroke-width="1.6" stroke-dasharray="5 4"></rect>
-                        <text x="466" y="236" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="9" fill="#9c3d3d">NOT THE MEASUREMENT</text>
-                        <text x="466" y="254" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#9c3d3d">mCherry</text>
-                        <text x="466" y="270" text-anchor="middle" font-family="Georgia, serif" font-size="10" fill="#555555">separate protein</text>
-                      </g>
-                      <text x="16" y="372" font-family="Georgia, serif" font-size="12" fill="#0a0a0a">Heteromeric ligand-gated channel. Click OR, Orco, GCaMP6f, or mCherry. Subunit count is not drawn to scale.</text>
-                    </svg>
-                  </div>
-                  <figcaption>
-                    <span class="wiki-figure__num">Figure 1.</span>
-                    <span class="wiki-figure__title"> Membrane cross-section of the living-cell sensor.</span>
-                    <p class="wiki-figure__explain">Schematic, not a structure or a measured trace. GCaMP6f is cytosolic and N-terminal to DmOrco. mCherry is an expression marker beside the channel, not inside it.</p>
-                    <ul class="wiki-figure__meta">
-                      <li><span class="wiki-figure__badge">Concept illustration — stoichiometry not specified</span></li>
-                      <li><strong>Source:</strong> Schematic by NTHU iGEM 2026. Not copied from a published figure.</li>
-                      <li><strong>Evidence status:</strong> Design illustration, not an AeroSense assay trace.</li>
-            </ul>
-                  </figcaption>
-                  <div class="parts-hotspot-bar" role="toolbar" aria-label="Sensor components">
-                    <button type="button" data-feature="or" data-swatch="or" aria-pressed="true">OR</button>
-                    <button type="button" data-feature="orco" data-swatch="orco" aria-pressed="false">Orco</button>
-                    <button type="button" data-feature="gcamp" data-swatch="gcamp" aria-pressed="false">GCaMP6f</button>
-                    <button type="button" data-feature="mcherry" data-swatch="mcherry" aria-pressed="false">mCherry</button>
-                  </div>
-                  <div class="parts-activate">
-                    <button type="button" class="btn parts-activate__btn" data-parts-activate>Show ion-flow schematic</button>
-                    <p class="parts-activate__hint">Optional. Plays a short, once-only schematic: VOC approaches, the pore opens, Ca²⁺ enters, GCaMP6f pulses. Not experimental data.</p>
-                    <p class="visually-hidden" data-parts-activate-live aria-live="polite"></p>
-                  </div>
-                </figure>
+              <div class="parts-builder__stack" data-parts-stack>
+                <div class="parts-layer" data-layer="dna">
+                  <p class="parts-layer__kicker">DNA</p>
+                  <h3 class="parts-layer__title">Two constructs</h3>
+                  <p class="parts-layer__note">Click a block to open Registry metadata. Backbone features (CMV, BGH poly(A)) are pcDNA3.1(+) annotations, not registered AeroSense parts.</p>
 
-                <aside class="parts-inspector" aria-live="polite">
-                  <p class="parts-inspector__kicker">Selected component</p>
-                  <h3 data-insp-title>Or7a CDS</h3>
-                  <p class="parts-inspector__id"><code data-insp-id>BBa_26VGDFA1</code></p>
-                  <dl class="parts-inspector__dl">
-                    <div>
-                      <dt>Length</dt>
-                      <dd data-insp-length>1,242 bp · 413 aa</dd>
+                  <figure class="parts-dna" data-arch="sensing" id="map-sensing">
+                    <figcaption>Module A · sensing cassette</figcaption>
+                    <div class="parts-dna__track" role="group" aria-label="Module A DNA features">
+                      <button type="button" class="parts-dna__block parts-dna__block--backbone" data-feature="cmv">CMV</button>
+                      <button type="button" class="parts-dna__block parts-dna__block--anno" data-feature="kozak">Kozak</button>
+                      <a class="parts-dna__block parts-dna__block--or is-active" href="#part-BBa_26VGDFA1" data-feature="or" data-part-id="BBa_26VGDFA1" aria-pressed="true"><span data-or-cds-label>Or7a</span></a>
+                      <button type="button" class="parts-dna__block parts-dna__block--anno" data-feature="stop">STOP</button>
+                      <a class="parts-dna__block" href="#part-BBa_K5490030" data-feature="ires" data-part-id="BBa_K5490030" aria-pressed="false">IRES</a>
+                      <a class="parts-dna__block parts-dna__block--mcherry" href="#part-BBa_K4177005" data-feature="mcherry" data-part-id="BBa_K4177005" aria-pressed="false">mCherry</a>
+                      <button type="button" class="parts-dna__block parts-dna__block--anno" data-feature="stop">STOP</button>
+                      <button type="button" class="parts-dna__block parts-dna__block--backbone" data-feature="bgh">BGH poly(A)</button>
                     </div>
-                    <div>
-                      <dt>Role</dt>
-                      <dd data-insp-role>Tuning odorant receptor · input / specificity</dd>
+                  </figure>
+
+                  <figure class="parts-dna" data-arch="reporting" id="map-reporting">
+                    <figcaption>Module B · reporting cassette</figcaption>
+                    <div class="parts-dna__track" role="group" aria-label="Module B DNA features">
+                      <button type="button" class="parts-dna__block parts-dna__block--backbone" data-feature="cmv">CMV</button>
+                      <button type="button" class="parts-dna__block parts-dna__block--anno" data-feature="kozak">Kozak</button>
+                      <a class="parts-dna__block parts-dna__block--gcamp" href="#part-BBa_26QHYP02" data-feature="gcamp" data-part-id="BBa_26QHYP02" aria-pressed="false">GCaMP6f</a>
+                      <a class="parts-dna__block parts-dna__block--linker" href="#part-BBa_26E21OEQ" data-feature="linker" data-part-id="BBa_26E21OEQ" aria-pressed="false">linker</a>
+                      <a class="parts-dna__block parts-dna__block--orco" href="#part-BBa_26LWIKBQ" data-feature="orco" data-part-id="BBa_26LWIKBQ" aria-pressed="false">Orco</a>
+                      <button type="button" class="parts-dna__block parts-dna__block--anno" data-feature="stop">STOP</button>
+                      <button type="button" class="parts-dna__block parts-dna__block--backbone" data-feature="bgh">BGH poly(A)</button>
                     </div>
-                    <div>
-                      <dt>Used in</dt>
-                      <dd data-insp-used>Sensing composite BBa_26ZAGFK0 (Or7a-IRES-mCherry)</dd>
+                  </figure>
+                </div>
+
+                <p class="parts-layer__flow" aria-hidden="true">↓</p>
+                <p class="parts-layer__flow-label">Translation products</p>
+
+                <div class="parts-layer" data-layer="protein">
+                  <p class="parts-layer__kicker">Translation products</p>
+                  <h3 class="parts-layer__title">From transcript to protein</h3>
+
+                  <div class="parts-translate" data-arch="sensing">
+                    <p class="parts-translate__module">Module A</p>
+                    <div class="parts-translate__mrna" data-feature-target="ires">
+                      <span>one mRNA</span>
                     </div>
-                    <div data-insp-reuse hidden>
-                      <dt>Registry status</dt>
-                      <dd>Reused existing Registry part — not re-submitted</dd>
+                    <p class="parts-layer__flow" aria-hidden="true">↓</p>
+                    <div class="parts-translate__products parts-translate__products--split">
+                      <button type="button" class="parts-protein" data-feature="or" data-part-id="BBa_26VGDFA1" data-mech-focus="or">
+                        <span class="parts-protein__name" data-or-protein-label>Or7a protein</span>
+                        <span class="parts-protein__meta">separate polypeptide</span>
+                      </button>
+                      <button type="button" class="parts-protein parts-protein--mcherry" data-feature="mcherry" data-part-id="BBa_K4177005" data-mech-focus="mcherry">
+                        <span class="parts-protein__name">mCherry protein</span>
+                        <span class="parts-protein__meta">separate polypeptide</span>
+                      </button>
                     </div>
-                  </dl>
-                  <p data-insp-body>The swappable specificity element. Changing this CDS retargets the sensor; Orco, GCaMP6f, IRES, and mCherry stay the same.</p>
-                  <p class="parts-inspector__jump"><a data-insp-table href="#part-BBa_26VGDFA1">View in collection table</a></p>
-                  <p class="parts-inspector__registry" data-insp-registry hidden></p>
-                  <div class="parts-topo" data-insp-topo hidden>
-                    <p class="parts-topo__kicker">Why N-terminal?</p>
-                    <svg viewBox="0 0 280 150" width="280" height="150" role="img" aria-labelledby="topo-title topo-desc">
-                      <title id="topo-title">Orco topology with N-terminal GCaMP6f</title>
-                      <desc id="topo-desc">Extracellular space above the membrane, cytosol below. Orco C-terminus is extracellular. Orco N-terminus and GCaMP6f are cytosolic.</desc>
-                      <text x="8" y="18" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#555555">EXTRACELLULAR</text>
-                      <text x="168" y="38" font-family="Georgia, serif" font-size="11" fill="#555555">C-terminus</text>
-                      <rect x="8" y="48" width="264" height="8" fill="#d8d8d2"></rect>
-                      <rect x="8" y="62" width="264" height="8" fill="#d8d8d2"></rect>
-                      <rect x="118" y="40" width="36" height="38" fill="#f3eee4" stroke="#8a5a18" stroke-width="1.3"></rect>
-                      <text x="8" y="96" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#555555">CYTOSOL</text>
-                      <text x="8" y="114" font-family="Georgia, serif" font-size="11" fill="#0a0a0a">N-terminus · GCaMP6f</text>
-                      <rect x="118" y="118" width="90" height="22" fill="#e7f7ec" stroke="#0b6b35" stroke-width="1.3"></rect>
-                      <text x="163" y="133" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#0b6b35">GCaMP6f</text>
-                    </svg>
-                    <p>
-                      Insect ORs and Orco adopt inverted membrane topology relative to vertebrate GPCRs — N-terminus intracellular, C-terminus extracellular
-                      <span class="cite-wrap">
-                        <a class="cite" href="#ref-benton-2006" id="cite-benton-2006-c" aria-describedby="cite-preview-benton-2006">[3]</a>
-                        <span class="cite-preview" role="tooltip">Benton et al., 2006 — full entry in References &amp; Credits.</span>
-                      </span>,
-                      confirmed structurally by cryo-EM of Orco
-                      <span class="cite-wrap">
-                        <a class="cite" href="#ref-butterwick-2018" id="cite-butterwick-2018-c" aria-describedby="cite-preview-butterwick-2018">[4]</a>
-                        <span class="cite-preview" role="tooltip">Butterwick et al., 2018 — full entry in References &amp; Credits.</span>
-                      </span>.
-                      A C-terminal calcium sensor would sit in millimolar extracellular Ca²⁺. N-terminal GCaMP6f stays cytosolic and at the channel mouth.
-                    </p>
-                    <p class="parts-topo__credit"><span class="wiki-figure__badge">Topology schematic — not a structure</span> Illustration by NTHU iGEM 2026.</p>
+                    <p class="parts-translate__label">Two separate translation products from one bicistronic transcript.</p>
+                    <p class="parts-translate__ires" data-ires-note hidden>IRES is an RNA translation element; not a protein product.</p>
                   </div>
-                </aside>
+
+                  <div class="parts-translate" data-arch="reporting">
+                    <p class="parts-translate__module">Module B</p>
+                    <div class="parts-fusion" data-fusion data-exploded="false">
+                      <button type="button" class="parts-protein parts-protein--gcamp" data-feature="gcamp" data-part-id="BBa_26QHYP02" data-mech-focus="gcamp">
+                        <span class="parts-protein__name">GCaMP6f</span>
+                        <span class="parts-protein__meta">domain of one fusion</span>
+                      </button>
+                      <span class="parts-fusion__link" aria-hidden="true">—(GGGGS)<sub>3</sub>—</span>
+                      <button type="button" class="parts-protein parts-protein--linker" data-feature="linker" data-part-id="BBa_26E21OEQ" data-mech-focus="linker">
+                        <span class="parts-protein__name">(GGGGS)<sub>3</sub></span>
+                        <span class="parts-protein__meta">domain of one fusion</span>
+                      </button>
+                      <span class="parts-fusion__link parts-fusion__link--tail" aria-hidden="true">—</span>
+                      <button type="button" class="parts-protein parts-protein--orco" data-feature="orco" data-part-id="BBa_26LWIKBQ" data-mech-focus="orco">
+                        <span class="parts-protein__name">Orco</span>
+                        <span class="parts-protein__meta">domain of one fusion</span>
+                      </button>
+                    </div>
+                    <p class="parts-translate__label">One fusion protein.</p>
+                    <p class="parts-translate__domains" data-fusion-note>GCaMP6f — (GGGGS)<sub>3</sub> — Orco is one fused polypeptide. Domains/features of one fusion protein.</p>
+                  </div>
+                </div>
+
+                <p class="parts-layer__flow" aria-hidden="true">↓</p>
+                <p class="parts-layer__flow-label">Cell / mechanism</p>
+
+                <div class="parts-layer parts-layer--cell" data-layer="cell">
+                  <p class="parts-layer__kicker">Cell / mechanism</p>
+                  <h3 class="parts-layer__title">Schematic topology</h3>
+                  <p class="parts-3d__disclaimer" role="note">Schematic 3D topology — not a predicted structure.</p>
+                  <p class="parts-3d__disclaimer-sub">Not an AlphaFold prediction and not an atomistic molecular structure. Receptor identity updates labels; the schematic topology stays the same.</p>
+                  <div class="parts-3d" data-parts-3d>
+                    <canvas class="parts-3d__canvas" data-parts-3d-canvas aria-label="Schematic 3D topology of the sensing proteins. Not a predicted structure."></canvas>
+                    <p class="parts-3d__fallback" data-parts-3d-fallback hidden>This browser cannot run the local WebGL schematic. The DNA and translation layers above remain the record of how the parts assemble.</p>
+                    <ul class="parts-3d__legend">
+                      <li><span class="parts-3d__swatch parts-3d__swatch--or"></span> <span data-or-3d-label>Or7a</span> helix bundle</li>
+                      <li><span class="parts-3d__swatch parts-3d__swatch--orco"></span> Orco helix bundle</li>
+                      <li><span class="parts-3d__swatch parts-3d__swatch--gcamp"></span> GCaMP6f domain</li>
+                      <li><span class="parts-3d__swatch parts-3d__swatch--linker"></span> (GGGGS)<sub>3</sub> linker</li>
+                      <li><span class="parts-3d__swatch parts-3d__swatch--mcherry"></span> mCherry (separate protein)</li>
+                    </ul>
+                  </div>
+                  <div class="parts-3d__controls">
+                    <button type="button" data-3d-reset>Reset view</button>
+                    <button type="button" data-3d-explode aria-pressed="false">Explode domains</button>
+                    <button type="button" data-3d-membrane aria-pressed="true">Show membrane</button>
+                  </div>
+                  <p class="parts-3d__hint">Drag to rotate. Wheel or pinch to zoom. Click a region to open that part.</p>
+                </div>
               </div>
 
-              <div class="parts-map-preview" data-map-preview data-map-mode="sensing">
+              <div class="parts-explorer__maps">
+                <div class="parts-map-preview" data-map-preview>
                 <p class="parts-map-preview__kicker" id="map-preview-label">Plasmid in view</p>
-                <div class="parts-map-preview__switch" role="tablist" aria-labelledby="map-preview-label">
+                  <div class="parts-map-preview__tabs" role="tablist" aria-labelledby="map-preview-label">
                   <button type="button" role="tab" id="map-tab-sensing" aria-selected="true" aria-controls="map-preview-panel" tabindex="0" data-map-mode="sensing">Sensing plasmid</button>
                   <button type="button" role="tab" id="map-tab-reporting" aria-selected="false" aria-controls="map-preview-panel" tabindex="-1" data-map-mode="reporting">Reporting plasmid</button>
                 </div>
                 <div id="map-preview-panel" role="tabpanel" aria-labelledby="map-tab-sensing">
-                  <p class="parts-map-preview__name" data-map-name>Or7a-IRES-mCherry</p>
-                  <p class="parts-map-preview__id"><code data-map-id>BBa_26ZAGFK0</code></p>
-                  <p class="parts-map-preview__caption" data-map-caption>Experimental plasmid of the selected sensing cassette in pcDNA3.1(+). Only this preview changes with the receptor.</p>
-                  <a class="btn parts-map-preview__open" data-map-open data-lightbox aria-haspopup="dialog" aria-controls="parts-map-lightbox" href="plasmid/Or7a_IRES_mCherry.png" data-lightbox-src="plasmid/Or7a_IRES_mCherry.png" data-lightbox-title="Or7a-IRES-mCherry (BBa_26ZAGFK0)" data-lightbox-alt="Construct map of Or7a-IRES-mCherry (BBa_26ZAGFK0) in the experimental pcDNA3.1(+) plasmid." data-lightbox-caption="Team construct map. The image shows the full experimental plasmid. The registered composite is the insert, not the pcDNA3.1(+) backbone.">Open full map</a>
-                  <div class="parts-map-preview__frame">
-                    <img data-or-map src="plasmid/Or7a_IRES_mCherry.png" alt="Compact construct map of Or7a-IRES-mCherry (BBa_26ZAGFK0)." width="640" height="400" loading="lazy" decoding="async">
-                  </div>
-                  <p class="parts-map-preview__credit">Team construct map. Full experimental plasmid context; the registered BioBrick is the insert, not the backbone.</p>
+                    <p class="parts-map-preview__name"><span data-map-name>Or7a-IRES-mCherry</span></p>
+                    <a class="parts-map-preview__hit" href="plasmid/Or7a_IRES_mCherry.png" data-map-open data-lightbox data-lightbox-src="plasmid/Or7a_IRES_mCherry.png" data-lightbox-title="Or7a-IRES-mCherry" data-lightbox-alt="Construct map of the selected sensing plasmid." data-lightbox-caption="Team construct map. Full pcDNA3.1(+) context; registered composite is the insert.">
+                      <img data-or-map src="plasmid/Or7a_IRES_mCherry.png" alt="Construct map of Or7a-IRES-mCherry" width="800" height="500" loading="lazy" decoding="async">
+                      <span class="parts-map-preview__open">Open full map</span>
+                    </a>
+                    <p class="parts-map-preview__caption"><span data-map-id>BBa_26ZAGFK0</span> · <span data-map-caption>Or7a sensing cassette</span></p>
                 </div>
               </div>
 
-              <div class="parts-cassettes">
-                <figure class="construct-map" id="map-sensing">
-                  <figcaption>
-                    <span class="wiki-figure__num">Sensing module</span>
-                    <span class="wiki-figure__title"> Bicistronic cassette — one transcript, two proteins.</span>
-                  </figcaption>
-                  <p class="construct-map__lede">
-                    Architecture: Kozak → OR CDS → STOP → EMCV IRES → mCherry → STOP.
-                    The OR is translated cap-dependently; the IRES re-initiates mCherry as an independent polypeptide.
-                  </p>
-                  <ol class="construct-map__track" aria-label="Sensing module elements from 5′ to 3′">
-                    <li class="construct-map__block">
-                      <button type="button" class="construct-map__hit" data-feature="kozak" aria-pressed="false">
-                        <span class="construct-map__role">Context</span><span class="construct-map__name">Kozak</span>
-                      </button>
-                    </li>
-                    <li class="construct-map__block construct-map__block--cds construct-map__block--swap" data-swatch="or">
-                      <span class="parts-swap-flag">Only this module changes</span>
-                      <a class="construct-map__hit" href="#part-BBa_26VGDFA1" data-feature="or" data-part-id="BBa_26VGDFA1" aria-pressed="true">
-                        <span class="construct-map__role">Swappable CDS</span>
-                        <span class="construct-map__name" data-or-cds-label>Or7a CDS</span>
-                      </a>
-                    </li>
-                    <li class="construct-map__block">
-                      <button type="button" class="construct-map__hit" data-feature="stop" aria-pressed="false">
-                        <span class="construct-map__role">Stop</span><span class="construct-map__name">STOP</span>
-                      </button>
-                    </li>
-                    <li class="construct-map__block construct-map__block--ires">
-                      <a class="construct-map__hit" href="#part-BBa_K5490030" data-feature="ires" data-part-id="BBa_K5490030" aria-pressed="false">
-                        <span class="construct-map__role">Reused IRES</span><span class="construct-map__name">EMCV</span>
-                      </a>
-                    </li>
-                    <li class="construct-map__block construct-map__block--reporter" data-swatch="mcherry">
-                      <a class="construct-map__hit" href="#part-BBa_K4177005" data-feature="mcherry" data-part-id="BBa_K4177005" aria-pressed="false">
-                        <span class="construct-map__role">Reused marker</span><span class="construct-map__name">mCherry</span>
-                      </a>
-                    </li>
-                    <li class="construct-map__block">
-                      <button type="button" class="construct-map__hit" data-feature="stop" aria-pressed="false">
-                        <span class="construct-map__role">Stop</span><span class="construct-map__name">STOP</span>
-                      </button>
-                    </li>
-                  </ol>
-                </figure>
-
-                <figure class="construct-map" id="map-reporting">
-                  <figcaption>
-                    <span class="wiki-figure__num">Reporting module</span>
-                    <span class="wiki-figure__title"> One open reading frame — one fusion protein.</span>
-                  </figcaption>
-                  <p class="construct-map__lede">
-                    Architecture: Kozak → RSET leader → GCaMP6f → (GGGGS)<sub>3</sub> → DmOrco → STOP.
-                    GCaMP6f derives from pGP-CMV-GCaMP6f (Addgene #40755)
-                    <span class="cite-wrap">
-                      <a class="cite" href="#ref-chen-2013" id="cite-chen-2013-a" aria-describedby="cite-preview-chen-2013">[6]</a>
-                      <span class="cite-preview" id="cite-preview-chen-2013" role="tooltip">Chen et al., 2013 — full entry in References &amp; Credits.</span>
-                    </span>.
-                    It is N-terminal so the indicator stays cytosolic at the channel mouth
-                    <span class="cite-wrap">
-                      <a class="cite" href="#ref-benton-2006" id="cite-benton-2006-a" aria-describedby="cite-preview-benton-2006">[3]</a>
-                      <span class="cite-preview" id="cite-preview-benton-2006" role="tooltip">Benton et al., 2006 — full entry in References &amp; Credits.</span>
-                    </span>
-                    <span class="cite-wrap">
-                      <a class="cite" href="#ref-butterwick-2018" id="cite-butterwick-2018-a" aria-describedby="cite-preview-butterwick-2018">[4]</a>
-                      <span class="cite-preview" id="cite-preview-butterwick-2018" role="tooltip">Butterwick et al., 2018 — full entry in References &amp; Credits.</span>
-                    </span>.
-                  </p>
-                  <ol class="construct-map__track" aria-label="Reporting module elements from 5′ to 3′">
-                    <li class="construct-map__block">
-                      <button type="button" class="construct-map__hit" data-feature="kozak" aria-pressed="false">
-                        <span class="construct-map__role">Context</span><span class="construct-map__name">Kozak</span>
-                      </button>
-                    </li>
-                    <li class="construct-map__block">
-                      <a class="construct-map__hit" href="#part-BBa_262WP16P" data-feature="rset" data-part-id="BBa_262WP16P" aria-pressed="false">
-                        <span class="construct-map__role">Leader</span><span class="construct-map__name">RSET</span>
-                      </a>
-                    </li>
-                    <li class="construct-map__block construct-map__block--gcamp" data-swatch="gcamp">
-                      <a class="construct-map__hit" href="#part-BBa_26QHYP02" data-feature="gcamp" data-part-id="BBa_26QHYP02" aria-pressed="false">
-                        <span class="construct-map__role">Sensor</span><span class="construct-map__name">GCaMP6f</span>
-                      </a>
-                    </li>
-                    <li class="construct-map__block">
-                      <a class="construct-map__hit" href="#part-BBa_26E21OEQ" data-feature="linker" data-part-id="BBa_26E21OEQ" aria-pressed="false">
-                        <span class="construct-map__role">Linker</span><span class="construct-map__name">(GGGGS)<sub>3</sub></span>
-                      </a>
-                    </li>
-                    <li class="construct-map__block construct-map__block--orco" data-swatch="orco">
-                      <a class="construct-map__hit" href="#part-BBa_26LWIKBQ" data-feature="orco" data-part-id="BBa_26LWIKBQ" aria-pressed="false">
-                        <span class="construct-map__role">CDS</span><span class="construct-map__name">DmOrco</span>
-                      </a>
-                    </li>
-                    <li class="construct-map__block">
-                      <button type="button" class="construct-map__hit" data-feature="stop" aria-pressed="false">
-                        <span class="construct-map__role">Stop</span><span class="construct-map__name">STOP</span>
-                      </button>
-                    </li>
-                  </ol>
-                  <p class="construct-map__caveat" role="note">No signal peptide in this architecture. Inserts are cloned into pcDNA3.1(+). EMCV IRES and mCherry are reused Registry parts.</p>
-                </figure>
               </div>
             </div>
           </section>
 
           <section class="section-block" id="explore" data-reveal>
-            <h2>Parts catalogue</h2>
+            <h2>Catalogue</h2>
             <p>
-              14 new basic parts, 10 new composites, and 2 reused Registry parts — 26 records.
+              The complete technical record: 14 new basic parts, 10 new composites, and 2 reused Registry parts — 26 records. The mechanism viewer above is the entry point; this table is the index. Click a row to open a compact detail panel (keyboard: Enter / Space on the focused row).
               Sequences are not duplicated here; the iGEM Registry is the source of record.
               Per-part Registry URLs are shown only when a verified part-page route is recorded on this wiki.
             </p>
@@ -632,6 +471,32 @@
               <li><a href="#part-BBa_K4177005"><code>BBa_K4177005</code></a></li>
             </ul>
 
+            
+            <dialog class="parts-drawer" id="parts-drawer" aria-labelledby="parts-drawer-title">
+              <div class="parts-drawer__panel">
+                <div class="parts-drawer__header">
+                  <h3 id="parts-drawer-title">Part detail</h3>
+                  <button type="button" class="parts-drawer__close" data-parts-drawer-close>Close</button>
+                </div>
+                <dl class="parts-drawer__dl">
+                  <div><dt>Part name</dt><dd data-drawer-name>—</dd></div>
+                  <div><dt>Registry ID</dt><dd data-drawer-id>—</dd></div>
+                  <div><dt>Part type</dt><dd data-drawer-type>—</dd></div>
+                  <div><dt>DNA length</dt><dd data-drawer-dna>—</dd></div>
+                  <div><dt>Protein length</dt><dd data-drawer-protein>—</dd></div>
+                  <div><dt>Role</dt><dd data-drawer-role>—</dd></div>
+                  <div><dt>RFC 10</dt><dd data-drawer-rfc10>—</dd></div>
+                  <div><dt>RFC 1000</dt><dd data-drawer-rfc>—</dd></div>
+                  <div><dt>Used in</dt><dd data-drawer-used>—</dd></div>
+                  <div><dt>Sequence / Registry</dt><dd data-drawer-sequence>—</dd></div>
+                  <div><dt>Evidence</dt><dd data-drawer-evidence>—</dd></div>
+                  <div><dt>Literature support</dt><dd data-drawer-lit>—</dd></div>
+                  <div><dt>Reuse note</dt><dd data-drawer-reuse>—</dd></div>
+                </dl>
+                <p class="parts-drawer__hint">Static catalogue rows remain available without JavaScript. This panel only adds a compact reading layout.</p>
+              </div>
+            </dialog>
+
             <div class="parts-tabs parts-catalog" data-parts-tabs data-parts-catalog data-sequence-source="registry">
               <p class="visually-hidden" data-parts-tabs-live aria-live="polite" aria-atomic="true"></p>
               <p class="visually-hidden" data-parts-catalog-live aria-live="polite" aria-atomic="true"></p>
@@ -642,12 +507,13 @@
                   <input id="parts-catalog-q" name="q" type="search" autocomplete="off" spellcheck="false" enterkeyhint="search">
                 </form>
                 <div class="parts-catalog__filters" data-parts-filters>
-                  <div class="parts-catalog__filter-group" data-filter-group="rfc" hidden>
-                    <p class="parts-catalog__filter-label" id="filter-rfc-label">Assembly listing</p>
-                    <div role="group" aria-labelledby="filter-rfc-label">
-                      <button type="button" aria-pressed="false" data-filter="rfc-yes">RFC 1000 compatible</button>
-                      <button type="button" aria-pressed="false" data-filter="rfc-no">RFC 1000 incompatible</button>
+                  <div class="parts-catalog__filter-group" data-filter-group="rfc">
+                    <p class="parts-catalog__filter-label" id="filter-rfc-label">Assembly standard</p>
+                    <div class="parts-catalog__rfc-btns" role="group" aria-labelledby="filter-rfc-label">
+                      <button type="button" class="parts-catalog__rfc-btn" aria-pressed="false" data-filter="rfc10-yes">RFC 10</button>
+                      <button type="button" class="parts-catalog__rfc-btn" aria-pressed="false" data-filter="rfc1000-yes">RFC 1000</button>
                     </div>
+                    <p class="parts-catalog__filter-note">Each button shows parts recorded as compatible with that Registry standard. RFC 10 and RFC 1000 are independent; they are not inferred from each other. Press again to clear.</p>
                   </div>
                   <div class="parts-catalog__filter-group" data-filter-group="panel" hidden>
                     <p class="parts-catalog__filter-label" id="filter-panel-label">Panel status</p>
@@ -666,9 +532,9 @@
                 <button type="button" class="parts-tabs__tab" role="tab" id="tab-reused" aria-controls="panel-reused" aria-selected="false" tabindex="-1">Reused parts</button>
               </div>
 
-              <div class="parts-tabs__panel" role="tabpanel" id="panel-composite" aria-labelledby="tab-composite" data-filter-set="rfc">
+              <div class="parts-tabs__panel" role="tabpanel" id="panel-composite" aria-labelledby="tab-composite" data-filter-set="panel-none">
                 <h3>Composite parts</h3>
-                <p>Nine sensing cassettes share one architecture; only the OR CDS is swapped. The reporting fusion is common to every line. RFC 1000 status affects Registry assembly listing, not our pcDNA3.1(+) cloning workflow.</p>
+                <p>Nine sensing cassettes share one architecture; only the OR CDS is swapped. The reporting fusion is common to every line. RFC 10 and RFC 1000 are independent Registry assembly fields. RFC 10 is listed as Unknown unless independently verified. RFC 1000 status affects Registry assembly listing, not our pcDNA3.1(+) cloning workflow.</p>
                 <div class="table-scroll" tabindex="0" role="region" aria-label="Composite parts">
                   <table class="goal-table parts-catalog__table">
                     <thead>
@@ -677,6 +543,7 @@
                         <th scope="col">Module</th>
                         <th scope="col">Length</th>
                         <th scope="col">Protein / architecture summary</th>
+                        <th scope="col">RFC 10</th>
                         <th scope="col">RFC 1000</th>
                         <th scope="col">Map</th>
                         <th scope="col">Registry</th>
@@ -684,29 +551,29 @@
                     </thead>
                     <tbody class="parts-catalog__family" data-family="sensing">
                       <tr class="parts-catalog__group">
-                        <th scope="colgroup" colspan="7">
+                        <th scope="colgroup" colspan="8">
                           <span class="parts-catalog__group-title">Modular sensing family</span>
                           <span class="parts-catalog__group-note">Nine cassette variants. Only the OR CDS changes.</span>
                         </th>
                       </tr>
-                      <tr id="part-BBa_26ZAGFK0" class="parts-catalog__row" data-part-record data-part-id="BBa_26ZAGFK0" data-category="composite" data-final-panel="true" data-first-gen="false" data-rfc="no" data-search="BBa_26ZAGFK0 Or7a-IRES-mCherry Or7a sensing-module Sensing family · Or7a" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26ZAGFK0</code><button type="button" class="parts-copy" data-copy-id="BBa_26ZAGFK0" aria-label="Copy BBa_26ZAGFK0">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Module">Sensing family · Or7a</td><td data-label="Length">2,546 bp</td><td data-label="Protein / architecture">Or7a 413 aa · Kozak → OR CDS → STOP → EMCV IRES → mCherry → STOP</td><td data-label="RFC 1000"><span class="rfc-no">No</span></td><td data-label="Map"><a href="#map-Or7a">Or7a map</a></td><td data-label="Registry"><span class="parts-registry-na">ID only</span><span class="visually-hidden"> No verified Registry part URL is recorded on this wiki.</span></td></tr>
-                      <tr id="part-BBa_26WOX4B1" class="parts-catalog__row" data-part-record data-part-id="BBa_26WOX4B1" data-category="composite" data-final-panel="true" data-first-gen="false" data-rfc="no" data-search="BBa_26WOX4B1 Or22a-IRES-mCherry Or22a sensing-module Sensing family · Or22a" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26WOX4B1</code><button type="button" class="parts-copy" data-copy-id="BBa_26WOX4B1" aria-label="Copy BBa_26WOX4B1">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Module">Sensing family · Or22a</td><td data-label="Length">2,498 bp</td><td data-label="Protein / architecture">Or22a 397 aa · Kozak → OR CDS → STOP → EMCV IRES → mCherry → STOP</td><td data-label="RFC 1000"><span class="rfc-no">No</span></td><td data-label="Map"><a href="#map-Or22a">Or22a map</a></td><td data-label="Registry"><span class="parts-registry-na">ID only</span><span class="visually-hidden"> No verified Registry part URL is recorded on this wiki.</span></td></tr>
-                      <tr id="part-BBa_26LLF3LM" class="parts-catalog__row" data-part-record data-part-id="BBa_26LLF3LM" data-category="composite" data-final-panel="true" data-first-gen="false" data-rfc="no" data-search="BBa_26LLF3LM Or35a-IRES-mCherry Or35a sensing-module Sensing family · Or35a" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26LLF3LM</code><button type="button" class="parts-copy" data-copy-id="BBa_26LLF3LM" aria-label="Copy BBa_26LLF3LM">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Module">Sensing family · Or35a</td><td data-label="Length">2,534 bp</td><td data-label="Protein / architecture">Or35a 409 aa · Kozak → OR CDS → STOP → EMCV IRES → mCherry → STOP</td><td data-label="RFC 1000"><span class="rfc-no">No</span></td><td data-label="Map"><a href="#map-Or35a">Or35a map</a></td><td data-label="Registry"><span class="parts-registry-na">ID only</span><span class="visually-hidden"> No verified Registry part URL is recorded on this wiki.</span></td></tr>
-                      <tr id="part-BBa_26Q1Q094" class="parts-catalog__row" data-part-record data-part-id="BBa_26Q1Q094" data-category="composite" data-final-panel="true" data-first-gen="false" data-rfc="yes" data-search="BBa_26Q1Q094 Or42a-IRES-mCherry Or42a sensing-module Sensing family · Or42a" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26Q1Q094</code><button type="button" class="parts-copy" data-copy-id="BBa_26Q1Q094" aria-label="Copy BBa_26Q1Q094">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Module">Sensing family · Or42a</td><td data-label="Length">2,525 bp</td><td data-label="Protein / architecture">Or42a 406 aa · Kozak → OR CDS → STOP → EMCV IRES → mCherry → STOP</td><td data-label="RFC 1000"><span class="rfc-yes">Yes</span></td><td data-label="Map"><a href="#map-Or42a">Or42a map</a></td><td data-label="Registry"><span class="parts-registry-na">ID only</span><span class="visually-hidden"> No verified Registry part URL is recorded on this wiki.</span></td></tr>
-                      <tr id="part-BBa_26Y7CI2H" class="parts-catalog__row" data-part-record data-part-id="BBa_26Y7CI2H" data-category="composite" data-final-panel="true" data-first-gen="false" data-rfc="yes" data-search="BBa_26Y7CI2H Or59b-IRES-mCherry Or59b sensing-module Sensing family · Or59b" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26Y7CI2H</code><button type="button" class="parts-copy" data-copy-id="BBa_26Y7CI2H" aria-label="Copy BBa_26Y7CI2H">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Module">Sensing family · Or59b</td><td data-label="Length">2,501 bp</td><td data-label="Protein / architecture">Or59b 398 aa · Kozak → OR CDS → STOP → EMCV IRES → mCherry → STOP</td><td data-label="RFC 1000"><span class="rfc-yes">Yes</span></td><td data-label="Map"><a href="#map-Or59b">Or59b map</a></td><td data-label="Registry"><span class="parts-registry-na">ID only</span><span class="visually-hidden"> No verified Registry part URL is recorded on this wiki.</span></td></tr>
-                      <tr id="part-BBa_265G8CE1" class="parts-catalog__row" data-part-record data-part-id="BBa_265G8CE1" data-category="composite" data-final-panel="true" data-first-gen="false" data-rfc="no" data-search="BBa_265G8CE1 Or67a-IRES-mCherry Or67a sensing-module Sensing family · Or67a" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_265G8CE1</code><button type="button" class="parts-copy" data-copy-id="BBa_265G8CE1" aria-label="Copy BBa_265G8CE1">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Module">Sensing family · Or67a</td><td data-label="Length">2,528 bp</td><td data-label="Protein / architecture">Or67a 407 aa · Kozak → OR CDS → STOP → EMCV IRES → mCherry → STOP</td><td data-label="RFC 1000"><span class="rfc-no">No</span></td><td data-label="Map"><a href="#map-Or67a">Or67a map</a></td><td data-label="Registry"><span class="parts-registry-na">ID only</span><span class="visually-hidden"> No verified Registry part URL is recorded on this wiki.</span></td></tr>
-                      <tr id="part-BBa_26K1TU11" class="parts-catalog__row" data-part-record data-part-id="BBa_26K1TU11" data-category="composite" data-final-panel="true" data-first-gen="false" data-rfc="yes" data-search="BBa_26K1TU11 Or85b-IRES-mCherry Or85b sensing-module Sensing family · Or85b" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26K1TU11</code><button type="button" class="parts-copy" data-copy-id="BBa_26K1TU11" aria-label="Copy BBa_26K1TU11">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Module">Sensing family · Or85b</td><td data-label="Length">2,477 bp</td><td data-label="Protein / architecture">Or85b 390 aa · Kozak → OR CDS → STOP → EMCV IRES → mCherry → STOP</td><td data-label="RFC 1000"><span class="rfc-yes">Yes</span></td><td data-label="Map"><a href="#map-Or85b">Or85b map</a></td><td data-label="Registry"><span class="parts-registry-na">ID only</span><span class="visually-hidden"> No verified Registry part URL is recorded on this wiki.</span></td></tr>
-                      <tr id="part-BBa_26TZLBMJ" class="parts-catalog__row" data-part-record data-part-id="BBa_26TZLBMJ" data-category="composite" data-final-panel="true" data-first-gen="false" data-rfc="yes" data-search="BBa_26TZLBMJ Or98a-IRES-mCherry Or98a sensing-module Sensing family · Or98a" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26TZLBMJ</code><button type="button" class="parts-copy" data-copy-id="BBa_26TZLBMJ" aria-label="Copy BBa_26TZLBMJ">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Module">Sensing family · Or98a</td><td data-label="Length">2,498 bp</td><td data-label="Protein / architecture">Or98a 397 aa · Kozak → OR CDS → STOP → EMCV IRES → mCherry → STOP</td><td data-label="RFC 1000"><span class="rfc-yes">Yes</span></td><td data-label="Map"><a href="#map-Or98a">Or98a map</a></td><td data-label="Registry"><span class="parts-registry-na">ID only</span><span class="visually-hidden"> No verified Registry part URL is recorded on this wiki.</span></td></tr>
-                      <tr id="part-BBa_2629NIWH" class="parts-catalog__row" data-part-record data-part-id="BBa_2629NIWH" data-category="composite" data-final-panel="true" data-first-gen="false" data-rfc="no" data-search="BBa_2629NIWH Or19a-IRES-mCherry Or19a sensing-module Sensing family · Or19a" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_2629NIWH</code><button type="button" class="parts-copy" data-copy-id="BBa_2629NIWH" aria-label="Copy BBa_2629NIWH">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Module">Sensing family · Or19a</td><td data-label="Length">2,468 bp</td><td data-label="Protein / architecture">Or19a 387 aa · Kozak → OR CDS → STOP → EMCV IRES → mCherry → STOP</td><td data-label="RFC 1000"><span class="rfc-no">No</span></td><td data-label="Map"><a href="#map-Or19a">Or19a map</a></td><td data-label="Registry"><span class="parts-registry-na">ID only</span><span class="visually-hidden"> No verified Registry part URL is recorded on this wiki.</span></td></tr>
+                      <tr id="part-BBa_26ZAGFK0" class="parts-catalog__row" data-part-record data-part-id="BBa_26ZAGFK0" data-category="composite" data-final-panel="true" data-first-gen="false" data-rfc="no" data-rfc10="unknown" data-rfc1000="no" data-search="BBa_26ZAGFK0 Or7a-IRES-mCherry Or7a sensing-module Sensing family · Or7a" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26ZAGFK0</code><button type="button" class="parts-copy" data-copy-id="BBa_26ZAGFK0" aria-label="Copy BBa_26ZAGFK0">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Module">Sensing family · Or7a</td><td data-label="Length">2,546 bp</td><td data-label="Protein / architecture">Or7a 413 aa · Kozak → OR CDS → STOP → EMCV IRES → mCherry → STOP</td><td data-label="RFC 10"><span class="rfc-unknown">Unknown</span></td><td data-label="RFC 1000"><span class="rfc-no">No</span></td><td data-label="Map"><a href="#map-Or7a">Or7a map</a></td><td data-label="Registry"><span class="parts-registry-na">ID only</span><span class="visually-hidden"> No verified Registry part URL is recorded on this wiki.</span></td></tr>
+                      <tr id="part-BBa_26WOX4B1" class="parts-catalog__row" data-part-record data-part-id="BBa_26WOX4B1" data-category="composite" data-final-panel="true" data-first-gen="false" data-rfc="no" data-rfc10="unknown" data-rfc1000="no" data-search="BBa_26WOX4B1 Or22a-IRES-mCherry Or22a sensing-module Sensing family · Or22a" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26WOX4B1</code><button type="button" class="parts-copy" data-copy-id="BBa_26WOX4B1" aria-label="Copy BBa_26WOX4B1">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Module">Sensing family · Or22a</td><td data-label="Length">2,498 bp</td><td data-label="Protein / architecture">Or22a 397 aa · Kozak → OR CDS → STOP → EMCV IRES → mCherry → STOP</td><td data-label="RFC 10"><span class="rfc-unknown">Unknown</span></td><td data-label="RFC 1000"><span class="rfc-no">No</span></td><td data-label="Map"><a href="#map-Or22a">Or22a map</a></td><td data-label="Registry"><span class="parts-registry-na">ID only</span><span class="visually-hidden"> No verified Registry part URL is recorded on this wiki.</span></td></tr>
+                      <tr id="part-BBa_26LLF3LM" class="parts-catalog__row" data-part-record data-part-id="BBa_26LLF3LM" data-category="composite" data-final-panel="true" data-first-gen="false" data-rfc="no" data-rfc10="unknown" data-rfc1000="no" data-search="BBa_26LLF3LM Or35a-IRES-mCherry Or35a sensing-module Sensing family · Or35a" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26LLF3LM</code><button type="button" class="parts-copy" data-copy-id="BBa_26LLF3LM" aria-label="Copy BBa_26LLF3LM">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Module">Sensing family · Or35a</td><td data-label="Length">2,534 bp</td><td data-label="Protein / architecture">Or35a 409 aa · Kozak → OR CDS → STOP → EMCV IRES → mCherry → STOP</td><td data-label="RFC 10"><span class="rfc-unknown">Unknown</span></td><td data-label="RFC 1000"><span class="rfc-no">No</span></td><td data-label="Map"><a href="#map-Or35a">Or35a map</a></td><td data-label="Registry"><span class="parts-registry-na">ID only</span><span class="visually-hidden"> No verified Registry part URL is recorded on this wiki.</span></td></tr>
+                      <tr id="part-BBa_26Q1Q094" class="parts-catalog__row" data-part-record data-part-id="BBa_26Q1Q094" data-category="composite" data-final-panel="true" data-first-gen="false" data-rfc="yes" data-rfc10="unknown" data-rfc1000="yes" data-search="BBa_26Q1Q094 Or42a-IRES-mCherry Or42a sensing-module Sensing family · Or42a" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26Q1Q094</code><button type="button" class="parts-copy" data-copy-id="BBa_26Q1Q094" aria-label="Copy BBa_26Q1Q094">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Module">Sensing family · Or42a</td><td data-label="Length">2,525 bp</td><td data-label="Protein / architecture">Or42a 406 aa · Kozak → OR CDS → STOP → EMCV IRES → mCherry → STOP</td><td data-label="RFC 10"><span class="rfc-unknown">Unknown</span></td><td data-label="RFC 1000"><span class="rfc-yes">Yes</span></td><td data-label="Map"><a href="#map-Or42a">Or42a map</a></td><td data-label="Registry"><span class="parts-registry-na">ID only</span><span class="visually-hidden"> No verified Registry part URL is recorded on this wiki.</span></td></tr>
+                      <tr id="part-BBa_26Y7CI2H" class="parts-catalog__row" data-part-record data-part-id="BBa_26Y7CI2H" data-category="composite" data-final-panel="true" data-first-gen="false" data-rfc="yes" data-rfc10="unknown" data-rfc1000="yes" data-search="BBa_26Y7CI2H Or59b-IRES-mCherry Or59b sensing-module Sensing family · Or59b" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26Y7CI2H</code><button type="button" class="parts-copy" data-copy-id="BBa_26Y7CI2H" aria-label="Copy BBa_26Y7CI2H">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Module">Sensing family · Or59b</td><td data-label="Length">2,501 bp</td><td data-label="Protein / architecture">Or59b 398 aa · Kozak → OR CDS → STOP → EMCV IRES → mCherry → STOP</td><td data-label="RFC 10"><span class="rfc-unknown">Unknown</span></td><td data-label="RFC 1000"><span class="rfc-yes">Yes</span></td><td data-label="Map"><a href="#map-Or59b">Or59b map</a></td><td data-label="Registry"><span class="parts-registry-na">ID only</span><span class="visually-hidden"> No verified Registry part URL is recorded on this wiki.</span></td></tr>
+                      <tr id="part-BBa_265G8CE1" class="parts-catalog__row" data-part-record data-part-id="BBa_265G8CE1" data-category="composite" data-final-panel="true" data-first-gen="false" data-rfc="no" data-rfc10="unknown" data-rfc1000="no" data-search="BBa_265G8CE1 Or67a-IRES-mCherry Or67a sensing-module Sensing family · Or67a" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_265G8CE1</code><button type="button" class="parts-copy" data-copy-id="BBa_265G8CE1" aria-label="Copy BBa_265G8CE1">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Module">Sensing family · Or67a</td><td data-label="Length">2,528 bp</td><td data-label="Protein / architecture">Or67a 407 aa · Kozak → OR CDS → STOP → EMCV IRES → mCherry → STOP</td><td data-label="RFC 10"><span class="rfc-unknown">Unknown</span></td><td data-label="RFC 1000"><span class="rfc-no">No</span></td><td data-label="Map"><a href="#map-Or67a">Or67a map</a></td><td data-label="Registry"><span class="parts-registry-na">ID only</span><span class="visually-hidden"> No verified Registry part URL is recorded on this wiki.</span></td></tr>
+                      <tr id="part-BBa_26K1TU11" class="parts-catalog__row" data-part-record data-part-id="BBa_26K1TU11" data-category="composite" data-final-panel="true" data-first-gen="false" data-rfc="yes" data-rfc10="unknown" data-rfc1000="yes" data-search="BBa_26K1TU11 Or85b-IRES-mCherry Or85b sensing-module Sensing family · Or85b" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26K1TU11</code><button type="button" class="parts-copy" data-copy-id="BBa_26K1TU11" aria-label="Copy BBa_26K1TU11">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Module">Sensing family · Or85b</td><td data-label="Length">2,477 bp</td><td data-label="Protein / architecture">Or85b 390 aa · Kozak → OR CDS → STOP → EMCV IRES → mCherry → STOP</td><td data-label="RFC 10"><span class="rfc-unknown">Unknown</span></td><td data-label="RFC 1000"><span class="rfc-yes">Yes</span></td><td data-label="Map"><a href="#map-Or85b">Or85b map</a></td><td data-label="Registry"><span class="parts-registry-na">ID only</span><span class="visually-hidden"> No verified Registry part URL is recorded on this wiki.</span></td></tr>
+                      <tr id="part-BBa_26TZLBMJ" class="parts-catalog__row" data-part-record data-part-id="BBa_26TZLBMJ" data-category="composite" data-final-panel="true" data-first-gen="false" data-rfc="yes" data-rfc10="unknown" data-rfc1000="yes" data-search="BBa_26TZLBMJ Or98a-IRES-mCherry Or98a sensing-module Sensing family · Or98a" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26TZLBMJ</code><button type="button" class="parts-copy" data-copy-id="BBa_26TZLBMJ" aria-label="Copy BBa_26TZLBMJ">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Module">Sensing family · Or98a</td><td data-label="Length">2,498 bp</td><td data-label="Protein / architecture">Or98a 397 aa · Kozak → OR CDS → STOP → EMCV IRES → mCherry → STOP</td><td data-label="RFC 10"><span class="rfc-unknown">Unknown</span></td><td data-label="RFC 1000"><span class="rfc-yes">Yes</span></td><td data-label="Map"><a href="#map-Or98a">Or98a map</a></td><td data-label="Registry"><span class="parts-registry-na">ID only</span><span class="visually-hidden"> No verified Registry part URL is recorded on this wiki.</span></td></tr>
+                      <tr id="part-BBa_2629NIWH" class="parts-catalog__row" data-part-record data-part-id="BBa_2629NIWH" data-category="composite" data-final-panel="true" data-first-gen="false" data-rfc="no" data-rfc10="unknown" data-rfc1000="no" data-search="BBa_2629NIWH Or19a-IRES-mCherry Or19a sensing-module Sensing family · Or19a" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_2629NIWH</code><button type="button" class="parts-copy" data-copy-id="BBa_2629NIWH" aria-label="Copy BBa_2629NIWH">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Module">Sensing family · Or19a</td><td data-label="Length">2,468 bp</td><td data-label="Protein / architecture">Or19a 387 aa · Kozak → OR CDS → STOP → EMCV IRES → mCherry → STOP</td><td data-label="RFC 10"><span class="rfc-unknown">Unknown</span></td><td data-label="RFC 1000"><span class="rfc-no">No</span></td><td data-label="Map"><a href="#map-Or19a">Or19a map</a></td><td data-label="Registry"><span class="parts-registry-na">ID only</span><span class="visually-hidden"> No verified Registry part URL is recorded on this wiki.</span></td></tr>
                     </tbody>
                     <tbody class="parts-catalog__family parts-catalog__family--report" data-family="reporting">
                       <tr class="parts-catalog__group">
-                        <th scope="colgroup" colspan="7">
+                        <th scope="colgroup" colspan="8">
                           <span class="parts-catalog__group-title">Shared reporting module</span>
                           <span class="parts-catalog__group-note">One fusion protein. Common to every AeroSense line.</span>
                         </th>
                       </tr>
-                      <tr id="part-BBa_26E11Z80" class="parts-catalog__row" data-part-record data-part-id="BBa_26E11Z80" data-category="composite" data-final-panel="true" data-first-gen="false" data-rfc="no" data-search="BBa_26E11Z80 GCaMP6f-(GGGGS)3-DmOrco reporting-module Shared reporting module" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26E11Z80</code><button type="button" class="parts-copy" data-copy-id="BBa_26E11Z80" aria-label="Copy BBa_26E11Z80">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Module">Shared reporting module</td><td data-label="Length">2,862 bp</td><td data-label="Protein / architecture">951 aa fusion · Kozak → RSET → GCaMP6f → (GGGGS)<sub>3</sub> → DmOrco → STOP</td><td data-label="RFC 1000"><span class="rfc-no">No</span> <span class="parts-legacy-flag">BsaI inherited from DmOrco</span></td><td data-label="Map"><a href="#map-GCaMP6f">Reporting map</a></td><td data-label="Registry"><span class="parts-registry-na">ID only</span><span class="visually-hidden"> No verified Registry part URL is recorded on this wiki.</span></td></tr>
+                      <tr id="part-BBa_26E11Z80" class="parts-catalog__row" data-part-record data-part-id="BBa_26E11Z80" data-category="composite" data-final-panel="true" data-first-gen="false" data-rfc="no" data-rfc10="unknown" data-rfc1000="no" data-search="BBa_26E11Z80 GCaMP6f-(GGGGS)3-DmOrco reporting-module Shared reporting module" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26E11Z80</code><button type="button" class="parts-copy" data-copy-id="BBa_26E11Z80" aria-label="Copy BBa_26E11Z80">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Module">Shared reporting module</td><td data-label="Length">2,862 bp</td><td data-label="Protein / architecture">951 aa fusion · Kozak → RSET → GCaMP6f → (GGGGS)<sub>3</sub> → DmOrco → STOP</td><td data-label="RFC 10"><span class="rfc-unknown">Unknown</span></td><td data-label="RFC 1000"><span class="rfc-no">No</span> <span class="parts-legacy-flag">BsaI inherited from DmOrco</span></td><td data-label="Map"><a href="#map-GCaMP6f">Reporting map</a></td><td data-label="Registry"><span class="parts-registry-na">ID only</span><span class="visually-hidden"> No verified Registry part URL is recorded on this wiki.</span></td></tr>
                     </tbody>
                   </table>
                 </div>
@@ -723,47 +590,49 @@
                         <th scope="col">Part</th>
                         <th scope="col">Type</th>
                         <th scope="col">Length</th>
+                        <th scope="col">RFC 10</th>
+                        <th scope="col">RFC 1000</th>
                         <th scope="col">Role</th>
                         <th scope="col">Used in</th>
                       </tr>
                     </thead>
                     <tbody class="parts-catalog__family" data-family="or-cds">
                       <tr class="parts-catalog__group">
-                        <th scope="colgroup" colspan="6">
+                        <th scope="colgroup" colspan="8">
                           <span class="parts-catalog__group-title">Final-panel OR CDSs</span>
                           <span class="parts-catalog__group-note">Nine tuning receptors. Human codon-optimised.</span>
                         </th>
                       </tr>
-                      <tr id="part-BBa_26VGDFA1" class="parts-catalog__row" data-part-record data-part-id="BBa_26VGDFA1" data-category="basic" data-final-panel="true" data-first-gen="false" data-rfc="na" data-search="BBa_26VGDFA1 Or7a CDS Or7a tuning-or CDS Input / specificity" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26VGDFA1</code><button type="button" class="parts-copy" data-copy-id="BBa_26VGDFA1" aria-label="Copy BBa_26VGDFA1">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">Or7a CDS</td><td data-label="Type">CDS</td><td data-label="Length">1,242 bp</td><td data-label="Role">Input / specificity</td><td data-label="Used in"><a href="#part-BBa_26ZAGFK0">Or7a-IRES-mCherry</a> (<code>BBa_26ZAGFK0</code>)</td></tr>
-                      <tr id="part-BBa_26AIIWHV" class="parts-catalog__row" data-part-record data-part-id="BBa_26AIIWHV" data-category="basic" data-final-panel="true" data-first-gen="false" data-rfc="na" data-search="BBa_26AIIWHV Or22a CDS Or22a tuning-or CDS Input / specificity" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26AIIWHV</code><button type="button" class="parts-copy" data-copy-id="BBa_26AIIWHV" aria-label="Copy BBa_26AIIWHV">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">Or22a CDS</td><td data-label="Type">CDS</td><td data-label="Length">1,194 bp</td><td data-label="Role">Input / specificity</td><td data-label="Used in"><a href="#part-BBa_26WOX4B1">Or22a-IRES-mCherry</a> (<code>BBa_26WOX4B1</code>)</td></tr>
-                      <tr id="part-BBa_26HJ1RUT" class="parts-catalog__row" data-part-record data-part-id="BBa_26HJ1RUT" data-category="basic" data-final-panel="true" data-first-gen="false" data-rfc="na" data-search="BBa_26HJ1RUT Or35a CDS Or35a tuning-or CDS Input / specificity" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26HJ1RUT</code><button type="button" class="parts-copy" data-copy-id="BBa_26HJ1RUT" aria-label="Copy BBa_26HJ1RUT">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">Or35a CDS</td><td data-label="Type">CDS</td><td data-label="Length">1,230 bp</td><td data-label="Role">Input / specificity</td><td data-label="Used in"><a href="#part-BBa_26LLF3LM">Or35a-IRES-mCherry</a> (<code>BBa_26LLF3LM</code>)</td></tr>
-                      <tr id="part-BBa_26UHN7NT" class="parts-catalog__row" data-part-record data-part-id="BBa_26UHN7NT" data-category="basic" data-final-panel="true" data-first-gen="false" data-rfc="na" data-search="BBa_26UHN7NT Or42a CDS Or42a tuning-or CDS Input / specificity" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26UHN7NT</code><button type="button" class="parts-copy" data-copy-id="BBa_26UHN7NT" aria-label="Copy BBa_26UHN7NT">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">Or42a CDS</td><td data-label="Type">CDS</td><td data-label="Length">1,221 bp</td><td data-label="Role">Input / specificity</td><td data-label="Used in"><a href="#part-BBa_26Q1Q094">Or42a-IRES-mCherry</a> (<code>BBa_26Q1Q094</code>)</td></tr>
-                      <tr id="part-BBa_26OJ8HGO" class="parts-catalog__row" data-part-record data-part-id="BBa_26OJ8HGO" data-category="basic" data-final-panel="true" data-first-gen="false" data-rfc="na" data-search="BBa_26OJ8HGO Or59b CDS Or59b tuning-or CDS Input / specificity" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26OJ8HGO</code><button type="button" class="parts-copy" data-copy-id="BBa_26OJ8HGO" aria-label="Copy BBa_26OJ8HGO">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">Or59b CDS</td><td data-label="Type">CDS</td><td data-label="Length">1,197 bp</td><td data-label="Role">Input / specificity</td><td data-label="Used in"><a href="#part-BBa_26Y7CI2H">Or59b-IRES-mCherry</a> (<code>BBa_26Y7CI2H</code>)</td></tr>
-                      <tr id="part-BBa_26XXP4K7" class="parts-catalog__row" data-part-record data-part-id="BBa_26XXP4K7" data-category="basic" data-final-panel="true" data-first-gen="false" data-rfc="na" data-search="BBa_26XXP4K7 Or67a CDS Or67a tuning-or CDS Input / specificity" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26XXP4K7</code><button type="button" class="parts-copy" data-copy-id="BBa_26XXP4K7" aria-label="Copy BBa_26XXP4K7">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">Or67a CDS</td><td data-label="Type">CDS</td><td data-label="Length">1,224 bp</td><td data-label="Role">Input / specificity</td><td data-label="Used in"><a href="#part-BBa_265G8CE1">Or67a-IRES-mCherry</a> (<code>BBa_265G8CE1</code>)</td></tr>
-                      <tr id="part-BBa_26DVVZIA" class="parts-catalog__row" data-part-record data-part-id="BBa_26DVVZIA" data-category="basic" data-final-panel="true" data-first-gen="false" data-rfc="na" data-search="BBa_26DVVZIA Or85b CDS Or85b tuning-or CDS Input / specificity" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26DVVZIA</code><button type="button" class="parts-copy" data-copy-id="BBa_26DVVZIA" aria-label="Copy BBa_26DVVZIA">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">Or85b CDS</td><td data-label="Type">CDS</td><td data-label="Length">1,173 bp</td><td data-label="Role">Input / specificity</td><td data-label="Used in"><a href="#part-BBa_26K1TU11">Or85b-IRES-mCherry</a> (<code>BBa_26K1TU11</code>)</td></tr>
-                      <tr id="part-BBa_26DG1NPK" class="parts-catalog__row" data-part-record data-part-id="BBa_26DG1NPK" data-category="basic" data-final-panel="true" data-first-gen="false" data-rfc="na" data-search="BBa_26DG1NPK Or98a CDS Or98a tuning-or CDS Input / specificity" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26DG1NPK</code><button type="button" class="parts-copy" data-copy-id="BBa_26DG1NPK" aria-label="Copy BBa_26DG1NPK">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">Or98a CDS</td><td data-label="Type">CDS</td><td data-label="Length">1,194 bp</td><td data-label="Role">Input / specificity</td><td data-label="Used in"><a href="#part-BBa_26TZLBMJ">Or98a-IRES-mCherry</a> (<code>BBa_26TZLBMJ</code>)</td></tr>
-                      <tr id="part-BBa_26HTXB02" class="parts-catalog__row" data-part-record data-part-id="BBa_26HTXB02" data-category="basic" data-final-panel="true" data-first-gen="false" data-rfc="na" data-search="BBa_26HTXB02 Or19a CDS Or19a tuning-or CDS Input / specificity" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26HTXB02</code><button type="button" class="parts-copy" data-copy-id="BBa_26HTXB02" aria-label="Copy BBa_26HTXB02">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">Or19a CDS</td><td data-label="Type">CDS</td><td data-label="Length">1,164 bp</td><td data-label="Role">Input / specificity</td><td data-label="Used in"><a href="#part-BBa_2629NIWH">Or19a-IRES-mCherry</a> (<code>BBa_2629NIWH</code>)</td></tr>
+                      <tr id="part-BBa_26VGDFA1" class="parts-catalog__row" data-part-record data-part-id="BBa_26VGDFA1" data-category="basic" data-final-panel="true" data-first-gen="false" data-rfc="na" data-rfc10="unknown" data-rfc1000="unknown" data-search="BBa_26VGDFA1 Or7a CDS Or7a tuning-or CDS Input / specificity" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26VGDFA1</code><button type="button" class="parts-copy" data-copy-id="BBa_26VGDFA1" aria-label="Copy BBa_26VGDFA1">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">Or7a CDS</td><td data-label="Type">CDS</td><td data-label="Length">1,242 bp</td><td data-label="RFC 10"><span class="rfc-unknown">Unknown</span></td><td data-label="RFC 1000"><span class="rfc-unknown">Unknown</span></td><td data-label="Role">Input / specificity</td><td data-label="Used in"><a href="#part-BBa_26ZAGFK0">Or7a-IRES-mCherry</a> (<code>BBa_26ZAGFK0</code>)</td></tr>
+                      <tr id="part-BBa_26AIIWHV" class="parts-catalog__row" data-part-record data-part-id="BBa_26AIIWHV" data-category="basic" data-final-panel="true" data-first-gen="false" data-rfc="na" data-rfc10="unknown" data-rfc1000="unknown" data-search="BBa_26AIIWHV Or22a CDS Or22a tuning-or CDS Input / specificity" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26AIIWHV</code><button type="button" class="parts-copy" data-copy-id="BBa_26AIIWHV" aria-label="Copy BBa_26AIIWHV">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">Or22a CDS</td><td data-label="Type">CDS</td><td data-label="Length">1,194 bp</td><td data-label="RFC 10"><span class="rfc-unknown">Unknown</span></td><td data-label="RFC 1000"><span class="rfc-unknown">Unknown</span></td><td data-label="Role">Input / specificity</td><td data-label="Used in"><a href="#part-BBa_26WOX4B1">Or22a-IRES-mCherry</a> (<code>BBa_26WOX4B1</code>)</td></tr>
+                      <tr id="part-BBa_26HJ1RUT" class="parts-catalog__row" data-part-record data-part-id="BBa_26HJ1RUT" data-category="basic" data-final-panel="true" data-first-gen="false" data-rfc="na" data-rfc10="unknown" data-rfc1000="unknown" data-search="BBa_26HJ1RUT Or35a CDS Or35a tuning-or CDS Input / specificity" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26HJ1RUT</code><button type="button" class="parts-copy" data-copy-id="BBa_26HJ1RUT" aria-label="Copy BBa_26HJ1RUT">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">Or35a CDS</td><td data-label="Type">CDS</td><td data-label="Length">1,230 bp</td><td data-label="RFC 10"><span class="rfc-unknown">Unknown</span></td><td data-label="RFC 1000"><span class="rfc-unknown">Unknown</span></td><td data-label="Role">Input / specificity</td><td data-label="Used in"><a href="#part-BBa_26LLF3LM">Or35a-IRES-mCherry</a> (<code>BBa_26LLF3LM</code>)</td></tr>
+                      <tr id="part-BBa_26UHN7NT" class="parts-catalog__row" data-part-record data-part-id="BBa_26UHN7NT" data-category="basic" data-final-panel="true" data-first-gen="false" data-rfc="na" data-rfc10="unknown" data-rfc1000="unknown" data-search="BBa_26UHN7NT Or42a CDS Or42a tuning-or CDS Input / specificity" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26UHN7NT</code><button type="button" class="parts-copy" data-copy-id="BBa_26UHN7NT" aria-label="Copy BBa_26UHN7NT">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">Or42a CDS</td><td data-label="Type">CDS</td><td data-label="Length">1,221 bp</td><td data-label="RFC 10"><span class="rfc-unknown">Unknown</span></td><td data-label="RFC 1000"><span class="rfc-unknown">Unknown</span></td><td data-label="Role">Input / specificity</td><td data-label="Used in"><a href="#part-BBa_26Q1Q094">Or42a-IRES-mCherry</a> (<code>BBa_26Q1Q094</code>)</td></tr>
+                      <tr id="part-BBa_26OJ8HGO" class="parts-catalog__row" data-part-record data-part-id="BBa_26OJ8HGO" data-category="basic" data-final-panel="true" data-first-gen="false" data-rfc="na" data-rfc10="unknown" data-rfc1000="unknown" data-search="BBa_26OJ8HGO Or59b CDS Or59b tuning-or CDS Input / specificity" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26OJ8HGO</code><button type="button" class="parts-copy" data-copy-id="BBa_26OJ8HGO" aria-label="Copy BBa_26OJ8HGO">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">Or59b CDS</td><td data-label="Type">CDS</td><td data-label="Length">1,197 bp</td><td data-label="RFC 10"><span class="rfc-unknown">Unknown</span></td><td data-label="RFC 1000"><span class="rfc-unknown">Unknown</span></td><td data-label="Role">Input / specificity</td><td data-label="Used in"><a href="#part-BBa_26Y7CI2H">Or59b-IRES-mCherry</a> (<code>BBa_26Y7CI2H</code>)</td></tr>
+                      <tr id="part-BBa_26XXP4K7" class="parts-catalog__row" data-part-record data-part-id="BBa_26XXP4K7" data-category="basic" data-final-panel="true" data-first-gen="false" data-rfc="na" data-rfc10="unknown" data-rfc1000="unknown" data-search="BBa_26XXP4K7 Or67a CDS Or67a tuning-or CDS Input / specificity" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26XXP4K7</code><button type="button" class="parts-copy" data-copy-id="BBa_26XXP4K7" aria-label="Copy BBa_26XXP4K7">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">Or67a CDS</td><td data-label="Type">CDS</td><td data-label="Length">1,224 bp</td><td data-label="RFC 10"><span class="rfc-unknown">Unknown</span></td><td data-label="RFC 1000"><span class="rfc-unknown">Unknown</span></td><td data-label="Role">Input / specificity</td><td data-label="Used in"><a href="#part-BBa_265G8CE1">Or67a-IRES-mCherry</a> (<code>BBa_265G8CE1</code>)</td></tr>
+                      <tr id="part-BBa_26DVVZIA" class="parts-catalog__row" data-part-record data-part-id="BBa_26DVVZIA" data-category="basic" data-final-panel="true" data-first-gen="false" data-rfc="na" data-rfc10="unknown" data-rfc1000="unknown" data-search="BBa_26DVVZIA Or85b CDS Or85b tuning-or CDS Input / specificity" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26DVVZIA</code><button type="button" class="parts-copy" data-copy-id="BBa_26DVVZIA" aria-label="Copy BBa_26DVVZIA">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">Or85b CDS</td><td data-label="Type">CDS</td><td data-label="Length">1,173 bp</td><td data-label="RFC 10"><span class="rfc-unknown">Unknown</span></td><td data-label="RFC 1000"><span class="rfc-unknown">Unknown</span></td><td data-label="Role">Input / specificity</td><td data-label="Used in"><a href="#part-BBa_26K1TU11">Or85b-IRES-mCherry</a> (<code>BBa_26K1TU11</code>)</td></tr>
+                      <tr id="part-BBa_26DG1NPK" class="parts-catalog__row" data-part-record data-part-id="BBa_26DG1NPK" data-category="basic" data-final-panel="true" data-first-gen="false" data-rfc="na" data-rfc10="unknown" data-rfc1000="unknown" data-search="BBa_26DG1NPK Or98a CDS Or98a tuning-or CDS Input / specificity" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26DG1NPK</code><button type="button" class="parts-copy" data-copy-id="BBa_26DG1NPK" aria-label="Copy BBa_26DG1NPK">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">Or98a CDS</td><td data-label="Type">CDS</td><td data-label="Length">1,194 bp</td><td data-label="RFC 10"><span class="rfc-unknown">Unknown</span></td><td data-label="RFC 1000"><span class="rfc-unknown">Unknown</span></td><td data-label="Role">Input / specificity</td><td data-label="Used in"><a href="#part-BBa_26TZLBMJ">Or98a-IRES-mCherry</a> (<code>BBa_26TZLBMJ</code>)</td></tr>
+                      <tr id="part-BBa_26HTXB02" class="parts-catalog__row" data-part-record data-part-id="BBa_26HTXB02" data-category="basic" data-final-panel="true" data-first-gen="false" data-rfc="na" data-rfc10="unknown" data-rfc1000="unknown" data-search="BBa_26HTXB02 Or19a CDS Or19a tuning-or CDS Input / specificity" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26HTXB02</code><button type="button" class="parts-copy" data-copy-id="BBa_26HTXB02" aria-label="Copy BBa_26HTXB02">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">Or19a CDS</td><td data-label="Type">CDS</td><td data-label="Length">1,164 bp</td><td data-label="RFC 10"><span class="rfc-unknown">Unknown</span></td><td data-label="RFC 1000"><span class="rfc-unknown">Unknown</span></td><td data-label="Role">Input / specificity</td><td data-label="Used in"><a href="#part-BBa_2629NIWH">Or19a-IRES-mCherry</a> (<code>BBa_2629NIWH</code>)</td></tr>
                     </tbody>
                     <tbody class="parts-catalog__family parts-catalog__family--shared" data-family="shared-basic">
                       <tr class="parts-catalog__group">
-                        <th scope="colgroup" colspan="6">
+                        <th scope="colgroup" colspan="8">
                           <span class="parts-catalog__group-title">Shared channel and reporter pieces</span>
                           <span class="parts-catalog__group-note">DmOrco, GCaMP6f, RSET leader, and the (GGGGS)<sub>3</sub> linker.</span>
                         </th>
                       </tr>
-                      <tr id="part-BBa_26LWIKBQ" class="parts-catalog__row" data-part-record data-part-id="BBa_26LWIKBQ" data-category="basic" data-final-panel="true" data-first-gen="false" data-rfc="no" data-search="BBa_26LWIKBQ DmOrco CDS DmOrco orco CDS Transduction" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26LWIKBQ</code><button type="button" class="parts-copy" data-copy-id="BBa_26LWIKBQ" aria-label="Copy BBa_26LWIKBQ">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">DmOrco CDS</td><td data-label="Type">CDS</td><td data-label="Length">1,461 bp</td><td data-label="Role">Transduction</td><td data-label="Used in"><a href="#part-BBa_26E11Z80">GCaMP6f-(GGGGS)₃-DmOrco</a> (<code>BBa_26E11Z80</code>)</td></tr>
-                      <tr id="part-BBa_26QHYP02" class="parts-catalog__row" data-part-record data-part-id="BBa_26QHYP02" data-category="basic" data-final-panel="true" data-first-gen="false" data-rfc="na" data-search="BBa_26QHYP02 GCaMP6f calcium-indicator CDS region Output / readout" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26QHYP02</code><button type="button" class="parts-copy" data-copy-id="BBa_26QHYP02" aria-label="Copy BBa_26QHYP02">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">GCaMP6f</td><td data-label="Type">CDS region</td><td data-label="Length">1,245 bp</td><td data-label="Role">Output / readout</td><td data-label="Used in"><a href="#part-BBa_26E11Z80">GCaMP6f-(GGGGS)₃-DmOrco</a> (<code>BBa_26E11Z80</code>)</td></tr>
-                      <tr id="part-BBa_262WP16P" class="parts-catalog__row" data-part-record data-part-id="BBa_262WP16P" data-category="basic" data-final-panel="true" data-first-gen="false" data-rfc="na" data-search="BBa_262WP16P RSET leader n-terminal-leader CDS region N-terminal leader" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_262WP16P</code><button type="button" class="parts-copy" data-copy-id="BBa_262WP16P" aria-label="Copy BBa_262WP16P">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">RSET leader</td><td data-label="Type">CDS region</td><td data-label="Length">105 bp</td><td data-label="Role">N-terminal leader</td><td data-label="Used in"><a href="#part-BBa_26E11Z80">GCaMP6f-(GGGGS)₃-DmOrco</a> (<code>BBa_26E11Z80</code>)</td></tr>
-                      <tr id="part-BBa_26E21OEQ" class="parts-catalog__row" data-part-record data-part-id="BBa_26E21OEQ" data-category="basic" data-final-panel="true" data-first-gen="false" data-rfc="na" data-search="BBa_26E21OEQ (GGGGS)₃ linker peptide-linker CDS region Peptide linker" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26E21OEQ</code><button type="button" class="parts-copy" data-copy-id="BBa_26E21OEQ" aria-label="Copy BBa_26E21OEQ">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">(GGGGS)<sub>3</sub> linker</td><td data-label="Type">CDS region</td><td data-label="Length">45 bp</td><td data-label="Role">Peptide linker</td><td data-label="Used in"><a href="#part-BBa_26E11Z80">GCaMP6f-(GGGGS)₃-DmOrco</a> (<code>BBa_26E11Z80</code>)</td></tr>
+                      <tr id="part-BBa_26LWIKBQ" class="parts-catalog__row" data-part-record data-part-id="BBa_26LWIKBQ" data-category="basic" data-final-panel="true" data-first-gen="false" data-rfc="no" data-rfc10="unknown" data-rfc1000="no" data-search="BBa_26LWIKBQ DmOrco CDS DmOrco orco CDS Transduction" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26LWIKBQ</code><button type="button" class="parts-copy" data-copy-id="BBa_26LWIKBQ" aria-label="Copy BBa_26LWIKBQ">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">DmOrco CDS</td><td data-label="Type">CDS</td><td data-label="Length">1,461 bp</td><td data-label="RFC 10"><span class="rfc-unknown">Unknown</span></td><td data-label="RFC 1000"><span class="rfc-no">No</span></td><td data-label="Role">Transduction</td><td data-label="Used in"><a href="#part-BBa_26E11Z80">GCaMP6f-(GGGGS)₃-DmOrco</a> (<code>BBa_26E11Z80</code>)</td></tr>
+                      <tr id="part-BBa_26QHYP02" class="parts-catalog__row" data-part-record data-part-id="BBa_26QHYP02" data-category="basic" data-final-panel="true" data-first-gen="false" data-rfc="na" data-rfc10="unknown" data-rfc1000="unknown" data-search="BBa_26QHYP02 GCaMP6f calcium-indicator CDS region Output / readout" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26QHYP02</code><button type="button" class="parts-copy" data-copy-id="BBa_26QHYP02" aria-label="Copy BBa_26QHYP02">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">GCaMP6f</td><td data-label="Type">CDS region</td><td data-label="Length">1,245 bp</td><td data-label="RFC 10"><span class="rfc-unknown">Unknown</span></td><td data-label="RFC 1000"><span class="rfc-unknown">Unknown</span></td><td data-label="Role">Output / readout</td><td data-label="Used in"><a href="#part-BBa_26E11Z80">GCaMP6f-(GGGGS)₃-DmOrco</a> (<code>BBa_26E11Z80</code>)</td></tr>
+                      <tr id="part-BBa_262WP16P" class="parts-catalog__row" data-part-record data-part-id="BBa_262WP16P" data-category="basic" data-final-panel="true" data-first-gen="false" data-rfc="na" data-rfc10="unknown" data-rfc1000="unknown" data-search="BBa_262WP16P RSET leader n-terminal-leader CDS region N-terminal leader" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_262WP16P</code><button type="button" class="parts-copy" data-copy-id="BBa_262WP16P" aria-label="Copy BBa_262WP16P">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">RSET leader</td><td data-label="Type">CDS region</td><td data-label="Length">105 bp</td><td data-label="RFC 10"><span class="rfc-unknown">Unknown</span></td><td data-label="RFC 1000"><span class="rfc-unknown">Unknown</span></td><td data-label="Role">N-terminal leader</td><td data-label="Used in"><a href="#part-BBa_26E11Z80">GCaMP6f-(GGGGS)₃-DmOrco</a> (<code>BBa_26E11Z80</code>)</td></tr>
+                      <tr id="part-BBa_26E21OEQ" class="parts-catalog__row" data-part-record data-part-id="BBa_26E21OEQ" data-category="basic" data-final-panel="true" data-first-gen="false" data-rfc="na" data-rfc10="unknown" data-rfc1000="unknown" data-search="BBa_26E21OEQ (GGGGS)₃ linker peptide-linker CDS region Peptide linker" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26E21OEQ</code><button type="button" class="parts-copy" data-copy-id="BBa_26E21OEQ" aria-label="Copy BBa_26E21OEQ">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">(GGGGS)<sub>3</sub> linker</td><td data-label="Type">CDS region</td><td data-label="Length">45 bp</td><td data-label="RFC 10"><span class="rfc-unknown">Unknown</span></td><td data-label="RFC 1000"><span class="rfc-unknown">Unknown</span></td><td data-label="Role">Peptide linker</td><td data-label="Used in"><a href="#part-BBa_26E11Z80">GCaMP6f-(GGGGS)₃-DmOrco</a> (<code>BBa_26E11Z80</code>)</td></tr>
                     </tbody>
                     <tbody class="parts-catalog__family parts-catalog__family--legacy" data-family="legacy">
                       <tr class="parts-catalog__group">
-                        <th scope="colgroup" colspan="6">
+                        <th scope="colgroup" colspan="8">
                           <span class="parts-catalog__group-title">First-generation receptor</span>
                           <span class="parts-catalog__group-note">Traceable, not a tenth panel member.</span>
                         </th>
                       </tr>
-                      <tr id="part-BBa_26ACVV3R" class="parts-catalog__row" data-part-record data-part-id="BBa_26ACVV3R" data-category="basic" data-final-panel="false" data-first-gen="true" data-rfc="na" data-search="BBa_26ACVV3R Or67b CDS Or67b tuning-or CDS Input / specificity" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26ACVV3R</code><button type="button" class="parts-copy" data-copy-id="BBa_26ACVV3R" aria-label="Copy BBa_26ACVV3R">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">Or67b CDS <span class="parts-badge" aria-describedby="or67b-note">First-generation</span><p class="parts-badge__detail" id="or67b-note">Registered for traceability and reuse; not part of the final nine-receptor panel.</p></td><td data-label="Type">CDS</td><td data-label="Length">1,266 bp</td><td data-label="Role">Input / specificity</td><td data-label="Used in">Not used in a counted composite. <a href="#map-Or67b-legacy">Legacy pTwist map</a> only.</td></tr>
+                      <tr id="part-BBa_26ACVV3R" class="parts-catalog__row" data-part-record data-part-id="BBa_26ACVV3R" data-category="basic" data-final-panel="false" data-first-gen="true" data-rfc="na" data-rfc10="unknown" data-rfc1000="unknown" data-search="BBa_26ACVV3R Or67b CDS Or67b tuning-or CDS Input / specificity" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_26ACVV3R</code><button type="button" class="parts-copy" data-copy-id="BBa_26ACVV3R" aria-label="Copy BBa_26ACVV3R">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">Or67b CDS <span class="parts-badge" aria-describedby="or67b-note">First-generation</span><p class="parts-badge__detail" id="or67b-note">Registered for traceability and reuse; not part of the final nine-receptor panel.</p></td><td data-label="Type">CDS</td><td data-label="Length">1,266 bp</td><td data-label="RFC 10"><span class="rfc-unknown">Unknown</span></td><td data-label="RFC 1000"><span class="rfc-unknown">Unknown</span></td><td data-label="Role">Input / specificity</td><td data-label="Used in">Not used in a counted composite. <a href="#map-Or67b-legacy">Legacy pTwist map</a> only.</td></tr>
                     </tbody>
                   </table>
                 </div>
@@ -779,14 +648,16 @@
                         <th scope="col">Registry ID</th>
                         <th scope="col">Part</th>
                         <th scope="col">Length</th>
+                        <th scope="col">RFC 10</th>
+                        <th scope="col">RFC 1000</th>
                         <th scope="col">Role</th>
                         <th scope="col">Used in</th>
                         <th scope="col">Registry</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr id="part-BBa_K5490030" class="parts-catalog__row" data-part-record data-part-id="BBa_K5490030" data-category="reused" data-final-panel="true" data-first-gen="false" data-rfc="na" data-search="BBa_K5490030 EMCV IRES ires reused Registry" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_K5490030</code><button type="button" class="parts-copy" data-copy-id="BBa_K5490030" aria-label="Copy BBa_K5490030">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">EMCV IRES <span class="parts-badge parts-badge--reused">Reused</span></td><td data-label="Length">587 bp</td><td data-label="Role">Cap-independent re-initiation</td><td data-label="Used in">All nine sensing modules: <a href="#part-BBa_26ZAGFK0">Or7a</a>, <a href="#part-BBa_26WOX4B1">Or22a</a>, <a href="#part-BBa_26LLF3LM">Or35a</a>, <a href="#part-BBa_26Q1Q094">Or42a</a>, <a href="#part-BBa_26Y7CI2H">Or59b</a>, <a href="#part-BBa_265G8CE1">Or67a</a>, <a href="#part-BBa_26K1TU11">Or85b</a>, <a href="#part-BBa_26TZLBMJ">Or98a</a>, <a href="#part-BBa_2629NIWH">Or19a</a></td><td data-label="Registry"><span class="parts-registry-na">ID only</span><span class="visually-hidden"> No verified Registry part URL is recorded on this wiki.</span></td></tr>
-                      <tr id="part-BBa_K4177005" class="parts-catalog__row" data-part-record data-part-id="BBa_K4177005" data-category="reused" data-final-panel="true" data-first-gen="false" data-rfc="na" data-search="BBa_K4177005 mCherry expression-marker reused Registry" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_K4177005</code><button type="button" class="parts-copy" data-copy-id="BBa_K4177005" aria-label="Copy BBa_K4177005">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">mCherry <span class="parts-badge parts-badge--reused">Reused</span></td><td data-label="Length">711 bp</td><td data-label="Role">Expression marker — not the measurement</td><td data-label="Used in">All nine sensing modules: <a href="#part-BBa_26ZAGFK0">Or7a</a>, <a href="#part-BBa_26WOX4B1">Or22a</a>, <a href="#part-BBa_26LLF3LM">Or35a</a>, <a href="#part-BBa_26Q1Q094">Or42a</a>, <a href="#part-BBa_26Y7CI2H">Or59b</a>, <a href="#part-BBa_265G8CE1">Or67a</a>, <a href="#part-BBa_26K1TU11">Or85b</a>, <a href="#part-BBa_26TZLBMJ">Or98a</a>, <a href="#part-BBa_2629NIWH">Or19a</a></td><td data-label="Registry"><span class="parts-registry-na">ID only</span><span class="visually-hidden"> No verified Registry part URL is recorded on this wiki.</span></td></tr>
+                      <tr id="part-BBa_K5490030" class="parts-catalog__row" data-part-record data-part-id="BBa_K5490030" data-category="reused" data-final-panel="true" data-first-gen="false" data-rfc="na" data-rfc10="unknown" data-rfc1000="unknown" data-search="BBa_K5490030 EMCV IRES ires reused Registry" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_K5490030</code><button type="button" class="parts-copy" data-copy-id="BBa_K5490030" aria-label="Copy BBa_K5490030">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">EMCV IRES <span class="parts-badge parts-badge--reused">Reused</span></td><td data-label="Length">587 bp</td><td data-label="RFC 10"><span class="rfc-unknown">Unknown</span></td><td data-label="RFC 1000"><span class="rfc-unknown">Unknown</span></td><td data-label="Role">Cap-independent re-initiation</td><td data-label="Used in">All nine sensing modules: <a href="#part-BBa_26ZAGFK0">Or7a</a>, <a href="#part-BBa_26WOX4B1">Or22a</a>, <a href="#part-BBa_26LLF3LM">Or35a</a>, <a href="#part-BBa_26Q1Q094">Or42a</a>, <a href="#part-BBa_26Y7CI2H">Or59b</a>, <a href="#part-BBa_265G8CE1">Or67a</a>, <a href="#part-BBa_26K1TU11">Or85b</a>, <a href="#part-BBa_26TZLBMJ">Or98a</a>, <a href="#part-BBa_2629NIWH">Or19a</a></td><td data-label="Registry"><span class="parts-registry-na">ID only</span><span class="visually-hidden"> No verified Registry part URL is recorded on this wiki.</span></td></tr>
+                      <tr id="part-BBa_K4177005" class="parts-catalog__row" data-part-record data-part-id="BBa_K4177005" data-category="reused" data-final-panel="true" data-first-gen="false" data-rfc="na" data-rfc10="unknown" data-rfc1000="unknown" data-search="BBa_K4177005 mCherry expression-marker reused Registry" data-sequence-source="registry"><th scope="row" class="parts-catalog__id" data-label="Registry ID"><div class="parts-id-cell"><code>BBa_K4177005</code><button type="button" class="parts-copy" data-copy-id="BBa_K4177005" aria-label="Copy BBa_K4177005">Copy ID</button></div></th><td class="parts-catalog__name" data-label="Part">mCherry <span class="parts-badge parts-badge--reused">Reused</span></td><td data-label="Length">711 bp</td><td data-label="RFC 10"><span class="rfc-unknown">Unknown</span></td><td data-label="RFC 1000"><span class="rfc-unknown">Unknown</span></td><td data-label="Role">Expression marker — not the measurement</td><td data-label="Used in">All nine sensing modules: <a href="#part-BBa_26ZAGFK0">Or7a</a>, <a href="#part-BBa_26WOX4B1">Or22a</a>, <a href="#part-BBa_26LLF3LM">Or35a</a>, <a href="#part-BBa_26Q1Q094">Or42a</a>, <a href="#part-BBa_26Y7CI2H">Or59b</a>, <a href="#part-BBa_265G8CE1">Or67a</a>, <a href="#part-BBa_26K1TU11">Or85b</a>, <a href="#part-BBa_26TZLBMJ">Or98a</a>, <a href="#part-BBa_2629NIWH">Or19a</a></td><td data-label="Registry"><span class="parts-registry-na">ID only</span><span class="visually-hidden"> No verified Registry part URL is recorded on this wiki.</span></td></tr>
                     </tbody>
                   </table>
                 </div>
@@ -794,278 +665,157 @@
             </div>
           </section>
 
-          <section class="section-block" id="design-decisions" data-reveal>
-            <h2>Design decisions that matter</h2>
-            <div class="parts-decisions">
-              <article class="parts-decision-card">
-                <h3>Why GCaMP6f is N-terminal to Orco</h3>
-                <figure class="parts-decision-topo" aria-labelledby="topo-decision-title">
-                  <svg viewBox="0 0 280 150" width="280" height="150" role="img" aria-labelledby="topo-decision-title topo-decision-desc">
-                    <title id="topo-decision-title">Inverted Orco topology with cytosolic N-terminal GCaMP6f</title>
-                    <desc id="topo-decision-desc">Extracellular space above the membrane, cytosol below. Orco C-terminus is extracellular. Orco N-terminus and GCaMP6f are cytosolic.</desc>
-                    <text x="8" y="18" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#555555">EXTRACELLULAR</text>
-                    <text x="168" y="38" font-family="Georgia, serif" font-size="11" fill="#555555">C-terminus</text>
-                    <rect x="8" y="48" width="264" height="8" fill="#d8d8d2"></rect>
-                    <rect x="8" y="62" width="264" height="8" fill="#d8d8d2"></rect>
-                    <rect x="118" y="40" width="36" height="38" fill="#f3eee4" stroke="#8a5a18" stroke-width="1.3"></rect>
-                    <text x="8" y="96" font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#555555">CYTOSOL</text>
-                    <text x="8" y="114" font-family="Georgia, serif" font-size="11" fill="#0a0a0a">N-terminus · GCaMP6f</text>
-                    <rect x="118" y="118" width="90" height="22" fill="#e7f7ec" stroke="#0b6b35" stroke-width="1.3"></rect>
-                    <text x="163" y="133" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#0b6b35">GCaMP6f</text>
-                  </svg>
-                  <figcaption>
-                    <span class="wiki-figure__badge">Topology schematic — not a structure</span>
-                    <span class="wiki-figure__meta-inline"> Illustration by NTHU iGEM 2026.</span>
-                  </figcaption>
-                </figure>
-                <p>
-                  Insect ORs and Orco adopt inverted membrane topology relative to vertebrate GPCRs: N-terminus intracellular, C-terminus extracellular
-                  <span class="cite-wrap">
-                    <a class="cite" href="#ref-benton-2006" id="cite-benton-2006-b" aria-describedby="cite-preview-benton-2006">[3]</a>
-                    <span class="cite-preview" role="tooltip">Benton et al., 2006 — full entry in References &amp; Credits.</span>
-                  </span>,
-                  confirmed structurally for Orco
-                  <span class="cite-wrap">
-                    <a class="cite" href="#ref-butterwick-2018" id="cite-butterwick-2018-b" aria-describedby="cite-preview-butterwick-2018">[4]</a>
-                    <span class="cite-preview" role="tooltip">Butterwick et al., 2018 — full entry in References &amp; Credits.</span>
-                  </span>.
-                  A C-terminal calcium sensor would sit in millimolar extracellular Ca²⁺ and could not report channel opening. N-terminal GCaMP6f stays cytosolic at the channel mouth.
-                </p>
-              </article>
-              <article class="parts-decision-card">
-                <h3>Codon-optimised for human expression</h3>
-                <p>
-                  All ten receptor coding sequences and DmOrco were codon-optimised for human expression while preserving the encoded protein. Native <i>Drosophila</i> codon usage is a documented cause of poor OR expression in mammalian cells; optimisation can rescue stable expression in HEK293
-                  <span class="cite-wrap">
-                    <a class="cite" href="#ref-roberts-2021" id="cite-roberts-2021" aria-describedby="cite-preview-roberts-2021">[2]</a>
-                    <span class="cite-preview" id="cite-preview-roberts-2021" role="tooltip">Roberts et al., 2021 — full entry in References &amp; Credits.</span>
-                  </span>.
-                  Each optimised CDS was translated and compared against its FlyBase reference: the proteins are identical to the reference sequences.
-                </p>
-              </article>
-              <article class="parts-decision-card">
-                <h3>Reuse before duplication</h3>
-                <p>
-                  We searched the Registry before creating new parts. EMCV IRES and mCherry already existed as byte-identical entries, so we reused <code>BBa_K5490030</code> and <code>BBa_K4177005</code> rather than submitting duplicates. A similarly named part, <code>BBa_25V0ZX3W</code> (“mCherry NLS”), is sequence-identical to plain mCherry and was not used.
-                </p>
-              </article>
-              <article class="parts-decision-card">
-                <h3>Keeping first-generation work traceable</h3>
-                <p>
-                  <code>BBa_26ACVV3R</code> documents the first-generation Or67b CDS. It is not one of the nine final-panel receptors and it is not a tenth sensing composite. The part is registered so the receptor we began with remains reusable. Its pTwist construct image is filed under first-generation design, not among the ten final composites.
-                </p>
-              </article>
-            </div>
-          </section>
-
-          <section class="section-block" id="reuse-notes" data-reveal>
-            <h2>Before you reuse these parts</h2>
-            <p>Four points recorded on our Registry part pages because we could not find them documented elsewhere. They describe limitations, not a claim that the collection is finished.</p>
-            <div class="parts-notes">
-              <details>
-                <summary>Published HEK293 evidence is not the same as a VOC-responsive panel</summary>
-                <p>
-                  Published HEK293 evidence exists for four receptors in our final panel, but only two belong to the previously reported VOC-responsive panel.
-                  Zboray <i>et al.</i>
-                  <span class="cite-wrap">
-                    <a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023-a" aria-describedby="cite-preview-zboray-2023">[5]</a>
-                    <span class="cite-preview" id="cite-preview-zboray-2023" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span>
-                  </span>
-                  reported seven VOC-responsive <i>Drosophila</i> OR cell lines; among our nine final receptors, <strong>Or85b</strong> and <strong>Or98a</strong> overlap that responsive panel.
-                  The same study also generated <strong>Or7a</strong> and <strong>Or19a</strong> HEK293 lines that expressed the reporter and responded to the Orco agonist VUAA1, but did not show VOC-specific responses to the tested ligand panel.
-                  Each part page states whether published EC₅₀ data exist for that receptor. This is literature context, not AeroSense assay data.
-                </p>
-              </details>
-              <details>
-                <summary>Expression or channel function does not prove VOC-specific detection</summary>
-                <p>
-                  Zboray <i>et al.</i> reported OR lines that expressed well and responded to VUAA1 yet gave <strong>no VOC-specific response</strong> — including lines for Or7a and Or19a, two receptors in our panel
-                  <span class="cite-wrap">
-                    <a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023-b" aria-describedby="cite-preview-zboray-2023">[5]</a>
-                    <span class="cite-preview" role="tooltip">Zboray et al., 2023 — full entry in References &amp; Credits.</span>
-                  </span>.
-                  Receptor-level functional validation is a separate milestone. Expression of the cassette, or a response to an Orco agonist, is not evidence that a given VOC is detected.
-                </p>
-              </details>
-              <details>
-                <summary>mCherry reports transcription, not membrane-localized OR function</summary>
-                <p>
-                  In the bicistronic sensing modules, mCherry is translated from the same transcript but as a <strong>separate protein</strong>.
-                  Red fluorescence, if observed, reports transcription and IRES activity. It does <strong>not</strong> report receptor folding or trafficking to the plasma membrane, and it is not the AeroSense measurement.
-                  These constructs carry no epitope tag, so a calcium response — if obtained — would be the available evidence of receptor expression at the membrane. That assay is not reported on this page.
-                </p>
-              </details>
-              <details>
-                <summary>A Registry part named “mCherry NLS” is mislabelled</summary>
-                <p>
-                  <code>BBa_25V0ZX3W</code> is named “mCherry NLS”, but its sequence is identical to plain mCherry with no nuclear localisation signal.
-                  We identified this during the duplicate check and selected <code>BBa_K4177005</code> instead.
-                </p>
-              </details>
-            </div>
-          </section>
-
-          <section class="section-block" id="assembly-qc" data-reveal>
-            <h2>Assembly &amp; sequence QC</h2>
+<section class="section-block" id="characterization" data-reveal>
+            <h2>Characterization &amp; evidence</h2>
             <p>
-              Constructs were synthesised for seamless cloning into <strong>pcDNA3.1(+)</strong> and expression in mammalian cells.
-              RFC 1000 compatibility is a Registry / assembly-standard property rather than a requirement of the experimental workflow. Internal sites do not make a construct unusable in our cloning path.
+              Collection-level status only. This page does not invent assay results.
+              Authoritative methods and figures live on Design, Experiments, Results, and Engineering.
             </p>
-
-            <h3 class="parts-qc-heading">RFC 1000 status</h3>
-            <p class="parts-rfc-lede">Registry / assembly-standard status. Every row below was synthesised for pcDNA3.1(+); RFC incompatibility does not mean the DNA is experimentally unusable.</p>
-            <div class="table-scroll" tabindex="0" role="region" aria-label="RFC 1000 status of composite parts">
-              <table class="goal-table parts-rfc-table">
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Collection evidence map">
+              <table class="goal-table parts-evidence-map">
                 <thead>
                   <tr>
-                    <th scope="col">Composite</th>
-                    <th scope="col">Registry ID</th>
-                    <th scope="col">RFC 1000</th>
-                    <th scope="col">Experimental cloning</th>
-                    <th scope="col">Note</th>
+                    <th scope="col">Milestone</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Where to read</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="parts-rfc-table__group">
-                    <th scope="colgroup" colspan="5">RFC 1000 compatible sensing composites</th>
+                  <tr>
+                    <th scope="row">Assembly</th>
+                    <td><span class="ev-status ev-status--compact ev-status--design"><span class="ev-status__mark" aria-hidden="true"></span><span class="ev-status__label">DESIGN</span></span> Synthesised for pcDNA3.1(+); composites indexed here.</td>
+                    <td><a href="design.html#construct-strategy">Design · construct strategy</a></td>
                   </tr>
                   <tr>
-                    <th scope="row" data-label="Composite">Or85b-IRES-mCherry</th>
-                    <td data-label="Registry ID"><code>BBa_26K1TU11</code></td>
-                    <td data-label="RFC 1000"><span class="rfc-yes">Compatible</span></td>
-                    <td data-label="Experimental cloning">pcDNA3.1(+)</td>
-                    <td data-label="Note">Sensing family</td>
+                    <th scope="row">Expression</th>
+                    <td><span class="page-glance__pending">Pending.</span> No AeroSense expression assay is claimed on this page.</td>
+                    <td><a href="experiments.html">Experiments</a> · <a href="results.html">Results</a></td>
                   </tr>
                   <tr>
-                    <th scope="row" data-label="Composite">Or59b-IRES-mCherry</th>
-                    <td data-label="Registry ID"><code>BBa_26Y7CI2H</code></td>
-                    <td data-label="RFC 1000"><span class="rfc-yes">Compatible</span></td>
-                    <td data-label="Experimental cloning">pcDNA3.1(+)</td>
-                    <td data-label="Note">Sensing family</td>
+                    <th scope="row">Functional sensing</th>
+                    <td><span class="page-glance__pending">Pending.</span> Literature HEK293 context exists for some ORs; AeroSense VOC assays are not claimed.</td>
+                    <td><a href="design.html#how-aerosense-senses">Design</a> · <a href="results.html">Results</a></td>
                   </tr>
                   <tr>
-                    <th scope="row" data-label="Composite">Or42a-IRES-mCherry</th>
-                    <td data-label="Registry ID"><code>BBa_26Q1Q094</code></td>
-                    <td data-label="RFC 1000"><span class="rfc-yes">Compatible</span></td>
-                    <td data-label="Experimental cloning">pcDNA3.1(+)</td>
-                    <td data-label="Note">Sensing family</td>
+                    <th scope="row">Reporter response</th>
+                    <td><span class="page-glance__pending">Pending.</span> GCaMP6f is the designed readout; no measured AeroSense fluorescence trace is claimed here.</td>
+                    <td><a href="design.html#topology">Design · topology</a> · <a href="results.html">Results</a></td>
                   </tr>
                   <tr>
-                    <th scope="row" data-label="Composite">Or98a-IRES-mCherry</th>
-                    <td data-label="Registry ID"><code>BBa_26TZLBMJ</code></td>
-                    <td data-label="RFC 1000"><span class="rfc-yes">Compatible</span></td>
-                    <td data-label="Experimental cloning">pcDNA3.1(+)</td>
-                    <td data-label="Note">Sensing family</td>
-                  </tr>
-                  <tr class="parts-rfc-table__group">
-                    <th scope="colgroup" colspan="5">Not RFC 1000 compatible — Registry listing only</th>
+                    <th scope="row">Sequence / RFC QC</th>
+                    <td><span class="ev-status ev-status--compact ev-status--design"><span class="ev-status__mark" aria-hidden="true"></span><span class="ev-status__label">DESIGN</span></span> In-silico checks documented; RFC listing summarised under Reuse &amp; QC.</td>
+                    <td><a href="design.html#verification">Design · verification</a> · <a href="#reuse-qc">Reuse &amp; QC</a></td>
                   </tr>
                   <tr>
-                    <th scope="row" data-label="Composite">Or7a-IRES-mCherry</th>
-                    <td data-label="Registry ID"><code>BBa_26ZAGFK0</code></td>
-                    <td data-label="RFC 1000"><span class="rfc-no">Not RFC 1000 compatible</span></td>
-                    <td data-label="Experimental cloning">pcDNA3.1(+)</td>
-                    <td data-label="Note">Internal BsaI, SapI or PstI inherited from the native coding sequence.</td>
-                  </tr>
-                  <tr>
-                    <th scope="row" data-label="Composite">Or22a-IRES-mCherry</th>
-                    <td data-label="Registry ID"><code>BBa_26WOX4B1</code></td>
-                    <td data-label="RFC 1000"><span class="rfc-no">Not RFC 1000 compatible</span></td>
-                    <td data-label="Experimental cloning">pcDNA3.1(+)</td>
-                    <td data-label="Note">Internal BsaI, SapI or PstI inherited from the native coding sequence.</td>
-                  </tr>
-                  <tr>
-                    <th scope="row" data-label="Composite">Or35a-IRES-mCherry</th>
-                    <td data-label="Registry ID"><code>BBa_26LLF3LM</code></td>
-                    <td data-label="RFC 1000"><span class="rfc-no">Not RFC 1000 compatible</span></td>
-                    <td data-label="Experimental cloning">pcDNA3.1(+)</td>
-                    <td data-label="Note">Internal BsaI, SapI or PstI inherited from the native coding sequence.</td>
-                  </tr>
-                  <tr>
-                    <th scope="row" data-label="Composite">Or67a-IRES-mCherry</th>
-                    <td data-label="Registry ID"><code>BBa_265G8CE1</code></td>
-                    <td data-label="RFC 1000"><span class="rfc-no">Not RFC 1000 compatible</span></td>
-                    <td data-label="Experimental cloning">pcDNA3.1(+)</td>
-                    <td data-label="Note">Internal BsaI, SapI or PstI inherited from the native coding sequence.</td>
-                  </tr>
-                  <tr>
-                    <th scope="row" data-label="Composite">Or19a-IRES-mCherry</th>
-                    <td data-label="Registry ID"><code>BBa_2629NIWH</code></td>
-                    <td data-label="RFC 1000"><span class="rfc-no">Not RFC 1000 compatible</span></td>
-                    <td data-label="Experimental cloning">pcDNA3.1(+)</td>
-                    <td data-label="Note">Internal BsaI, SapI or PstI inherited from the native coding sequence.</td>
-                  </tr>
-                  <tr>
-                    <th scope="row" data-label="Composite">GCaMP6f-(GGGGS)<sub>3</sub>-DmOrco</th>
-                    <td data-label="Registry ID"><code>BBa_26E11Z80</code></td>
-                    <td data-label="RFC 1000"><span class="rfc-no">Not RFC 1000 compatible</span></td>
-                    <td data-label="Experimental cloning">pcDNA3.1(+)</td>
-                    <td data-label="Note">BsaI inherited from DmOrco. Shared reporting module.</td>
+                    <th scope="row">System-level function</th>
+                    <td><span class="page-glance__pending">Pending.</span> Nine-line pattern recognition is not demonstrated on this page.</td>
+                    <td><a href="results.html">Results</a> · <a href="model.html">Model</a></td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            <p class="parts-insilico-note" role="note">The constructs were synthesised for seamless cloning into pcDNA3.1(+), so RFC compatibility is a Registry/assembly-standard property rather than a requirement of the experimental workflow. See <a href="engineering.html#biological-cycles">Engineering</a> for why we did not recode internal sites after synthesis.</p>
-            <p><strong>Practical wet-lab note:</strong> avoid PstI for diagnostic digests where internal PstI sites are present. Most of our coding sequences contain internal PstI sites.</p>
+          </section>
 
-            <h3 class="parts-qc-heading">In-silico sequence QC</h3>
-            <p>Computational checks performed before synthesis. This is not experimental Sanger or whole-plasmid sequencing.</p>
-            <ul class="parts-qc-check" aria-label="In-silico sequence QC checklist">
-              <li>
-                <span class="parts-qc-check__item">Reading frame</span>
-                <span class="parts-qc-check__status">Checked in silico</span>
-              </li>
-              <li>
-                <span class="parts-qc-check__item">Internal stop codons</span>
-                <span class="parts-qc-check__status">Checked in silico — none in the intended ORFs</span>
-              </li>
-              <li>
-                <span class="parts-qc-check__item">Kozak context</span>
-                <span class="parts-qc-check__status">Checked in silico</span>
-              </li>
-              <li>
-                <span class="parts-qc-check__item">Domain order</span>
-                <span class="parts-qc-check__status">Checked in silico against the two-module architectures</span>
-              </li>
-              <li>
-                <span class="parts-qc-check__item">Junction integrity</span>
-                <span class="parts-qc-check__status">Checked in silico</span>
-              </li>
-              <li>
-                <span class="parts-qc-check__item">Cloning-site checks</span>
-                <span class="parts-qc-check__status">Checked in silico for the intended pcDNA3.1(+) strategy</span>
-              </li>
-              <li>
-                <span class="parts-qc-check__item">Tandem repeats / homopolymers</span>
-                <span class="parts-qc-check__status">Screened in silico</span>
-              </li>
-              <li>
-                <span class="parts-qc-check__item">Translation against FlyBase reference</span>
-                <span class="parts-qc-check__status">All eleven codon-optimised CDSs encode proteins identical to the reference</span>
-              </li>
-              <li>
-                <span class="parts-qc-check__item">Junction-created restriction sites</span>
-                <span class="parts-qc-check__status">No new sites at any junction in any of the ten composites; each composite’s site count equals the sum of its sub-parts</span>
-              </li>
-            </ul>
-            <p class="parts-insilico-note" role="note">In-silico sequence QC is computational verification before synthesis, not experimental sequence confirmation. Wet-lab sequencing belongs on <a href="experiments.html">Experiments</a> and <a href="results.html">Results</a>.</p>
+<section class="section-block" id="reuse-qc" data-reveal>
+            <h2>Reuse &amp; QC</h2>
+            <p>
+              One table for mammalian expression, topology, mCherry interpretation, functional caveats, RFC&nbsp;1000, restriction sites, assembly, and verification.
+              Do not treat Registry listing or literature HEK293 notes as AeroSense VOC proof.
+            </p>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Reuse and QC notes">
+              <table class="goal-table parts-reuse-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Topic</th>
+                    <th scope="col">What to know</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Mammalian expression</th>
+                    <td>
+                      Ten receptor CDS + DmOrco were codon-optimised for human expression while preserving FlyBase-identical proteins
+                      <span class="cite-wrap"><a class="cite" href="#ref-roberts-2021" id="cite-roberts-2021" aria-describedby="cite-preview-roberts-2021">[2]</a><span class="cite-preview" id="cite-preview-roberts-2021" role="tooltip">Roberts et al., 2021 — full entry in References.</span></span>.
+                      Constructs target pcDNA3.1(+) / HEK expression context.
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Topology pointer</th>
+                    <td>
+                      N-terminal GCaMP6f on DmOrco follows insect OR inverted topology. Full rationale:
+                      <a href="design.html#topology">Design · topology</a>
+                      (iteration: <a href="engineering.html#wl-cycle-2">Engineering · Wet Lab Cycle 2</a>).
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">mCherry interpretation</th>
+                    <td>
+                      QC / transcription marker only — not the odor measurement.
+                      We reused <code>BBa_K4177005</code>; <code>BBa_25V0ZX3W</code> (“mCherry NLS”) is sequence-identical to plain mCherry and was not used.
+                      <a href="design.html#what-mcherry-reports">Design · mCherry</a>.
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Functional validation caveat</th>
+                    <td>
+                      Zboray <i>et al.</i>
+                      <span class="cite-wrap"><a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023-a" aria-describedby="cite-preview-zboray-2023">[5]</a><span class="cite-preview" id="cite-preview-zboray-2023" role="tooltip">Zboray et al., 2023 — full entry in References.</span></span>
+                      reported Or85b / Or98a in a VOC-responsive HEK293 panel; Or7a / Or19a expressed and answered VUAA1 but not the tested VOC panel.
+                      Expression or VUAA1 response ≠ VOC-specific detection. Literature context only — not AeroSense assays.
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">RFC 1000</th>
+                    <td>
+                      Compatible sensing composites: Or42a, Or59b, Or85b, Or98a.
+                      Not RFC&nbsp;1000 compatible (internal BsaI / SapI / PstI from native CDS, or BsaI from DmOrco on reporting): Or7a, Or22a, Or35a, Or67a, Or19a, and <code>BBa_26E11Z80</code>.
+                      RFC status is a Registry / assembly-standard label; DNA remains usable in the pcDNA3.1(+) path
+                      (<a href="engineering.html#biological-cycles">Engineering</a>).
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">RFC 10</th>
+                    <td>
+                      Independent of RFC 1000. Per-part RFC 10 compatibility is listed as Unknown unless a Registry RFC 10 field has been verified in this wiki index. RFC 10 is not inferred from RFC 1000.
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Internal restriction sites</th>
+                    <td>
+                      Avoid PstI for diagnostic digests where internal PstI is present — most coding sequences contain it.
+                      We did not recode sites after synthesis; see Engineering for that decision.
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Assembly workflow</th>
+                    <td>
+                      Seamless cloning into pcDNA3.1(+). Reused EMCV IRES (<code>BBa_K5490030</code>) and mCherry (<code>BBa_K4177005</code>) instead of duplicating Registry sequences.
+                      First-generation Or67b CDS (<code>BBa_26ACVV3R</code>) stays registered for traceability — not a tenth final-panel composite.
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Verification</th>
+                    <td>
+                      Design-time computational checks (frame, stops, Kozak, junctions, cloning sites, FlyBase translation):
+                      <a href="design.html#verification">Design · verification</a>.
+                      Wet-lab Sanger method: <a href="experiments.html">Experiments</a>.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </section>
 
           <section class="section-block" id="plasmid-atlas" data-reveal>
             <h2>Plasmid atlas</h2>
             <p>
-              Compact maps of the experimental plasmids. Click a map to open it full size.
-              These are team construct maps, not chromatograms or functional data.
-            </p>
-            <p class="parts-atlas-note" role="note">
-              <strong>Insert versus backbone.</strong>
-              The plasmid maps show the full experimental plasmid context, including pcDNA3.1(+).
-              The Registry composite architecture may represent only the registered insert / part sequence.
-              The pcDNA3.1(+) backbone is cloning and expression context; it is not part of the registered composite BioBrick.
+              Team construct maps (not chromatograms or functional data).
+              Maps show full pcDNA3.1(+) context; registered composites are the inserts.
             </p>
 
-            <h3 class="parts-atlas__group-title">Final AeroSense sensing modules</h3>
-            <p class="parts-atlas__group-lede">Nine OR–IRES–mCherry plasmids. Only the OR CDS differs.</p>
+            <details class="parts-atlas-group" open>
+              <summary class="parts-atlas-group__summary">Final sensing modules <span>(9 OR–IRES–mCherry)</span></summary>
+              <p class="parts-atlas__group-lede">Only the OR CDS differs between plasmids.</p>
             <div class="parts-atlas parts-atlas--sensing">
               <figure id="map-Or7a">
                 <a class="parts-atlas__hit" aria-haspopup="dialog" aria-controls="parts-map-lightbox" href="plasmid/Or7a_IRES_mCherry.png" data-lightbox data-lightbox-src="plasmid/Or7a_IRES_mCherry.png" data-lightbox-title="Or7a-IRES-mCherry (BBa_26ZAGFK0)" data-lightbox-alt="Construct map of Or7a-IRES-mCherry (BBa_26ZAGFK0) showing the experimental plasmid context." data-lightbox-caption="Team construct map generated from the AeroSense experimental plasmid. Not a chromatogram. The image shows full pcDNA3.1(+) context; the registered composite is the insert, not the backbone.">
@@ -1077,10 +827,8 @@
                 <figcaption>
                   <span class="wiki-figure__title">Or7a-IRES-mCherry</span>
                   <p><code>BBa_26ZAGFK0</code></p>
-                  <p>Experimental plasmid of the Or7a sensing cassette. Registered composite architecture is the insert, not the backbone.</p>
                   <ul class="wiki-figure__meta">
                     <li><span class="wiki-figure__badge">Team construct map</span></li>
-                    <li><strong>Source:</strong> Team construct map generated from the AeroSense experimental plasmid. Not a chromatogram. The image shows full pcDNA3.1(+) context; the registered composite is the insert, not the backbone.</li>
             </ul>
                 </figcaption>
               </figure>
@@ -1094,10 +842,8 @@
                 <figcaption>
                   <span class="wiki-figure__title">Or22a-IRES-mCherry</span>
                   <p><code>BBa_26WOX4B1</code></p>
-                  <p>Experimental plasmid of the Or22a sensing cassette. Registered composite architecture is the insert, not the backbone.</p>
                   <ul class="wiki-figure__meta">
                     <li><span class="wiki-figure__badge">Team construct map</span></li>
-                    <li><strong>Source:</strong> Team construct map generated from the AeroSense experimental plasmid. Not a chromatogram. The image shows full pcDNA3.1(+) context; the registered composite is the insert, not the backbone.</li>
             </ul>
                 </figcaption>
               </figure>
@@ -1111,10 +857,8 @@
                 <figcaption>
                   <span class="wiki-figure__title">Or35a-IRES-mCherry</span>
                   <p><code>BBa_26LLF3LM</code></p>
-                  <p>Experimental plasmid of the Or35a sensing cassette. Registered composite architecture is the insert, not the backbone.</p>
                   <ul class="wiki-figure__meta">
                     <li><span class="wiki-figure__badge">Team construct map</span></li>
-                    <li><strong>Source:</strong> Team construct map generated from the AeroSense experimental plasmid. Not a chromatogram. The image shows full pcDNA3.1(+) context; the registered composite is the insert, not the backbone.</li>
             </ul>
                 </figcaption>
               </figure>
@@ -1128,10 +872,8 @@
                 <figcaption>
                   <span class="wiki-figure__title">Or42a-IRES-mCherry</span>
                   <p><code>BBa_26Q1Q094</code> · RFC 1000 compatible</p>
-                  <p>Experimental plasmid of the Or42a sensing cassette. Registered composite architecture is the insert, not the backbone.</p>
                   <ul class="wiki-figure__meta">
                     <li><span class="wiki-figure__badge">Team construct map</span></li>
-                    <li><strong>Source:</strong> Team construct map generated from the AeroSense experimental plasmid. Not a chromatogram. The image shows full pcDNA3.1(+) context; the registered composite is the insert, not the backbone.</li>
             </ul>
                 </figcaption>
               </figure>
@@ -1145,10 +887,8 @@
                 <figcaption>
                   <span class="wiki-figure__title">Or59b-IRES-mCherry</span>
                   <p><code>BBa_26Y7CI2H</code> · RFC 1000 compatible</p>
-                  <p>Experimental plasmid of the Or59b sensing cassette. Registered composite architecture is the insert, not the backbone.</p>
                   <ul class="wiki-figure__meta">
                     <li><span class="wiki-figure__badge">Team construct map</span></li>
-                    <li><strong>Source:</strong> Team construct map generated from the AeroSense experimental plasmid. Not a chromatogram. The image shows full pcDNA3.1(+) context; the registered composite is the insert, not the backbone.</li>
             </ul>
                 </figcaption>
               </figure>
@@ -1162,10 +902,8 @@
                 <figcaption>
                   <span class="wiki-figure__title">Or67a-IRES-mCherry</span>
                   <p><code>BBa_265G8CE1</code></p>
-                  <p>Experimental plasmid of the Or67a sensing cassette. Registered composite architecture is the insert, not the backbone.</p>
                   <ul class="wiki-figure__meta">
                     <li><span class="wiki-figure__badge">Team construct map</span></li>
-                    <li><strong>Source:</strong> Team construct map generated from the AeroSense experimental plasmid. Not a chromatogram. The image shows full pcDNA3.1(+) context; the registered composite is the insert, not the backbone.</li>
             </ul>
                 </figcaption>
               </figure>
@@ -1179,10 +917,8 @@
                 <figcaption>
                   <span class="wiki-figure__title">Or85b-IRES-mCherry</span>
                   <p><code>BBa_26K1TU11</code> · RFC 1000 compatible</p>
-                  <p>Experimental plasmid of the Or85b sensing cassette. Registered composite architecture is the insert, not the backbone.</p>
                   <ul class="wiki-figure__meta">
                     <li><span class="wiki-figure__badge">Team construct map</span></li>
-                    <li><strong>Source:</strong> Team construct map generated from the AeroSense experimental plasmid. Not a chromatogram. The image shows full pcDNA3.1(+) context; the registered composite is the insert, not the backbone.</li>
             </ul>
                 </figcaption>
               </figure>
@@ -1196,10 +932,8 @@
                 <figcaption>
                   <span class="wiki-figure__title">Or98a-IRES-mCherry</span>
                   <p><code>BBa_26TZLBMJ</code> · RFC 1000 compatible</p>
-                  <p>Experimental plasmid of the Or98a sensing cassette. Registered composite architecture is the insert, not the backbone.</p>
                   <ul class="wiki-figure__meta">
                     <li><span class="wiki-figure__badge">Team construct map</span></li>
-                    <li><strong>Source:</strong> Team construct map generated from the AeroSense experimental plasmid. Not a chromatogram. The image shows full pcDNA3.1(+) context; the registered composite is the insert, not the backbone.</li>
             </ul>
                 </figcaption>
               </figure>
@@ -1213,20 +947,20 @@
                 <figcaption>
                   <span class="wiki-figure__title">Or19a-IRES-mCherry</span>
                   <p><code>BBa_2629NIWH</code></p>
-                  <p>Experimental plasmid of the Or19a sensing cassette. Registered composite architecture is the insert, not the backbone.</p>
                   <ul class="wiki-figure__meta">
                     <li><span class="wiki-figure__badge">Team construct map</span></li>
-                    <li><strong>Source:</strong> Team construct map generated from the AeroSense experimental plasmid. Not a chromatogram. The image shows full pcDNA3.1(+) context; the registered composite is the insert, not the backbone.</li>
             </ul>
                 </figcaption>
               </figure>
             </div>
 
-            <h3 class="parts-atlas__group-title">Shared reporting module</h3>
+            </details>
+            <details class="parts-atlas-group">
+              <summary class="parts-atlas-group__summary">Reporting module</summary>
             <p class="parts-atlas__group-lede">One fusion plasmid used with every sensing line.</p>
             <div class="parts-atlas parts-atlas--report">
               <figure id="map-GCaMP6f">
-                <a class="parts-atlas__hit" aria-haspopup="dialog" aria-controls="parts-map-lightbox" href="plasmid/GCaMP6f_GGGGSx3_DmOrco.png" data-lightbox data-lightbox-src="plasmid/GCaMP6f_GGGGSx3_DmOrco.png" data-lightbox-title="GCaMP6f-(GGGGS)₃-DmOrco (BBa_26E11Z80)" data-lightbox-alt="Construct map of GCaMP6f-(GGGGS)₃-DmOrco (BBa_26E11Z80) showing the experimental plasmid context." data-lightbox-caption="Team construct map generated from the AeroSense experimental plasmid. Not a chromatogram. The image shows full pcDNA3.1(+) context; the registered composite is the insert, not the backbone.">
+                <a class="parts-atlas__hit" aria-haspopup="dialog" aria-controls="parts-map-lightbox" href="plasmid/GCaMP6f_GGGGSx3_DmOrco.png" data-lightbox data-lightbox-src="plasmid/GCaMP6f_GGGGSx3_DmOrco.png" data-lightbox-title="GCaMP6f-(GGGGS)₃-DmOrco (BBa_26E11Z80)" data-lightbox-alt="Construct map of GCaMP6f-(GGGGS)₃-DmOrco (BBa_26E11Z80) showing the experimental plasmid context." data-lightbox-caption="Team construct map. Full pcDNA3.1(+) context; registered composite is the insert.">
                   <span class="parts-atlas__frame">
                     <img src="plasmid/GCaMP6f_GGGGSx3_DmOrco.png" alt="Construct map of GCaMP6f-(GGGGS)₃-DmOrco (BBa_26E11Z80) showing the experimental plasmid context." width="800" height="500" loading="lazy" decoding="async">
                   </span>
@@ -1235,17 +969,16 @@
                 <figcaption>
                   <span class="wiki-figure__title">GCaMP6f-(GGGGS)₃-DmOrco</span>
                   <p><code>BBa_26E11Z80</code> · Shared reporting module</p>
-                  <p>Shared reporting fusion in pcDNA3.1(+). Common to every AeroSense line. Registered composite architecture is the insert, not the backbone.</p>
                   <ul class="wiki-figure__meta">
                     <li><span class="wiki-figure__badge">Team construct map</span></li>
-                    <li><strong>Source:</strong> Team construct map generated from the AeroSense experimental plasmid. Not a chromatogram. The image shows full pcDNA3.1(+) context; the registered composite is the insert, not the backbone.</li>
             </ul>
                 </figcaption>
               </figure>
             </div>
+            </details>
 
-            <div class="parts-atlas--legacy">
-              <h3 class="parts-atlas__group-title">First-generation design</h3>
+            <details class="parts-atlas-group">
+              <summary class="parts-atlas-group__summary">First-generation / legacy</summary>
               <p class="parts-atlas__group-lede">
                 Or67b is documented as a basic part (<code>BBa_26ACVV3R</code>) only. This pTwist image is not a registered composite and must not be read as a tenth final sensor.
               </p>
@@ -1260,19 +993,16 @@
                 <figcaption>
                   <span class="wiki-figure__title">Or67b-IRES-mCherry (pTwist, first-generation)</span>
                   <p><code>BBa_26ACVV3R</code> · First-generation · not a final composite</p>
-                  <p>First-generation design image. Not a tenth final-panel sensor and not one of the ten counted composites.</p>
                   <ul class="wiki-figure__meta">
                     <li><span class="wiki-figure__badge">Team construct map</span></li>
-                    <li><strong>Source:</strong> Team construct map of a first-generation pTwist assembly. Not a counted composite. Or67b is registered only as basic part BBa_26ACVV3R.</li>
             </ul>
                 </figcaption>
               </figure>
               </div>
-            </div>
+            </details>
           </section>
 
         </article>
-      </main>
 
       <nav class="page-turn" aria-label="Page">
         <a class="page-turn__prev" href="attributions.html"><span class="page-turn__dir">Previous</span><span class="page-turn__title">Attributions</span></a>
@@ -1280,7 +1010,8 @@
       </nav>
 
       <section class="references" aria-labelledby="references-heading" id="references" data-reveal>
-        <h2 id="references-heading">References &amp; Credits</h2>
+        <h2 id="references-heading">References</h2>
+        <p class="ref-papers-note">Numbered in-text markers such as [1] cite only papers. Documents, iGEM Foundation materials, and datasheets sit in a separate list below when this page uses them — they are not given [n] markers in the text.</p>
         <ol class="ref-list">
           <li id="ref-sato-2008">
             <span class="ref-authors">Sato, K., Pellegrino, M., Nakagawa, T., Nakagawa, T., Vosshall, L. B., &amp; Touhara, K.</span>
@@ -1348,19 +1079,17 @@
 </summary>
       <nav aria-label="Table of contents">
         <ol>
-          <li><a href="#main"><span class="tech-label">01</span> Collection</a></li>
-          <li><a href="#three-layers"><span class="tech-label">02</span> Three layers</a></li>
-          <li><a href="#build-sensor"><span class="tech-label">03</span> Build a sensor</a></li>
-          <li><a href="#explore"><span class="tech-label">04</span> Parts catalogue</a></li>
-          <li><a href="#design-decisions"><span class="tech-label">05</span> Design decisions</a></li>
-          <li><a href="#reuse-notes"><span class="tech-label">06</span> Before you reuse</a></li>
-          <li><a href="#assembly-qc"><span class="tech-label">07</span> Assembly &amp; QC</a></li>
-          <li><a href="#plasmid-atlas"><span class="tech-label">08</span> Plasmid atlas</a></li>
-          <li><a href="#references"><span class="tech-label">Ref</span> References &amp; Credits</a></li>
+          <li><a href="#collection"><span class="tech-label">01</span> The collection</a></li>
+          <li><a href="#sensor-builder"><span class="tech-label">02</span> Build the sensor</a></li>
+          <li><a href="#explore"><span class="tech-label">03</span> Catalogue</a></li>
+          <li><a href="#characterization"><span class="tech-label">04</span> Characterization</a></li>
+          <li><a href="#reuse-qc"><span class="tech-label">05</span> Reuse &amp; QC</a></li>
+          <li><a href="#plasmid-atlas"><span class="tech-label">06</span> Plasmid atlas</a></li>
+          <li><a href="#references"><span class="tech-label">Ref</span> References</a></li>
         </ol>
       </nav>
     </details>
-      <a class="back-to-top page-toc__top" href="#main">Back to top</a>
+      <a class="back-to-top" href="#main">Back to top</a>
     </div>
   </div>
 
@@ -1376,37 +1105,40 @@
             <li><a href="description.html">Description</a></li>
             <li><a href="contribution.html">Contribution</a></li>
             <li><a href="engineering.html">Engineering</a></li>
-            <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
+            <li><a href="safety-and-security.html">Safety</a></li>
             <li><a href="notebook.html">Notebook</a></li>
-            </ul>
+          </ul>
         </div>
         <div class="footer-col">
           <h2>Team</h2>
           <ul>
             <li><a href="members.html">Members</a></li>
             <li><a href="attributions.html">Attributions</a></li>
-            </ul>
+          </ul>
+        </div>
+        <div class="footer-col">
           <h2>Wet Lab</h2>
           <ul>
             <li><a href="parts.html">Parts</a></li>
             <li><a href="design.html">Design</a></li>
             <li><a href="experiments.html">Experiments</a></li>
             <li><a href="results.html">Results</a></li>
-            </ul>
+          </ul>
         </div>
         <div class="footer-col">
           <h2>Dry Lab</h2>
           <ul>
-            <li><a href="model.html">Model</a></li>
             <li><a href="hardware.html">Hardware</a></li>
-            </ul>
+            <li><a href="model.html">Model</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
           <h2>Human Practices</h2>
           <ul>
             <li><a href="human-practices.html">Integrated Human Practices</a></li>
             <li><a href="education.html">Education</a></li>
             <li><a href="entrepreneurship.html">Entrepreneurship</a></li>
             <li><a href="sustainability.html">Sustainability</a></li>
-            <li><a href="learning-platform.html">Learning Lab</a></li>
           </ul>
         </div>
       </div>

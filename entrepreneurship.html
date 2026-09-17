@@ -1,15 +1,16 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Entrepreneurship · AeroSense · NTHU iGEM 2026</title>
-  <meta name="description" content="AeroSense Entrepreneurship: a venture evidence record for a bio-digital VOC screening platform aimed at agricultural supply chains. Candidate beachhead: banana fungal-disease early detection in Taiwan’s export chain. Screening tool — not a definitive food-safety diagnostic.">
+  <meta name="description" content="Entrepreneurship records a candidate Taiwan banana-export fungal-disease beachhead and architecture-level MVP through V2 PCB layout. No paying customer or field-validated product performance is claimed.">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/entrepreneurship.css">
   <script>document.documentElement.classList.add("js");</script>
   <script src="js/main.js" defer></script>
   <script src="js/glossary.js" defer></script>
+  <script src="js/microinteractions.js" defer></script>
   <script src="js/search.js" defer></script>
   <script src="js/entrepreneurship.js" defer></script>
 </head>
@@ -74,8 +75,8 @@
             <span class="nav-label-static">Dry Lab</span>
             <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-drylab">Dry Lab</button>
             <ul class="nav-submenu" id="submenu-drylab">
-              <li><a href="model.html">Model</a></li>
               <li><a href="hardware.html">Hardware</a></li>
+              <li><a href="model.html">Model</a></li>
             </ul>
           </li>
                     <li class="nav-item nav-item--dropdown">
@@ -86,7 +87,6 @@
               <li><a href="education.html">Education</a></li>
               <li><a href="entrepreneurship.html" aria-current="page">Entrepreneurship</a></li>
               <li><a href="sustainability.html">Sustainability</a></li>
-              <li><a href="learning-platform.html">Learning Lab</a></li>
             </ul>
           </li>
         </ul>
@@ -127,7 +127,7 @@
               <li aria-current="page">Entrepreneurship</li>
             </ol>
           </nav>
-          <p class="page-kicker">Entrepreneurship · AeroSense Bio</p>
+          <p class="page-kicker">Entrepreneurship</p>
 
           <div class="ent-hero__grid">
             <div class="ent-hero__copy">
@@ -137,12 +137,38 @@
                 It is designed as an early-warning screening layer — not a definitive food-safety or diagnostic verdict.
               </p>
               <div class="ent-hero__actions">
-                <a class="btn btn--primary" href="#judging-map">Jump to judging evidence</a>
+                <a class="btn btn--primary" href="#judging-map">Jump to venture evidence</a>
                 <a class="btn btn--secondary" href="#beachhead">See beachhead decision</a>
               </div>
               <p class="notice ent-hero__notice">
                 Commercial claims on this page follow dated team sources. Hardware architecture is ESP32-standalone as of the September&nbsp;2026 Hardware record; Raspberry&nbsp;Pi wording in older entrepreneurship drafts is retired. Experimental performance figures are not quoted until measured.
               </p>
+
+          <aside class="page-glance" aria-labelledby="ent-page-glance-title">
+            <h2 class="page-glance__title" id="ent-page-glance-title">At a glance</h2>
+            <dl class="page-glance__grid page-glance__grid--5">
+            <div class="page-glance__item">
+              <dt>First customer</dt>
+              <dd>Candidate beachhead is Taiwan banana-export fungal-disease screening; no paying customer is claimed.</dd>
+            </div>
+            <div class="page-glance__item">
+              <dt>Unmet need</dt>
+              <dd>Mentors and field interviews framed early fungal detection before visible loss as the primary pain.</dd>
+            </div>
+            <div class="page-glance__item">
+              <dt>MVP</dt>
+              <dd>Reviewed Sense + ESP32 Read + Decode architecture through V2 PCB layout; bench and field validation remain Planned.</dd>
+            </div>
+            <div class="page-glance__item">
+              <dt>Scale &amp; roadmap</dt>
+              <dd>Phased Validate → Pilot → Scale path with development gates; calendars still need confirmation.</dd>
+            </div>
+            <div class="page-glance__item">
+              <dt>Long-term impact</dt>
+              <dd>Hoped-for earlier triage is weighed against over-trust, cartridge waste, data governance, and access gaps.</dd>
+            </div>
+            </dl>
+          </aside>
               <ol class="ent-flow" aria-label="Intended decision path">
                 <li class="ent-flow__step">VOC signal</li>
                 <li class="ent-flow__arrow" aria-hidden="true">→</li>
@@ -203,28 +229,7 @@
             </ul>
         </header>
 
-        <details class="ent-chapternav" open>
-          <summary class="ent-chapternav__summary">On this page · chapters</summary>
-          <nav class="ent-chapternav__scroller" aria-label="Chapter navigation">
-            <a href="#overview">00 Overview</a>
-            <a href="#judging-map">Evidence map</a>
-            <a href="#decision-problem">01 Decision</a>
-            <a href="#who-needs-this">02 Customers</a>
-            <a href="#what-we-learned">03 Learned</a>
-            <a href="#beachhead">04 Beachhead</a>
-            <a href="#aerosense-10">05 Product</a>
-            <a href="#mvp-evidence">06 MVP</a>
-            <a href="#existing-alternatives">07 Alternatives</a>
-            <a href="#business-model">08 Model</a>
-            <a href="#go-to-market">09 GTM</a>
-            <a href="#unit-economics">10 Financials</a>
-            <a href="#roadmap-risks">11 Roadmap</a>
-            <a href="#team-stakeholders">12 Team</a>
-            <a href="#traction">13 Traction</a>
-            <a href="#responsible-scaling">14 Impacts</a>
-            <a href="#references">15 References</a>
-          </nav>
-        </details>
+        
 
         <article class="page-article prose">
           <section class="ent-section section-block ent-ballot" id="judging-map" data-reveal>
@@ -473,7 +478,7 @@
                 It aims to move the decision point earlier — so operators can escalate the right batches sooner.
               </p>
               <p class="ent-caption">
-                Positioning source: analytical-instrumentation interview redesign to “Fast · On-site · Low operator dependence” as an upstream screening layer (Engineering Entrepreneurship Cycle&nbsp;3; dated 2026-09-13 in team references).
+                Positioning source: <a href="human-practices.html#decision-screening">Human Practices · screening</a> — Fast · On-site · Low operator dependence as an upstream screening layer (dated 2026-09-13 in team references).
               </p>
             </div>
           </section>
@@ -483,7 +488,8 @@
             <h2>Who Actually Needs This?</h2>
             <p class="ent-lede">
               Customer, user, and payer are not the same role.
-              Field and industry interviews pushed us away from treating individual farmers as the default buyer.
+              Field and industry interviews pushed us away from treating individual farmers as the default buyer
+              (<a href="human-practices.html#decision-buyers">Human Practices · buyers</a>).
             </p>
 
             <aside class="ent-callout" aria-label="Customer is not user is not payer">
@@ -550,8 +556,8 @@
                     <div><dt>Jobs</dt><dd>Provide confirmatory chemical or microbiological analysis; set what a screening tool is allowed to claim.</dd></div>
                     <div><dt>Pain</dt><dd>Labs already solve comprehensive analysis; the scarce resource is on-site speed and operator skill — not “cheaper GC–MS” as our first framing assumed.</dd></div>
                     <div><dt>Decision they make</dt><dd>Whether a flagged sample warrants confirmatory work; whether a claim is screening vs diagnostic language.</dd></div>
-                    <div><dt>What AeroSense must provide</dt><dd>Escalation to confirmatory testing for high-risk tiers; explicit “not a definitive safety verdict” boundary (also from Chia-Nien interview).</dd></div>
-                    <div><dt>Current evidence</dt><dd>Analytical-instrumentation interview (2026-09-13); Chia-Nien biotechnology interview (2026-09-12); Safety page laboratory-scope boundary for live-cell work.</dd></div>
+                    <div><dt>What AeroSense must provide</dt><dd>Escalation to confirmatory testing for high-risk tiers; explicit “not a definitive safety verdict” boundary (<a href="human-practices.html#decision-claims">Human Practices</a>).</dd></div>
+                    <div><dt>Current evidence</dt><dd>Analytical-instrumentation interview (2026-09-13); Challenge Bioproducts Co., Ltd. interview (2026-09-12); Safety page laboratory-scope boundary for live-cell work.</dd></div>
                     <div><dt>Remaining uncertainty</dt><dd>No formal TFDA/device-class determination published; NTHU TTO engagement planned, not completed (IHP stakeholder map).</dd></div>
                   </dl>
                 </div>
@@ -564,14 +570,14 @@
             <h2>What We Learned Outside the Lab</h2>
             <p class="ent-lede">
               Each card is a real, dated external signal that changed a design or business decision.
-              This is not a list of conversations collected for display.
+              Stakeholder evidence lives on <a href="human-practices.html">Human Practices</a>; this section keeps the commercial consequence.
             </p>
 
             <ol class="ent-timeline" aria-label="Evidence timeline">
               <li><time datetime="2026-08-23">2026-08-23</time> Public survey (n=28)</li>
               <li><time datetime="2026-08-27">2026-08-27</time> BP 11-point mentor review</li>
               <li><time datetime="2026-09-07">2026-09-07</time> FITI pitch-deck review</li>
-              <li><time datetime="2026-09-12">2026-09-12</time> Chia-Nien interview</li>
+              <li><time datetime="2026-09-12">2026-09-12</time> Challenge Bioproducts Co., Ltd. interview</li>
               <li><time datetime="2026-09-13">2026-09-13</time> Analytical-instrumentation interview</li>
               <li><span class="ent-timeline__undated">Field (completed)</span> Taoyuan station · associations · facility farms</li>
               <li><span class="ent-timeline__undated">Completed</span> Electronic-nose CSO interview</li>
@@ -585,7 +591,7 @@
                 </header>
                 <dl class="ent-learn__loop">
                   <div><dt>We thought</dt><dd>AeroSense could launch as a broad facility-agriculture pest platform across six crops (dragon fruit, passion fruit, strawberry, grape, citrus, banana), sized against the global e-nose instrument market.</dd></div>
-                  <div><dt>We heard</dt><dd>Find the market’s pain point first, then check whether the technology addresses it — breadth diluted the beachhead, and instrument-market TAM did not connect to a customer’s loss.</dd></div>
+                  <div><dt>We heard</dt><dd>Mentor evidence: <a href="human-practices.html#decision-beachhead">Human Practices · beachhead</a>.</dd></div>
                   <div><dt>We changed</dt><dd>Narrowed to banana disease detection in Taiwan’s export supply chain; mango and tea named as follow-ons; rebuilt TAM/SAM/SOM bottom-up from agricultural VOC opportunity.</dd></div>
                   <div><dt>Next test</dt><dd>Pressure-test the single-beachhead narrative with supply-chain buyers (exporters still a gap) and keep follow-ons explicitly secondary.</dd></div>
                 </dl>
@@ -606,7 +612,7 @@
                 </header>
                 <dl class="ent-learn__loop">
                   <div><dt>We thought</dt><dd>A technology-first deck emphasizing versatility and analysis cycle time would persuade judges.</dd></div>
-                  <div><dt>We heard</dt><dd>FITI needs a specific customer with a clear expensive problem; cycle-time comparison highlighted a weak axis versus lab e-noses.</dd></div>
+                  <div><dt>We heard</dt><dd>Mentor evidence: <a href="human-practices.html#cp-fiti">Human Practices · FITI</a>.</dd></div>
                   <div><dt>We changed</dt><dd>Repositioned as a B2B Agricultural VOC Intelligence Platform; rebuilt a 7-axis competitive matrix; team slide became a capability matrix; unconfirmed accuracy figures marked pending.</dd></div>
                   <div><dt>Next test</dt><dd>Defend differentiation on detectable VOC range, fingerprinting, portability, and modular cartridges — not cycle time.</dd></div>
                 </dl>
@@ -627,7 +633,7 @@
                 </header>
                 <dl class="ent-learn__loop">
                   <div><dt>We thought</dt><dd>Desk research alone could locate the post-harvest pain point.</dd></div>
-                  <div><dt>We heard</dt><dd>Taoyuan District Agricultural Improvement Station (Plant Protection Lab), local farmers’ associations, and facility farms described banana/mango disease-detection pain and real sampling / post-harvest handling practices on the ground.</dd></div>
+                  <div><dt>We heard</dt><dd>Field evidence: <a href="human-practices.html#cp-taoyuan">Human Practices · Taoyuan</a> · <a href="human-practices.html#cp-field">associations / farms</a>.</dd></div>
                   <div><dt>We changed</dt><dd>Used field interviews to anchor the banana beachhead and economic framing used in outreach materials.</dd></div>
                   <div><dt>Next test</dt><dd>Interview the actual export paying customer (exporter / packing house) — still outstanding.</dd></div>
                 </dl>
@@ -648,7 +654,7 @@
                 </header>
                 <dl class="ent-learn__loop">
                   <div><dt>We thought</dt><dd>AeroSense should compete as a cheaper alternative to conventional GC–MS/LC–MS instruments.</dd></div>
-                  <div><dt>We heard</dt><dd>Amortized instrument cost is not the prohibitive barrier described; trained personnel and infrastructure are. Industry is already moving toward smaller mobile labs. Individual farmers resist tools that flag their own product.</dd></div>
+                  <div><dt>We heard</dt><dd>Industry evidence: <a href="human-practices.html#decision-screening">Human Practices · screening / buyers</a>.</dd></div>
                   <div><dt>We changed</dt><dd>Positioning became Fast · On-site · Low operator dependence — upstream screening that flags samples for laboratory confirmation. Buyer segment corrected toward associations, stations, cooperatives, and certification bodies.</dd></div>
                   <div><dt>Next test</dt><dd>Can the sensing layer resolve closely related microbial signals, and detect change before it is visible by current methods? Logged as shared Wet Lab validation questions. Semiconductor / logistics leads left explicitly unvalidated.</dd></div>
                 </dl>
@@ -664,21 +670,21 @@
 
               <article class="ent-learn" id="learn-chia">
                 <header class="ent-learn__head">
-                  <p class="ent-learn__meta">Industry interview · Chia-Nien Biotechnology · 2026-09-12</p>
+                  <p class="ent-learn__meta">Industry interview · Challenge Bioproducts Co., Ltd. · 2026-09-12</p>
                   <h3>A mold VOC is not automatically a food-safety verdict</h3>
                 </header>
                 <dl class="ent-learn__loop">
                   <div><dt>We thought</dt><dd>Detecting a mold-associated VOC could be treated as the same claim as a food-safety verdict.</dd></div>
-                  <div><dt>We heard</dt><dd>Start from what the technology can distinguish; mold VOCs do not necessarily represent food safety — processing can kill fungi while toxins such as aflatoxin remain.</dd></div>
+                  <div><dt>We heard</dt><dd>Claim-boundary evidence: <a href="human-practices.html#decision-claims">Human Practices · Challenge Bioproducts</a>.</dd></div>
                   <div><dt>We changed</dt><dd>Adopted Detectability × Consequence × Unmet Need × Willingness to Pay. Kept agricultural beachhead and food-safety/pathogen-VOC work as two threads. Mapped Or49b/indole as a literature-supported wet-lab path among pathogen VOC candidates.</dd></div>
                   <div><dt>Next test</dt><dd>Prove claims target-by-target in wet lab; never market a VOC screen as a toxin or regulatory safety certificate.</dd></div>
                 </dl>
                 <details class="ent-disclose">
                   <summary>Stakeholder context, implication, source</summary>
                   <div class="ent-disclose__body">
-                    <p><strong>Stakeholder.</strong> Chia-Nien Biotechnology industry professionals.</p>
+                    <p><strong>Stakeholder.</strong> Challenge Bioproducts Co., Ltd. industry professionals.</p>
                     <p><strong>Implication.</strong> Claim discipline and target selection framework for Food &amp; Nutrition-track exploration.</p>
-                    <p><strong>Source.</strong> IHP Box&nbsp;#6; Engineering cross-link; team ref. Chia-Nien interview 2026-09-12. Paraphrases above; italicized mentor/industry lines in IHP are retained there as source quotes.</p>
+                    <p><strong>Source.</strong> IHP Box&nbsp;#6; Engineering cross-link; team ref. Challenge Bioproducts Co., Ltd. interview 2026-09-12. Paraphrases above; italicized mentor/industry lines in IHP are retained there as source quotes.</p>
                   </div>
                 </details>
               </article>
@@ -690,7 +696,7 @@
                 </header>
                 <dl class="ent-learn__loop">
                   <div><dt>We thought</dt><dd>Better electronics and algorithms alone could differentiate a new e-nose product.</dd></div>
-                  <div><dt>We heard</dt><dd>Industry priorities: selectivity, sensitivity in real environments, reliability/lifetime, and batch reproducibility. Paraphrase of CSO framing: sensors aren’t good enough yet — hardware and algorithms are the easier part.</dd></div>
+                  <div><dt>We heard</dt><dd>Sensing-element evidence: <a href="human-practices.html#decision-sensing">Human Practices · e-nose CSO</a>.</dd></div>
                   <div><dt>We changed</dt><dd>Doubled down on a living OR/Orco sensing layer as the competitive bet, with FDM/DLIA hardware treated as the readout required to make that bet measurable in noise.</dd></div>
                   <div><dt>Next test</dt><dd>Hardware validation ladder (dark noise → calibration → FDM/DLIA → biological fluorescence) before any field performance claim.</dd></div>
                 </dl>
@@ -711,8 +717,8 @@
                 </header>
                 <dl class="ent-learn__loop">
                   <div><dt>We thought</dt><dd>A broad public misunderstanding of mold risk was the main education/product-communication problem; a B2C willingness-to-pay path might be viable.</dd></div>
-                  <div><dt>We heard</dt><dd>Baseline awareness was already high; residual gaps were specific (heat / look-smell habits). Trust tracked demonstrated accuracy more than price; 86% expected ≤NT$150/use or free — directional only. False negatives were the least-tolerated failure mode.</dd></div>
-                  <div><dt>We changed</dt><dd>Risk-<em>tier</em> output instead of binary safe/unsafe; commercial focus stayed B2B. Education narrowed to residual misconceptions (separate page).</dd></div>
+                  <div><dt>We heard</dt><dd>Survey evidence: <a href="human-practices.html#cp-survey">Human Practices</a> · counts on <a href="education.html#survey">Education</a>.</dd></div>
+                  <div><dt>We changed</dt><dd>Risk-<em>tier</em> output instead of binary safe/unsafe; commercial focus stayed B2B because the consumer WTP ceiling was too low (most expected ≤NT$150/use or free — percentage only, not a published x/n). Education narrowed to residual misconceptions (separate page).</dd></div>
                   <div><dt>Next test</dt><dd>Do not treat this consumer sample as Problem-loop proof of exporter demand; run buyer interviews for that loop.</dd></div>
                 </dl>
                 <details class="ent-disclose">
@@ -736,7 +742,7 @@
             </p>
 
             <p class="notice">
-              Framework: <strong>Detectability × Consequence × Unmet Need × Willingness to Pay</strong> (from Chia-Nien interview), plus <strong>Access to validation-site organizations</strong> where field interview evidence exists.
+              Framework: <strong>Detectability × Consequence × Unmet Need × Willingness to Pay</strong> (from Challenge Bioproducts Co., Ltd. interview), plus <strong>Access to validation-site organizations</strong> where field interview evidence exists.
               Label key: <span class="ent-ev" data-ev="strong">Strong evidence</span>
               <span class="ent-ev" data-ev="some">Some evidence</span>
               <span class="ent-ev" data-ev="hyp">Hypothesis</span>
@@ -799,7 +805,7 @@
                     <th scope="row">High-value stored food / mold VOC screening</th>
                     <td data-label="Detectability"><span class="ent-ev" data-ev="hyp">Hypothesis</span><span class="ent-matrix__src">Earlier food-safety framing; fungal VOC markers in literature path</span></td>
                     <td data-label="Consequence if missed"><span class="ent-ev" data-ev="some">Some evidence</span><span class="ent-matrix__src">Consumer survey: 100% discard whole package on visible mold (directional)</span></td>
-                    <td data-label="Unmet need"><span class="ent-ev" data-ev="some">Some evidence</span><span class="ent-matrix__src">Screening ≠ toxin verdict (Chia-Nien) — need remains for triage, not certification</span></td>
+                    <td data-label="Unmet need"><span class="ent-ev" data-ev="some">Some evidence</span><span class="ent-matrix__src">Screening ≠ toxin verdict (Challenge Bioproducts Co., Ltd.) — need remains for triage, not certification</span></td>
                     <td data-label="Willingness to pay"><span class="ent-ev" data-ev="some">Some evidence</span><span class="ent-matrix__src">B2C price ceiling too low in survey; B2B intake/storage repositioned</span></td>
                     <td data-label="Pilot / site access"><span class="ent-ev" data-ev="hyp">Hypothesis</span><span class="ent-matrix__src">Tracked as longer-horizon Food &amp; Nutrition thread</span></td>
                   </tr>
@@ -813,69 +819,6 @@
                   </tr>
                 </tbody>
               </table>
-            </div>
-
-            <div class="ent-matrix-mobile" aria-label="Beachhead candidates for small screens">
-              <article class="ent-mcand">
-                <h3>Banana disease / fungal-risk screening <span class="ent-matrix__tag">Leading under validation</span></h3>
-                <ul>
-                  <li><span class="ent-ev" data-ev="hyp">Detectability · Hypothesis</span></li>
-                  <li><span class="ent-ev" data-ev="some">Consequence · Some evidence</span></li>
-                  <li><span class="ent-ev" data-ev="some">Unmet need · Some evidence</span></li>
-                  <li><span class="ent-ev" data-ev="unk">WTP · Unknown</span></li>
-                  <li><span class="ent-ev" data-ev="some">Pilot access · Some evidence</span></li>
-            </ul>
-              </article>
-              <article class="ent-mcand">
-                <h3>Banana ripeness forecasting</h3>
-                <ul>
-                  <li><span class="ent-ev" data-ev="hyp">Detectability · Hypothesis</span></li>
-                  <li><span class="ent-ev" data-ev="hyp">Consequence · Hypothesis</span></li>
-                  <li><span class="ent-ev" data-ev="hyp">Unmet need · Hypothesis</span></li>
-                  <li><span class="ent-ev" data-ev="unk">WTP · Unknown</span></li>
-                  <li><span class="ent-ev" data-ev="some">Pilot access · Some evidence</span></li>
-            </ul>
-              </article>
-              <article class="ent-mcand">
-                <h3>Mango ripeness / export QC</h3>
-                <ul>
-                  <li><span class="ent-ev" data-ev="hyp">Detectability · Hypothesis</span></li>
-                  <li><span class="ent-ev" data-ev="some">Consequence · Some evidence</span></li>
-                  <li><span class="ent-ev" data-ev="some">Unmet need · Some evidence</span></li>
-                  <li><span class="ent-ev" data-ev="unk">WTP · Unknown</span></li>
-                  <li><span class="ent-ev" data-ev="hyp">Pilot access · Hypothesis</span></li>
-            </ul>
-              </article>
-              <article class="ent-mcand">
-                <h3>Tea quality standardization</h3>
-                <ul>
-                  <li><span class="ent-ev" data-ev="hyp">Detectability · Hypothesis</span></li>
-                  <li><span class="ent-ev" data-ev="hyp">Consequence · Hypothesis</span></li>
-                  <li><span class="ent-ev" data-ev="hyp">Unmet need · Hypothesis</span></li>
-                  <li><span class="ent-ev" data-ev="unk">WTP · Unknown</span></li>
-                  <li><span class="ent-ev" data-ev="unk">Pilot access · Unknown</span></li>
-            </ul>
-              </article>
-              <article class="ent-mcand">
-                <h3>High-value stored food / mold VOC screening</h3>
-                <ul>
-                  <li><span class="ent-ev" data-ev="hyp">Detectability · Hypothesis</span></li>
-                  <li><span class="ent-ev" data-ev="some">Consequence · Some evidence</span></li>
-                  <li><span class="ent-ev" data-ev="some">Unmet need · Some evidence</span></li>
-                  <li><span class="ent-ev" data-ev="some">WTP · Some evidence (against B2C)</span></li>
-                  <li><span class="ent-ev" data-ev="hyp">Pilot access · Hypothesis</span></li>
-            </ul>
-              </article>
-              <article class="ent-mcand">
-                <h3>Bacterial / microbial VOC screening</h3>
-                <ul>
-                  <li><span class="ent-ev" data-ev="some">Detectability · Some evidence (Or49b/indole map)</span></li>
-                  <li><span class="ent-ev" data-ev="hyp">Consequence · Hypothesis</span></li>
-                  <li><span class="ent-ev" data-ev="hyp">Unmet need · Hypothesis</span></li>
-                  <li><span class="ent-ev" data-ev="unk">WTP · Unknown</span></li>
-                  <li><span class="ent-ev" data-ev="hyp">Pilot access · Hypothesis</span></li>
-            </ul>
-              </article>
             </div>
 
             <aside class="ent-callout ent-callout--change" id="beachhead-kill-criteria">
@@ -966,6 +909,7 @@
 
             <div class="ent-wide ent-pipeline" data-ent-tabs data-ent-tabs-name="product-pipeline">
               <p class="ent-panel-label" id="pipeline-label">SENSE → READ → DECODE → ACT</p>
+              <p class="ent-caption">This is the functional system architecture, not the team workstream hierarchy.</p>
               <div class="ent-tablist" role="tablist" aria-labelledby="pipeline-label">
                 <button type="button" class="ent-tab" role="tab" id="tab-sense" aria-controls="panel-sense" aria-selected="true" tabindex="0" data-ent-tab="sense">Sense</button>
                 <button type="button" class="ent-tab" role="tab" id="tab-read" aria-controls="panel-read" aria-selected="false" tabindex="-1" data-ent-tab="read">Read</button>
@@ -1360,49 +1304,6 @@
               </table>
             </div>
 
-            <div class="ent-matrix-mobile" aria-label="Workflow comparison cards">
-              <article class="ent-mcand">
-                <h3>Visual / manual</h3>
-                <dl>
-                  <div><dt>Role</dt><dd>On-line grading</dd></div>
-                  <div><dt>Time</dt><dd>Minutes after symptoms</dd></div>
-                  <div><dt>On-site</dt><dd>High · already embedded</dd></div>
-                  <div><dt>Screen / confirm</dt><dd>Experiential triage</dd></div>
-                  <div><dt>Maturity</dt><dd>Standard practice</dd></div>
-                </dl>
-              </article>
-              <article class="ent-mcand">
-                <h3>Confirmatory lab</h3>
-                <dl>
-                  <div><dt>Role</dt><dd>Definitive ID (PCR / ELISA / GC–MS)</dd></div>
-                  <div><dt>Time</dt><dd>Hours to days</dd></div>
-                  <div><dt>On-site</dt><dd>Low at packing throughput</dd></div>
-                  <div><dt>Screen / confirm</dt><dd>Confirmation</dd></div>
-                  <div><dt>Maturity</dt><dd>Gold-standard confirmation</dd></div>
-                </dl>
-              </article>
-              <article class="ent-mcand">
-                <h3>Conventional e-nose</h3>
-                <dl>
-                  <div><dt>Role</dt><dd>VOC pattern instruments</dd></div>
-                  <div><dt>Time</dt><dd>Instrument-dependent (labs often win)</dd></div>
-                  <div><dt>On-site</dt><dd>Often limited for continuous QC</dd></div>
-                  <div><dt>Screen / confirm</dt><dd>Varies; not a certificate</dd></div>
-                  <div><dt>Maturity</dt><dd>Commercial products exist</dd></div>
-                </dl>
-              </article>
-              <article class="ent-mcand ent-mcand--us">
-                <h3>AeroSense (intended)</h3>
-                <dl>
-                  <div><dt>Role</dt><dd>Upstream screening layer</dd></div>
-                  <div><dt>Time</dt><dd>Same-shift goal — not measured yet</dd></div>
-                  <div><dt>On-site</dt><dd>Portable ESP32 design; fab pending</dd></div>
-                  <div><dt>Screen / confirm</dt><dd>Screen → escalate to lab</dd></div>
-                  <div><dt>Maturity</dt><dd>Pre-revenue prototype venture</dd></div>
-                </dl>
-              </article>
-            </div>
-
             <details class="ent-disclose" id="named-instruments">
               <summary>Named commercial instruments (secondary detail)</summary>
               <div class="ent-disclose__body">
@@ -1547,7 +1448,7 @@
                 <ul class="ent-gtm__status">
                   <li><span class="ent-tag">Confirmed</span> Taoyuan Plant Protection Lab interview / site visit</li>
                   <li><span class="ent-tag">Confirmed</span> Local farmers’ association &amp; facility farm interviews</li>
-                  <li><span class="ent-tag">Confirmed</span> Industry technical interviews (CSO, Chia-Nien, analytical instrumentation)</li>
+                  <li><span class="ent-tag">Confirmed</span> Industry technical interviews (CSO, Challenge Bioproducts Co., Ltd., analytical instrumentation)</li>
                   <li><span class="ent-tag">Prospective</span> Domestic e-nose company visit (prepared, not conducted)</li>
                   <li><span class="ent-tag">Planned</span> Hardware Stage&nbsp;A–E validation; living-cell measurement proof</li>
             </ul>
@@ -2227,15 +2128,6 @@
               </table>
             </div>
 
-            <div class="ent-matrix-mobile" aria-label="Capability cards">
-              <article class="ent-mcand"><h3>Covered in-team</h3><ul><li>Receptor engineering / culture (wet CTO)</li><li>Neuromorphic AI (dry CTO + advisors)</li><li>ESP32 hardware / optical path (design)</li><li>Strategy / BD (CEO / COO)</li>
-            </ul></article>
-              <article class="ent-mcand"><h3>External support</h3><ul><li>iST Group engineering review</li><li>FITI / Garage+ mentorship</li><li>Interviewed agri institutions</li>
-            </ul></article>
-              <article class="ent-mcand"><h3>Current gaps</h3><ul><li>Manufacturing &amp; priced COGS</li><li>Regulatory / biotech law</li><li>IP novelty search</li><li>Exporter-side QC interviews</li><li>Enterprise B2B sales depth</li>
-            </ul></article>
-            </div>
-
             <details class="ent-disclose" id="founder-roles">
               <summary>Founder roles (names pending English confirmation)</summary>
               <div class="ent-disclose__body">
@@ -2324,7 +2216,7 @@
                 <span class="ent-trac-status" data-trac="completed">Completed</span>
                 <h3>Industry technical interviews</h3>
                 <p class="ent-trac-cat">Customer discovery</p>
-                <p>CSO (e-nose industry), Chia-Nien Biotech, and analytical-instrumentation interview (2026-09-13) — screening-layer positioning and buyer insights.</p>
+                <p>CSO (e-nose industry), Challenge Bioproducts Co., Ltd., and analytical-instrumentation interview (2026-09-13) — screening-layer positioning and buyer insights.</p>
               </li>
               <li>
                 <span class="ent-trac-status" data-trac="completed">Completed</span>
@@ -2488,7 +2380,8 @@
       </nav>
 
             <section class="references" aria-labelledby="references-heading" id="references" data-reveal>
-        <h2 id="references-heading">References &amp; Credits</h2>
+        <h2 id="references-heading">References</h2>
+        <p class="ref-papers-note">Numbered in-text markers such as [1] cite only papers. Documents, iGEM Foundation materials, and datasheets sit in a separate list below when this page uses them — they are not given [n] markers in the text.</p>
         <ol class="ref-list">
           <li id="ref-cheng-2025">
             <span class="ref-authors">Cheng, L.-S., Charng, C.-C., Chen, R.-H., Feng, K.-L., Chiang, A.-S., Lo, C.-C., &amp; Lee, T.-K.</span>
@@ -2507,26 +2400,20 @@
         <span class="toc__label">On this page</span>
 </summary>
       <nav aria-label="Table of contents">
-        <ol>
-          <li><a href="#decision-problem"><span class="tech-label">01</span> Decision problem</a></li>
+        <ol>          <li><a href="#decision-problem"><span class="tech-label">01</span> Decision problem</a></li>
           <li><a href="#who-needs-this"><span class="tech-label">02</span> Who needs this</a></li>
           <li><a href="#what-we-learned"><span class="tech-label">03</span> What we learned</a></li>
           <li><a href="#beachhead"><span class="tech-label">04</span> Beachhead</a></li>
           <li><a href="#aerosense-10"><span class="tech-label">05</span> AeroSense 1.0</a></li>
           <li><a href="#mvp-evidence"><span class="tech-label">06</span> MVP &amp; evidence</a></li>
-          <li><a href="#existing-alternatives"><span class="tech-label">07</span> Alternatives</a></li>
-          <li><a href="#business-model"><span class="tech-label">08</span> Business model</a></li>
-          <li><a href="#go-to-market"><span class="tech-label">09</span> Go-to-market</a></li>
-          <li><a href="#unit-economics"><span class="tech-label">10</span> Financials</a></li>
-          <li><a href="#roadmap-risks"><span class="tech-label">11</span> Roadmap &amp; risks</a></li>
-          <li><a href="#team-stakeholders"><span class="tech-label">12</span> Team</a></li>
-          <li><a href="#traction"><span class="tech-label">13</span> Traction</a></li>
-          <li><a href="#responsible-scaling"><span class="tech-label">14</span> Responsible scaling</a></li>
-          <li><a href="#references"><span class="tech-label">Ref</span> References &amp; Credits</a></li>
-        </ol>
+          <li><a href="#business-model"><span class="tech-label">07</span> Business model</a></li>
+          <li><a href="#unit-economics"><span class="tech-label">08</span> Financials</a></li>
+          <li><a href="#roadmap-risks"><span class="tech-label">09</span> Roadmap &amp; risks</a></li>
+                  <li><a href="#references"><span class="tech-label">Ref</span> References</a></li>
+</ol>
       </nav>
     </details>
-      <a class="back-to-top page-toc__top" href="#main">Back to top</a>
+      <a class="back-to-top" href="#main">Back to top</a>
     </div>
   </div>
 
@@ -2541,37 +2428,40 @@
             <li><a href="description.html">Description</a></li>
             <li><a href="contribution.html">Contribution</a></li>
             <li><a href="engineering.html">Engineering</a></li>
-            <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
+            <li><a href="safety-and-security.html">Safety</a></li>
             <li><a href="notebook.html">Notebook</a></li>
-            </ul>
+          </ul>
         </div>
         <div class="footer-col">
           <h2>Team</h2>
           <ul>
             <li><a href="members.html">Members</a></li>
             <li><a href="attributions.html">Attributions</a></li>
-            </ul>
+          </ul>
+        </div>
+        <div class="footer-col">
           <h2>Wet Lab</h2>
           <ul>
             <li><a href="parts.html">Parts</a></li>
             <li><a href="design.html">Design</a></li>
             <li><a href="experiments.html">Experiments</a></li>
             <li><a href="results.html">Results</a></li>
-            </ul>
+          </ul>
         </div>
         <div class="footer-col">
           <h2>Dry Lab</h2>
           <ul>
-            <li><a href="model.html">Model</a></li>
             <li><a href="hardware.html">Hardware</a></li>
-            </ul>
+            <li><a href="model.html">Model</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
           <h2>Human Practices</h2>
           <ul>
             <li><a href="human-practices.html">Integrated Human Practices</a></li>
             <li><a href="education.html">Education</a></li>
             <li><a href="entrepreneurship.html">Entrepreneurship</a></li>
             <li><a href="sustainability.html">Sustainability</a></li>
-            <li><a href="learning-platform.html">Learning Lab</a></li>
           </ul>
         </div>
       </div>
