@@ -1,0 +1,1 @@
+Replace the one-piece 04 cap with BOTH files here: total operating prints = 9. Two M3x12 thumbscrews replace M3x10. Extra silicone ring: 22x19 outer,15x12 opening,0.8 stock compressed to0.6 mm. Cleaning/cure access improves, but biocompatibility and sealing are NOT validated. Do not print both cap options for one device.

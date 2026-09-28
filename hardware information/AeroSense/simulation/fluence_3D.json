@@ -1,0 +1,136 @@
+{
+  "estimator": "sum integral(packet_weight dl)/(N*voxel_volume), multiplied by radiant source power; scalar fluence rate, not net irradiance",
+  "source": "Only NE LED on, Lambertian 1.0 x 0.3 mm emitter, other LEDs off",
+  "P_LED_uW_ASSUMED": 500.0,
+  "photon_quantum_yield_ASSUMED": 1.0,
+  "emission_power_conversion": "P_LED*cell_absorbed_fraction*QY*470/520",
+  "cell_absorption_per_mm_ASSUMED": 0.5,
+  "cell_layer_mm_ASSUMED": 0.02,
+  "scoring_max_cell_edge_mm": 0.5,
+  "grid_shape": [
+    104,
+    88,
+    79
+  ],
+  "scenario": {
+    "name": "low_loss_with_PD_soft_seal_ASSUMED",
+    "resin_mua_ex": 0.01,
+    "resin_mua_em": 0.005,
+    "resin_mus": 0.01,
+    "liquid_mus": 0.05,
+    "black_reflectance": 0.02,
+    "seal": true
+  },
+  "runs": [
+    {
+      "seed": 2609250,
+      "N_ex": 40000,
+      "N_em": 100000,
+      "absorbed_by_well": [
+        0.0015189989029249825,
+        2.4180258013183e-06,
+        1.3852295971548164e-08,
+        0.0001150087785234329
+      ],
+      "emitted_power_uW": 0.7395448009485405,
+      "PD_emission_power_uW": 0.0007585202150723145,
+      "PD_blue_power_uW": 9.397505714198115e-08,
+      "excitation_ledger": {
+        "absorbed": 0.5454704063289898,
+        "escaped": 0.454529593483026,
+        "detected": 1.879501142839623e-10,
+        "cutoff": 3.1391683550606086e-14,
+        "unfinished": 0.0,
+        "sum": 0.9999999999999974,
+        "events": 1870
+      },
+      "emission_ledger": {
+        "absorbed": 0.6552893331541503,
+        "escaped": 0.3436850086110682,
+        "detected": 0.0010256582347674356,
+        "cutoff": 1.4064991664373156e-14,
+        "unfinished": 0.0,
+        "sum": 1.0,
+        "events": 1712
+      }
+    },
+    {
+      "seed": 2609251,
+      "N_ex": 40000,
+      "N_em": 100000,
+      "absorbed_by_well": [
+        0.0014682897662325,
+        4.5944099205090656e-07,
+        3.1787216047314955e-10,
+        0.00013221065576190597
+      ],
+      "emitted_power_uW": 0.723510850964952,
+      "PD_emission_power_uW": 0.0006554053174805984,
+      "PD_blue_power_uW": 3.2108909186513463e-07,
+      "excitation_ledger": {
+        "absorbed": 0.550714993494442,
+        "escaped": 0.44928500586334696,
+        "detected": 6.421781837302693e-10,
+        "cutoff": 3.210542399692488e-14,
+        "unfinished": 0.0,
+        "sum": 0.9999999999999994,
+        "events": 1257
+      },
+      "emission_ledger": {
+        "absorbed": 0.656846566009739,
+        "escaped": 0.3422452026696037,
+        "detected": 0.0009058679860937527,
+        "cutoff": 1.3636431394961692e-14,
+        "unfinished": 2.3633345500798643e-06,
+        "sum": 1.0000000000000002,
+        "events": 2500
+      }
+    },
+    {
+      "seed": 2609252,
+      "N_ex": 40000,
+      "N_em": 100000,
+      "absorbed_by_well": [
+        0.0014968020856952998,
+        1.5403142140892783e-06,
+        2.0847801270646696e-08,
+        0.00013240570796402705
+      ],
+      "emitted_power_uW": 0.7369821241991372,
+      "PD_emission_power_uW": 0.0005571864714182201,
+      "PD_blue_power_uW": 1.5457829906308198e-07,
+      "excitation_ledger": {
+        "absorbed": 0.5438045800735049,
+        "escaped": 0.45619541961730703,
+        "detected": 3.0915659812616397e-10,
+        "cutoff": 3.033245922319956e-14,
+        "unfinished": 0.0,
+        "sum": 0.9999999999999988,
+        "events": 1555
+      },
+      "emission_ledger": {
+        "absorbed": 0.655726237404387,
+        "escaped": 0.3435177246031729,
+        "detected": 0.0007560379731376834,
+        "cutoff": 1.3860365383808394e-14,
+        "unfinished": 1.928694335216892e-11,
+        "sum": 0.9999999999999984,
+        "events": 2500
+      }
+    }
+  ],
+  "runtime_seconds": 171.8611671924591,
+  "not_calibrated": [
+    "resin spectrum and autofluorescence",
+    "cell density, GCaMP concentration and calcium",
+    "emission spectrum, quantum yield",
+    "filter angle response and leakage",
+    "surface roughness",
+    "PCB component positions/heights"
+  ],
+  "geometry_approximations": [
+    "axis-aligned material interfaces; cylindrical upper-cap holes replaced with equal-area squares",
+    "ports black; curved emitter lens omitted",
+    "150 uL in each well, flat interfaces, 20 um floor cells"
+  ]
+}
