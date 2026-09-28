@@ -1,0 +1,40 @@
+(() => {
+ const host=document.querySelector('[data-component-explorer]'),map=document.querySelector('[data-pcb-map]');if(!host||!map)return;
+ const source=window.AEROSENSE_HW_BOM?.v2||[],rows=source.flatMap(row=>row.ref.split(',').map(ref=>({...row,ref:ref.trim()})));
+ const select=host.querySelector('select'),detail=host.querySelector('.hw-component-explorer__detail'),plate=map.querySelector('.hw-pcb-map__image'),img=plate.querySelector('img');let side=0;
+ const parts={
+ U1:['Boost converter','TPS61023','The battery supply is raised to the reader rail. Select the inductor and current limit from the peak rail load, efficiency and input-voltage range.','https://www.ti.com/lit/ds/symlink/tps61023.pdf'],
+ U2:['Battery charging / power path','BQ24074','The power-path charger supports the single-cell battery and external supply. Charge current and thermal dissipation follow the programmed resistance and input-to-battery voltage drop.','https://www.ti.com/lit/ds/symlink/bq24074.pdf'],
+ U4:['Controller','ESP32-WROOM-32E','The controller schedules the four excitation channels and reads the ADC. Digital timing, buffering and interface bandwidth connect optical acquisition to demodulation.','https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf'],
+ U6:['Analog supply','LP5907','The 3.3 V low-noise analog rail separates the receiver supply from digital switching. The LDO load budget and dropout margin must cover the analog chain.','https://www.ti.com/lit/ds/symlink/lp5907.pdf'],
+ U7:['Voltage reference','LTC6655, 2.5 V','The reference sets the ADC full-scale range. For a 16-bit conversion, 2.5 V / 65,536 = 38.15 µV per ideal code. Reference noise and drift contribute to the input-referred error.','https://www.analog.com/media/en/technical-documentation/data-sheets/ltc6655-6655ln.pdf'],
+ U8:['Transimpedance amplifier','LMP7721','The low-input-bias amplifier converts photodiode current into voltage. In the design scenario, 0.678 nW × 0.3 A/W = 0.203 nA; a 100 MΩ feedback resistance gives an ideal 20.3 mV. These are calculated design values.','https://www.ti.com/lit/ds/symlink/lmp7721.pdf'],
+ U9:['Analog-to-digital converter','ADS8866','A 16-bit SAR converter samples the conditioned signal. Its 100 kSPS rated throughput provides headroom over the 4 kHz design sampling schedule; settling and noise determine useful resolution.','https://www.ti.com/lit/ds/symlink/ads8866.pdf'],
+ D1:['Excitation LED array','155124BS73200','Four blue excitation LEDs illuminate the channels. Wavelength, optical power and drive current are selected together with the reporter spectrum and excitation-rejection optics.','https://www.we-online.com/components/products/datasheet/155124BS73200.pdf'],
+ D5:['Photodiode','VEMD5060X01','The detector converts collected fluorescence into photocurrent. Responsivity at the emission wavelength, active area, capacitance and dark current define the receiver budget.','https://www.vishay.com/doc?84278=']
+ };
+ Object.entries(parts).forEach(([ref,p])=>{const o=document.createElement('option');o.value=ref;o.textContent=`${p[0]} · ${p[1]} (BOM ${ref}${ref==='D1'?'–D4':''})`;select.append(o);});
+ const pins=[{side:0,ref:'U4',x:39,y:70,label:'MCU'},{side:0,ref:'U2',x:61,y:43,label:'Power'},{side:1,ref:'optics',x:54,y:43,lx:74,ly:30,label:'LEDs'},{side:1,ref:'optics',x:50,y:50,lx:77,ly:63,label:'PD region'},{side:1,ref:'receiver',x:45,y:51,lx:24,ly:63,label:'Receiver'}];
+ function para(label,text){const p=document.createElement('p'),b=document.createElement('strong');b.textContent=label+' ';p.append(b,document.createTextNode(text));return p;}
+ function link(url,label){const a=document.createElement('a');a.href=url;a.textContent=label;a.target='_blank';a.rel='noopener';return a;}
+ function show(ref){
+  detail.replaceChildren();plate.querySelectorAll('button').forEach(b=>b.classList.toggle('is-active',b.dataset.ref===ref));
+  if(ref==='optics'||ref==='receiver'){
+   const h=document.createElement('h3');h.textContent=ref==='optics'?'Back-side optical footprints':'Back-side receiver footprint';detail.append(h);
+   detail.append(para('CAD labels:',ref==='optics'?'Four peripheral sites are labelled D5–D8; the central two-pad site is labelled D1.':'The central IC footprint is labelled U3 in the supplied back rendering.'));
+   detail.append(para('Design specification:',ref==='optics'?'The BOM specifies 155124BS73200 excitation LEDs at D1–D4 and VEMD5060X01 at D5.':'The BOM specifies LMP7721 for the TIA at U8, while its U3 row has no assigned part.'));
+   detail.append(para('Source cross-check:','The rendering and BOM use different reference labels. Their physical-to-BOM mapping is not established by these files. The selector below lists the specified sensing components without assigning an unverified footprint.'));
+   const button=document.createElement('button');button.type='button';button.textContent=ref==='optics'?'Read the specified LED and detector':'Read the specified TIA';button.addEventListener('click',()=>show(ref==='optics'?'D1':'U8'));detail.append(button);return;
+  }
+  const p=parts[ref];if(!p)return;select.value=ref;const h=document.createElement('h3');h.textContent=p[0]+' · '+p[1];detail.append(h,para('BOM reference:',ref==='D1'?'D1–D4':ref),para('Function and specification:',p[2]));
+  const sources=document.createElement('p');sources.append(link(p[3],'Manufacturer datasheet ↗'),document.createTextNode(' · '),link('hardware%20information/pcb%20v2/NTHU_TEST_BOARD_Schematic.pdf#page='+(['U1','U2','U6'].includes(ref)?1:2),'Schematic · '+(['U1','U2','U6'].includes(ref)?'power sheet':'signal / control sheet')+' ↗'));detail.append(sources);
+  if(!['U4','U2'].includes(ref))detail.append(para('Layout note:','Use the BOM reference when reading the schematic. The supplied CAD rendering does not establish a matching footprint for this reference.'));
+ }
+ function flip(){img.src=`fig/hardware/v2-pcb-${side?'bottom':'top'}.png`;img.alt=`Supplied PCB ${side?'back':'front'} rendering`;map.querySelector('[data-board-side]').textContent=side?'Back · optical footprints':'Front · power and control';map.querySelector('[data-board-source]').href='hardware%20information/pcb%20v2/NTHU-TEST_BOARD_V1-'+(side?'BOT':'TOP')+'-0911.pdf';plate.querySelectorAll('button').forEach(b=>b.remove());
+  map.querySelector('.hw-pcb-legend')?.remove();plate.querySelector('.hw-pcb-leaders')?.remove();const legend=document.createElement('p');legend.className='hw-pcb-legend';legend.textContent=side?'A · LED footprints   B · central optical site   C · receiver IC footprint':'MCU · controller   Power · battery charging';plate.after(legend);
+  if(side){const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');svg.classList.add('hw-pcb-leaders');svg.setAttribute('viewBox','0 0 100 100');svg.setAttribute('preserveAspectRatio','none');svg.setAttribute('aria-hidden','true');pins.filter(p=>p.side===side).forEach(p=>{const line=document.createElementNS(ns,'line');for(const [k,v] of Object.entries({x1:p.x,y1:p.y,x2:p.lx,y2:p.ly,stroke:'#28556a','stroke-width':.4}))line.setAttribute(k,v);const dot=document.createElementNS(ns,'circle');for(const [k,v] of Object.entries({cx:p.x,cy:p.y,r:.65,fill:'#af682f'}))dot.setAttribute(k,v);svg.append(line,dot);});plate.append(svg);}
+  pins.filter(p=>p.side===side).forEach(p=>{const b=document.createElement('button');b.type='button';b.className='hw-pcb-map__pin';b.textContent=side?({'LEDs':'A','PD region':'B','Receiver':'C'}[p.label]):p.label;b.dataset.ref=p.ref;b.style.left=(p.lx??p.x)+'%';b.style.top=(p.ly??p.y)+'%';b.setAttribute('aria-label','Inspect '+p.label);b.addEventListener('click',()=>show(p.ref));plate.append(b);});
+ }
+ map.querySelector('[data-board-flip]').addEventListener('click',()=>{side=1-side;flip();if(!matchMedia('(prefers-reduced-motion:reduce)').matches)plate.animate([{opacity:.3,transform:'rotateY(-12deg)'},{opacity:1,transform:'rotateY(0deg)'}],{duration:350});});select.addEventListener('change',()=>show(select.value));flip();show('U8');
+})();
+
