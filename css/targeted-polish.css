@@ -1,0 +1,50 @@
+/* Citation previews share the hover area with their originating link. */
+.ref-passages{position:absolute;left:0;right:auto;bottom:calc(100% + .2rem);transform:none}
+.ref-backlink-group::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:.25rem;pointer-events:auto}
+@media(max-width:650px){.ref-passages{position:fixed;left:.5rem;right:.5rem;bottom:.5rem;width:auto;max-width:none}}
+
+/* Figure 1: choose exactly one SVG and keep it within the reading column. */
+.page-design #fig-sense-mechanism{width:100%;min-width:0;max-width:100%;box-sizing:border-box}
+.page-design #fig-sense-mechanism .design-fig-scroll{box-sizing:border-box;min-width:0;overflow-x:auto;overflow-y:hidden}
+.page-design #fig-sense-mechanism .design-schema--wide{display:block;width:min(100%,920px);min-width:0;height:auto;margin-inline:auto}
+.page-design #fig-sense-mechanism .design-schema--narrow{display:none}
+.page-design .design-mechanism-svg.is-phased [data-mechanism-phase]:not(.is-active){opacity:.64}
+.page-design .design-steps[hidden]{display:none!important}
+.page-design #fig-sense-mechanism .design-schema__step{cursor:pointer;fill:#345343;font-weight:700;paint-order:stroke fill;stroke:#f7f7f3;stroke-width:3px}
+.page-design #fig-sense-mechanism .design-schema__step.is-active{fill:#007a41;text-decoration:underline}
+.page-design #fig-sense-mechanism .design-schema__step:focus-visible{outline:2px solid #007a41;outline-offset:3px}
+.page-design .design-phase-mobile{display:none}
+.page-design .design-phase-detail{margin:.9rem 0 1.5rem;padding:1rem 1.2rem;background:#e9f3e8;border-left:4px solid #58a675;color:#254530}
+.page-design .design-phase-detail h3{margin:0 0 .3rem;font-size:1.08rem}.page-design .design-phase-detail p{margin:0;max-width:75ch;line-height:1.55}
+@media(max-width:699px){.page-design .design-phase-mobile{display:flex;gap:.35rem;overflow-x:auto;padding:.65rem .4rem;background:#f8faf1}.page-design .design-phase-mobile button{flex:none;border:1px solid #a6c2ab;border-radius:99px;background:#f5f8ee;color:#2f5d3c;padding:.4rem .65rem;font-size:.68rem}.page-design .design-phase-mobile button[aria-pressed=true]{background:#3e9e64;color:#fff}}
+@media(max-width:699px){.page-design #fig-sense-mechanism .design-schema--wide{display:none}.page-design #fig-sense-mechanism .design-schema--narrow{display:block;width:min(100%,360px);height:auto;margin-inline:auto}}
+
+/* Open stakeholder notes must rise above neighboring cards. */
+.page-human-practices .hp-odor__frame,.page-human-practices .hp-odor__grid{overflow:visible}
+.page-human-practices .hp-odor__cat.is-open{z-index:60}
+.page-human-practices .hp-odor__pop{z-index:61;top:calc(100% + .12rem);box-shadow:0 17px 35px rgba(16,48,34,.23)}
+.page-human-practices .hp-road-track__svg{opacity:.9;inset:0 auto 0 0;width:42px;overflow:visible;filter:drop-shadow(0 0 5px #5edd9d59)}
+.page-human-practices .hp-road-track__path--cyan{stroke:#59c99e;stroke-width:5;opacity:.58}
+.page-human-practices .hp-road-track__path--green{stroke:#b2e596;stroke-width:2;opacity:.88;stroke-dasharray:1 1.2}
+.page-human-practices .hp-road-track::before{content:none}
+.page-human-practices .hp-road-stop__node{width:16px;height:16px;border:3px solid #fdf9eb;box-shadow:0 0 0 2px var(--hp-accent),0 0 0 6px rgba(64,173,112,.13)}
+@media(min-width:901px){.page-human-practices .hp-road-layout{grid-template-columns:minmax(11.5rem,13rem) minmax(0,1fr);gap:1.3rem}.page-human-practices .hp-detail-panel{max-width:13rem}.page-human-practices .hp-road-stop{grid-template-columns:42px minmax(0,1fr);column-gap:1.1rem}.page-human-practices .hp-road-stop__node{grid-column:1;grid-row:1}.page-human-practices .hp-road-stop--left .hp-cp,.page-human-practices .hp-road-stop--right .hp-cp{grid-column:2;grid-row:1;max-width:none;width:100%}.page-human-practices .hp-road-list{gap:1.2rem}}
+@media(max-width:900px){.page-human-practices .hp-road-track__svg{width:36px;left:0}.page-human-practices .hp-road-list{padding-left:2.3rem}}
+
+/* Entrepreneurship diagrams answer beside the drawing, with a light paper flip. */
+@media(min-width:850px){.page-entrepreneurship .framework--swot,.page-entrepreneurship .framework--pest{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(16rem,.65fr);gap:1rem 1.4rem;align-items:center}.page-entrepreneurship .framework--swot>header,.page-entrepreneurship .framework--pest>header{grid-column:1/-1}.page-entrepreneurship .framework--swot .atlas-art,.page-entrepreneurship .framework--pest .atlas-art{grid-column:1;grid-row:2/5}.page-entrepreneurship .framework--swot .framework-board,.page-entrepreneurship .framework--pest .framework-board{grid-column:2;grid-row:2;margin:0!important;align-self:center}.page-entrepreneurship .framework--swot .atlas-instruction,.page-entrepreneurship .framework--pest .atlas-instruction{grid-column:2;grid-row:3}.page-entrepreneurship .framework--swot .framework-cell[open],.page-entrepreneurship .framework--pest .framework-cell[open]{min-height:13rem}}
+.page-entrepreneurship .framework.is-inspecting .framework-cell[open]{animation:framework-reveal .38s cubic-bezier(.18,.8,.28,1) both;transform-origin:left center;box-shadow:5px 7px 0 rgba(41,89,58,.12)!important}
+.page-entrepreneurship .framework--golden .framework-cell[open]{border-radius:1.2rem!important;background:#e4f1da!important}
+@keyframes framework-reveal{from{opacity:.25;transform:perspective(700px) rotateY(-16deg) translateX(-9px)}to{opacity:1;transform:perspective(700px) rotateY(0) translateX(0)}}
+@media(prefers-reduced-motion:reduce){.page-entrepreneurship .framework.is-inspecting .framework-cell[open]{animation:none}}
+.page-entrepreneurship .framework.has-note-dialog .framework-board{display:none!important}
+.page-entrepreneurship .framework.has-note-dialog .atlas-instruction::after{content:' A field note opens when you select a region.'}
+.framework-note{border:0;padding:0;max-width:min(550px,calc(100vw - 2rem));width:100%;max-height:calc(100dvh - 2rem);overflow:hidden;background:transparent;color:#263c30;box-shadow:none;box-sizing:border-box}
+.framework-note::backdrop{background:#0b251bbb;backdrop-filter:blur(5px)}
+.framework-note__sheet{position:relative;padding:clamp(1.4rem,4vw,2.7rem);background:#fcfaf2;background-image:linear-gradient(90deg,transparent 0,transparent 20px,#b2c0a355 21px,transparent 22px),radial-gradient(#8279670a .6px,transparent .8px);border:1px solid #d5d2c1;box-shadow:5px 7px 0 #c9c1a9,0 25px 50px #08130c77;transform:rotate(-.4deg)}
+.framework-note__sheet::before{content:'';position:absolute;top:-8px;right:25%;width:72px;height:21px;transform:rotate(5deg);background:#e9d7a7aa}
+.framework-note__close{position:absolute;right:.65rem;top:.45rem;border:0;background:none;color:#2f533d;font-size:1.6rem;line-height:1;cursor:pointer}
+.framework-note__kicker{margin:0 0 .55rem;font:700 .65rem/1.4 var(--font-mono,monospace);letter-spacing:.12em;text-transform:uppercase;color:#58806a}
+.framework-note h2{margin:0 0 .75rem;font-family:Georgia,'Times New Roman',serif;font-size:clamp(1.4rem,3vw,2rem);font-weight:500;color:#244731}
+.framework-note__copy{font-size:.96rem;line-height:1.62}.framework-note__copy p{margin:.55rem 0}.framework-note__copy a{color:#245b3e;font-weight:700}
+.glossary-popover__visual{margin:.55rem 0 .2rem;padding:.35rem;background:#f1f3e8;border:1px solid #cbd7c5}.glossary-popover__visual[hidden]{display:none}.glossary-popover__visual img{display:block;width:100%;max-height:100px;object-fit:contain}.glossary-popover__visual figcaption{margin-top:.25rem;color:#4b6656;font:600 .68rem/1.25 var(--font-mono,monospace)}

@@ -1,0 +1,77 @@
+/* v4: illustrated narrative, reference-shaped strategy atlas, cinematic flight. */
+.cursor-fly{width:38px;height:38px}
+.scroll-comic{--comic-ink:#224b3b;position:relative;background:#f4efdb;color:var(--comic-ink);isolation:isolate}
+.comic-stage{position:relative;background:#f4efdb}
+.comic-masthead{position:absolute;top:1.4rem;left:4vw;right:4vw;display:flex;align-items:center;gap:1.5rem;z-index:5;color:var(--comic-ink);font:600 .64rem/1.5 var(--font-mono,monospace);letter-spacing:.1em;pointer-events:none}
+.comic-masthead a{margin-left:auto;color:inherit;pointer-events:auto;text-underline-offset:.3em}
+.comic-panel{position:relative;min-height:720px;height:calc(100svh - 76px);max-height:1100px;overflow:hidden;background:#f4efdb;color:#224b3b}
+.comic-panel--dark{background:#153b31;color:#f4efd9}
+.comic-art,.comic-scent{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% center;max-width:none!important}
+.comic-scent{opacity:0;pointer-events:none;transition:opacity .3s;filter:drop-shadow(0 0 8px #b8e683)}
+.show-scent .comic-scent{opacity:1;clip-path:circle(170px at var(--scent-x,70%) var(--scent-y,50%))}
+.comic-narration{position:absolute;left:7%;top:50%;transform:translateY(-50%);width:37%;max-width:540px;z-index:2;pointer-events:none}
+.comic-kicker{font:650 .65rem/1.5 var(--font-mono,monospace)!important;letter-spacing:.17em;margin:0 0 1.9rem!important;color:inherit!important}
+.comic-narration h1,.comic-narration h2{font-size:clamp(2.7rem,4.8vw,5.3rem)!important;line-height:1.04!important;letter-spacing:-.055em!important;font-weight:650!important;margin:0 0 1.4rem!important;color:inherit!important}
+.comic-narration em{font-family:Georgia,serif;font-weight:400;letter-spacing:-.055em}
+.comic-voice{font-size:clamp(.92rem,1.12vw,1.15rem)!important;line-height:1.75!important;max-width:35ch;color:inherit!important;margin:0!important}
+.comic-narration a{display:inline-block;pointer-events:auto;color:inherit;font-size:.88rem;margin-top:1.5rem;text-underline-offset:.4em}
+.comic-folio{position:absolute;right:3vw;bottom:6rem;font:400 4.5rem/1 Georgia,serif;opacity:.35}.comic-folio span{font:400 .8rem/1 monospace}
+.comic-controls{position:absolute;left:4vw;right:4vw;bottom:1.3rem;display:flex;align-items:center;gap:1rem;z-index:6;color:var(--comic-ink);border-top:1px solid currentColor;padding-top:1rem}
+.comic-controls button{border:1px solid currentColor;border-radius:99px;background:transparent;color:inherit;min-height:40px;min-width:42px;padding:.55rem .8rem;font-size:.68rem;cursor:pointer;white-space:nowrap}
+.comic-controls button:hover{background:#8eab7d25}.comic-controls button:disabled{opacity:.3;cursor:default}.comic-controls button[aria-pressed=true]{background:#b8d891;color:#224b3b}
+.comic-controls label{font:600 .58rem/1.4 var(--font-mono,monospace);letter-spacing:.07em;white-space:nowrap}.comic-controls label span{display:block;margin-top:.3rem;letter-spacing:.14em}
+.comic-controls input{min-width:60px;flex:1;accent-color:#799760;cursor:pointer;max-width:460px}
+.comic-disclaimer{margin:0!important;padding:1.3rem 7%!important;background:#eae9d8;color:#53664f;font-size:.71rem!important;line-height:1.7;max-width:none!important}
+.scroll-comic.is-enhanced{height:740svh}
+.is-enhanced .comic-stage{position:sticky;top:72px;height:calc(100svh - 72px);min-height:540px;overflow:hidden}
+.is-enhanced .comic-panels{height:100%}
+.is-enhanced .comic-panel{position:absolute;inset:0;min-height:0;max-height:none;height:100%;opacity:0;visibility:hidden;transition:opacity .55s,visibility .55s;pointer-events:none}
+.is-enhanced .comic-panel.is-current{opacity:1;visibility:visible;pointer-events:auto}
+.is-enhanced .comic-art{transform:scale(1.035) translateY(calc(var(--chapter-progress,0) * -10px));transition:transform .3s ease-out}
+.is-enhanced .comic-panel .comic-narration{transform:translateY(calc(-50% + 18px));opacity:0;transition:transform .6s,opacity .6s}
+.is-enhanced .comic-panel.is-current .comic-narration{transform:translateY(-50%);opacity:1}
+.is-enhanced .comic-disclaimer{position:absolute;top:100%;left:0;right:0}.page-home:has(.is-enhanced) .home-after{padding-top:6rem}
+.scroll-comic.is-dark{--comic-ink:#f4efd9}
+.scroll-comic.is-reading .comic-masthead{position:relative;padding-block:1.4rem;top:auto;left:auto;right:auto;margin-inline:4vw}
+.is-reading .comic-controls{position:sticky;bottom:0;background:#f4efdb;color:#224b3b;margin-inline:4vw;padding-bottom:1rem}
+.scroll-comic button:focus-visible,.scroll-comic a:focus-visible,.atlas-art a:focus-visible{outline:3px solid #c28131;outline-offset:5px}
+/* Nine classic diagram geometries; the explanation is a quiet reading strip. */
+.framework-gallery .framework{background:#fffdf5;border:0;border-top:1px solid #bccaad;border-radius:0;padding:2.3rem 0 1.5rem;margin:2.2rem 0}
+.framework>header{padding-bottom:1rem}.framework>header h3{font-size:1.5rem}.framework>header span{font-weight:500;letter-spacing:.03em}
+.atlas-art{display:block;width:100%;height:auto;max-width:900px;margin:0 auto;overflow:visible;font-family:var(--font-sans,'Segoe UI',sans-serif)}
+.atlas-art a{cursor:pointer;text-decoration:none}.atlas-art a>path,.atlas-art a>rect,.atlas-art a>circle{transition:filter .18s,stroke .18s,stroke-width .18s}
+.atlas-art a:hover>path,.atlas-art a:hover>rect,.atlas-art a:hover>circle,.atlas-art a:focus>path,.atlas-art a:focus>rect,.atlas-art a:focus>circle,.atlas-art a[aria-expanded=true]>path,.atlas-art a[aria-expanded=true]>rect,.atlas-art a[aria-expanded=true]>circle{filter:brightness(1.04);stroke:#244b3b;stroke-width:3.5}
+.atlas-art text{pointer-events:none}.atlas-art a text{pointer-events:auto}.atlas-instruction{text-align:center;font-size:.73rem!important;color:#6d795f;margin:.7rem 0 1.5rem!important}
+.framework .framework-board{display:block!important;margin:1rem 0!important;border:0;padding:0;max-width:none!important;min-height:0}
+.framework .framework-cell{border:0;border-left:3px solid #8cad76!important;border-radius:0!important;background:#edf1e3!important;box-shadow:none!important;margin:.6rem 0!important}
+.framework .framework-cell summary{padding:.9rem 1.2rem;min-height:0!important;justify-content:space-between;font-size:.95rem}.framework .framework-cell summary::before{display:none}.framework .framework-cell__body{padding:0 1.2rem 1.1rem}.framework .framework-cell__body p{max-width:78ch!important}
+.framework[data-atlas-ready] .framework-cell:not([open]){display:none}
+.atlas-mobile{display:none}.atlas-legend{display:flex;gap:.7rem 1.3rem;flex-wrap:wrap;font-size:.74rem!important;margin:1rem 0}.atlas-legend span:nth-child(1){color:#606f9d}.atlas-legend span:nth-child(2){color:#995d55}.atlas-legend span:nth-child(3){color:#986723}.atlas-legend span:nth-child(4){color:#487f7d}.atlas-legend span:nth-child(5){color:#747264}
+.atlas-risk-index{margin-top:1rem;font-size:.85rem}.atlas-risk-index summary{cursor:pointer}.framework[data-atlas-ready] .atlas-risk-index .framework-cell{display:block}
+.atlas-mobile-label{border:0!important;background:transparent!important;padding:0!important;min-height:0!important}
+/* The protein occupies the stage; the membrane is a translucent context layer. */
+.receptor-viewer{position:relative;background:radial-gradient(ellipse at 50% 40%,#e5f0d8,#d4e4cd)}
+.receptor-viewer__labels button{display:flex;align-items:center;gap:.4rem;border:1px solid transparent;border-radius:99px;background:transparent;min-height:40px;padding:.35rem .6rem;color:#254c37;font-size:inherit;cursor:pointer}
+.receptor-viewer__labels button:hover,.receptor-viewer__labels button.is-highlighted{background:#f8ffed;border-color:#8fae7b}.receptor-viewer__labels button:focus-visible{outline:2px solid #496f3e;outline-offset:3px}
+.protein-hover{position:absolute;z-index:3;pointer-events:none;max-width:240px;background:#193f33;color:#edf7d9;border:1px solid #b6d399;padding:.6rem .85rem;border-radius:6px;font-size:.7rem;box-shadow:0 4px 20px #16392525}
+/* No cards in the 3D view: cinematic captions and a slim instrument overlay. */
+#follow-the-signal{border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;padding-inline:0!important}
+#follow-the-signal::before{display:none}.journey-launch{border-radius:0!important;border:0!important;min-height:440px}
+.flight__card,.flight__card--nw,.flight__card--ne,.flight__card--n{border:0!important;border-radius:0!important;box-shadow:none!important;background:transparent!important;backdrop-filter:none!important;padding:0!important;top:6.2rem!important;left:3rem!important;width:min(340px,32vw)!important;text-shadow:0 2px 18px #08281b,0 1px 3px #08281b}
+.flight__card-heading{font-family:Georgia,serif!important;font-weight:400!important;font-size:clamp(1.9rem,3.1vw,3.3rem)!important;letter-spacing:-.04em!important}.flight__card-text,.flight__card-chain{color:#eff6df!important;line-height:1.7!important}.flight__card-kicker{border-top:1px solid #dcedba80;padding-top:.8rem;width:max-content;max-width:100%}
+.flight__hud-top{background:linear-gradient(180deg,#102c2580,transparent)!important;border:0!important;border-radius:0!important;backdrop-filter:none!important}
+.flight__entity{border:0;background:transparent;text-shadow:0 1px 6px #102c25;padding-left:0;left:3rem}
+.flight__finale{background:transparent!important;color:#f1f6dc!important;border:0!important;border-radius:0!important;box-shadow:none!important;backdrop-filter:none;padding:2.5rem!important;text-shadow:0 2px 12px #102c25}.flight__finale h3,.flight__finale p{color:inherit!important}.flight__finale a{border:1px solid #afca99!important;border-radius:100px;background:#173e30cf!important;color:#f1f6dc!important}.flight__finale-heading{font-family:Georgia,serif!important;font-weight:400!important}.flight__card.is-hold .flight__card-inner{animation:none;opacity:1;transform:none}
+.flight::after{content:'';pointer-events:none;position:absolute;inset:0;z-index:2;box-shadow:inset 0 0 180px #071f2450;opacity:var(--dive,0);background:radial-gradient(ellipse at 50% 68%,transparent 25%,#b5f2b60d 60%,#0e302452);transition:opacity .15s}
+@media(max-width:900px){.comic-controls{gap:.55rem}.comic-controls label{font-size:.52rem}.comic-masthead{font-size:.56rem}.comic-narration{left:5%;width:42%}.comic-narration h1,.comic-narration h2{font-size:clamp(2.5rem,5.3vw,4rem)!important}.comic-voice{font-size:.9rem!important}.comic-art{object-position:55% center}}
+@media(max-width:700px){
+ .comic-panel{height:740px;min-height:0;max-height:none}.comic-art{object-fit:cover;width:145%;height:70%;top:30%;left:-37%;object-position:70% center}.comic-scent{width:145%;height:70%;top:30%;left:-37%;object-fit:cover}
+ .comic-narration{left:7%;top:2rem!important;transform:none!important;width:86%;max-width:none;pointer-events:auto}.comic-narration h1,.comic-narration h2{font-size:clamp(2.45rem,10vw,3.4rem)!important;line-height:1.04!important;margin-bottom:1rem!important}.comic-kicker{margin-bottom:1rem!important;font-size:.58rem!important}.comic-voice{max-width:42ch;font-size:.86rem!important;line-height:1.65!important}.comic-folio{bottom:1rem;font-size:3.5rem}
+ .comic-masthead{position:relative;left:auto;right:auto;top:auto;padding:1rem 7%;gap:.8rem;background:#f4efdb;color:#224b3b}.comic-masthead>span:nth-child(2){display:none}
+ .comic-controls{display:none!important}.show-scent .comic-scent{clip-path:none}.comic-panel+.comic-panel{border-top:1px solid #254e3d30}
+ .atlas-art{min-width:0}.framework>header{align-items:flex-start;gap:.5rem}.framework>header span{font-size:.63rem}.framework h3{font-size:1.25rem!important}.atlas-instruction{font-size:.65rem!important}.atlas-mobile{display:block;width:100%;min-height:44px;border:1px solid #afc49c;border-radius:6px;background:#f3f4e8;color:#234c37;padding:.6rem;margin:.7rem 0;font:inherit;font-size:.83rem}.atlas-mobile-label{display:block;font-size:.7rem;color:#5e7455}
+ .framework .framework-cell summary{padding:.75rem .85rem;font-size:.86rem}.framework .framework-cell__body{padding:0 .85rem 1rem}.framework .framework-cell__body p{font-size:.85rem}.framework-gallery .framework{padding-block:1.5rem}.atlas-instruction{margin:.5rem 0!important}.atlas-art a:hover>path,.atlas-art a:hover>rect,.atlas-art a:hover>circle{stroke-width:4}
+ .flight__card,.flight__card--nw,.flight__card--ne,.flight__card--n{left:1.1rem!important;top:5.1rem!important;width:calc(100vw - 155px)!important;padding:0!important}.flight__card-heading{font-size:1.7rem!important}.flight__entity{left:1.1rem}.flight__card-text,.flight__card-chain{font-size:.69rem!important}
+}
+@media(prefers-reduced-motion:reduce){.comic-art,.comic-panel,.comic-narration,.comic-scent,.atlas-art a>*{transition:none!important}.flight::after{display:none}}
+@media print{.scroll-comic,.is-enhanced .comic-stage{height:auto!important;position:relative!important;top:auto!important;overflow:visible!important}.is-enhanced .comic-panel{position:relative!important;visibility:visible!important;opacity:1!important;min-height:450px;height:450px;break-inside:avoid}.comic-controls,.comic-masthead,.comic-folio{display:none!important}.is-enhanced .comic-panel .comic-narration{opacity:1!important;transform:translateY(-50%)!important}.comic-disclaimer{position:relative!important}.framework[data-atlas-ready] .framework-cell:not([open]){display:block}.atlas-mobile,.atlas-mobile-label,.atlas-instruction{display:none}.atlas-art{max-height:380px}.framework .framework-cell{break-inside:avoid}}
