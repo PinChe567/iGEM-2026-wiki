@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Description · AeroSense · NTHU iGEM 2026</title>
+  <meta name="description" content="AeroSense is a Sense→Read→Decode→Act platform for early fungal-risk screening. This page states the problem, the system, and what each layer does.">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/description.css">
+  <link rel="stylesheet" href="css/evidence-2026.css?v=1">
+  <link rel="stylesheet" href="css/description-journey.css">
+  <script src="js/main.js" defer></script>
+  <script src="js/glossary.js?v=7" defer></script>
+  <script src="js/microinteractions.js" defer></script>
+  <script src="js/search.js" defer></script>
+  <script src="js/description-pipeline.js" defer></script>
+  <script>
+    (function () {
+      var loading = null;
+      function skipJourney() {
+        var journey = document.querySelector("[data-journey]");
+        if (journey) journey.classList.add("is-skipped");
+        var details = document.querySelector("#follow-the-signal-text");
+        if (details) details.setAttribute("open", "");
+        var skipped = document.querySelector("[data-journey-skipped]");
+        if (skipped) skipped.focus();
+      }
+      function showUnavailable() {
+        var u = document.querySelector("[data-flight-unavailable]");
+        if (!u) return;
+        u.hidden = false;
+        u.textContent = "3D flight did not load. Serve this folder over http (not file://) and refresh.";
+      }
+      function startFlight() {
+        if (typeof window.__aerosenseOpenFlight === "function") {
+          window.__aerosenseOpenFlight();
+          return;
+        }
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          var journey = document.querySelector("[data-journey]");
+          if (journey) journey.classList.add("is-reduced");
+          var details = document.querySelector("#follow-the-signal-text");
+          if (details) details.setAttribute("open", "");
+          var stills = document.querySelector("[data-static-journey]");
+          if (stills) stills.scrollIntoView({ block: "start" });
+          return;
+        }
+        if (!loading) {
+          loading = import("./js/description-journey-3d.js?v=7.6");
+        }
+        loading.then(function () {
+          if (typeof window.__aerosenseOpenFlight === "function") {
+            window.__aerosenseOpenFlight();
+          } else {
+            showUnavailable();
+          }
+        }).catch(showUnavailable);
+      }
+      document.addEventListener("click", function (ev) {
+        var skip = ev.target && ev.target.closest && ev.target.closest("[data-journey-skip]");
+        if (skip && typeof window.__aerosenseOpenFlight !== "function") {
+          ev.preventDefault();
+          skipJourney();
+          return;
+        }
+        var start = ev.target && ev.target.closest && ev.target.closest("[data-flight-start]");
+        if (!start) return;
+        if (typeof window.__aerosenseOpenFlight === "function") return;
+        ev.preventDefault();
+        startFlight();
+      }, true);
+    })();
+  </script>
+  <link rel="stylesheet" href="css/revision.css?v=10">
+  <link rel="stylesheet" href="css/experience.css?v=3">
+  <script src="js/experience.js?v=7.1" defer></script>
+  <script src="js/lightsheet-player.js?v=1" defer></script>
+  <link rel="icon" type="image/x-icon" href="logo/favicon.ico">
+  <link rel="icon" type="image/png" sizes="96x96" href="logo/favicon-96.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="logo/favicon-180.png">
+  <meta name="theme-color" content="#173e2b">
+  <meta name="robots" content="max-image-preview:large">
+  <meta property="og:image" content="logo/favicon-512.png">
+  <meta property="og:image:alt" content="NTHU FLY team logo">
+  <meta name="twitter:image" content="logo/favicon-512.png">
+<link rel="stylesheet" href="css/refinement.css?v=3">
+<link rel="stylesheet" href="css/story-atlas.css?v=4">
+<script src="js/story-atlas.js?v=5" defer></script>
+  <link rel="stylesheet" href="css/art-direction.css?v=6.2">
+  <link rel="stylesheet" href="css/signal-system.css?v=6">
+  <link rel="stylesheet" href="css/diary-overhaul.css?v=7">
+  <link rel="stylesheet" href="css/targeted-polish.css?v=6">
+  <script src="js/signal-guide.js?v=7.1" defer></script>
+<link rel="stylesheet" href="css/revision-v7.css?v=7.6">
+</head>
+<body class="page-description">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="reading-progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html">
+        <img class="brand__logo" src="logo/logo.jpg" width="44" height="44" alt="AeroSense">
+        <span class="brand__text">
+          <span class="brand__name">AeroSense</span>
+          <span class="brand__meta">NTHU · iGEM 2026</span>
+        </span>
+      </a>
+      <div class="header-tools">
+        <a class="btn-search" href="index.html#site-map" aria-haspopup="dialog" aria-controls="project-search" aria-label="Project Search" title="Project Search">
+          <svg class="header-icon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M15.5 15.5L21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span class="btn-search__label">Project Search</span>
+        </a>
+        <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+          <span class="nav-toggle__icon" aria-hidden="true"><span></span><span></span><span></span></span>
+        </button>
+      </div>
+      <nav class="site-nav" id="site-nav" aria-label="Primary">
+        <ul class="nav-root">
+          <li>
+            <a href="index.html">Home</a>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Project</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-project">Project</button>
+            <ul class="nav-submenu" id="submenu-project">
+              <li><a href="description.html" aria-current="page">Description</a></li>
+              <li><a href="glossary.html">Glossary</a></li>
+              <li><a href="contribution.html">Contribution</a></li>
+              <li><a href="engineering.html">Engineering</a></li>
+              <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
+              <li><a href="notebook.html">Notebook</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Team</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-team">Team</button>
+            <ul class="nav-submenu" id="submenu-team">
+              <li><a href="members.html">Members</a></li>
+              <li><a href="attributions.html">Attributions</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Wet Lab</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-lab">Wet Lab</button>
+            <ul class="nav-submenu" id="submenu-lab">
+              <li><a href="parts.html">Parts</a></li>
+              <li><a href="design.html">Design</a></li>
+              <li><a href="experiments.html">Experiments</a></li>
+              <li><a href="results.html">Results</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Dry Lab</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-drylab">Dry Lab</button>
+            <ul class="nav-submenu" id="submenu-drylab">
+              <li><a href="hardware.html">Hardware</a></li>
+              <li><a href="model.html">Model</a></li>
+            </ul>
+          </li>
+                    <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Human Practices</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-hp">Human Practices</button>
+            <ul class="nav-submenu" id="submenu-hp">
+              <li><a href="human-practices.html">Integrated Human Practices</a></li>
+              <li><a href="education.html">Education</a></li>
+              <li><a href="entrepreneurship.html">Entrepreneurship</a></li>
+              <li><a href="sustainability.html">Sustainability</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <dialog class="search-dialog" id="project-search" aria-labelledby="search-title">
+    <div class="search-dialog__panel">
+      <div class="search-dialog__header">
+        <h2 id="search-title">Project Search</h2>
+        <button type="button" class="search-dialog__close" data-search-close>Close</button>
+      </div>
+      <form class="search-dialog__form" role="search" action="index.html#site-map" method="get">
+        <label for="project-search-input">Search the AeroSense wiki</label>
+        <p id="project-search-instructions" class="search-dialog__hint">Type keywords from page titles and sections. Results stay on this site. No remote requests are made. Arrow keys move through results; Enter opens; Escape closes.</p>
+        <div class="search-dialog__field">
+          <input id="project-search-input" type="search" name="q" placeholder="e.g. HEK293T, Orco, hardware" autocomplete="off" aria-describedby="project-search-instructions project-search-count" aria-controls="project-search-results">
+          <button type="button" class="search-dialog__clear" data-search-clear hidden>Clear</button>
+        </div>
+        <div class="search-dialog__actions">
+          <button type="submit">Search</button>
+        </div>
+      </form>
+      <p id="project-search-count" class="search-dialog__count" aria-live="polite" aria-atomic="true">0 results</p>
+      <div id="project-search-results" class="search-dialog__results" role="listbox" aria-labelledby="search-title"></div>
+    </div>
+  </dialog>
+
+  <div class="shell shell--with-toc">
+    <div class="page-main-column">
+      <main id="main">
+        <header class="page-hero desc-hero" data-reveal>
+          <nav aria-label="Breadcrumb">
+            <ol class="breadcrumb">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="description.html">Project</a></li>
+              <li aria-current="page">Description</li>
+            </ol>
+          </nav>
+          <p class="page-kicker">Project Description · Food &amp; Nutrition</p>
+          <h1>Description</h1>
+          <p class="hero-tagline">Bio-digital olfaction for earlier fungal-risk screening.</p>
+          <p class="desc-hero__descriptor">Bio-digital olfaction for earlier fungal-risk screening.</p>
+          <p class="desc-tagline">
+            <span data-layer="sense">Sense biological change.</span>
+            <span data-layer="read">Read weak fluorescence.</span>
+            <span data-layer="decode">Decode odor patterns.</span>
+            <span data-layer="act">Act before losses escalate.</span>
+          </p>
+          <p class="desc-thesis">
+            Food may begin changing chemically before deterioration becomes visually obvious.
+            AeroSense explores whether engineered olfactory receptors can turn that invisible VOC change into actionable screening information.
+          </p>
+          <p class="desc-bound">Screening layer — not a confirmatory food-safety test.</p>
+        </header>
+
+
+
+        <article class="page-article prose">
+          <section class="section-block desc-glance-block" id="glance" data-reveal>
+            <h2>How AeroSense works</h2>
+            <ol class="desc-strip" aria-label="Sense, Read, Decode, Act">
+              <li data-layer="sense">
+                <a href="#sense">
+                  <span class="desc-strip__layer">Sense</span>
+                  <span class="desc-strip__copy"><i>Drosophila</i> OR/Orco + HEK293T + GCaMP</span>
+                </a>
+              </li>
+              <li data-layer="read">
+                <a href="#read">
+                  <span class="desc-strip__layer">Read</span>
+                  <span class="desc-strip__copy">Weak-fluorescence reader + photodiode + FDM/DLIA</span>
+                </a>
+              </li>
+              <li data-layer="decode">
+                <a href="#decode">
+                  <span class="desc-strip__layer">Decode</span>
+                  <span class="desc-strip__copy">AL/MB-inspired odor-pattern representation</span>
+                </a>
+              </li>
+              <li data-layer="act">
+                <a href="#act">
+                  <span class="desc-strip__layer">Act</span>
+                  <span class="desc-strip__copy">QC + confidence + risk-oriented follow-up</span>
+                </a>
+              </li>
+            </ol>
+          </section>
+
+          <figure class="revision-visual">
+            <img src="assets/visuals/signal-flow.svg" alt="Conceptual four-stage AeroSense chain: a VOC activates a cell receptor; fluorescence is read; a pattern is decoded; an operator chooses a confirmatory step." loading="lazy" decoding="async">
+            <figcaption>Four layers in one view. This is an explanatory architecture diagram, not experimental performance data.</figcaption>
+          </figure>
+
+          <section class="section-block" id="the-problem" data-reveal>
+            <span class="section-eyebrow">01 · Context</span>
+            <h2>The Problem — When We See Spoilage, We May Already Be Late</h2>
+            <p>
+              Fungi and deteriorating biological materials release complex mixtures of
+              <dfn class="term" data-term="voc" tabindex="0">volatile organic compounds (VOCs)</dfn>.
+              These fingerprints change with species, substrate, environmental conditions, and growth stage, making VOCs promising non-destructive indicators of food and agricultural deterioration
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-gu-2019" id="cite-gu-2019-a" aria-describedby="cite-preview-gu-2019">[1]</a>
+                <span class="cite-preview" id="cite-preview-gu-2019" role="tooltip">Gu et al., 2019 — full entry in References.</span>
+              </span>
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-jiarpinijnun-2020" id="cite-jiarpinijnun-2020-a" aria-describedby="cite-preview-jiarpinijnun-2020">[2]</a>
+                <span class="cite-preview" id="cite-preview-jiarpinijnun-2020" role="tooltip">Jiarpinijnun et al., 2020 — full entry in References.</span>
+              </span>
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-gu-2022" id="cite-gu-2022-a" aria-describedby="cite-preview-gu-2022">[3]</a>
+                <span class="cite-preview" id="cite-preview-gu-2022" role="tooltip">Gu et al., 2022 — full entry in References.</span>
+              </span>
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-sanislav-2025" id="cite-sanislav-2025-a" aria-describedby="cite-preview-sanislav-2025">[4]</a>
+                <span class="cite-preview" id="cite-preview-sanislav-2025" role="tooltip">Sanislav et al., 2025 — full entry in References.</span>
+              </span>.
+              Timing is the issue: by the time spoilage is obvious, the useful inspection window may already have closed.
+            </p>
+
+            <figure class="wiki-figure" id="fig-screening-window" aria-labelledby="cap-screening-window">
+              <div class="wiki-figure__media v7-illustration"><picture><source media="(max-width:600px)" srcset="fig/description/screening-window-v7-mobile.svg"><img src="fig/description/screening-window-v7.svg" alt="A batch of stored food releases volatiles, an odor pattern prompts inspection, and a confirmatory test informs the decision." loading="lazy"></picture></div>
+              <figcaption id="cap-screening-window">
+                <span class="wiki-figure__num">Figure 1.</span>
+                <span class="wiki-figure__title"> From invisible change to visible loss.</span>
+                <p class="wiki-figure__explain">Conceptual schematic.</p>
+              </figcaption>
+            </figure>
+
+            <p>
+              In controlled rice studies, electronic-nose and headspace GC–IMS methods have distinguished fungal contamination before visible growth, including discrimination of inoculated samples within approximately 24–48 hours under controlled experimental conditions
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-gu-2019" id="cite-gu-2019-b" aria-describedby="cite-preview-gu-2019">[1]</a>
+                <span class="cite-preview" role="tooltip">Gu et al., 2019 — full entry in References.</span>
+              </span>
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-jiarpinijnun-2020" id="cite-jiarpinijnun-2020-b" aria-describedby="cite-preview-jiarpinijnun-2020">[2]</a>
+                <span class="cite-preview" role="tooltip">Jiarpinijnun et al., 2020 — full entry in References.</span>
+              </span>
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-gu-2022" id="cite-gu-2022-b" aria-describedby="cite-preview-gu-2022">[3]</a>
+                <span class="cite-preview" role="tooltip">Gu et al., 2022 — full entry in References.</span>
+              </span>.
+              Those times are literature results from existing VOC methods. They are not AeroSense measurements.
+            </p>
+            <p>
+              Powerful analytical methods already exist. GC–MS and related chromatographic methods provide detailed chemical information, while electronic noses can provide rapid pattern-based measurements. We therefore do <strong>not</strong> argue that food VOC sensing is an unsolved field. Instead, our project addresses a different engineering question: can biological odorant receptors provide a modular recognition layer that can eventually be coupled to a compact, calibrated measurement system?
+            </p>
+            <p>
+              Sensor-based electronic noses have shown impressive results across food applications, but reviews continue to identify sensor drift, environmental interference, calibration, odor differentiation, model generalization, and real-world standardization as important challenges
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-sanislav-2025" id="cite-sanislav-2025-b" aria-describedby="cite-preview-sanislav-2025">[4]</a>
+                <span class="cite-preview" role="tooltip">Sanislav et al., 2025 — full entry in References.</span>
+              </span>.
+              AeroSense explores a complementary biological sensing architecture rather than claiming to replace all existing analytical technologies.
+            </p>
+
+            <h3>From a signal to a decision</h3>
+            <p>For a warehouse or quality-control workflow, the useful question is rarely:</p>
+            <div class="desc-decision">
+              <div class="desc-decision__col desc-decision__col--ask">
+                <p class="desc-decision__label">Not this</p>
+                <p>“What was the raw sensor voltage?”</p>
+              </div>
+              <div class="desc-decision__col">
+                <p class="desc-decision__label">But this</p>
+                <p><strong>“Has this batch begun to deviate from its reference state, and should we inspect it now?”</strong></p>
+              </div>
+            </div>
+            <p>
+              This distinction became central to our project. AeroSense is therefore being designed around <strong>risk-oriented screening information</strong>, together with signal quality, confidence, calibration status, and a recommendation for follow-up testing.
+            </p>
+            <p>
+              <strong>AeroSense asks one question: can we engineer a complete sensing chain that turns these invisible chemical changes into reliable and actionable early-warning information?</strong>
+              Our answer combines three engineering layers around a synthetic-biology core. We use <i>Drosophila</i> odorant receptors as programmable biological recognition elements, a dedicated weak-fluorescence reader to recover their optical responses, and a fly-inspired computational framework to decode receptor-response patterns. Together, these modules form a continuous <strong>Sense → Read → Decode → Act</strong> pipeline. The first application we are pursuing in 2026 is <strong>early fungal-risk screening for high-value food and agricultural products during storage and incoming quality control</strong>.
+            </p>
+          </section>
+
+          <section class="section-block" id="why-olfaction" data-reveal>
+            <span class="section-eyebrow">02 · Biological rationale</span>
+            <h2>Why Biological Olfaction?</h2>
+            <p>
+              Natural olfactory systems do not identify an odor using a single perfectly specific receptor. Instead, odors are represented by combinations of receptor activity, followed by neural transformations that make overlapping patterns easier to distinguish.
+            </p>
+            <p>
+              In insects, odorant recognition involves a tuning
+              <dfn class="term" data-term="or" tabindex="0">odorant receptor (OR)</dfn>
+              together with the conserved
+              <dfn class="term" data-term="orco" tabindex="0">odorant receptor co-receptor Orco</dfn>.
+              Activation of the OR–Orco complex forms a cation-conducting sensory response (insect ORs are not GPCRs), converting chemical recognition into a cellular signal
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023-a" aria-describedby="cite-preview-zboray-2023">[5]</a>
+                <span class="cite-preview" id="cite-preview-zboray-2023" role="tooltip">Zboray et al., 2023 — full entry in References.</span>
+              </span>
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-jones-2011" id="cite-jones-2011-a" aria-describedby="cite-preview-jones-2011">[6]</a>
+                <span class="cite-preview" id="cite-preview-jones-2011" role="tooltip">Jones et al., 2011 — full entry in References.</span>
+              </span>.
+              Construct-level mechanism and architecture:
+              <a href="design.html#how-aerosense-senses">Design · how AeroSense senses</a>.
+              <dfn class="term" data-term="vuaa1" tabindex="0">VUAA1</dfn>,
+              an Orco agonist, provides a useful experimental positive control for testing the functionality of this sensing pathway
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-jones-2011" id="cite-jones-2011-b" aria-describedby="cite-preview-jones-2011">[6]</a>
+                <span class="cite-preview" role="tooltip">Jones et al., 2011 — full entry in References.</span>
+              </span>.
+            </p>
+            <p>
+              Importantly, this idea already has strong experimental precedent. Zboray <i>et al.</i> established stable HEK293 cell lines expressing seven <i>Drosophila</i> odorant receptors, Orco, mCherry, and the genetically encoded calcium indicator GCaMP6. Their panel was characterized against 66
+              <dfn class="term" data-term="voc" tabindex="0">VOCs</dfn>
+              and demonstrated that heterologously expressed insect olfactory receptors can generate measurable fluorescence responses to diverse volatile ligands
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023-b" aria-describedby="cite-preview-zboray-2023">[5]</a>
+                <span class="cite-preview" role="tooltip">Zboray et al., 2023 — full entry in References.</span>
+              </span>.
+            </p>
+            <p>
+              <dfn class="term" data-term="gcamp6" tabindex="0">GCaMP6</dfn>
+              is a genetically encoded calcium indicator developed for sensitive fluorescence reporting of intracellular calcium dynamics
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-chen-2013" id="cite-chen-2013-a" aria-describedby="cite-preview-chen-2013">[7]</a>
+                <span class="cite-preview" id="cite-preview-chen-2013" role="tooltip">Chen et al., 2013 — full entry in References.</span>
+              </span>.
+              We use this optical signal as the interface between biological recognition and our electronic measurement layer.
+            </p>
+
+            <figure class="wiki-figure" id="fig-bio-mechanism" aria-labelledby="cap-bio-mechanism">
+              <div class="wiki-figure__media v7-illustration"><picture><source media="(max-width:600px)" srcset="fig/description/bio-mechanism-v7-mobile.svg"><img src="fig/description/bio-mechanism-v7.svg" alt="Odor recognition by OR and Orco, calcium entry, GCaMP6f fluorescence, optical readout and pattern decoding." loading="lazy"></picture></div>
+              <figcaption id="cap-bio-mechanism">
+                <span class="wiki-figure__num">Figure 2.</span>
+                <span class="wiki-figure__title"> From odorant to a measurable optical output.</span>
+                <p class="wiki-figure__explain">Conceptual schematic.</p>
+              </figcaption>
+            </figure>
+
+            <h3 class="desc-lexicon-heading" id="terms-used">Terms used in this section</h3>
+            <p class="desc-lexicon-lead">Short definitions are listed here so they are never only inside a tooltip. On desktop, dotted terms also open a glossary popover on hover or focus; on a phone, the same terms can be tapped, and this list remains visible.</p>
+            <dl class="desc-lexicon">
+              <div>
+                <dt><dfn class="term" data-term="voc" tabindex="0">VOC</dfn></dt>
+                <dd>Volatile organic compound — a carbon-containing chemical that readily enters the gas phase at ambient conditions.</dd>
+              </div>
+              <div>
+                <dt><dfn class="term" data-term="or" tabindex="0">OR</dfn></dt>
+                <dd>Odorant / olfactory receptor — a receptor protein that binds odorant molecules and, with Orco, initiates an olfactory signal.</dd>
+              </div>
+              <div>
+                <dt><dfn class="term" data-term="orco" tabindex="0">Orco</dfn></dt>
+                <dd>Odorant receptor co-receptor — the conserved insect co-receptor that partners with ORs to form a ligand-gated cation channel.</dd>
+              </div>
+              <div>
+                <dt><dfn class="term" data-term="gcamp" tabindex="0">GCaMP</dfn></dt>
+                <dd>A genetically encoded fluorescent calcium indicator. GCaMP6 reports intracellular Ca²⁺ changes as fluorescence; it is not an AeroSense invention.</dd>
+              </div>
+              <div>
+                <dt><dfn class="term" data-term="vuaa1" tabindex="0">VUAA1</dfn></dt>
+                <dd>A synthetic Orco-family agonist used as an experimental positive control for OR–Orco channel function — not an AeroSense invention.</dd>
+              </div>
+            </dl>
+
+            <div class="desc-prior">
+              <p class="desc-prior__banner">Prior work matters</p>
+              <div class="desc-prior__grid">
+                <div class="desc-prior__col">
+                  <h3>Established prior work</h3>
+                  <p>
+                    Heterologous <i>Drosophila</i> OR/Orco + GCaMP-based sensing already has published precedent. Zboray <i>et al.</i> expressed insect ORs with Orco and GCaMP6 in HEK293 cells and recorded fluorescence responses to diverse VOCs
+                    <span class="cite-wrap">
+                      <a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023-why" aria-describedby="cite-preview-zboray-2023">[5]</a>
+                      <span class="cite-preview" role="tooltip">Zboray et al., 2023 — full entry in References.</span>
+                    </span>.
+                    Jones <i>et al.</i> established VUAA1 as an Orco agonist for functional control of this pathway
+                    <span class="cite-wrap">
+                      <a class="cite" href="#ref-jones-2011" id="cite-jones-2011-why" aria-describedby="cite-preview-jones-2011">[6]</a>
+                      <span class="cite-preview" role="tooltip">Jones et al., 2011 — full entry in References.</span>
+                    </span>.
+                    GCaMP6 itself is a published genetically encoded calcium indicator
+                    <span class="cite-wrap">
+                      <a class="cite" href="#ref-chen-2013" id="cite-chen-2013-why" aria-describedby="cite-preview-chen-2013">[7]</a>
+                      <span class="cite-preview" role="tooltip">Chen et al., 2013 — full entry in References.</span>
+                    </span>.
+                  </p>
+                  <p><strong>The use of Drosophila OR/Orco and GCaMP in mammalian cells is not our invention.</strong></p>
+                </div>
+                <div class="desc-prior__col desc-prior__col--ask">
+                  <h3>Our engineering question</h3>
+                  <p>How can this biological sensing architecture be adapted, measured, decoded, calibrated and integrated into a reproducible bio-digital workflow?</p>
+                  <p>AeroSense builds on that established architecture. It does not claim to have invented the receptor, the co-receptor, the calcium indicator, or the agonist control.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section-block desc-lightsheet" id="lightsheet-observation" data-reveal>
+            <span class="section-eyebrow">Exploratory observation</span>
+              <h2>Before building a reader, we watched fluorescence change</h2>
+            <p>We first used light-sheet microscopy to locate a TH-associated fluorescent signal in the fly preparation and observe what happened during three odor presentations: isopentyl acetate, 3-octanol and 4-methylcyclohexanol. The supplied recording and exploratory plots show fluorescence changes across selected image regions around those presentations. This offered a visual starting point for asking how odor-dependent biological signals might be captured as data.</p>
+            <div class="desc-lightsheet__media"><figure><div class="desc-lightsheet__player" data-lightsheet-player data-index="wetlab%20results/description_lightsheet/Normalized_TH_frames.json" data-frames="wetlab%20results/description_lightsheet/Normalized_TH_frames.bin"><canvas width="640" height="640" role="img" aria-label="Team light-sheet recording of TH-associated fluorescence, with seek and play controls below"></canvas><img src="wetlab%20results/description_lightsheet/Normalized_TH_poster.jpg" alt="First frame of the team light-sheet recording" loading="lazy" data-lightsheet-poster><div class="desc-lightsheet__controls"><button type="button" data-lightsheet-play aria-label="Play light-sheet recording">Play</button><input type="range" min="0" max="695" value="0" step="1" aria-label="Light-sheet recording frame" data-lightsheet-seek><output data-lightsheet-time>00:00 / 01:56</output></div><p class="desc-lightsheet__status" data-lightsheet-status role="status">Select Play to load the recording.</p></div><figcaption>Team-supplied light-sheet recording of a TH-associated fluorescent preparation. Displayed at 6 frames/s and resized for web viewing. <a href="wetlab%20results/description_lightsheet/Normalized_TH.avi" download>Original AVI file</a>.</figcaption></figure><figure><img src="wetlab%20results/description_lightsheet/flouresent_intensity.png" alt="Mean fluorescence intensity over time in center, up, down, left and right regions, with three approximate odor presentation windows" loading="lazy"><figcaption>Regional mean intensity (arbitrary units). Shaded intervals mark approximate odor presentation, not precisely measured delivery at the tissue.</figcaption></figure></div>
+            <figure class="desc-lightsheet__plot"><img src="wetlab%20results/description_lightsheet/exploratory_local_dff.png" alt="Exploratory local-baseline delta F over F traces for five image regions around the three odor presentations" loading="lazy"><figcaption>Exploratory ΔF/F₀ plots with local baselines. The traces vary by region and odor; they are not a calibrated dose response or replicated statistical test.</figcaption></figure>
+            <p class="desc-lightsheet__boundary"><strong>Interpretation boundary.</strong> These files alone do not establish TH-cell identity, sample size, stimulus timing at the specimen, motion correction, replicate consistency or the mechanism of each fluorescence change. They do not validate our proposed OR/Orco–GCaMP cell sensor or hardware reader. <a href="#ref-avishai-2025">Avishai and Parnas (2025)</a> provides context for TH-associated neurons and odor-dependent dopaminergic modulation in the fly antennal lobe; that paper used structural and two-photon functional imaging, not our light-sheet method.</p>
+          </section>
+
+          <section class="section-block journey-section" id="follow-the-signal" data-reveal>
+            <span class="section-eyebrow">Conceptual walkthrough</span>
+            <h2>Follow the signal</h2>
+            <p>Follow five glowing waypoints: fly toward an odor source, then switch perspective to an odor molecule and trace how a separate engineered cell, optical reader, and decoder would handle the signal. This is a conceptual illustration, not experimental data or a simulation of fly behavior.</p>
+            <div class="journey" data-journey data-stage="1">
+              <div class="journey-launch">
+                <div class="journey-launch__back" aria-hidden="true"></div>
+                <div class="journey-launch__veil" aria-hidden="true"></div>
+                <div class="journey-launch__copy">
+                  <p class="journey-launch__kicker">Follow the signal</p>
+                  <p class="journey-launch__title">A fruit fly follows an odor.</p>
+                  <p class="journey-launch__lede">Reach each luminous waypoint. Then follow one odor cue into the engineered sensing system.</p>
+                  <div class="journey-launch__actions">
+                    <button type="button" class="journey-launch__start" data-flight-start aria-haspopup="dialog" aria-controls="follow-the-signal-flight">Start flight</button>
+                    <button type="button" class="journey-launch__skip" data-journey-skip>Skip interactive</button>
+                  </div>
+                  <p class="journey-launch__meta journey-launch__meta--live">W / ↑ fly forward · S / ↓ move back · A D / ← → steer · reach each glowing waypoint</p>
+                  <p class="journey-launch__meta journey-launch__meta--static">Movement is paused for reduced motion. The same conceptual path is available as stills.</p>
+                  <p class="journey-launch__disclaimer">Conceptual interactive · not experimental data</p>
+                  <p class="journey-launch__unavailable" data-flight-unavailable hidden>Interactive 3D view unavailable on this device.</p>
+                </div>
+              </div>
+
+              <div class="journey__skipped" data-journey-skipped tabindex="-1">
+                <p>The interactive was skipped. The same conceptual path is written below, then the technical layers continue.</p>
+              </div>
+
+              <ol class="journey-static" data-static-journey>
+                <li>
+                  <span class="journey__fallback-kicker">01 · Odor plume</span>
+                  <h3>Something changes before we see it.</h3>
+                  <p>Stored food can release changing volatile patterns as biological and environmental conditions evolve.</p>
+                </li>
+                <li>
+                  <span class="journey__fallback-kicker">02 · Olfaction</span>
+                  <h3>One odor. Many receptors.</h3>
+                  <p>Fruit-fly olfaction inspired AeroSense to treat odors as patterns rather than single sensor values.</p>
+                </li>
+                <li>
+                  <span class="journey__fallback-kicker">03 · Receptor / cell</span>
+                  <h3>We borrowed the receptor.</h3>
+                  <p>OR / Orco → HEK293T → Ca²⁺ → GCaMP. AeroSense is engineering living cells to translate receptor activation into measurable fluorescence.</p>
+                </li>
+                <li>
+                  <span class="journey__fallback-kicker">04 · Reader</span>
+                  <h3>A glow is not yet a measurement.</h3>
+                  <p>LIGHT → PD → TIA → ADC. Our reader is designed to convert weak optical responses into usable digital signals. FDM and digital lock-in processing are designed to isolate synchronized signal components from unrelated background variation.</p>
+                </li>
+                <li>
+                  <span class="journey__fallback-kicker">05 · FDM / DLIA</span>
+                  <h3>Find the signal in the noise.</h3>
+                  <p>FDM and digital lock-in processing are designed to isolate synchronized signal components from unrelated background variation.</p>
+                </li>
+                <li>
+                  <span class="journey__fallback-kicker">06 · Decoder / Act</span>
+                  <h3>From signal to a reason to look closer.</h3>
+                  <p>AeroSense is being developed as an early-screening layer for fungal-associated odor-pattern changes in stored food. Sense → Read → Decode → Act.</p>
+                </li>
+              </ol>
+
+              <dialog class="flight-dialog" id="follow-the-signal-flight" aria-labelledby="flight-title">
+                <div class="flight" data-flight-root>
+                  <h3 id="flight-title" class="visually-hidden">Follow the signal flight</h3>
+                  <div class="flight__world" data-flight-world tabindex="-1">
+                    <div class="flight__gl" data-flight-gl aria-hidden="true"></div>
+                    <div class="flight__veil" data-flight-veil aria-hidden="true"></div>
+                    <div class="flight__intro" data-flight-intro>
+                      <p class="flight__intro-kicker">Follow the signal</p>
+                      <p class="flight__intro-line" data-intro-line></p>
+                    </div>
+                    <p class="flight__edge" data-signal-edge hidden></p>
+                    <div class="flight__callout" data-flight-callout hidden>
+                      <span class="flight__callout-kicker" data-callout-kicker>SOURCE IN SIGHT</span>
+                      <span class="flight__callout-label" data-callout-label>VOC pattern in the headspace.</span>
+                    </div>
+                  </div>
+
+                  <div class="flight__hud">
+                    <ol class="flight__progress" data-flight-progress aria-label="Journey stages">
+                      <li data-progress-step="0"><span>01</span></li>
+                      <li data-progress-step="1"><span>02</span></li>
+                      <li data-progress-step="2"><span>03</span></li>
+                      <li data-progress-step="3"><span>04</span></li>
+                      <li data-progress-step="4"><span>05</span></li>
+                      <li data-progress-step="5"><span>06</span></li>
+                    </ol>
+                    <div class="flight__hud-top">
+                      <p class="flight__stage visually-hidden" data-flight-stage>01 / AIR</p>
+                      <div class="flight__hud-meta">
+                        <div class="flight__score-block">
+                          <p class="flight__score-note">INTERACTIVE SCORE</p>
+                          <p class="flight__score is-on" data-flight-score>000000</p>
+                          <p class="flight__score-mode" data-score-mode>
+                            <span>MANUAL FLIGHT</span>
+                            <span data-auto-state>READY</span>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="flight__hud-actions">
+                        <button type="button" class="flight__icon-btn" data-flight-pause>Pause</button>
+                        <button type="button" class="flight__icon-btn" data-flight-fs hidden>Fullscreen</button>
+                        <button type="button" class="flight__exit" data-flight-exit>Exit</button>
+                      </div>
+                    </div>
+                    <p class="flight__score-tick" data-score-tick hidden></p>
+                    <p class="flight__hint flight__hint--desk" data-steer-hint>W / ↑ forward · S / ↓ back · A D / ← → steer · fly into the glow</p>
+                    <p class="flight__hint flight__hint--touch">Hold ↑ to fly · use ← → to steer</p>
+                    <p class="flight__disclaimer">Conceptual interactive · not experimental data</p>
+                    <div class="flight__move-pad" aria-label="Flight controls"><button type="button" data-flight-move="left" aria-label="Steer left">←</button><button type="button" data-flight-move="forward" aria-label="Fly forward">↑</button><button type="button" data-flight-move="right" aria-label="Steer right">→</button><button type="button" data-flight-move="back" aria-label="Fly backward">↓</button></div>
+                    <div class="flight__load" data-flight-load hidden>
+                      <span class="flight__load-mark" aria-hidden="true"></span>
+                      <span data-load-text>Loading</span>
+                    </div>
+                    <div class="flight__checkpoint" data-flight-checkpoint hidden>
+                      <p class="flight__checkpoint-kicker">Checkpoint</p>
+                      <p class="flight__checkpoint-text" data-checkpoint-text>This stage could not load. The conceptual path can continue.</p>
+                      <button type="button" data-checkpoint-continue>Continue</button>
+                    </div>
+                    <div class="flight__preview" data-flight-preview hidden>
+                      <img data-preview-img alt="">
+                    </div>
+                    <div class="flight__static-nav" data-static-nav hidden>
+                      <button type="button" data-static-prev>Previous</button>
+                      <button type="button" data-static-next>Next</button>
+                    </div>
+                  </div>
+
+                  <aside class="flight__card flight__card--nw" data-flight-card hidden>
+                    <div class="flight__card-veil" aria-hidden="true"></div>
+                    <div class="flight__card-inner">
+                      <p class="flight__card-kicker" data-card-kicker>01 / AIR</p>
+                      <h4 class="flight__card-heading" data-card-heading>FOLLOW THE SCENT.</h4>
+                      <p class="flight__card-chain" data-card-chain hidden></p>
+                      <p class="flight__card-text" data-card-text>A stored batch can change before the warning becomes visible.</p>
+                    </div>
+                  </aside>
+                  <p class="flight__pin" data-flight-pin hidden></p>
+
+                  <div class="flight__finale" data-flight-finale hidden>
+                    <p class="flight__finale-kicker">AEROSENSE BIO</p>
+                    <p class="flight__finale-heading">SENSE → READ → DECODE → ACT</p>
+                    <p class="flight__finale-score" data-finale-score></p>
+                    <p class="flight__finale-note">Conceptual interactive · not experimental data</p>
+                    <div class="flight__finale-actions">
+                      <a class="flight__finale-link" href="design.html">Explore biology</a>
+                      <a class="flight__finale-link" href="hardware.html">Explore hardware</a>
+                      <a class="flight__finale-link" href="model.html">Explore model</a>
+                      <button type="button" class="flight__finale-exit" data-flight-exit>Exit journey</button>
+                    </div>
+                  </div>
+
+                  <div class="visually-hidden" data-flight-live aria-live="polite" aria-atomic="true"></div>
+                </div>
+              </dialog>
+
+              <details class="journey__fallback" id="follow-the-signal-text">
+                <summary>Read this journey as text</summary>
+                <h3>The same path, without the interaction</h3>
+                <p>AeroSense is being developed to re-encode environmental odor information through biology, electronics, and computation. The walkthrough is a conceptual illustration of that chain, not a simulation of fly behavior and not experimental data.</p>
+
+                <article>
+                  <span class="journey__fallback-kicker">01 · Odor plume</span>
+                  <h4>Something changes before we see it.</h4>
+                  <p>Stored food can release changing volatile patterns as biological and environmental conditions evolve. A fruit fly can follow that airborne plume long before the food looks different.</p>
+                </article>
+                <article>
+                  <span class="journey__fallback-kicker">02 · Olfaction</span>
+                  <h4>One odor. Many receptors.</h4>
+                  <p>Fruit-fly olfaction inspired AeroSense to treat odors as patterns rather than single sensor values. The drawing does not reproduce an exact <i>Drosophila</i> recording.</p>
+                </article>
+                <article>
+                  <span class="journey__fallback-kicker">03 · Receptor / cell</span>
+                  <h4>We borrowed the receptor.</h4>
+                  <p>OR / Orco → HEK293T → Ca²⁺ → GCaMP. AeroSense is engineering living cells to translate receptor activation into measurable fluorescence.</p>
+                </article>
+                <article>
+                  <span class="journey__fallback-kicker">04 · Reader</span>
+                  <h4>A glow is not yet a measurement.</h4>
+                  <p>LIGHT → PD → TIA → ADC. Our reader is designed to convert weak optical responses into usable digital signals.</p>
+                </article>
+                <article>
+                  <span class="journey__fallback-kicker">05 · Decoder</span>
+                  <h4>Compare response patterns.</h4>
+                  <p>The illustrated network moves from receptor inputs through contrast processing to a sparse representation. It introduces the fly-inspired decoding design; it is not a measured AeroSense response or classification result.</p>
+                </article>
+                <article>
+                  <span class="journey__fallback-kicker">06 · Decoder / Act</span>
+                  <h4>From signal to a reason to look closer.</h4>
+                  <p>AeroSense is being developed as an early-screening layer for fungal-associated odor-pattern changes in stored food. It is not a mycotoxin assay and does not replace formal food-safety testing.</p>
+                  <p>Sense → Read → Decode → Act</p>
+                </article>
+              </details>
+              <noscript>
+                <p class="notice">JavaScript is off, so the interactive walkthrough cannot run. Expand “Read this journey as text” for the full conceptual story.</p>
+              </noscript>
+            </div>
+          </section>
+
+          <section class="section-block desc-flow-section" id="pipeline" data-reveal>
+            <span class="section-eyebrow">03 · System</span>
+            <h2>AeroSense — Sense → Read → Decode → Act</h2>
+            <p>This is the functional system architecture, not the team workstream hierarchy. Technical workstreams are Wet Lab and Dry Lab (Hardware | Model); Human Practices shapes the Act / deployment interface separately.</p>
+            <p>The four layers below are one continuous information chain: a volatile cue becomes a cellular optical signal, a digital measurement, a decoded pattern, and a follow-up decision. Each stage is a design intent, not a reported AeroSense result.</p>
+
+            <figure class="wiki-figure desc-flow-figure" id="fig-pipeline" aria-labelledby="cap-pipeline">
+              <span id="fig-proposed-architecture" class="visually-hidden">Former three-layer architecture figure</span>
+              <div class="wiki-figure__media">
+                <div class="desc-flow" data-desc-flow data-scene="sense">
+                  <div class="desc-flow__viz" aria-hidden="false">
+                    <p class="desc-flow__badge">One information chain — not experimental data</p>
+                    <p class="desc-signal__live"><span data-signal-label>VOC → biological fluorescence</span></p>
+                    <nav class="desc-flow__ticks" aria-label="Pipeline stages">
+                      <a href="#sense" data-flow-tick="sense" aria-current="true">Sense</a>
+                      <a href="#read" data-flow-tick="read">Read</a>
+                      <a href="#decode" data-flow-tick="decode">Decode</a>
+                      <a href="#act" data-flow-tick="act">Act</a>
+                    </nav>
+                    <div class="desc-signal" data-desc-signal data-scene="sense">
+                      <div class="desc-signal__scene" data-scene="sense">
+                        <svg viewBox="0 0 520 110" role="img" aria-labelledby="sig-sense-title">
+                          <title id="sig-sense-title">VOC to OR/Orco on HEK293T to calcium to GCaMP fluorescence</title>
+                          <g fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="28" cy="52" r="9"></circle>
+                            <circle cx="46" cy="52" r="9"></circle>
+                            <circle cx="37" cy="68" r="9"></circle>
+                            <rect x="92" y="36" width="36" height="48" rx="10"></rect>
+                            <rect x="116" y="36" width="36" height="48" rx="10"></rect>
+                            <ellipse cx="214" cy="60" rx="28" ry="20"></ellipse>
+                            <circle cx="204" cy="56" r="2.2" fill="currentColor" stroke="none"></circle>
+                            <circle cx="218" cy="52" r="2.2" fill="currentColor" stroke="none"></circle>
+                            <circle cx="224" cy="66" r="2.2" fill="currentColor" stroke="none"></circle>
+                            <circle cx="208" cy="68" r="2.2" fill="currentColor" stroke="none"></circle>
+                            <circle class="desc-signal__pulse" cx="312" cy="60" r="16"></circle>
+                            <path class="desc-signal__pulse" d="M312 32 v8 M312 80 v8 M284 60 h8 M332 60 h8 M292 40 l6 6 M326 74 l6 6 M292 80 l6 -6 M326 46 l6 -6" stroke-linecap="round"></path>
+                            <rect x="372" y="40" width="44" height="40"></rect>
+                            <path d="M416 60 h28"></path>
+                            <path d="M444 60 l-7 -6 v12 z" fill="currentColor" stroke="none"></path>
+                          </g>
+                          <path d="M62 60 h22 M160 60 h18 M250 60 h38 M336 60 h28" fill="none" stroke="currentColor" stroke-width="1.5"></path>
+                          <path d="M84 60 l-6 -5 v10 z M178 60 l-6 -5 v10 z M288 60 l-6 -5 v10 z M364 60 l-6 -5 v10 z" fill="currentColor"></path>
+                        </svg>
+                        <p class="desc-signal__caption">VOC → OR/Orco on HEK293T → Ca²⁺ → GCaMP fluorescence → optical output. Schematic, not a structure.</p>
+                      </div>
+                      <div class="desc-signal__scene" data-scene="read">
+                        <svg viewBox="0 0 520 120" role="img" aria-labelledby="sig-read-title">
+                          <title id="sig-read-title">Modulated 470 nanometre excitation to photodiode, TIA, ADC, ESP32 and lock-in recovery</title>
+                          <g fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect class="desc-signal__mod" x="16" y="36" width="28" height="28"></rect>
+                            <path class="desc-signal__mod" d="M24 32 v-10 M30 32 v-14 M36 32 v-10" stroke-linecap="round"></path>
+                            <path d="M52 50 C 64 36, 76 64, 88 50 S 112 36, 124 50"></path>
+                            <circle cx="150" cy="50" r="16"></circle>
+                            <path d="M142 58 l16 -16"></path>
+                            <path d="M174 50 h22"></path>
+                            <path d="M196 38 l22 12 -22 12 z"></path>
+                            <path d="M226 50 h18"></path>
+                            <path d="M244 62 h12 v-8 h12 v-8 h12 v-8 h12"></path>
+                            <rect x="316" y="34" width="52" height="32"></rect>
+                            <path d="M24 86 h472" opacity="0.35"></path>
+                            <path class="desc-signal__wave" d="M24 100 C 48 86, 72 114, 96 100 S 144 86, 168 100 S 216 114, 240 100"></path>
+                            <path class="desc-signal__lock" d="M280 108 h36 l10 -18 h24 l8 28 h18 l12 -40 h26"></path>
+                          </g>
+                        </svg>
+                        <p class="desc-signal__caption">~470 nm LED → weak fluorescence → photodiode → LMP7721 TIA → ADS8866 ADC → ESP32 · FDM / digital lock-in. No measured SNR is shown.</p>
+                      </div>
+                      <div class="desc-signal__scene" data-scene="decode">
+                        <div class="desc-decode-viz">
+                          <p class="desc-decode-viz__note">Conceptual transformation — computational inspiration, not a recorded panel</p>
+                          <ol>
+                            <li>
+                              <span>Overlapping responses</span>
+                              <span class="desc-bars" data-set="raw" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+                            </li>
+                            <li>
+                              <span>Normalization</span>
+                              <span class="desc-bars" data-set="norm" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+                            </li>
+                            <li>
+                              <span>AL-inspired contrast</span>
+                              <span class="desc-bars" data-set="contrast" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+                            </li>
+                            <li>
+                              <span>MB-inspired sparse map</span>
+                              <span class="desc-sparse" aria-hidden="true"><i></i><i></i><i class="is-on"></i><i></i><i></i><i class="is-on"></i><i></i><i></i><i></i><i class="is-on"></i><i></i><i></i><i class="is-on"></i><i></i><i></i><i></i></span>
+                            </li>
+                            <li>
+                              <span>Classifier / SNN-like out</span>
+                              <span class="desc-out" aria-hidden="true"><i></i><i class="is-on"></i></span>
+                            </li>
+                          </ol>
+                        </div>
+                      </div>
+                      <div class="desc-signal__scene" data-scene="act">
+                        <div class="desc-qc">
+                          <p class="desc-qc__banner">Interface example — not AeroSense measurements</p>
+                          <dl>
+                            <div><dt>Baseline</dt><dd>awaiting measurement</dd></div>
+                            <div><dt>ΔF/F</dt><dd>awaiting measurement</dd></div>
+                            <div><dt>SNR</dt><dd>not claimed on this page</dd></div>
+                            <div><dt>Calibration</dt><dd><span class="desc-qc__example">example label</span> Within calibration</dd></div>
+                            <div><dt>QC flag</dt><dd><span class="desc-qc__example">example label</span> Retest required</dd></div>
+                            <div><dt>Risk / class score</dt><dd>awaiting model output</dd></div>
+                            <div><dt>Confidence</dt><dd>awaiting model output</dd></div>
+                            <div><dt>Follow-up</dt><dd>remeasure · monitor more frequently · isolate · confirmatory testing</dd></div>
+                          </dl>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <section class="section-block layer-detail desc-flow__stage is-current" id="sense" data-layer="sense" data-reveal>
+            <span id="biological-sensing" class="visually-hidden">Former biological sensing layer</span>
+            <span class="section-eyebrow">03.1 · Sense</span>
+            <h2>SENSE — Engineering Biological Recognition</h2>
+            <ol class="desc-flow-mini" aria-label="Sense path">
+              <li>VOC molecule</li>
+              <li>OR/Orco on HEK293T</li>
+              <li>Ca²⁺</li>
+              <li>GCaMP fluorescence</li>
+            </ol>
+            <p>
+              Our biological sensing layer adapts a published heterologous insect-olfactory-receptor strategy to our experimental platform
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023-c" aria-describedby="cite-preview-zboray-2023">[5]</a>
+                <span class="cite-preview" role="tooltip">Zboray et al., 2023 — full entry in References.</span>
+              </span>.
+              Target <i>Drosophila</i> ORs are expressed together with Orco in
+              <dfn class="term" data-term="hek293t" tabindex="0">HEK293T</dfn>
+              cells, while receptor activation is translated into a calcium-dependent GCaMP fluorescence signal.
+            </p>
+            <p>
+              Our current construct architecture contains an OR-expression module with mCherry as an expression reporter and a GCaMP6–linker–Orco module for calcium-dependent optical readout. VUAA1 is used as a functional positive-control stimulus before progressing to receptor-specific VOC characterization.
+            </p>
+            <p class="notice">
+              Construct maps, exact linker sequence, Registry IDs, expression data, and positive/negative-control results are not reported on this page. They will be added when those datasets are complete.
+            </p>
+            <p>A critical design principle is to separate two questions:</p>
+            <ol class="desc-questions">
+              <li>
+                <strong>Does the engineered sensing chain function?</strong>
+                <p>OR/Orco expression and a reproducible positive-control calcium response.</p>
+              </li>
+              <li>
+                <strong>Does a selected receptor respond meaningfully to the target VOC panel?</strong>
+                <p>Receptor × VOC × concentration × time characterization.</p>
+              </li>
+            </ol>
+            <p>This prevents us from interpreting every fluorescence change as evidence of successful odor recognition.</p>
+            <p class="desc-flow__explore">
+              <span>Explore in depth</span>
+              <a href="design.html">Design</a>
+              <a href="experiments.html">Experiments</a>
+              <a href="parts.html">Parts</a>
+            </p>
+          </section>
+
+          <section class="section-block layer-detail desc-flow__stage" id="read" data-layer="read" data-reveal>
+            <span id="hardware-layer" class="visually-hidden">Former hardware layer</span>
+            <span class="section-eyebrow">03.2 · Read</span>
+            <h2>READ — Measuring Weak Fluorescence Reliably</h2>
+            <ol class="desc-flow-mini" aria-label="Read path">
+              <li>~470-nm modulated excitation LED</li>
+              <li>Weak fluorescence</li>
+              <li>Photodiode</li>
+              <li>LMP7721 TIA</li>
+              <li>ADS8866 ADC</li>
+              <li>ESP32 · FDM / digital lock-in</li>
+            </ol>
+            <p>A biological sensor is only useful if its output can be measured reliably.</p>
+            <p>
+              Our current hardware architecture uses approximately 470-nm modulated excitation, a large-area photodiode, a low-leakage
+              <dfn class="term" data-term="tia" tabindex="0">transimpedance amplifier (TIA)</dfn>
+              based on the LMP7721, a 16-bit ADS8866
+              <dfn class="term" data-term="adc" tabindex="0">ADC</dfn>,
+              and an ESP32 for synchronized acquisition and digital signal processing. The design is optimized around a central challenge: recovering small fluorescence changes while limiting excitation leakage, ambient illumination, electrical noise, and channel crosstalk.
+            </p>
+            <p>
+              To separate optical channels, we are developing a
+              <dfn class="term" data-term="fdm" tabindex="0">frequency-division multiplexing (FDM)</dfn>
+              architecture in which excitation channels are assigned distinct modulation frequencies. The measured composite signal can then be demodulated using digital lock-in detection. Frequency-multiplexed fluorescence and lock-in detection are established analytical principles: previous systems have demonstrated multiple modulated excitation channels with a shared optical detector, while digital lock-in amplifiers can recover weak periodic optical signals from noisy backgrounds
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-tovar-2019" id="cite-tovar-2019-a" aria-describedby="cite-preview-tovar-2019">[8]</a>
+                <span class="cite-preview" id="cite-preview-tovar-2019" role="tooltip">Tovar et al., 2019 — full entry in References.</span>
+              </span>
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-harvie-2023" id="cite-harvie-2023-a" aria-describedby="cite-preview-harvie-2023">[9]</a>
+                <span class="cite-preview" id="cite-preview-harvie-2023" role="tooltip">Harvie &amp; de Mello, 2023 — full entry in References.</span>
+              </span>.
+            </p>
+            <p>
+              Our contribution is therefore <strong>not the invention of FDM or lock-in amplification</strong>, but their application within a custom weak-fluorescence reader designed around the constraints of our biological sensing system.
+            </p>
+            <p class="notice">
+              Measured dark noise, linearity, SNR, fluorescence detection limit, FDM isolation, crosstalk, and
+              <dfn class="term" data-term="dlia" tabindex="0">DLIA</dfn>
+              improvement are not claimed quantitatively on this page. Those values will be reported when measured.
+            </p>
+            <p class="desc-flow__explore">
+              <span>Explore in depth</span>
+              <a href="hardware.html">Hardware</a>
+            </p>
+          </section>
+
+          <section class="section-block layer-detail desc-flow__stage" id="decode" data-layer="decode" data-reveal>
+            <span id="computational-layer" class="visually-hidden">Former computational layer</span>
+            <span class="section-eyebrow">03.3 · Decode</span>
+            <h2>DECODE — From Receptor Responses to Odor Patterns</h2>
+            <ol class="desc-flow-mini" aria-label="Decode path">
+              <li>Overlapping receptor response</li>
+              <li>Normalization</li>
+              <li>AL-inspired contrast</li>
+              <li>Sparse high-dimensional MB-inspired representation</li>
+              <li>Classifier / SNN-like output</li>
+            </ol>
+            <p class="desc-flow-mini__note">Fly mushroom-body ideas are used as <strong>computational inspiration</strong>, not as a claim that the biological circuit is a conventional LSH algorithm.</p>
+            <p>
+              Odor information is inherently combinatorial. The <i>Drosophila</i>
+              <dfn class="term" data-term="mb" tabindex="0">mushroom body (MB)</dfn>
+              offers one biological example of transforming overlapping olfactory inputs into sparse distributed representations: Kenyon cells receive combinations of olfactory inputs and encode odors using sparse activity patterns
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-caron-2013" id="cite-caron-2013-a" aria-describedby="cite-preview-caron-2013">[10]</a>
+                <span class="cite-preview" id="cite-preview-caron-2013" role="tooltip">Caron et al., 2013 — full entry in References.</span>
+              </span>.
+            </p>
+            <p>
+              Our computational pipeline is inspired by this organization. Receptor responses are first normalized to reduce dependence on absolute signal magnitude. An
+              <dfn class="term" data-term="al" tabindex="0">antennal-lobe (AL)</dfn>-inspired
+              stage then applies global and lateral contrast enhancement, followed by projection into a high-dimensional sparse representation inspired by mushroom-body coding. A downstream classifier or spiking/MBON-like output layer can then be evaluated for odor or risk-state discrimination.
+            </p>
+            <p>
+              Dasgupta <i>et al.</i> proposed an algorithmic interpretation of the fly olfactory pathway as an efficient locality-sensitive-hashing-like computation
+              <span class="cite-wrap">
+                <a class="cite" href="#ref-dasgupta-2017" id="cite-dasgupta-2017-a" aria-describedby="cite-preview-dasgupta-2017">[11]</a>
+                <span class="cite-preview" id="cite-preview-dasgupta-2017" role="tooltip">Dasgupta et al., 2017 — full entry in References.</span>
+              </span>.
+              We use this work as <strong>computational inspiration</strong>, rather than asserting that the biological circuit is literally implementing a conventional LSH algorithm.
+            </p>
+            <p>
+              The model will be judged against simpler baselines—not merely by whether it produces a high accuracy. Our planned evaluation includes conventional classifiers, ablation of the AL- and MB-inspired stages, noise robustness, concentration shifts, unseen conditions, and computational efficiency.
+            </p>
+            <p class="notice">
+              The in-house dataset, train/test strategy, baseline results, ablation results, robustness analysis, and final model metrics are not reported on this page. They will be added when those evaluations are complete.
+            </p>
+            <p class="desc-flow__explore">
+              <span>Explore in depth</span>
+              <a href="model.html">Model</a>
+            </p>
+          </section>
+
+          <section class="section-block layer-detail desc-flow__stage" id="act" data-layer="act" data-reveal>
+            <span class="section-eyebrow">03.4 · Act</span>
+            <h2>ACT — Turning a Prediction into a Useful Action</h2>
+            <div class="desc-qc desc-qc--inline">
+              <p class="desc-qc__banner">Interface example — not AeroSense measurements</p>
+              <dl>
+                <div><dt>Baseline</dt><dd>awaiting measurement</dd></div>
+                <div><dt>ΔF/F</dt><dd>awaiting measurement</dd></div>
+                <div><dt>SNR</dt><dd>not claimed on this page</dd></div>
+                <div><dt>Calibration</dt><dd><span class="desc-qc__example">example label</span> Within calibration</dd></div>
+                <div><dt>QC flag</dt><dd><span class="desc-qc__example">example label</span> Retest required</dd></div>
+                <div><dt>Risk / class score</dt><dd>awaiting model output</dd></div>
+                <div><dt>Confidence</dt><dd>awaiting model output</dd></div>
+                <div><dt>Follow-up</dt><dd>remeasure · monitor more frequently · isolate · confirmatory testing</dd></div>
+              </dl>
+            </div>
+            <p>AeroSense does not end at classification.</p>
+            <p>
+              The final software layer is designed to combine the biological response with measurement-quality information, including baseline, ΔF/F, SNR, calibration status, QC flags, classification or risk score, and confidence. The objective is to help a user decide whether a sample should be <strong>remeasured, monitored more frequently, isolated, or sent for confirmatory testing</strong>.
+            </p>
+            <p>
+              This “Act” layer reflects one of the most important changes in our project: <strong>a sensor signal only has value when it connects to a decision.</strong>
+            </p>
+            <p class="desc-flow__explore">
+              <span>Explore in depth</span>
+              <a href="human-practices.html">Integrated Human Practices</a>
+            </p>
+          </section>
+                </div>
+              </div>
+              <figcaption id="cap-pipeline">
+                <span class="wiki-figure__num">Figure 3.</span>
+                <span class="wiki-figure__title"> The AeroSense measurement chain.</span>
+                <p class="wiki-figure__explain">Conceptual schematic.</p>
+              </figcaption>
+            </figure>
+          </section>
+
+          <section class="section-block" id="prior-work" data-reveal>
+            <span class="section-eyebrow">04 · Contribution boundary</span>
+            <h2>What We Build On — and What We Add</h2>
+            <div class="desc-quote">
+              <p>Our central contribution is the integration and engineering of these ideas into one traceable measurement chain—not the reinvention of each individual component.</p>
+            </div>
+            <p>The left column is published literature. The right column is AeroSense-specific engineering. Established methods are not described as our inventions.</p>
+
+            <div class="table-scroll desc-compare-wrap" tabindex="0" role="region" aria-label="Prior work versus AeroSense engineering">
+              <table class="goal-table desc-compare">
+                <caption class="visually-hidden">Comparison of established prior work, what that work established, and what AeroSense specifically adds</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Prior work</th>
+                    <th scope="col">What it established</th>
+                    <th scope="col">What AeroSense specifically adds</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td data-label="Prior work">
+                      <span class="desc-compare__label">Prior work</span>
+                      <span class="desc-stamp desc-stamp--prior"><span class="desc-stamp__mark" aria-hidden="true"></span>Established prior work</span>
+                      <span>Zboray <i>et al.</i> <span class="cite-wrap"><a class="cite" href="#ref-zboray-2023" id="cite-zboray-2023-d" aria-describedby="cite-preview-zboray-2023">[5]</a><span class="cite-preview" role="tooltip">Zboray et al., 2023 — full entry in References.</span></span></span>
+                    </td>
+                    <td data-label="What it established"><span class="desc-compare__label">What it established</span>Drosophila OR/Orco + GCaMP can function in HEK293 cellular sensing systems</td>
+                    <td data-label="What AeroSense specifically adds"><span class="desc-compare__label">What AeroSense specifically adds</span>Adaptation to our constructs, receptor panel, HEK293T workflow and downstream instrument</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Prior work">
+                      <span class="desc-compare__label">Prior work</span>
+                      <span class="desc-stamp desc-stamp--prior"><span class="desc-stamp__mark" aria-hidden="true"></span>Established prior work</span>
+                      <span>Jones <i>et al.</i> <span class="cite-wrap"><a class="cite" href="#ref-jones-2011" id="cite-jones-2011-c" aria-describedby="cite-preview-jones-2011">[6]</a><span class="cite-preview" role="tooltip">Jones et al., 2011 — full entry in References.</span></span></span>
+                    </td>
+                    <td data-label="What it established"><span class="desc-compare__label">What it established</span>Orco activation and VUAA1 functional agonism</td>
+                    <td data-label="What AeroSense specifically adds"><span class="desc-compare__label">What AeroSense specifically adds</span>Positive-control logic for our sensing chain</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Prior work">
+                      <span class="desc-compare__label">Prior work</span>
+                      <span class="desc-stamp desc-stamp--prior"><span class="desc-stamp__mark" aria-hidden="true"></span>Established prior work</span>
+                      <span>GCaMP6 <span class="cite-wrap"><a class="cite" href="#ref-chen-2013" id="cite-chen-2013-b" aria-describedby="cite-preview-chen-2013">[7]</a><span class="cite-preview" role="tooltip">Chen et al., 2013 — full entry in References.</span></span></span>
+                    </td>
+                    <td data-label="What it established"><span class="desc-compare__label">What it established</span>Sensitive genetically encoded calcium fluorescence</td>
+                    <td data-label="What AeroSense specifically adds"><span class="desc-compare__label">What AeroSense specifically adds</span>Optical interface between receptor activity and electronics</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Prior work">
+                      <span class="desc-compare__label">Prior work</span>
+                      <span class="desc-stamp desc-stamp--prior"><span class="desc-stamp__mark" aria-hidden="true"></span>Established prior work</span>
+                      <span>FDM fluorescence <span class="cite-wrap"><a class="cite" href="#ref-tovar-2019" id="cite-tovar-2019-b" aria-describedby="cite-preview-tovar-2019">[8]</a><span class="cite-preview" role="tooltip">Tovar et al., 2019 — full entry in References.</span></span></span>
+                    </td>
+                    <td data-label="What it established"><span class="desc-compare__label">What it established</span>Frequency-tagged excitation can be demultiplexed using one detection stream</td>
+                    <td data-label="What AeroSense specifically adds"><span class="desc-compare__label">What AeroSense specifically adds</span>Custom multi-channel biological fluorescence reader</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Prior work">
+                      <span class="desc-compare__label">Prior work</span>
+                      <span class="desc-stamp desc-stamp--prior"><span class="desc-stamp__mark" aria-hidden="true"></span>Established prior work</span>
+                      <span>Digital lock-in systems <span class="cite-wrap"><a class="cite" href="#ref-harvie-2023" id="cite-harvie-2023-b" aria-describedby="cite-preview-harvie-2023">[9]</a><span class="cite-preview" role="tooltip">Harvie &amp; de Mello, 2023 — full entry in References.</span></span></span>
+                    </td>
+                    <td data-label="What it established"><span class="desc-compare__label">What it established</span>Synchronous detection can recover weak periodic optical signals</td>
+                    <td data-label="What AeroSense specifically adds"><span class="desc-compare__label">What AeroSense specifically adds</span>Embedded implementation with ESP32 acquisition and AeroSense calibration workflow</td>
+                  </tr>
+                  <tr>
+                    <td data-label="Prior work">
+                      <span class="desc-compare__label">Prior work</span>
+                      <span class="desc-stamp desc-stamp--prior"><span class="desc-stamp__mark" aria-hidden="true"></span>Established prior work</span>
+                      <span>Fly mushroom-body coding <span class="cite-wrap"><a class="cite" href="#ref-caron-2013" id="cite-caron-2013-b" aria-describedby="cite-preview-caron-2013">[10]</a><span class="cite-preview" role="tooltip">Caron et al., 2013 — full entry in References.</span></span> <span class="cite-wrap"><a class="cite" href="#ref-dasgupta-2017" id="cite-dasgupta-2017-b" aria-describedby="cite-preview-dasgupta-2017">[11]</a><span class="cite-preview" role="tooltip">Dasgupta et al., 2017 — full entry in References.</span></span></span>
+                    </td>
+                    <td data-label="What it established"><span class="desc-compare__label">What it established</span>Sparse high-dimensional olfactory representations</td>
+                    <td data-label="What AeroSense specifically adds"><span class="desc-compare__label">What AeroSense specifically adds</span>Decoder designed around our receptor-response dataset</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section-block" id="evidence-ladder" data-reveal>
+            <span class="section-eyebrow">05 · Layers</span>
+            <h2>How the layers depend on one another</h2>
+            <p>AeroSense is one chain. A later layer only means something if the earlier ones are in place.</p>
+
+            <ol class="desc-ladder">
+              <li>
+                <div class="desc-ladder__rail"><span>A</span></div>
+                <div class="desc-ladder__body">
+                  <h3 class="desc-ladder__phase">Construct</h3>
+                  <p class="desc-ladder__q">Did we build what we intended?</p>
+                  <p class="desc-ladder__e">Sequence verification, construct maps, expression.</p>
+                </div>
+              </li>
+              <li>
+                <div class="desc-ladder__rail"><span>B</span></div>
+                <div class="desc-ladder__body">
+                  <h3 class="desc-ladder__phase">Functional sensing</h3>
+                  <p class="desc-ladder__q">Does the biological transduction chain work?</p>
+                  <p class="desc-ladder__e">VUAA1 positive control, negative controls, reproducible ΔF/F.</p>
+                </div>
+              </li>
+              <li>
+                <div class="desc-ladder__rail"><span>C</span></div>
+                <div class="desc-ladder__body">
+                  <h3 class="desc-ladder__phase">VOC characterization</h3>
+                  <p class="desc-ladder__q">Do receptors generate reproducible VOC-response patterns?</p>
+                  <p class="desc-ladder__e">Receptor × VOC × concentration × time matrix.</p>
+                </div>
+              </li>
+              <li>
+                <div class="desc-ladder__rail"><span>D</span></div>
+                <div class="desc-ladder__body">
+                  <h3 class="desc-ladder__phase">Measurement</h3>
+                  <p class="desc-ladder__q">Can the custom reader measure weak signals reliably?</p>
+                  <p class="desc-ladder__e">Dark noise, linearity, SNR, leakage, crosstalk, calibration.</p>
+                </div>
+              </li>
+              <li>
+                <div class="desc-ladder__rail"><span>E</span></div>
+                <div class="desc-ladder__body">
+                  <h3 class="desc-ladder__phase">Decode</h3>
+                  <p class="desc-ladder__q">Does the neuromorphic architecture add useful information?</p>
+                  <p class="desc-ladder__e">Baseline comparison, ablation, robustness, held-out performance.</p>
+                </div>
+              </li>
+              <li>
+                <div class="desc-ladder__rail"><span>F</span></div>
+                <div class="desc-ladder__body">
+                  <h3 class="desc-ladder__phase">Integration</h3>
+                  <p class="desc-ladder__q">Does the complete data chain close?</p>
+                  <p class="desc-ladder__e">Microscope versus AeroSense comparison, end-to-end demonstration.</p>
+                </div>
+              </li>
+              <li>
+                <div class="desc-ladder__rail"><span>G</span></div>
+                <div class="desc-ladder__body">
+                  <h3 class="desc-ladder__phase">Food context</h3>
+                  <p class="desc-ladder__q">Does the signal arrive early enough to matter?</p>
+                  <p class="desc-ladder__e">Controlled headspace test, time-to-detection, false positives and negatives, actionable threshold.</p>
+                </div>
+              </li>
+            </ol>
+          </section>
+
+          <section class="section-block" id="human-practices" data-reveal>
+            <span class="section-eyebrow">06 · Integration</span>
+            <h2>Human Practices Changed the Question We Were Asking</h2>
+            <p>
+              External feedback changed which application we pursue first, and what the system is supposed to output.
+            </p>
+
+            <ol class="desc-hp" aria-label="Human Practices design-evolution chain">
+              <li>
+                <span class="desc-hp__role">Stakeholder / Feedback</span>
+                <h3 class="desc-hp__name">Early idea</h3>
+                <p>AeroSense began as a broad biological VOC-sensing platform with possible applications across agriculture, food, environmental sensing and medicine.</p>
+                <p>External feedback challenged this framing.</p>
+              </li>
+              <li>
+                <span class="desc-hp__role">Insight</span>
+                <h3 class="desc-hp__name">A platform is not automatically a product</h3>
+                <p>A technically versatile platform is not automatically a useful solution if the first user, decision, and value are unclear.</p>
+              </li>
+              <li>
+                <span class="desc-hp__role">Design decision</span>
+                <h3 class="desc-hp__name">2026 focus</h3>
+                <p>We therefore narrowed the 2026 application to <strong>early fungal-risk screening in high-value food and agricultural storage and incoming QC</strong>, while retaining other VOC applications as future directions rather than current claims.</p>
+              </li>
+              <li>
+                <span class="desc-hp__role">Technical consequence</span>
+                <h3 class="desc-hp__name">Output changed</h3>
+                <p>Instead of stopping at “we detected a signal,” AeroSense is being designed around:</p>
+                <p class="desc-hp__seq">Biological change → VOC pattern → measurement → risk-oriented interpretation → follow-up action</p>
+                <p>These decisions now influence our validation metrics, user interface, calibration strategy and future cartridge design.</p>
+              </li>
+            </ol>
+            <p class="desc-hp__link">
+              <a href="human-practices.html#how-hp-changed">Integrated Human Practices — How stakeholder feedback changed AeroSense</a>
+            </p>
+          </section>
+
+          <section class="section-block" id="is-and-is-not" data-reveal>
+            <span id="context-boundaries" class="visually-hidden">Former context and boundaries section</span>
+            <span class="section-eyebrow">07 · Boundaries</span>
+            <h2>What AeroSense Is — and Is Not</h2>
+            <p>Scientific credibility depends as much on defining boundaries as on presenting possibilities. The two columns below are a scope definition, not a warning list.</p>
+            <div class="desc-scope">
+              <div class="desc-scope__col">
+                <h3>AeroSense is intended to be</h3>
+                <ul>
+                  <li>an <strong>early-warning and screening platform</strong>;</li>
+                  <li>a way to study and measure engineered olfactory-receptor responses;</li>
+                  <li>a modular bio-digital architecture connecting synthetic biology, measurement and computation;</li>
+                  <li>a system whose output can prioritize further inspection or confirmatory testing.</li>
+            </ul>
+              </div>
+              <div class="desc-scope__col desc-scope__col--not">
+                <h3>AeroSense is not currently claimed to be</h3>
+                <ul>
+                  <li>a direct mycotoxin assay;</li>
+                  <li>a replacement for microbiological culture, GC–MS, GC–IMS or validated regulatory testing;</li>
+                  <li>a universal identifier for every VOC mixture;</li>
+                  <li>a clinically or industrially validated diagnostic device;</li>
+                  <li>a demonstrated solution for every food, crop or disease.</li>
+            </ul>
+              </div>
+            </div>
+            <p class="desc-scope__contain">
+              <span>Future field implementations</span>
+              Future field-facing implementations must also physically contain the engineered cellular sensing element and prevent contact with food, users and the environment.
+            </p>
+          </section>
+
+          <section class="section-block" id="next-steps" data-reveal>
+            <span class="section-eyebrow">08 · Outlook</span>
+            <h2>What comes next</h2>
+            <p>These are the steps that still follow from the architecture on this page.</p>
+            <ol class="desc-next-steps">
+              <li>
+                <h3>Receptor assays</h3>
+                <p>Run the designed OR/Orco + GCaMP panel through VUAA1 and VOC measurements so Sense produces an optical response the reader can take.</p>
+              </li>
+              <li>
+                <h3>Reader characterization</h3>
+                <p>Bring up the current design fluorescence reader on calibrated light, then on cell fluorescence.</p>
+              </li>
+              <li>
+                <h3>Response dataset and decoder</h3>
+                <p>Collect a receptor × VOC matrix and fit the AL/MB-inspired decoder to those patterns.</p>
+              </li>
+              <li>
+                <h3>Screening decision</h3>
+                <p>Connect measurement-quality flags to a follow-up recommendation a quality-control user can act on.</p>
+              </li>
+              <li>
+                <h3>Containment for field use</h3>
+                <p>Physically contain the engineered cells before any warehouse-facing implementation.</p>
+              </li>
+            </ol>
+          </section>
+
+          <section class="section-block" id="continue-exploring" data-reveal>
+            <h2>Related wiki pages</h2>
+            <p>The Description page states the architecture and the claims we are and are not making. Layer detail lives on the pages below.</p>
+            <ul class="explore-list desc-next">
+              <li>
+                <a href="design.html">
+                  <span class="explore-list__num">01</span>
+                  <span class="explore-list__title">Design</span>
+                  <span class="explore-list__hint">Constructs and system choices</span>
+                </a>
+              </li>
+              <li>
+                <a href="experiments.html">
+                  <span class="explore-list__num">02</span>
+                  <span class="explore-list__title">Experiments</span>
+                  <span class="explore-list__hint">Planned assays and controls</span>
+                </a>
+              </li>
+              <li>
+                <a href="hardware.html">
+                  <span class="explore-list__num">03</span>
+                  <span class="explore-list__title">Hardware</span>
+                  <span class="explore-list__hint">Weak-fluorescence reader</span>
+                </a>
+              </li>
+              <li>
+                <a href="model.html">
+                  <span class="explore-list__num">04</span>
+                  <span class="explore-list__title">Model</span>
+                  <span class="explore-list__hint">Pattern decoding</span>
+                </a>
+              </li>
+              <li>
+                <a href="engineering.html">
+                  <span class="explore-list__num">05</span>
+                  <span class="explore-list__title">Engineering</span>
+                  <span class="explore-list__hint">Design–build–test record</span>
+                </a>
+              </li>
+              <li>
+                <a href="human-practices.html">
+                  <span class="explore-list__num">06</span>
+                  <span class="explore-list__title">Human Practices</span>
+                  <span class="explore-list__hint">How the application was narrowed</span>
+                </a>
+              </li>
+              <li>
+                <a href="results.html">
+                  <span class="explore-list__num">07</span>
+                  <span class="explore-list__title">Results</span>
+                  <span class="explore-list__hint">Measured outcomes only</span>
+                </a>
+              </li>
+            </ul>
+          </section>
+        </article>
+      </main>
+
+      <nav class="page-turn" aria-label="Page">
+        <a class="page-turn__prev" href="index.html"><span class="page-turn__dir">Previous</span><span class="page-turn__title">Home</span></a>
+        <a class="page-turn__next" href="contribution.html"><span class="page-turn__dir">Next</span><span class="page-turn__title">Contribution</span></a>
+      </nav>
+
+      <section class="references" aria-labelledby="references-heading" id="references" data-reveal>
+        <h2 id="references-heading">References</h2>
+        <p class="ref-papers-note">Numbered in-text markers such as [1] cite only papers. Documents, iGEM Foundation materials, and datasheets sit in a separate list below when this page uses them — they are not given [n] markers in the text.</p>
+        <p class="desc-ref-nav">Numbered markers such as [1] jump to the matching entry. Each entry links back to its first in-text citation. DOI links leave this wiki and open the publisher record.</p>
+        <ol class="ref-list">
+          <li id="ref-gu-2019">
+            <span class="ref-authors">Gu, S., Wang, J., &amp; Wang, Y.</span>
+            <span class="ref-year">(2019).</span>
+            <span class="ref-title">Early discrimination and growth tracking of <i>Aspergillus</i> spp. contamination in rice kernels using electronic nose.</span>
+            <span class="ref-venue"><i>Food Chemistry, 292</i>, 325–335.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1016/j.foodchem.2019.04.054" class="ref-ext" rel="noopener noreferrer" target="_blank">10.1016/j.foodchem.2019.04.054<span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>.</span>
+            <a class="ref-backlink" href="#cite-gu-2019-a" aria-label="Back to first in-text citation of this source">Back to first citation</a>
+          </li>
+          <li id="ref-jiarpinijnun-2020">
+            <span class="ref-authors">Jiarpinijnun, A., Osako, K., &amp; Siripatrawan, U.</span>
+            <span class="ref-year">(2020).</span>
+            <span class="ref-title">Visualization of volatomic profiles for early detection of fungal infection on storage Jasmine brown rice using electronic nose coupled with chemometrics.</span>
+            <span class="ref-venue"><i>Measurement, 157</i>, 107561.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1016/j.measurement.2020.107561" class="ref-ext" rel="noopener noreferrer" target="_blank">10.1016/j.measurement.2020.107561<span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>.</span>
+            <a class="ref-backlink" href="#cite-jiarpinijnun-2020-a" aria-label="Back to first in-text citation of this source">Back to first citation</a>
+          </li>
+          <li id="ref-gu-2022">
+            <span class="ref-authors">Gu, S. <i>et al.</i></span>
+            <span class="ref-year">(2022).</span>
+            <span class="ref-title">Untargeted rapid differentiation and targeted growth tracking of fungal contamination in rice grains based on headspace-gas chromatography-ion mobility spectrometry.</span>
+            <span class="ref-venue"><i>Journal of the Science of Food and Agriculture</i>.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1002/jsfa.11714" class="ref-ext" rel="noopener noreferrer" target="_blank">10.1002/jsfa.11714<span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>.</span>
+            <a class="ref-backlink" href="#cite-gu-2022-a" aria-label="Back to first in-text citation of this source">Back to first citation</a>
+          </li>
+          <li id="ref-sanislav-2025">
+            <span class="ref-authors">Sanislav, T. <i>et al.</i></span>
+            <span class="ref-year">(2025).</span>
+            <span class="ref-title">A comprehensive review on sensor-based electronic nose for food quality and safety.</span>
+            <span class="ref-venue"><i>Sensors, 25</i>, 4437.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.3390/s25144437" class="ref-ext" rel="noopener noreferrer" target="_blank">10.3390/s25144437<span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>.</span>
+            <a class="ref-backlink" href="#cite-sanislav-2025-a" aria-label="Back to first in-text citation of this source">Back to first citation</a>
+          </li>
+          <li id="ref-zboray-2023">
+            <span class="ref-authors">Zboray, K. <i>et al.</i></span>
+            <span class="ref-year">(2023).</span>
+            <span class="ref-title">High-throughput ligand profile characterization in novel cell lines expressing seven heterologous insect olfactory receptors for the detection of volatile plant biomarkers.</span>
+            <span class="ref-venue"><i>Scientific Reports, 13</i>, 21757.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/s41598-023-47455-4" class="ref-ext" rel="noopener noreferrer" target="_blank">10.1038/s41598-023-47455-4<span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>.</span>
+            <a class="ref-backlink" href="#cite-zboray-2023-a" aria-label="Back to first in-text citation of this source">Back to first citation</a>
+          </li>
+          <li id="ref-jones-2011">
+            <span class="ref-authors">Jones, P. L., Pask, G. M., Rinker, D. C., &amp; Zwiebel, L. J.</span>
+            <span class="ref-year">(2011).</span>
+            <span class="ref-title">Functional agonism of insect odorant receptor ion channels.</span>
+            <span class="ref-venue"><i>PNAS, 108</i>, 8821–8825.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1073/pnas.1102425108" class="ref-ext" rel="noopener noreferrer" target="_blank">10.1073/pnas.1102425108<span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>.</span>
+            <a class="ref-backlink" href="#cite-jones-2011-a" aria-label="Back to first in-text citation of this source">Back to first citation</a>
+          </li>
+          <li id="ref-chen-2013">
+            <span class="ref-authors">Chen, T.-W. <i>et al.</i></span>
+            <span class="ref-year">(2013).</span>
+            <span class="ref-title">Ultrasensitive fluorescent proteins for imaging neuronal activity.</span>
+            <span class="ref-venue"><i>Nature, 499</i>, 295–300.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/nature12354" class="ref-ext" rel="noopener noreferrer" target="_blank">10.1038/nature12354<span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>.</span>
+            <a class="ref-backlink" href="#cite-chen-2013-a" aria-label="Back to first in-text citation of this source">Back to first citation</a>
+          </li>
+          <li id="ref-tovar-2019">
+            <span class="ref-authors">Tovar, M. <i>et al.</i></span>
+            <span class="ref-year">(2019).</span>
+            <span class="ref-title">One sensor for multiple colors: Fluorescence analysis of microdroplets in microbiological screenings by frequency-division multiplexing.</span>
+            <span class="ref-venue"><i>Analytical Chemistry, 91</i>, 3055–3061.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1021/acs.analchem.8b05451" class="ref-ext" rel="noopener noreferrer" target="_blank">10.1021/acs.analchem.8b05451<span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>.</span>
+            <a class="ref-backlink" href="#cite-tovar-2019-a" aria-label="Back to first in-text citation of this source">Back to first citation</a>
+          </li>
+          <li id="ref-harvie-2023">
+            <span class="ref-authors">Harvie, A. J., &amp; de Mello, J. C.</span>
+            <span class="ref-year">(2023).</span>
+            <span class="ref-title">OLIA: An open-source digital lock-in amplifier.</span>
+            <span class="ref-venue"><i>Frontiers in Sensors, 4</i>, 1102176.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.3389/fsens.2023.1102176" class="ref-ext" rel="noopener noreferrer" target="_blank">10.3389/fsens.2023.1102176<span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>.</span>
+            <a class="ref-backlink" href="#cite-harvie-2023-a" aria-label="Back to first in-text citation of this source">Back to first citation</a>
+          </li>
+          <li id="ref-caron-2013">
+            <span class="ref-authors">Caron, S. J. C., Ruta, V., Abbott, L. F., &amp; Axel, R.</span>
+            <span class="ref-year">(2013).</span>
+            <span class="ref-title">Random convergence of olfactory inputs in the <i>Drosophila</i> mushroom body.</span>
+            <span class="ref-venue"><i>Nature, 497</i>, 113–117.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/nature12063" class="ref-ext" rel="noopener noreferrer" target="_blank">10.1038/nature12063<span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>.</span>
+            <a class="ref-backlink" href="#cite-caron-2013-a" aria-label="Back to first in-text citation of this source">Back to first citation</a>
+          </li>
+          <li id="ref-dasgupta-2017">
+            <span class="ref-authors">Dasgupta, S., Stevens, C. F., &amp; Navlakha, S.</span>
+            <span class="ref-year">(2017).</span>
+            <span class="ref-title">A neural algorithm for a fundamental computing problem.</span>
+            <span class="ref-venue"><i>Science, 358</i>, 793–796.</span>
+            <span class="ref-doi">DOI: <a href="https://doi.org/10.1126/science.aam9868" class="ref-ext" rel="noopener noreferrer" target="_blank">10.1126/science.aam9868<span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>.</span>
+            <a class="ref-backlink" href="#cite-dasgupta-2017-a" aria-label="Back to first in-text citation of this source">Back to first citation</a>
+          </li>
+          <li id="ref-avishai-2025"><span class="ref-authors">Avishai, G. &amp; Parnas, M.</span> (2025). <span class="ref-title">Differential dopaminergic modulation of the antennal lobe of <i>Drosophila melanogaster</i>.</span> <i>Communications Biology</i>, 8, 1555. <a href="https://www.nature.com/articles/s42003-025-08922-y" rel="noopener noreferrer">DOI: 10.1038/s42003-025-08922-y</a>. Biological context; not the source of the team light-sheet recording.</li>
+        </ol>
+      </section>
+    </div>
+
+    <div class="page-toc-slot">
+    <details class="page-toc" open>
+      <summary class="toc__summary">
+        <span class="toc__label">On this page</span>
+</summary>
+      <nav aria-label="Table of contents">
+        <ol>
+          <li><a href="#glance"><span class="tech-label">01</span> How AeroSense works</a></li>
+          <li><a href="#the-problem"><span class="tech-label">02</span> The problem</a></li>
+          <li><a href="#why-olfaction"><span class="tech-label">03</span> Why biological olfaction</a></li>
+          <li><a href="#lightsheet-observation"><span class="tech-label">04</span> First observation</a></li>
+          <li><a href="#follow-the-signal"><span class="tech-label">05</span> Follow the signal</a></li>
+          <li><a href="#pipeline"><span class="tech-label">06</span> Sense → Read → Decode → Act</a></li>
+          <li><a href="#evidence-ladder"><span class="tech-label">07</span> How the layers depend</a></li>
+          <li><a href="#human-practices"><span class="tech-label">08</span> Human Practices</a></li>
+          <li><a href="#next-steps"><span class="tech-label">09</span> What comes next</a></li>
+                  <li><a href="#references"><span class="tech-label">Ref</span> References</a></li>
+</ol>
+      </nav>
+    </details>
+      <a class="back-to-top" href="#main">Back to top</a>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner"><div class="shared-footer-brand"><span>AeroSense</span><p>NTHU · iGEM 2026</p></div>
+      <p class="footer-mission">AeroSense is developing a bio-digital olfactory sensing platform that pairs living-cell receptor arrays with edge-capable computational models for complex odor recognition.</p>
+
+      <p class="footer-sitemap-title" id="site-map-label">Site map</p>
+      <div class="footer-grid" id="site-map" aria-labelledby="site-map-label">
+        <div class="footer-col">
+          <h2>Project</h2>
+          <ul>
+            <li><a href="description.html">Description</a></li>
+              <li><a href="glossary.html">Glossary</a></li>
+            <li><a href="contribution.html">Contribution</a></li>
+            <li><a href="engineering.html">Engineering</a></li>
+            <li><a href="safety-and-security.html">Safety</a></li>
+            <li><a href="notebook.html">Notebook</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2>Team</h2>
+          <ul>
+            <li><a href="members.html">Members</a></li>
+            <li><a href="attributions.html">Attributions</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2>Wet Lab</h2>
+          <ul>
+            <li><a href="parts.html">Parts</a></li>
+            <li><a href="design.html">Design</a></li>
+            <li><a href="experiments.html">Experiments</a></li>
+            <li><a href="results.html">Results</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2>Dry Lab</h2>
+          <ul>
+            <li><a href="hardware.html">Hardware</a></li>
+            <li><a href="model.html">Model</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2>Human Practices</h2>
+          <ul>
+            <li><a href="human-practices.html">Integrated Human Practices</a></li>
+            <li><a href="education.html">Education</a></li>
+            <li><a href="entrepreneurship.html">Entrepreneurship</a></li>
+            <li><a href="sustainability.html">Sustainability</a></li>
+          </ul>
+        </div>
+      </div>
+
+
+
+      <div class="footer-meta">
+        <ul class="footer-contacts">
+          <li><a href="https://www.linkedin.com/company/aerosensebio/" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><a href="https://www.instagram.com/igem_tsinghua/" rel="noopener noreferrer">Instagram</a></li>
+          <li><a href="mailto:aerosensebio@gmail.com">aerosensebio@gmail.com</a></li>
+            </ul>
+        <ul class="footer-legal">
+          <li><a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer">Source on GitLab</a></li>
+          <li>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">Creative Commons Attribution 4.0 International</a></li>
+          <li><a href="attributions.html#responsible-ai">Attributions &amp; Responsible AI</a></li>
+            </ul>
+        <p class="footer-copy">© 2026 NTHU · AeroSense</p>
+      </div>
+    </div>
+</footer>
+<script src="js/figure-numbering.js?v=7.6" defer></script>
+</body>
+</html>
+

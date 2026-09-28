@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Hardware · Dry Lab · AeroSense · NTHU iGEM 2026</title>
+  <meta name="description" content="AeroSense Hardware presents the four-well optical reader architecture, CAD assembly, PCB, Monte Carlo optics, gas-flow simulations, signal-processing analysis and reproduction files.">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/hardware.css">
+  <link rel="stylesheet" href="css/hardware-r22.css?v=2">
+  <script src="js/main.js" defer></script>
+  <script src="js/glossary.js?v=7" defer></script>
+  <script src="js/microinteractions.js" defer></script>
+  <script src="js/search.js" defer></script>
+  <link rel="stylesheet" href="css/revision.css?v=10">
+  <link rel="stylesheet" href="css/experience.css?v=3">
+  <script src="js/experience.js?v=7.1" defer></script>
+  <link rel="icon" type="image/x-icon" href="logo/favicon.ico">
+  <link rel="icon" type="image/png" sizes="96x96" href="logo/favicon-96.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="logo/favicon-180.png">
+  <meta name="theme-color" content="#173e2b">
+  <meta name="robots" content="max-image-preview:large">
+  <meta property="og:image" content="logo/favicon-512.png">
+  <meta property="og:image:alt" content="NTHU FLY team logo">
+  <meta name="twitter:image" content="logo/favicon-512.png">
+<link rel="stylesheet" href="css/refinement.css?v=3">
+<link rel="stylesheet" href="css/story-atlas.css?v=4">
+<script src="js/story-atlas.js?v=5" defer></script>
+  <link rel="stylesheet" href="css/art-direction.css?v=6.2">
+  <link rel="stylesheet" href="css/signal-system.css?v=6">
+  <link rel="stylesheet" href="css/diary-overhaul.css?v=7">
+  <link rel="stylesheet" href="css/targeted-polish.css?v=6">
+  <script src="js/signal-guide.js?v=7.1" defer></script>
+<link rel="stylesheet" href="css/revision-v7.css?v=7.6">
+</head>
+<body class="page-hardware">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="reading-progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html">
+        <img class="brand__logo" src="logo/logo.jpg" width="44" height="44" alt="AeroSense">
+        <span class="brand__text">
+          <span class="brand__name">AeroSense</span>
+          <span class="brand__meta">NTHU · iGEM 2026</span>
+        </span>
+      </a>
+      <div class="header-tools">
+        <a class="btn-search" href="index.html#site-map" aria-haspopup="dialog" aria-controls="project-search" aria-label="Project Search" title="Project Search">
+          <svg class="header-icon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M15.5 15.5L21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span class="btn-search__label">Project Search</span>
+        </a>
+        <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+          <span class="nav-toggle__icon" aria-hidden="true"><span></span><span></span><span></span></span>
+        </button>
+      </div>
+      <nav class="site-nav" id="site-nav" aria-label="Primary">
+        <ul class="nav-root">
+          <li>
+            <a href="index.html">Home</a>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Project</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-project">Project</button>
+            <ul class="nav-submenu" id="submenu-project">
+              <li><a href="description.html">Description</a></li>
+              <li><a href="glossary.html">Glossary</a></li>
+              <li><a href="contribution.html">Contribution</a></li>
+              <li><a href="engineering.html">Engineering</a></li>
+              <li><a href="safety-and-security.html">Safety &amp; Security</a></li>
+              <li><a href="notebook.html">Notebook</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Team</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-team">Team</button>
+            <ul class="nav-submenu" id="submenu-team">
+              <li><a href="members.html">Members</a></li>
+              <li><a href="attributions.html">Attributions</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Wet Lab</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-lab">Wet Lab</button>
+            <ul class="nav-submenu" id="submenu-lab">
+              <li><a href="parts.html">Parts</a></li>
+              <li><a href="design.html">Design</a></li>
+              <li><a href="experiments.html">Experiments</a></li>
+              <li><a href="results.html">Results</a></li>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Dry Lab</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-drylab">Dry Lab</button>
+            <ul class="nav-submenu" id="submenu-drylab">
+              <li><a href="hardware.html" aria-current="page">Hardware</a></li>
+              <li><a href="model.html">Model</a></li>
+            </ul>
+          </li>
+                    <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Human Practices</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-hp">Human Practices</button>
+            <ul class="nav-submenu" id="submenu-hp">
+              <li><a href="human-practices.html">Integrated Human Practices</a></li>
+              <li><a href="education.html">Education</a></li>
+              <li><a href="entrepreneurship.html">Entrepreneurship</a></li>
+              <li><a href="sustainability.html">Sustainability</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <dialog class="search-dialog" id="project-search" aria-labelledby="search-title">
+    <div class="search-dialog__panel">
+      <div class="search-dialog__header">
+        <h2 id="search-title">Project Search</h2>
+        <button type="button" class="search-dialog__close" data-search-close>Close</button>
+      </div>
+      <form class="search-dialog__form" role="search" action="index.html#site-map" method="get">
+        <label for="project-search-input">Search the AeroSense wiki</label>
+        <p id="project-search-instructions" class="search-dialog__hint">Type keywords from page titles and sections. Results stay on this site. No remote requests are made. Arrow keys move through results; Enter opens; Escape closes.</p>
+        <div class="search-dialog__field">
+          <input id="project-search-input" type="search" name="q" placeholder="e.g. HEK293T, Orco, hardware" autocomplete="off" aria-describedby="project-search-instructions project-search-count" aria-controls="project-search-results">
+          <button type="button" class="search-dialog__clear" data-search-clear hidden>Clear</button>
+        </div>
+        <div class="search-dialog__actions">
+          <button type="submit">Search</button>
+        </div>
+      </form>
+      <p id="project-search-count" class="search-dialog__count" aria-live="polite" aria-atomic="true">0 results</p>
+      <div id="project-search-results" class="search-dialog__results" role="listbox" aria-labelledby="search-title"></div>
+    </div>
+  </dialog>
+
+  <div class="shell shell--with-toc">
+    <div class="page-main-column">
+      <main id="main">
+        <header class="page-hero" data-reveal>
+          <nav aria-label="Breadcrumb">
+            <ol class="breadcrumb">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="hardware.html">Dry Lab</a></li>
+              <li aria-current="page">Hardware</li>
+            </ol>
+          </nav>
+          <nav class="proj-ev proj-ev--solo" aria-label="Project evidence">
+            <p class="proj-ev__label">Project evidence</p>
+            <ul class="proj-ev__list">
+              <li>
+                <a href="results.html">
+                  <span class="proj-ev__domain">Wet Lab</span>
+                  <span class="proj-ev__go">Results</span>
+                </a>
+              </li>
+              <li>
+                <a href="hardware.html" aria-current="page">
+                  <span class="proj-ev__domain">Hardware</span>
+                  <span class="proj-ev__go">Hardware</span>
+                </a>
+              </li>
+              <li>
+                <a href="model.html">
+                  <span class="proj-ev__domain">Model</span>
+                  <span class="proj-ev__go">Model</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <span class="page-kicker">Dry Lab · Hardware</span>
+          <h1>Hardware</h1>
+          <p class="page-purpose">Building a reader around light, airflow and living samples</p>
+          <span class="status-label">Four-well optics · gas-flow analysis · PCB and firmware</span>
+
+          <aside class="page-glance" aria-labelledby="hw-page-glance-title">
+            <h2 class="page-glance__title" id="hw-page-glance-title">What this page establishes</h2>
+            <dl class="page-glance__grid page-glance__grid--4">
+              <div class="page-glance__item"><dt>Built in CAD</dt><dd>An eight-part enclosure with four flat-floor wells and a perforated upper gas divider.</dd></div>
+              <div class="page-glance__item"><dt>Computed</dt><dd>24 optical conditions, 27 perforated flow cases plus control, and synthetic signal-processing checks.</dd></div>
+              <div class="page-glance__item"><dt>Electronics</dt><dd>A four-channel LED drive, high-impedance photodiode receiver, 16-bit ADC and ESP32 control path.</dd></div>
+              <div class="page-glance__item"><dt>Reproduce</dt><dd>Download the CAD, simulation code, result tables, BOM and English assembly supplement below.</dd></div>
+            </dl>
+          </aside>
+        </header>
+
+
+
+        <article class="page-article prose hw-r22">
+  <div class="hw-r22__opening" data-reveal>
+    <p class="hw-r22__eyebrow">Engineering report · current documented design</p>
+    <p class="hw-r22__lead">AeroSense translates a weak cellular fluorescence signal into an electrical measurement. This report follows the reader from the four-well optical geometry through gas flow, photon collection, PCB design and digital signal processing. Each quantitative result is identified by its calculation or simulation method.</p>
+    <div class="hw-r22__claim"><strong>Report at a glance</strong><span>Eight operating print meshes, assembly drawings, a 27-case perforated-plate flow sweep plus a no-plate control, 24 optical parameter conditions with three random seeds, 247 detector-acceptance positions, compiled firmware and 48 synthetic lock-in cases.</span></div>
+  </div>
+
+  <section class="section-block" id="hardware-architecture" data-reveal>
+    <span id="why-hardware" class="anchor-alias"></span><span class="section-eyebrow">01 / System</span><h2>Follow the signal from sample to number</h2>
+    <p>Four transparent wells register to four blue LEDs in the board geometry; they share an upper gas space and a single photodiode. Proposed OR/Orco–GCaMP cells would turn a receptor-associated calcium change into green fluorescence. An optical filter, transimpedance amplifier (TIA), 16-bit ADC and ESP32 would carry that signal toward a four-frequency decoder. Frequency channels identify LED excitations; they are <em>not</em> automatically independent biological wells. A measured mixing matrix is required before claiming well separation.</p>
+    <div class="hw-r22__chain" aria-label="Proposed signal chain"><span>Filtered headspace</span><b>→</b><span>Four wells</span><b>→</b><span>470 nm excitation / 520 nm emission</span><b>→</b><span>One photodiode</span><b>→</b><span>TIA + ADC + ESP32</span></div>
+    <figure class="hw-r22__figure hw-r22__figure--wide hw-exploded" data-stl-viewer><div class="hw-exploded__stage"><canvas aria-label="Rotatable three-dimensional exploded view of eight operating print meshes. Select a part below to highlight it." tabindex="0"></canvas><img class="hw-exploded__fallback" src="hardware%20information/AeroSense/results/images/assembly_exploded.png" alt="CAD exploded view of the enclosure" loading="lazy"><div class="hw-exploded__hint">Drag to rotate · wheel to zoom · select a part</div></div><div class="hw-exploded__controls" role="group" aria-label="Inspect an assembly part"></div><div class="hw-exploded__detail" aria-live="polite"></div><figcaption>Interactive assembly from the supplied STL meshes. Components are centred and spaced apart for inspection; the relative exploded spacing is illustrative. <a href="hardware%20information/AeroSense/docs/EN/Assembly_Manual_EN.pdf">Use the assembly manual for actual placement</a>.</figcaption></figure>
+  </section>
+
+  <section class="section-block" id="optical-question" data-reveal>
+    <span id="optical-design" class="anchor-alias"></span><span class="section-eyebrow">02 / Optics</span><h2>Where does the detector actually collect light?</h2>
+    <p>We adapted the spatial measurement logic of <a href="#ref-burton-2020">Burton et al.</a>, not their device geometry or performance. Our model separates excitation fluence Φ, collection fraction η(r), and their spatial correspondence J = Φ<sub>em</sub>(r)η(r). η is received power divided by power emitted from an isotropic point source. The volume integral of J alone is not detector power: emission density and the emitting cell layer must also be included.</p>
+    <figure class="hw-r22__figure hw-r22__figure--wide"><img src="hardware%20information/AeroSense/results/images/paper_I_J_correspondence.png" alt="Calculated detector acceptance and fluorescence-fluence correspondence maps" loading="lazy"><figcaption>Computed acceptance/fluence maps. The 247 sampled liquid positions used 32,768 photon packets each (8,093,696 packets). Maximum η was 1.398%; median relative Monte Carlo SE was 11.3%. Gray regions lie outside the liquid-source domain.</figcaption></figure>
+    <p>For one stated scenario, the simulated received green power was <strong>0.657 ± 0.058 nW</strong> (mean ± Monte Carlo SE). The model assumes 470/520 nm wavelengths, a 500 µW LED, 20 µm emitting cell layer, quantum yield 1, specified resin/liquid optical coefficients and a proxy absorbing filter. It omits measured resin autofluorescence, GCaMP expression and calcium state, real LED angular output, filter-angle behavior and electronic noise. This number cannot be presented as measured power, SNR or detection limit.</p>
+    <figure class="hw-r22__figure hw-r22__figure--wide"><img src="hardware%20information/AeroSense/results/images/optical_registration.png" alt="CAD registration of four wells to four LEDs and offset photodiode" loading="lazy"><figcaption>Well centers follow LED coordinates. The photodiode drawing gives a 0.4 mm long-axis offset; its signed direction still needs bottom-view mirroring and board-rotation verification.</figcaption></figure>
+  </section>
+
+  <section class="section-block" id="well-floor-results" data-reveal>
+    <span class="section-eyebrow">03 / Sensitivity</span><h2>Use parameter sweeps to expose fragile assumptions</h2>
+    <p>The optical sweep contains <strong>24 conditions × 3 seeds</strong>, with 16,000 excitation and 40,000 emission packets per seed (4,032,000 packets total). It varies detector position, resin absorption/scattering, liquid scattering, wall reflection, filter proxy, 75/150/200 µL fill, emitting-layer offset and LED choice. The baseline was <strong>0.678 ± 0.092 nW</strong>; a centered detector proxy was 0.898 ± 0.049 nW; reversing the assumed detector offset gave 1.068 ± 0.069 nW. These conditional comparisons do not establish the actual board orientation. Differences near the MC uncertainty should not be ranked as engineering wins.</p>
+    <figure class="hw-r22__figure hw-r22__figure--wide"><img src="hardware%20information/AeroSense/results/images/optical_parameter_sweep.png" alt="Monte Carlo optical parameter sensitivity with uncertainty bars" loading="lazy"><figcaption>Optical sensitivity, not instrument calibration. <a href="hardware%20information/AeroSense/docs/EN/Simulation_Analysis_EN.pdf">Full method and result ledger</a>.</figcaption></figure>
+    <p>A scale calculation illustrates the electronics challenge: if a 520 nm photodiode responsivity of 0.3 A/W applies, 0.678 nW gives about 0.203 nA and 20.3 mV across an ideal 100 MΩ transimpedance. At 2.5 V reference, a 16-bit ADC step is about 38.15 µV. Unknown cellular brightness, background, leakage and amplifier noise can dominate; this calculation is <strong>not</strong> evidence of adequate SNR. Flat 0.5 mm well floors and 150 µL nominal fill do not guarantee uniform illumination.</p>
+  </section>
+
+  <section class="section-block" id="gas-path-results" data-reveal>
+    <span class="section-eyebrow">04 / Gas flow</span><h2>The perforated plate did not reduce the chosen headspace-speed metric</h2>
+    <p>We solved 27 perforated-plate combinations—hole diameter 1.6/2.0/2.4 mm × hole count 4/6/12 × inlet standoff 1.5/3/4.5 mm—plus a no-plate control on a common 0.4 mm grid. All 28 reached the declared iteration criteria; maximum terminal mass imbalance was 0.117%. At the stated 1 mL/min scaling, the lowest plate-case mean four-well headspace speed was 0.001316 mm/s, compared with 0.00080951 mm/s without a plate. Every plate case was higher under this metric. We therefore cannot claim the divider protects cells by slowing flow.</p>
+    <figure class="hw-r22__figure hw-r22__figure--wide"><img src="hardware%20information/AeroSense/results/images/CFD_full_factorial.png" alt="Full-factorial 27-case perforated-plate CFD comparison and no-plate control" loading="lazy"><figcaption>Calculated flow sweep. <a href="hardware%20information/AeroSense/results/CFD_full_factorial.csv" download>Download all case results</a>. Standoff changes upper-plenum volume as well as inlet position.</figcaption></figure>
+    <div class="hw-r22__pair"><figure class="hw-r22__figure"><video controls preload="none" poster="hardware%20information/AeroSense/results/images/airflow_base_060.png"><source src="hardware%20information/AeroSense/results/airflow_base.mp4" type="video/mp4"></video><figcaption>Default divider: passive markers advected in a saved steady field.</figcaption></figure><figure class="hw-r22__figure"><video controls preload="none" poster="hardware%20information/AeroSense/results/images/airflow_no_plate_060.png"><source src="hardware%20information/AeroSense/results/airflow_no_plate.mp4" type="video/mp4"></video><figcaption>No-plate control under the same display method.</figcaption></figure></div>
+    <p>These videos compress 60 seconds of modeled advection into ten seconds. They do not model diffusion, dissolution, evaporation, liquid flow, cell shear or biological growth. The 0.4→0.3→0.2 mm baseline refinement was nonmonotonic in pressure, so mesh independence is not established. Filter/tubing losses and physical leaks are still unmeasured.</p>
+  </section>
+
+  <section class="section-block" id="mechanical-package" data-reveal>
+    <span class="section-eyebrow">05 / Printable package</span><h2>Eight operating meshes, one mutually exclusive service option</h2>
+    <p>The operating print uses a rigid black resin body, hinged lid and common cap; a gray service tray; and four individually oriented clear test wells. Clear resin is designated for <strong>cell-free</strong> fit and optical trials, not qualified direct HEK293T culture. Print coordinates are translated to positive space; use the assembly coordinates and manual for placement, rather than overlapping STL origins.</p>
+    <figure class="hw-r22__figure hw-r22__figure--wide"><img src="hardware%20information/AeroSense/results/images/01_integrated_body_drawing.png" alt="Technical CAD drawing of the integrated body" loading="lazy"><figcaption>Body drawing; the package also includes drawings for the tray, lid, cap and each well. <a href="hardware%20information/AeroSense/docs/EN/Design_Drawings_EN.pdf">All design drawings</a>.</figcaption></figure>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Printable mesh inventory"><table class="hw-r22__table"><caption>Operating meshes, each linked to its STL</caption><thead><tr><th>Part</th><th>Material / role</th><th>File</th></tr></thead><tbody>
+      <tr><th>01 Integrated body</th><td>Rigid black · enclosure</td><td><a href="hardware%20information/AeroSense/STL/01_integrated_body.stl" download>STL</a></td></tr>
+      <tr><th>02 Service tray</th><td>Gray · electronics access</td><td><a href="hardware%20information/AeroSense/STL/02_service_tray.stl" download>STL</a></td></tr>
+      <tr><th>03 Hinged lid</th><td>Rigid black · closure</td><td><a href="hardware%20information/AeroSense/STL/03_hinged_lid.stl" download>STL</a></td></tr>
+      <tr><th>04 Gas-optical cap</th><td>Rigid black · shared headspace</td><td><a href="hardware%20information/AeroSense/STL/04_common_gas_optical_cap.stl" download>STL</a></td></tr>
+      <tr><th>05 NE well</th><td>Clear test resin · cell-free only</td><td><a href="hardware%20information/AeroSense/STL/05_well_NE_CLEAR.stl" download>STL</a></td></tr>
+      <tr><th>05 NW well</th><td>Clear test resin · cell-free only</td><td><a href="hardware%20information/AeroSense/STL/05_well_NW_CLEAR.stl" download>STL</a></td></tr>
+      <tr><th>05 SW well</th><td>Clear test resin · cell-free only</td><td><a href="hardware%20information/AeroSense/STL/05_well_SW_CLEAR.stl" download>STL</a></td></tr>
+      <tr><th>05 SE well</th><td>Clear test resin · cell-free only</td><td><a href="hardware%20information/AeroSense/STL/05_well_SE_CLEAR.stl" download>STL</a></td></tr>
+    </tbody></table></div>
+    <p>An optional two-piece accessible cap <em>replaces</em> the one-piece cap, making nine operating prints, rather than adding to the eight-piece assembly. <a href="hardware%20information/AeroSense/STL/OPTION_accessible_cap/04_split_lower_BLACK.stl" download>Lower STL</a> · <a href="hardware%20information/AeroSense/STL/OPTION_accessible_cap/04_split_upper_BLACK.stl" download>Upper STL</a> · <a href="hardware%20information/AeroSense/CAD/accessible_cap.scad">editable source</a>. Its seal, cleaning and usability have not been tested.</p>
+  </section>
+
+  <section class="section-block" id="electronics-bridge" data-reveal>
+    <span id="pcb-explorer" class="anchor-alias"></span><span id="tia" class="anchor-alias"></span><span id="high-impedance-pcb" class="anchor-alias"></span><span id="digitization" class="anchor-alias"></span><span id="multiplexing" class="anchor-alias"></span>
+    <span class="section-eyebrow">06 / PCB and firmware</span><h2>Four frequency-tagged excitations, one high-impedance receiver</h2>
+    <p>The supplied board schematic and top/bottom layouts specify four LED gates and a photodiode/TIA feeding an ADS8866 16-bit ADC and ESP32. Firmware assigns LED gates to GPIO 25/26/27/32 and ADC CONVST/SCLK/DOUT to 33/18/19. Its proposed 4 kHz sample timebase yields 8,000 samples in a two-second I/Q block. Candidate excitation frequencies are 41/67/89/113 Hz. All assignments and waveform timing must be checked on hardware before operation.</p>
+    <figure class="hw-r22__figure hw-pcb-map" data-pcb-map><div class="hw-pcb-map__toolbar"><strong data-board-side>Front · power and control</strong><button type="button" data-board-flip>Turn board over ↻</button></div><div class="hw-pcb-map__image"><img src="fig/hardware/v2-pcb-top.png" alt="Supplied PCB front rendering" loading="lazy"></div><figcaption>PCB layout, front and back. Markers use the labels visible in each supplied CAD image; component notes distinguish these from BOM designators. <a data-board-source href="hardware%20information/pcb%20v2/NTHU-TEST_BOARD_V1-TOP-0911.pdf">Source layout PDF</a>.</figcaption></figure>
+    <div class="hw-component-explorer" data-component-explorer><label for="hw-component-select">Inspect the main sensing, conversion and control components</label><select id="hw-component-select"></select><div class="hw-component-explorer__detail" aria-live="polite"></div></div>
+    <figure class="hw-r22__figure hw-r22__figure--wide"><img src="fig/hardware/schematics/v2-schematic-p1.png" alt="First sheet of the supplied reader schematic" loading="lazy"><figcaption>Reader schematic preview. <a href="hardware%20information/pcb%20v2/NTHU_TEST_BOARD_Schematic.pdf">Complete schematic PDF</a> · <a href="hardware%20information/pcb%20v2/NTHU_TEST_BOARD_BOM.docx">Original board BOM</a>.</figcaption></figure>
+    <p>In 48 <em>synthetic</em> lock-in test cases varying 0.5/1/2/4 s windows, 0.1/1/10 mV noise and 0/1/10/50 µs timing perturbation, the maximum offline joint least-squares relative amplitude error was 5.82%. Simulated 25%-duty DDS cross-frequency leakage reached 0.71%. Neither is a board-accuracy figure. A simplified 100 MΩ × 2.2 pF feedback pole is about 723 Hz, but amplifier stability, ADC drive, leakage and Wi-Fi interference require measurement.</p>
+    <figure class="hw-r22__figure hw-r22__figure--wide"><img src="hardware%20information/AeroSense/results/images/DLIA_sweep.png" alt="Synthetic digital lock-in parameter sweep" loading="lazy"><figcaption>Synthetic electronics validation only. <a href="hardware%20information/AeroSense/results/DLIA_sweep.csv" download>Download case table</a>.</figcaption></figure>
+  </section>
+
+  <section class="section-block" id="cost-and-reproduction" data-reveal>
+    <span class="section-eyebrow">07 / BOM, cost and usability</span><h2>Publish the priced subset and the missing cells</h2>
+    <p>The English workbook separates printed pieces, purchases and board entries. Budget assumptions give <strong>NT$713.99</strong> allocated resin for eight prints, NT$269.70–452.70 for core hardware/fan, and NT$140–390 for the priced gas/optical subset. Filters, coupling items, shared equipment, labor, tax and shipping are incomplete or unquoted. The supplied NT$131,250 quote covers two boards including design/setup; NT$65,625 as an allocated average is <em>not</em> a production unit price. The documented partial total is <strong>NT$66,748.69–67,181.69</strong>; a complete device cost cannot yet be calculated.</p>
+    <div class="hw-r22__downloads"><a href="hardware%20information/AeroSense/BOM/BOM_EN.xlsx" download><strong>English BOM</strong><span>Prices, quantities and unknowns · XLSX ↗</span></a><a href="hardware%20information/AeroSense/docs/EN/Simulation_Analysis_EN.pdf"><strong>Simulation analysis</strong><span>Optics, CFD, uncertainty, equations · PDF ↗</span></a><a href="hardware%20information/AeroSense/docs/EN/Assembly_Manual_EN.pdf"><strong>Assembly manual</strong><span>Print and fit order · PDF ↗</span></a><a href="hardware%20information/AeroSense/docs/EN/Software_Guide_EN.pdf"><strong>Software guide</strong><span>Firmware, demo UI, data state · PDF ↗</span></a><a href="hardware%20information/AeroSense/docs/EN/Operating_Protocols_EN.pdf"><strong>Validation protocol</strong><span>Bench tests and provisional gates · PDF ↗</span></a><a href="hardware%20information/AeroSense/README_EN.md"><strong>Reproduction package</strong><span>Code, source and evidence boundary · MD ↗</span></a></div>
+    <p>A task-based user-feedback form exists for locating parts, assembly, well replacement, UI operation, demo recognition, errors and perceived clarity. <strong>No completed participant responses or satisfaction result</strong> are present in this package. The form does not justify a SUS score or a usability claim. <a href="hardware%20information/AeroSense/docs/EN/User_Feedback_EN.pdf">Read the English questionnaire and analysis plan</a>.</p>
+  </section>
+
+  <section class="section-block" id="validation-boundary" data-reveal>
+    <span id="validation-evidence" class="anchor-alias"></span><span class="section-eyebrow">08 / Evidence gate</span><h2>What the next reader must prove</h2>
+    <div class="hw-r22__gates"><div><strong>1 · Mechanical and gas</strong><p>Print and inspect; verify board/connector fit, seals, filtered inlet/exhaust, flow and pressure with cell-free liquid. Compare divider with no-plate control and repeat assembly cycles.</p></div><div><strong>2 · Optical and electrical</strong><p>Measure resin transmission and autofluorescence, filter leakage, dark noise, linearity, LED power/waveforms, ADC gain, timing, frequency crosstalk and well mixing matrix on a real board.</p></div><div><strong>3 · Biology and users</strong><p>Qualify culture-contact materials and controlled cell conditions, then measure replicated OR/Orco–GCaMP responses before food-headspace work. Run consented task-based assembly/usability sessions and keep negative findings.</p></div></div>
+    <p class="hw-r22__closing">This is a reproducible <strong>design and simulation package</strong> with compiled software and a demo UI. It does not yet establish a working PCB, cell-safe cartridge, detection limit, odor classification, field deployment or a food-safety verdict. See <a href="safety-and-security.html#hardware-hazards">Safety &amp; Security</a>.</p>
+  </section>
+</article>
+
+      </main>
+
+      <nav class="page-turn" aria-label="Page">
+        <a class="page-turn__prev" href="results.html"><span class="page-turn__dir">Previous</span><span class="page-turn__title">Results</span></a>
+        <a class="page-turn__next" href="model.html"><span class="page-turn__dir">Next</span><span class="page-turn__title">Model</span></a>
+      </nav>
+
+      <section class="references" aria-labelledby="references-heading" id="references" data-reveal>
+        <h2 id="references-heading">References and source package</h2>
+        <ol class="ref-list"><li id="ref-burton-2020">Burton, A. et al. (2020). <i>Wireless, battery-free subdermally implantable photometry systems for chronic recording of neural dynamics.</i> PNAS, 117, 2835–2845. <a href="https://www.pnas.org/doi/10.1073/pnas.1920073117" rel="noopener noreferrer">DOI: 10.1073/pnas.1920073117</a>. Inspiration for optical measurement definitions; not validation of AeroSense.</li></ol>
+        <p>Primary AeroSense source: <a href="hardware%20information/AeroSense/README_EN.md">engineering package</a> and <a href="hardware%20information/AeroSense/docs/EN/Simulation_Analysis_EN.pdf">simulation report</a>. Board source drawings and BOM are linked in the electronics section.</p>
+      </section>
+    </div>
+
+    <div class="page-toc-slot">
+    <details class="page-toc" open>
+      <summary class="toc__summary">
+        <span class="toc__label">On this page</span>
+</summary>
+      <nav aria-label="Table of contents">
+        <ol>
+          <li><a href="#hardware-architecture">01 · Architecture</a></li>
+          <li><a href="#optical-question">02 · Optical design</a></li>
+          <li><a href="#well-floor-results">03 · Optical sensitivity</a></li>
+          <li><a href="#gas-path-results">04 · Gas simulation</a></li>
+          <li><a href="#mechanical-package">05 · Mechanical package</a></li>
+          <li><a href="#electronics-bridge">06 · Electronics</a></li>
+          <li><a href="#cost-and-reproduction">07 · BOM and usability</a></li>
+          <li><a href="#validation-boundary">08 · Validation boundary</a></li>
+          <li><a href="#references">References</a></li>
+        </ol>
+      </nav>
+    </details>
+      <a class="back-to-top" href="#main">Back to top</a>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner"><div class="shared-footer-brand"><span>AeroSense</span><p>NTHU · iGEM 2026</p></div>
+      <p class="footer-mission">AeroSense is developing a bio-digital olfactory sensing platform that pairs living-cell receptor arrays with edge-capable computational models for complex odor recognition.</p>
+
+      <p class="footer-sitemap-title" id="site-map-label">Site map</p>
+      <div class="footer-grid" id="site-map" aria-labelledby="site-map-label">
+        <div class="footer-col">
+          <h2>Project</h2>
+          <ul>
+            <li><a href="description.html">Description</a></li>
+              <li><a href="glossary.html">Glossary</a></li>
+            <li><a href="contribution.html">Contribution</a></li>
+            <li><a href="engineering.html">Engineering</a></li>
+            <li><a href="safety-and-security.html">Safety</a></li>
+            <li><a href="notebook.html">Notebook</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2>Team</h2>
+          <ul>
+            <li><a href="members.html">Members</a></li>
+            <li><a href="attributions.html">Attributions</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2>Wet Lab</h2>
+          <ul>
+            <li><a href="parts.html">Parts</a></li>
+            <li><a href="design.html">Design</a></li>
+            <li><a href="experiments.html">Experiments</a></li>
+            <li><a href="results.html">Results</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2>Dry Lab</h2>
+          <ul>
+            <li><a href="hardware.html">Hardware</a></li>
+            <li><a href="model.html">Model</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2>Human Practices</h2>
+          <ul>
+            <li><a href="human-practices.html">Integrated Human Practices</a></li>
+            <li><a href="education.html">Education</a></li>
+            <li><a href="entrepreneurship.html">Entrepreneurship</a></li>
+            <li><a href="sustainability.html">Sustainability</a></li>
+          </ul>
+        </div>
+      </div>
+
+
+
+      <div class="footer-meta">
+        <ul class="footer-contacts">
+          <li><a href="https://www.linkedin.com/company/aerosensebio/" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><a href="https://www.instagram.com/igem_tsinghua/" rel="noopener noreferrer">Instagram</a></li>
+          <li><a href="mailto:aerosensebio@gmail.com">aerosensebio@gmail.com</a></li>
+            </ul>
+        <ul class="footer-legal">
+          <li><a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer">Source on GitLab</a></li>
+          <li>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">Creative Commons Attribution 4.0 International</a></li>
+          <li><a href="attributions.html#responsible-ai">Attributions &amp; Responsible AI</a></li>
+            </ul>
+        <p class="footer-copy">© 2026 NTHU · AeroSense</p>
+      </div>
+    </div>
+</footer>
+<script src="js/figure-numbering.js?v=7.6" defer></script>
+<script src="js/hardware-bom-data.js?v=1" defer></script>
+<script src="js/hardware-components-v7.js?v=7.6" defer></script>
+<script type="module" src="js/hardware-assembly.js?v=7.1"></script>
+</body>
+</html>
+
