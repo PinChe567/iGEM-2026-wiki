@@ -1,0 +1,39 @@
+{
+  "name": "odor-pixel-suite",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:wiki": "npm run dev -w @suite/wiki-client",
+    "build:wiki": "npm run build -w @suite/wiki-client",
+    "dev:online": "npm run dev -w @suite/online-client",
+    "dev:server": "npm run dev -w @suite/server",
+    "build:online": "npm run build -w @suite/online-client",
+    "build:server": "npm run build -w @suite/server",
+    "db:migrate": "npm run db:migrate -w @suite/server",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "test:e2e:online": "playwright test -c apps/online-client/playwright.config.ts",
+    "test:online": "npm run test -w @suite/server && npm run test:integration -w @suite/server",
+    "typecheck": "tsc -p packages/core --noEmit && tsc -p packages/content --noEmit && tsc -p packages/ui --noEmit && tsc -p apps/wiki-client --noEmit && tsc -p apps/server --noEmit && tsc -p apps/online-client --noEmit",
+    "optimize:images": "node scripts/optimize-images.mjs",
+    "check:assets-manifest": "node scripts/check-assets-manifest.mjs",
+    "check:assets-manifest:release": "node scripts/check-assets-manifest.mjs --release",
+    "check:external-assets": "node apps/wiki-client/scripts/check-external-assets.mjs",
+    "report:bundle-size": "node apps/wiki-client/scripts/report-bundle-size.mjs",
+    "release:check": "npm run typecheck && npm run optimize:images && npm run build:wiki && npm run check:external-assets && npm run report:bundle-size && npm run check:assets-manifest:release && npm test && npm run test:e2e"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.50.1",
+    "sharp": "^0.33.5",
+    "typescript": "5.7.3",
+    "vite": "6.0.11",
+    "vitest": "3.0.5"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -145,7 +145,7 @@
   // A small flight companion. The sprite points up; rotation follows its actual velocity.
   if (fine.matches) {
     const button=document.createElement('button');button.type='button';button.className='fly-toggle';
-    button.innerHTML='<span aria-hidden="true">✧</span><span class="fly-toggle__action">Show fly</span>';
+    button.innerHTML='<svg class="fly-toggle__portrait" width="26" height="26" viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="m15 13-4-7m14 7 4-7M17 29l3 6 3-6"/><ellipse cx="20" cy="22" rx="12" ry="10" fill="currentColor" fill-opacity=".08"/><ellipse cx="12" cy="21" rx="6" ry="8"/><ellipse cx="28" cy="21" rx="6" ry="8"/><path d="m10 16 4 10m-4 0 4-10m12 0 4 10m-4 0 4-10M17 21h6"/></g></svg><span class="fly-toggle__action">Show fly</span>';
     button.setAttribute('aria-label','Fly companion');
     const tools=$('.header-tools');if(!tools)return;
     const control=document.createElement('div');control.className='fly-control';

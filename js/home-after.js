@@ -1,5 +1,5 @@
 /**
- * Homepage after-film helpers — lazy iGEM video and near-viewport images.
+ * Homepage after-film helpers — on-demand iGEM video and near-viewport images.
  * Native JS only. Does not touch the cinematic scrub loop.
  */
 (function () {
@@ -29,12 +29,20 @@
     if (!host) return;
     var iframe = host.querySelector("iframe[data-video-src]");
     if (!iframe) return;
-    hydrateOnView(host, function () {
+    var play = host.querySelector("[data-video-play]");
+    function loadVideo() {
       if (iframe.getAttribute("src")) return;
       var src = iframe.getAttribute("data-video-src");
       if (!src) return;
       iframe.src = src;
-    });
+      iframe.hidden = false;
+      if (play) {
+        play.hidden = true;
+        iframe.focus({ preventScroll: true });
+      }
+    }
+    if (play) play.addEventListener("click", loadVideo);
+    else hydrateOnView(host, loadVideo);
   }
 
   function initLazyImages() {

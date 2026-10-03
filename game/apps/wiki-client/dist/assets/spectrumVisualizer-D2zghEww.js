@@ -1,0 +1,1 @@
+import{s as a,S as t}from"./index-CXh1DE2f.js";a();[...t];{document.title="Not available";const e=document.querySelector("#app");e&&(e.innerHTML='<main style="padding:2rem;font-family:system-ui"><p>Scent Spectrum visualizer is dev-only.</p><p><a href="../../index.html">Back to hub</a></p></main>')}

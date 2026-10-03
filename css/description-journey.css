@@ -1889,3 +1889,10 @@
  width: min(34rem, 40vw);
  }
 }
+
+/* Movement is temporarily locked during the two cinematic perspective shifts. */
+.flight:is([data-flight-mode="handoff"],[data-flight-mode="entry"],[data-flight-mode="complete"]) .flight__move-pad { opacity: .3; pointer-events: none; }
+.flight:is([data-flight-mode="handoff"],[data-flight-mode="entry"]) .flight__hint { opacity: 0; }
+.flight[data-flight-mode="complete"] .flight__quest-map,
+.flight[data-flight-mode="complete"] .flight__quest-label { display: none; }
+.flight:is([data-flight-mode="handoff"],[data-flight-mode="entry"]) .flight__quest-label { color: #ecffd6; text-shadow: 0 2px 8px #071d17; }

@@ -2,6 +2,31 @@
  * AeroSense glossary — accessible term popovers.
  * Short, plain-language definitions for readers throughout the wiki.
  */
+/* The decorative definition-orb geometry below is adapted from thinking-orbs,
+ * src/engine/core.ts and src/engine/orbits.ts, by Jakub Antalik.
+ * https://github.com/Jakubantalik/thinking-orbs
+ *
+ * MIT License
+ * Copyright (c) 2026 Jakub Antalik
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 (function () {
   "use strict";
 
@@ -119,6 +144,17 @@
       term: "ADC",
       def: "Analog-to-digital converter — hardware that samples an analog voltage and encodes it as a digital value.",
     },
+    cfd: { term: "CFD", def: "Computational fluid dynamics — numerical calculations of fluid motion, used here to compare airflow and pressure through the reader." },
+    "monte-carlo": { term: "Monte Carlo simulation", def: "A numerical method that follows many randomly sampled events. In the optical model, simulated photon paths estimate how much light reaches the detector." },
+    fluence: { term: "Optical fluence", def: "Light energy incident per unit area, integrated over time. In a steady optical calculation, the corresponding fluence rate describes light power per unit area arriving from all directions." },
+    "quantum-yield": { term: "Fluorescence quantum yield", def: "The ratio of emitted fluorescence photons to absorbed excitation photons. It describes emission efficiency, not how much light the detector collects." },
+    responsivity: { term: "Photodiode responsivity", def: "Photocurrent produced per unit of incident optical power, usually expressed in amperes per watt. It depends on the wavelength of the light." },
+    ldo: { term: "LDO", def: "Low-dropout regulator — a circuit that maintains a regulated supply voltage with a small required voltage difference between input and output." },
+    sar: { term: "SAR ADC", def: "Successive-approximation-register analog-to-digital converter — a converter that determines a voltage's digital value through a sequence of comparisons." },
+    gpio: { term: "GPIO", def: "General-purpose input/output — programmable microcontroller pins that read or drive digital signals." },
+    dds: { term: "DDS", def: "Direct digital synthesis — generating a periodic waveform using a digital phase accumulator and a reference clock." },
+    "iq-demodulation": { term: "I/Q demodulation", def: "Comparing a measured signal with two reference waves separated by a quarter cycle. Their in-phase and quadrature components describe the signal's amplitude and phase at a selected frequency." },
+    "high-impedance": { term: "High impedance", def: "A large opposition to current flow. In a photodiode receiver, high-impedance input nodes require careful layout because small leakage currents can interfere with the measured signal." },
     poc: {
       term: "POC",
       def: "Proof of concept — an early demonstration that a core idea can work under defined conditions.",
@@ -225,11 +261,71 @@
   var activeTerm = null;
   var popover = null;
   var hoverTimer = null;
+  var closeTimer = null;
+  var definitionOrb = null;
   var ILLUSTRATIONS = {
     drosophila: { src: 'fig/fly.jpg', alt: 'Fruit fly, the organism inspiring the receptor and coding designs', caption: 'Fruit-fly visual' },
     gcamp: { src: 'fig/engineering/GCaMP6f_GGGGSx3_DmOrco.png', alt: 'Team construct map showing GCaMP6f linked to Orco', caption: 'Our reporter construct map · not a protein structure' },
     pcb: { src: 'fig/hardware/v2-pcb-top.png', alt: 'Team reader-board top layout', caption: 'Reader-board design · not a built-device photo' }
   };
+
+  // One small, decorative Canvas 2D mark. This is not a loading/AI status:
+  // definitions are authored locally and appear immediately. No global loop.
+  function makeDefinitionOrb(canvas, requestedSize) {
+    var ctx = canvas.getContext("2d");
+    if (!ctx) return { setOpen: function () {} };
+    var size = requestedSize || 40, dpr = Math.min(2, window.devicePixelRatio || 1);
+    canvas.width = Math.round(size * dpr);
+    canvas.height = Math.round(size * dpr);
+    ctx.scale(dpr * size / 40, dpr * size / 40);
+    var reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    var open = false, visible = true, raf = 0, previous = 0, phase = 1.5;
+    var ink = "#355d4b", orbits = [], tau = Math.PI * 2;
+    function hash(a, b) { var n = Math.sin(a * 12.9898 + b * 78.233) * 43758.5453; return n - Math.floor(n); }
+    for (var i = 0; i < 6; i++) {
+      var h1 = hash(i, 1.7), h2 = hash(i, 5.2), h3 = hash(i, 8.9);
+      var theta = h1 * tau, phi = Math.acos(2 * h2 - 1);
+      var nx = Math.sin(phi) * Math.cos(theta), ny = Math.cos(phi), nz = Math.sin(phi) * Math.sin(theta);
+      var norm = Math.max(.000001, Math.hypot(ny, nx)), ux = -ny / norm, uy = nx / norm;
+      var orbit = { u:[ux,uy,0], v:[-nz*uy,nz*ux,nx*uy-ny*ux], r:16.4*(.45+.52*h1), speed:(.25+.55*h3)*(h3>.5?1:-1), phase:h2*6, ghost:[] };
+      for (var j = 0; j < 18; j++) orbit.ghost.push(j / 18 * tau);
+      orbits.push(orbit);
+    }
+    function paint() {
+      ctx.clearRect(0,0,40,40);
+      var dots = [], yaw = phase * .12, sy = Math.sin(yaw), cy = Math.cos(yaw), st = Math.sin(.3), ct = Math.cos(.3);
+      function dot(orbit, angle, moving) {
+        var ca = Math.cos(angle), sa = Math.sin(angle);
+        var x = (orbit.u[0]*ca+orbit.v[0]*sa)*orbit.r, y = (orbit.u[1]*ca+orbit.v[1]*sa)*orbit.r, z = orbit.v[2]*sa*orbit.r;
+        var px = x*cy+z*sy, pz = -x*sy+z*cy, py = y*ct-pz*st, depth = y*st+pz*ct;
+        var f = (depth/orbit.r+1)/2;
+        dots.push({x:20+px,y:20-py,z:depth,r:moving?.65+.6*f:.35,a:moving?.62+.38*f:.12+.2*f});
+      }
+      orbits.forEach(function (o) {
+        o.ghost.forEach(function (angle) { dot(o,angle,false); });
+        for (var k=0;k<2;k++) dot(o,phase*o.speed+k*Math.PI+o.phase,true);
+      });
+      dots.sort(function (a,b) { return a.z-b.z; });ctx.fillStyle=ink;
+      dots.forEach(function (d) { ctx.globalAlpha=d.a;ctx.beginPath();ctx.arc(d.x,d.y,d.r,0,tau);ctx.fill(); });
+      ctx.globalAlpha=1;
+    }
+    function allowed() { return open && visible && !document.hidden && !reduced.matches; }
+    function tick(now) {
+      raf=0;if(!allowed())return;
+      if(!previous)previous=now;
+      if(now-previous>=1000/24){phase+=Math.min(.1,(now-previous)/1000)*.65;previous=now;paint();}
+      raf=requestAnimationFrame(tick);
+    }
+    function sync() {
+      if(raf){cancelAnimationFrame(raf);raf=0;}previous=0;
+      if(open){ink=getComputedStyle(canvas).color;paint();}
+      if(allowed())raf=requestAnimationFrame(tick);
+    }
+    if(window.IntersectionObserver)new IntersectionObserver(function(entries){visible=entries[0].isIntersecting;sync();}).observe(canvas);
+    document.addEventListener("visibilitychange",sync);
+    reduced.addEventListener("change",sync);
+    return {setOpen:function(value){open=value;sync();}};
+  }
 
   function ensurePopover() {
     if (popover) return popover;
@@ -239,21 +335,27 @@
     popover.setAttribute("role", "tooltip");
     popover.hidden = true;
     popover.innerHTML =
+      '<div class="glossary-popover__sender"><canvas class="glossary-popover__orb" aria-hidden="true"></canvas><span>Field dictionary</span></div>' +
       '<p class="glossary-popover__term"></p>' +
       '<p class="glossary-popover__def"></p>' +
       '<figure class="glossary-popover__visual" hidden><img alt=""><figcaption></figcaption></figure>' +
       '<p class="glossary-popover__note">Quick definition · press Esc to close</p>';
     document.body.appendChild(popover);
+    definitionOrb = makeDefinitionOrb(popover.querySelector('.glossary-popover__orb'));
+    popover.addEventListener('mouseenter', function(){if(closeTimer){clearTimeout(closeTimer);closeTimer=null;}});
+    popover.addEventListener('mouseleave', function(){if(activeTerm&&document.activeElement!==activeTerm)closePopover();});
     return popover;
   }
 
   function closePopover() {
+    if(closeTimer){clearTimeout(closeTimer);closeTimer=null;}
     if (hoverTimer) {
       window.clearTimeout(hoverTimer);
       hoverTimer = null;
     }
     if (!popover || !activeTerm) return;
     popover.hidden = true;
+    if(definitionOrb)definitionOrb.setOpen(false);
     popover.style.visibility = "";
     activeTerm.setAttribute("aria-expanded", "false");
     activeTerm.removeAttribute("aria-describedby");
@@ -311,6 +413,7 @@
   }
 
   function openPopover(termEl, opts) {
+    if(closeTimer){clearTimeout(closeTimer);closeTimer=null;}
     opts = opts || {};
     var key = (termEl.getAttribute("data-term") || "").toLowerCase();
     var entry = DEFINITIONS[key];
@@ -335,6 +438,7 @@
     termEl.setAttribute("aria-describedby", tip.id);
     activeTerm = termEl;
     positionPopover(termEl);
+    if(definitionOrb)definitionOrb.setOpen(true);
 
     if (opts.focusReturn === false) {
       /* keep focus on term */
@@ -379,8 +483,18 @@
     excitation: ["excitation light"],
     fdm: ["FDM"],
     dlia: ["DLIA"],
-    tia: ["TIA"],
-    adc: ["ADC"],
+    tia: ["TIA", "transimpedance amplifier"],
+    adc: ["ADC", "analog-to-digital converter"],
+    cfd: ["CFD", "computational fluid dynamics"],
+    "monte-carlo": ["Monte Carlo"],
+    fluence: ["fluence"],
+    "quantum-yield": ["quantum yield"],
+    responsivity: ["responsivity"],
+    ldo: ["LDO"],
+    gpio: ["GPIO"],
+    dds: ["DDS"],
+    "iq-demodulation": ["I/Q"],
+    "high-impedance": ["high-impedance"],
     "detection-limit": ["detection limit", "limit of detection"],
     snr: ["SNR", "signal-to-noise ratio"],
     "dark-noise": ["dark noise"],
@@ -448,7 +562,7 @@
     "anova-f": ["ANOVA-F"],
     stdp: ["STDP"],
     standardscaler: ["StandardScaler"],
-    sar: ["SAR ADC"],
+    sar: ["SAR ADC", "SAR"],
     vref: ["VREF"],
     bsl: ["BSL"],
     irb: ["IRB"],
@@ -456,8 +570,8 @@
     iso17025: ["ISO 17025", "ISO/IEC 17025"]
   };
 
-  function autoAnnotateTerms() {
-    var main = document.querySelector("main");
+  function autoAnnotateTerms(root) {
+    var main = root || document.querySelector("main");
     if (!main) return;
     var patterns = [];
     Object.keys(AUTO_ALIASES).forEach(function (key) {
@@ -479,7 +593,7 @@
       var parent = node.parentElement;
       if (!parent || !node.nodeValue.trim()) continue;
       if (!parent.closest("p, li, dd, dt, td, th, figcaption, blockquote")) continue;
-      if (parent.closest("a, button, dfn, code, pre, script, style, textarea, nav, header, footer, svg, .cite-wrap, .cite-preview, .glossary-popover, .references")) continue;
+      if (parent.closest("a, button, dfn, code, pre, script, style, textarea, nav, header, footer, svg, .cite-wrap, .cite-preview, .glossary-popover, .references, .aerosense-cinematic")) continue;
       nodes.push(node);
     }
     var count = 0;
@@ -523,20 +637,49 @@
     var input = document.getElementById("glossary-search");
     var count = document.getElementById("glossary-count");
     if (!list || !input || !count) return;
+    var topic = 'all';
+    var topics = [
+      {id:'all',name:'All terms',mark:'a.'},
+      {id:'biology',name:'Living sensors',mark:'OR'},
+      {id:'hardware',name:'Reading light',mark:'λ'},
+      {id:'model',name:'Decoding',mark:'Σ'},
+      {id:'people',name:'People & impact',mark:'↗'}
+    ];
+    function category(key,entry) {
+      // Explicit subjects keep short acronyms and cross-disciplinary definitions
+      // in the topic where this project explains them. Definition prose often
+      // mentions another field, so it is not used as a keyword classifier.
+      var known = {
+        biology: 'voc mycotoxin or orco drosophila vuaa1 hek293t gcamp6 gcamp delta-f-over-f0 obp ali rfc1000 biobrick ies ires headspace aflatoxin indole or49b fluorescence gc-ms lc-ms registry part-collection cds cmv kozak mcherry pcdna plasmid composite-part rfc10 codon-optimization sanger bsai ionomycin poly-a emcv neor g418',
+        hardware: 'fdm dlia tia adc cfd monte-carlo fluence quantum-yield responsivity ldo sar gpio dds iq-demodulation high-impedance pcb spi e-nose photodiode excitation detection-limit snr dark-noise calibration bom drc erc kicad esp32 vref',
+        model: 'al pn mb kc mbon lateral-inhibition sparse-coding lsh snn false-positive false-negative sensitivity specificity f1-score cross-validation data-leakage confusion-matrix baseline-model pca svm loso anova-f stdp standardscaler',
+        people: 'sds sop rg poc screening confirmatory risk-tier dbtlr ihp sdg b2b beachhead mvp tam sam som fiti willingness-to-pay lca bsl irb loi iso17025'
+      };
+      for (var subject in known) {
+        if (known[subject].split(' ').indexOf(key) !== -1) return subject;
+      }
+      if (/^(sds|sop|rg|bsl|irb|loi|iso17025|beachhead|mvp|tam|sam|som|fiti|willingness-to-pay|lca|registry|part-collection)$/.test(key) || /stakeholder|human practices|consent|market|sustainab|safety|biosecurity/i.test(entry.term)) return 'people';
+      if (/photodiode|transimpedance|resistor|capacitor|amplifier|voltage|analog|circuit|pcb|led|adc|tia|i2c|esp32|ble|bom|snr|op-amp|sar|vref|optical|filter|firmware|lock-in/i.test(key+' '+entry.term)) return 'hardware';
+      if (/model|classifier|feature|neuron|spike|neuromorphic|pca|svm|loso|anova|stdp|standardscaler|accuracy|precision|recall|false|training|validation|cross-validation|f1|data leakage/i.test(key+' '+entry.term)) return 'model';
+      return 'biology';
+    }
     var entries = Object.keys(DEFINITIONS).map(function (key) {
-      return DEFINITIONS[key];
+      return Object.assign({key:key,topic:category(key,DEFINITIONS[key])},DEFINITIONS[key]);
     }).filter(function (entry, index, all) {
       return all.findIndex(function (candidate) { return candidate.term === entry.term; }) === index;
     }).sort(function (a, b) { return a.term.localeCompare(b.term, "en"); });
-    entries.forEach(function (entry) {
+    entries.forEach(function (entry,index) {
       var article = document.createElement("article");
       article.className = "glossary-entry";
+      article.dataset.topic = entry.topic;
       article.setAttribute("data-glossary-search", (entry.term + " " + entry.def).toLowerCase());
+      var meta = document.createElement('p'); meta.className='glossary-entry__meta';
+      meta.textContent=topics.find(function(row){return row.id===entry.topic;}).name+' / '+String(index+1).padStart(2,'0');
       var heading = document.createElement("h2");
       heading.textContent = entry.term;
       var definition = document.createElement("p");
       definition.textContent = entry.def;
-      article.appendChild(heading);
+      article.appendChild(meta); article.appendChild(heading);
       article.appendChild(definition);
       list.appendChild(article);
     });
@@ -544,25 +687,42 @@
       var query = input.value.trim().toLowerCase();
       var shown = 0;
       Array.prototype.forEach.call(list.children, function (item) {
-        var match = !query || item.getAttribute("data-glossary-search").indexOf(query) >= 0;
+        var match = (topic==='all'||item.dataset.topic===topic) && (!query || item.getAttribute("data-glossary-search").indexOf(query) >= 0);
         item.hidden = !match;
         if (match) shown += 1;
       });
       count.textContent = shown + " of " + entries.length + " definitions";
     }
     input.addEventListener("input", filter);
+    var topicNav=document.querySelector('[data-glossary-topics]');
+    if(topicNav)topics.forEach(function(row){
+      var button=document.createElement('button');button.type='button';button.dataset.topic=row.id;
+      button.setAttribute('aria-pressed',String(row.id===topic));
+      var ring=document.createElement('span');ring.className='glossary-story-ring';ring.textContent=row.mark;ring.setAttribute('aria-hidden','true');
+      var name=document.createElement('span');name.textContent=row.name;button.append(ring,name);
+      button.addEventListener('click',function(){
+        topic=row.id;topicNav.querySelectorAll('button').forEach(function(b){b.setAttribute('aria-pressed',String(b===button));});
+        var featured=topic==='all'?DEFINITIONS.orco:entries.find(function(e){return e.topic===topic;});
+        document.querySelector('[data-glossary-feature-term]').textContent=featured.term;
+        document.querySelector('[data-glossary-feature-definition]').textContent=featured.def;
+        var chat=document.querySelector('.glossary-chat');chat.dataset.topic=topic;
+        if(!matchMedia('(prefers-reduced-motion: reduce)').matches)chat.animate([{opacity:.2,transform:'translateY(14px)'},{opacity:1,transform:'none'}],{duration:350,easing:'ease-out'});
+        filter();
+      });topicNav.append(button);
+    });
+    var orb=document.querySelector('.glossary-conversation-orb');if(orb)makeDefinitionOrb(orb,160).setOpen(true);
     filter();
   }
 
-  document.addEventListener("DOMContentLoaded", function () {
-    autoAnnotateTerms();
-    renderGlossaryIndex();
-    var terms = document.querySelectorAll("dfn.term[data-term]");
+  function bindTerms(root) {
+    var terms = root.querySelectorAll("dfn.term[data-term]");
     if (!terms.length) return;
 
     ensurePopover();
 
     Array.prototype.forEach.call(terms, function (termEl) {
+      if (termEl.dataset.glossaryBound) return;
+      termEl.dataset.glossaryBound = "true";
       if (!termEl.hasAttribute("tabindex")) termEl.setAttribute("tabindex", "0");
       termEl.setAttribute("aria-expanded", "false");
       termEl.setAttribute("role", "button");
@@ -581,7 +741,7 @@
           hoverTimer = null;
         }
         /* Keep open if term still focused */
-        if (document.activeElement !== termEl) closePopover();
+        if (document.activeElement !== termEl) closeTimer=window.setTimeout(closePopover,180);
       });
 
       termEl.addEventListener("focus", function () {
@@ -612,6 +772,24 @@
         }
       });
     });
+
+  }
+
+  // Component inspectors can replace their text without losing the same
+  // keyboard-accessible glossary behavior used by the surrounding article.
+  window.AeroSenseGlossary = {
+    enhance: function (root) {
+      if (!root) return;
+      if (activeTerm && !activeTerm.isConnected) closePopover();
+      autoAnnotateTerms(root);
+      bindTerms(root);
+    }
+  };
+
+  document.addEventListener("DOMContentLoaded", function () {
+    autoAnnotateTerms();
+    renderGlossaryIndex();
+    bindTerms(document);
 
     document.addEventListener("keydown", function (event) {
       if (event.key === "Escape") {

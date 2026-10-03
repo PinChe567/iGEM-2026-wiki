@@ -190,16 +190,23 @@
     preview.appendChild(foot);
   }
 
-  function closeCitePeek() {
+  function closeCitePeek(restoreFocus) {
     if (!openCiteWrap) return;
+    var preview = openCiteWrap.querySelector('.cite-preview') || document.querySelector('body > .cite-preview.is-open');
     openCiteWrap.classList.remove("is-cite-open");
     openCiteWrap = null;
+    if (window.AeroSenseCitationPanels && preview) window.AeroSenseCitationPanels.hide(preview,!!restoreFocus);
   }
 
   function openCitePeek(wrap) {
+    if (window.AeroSenseCitationPanels && window.AeroSenseCitationPanels.isRestoring()) return;
     if (openCiteWrap && openCiteWrap !== wrap) closeCitePeek();
+    var preview=wrap.querySelector('.cite-preview');
+    if (!preview && openCiteWrap === wrap) return;
+    if (!preview) return;
     wrap.classList.add("is-cite-open");
     openCiteWrap = wrap;
+    if (window.AeroSenseCitationPanels) window.AeroSenseCitationPanels.show(wrap.querySelector('a.cite'),preview,wrap,function(){wrap.classList.remove('is-cite-open');if(openCiteWrap===wrap)openCiteWrap=null;});
   }
 
   function initCitationPeeks() {
@@ -232,6 +239,13 @@
 
       var cite = wrap.querySelector("a.cite");
       if (!cite) return;
+      var preview=wrap.querySelector('.cite-preview');
+      if(preview)preview.hidden=true;
+      cite.setAttribute('aria-expanded','false');
+      wrap.addEventListener('mouseenter',function(){if(canHover)openCitePeek(wrap);});
+      wrap.addEventListener('mouseleave',function(){if(window.AeroSenseCitationPanels)window.AeroSenseCitationPanels.scheduleClose();});
+      wrap.addEventListener('focusin',function(){if(canHover||cite.matches(':focus-visible'))openCitePeek(wrap);});
+      wrap.addEventListener('focusout',function(){if(window.AeroSenseCitationPanels)window.AeroSenseCitationPanels.scheduleClose();});
 
       if (!canHover) {
         cite.addEventListener("click", function (event) {
@@ -247,7 +261,7 @@
       cite.addEventListener("keydown", function (event) {
         if (event.key === "Escape") {
           event.preventDefault();
-          closeCitePeek();
+          closeCitePeek(true);
         }
       });
     });
@@ -255,11 +269,12 @@
     document.addEventListener("click", function (event) {
       if (!openCiteWrap) return;
       if (openCiteWrap.contains(event.target)) return;
+      if(event.target.closest('.reading-popover'))return;
       closeCitePeek();
     });
 
     document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape") closeCitePeek();
+      if (event.key === "Escape") closeCitePeek(true);
     });
   }
 

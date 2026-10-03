@@ -1,0 +1,50 @@
+/* Article copy shares the available column with its figures. A character-based
+   cap made larger opening paragraphs end at a different edge from body copy. */
+body:not(.page-home) .page-article {
+  --content-reading: 100%;
+  --measure: 100%;
+  --reading-max: 100%;
+}
+body.editorial-2026:not(.page-home) .page-article > :is(section,.section-block) > :is(p,ul,ol),
+body.editorial-2026:not(.page-home) .page-article p {
+  max-width: 100%;
+}
+/* Preserve deliberately compact diagrams/overlays; this is not a prose lane. */
+body:not(.page-home) .page-article .component-narrow {
+  --content-reading: 56rem;
+  --measure: var(--content-reading);
+}
+
+/* Paragraphs, narrative list items and definition-list descriptions are all
+   body copy. Design requirements and experimental methods often use li/dd. */
+body:not(.page-home) :is(.page-article,.lm-article) :is(p,li,dd):not(:where(nav *,button *,summary *,[role="tablist"] *,[role="menu"] *,
+    figcaption *,figcaption,.figure-caption *,.table-caption *,
+    .references *,.ref-list *,.reference-list *,.reference-group *,
+    .page-hero *,.hero *,.sust-hero *,
+    .eng-gears *,.eng-gear-train *,.eng-guide-controls *,
+    .design-or-grid__list *,.design-steps *,.exp-workflow *,
+    .home-module-links *,[class*="__label"],[class*="-label"],
+    [class*="kicker"],[class*="eyebrow"],[class*="__meta"],
+    [class*="__num"],[class*="__title"],[class*="__hint"],
+    .hero-tagline,.exp-eq__math,.visually-hidden)),
+body :is(.learn-why__text,.learn-layer__more) > p:not([class*="label"]),
+body :is(.sust-lede,.sust-glance__lede),
+body .sust-path__detail dd,
+body:not(.page-home) main > p.notice {
+  text-align: justify;
+  text-align-last: start;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  overflow-wrap: break-word;
+}
+body:not(.page-home) :is(.page-article,.lm-article) :is(figcaption,.figure-caption,.table-caption) p {text-align:start;text-align-last:auto;}
+.fly-qa__context{font-size:.86rem;color:var(--ink,#173e2b);font-weight:650;border-bottom:1px solid #ced9cb;padding-bottom:12px;}
+.fly-qa__choices{display:grid;gap:9px;}
+.fly-qa__choices button{text-align:left;line-height:1.5;white-space:normal;}
+.fly-qa__footnote{font-size:.73rem;line-height:1.6;color:#52645b;margin-top:24px;}
+.fly-qa__answer p{text-align:justify;hyphens:auto;}
+.fly-qa__answer a{display:inline-block;margin-block:10px;}
+.fly-qa{width:min(620px,calc(100vw - 28px));max-height:calc(100dvh - 36px);padding:0;}
+.fly-qa__head h2{overflow-wrap:break-word;}
+.fly-qa__body{max-height:calc(100dvh - 180px);overflow:auto;overscroll-behavior:contain;}

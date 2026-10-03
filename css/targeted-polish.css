@@ -1,7 +1,17 @@
-/* Citation previews share the hover area with their originating link. */
-.ref-passages{position:absolute;left:0;right:auto;bottom:calc(100% + .2rem);transform:none}
-.ref-backlink-group::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:.25rem;pointer-events:auto}
-@media(max-width:650px){.ref-passages{position:fixed;left:.5rem;right:.5rem;bottom:.5rem;width:auto;max-width:none}}
+/* Closed previews have no box. Open previews are portalled to the viewport so
+   article transforms, caption widths and overflow containers cannot clip them. */
+body .cite-preview,body .ref-passages{display:none!important}
+body .cite-preview[hidden],body .ref-passages[hidden]{display:none!important}
+body > .reading-popover.is-open{display:block!important;position:fixed!important;left:var(--reading-panel-left,12px)!important;top:var(--reading-panel-top,12px)!important;right:auto!important;bottom:auto!important;transform:none!important;width:var(--reading-panel-width,20rem)!important;max-width:calc(100vw - 24px)!important;max-height:var(--reading-panel-height,calc(100dvh - 24px))!important;min-width:0!important;box-sizing:border-box;overflow:auto;overscroll-behavior:contain;opacity:1!important;visibility:visible!important;pointer-events:auto!important;z-index:2000!important;border:1px solid #91aa94;border-radius:10px;padding:16px 38px 16px 17px!important;background:#fffef5!important;color:#193e30!important;box-shadow:0 12px 34px #10312330;white-space:normal;overflow-wrap:anywhere;font:400 .85rem/1.55 var(--font-body,sans-serif);text-align:left}
+body > .cite-preview.reading-popover.is-open{display:grid!important;gap:.25rem}
+body > .reading-popover :is(p,li,strong,span){color:inherit}
+body > .reading-popover a{color:#17613f!important;text-underline-offset:3px}
+body > .reading-popover .reading-popover__close{position:absolute;right:6px;top:5px;width:28px;height:28px;border:0;border-radius:50%;padding:0;background:#e7efd8;color:#264b36!important;font:22px/1 sans-serif;cursor:pointer}
+body > .reading-popover :is(a,button):focus-visible{outline:2px solid #1f7048;outline-offset:3px}
+.reading-popover-bridge{position:fixed;z-index:1999;pointer-events:auto;background:transparent}
+.reading-popover-bridge[hidden]{display:none!important}
+.ref-backlink-group::before{content:none!important}
+@media print{body > .reading-popover,.reading-popover-bridge{display:none!important}}
 
 /* Figure 1: choose exactly one SVG and keep it within the reading column. */
 .page-design #fig-sense-mechanism{width:100%;min-width:0;max-width:100%;box-sizing:border-box}

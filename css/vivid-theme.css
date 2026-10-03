@@ -1,0 +1,519 @@
+/* AeroSense / cinematic field journal.
+   One visual system, with a coordinated cover, chapter field and ink for each discipline.
+   The homepage retains its cinematic forest and warm-paper palette.
+   Scientific imagery, fluorescence, official SDG icons and 3D viewers keep their colours. */
+@font-face {font-family:"AscSerif";src:url("../homepage_animation/fonts/fraunces-latin-400-normal.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face {font-family:"AscSerif";src:url("../homepage_animation/fonts/fraunces-latin-400-italic.woff2") format("woff2");font-weight:400;font-style:italic;font-display:swap}
+@font-face {font-family:"AscMono";src:url("../homepage_animation/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2");font-weight:500;font-style:normal;font-display:swap}
+
+body {
+  --font-editorial:"AscSerif",Georgia,serif; --font-mono:"AscMono",ui-monospace,Consolas,monospace;
+  --v-signal:#b44824;
+  --v-ink:#172824; --v-muted:#4c6056; --v-paper:#fffdf7; --v-sheet:#ffffff;
+  --v-accent:#315e4a; --v-pigment:#dce7b0; --v-soft:#f2eadb;
+  --v-tint:#f8f4eb; --v-rule:#ddd4c5; --v-tape:#e6d7b5; --v-dark:#172824;
+  --v-cover-text:#fffdf7; --v-cover-muted:#e9e5d9; --v-cover-panel:#293b31;
+  --v-sketch-soft:#475c47;
+  --v-subject:var(--v-accent); --v-subject-soft:var(--v-soft);
+  --aero-ink-muted:var(--v-muted);
+  --aero-signal-on-light:var(--v-accent); --aero-cyan-on-light:#295e81;
+  --aero-violet-on-light:#675084; --aero-mango-on-light:#775324;
+  --aero-coral-on-light:#8a4b62;
+  --aero-warm:#ffffff;--aero-cream:var(--v-tint);--aero-ink:var(--v-ink);--aero-ink-body:var(--v-ink);
+  --aero-signal:var(--v-pigment);--aero-signal-deep:var(--v-accent);
+  --color-ink:var(--v-ink);--color-ink-body:var(--v-ink);--color-ink-muted:var(--v-muted);
+  --color-paper:#ffffff;--color-paper-soft:var(--v-tint);--color-paper-elevated:#ffffff;
+  --color-rule:var(--v-rule);--color-signal:var(--v-pigment);
+  --color-signal-text:var(--v-accent);--color-signal-edge:var(--v-accent);
+  --color-signal-bright:var(--v-soft);
+  --color-signal-glow:color-mix(in srgb,var(--v-pigment) 38%,transparent);
+  --color-signal-glow-soft:color-mix(in srgb,var(--v-pigment) 18%,transparent);
+  --color-accent:var(--v-pigment);--color-accent-soft:var(--v-soft);--color-accent-edge:var(--v-accent);
+  --color-accent-text:var(--v-ink);--color-focus:var(--v-accent);
+  --diary-paper:#ffffff;--diary-ivory:var(--v-paper);--diary-ink:var(--v-ink);
+  --diary-rule:var(--v-rule);--diary-sage:var(--v-pigment);--diary-tape:var(--v-tape);
+}
+/* Deep covers, bright chapter fields and dark control inks are paired deliberately.
+   No filter is applied to figures: reporter fluorescence and SDG colours stay literal. */
+body:is(.page-design,.page-parts,.page-experiments,.page-results) {
+  --v-ink:#183b31;--v-muted:#456357;--v-paper:#f8fcfa;
+  --v-accent:#247458;--v-pigment:#a8ebc7;--v-soft:#e2f4eb;
+  --v-tint:#f0faf5;--v-rule:#cbded3;--v-tape:#c8e8d5;--v-dark:#143f35;
+  --v-cover-muted:#dcefe4;--v-cover-panel:#225447;--v-sketch-soft:#36715c;
+}
+body.page-hardware {
+  --v-ink:#193345;--v-muted:#4d6578;--v-paper:#f8fbfe;
+  --v-accent:#215a89;--v-pigment:#a6d7ff;--v-soft:#e4f0fc;
+  --v-tint:#f0f6fd;--v-rule:#ccdce9;--v-tape:#c8dff2;--v-dark:#153651;
+  --v-cover-muted:#dce9f5;--v-cover-panel:#244c6d;--v-sketch-soft:#3e6c8e;
+}
+body.page-model {
+  --v-ink:#332645;--v-muted:#665577;--v-paper:#fcfaff;
+  --v-accent:#694698;--v-pigment:#d9c1ff;--v-soft:#eee7fa;
+  --v-tint:#f6f1fc;--v-rule:#ded2ec;--v-tape:#e0d2f0;--v-dark:#392a57;
+  --v-cover-muted:#ebe1f5;--v-cover-panel:#503b74;--v-sketch-soft:#715795;
+}
+body:is(.page-human-practices,.page-education,.page-entrepreneurship,.page-sustainability) {
+  --v-ink:#492d39;--v-muted:#795763;--v-paper:#fffafb;
+  --v-accent:#98405d;--v-pigment:#ffc8d8;--v-soft:#f9e6ed;
+  --v-tint:#fff2f6;--v-rule:#ead0d9;--v-tape:#efd2dc;--v-dark:#572d3b;
+  --v-cover-muted:#f5e0e7;--v-cover-panel:#753e50;--v-sketch-soft:#94576d;
+}
+body:is(.page-members,.page-attributions) {
+  --v-ink:#473323;--v-muted:#74604b;--v-paper:#fffcf7;
+  --v-accent:#835321;--v-pigment:#ffdc9e;--v-soft:#f8ecd7;
+  --v-tint:#fdf5e8;--v-rule:#e6d6bd;--v-tape:#ecd5ac;--v-dark:#4a3421;
+  --v-cover-muted:#f3e7d5;--v-cover-panel:#674a2f;--v-sketch-soft:#896440;
+}
+
+/* Existing page components consume their own legacy aliases. */
+body.page-entrepreneurship {
+  --ent-accent:var(--v-accent);--ent-accent-soft:var(--v-soft);--ent-accent-edge:var(--v-rule);
+}
+body.page-hardware .hw-r22 {
+  --r22-ink:var(--v-ink);--r22-mint:var(--v-soft);--r22-gold:var(--v-accent);--r22-paper:var(--v-sheet);
+}
+body.page-contribution {
+  --cat-bio:#5ddb96;--cat-hw:#79b6ff;--cat-data:#53d5cc;--cat-model:#c39aef;--cat-hp:#f296b5;
+}
+body.page-notebook {
+  --nb-wet:#5ddb96;--nb-wet-soft:#e4f8ee;--nb-hw:#79b6ff;--nb-hw-soft:#e6f0ff;
+  --nb-dry:#c39aef;--nb-dry-soft:#f1e8ff;
+}
+
+/* Clear, airy reading grounds; all repeated grain layers are removed. */
+body.editorial-2026:not(.page-home) {
+  --ed-paper:var(--v-paper); --ed-sheet:var(--v-sheet); --ed-ink:var(--v-ink);
+  --ed-accent:var(--v-accent); --ed-soft:var(--v-soft); --ed-rule:var(--v-rule);
+  --ed-tape:var(--v-tape);
+  --color-ink-muted:var(--v-muted);
+  --color-signal-text:var(--v-accent); --color-signal-edge:var(--v-accent);
+  --color-accent:var(--v-pigment); --color-accent-text:var(--v-ink);
+  --color-accent-soft:var(--v-soft); --color-accent-edge:var(--v-accent);
+  background-color:var(--v-paper)!important;
+  background-image:none!important;
+  color:var(--v-ink);
+}
+
+/* The cover and its illustration use the page discipline palette. */
+body.editorial-2026:not(.page-home):not(.page-members) .page-hero {
+  padding:clamp(1.45rem,4vw,3.2rem)!important;
+  margin-bottom:clamp(3rem,6vw,5.5rem)!important;
+  background:var(--v-dark)!important;color:var(--v-cover-text);
+  border:0!important;border-radius:4px!important;box-shadow:none!important;
+}
+body.editorial-2026:not(.page-home):not(.page-members) .page-hero::before,
+body.editorial-2026:not(.page-home):not(.page-members) .page-hero::after {display:none!important}
+body.editorial-2026:not(.page-home) .page-hero h1 {color:var(--v-cover-text)!important;font-family:var(--font-editorial)!important;font-weight:400!important}
+body.editorial-2026:not(.page-home):not(.page-members) header.page-hero :is(.hero-tagline,.page-purpose,.page-lede) {color:var(--v-cover-muted)!important}
+body.editorial-2026:not(.page-home):not(.page-members) header.page-hero :is(.hero-tagline,.page-purpose,.page-lede) :is(strong,em,span,dfn) {color:inherit!important}
+body.editorial-2026:not(.page-home):not(.page-members) header.page-hero :is(.hero-tagline,.page-purpose,.page-lede) a {color:var(--v-pigment)!important;text-decoration-color:currentColor}
+body.editorial-2026:not(.page-home):not(.page-members) header.page-hero :is(.breadcrumb,.breadcrumb a,.breadcrumb li) {color:var(--v-cover-muted)!important}
+body.editorial-2026:not(.page-home) .page-hero :is(.page-kicker,.section-kicker,.eyebrow) {color:var(--v-pigment)!important}
+body.editorial-2026:not(.page-home) .page-hero > .ed-vignette {
+  right:1.6rem;bottom:2rem;filter:none;transform:none!important;
+}
+body.editorial-2026 .ed-vignette svg {color:var(--v-pigment)}
+body.editorial-2026 .ed-vignette .ed-sketch-soft {fill:var(--v-sketch-soft);opacity:1}
+body.editorial-2026 .ed-vignette .ed-sketch-ink {fill:var(--v-pigment)}
+body.editorial-2026 .ed-vignette .ed-sketch-line {stroke:var(--v-pigment);stroke-width:2.5}
+body.editorial-2026 .ed-vignette .ed-sketch-fine {stroke:var(--v-pigment);opacity:.65}
+body.editorial-2026 .ed-vignette .ed-sketch-tape {display:none}
+body.editorial-2026 .ed-vignette .ed-sketch-sheet {fill:var(--v-cover-panel);stroke:none}
+
+/* Chapter fields, rather than decorative rules, establish a predictable rhythm.
+   These are direct report chapters: nested diagrams, tab panels and viewers are
+   deliberately excluded. The alternation follows the actual HTML section order. */
+body.editorial-2026:not(.page-home):not(.page-members) .page-article > .section-block,
+body.editorial-2026:not(.page-home):not(.page-members) .page-article > section:not(.references) {
+  border:0!important;border-radius:4px!important;
+  margin:0 0 clamp(3rem,6vw,5.5rem)!important;
+  padding:clamp(1.15rem,2.6vw,2.5rem)!important;
+  background:#ffffff!important;box-shadow:none!important;
+}
+/* Match the white-field selector before adding the even-chapter state. This
+   also outranks its section:not(.references) branch in the cascade. */
+body.editorial-2026:not(.page-home):not(.page-members) .page-article > .section-block:nth-of-type(even),
+body.editorial-2026:not(.page-home):not(.page-members) .page-article > section:not(.references):nth-of-type(even) {background:var(--v-soft)!important}
+body.editorial-2026:not(.page-home) .page-article > .section-block > h2 {
+  color:var(--v-ink)!important;padding-bottom:.1em;font-family:var(--font-editorial)!important;font-weight:400!important;
+  text-decoration:none;
+}
+body.editorial-2026:not(.page-home) .ed-section-index {
+  position:static;display:inline-block;margin-bottom:.7rem;
+  color:#ffffff!important;background:var(--v-accent)!important;
+  padding:.35rem .75rem;box-shadow:none;min-width:2.8rem;text-align:center;
+  border:0;border-radius:2px;transform:none!important;
+}
+body.editorial-2026:not(.page-home) .page-article > .section-block > p:first-of-type:not(.section-eyebrow) {color:var(--v-ink)}
+body.editorial-2026:not(.page-home) :is(.page-glance,.hw-r22__opening) {
+  background:var(--v-soft)!important;
+  border:0!important;border-radius:4px!important;
+  padding:clamp(1.2rem,2.6vw,2rem);
+  box-shadow:none!important;
+  color:var(--v-ink)!important;
+}
+body.editorial-2026:not(.page-home) .page-glance :is(h2,h3,p,strong,dt,dd) {color:var(--v-ink)}
+body.editorial-2026:not(.page-home) .page-glance :is(.page-glance__title,dt) {color:var(--v-accent)}
+/* The hardware opening used to be a dark panel. Its original child declarations
+   include !important cream/gold text, so the light cover needs explicit pairs. */
+body.editorial-2026.page-hardware .hw-r22__opening :is(p,span,strong,h2,h3) {
+  color:var(--v-ink)!important;
+}
+body.editorial-2026.page-hardware .hw-r22__opening .hw-r22__eyebrow,
+body.editorial-2026.page-hardware .hw-r22__opening .hw-r22__claim strong {
+  color:var(--v-accent)!important;
+}
+body.editorial-2026.page-hardware .hw-r22__opening .hw-r22__claim {border-top:0}
+body.editorial-2026.page-hardware .hw-r22__opening::after {display:none}
+body.editorial-2026:not(.page-home) .page-glance__grid {gap:1.3rem 1.6rem}
+body.editorial-2026:not(.page-home) .page-glance__grid > div {
+  border:0!important;background:transparent!important;box-shadow:none!important;padding:.25rem 0;
+}
+/* A nested summary belongs to its cover, rather than becoming another card. */
+body.editorial-2026:not(.page-home) .page-hero > .page-glance {
+  background:var(--v-cover-panel)!important;padding:1.4rem;margin-top:2rem;color:var(--v-cover-text)!important;
+}
+body.editorial-2026:not(.page-home) .page-hero > .page-glance :is(h2,h3,p,strong,dt,dd) {color:var(--v-cover-muted)!important}
+body.editorial-2026:not(.page-home) .page-hero > .page-glance :is(.page-glance__title,dt) {color:var(--v-pigment)!important}
+body.editorial-2026:not(.page-home) .page-article > .section-block > :is(.notice,blockquote) {
+  background:var(--v-soft);border:0;border-radius:4px;color:var(--v-ink);
+}
+body.editorial-2026:not(.page-home) .page-article > .section-block > figure:has(> img),
+body.editorial-2026:not(.page-home) .page-article > figure.revision-visual {
+  background:#ffffff!important;border:0!important;
+  box-shadow:none!important;
+}
+body.editorial-2026:not(.page-home) .page-article > .section-block > figure:has(> img)::before,
+body.editorial-2026:not(.page-home) .page-article > figure.revision-visual::before {
+  display:none!important;
+}
+body.editorial-2026:not(.page-home) :is(.section-eyebrow,.eyebrow,.tech-label) {color:var(--v-subject)}
+body.editorial-2026:not(.page-home) .page-article > .section-block > :is(p,ul,ol) a:not(.btn) {
+  color:var(--v-accent);text-decoration-color:color-mix(in srgb,var(--v-accent) 60%,transparent);
+  text-decoration-thickness:1px;text-underline-offset:.18em;
+}
+
+/* Overview panels repeat the discipline colour used in report chapters. */
+body.editorial-2026:not(.page-home):not(.page-members) .page-article > .section-block:is(
+  .desc-glance-block,.eng-glance,[id="design-requirements"],[id="evidence-overview"]
+) {
+  background:var(--v-soft)!important;border:0!important;border-radius:4px!important;
+  padding:clamp(1.35rem,3vw,2.5rem)!important;
+}
+body.editorial-2026:not(.page-home):not(.page-members) .page-article > .section-block:is(
+  .desc-glance-block,.eng-glance,[id="design-requirements"],[id="evidence-overview"]
+) > .ed-section-index {position:static;margin-bottom:.65rem}
+body.page-description .desc-strip--illustrated li:nth-child(n) {
+  background:transparent;outline:0;box-shadow:none;border:0;
+}
+body.page-description .desc-strip--illustrated li[data-layer] a {
+  box-shadow:none;border:0;border-radius:14px;
+}
+body.page-description .desc-strip--illustrated a:is(:hover,:focus-visible) {background:#ffffff}
+body.page-design .design-req > li {background:transparent;border:0;box-shadow:none}
+body.page-engineering .eng-glance__row[data-eng-glance] {border:0;box-shadow:none;border-radius:12px}
+body.page-sustainability .sust-glance {
+  background:var(--v-soft);border:0;border-radius:4px;box-shadow:none;
+}
+body.page-human-practices .hp-road-intro {
+  background:var(--v-soft);border:0;border-radius:4px;padding:clamp(1.2rem,2.5vw,2rem);
+}
+body.editorial-2026:not(.page-home) .page-article .wiki-figure {border:0;box-shadow:none}
+body.editorial-2026:not(.page-home) .page-article .wiki-figure > figcaption {border:0}
+
+/* Navigation states read as controls, even without colour vision. */
+body.editorial-2026:not(.page-home) .page-toc {border:0!important}
+body.editorial-2026:not(.page-home) .page-toc a {
+  color:var(--v-muted)!important;border:0!important;margin-block:3px;border-radius:7px;
+}
+body.editorial-2026:not(.page-home) .page-toc a:is([aria-current="true"],:hover) {
+  color:var(--v-accent)!important;background:var(--v-soft)!important;
+  box-shadow:none!important;
+}
+body.editorial-2026:not(.page-home) .toc__label {color:var(--v-accent)}
+body.editorial-2026:not(.page-home) .page-toc a .tech-label {color:var(--v-accent)!important}
+body.editorial-2026:not(.page-home) :is(a.btn,.btn) {
+  border-color:var(--v-accent);color:var(--v-accent);background:var(--v-paper);
+}
+body.editorial-2026:not(.page-home) :is(a.btn--primary,.btn--primary) {
+  color:#ffffff!important;background:var(--v-accent)!important;border-color:var(--v-accent)!important;
+}
+body.editorial-2026:not(.page-home) :is(a.btn,.btn):is(:hover,:focus-visible) {
+  background:var(--v-soft);color:var(--v-accent);
+}
+
+/* Scientific captions, references and small UI text use dark companion inks. */
+body.editorial-2026:not(.page-home) main figcaption,
+body.editorial-2026:not(.page-home) .wiki-figure__meta,
+body.editorial-2026:not(.page-home) .wiki-figure__num {color:var(--v-muted)}
+body.editorial-2026:not(.page-home) .media-caption__label {color:var(--v-accent);font-weight:750}
+body.editorial-2026:not(.page-home) main table > caption {color:var(--v-accent)!important}
+body.editorial-2026:not(.page-home) .prose thead th {
+  background:var(--v-soft);color:var(--v-ink);border-bottom-color:var(--v-accent);
+}
+body.editorial-2026:not(.page-home) .references {border-top:0}
+body.editorial-2026:not(.page-home) .references > ol > li {border-bottom:0;margin-bottom:.5rem}
+body.editorial-2026:not(.page-home) .references a {color:var(--v-accent)}
+body.editorial-2026:not(.page-home) .references :is(.ref-title,.ref-authors,.ref-meta) {color:var(--v-ink)}
+body :is(.glossary-popover,.as-peek,.search-dialog) {
+  color:var(--v-ink);background:#ffffff;border-color:var(--v-rule);
+}
+body :is(.glossary-popover__term,.as-peek__term,.as-peek__kicker) {color:var(--v-accent)}
+body :is(.glossary-popover__def,.as-peek__def) {color:var(--v-ink)}
+body :is(.glossary-popover__note,.as-peek__hint) {color:var(--v-muted)}
+body .search-dialog__hint,body .search-dialog__count {color:var(--v-muted)}
+
+/* Explicit repair for the former light-on-light GCaMP phase and diagram tabs. */
+body.page-design .design-phase-detail {
+  background:var(--v-soft)!important;color:var(--v-ink)!important;
+  border:0!important;border-radius:16px;
+  box-shadow:none;padding:1.3rem 1.5rem!important;
+}
+body.page-design .design-phase-detail :is(h3,p,small,strong) {color:var(--v-ink)!important}
+body.page-design .design-phase-mobile button {
+  background:#ffffff;color:var(--v-accent);border-color:var(--v-rule);
+}
+body.page-design .design-phase-mobile button[aria-pressed="true"] {
+  background:var(--v-accent)!important;color:#ffffff!important;border-color:var(--v-accent);
+}
+body.page-design .design-callout {color:var(--v-ink)}
+body.page-design :is(.design-or-grid__panel,.design-inspector__panel,.design-switch__panel) {
+  background:var(--v-tint);color:var(--v-ink);border-color:var(--v-rule);
+}
+body.page-design :is(.design-or-grid__panel,.design-inspector__panel,.design-switch__panel) :is(h3,h4,p) {
+  color:var(--v-ink);
+}
+body.page-design :is(.design-or-grid button,.design-switch__tabs button)[aria-pressed="true"] {
+  background:var(--v-accent)!important;color:#ffffff!important;border-color:var(--v-accent)!important;
+}
+
+/* Album and learning covers follow the same category tokens. */
+body.page-members {
+  --members-ivory:var(--v-paper);--members-cover-sheet:#ffffff;--members-paper:#ffffff;
+  --members-sage:var(--v-pigment);--members-sage-text:var(--v-accent);--members-mustard:#edc271;
+  --members-lavender:#e9ccaa;--members-dust:#e7c6a1;--members-graphite-soft:var(--v-muted);
+  --members-paper-deep:var(--v-soft);--members-rule:var(--v-rule);--members-graphite:var(--v-ink);
+  --members-grain:none;
+}
+body.page-members .members-index {border:0;background:var(--v-soft);border-radius:4px;margin-block:4rem}
+body.page-members .members-intro {
+  padding:clamp(1.5rem,4vw,3.2rem);background:var(--v-dark);border-radius:4px;margin-bottom:4rem;color:var(--v-cover-text);
+}
+body.page-members .members-book {background-image:none;border:0;box-shadow:none}
+body.page-members .members-book__edge {display:none}
+body.page-members .members-index__label {color:var(--v-accent)}
+body.page-members :is(.members-index__title,.members-section__title) {color:var(--v-ink)!important;font-family:var(--font-editorial)!important;font-weight:400!important}
+body.page-members .members-intro__title {color:var(--v-cover-text)!important;font-family:var(--font-editorial)!important;font-weight:400!important}
+body.page-members .members-intro :is(.members-intro__meta,.breadcrumb,.breadcrumb a,.breadcrumb li) {color:var(--v-pigment)!important}
+body.page-learning :is(.learn-hero,.lm-hero) {
+  background:var(--v-dark)!important;
+  border:0!important;
+  border-radius:4px!important;box-shadow:none;
+}
+body.page-learning :is(.learn-hero,.lm-hero) :is(h1,p,li) {color:var(--v-cover-muted)!important}
+body.page-learning :is(.learn-hero,.lm-hero) h1 {color:var(--v-cover-text)!important}
+body.page-learning :is(.learn-section,.lm-section) {border:0!important;background:#fff!important;padding:clamp(1.1rem,3vw,2.5rem)!important;margin-block:3.5rem!important;border-radius:4px!important}
+body.page-learning :is(.learn-section,.lm-section):nth-of-type(even) {background:var(--v-soft)!important}
+body.page-learning :is(.learn-section,.lm-section) > h2 {color:var(--v-ink)}
+body.page-learning :is(.learn-section,.lm-section) > h2::before {display:none}
+body.page-learning .learn-hero__meta {color:var(--v-cover-muted)}
+body.page-learning :is(.learn-hero,.lm-hero).ed-has-vignette {position:relative;isolation:isolate;min-height:330px;padding:clamp(1.5rem,3.5vw,2.8rem)!important}
+body.page-learning :is(.learn-hero,.lm-hero).ed-has-vignette > :is(h1,p,.learn-hero__copy) {max-width:68%!important}
+body.page-learning :is(.learn-hero,.lm-hero) > .ed-vignette {
+  display:block!important;position:absolute;right:1.5rem;bottom:2rem;width:26%;max-width:255px;
+  margin:0;padding:0;pointer-events:none;transform:none;z-index:-1;
+}
+body.page-learning :is(.learn-hero,.lm-hero).ed-has-vignette h1 {
+  font-family:var(--font-editorial)!important;
+  font-size:clamp(2.4rem,4.5vw,4.7rem)!important;line-height:1.06!important;
+  font-weight:500!important;letter-spacing:-.045em!important;text-transform:none!important;
+}
+body.page-glossary .glossary-page {border-top:0}
+body.page-glossary .glossary-page > :is(.glossary-page__eyebrow,h1,.glossary-page__intro) {background:var(--v-dark);color:var(--v-cover-text)!important;padding-inline:clamp(1.2rem,3vw,2.4rem);margin:0!important}
+body.page-glossary .glossary-page > .glossary-page__eyebrow {padding-top:2rem;color:var(--v-pigment)!important;border-radius:4px 4px 0 0}
+body.page-glossary .glossary-page > h1 {padding-block:1rem;font-family:var(--font-editorial)!important;font-weight:400}
+body.page-glossary .glossary-page > .glossary-page__intro {padding-bottom:2rem;margin-bottom:2.5rem!important;border-radius:0 0 4px 4px;max-width:none}
+body.editorial-2026 .page-article :is(h3,h4) {font-family:var(--font-body,sans-serif);font-weight:650}
+body.editorial-2026 .references h2 {font-family:var(--font-editorial)!important;font-weight:400}
+body.editorial-2026 .page-article > .section-block > :is(.section-eyebrow,.section-kicker) {font-family:var(--font-mono);color:var(--v-accent);letter-spacing:.06em}
+body.page-glossary .glossary-page h1 {color:var(--v-accent)}
+body.page-glossary .glossary-page__eyebrow {color:var(--v-accent)}
+body.page-glossary :is(.glossary-page__intro,.glossary-page__count) {color:var(--v-muted)}
+body.editorial-2026.page-glossary .glossary-entry {border:0;background:transparent;padding:1.4rem .25rem}
+body.page-glossary .glossary-entry h2 {color:var(--v-accent)}
+body.page-glossary #glossary-search {border:1px solid var(--v-rule);background:#ffffff;color:var(--v-ink)}
+body.page-glossary #glossary-search::placeholder {color:var(--v-muted);opacity:1}
+body.page-entrepreneurship .ent-ballot-card,
+body.page-entrepreneurship .ent-ballot-card:nth-child(n) {
+  background:var(--v-soft)!important;border:0!important;
+  box-shadow:none!important;
+}
+body.editorial-2026.page-entrepreneurship .ent-ballot-card {border-radius:4px!important}
+body.page-entrepreneurship .ent-ballot-card :is(h3,p) {color:var(--v-ink)!important}
+body.page-entrepreneurship .ent-ballot-card h3 {color:var(--v-accent)!important}
+body.page-entrepreneurship .ent-ballot-card__num {color:var(--v-accent)!important}
+body.page-entrepreneurship :is(.ent-learn,.ent-wcard) {
+  background:var(--v-soft)!important;border:0!important;box-shadow:none!important;
+}
+
+/* Remove inherited aged-paper surfaces from reusable report components. */
+body.editorial-2026:not(.page-home):not(.page-members) .page-article > .section-block {
+  background-image:none!important;
+}
+body.editorial-2026:not(.page-home) .signal-end {
+  background:var(--v-soft)!important;border:0!important;border-radius:14px;
+  box-shadow:none!important;transform:none;
+}
+body.editorial-2026:not(.page-home) .signal-end::before {display:none!important}
+body.editorial-2026:not(.page-home) .signal-end :is(p,h2,summary,a) {color:var(--v-ink)!important}
+body.editorial-2026:not(.page-home) .prose tbody tr:nth-child(even) {background:var(--v-tint)}
+body.page-hardware .hw-r22__figure {background:#ffffff;border:0}
+body.page-hardware :is(.hw-r22__definitions,.hw-r22__gates) > div:nth-child(n) {
+  background:var(--v-soft);border:0;
+}
+body.page-hardware .hw-r22__downloads > a {background:var(--v-tint);border:0;color:var(--v-accent)}
+body.page-hardware .hw-r22__downloads > a:hover {background:var(--v-soft)}
+body.page-hardware .hw-r22__downloads > a span {color:var(--v-muted)}
+body.page-hardware .hw-r22__table tbody tr:nth-child(odd) {background:var(--v-tint)}
+body.page-hardware .hw-r22__chain span {background:var(--v-soft);color:var(--v-ink)}
+body.page-hardware .hw-r22__chain b {color:var(--v-accent)}
+body.page-hardware :is(.hw-r22__assumptions,.hw-r22__fine,.hw-r22__closing,.hw-r22__details) {
+  background:var(--v-tint);color:var(--v-ink);border-left-color:var(--v-accent);
+}
+body.page-hardware .hw-r22__table thead {background:var(--v-dark);color:var(--v-cover-text)}
+body.page-hardware .hw-r22__table :is(th,td) {border-bottom-color:var(--v-rule)}
+/* The product stays true to its material and fluorescence colours; its controls
+   and studio surround belong to the Hardware page's blue palette. */
+body.page-hardware .hw-showcase {--showcase-ink:var(--v-ink);--showcase-lime:var(--v-pigment);background:var(--v-tint)!important;border-color:var(--v-rule)!important}
+body.page-hardware .hw-showcase .hw-exploded__stage {background:radial-gradient(ellipse at 58% 36%,#4e7391 0%,#294b68 43%,#102d46 78%)}
+body.page-hardware .hw-showcase .hw-exploded__fallback {background:var(--v-soft)}
+body.page-hardware :is(.hw-showcase__slider-panel,.hw-showcase__loading) {background:var(--v-dark);border-color:var(--v-sketch-soft)}
+body.page-hardware :is(.hw-showcase__masthead p,.hw-showcase__state,.hw-showcase__endpoints button,.hw-showcase__preferences label) {color:var(--v-cover-muted)!important}
+body.page-hardware :is(.hw-showcase__slider-title output,.hw-showcase__endpoints button:hover) {color:var(--v-pigment)!important}
+body.page-hardware .hw-showcase__preferences {border-color:var(--v-sketch-soft)}
+body.page-hardware .hw-showcase__preferences input {accent-color:var(--v-pigment)}
+body.page-hardware .hw-showcase__view-tools button {background:var(--v-cover-panel);border-color:var(--v-pigment)}
+body.page-hardware .hw-showcase__view-tools button:hover {background:var(--v-accent);border-color:var(--v-cover-text)}
+body.page-hardware .hw-showcase__slider-panel input[type=range] {background:linear-gradient(to right,var(--v-pigment) 0 var(--assembly-progress,0%),var(--v-sketch-soft) var(--assembly-progress,0%) 100%);accent-color:var(--v-pigment)}
+body.page-hardware .hw-showcase__slider-panel input[type=range]::-webkit-slider-thumb {background:var(--v-pigment);border-color:var(--v-cover-panel);box-shadow:0 0 0 1px var(--v-pigment)}
+body.page-hardware .hw-showcase__slider-panel input[type=range]::-moz-range-thumb {background:var(--v-pigment);border-color:var(--v-cover-panel);box-shadow:0 0 0 1px var(--v-pigment)}
+body.page-hardware .hw-showcase__inspection {background:var(--v-tint)}
+body.page-hardware .hw-showcase .hw-exploded__controls button {color:var(--v-ink)!important}
+body.page-hardware .hw-showcase .hw-exploded__controls button span {color:var(--v-muted);border-color:var(--v-rule)}
+body.page-hardware .hw-showcase .hw-exploded__controls button:hover {background:var(--v-soft)}
+body.page-hardware .hw-showcase .hw-exploded__controls button[aria-pressed=true] {background:var(--v-accent);color:#fff!important}
+body.page-hardware .hw-showcase .hw-exploded__controls button[aria-pressed=true] span {color:#fff;border-color:var(--v-pigment)}
+body.page-hardware .hw-showcase .hw-exploded__detail {border-color:var(--v-rule);color:var(--v-ink)}
+body.page-hardware .hw-showcase .hw-exploded__detail :is(strong,p) {color:var(--v-ink)!important}
+body.page-hardware .hw-showcase .hw-exploded__detail :is(.hw-showcase__detail-kicker,.hw-showcase__material) {color:var(--v-accent)!important}
+body.page-hardware .hw-showcase .hw-exploded__detail .hw-showcase__spec {color:var(--v-muted)!important}
+body.page-hardware :is(.hw-pcb-map__toolbar,.hw-pcb-legend,.hw-schematic__nav) {background:var(--v-soft);color:var(--v-ink)}
+body.page-hardware .hw-pcb-map__toolbar button {background:var(--v-accent)}
+body.page-hardware .hw-pcb-map__toolbar button[aria-pressed=true] {background:var(--v-dark)}
+body.page-model .model-next-studies {background:var(--v-soft);border:0;border-radius:18px}
+body.page-glossary .glossary-entry {background-image:none!important;box-shadow:none!important}
+
+/* Cascade audit: these component-local literals bypassed the shared tokens. */
+body.page-parts .parts-explorer {background:#ffffff;border:0;box-shadow:none}
+body.page-parts .parts-feature-detail {background:var(--v-soft);border:0;border-radius:14px}
+body.page-parts .parts-feature-detail__eyebrow {color:var(--v-accent)}
+body.page-parts .parts-feature-detail__meta {color:var(--v-muted)}
+body.page-parts .parts-catalog__detail-row td {background:var(--v-tint);border-left-color:var(--v-pigment)}
+body.page-parts .parts-catalog__row[aria-expanded="true"] {background:var(--v-soft)}
+body.page-engineering .eng-cycle__panels.has-meshed-gears {background:var(--v-tint)}
+body.page-engineering .has-meshed-gears > [data-eng-stage] {background:#ffffff!important}
+body.page-engineering .eng-track-label {color:var(--v-accent)}
+body.page-engineering .eng-track--hw .eng-track-label {color:#215ab1}
+body.page-engineering .eng-track--model .eng-track-label {color:#713cac}
+body.page-engineering :is(.eng-track--hp,.eng-hp-track) .eng-track-label {color:#9f3d69}
+body.page-sustainability .sdg-feature {background:var(--v-soft);border:0;box-shadow:none}
+body.page-sustainability #at-a-glance .sust-sdg {background:var(--v-tint)}
+body.page-sustainability .sdg-pathway-toggle {background:var(--v-soft);color:var(--v-accent);border-color:var(--v-rule)}
+body.page-human-practices :is(.hp-chapternav,.hp-detail-panel) {border-color:var(--v-rule)}
+body.page-human-practices .hp-detail-panel__inner {background:var(--v-tint)}
+body.page-human-practices .hp-cp__open {color:var(--v-accent);border-color:var(--v-rule);background:var(--v-tint)}
+body.page-human-practices .hp-cp__open:hover {background:var(--v-soft)}
+body.page-human-practices .hp-road-track::after {filter:saturate(.7)}
+body.page-entrepreneurship .framework-note__sheet {
+  background:#ffffff;background-image:none;border-color:var(--v-rule);
+  box-shadow:0 20px 55px #102f2a26;
+}
+body.page-entrepreneurship .framework-note__sheet::before {display:none}
+body.page-entrepreneurship .framework-flip__back {background:#ffffff}
+body > .reading-popover.is-open {background:#ffffff!important;border-color:var(--v-rule);color:var(--v-ink)!important}
+body > .reading-popover .reading-popover__close {background:var(--v-soft);color:var(--v-accent)!important}
+body .glossary-popover__visual {background:var(--v-tint);border-color:var(--v-rule)}
+body .fly-qa {background:#ffffff}
+body .fly-qa__choices button {background:var(--v-tint);color:var(--v-ink);border-color:var(--v-rule)}
+body.page-members .members-memory__end-note {color:var(--v-muted)}
+
+/* Thin model interaction marks need ink-level contrast, not decorative pastel. */
+body.page-model .model-map__svg .map-flow-pulse,
+body.page-model .model-map__svg .map-node-shell.is-active,
+body.page-model .model-map__svg [data-map-node].is-active .map-node-shell,
+body.page-model .model-map__svg [data-map-node].is-hover .map-node-shell,
+body.page-model .model-map.is-demo-pulse-input .model-map__svg [data-map-node="input"] .map-node-shell,
+body.page-model .model-map.is-demo-pulse-pn .model-map__svg [data-map-node="pn"] .map-node-shell,
+body.page-model .model-map.is-demo-pulse-expansion .model-map__svg [data-map-node="expansion"] .map-node-shell,
+body.page-model .model-map.is-demo-pulse-apl .model-map__svg [data-map-node="apl"] .map-node-shell,
+body.page-model .model-map.is-demo-sparse .model-map__svg [data-map-node="kc"] .map-node-shell,
+body.page-model .model-map.is-demo-pulse-mbon .model-map__svg [data-map-node="mbon"] .map-node-shell,
+body.page-model .model-map.is-demo-pulse-output .model-map__svg [data-map-node="output"] .map-node-shell {
+  stroke:var(--v-accent);
+}
+body.page-model .model-pipe__step.is-active::before,
+body.page-model .model-pipe__step[aria-pressed="true"]::before {
+  background:var(--v-accent);border-color:var(--v-accent);
+}
+
+/* The shared shell joins the film, album and reports without touching the film. */
+body .site-header {
+  background:color-mix(in srgb,var(--v-paper) 96%,transparent)!important;border-bottom:1px solid var(--v-rule)!important;
+  box-shadow:0 2px 16px #102f2a06;
+}
+body .site-header :is(.brand__name,.nav-trigger,.nav-submenu a,.nav-root > li > a) {color:var(--v-ink)}
+body .site-header :is(.brand__meta,.nav-label-static) {color:var(--v-muted)}
+body .site-header .nav-submenu {background:var(--v-paper);border-color:var(--v-rule)}
+body .site-header .nav-submenu a:is(:hover,[aria-current="page"]) {background:var(--v-soft);color:var(--v-accent)}
+body .site-header :is(.nav-trigger[aria-expanded="true"],.nav-root > li > a[aria-current="page"]) {color:var(--v-accent)}
+body .header-tools :is(.fly-toggle,.btn-search,.nav-toggle) {
+  color:var(--v-accent);background:#ffffff;border-color:var(--v-rule);box-shadow:none;
+}
+body .header-tools .fly-toggle__state {color:var(--v-muted)}
+body .header-tools .fly-toggle[aria-pressed="true"] {background:var(--v-soft);border-color:var(--v-accent)}
+body .site-footer {background:var(--v-dark)!important}
+body .site-footer a {color:#eff5f4!important}
+body .site-footer a:hover {color:#f8fcfa!important}
+body .site-footer .footer-col h2 {color:#f1fff7!important}
+body .site-footer :is(.footer-copy,.footer-mission,.footer-sitemap-title) {color:#d7e0e0!important}
+/* Keep the progress annotation entirely inside the outer page gutter. */
+body .signal-thread__label {left:0;background:color-mix(in srgb,var(--v-paper) 94%,transparent)}
+
+/* The same hierarchy on small screens: illustration follows the title. */
+@media (max-width:760px) {
+  body.editorial-2026:not(.page-home):not(.page-members) .page-hero {
+    padding:1.6rem 1.2rem 2rem!important;border-radius:4px!important;
+  }
+  body.editorial-2026:not(.page-home) .page-hero > .ed-vignette {right:auto;bottom:auto}
+  body.editorial-2026:not(.page-home):not(.page-members) .page-article > .section-block,
+  body.editorial-2026:not(.page-home):not(.page-members) .page-article > section:not(.references) {padding:1.5rem 1rem!important;margin-bottom:3rem!important}
+  body.editorial-2026:not(.page-home) .page-hero h1 {overflow-wrap:anywhere}
+  body.page-design .design-phase-detail {padding:1rem!important}
+  body.page-learning :is(.learn-hero,.lm-hero).ed-has-vignette {min-height:0;padding:1.4rem 1.1rem 1.7rem!important}
+  body.page-learning :is(.learn-hero,.lm-hero).ed-has-vignette > :is(h1,p,.learn-hero__copy) {max-width:100%!important}
+  body.page-learning :is(.learn-hero,.lm-hero) > .ed-vignette {position:relative;right:auto;bottom:auto;width:150px;margin:1.4rem 0 0 auto;z-index:0}
+}
+@media (max-width:380px) {
+  body.page-notebook .nb-monthcal__header {gap:.25rem}
+  body.page-notebook .nb-monthcal__heading [data-cal-month-title] {font-size:1.1rem;white-space:nowrap}
+}
+@media print {
+  body.editorial-2026:not(.page-home) {background:#fff!important;color:#111}
+  body.editorial-2026:not(.page-home):not(.page-members) .page-hero {
+    background:#fff!important;box-shadow:none!important;border-color:#555!important;
+  }
+  body.editorial-2026:not(.page-home):not(.page-members) header.page-hero :is(h1,.hero-tagline,.page-purpose,.page-lede,.breadcrumb,.breadcrumb a,.breadcrumb li) {color:#111!important}
+  body.editorial-2026:not(.page-home):not(.page-members) header.page-hero :is(.hero-tagline,.page-purpose,.page-lede) a {color:#111!important}
+  body.editorial-2026:not(.page-home) .ed-section-index {background:#eee!important;color:#111!important;box-shadow:none}
+}

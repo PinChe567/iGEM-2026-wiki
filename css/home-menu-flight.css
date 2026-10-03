@@ -1,0 +1,55 @@
+/* One character leaves the title and becomes the persistent navigation. */
+.page-home .home-menu-dock{
+ position:fixed;top:max(18px,env(safe-area-inset-top));right:max(22px,env(safe-area-inset-right));
+ width:66px;height:66px;visibility:hidden;pointer-events:none;
+}
+.page-home.home-menu-flight-ready .home-wordmark__origin>img{visibility:hidden;}
+.page-home .home-mascot-flight{display:none!important;}
+.page-home .identity-flight__stamp{visibility:visible!important;}
+.page-home.home-edition-2026 .home-wordmark__lockup{transform:none;}
+.page-home .home-menu-launch .home-menu-launch__art{
+ position:absolute;inset:0;display:grid;place-items:center;width:100%;height:100%;
+ transform:scale(var(--menu-fly-scale,1)) rotate(var(--menu-fly-turn,-12deg));
+ transform-origin:center;pointer-events:auto;
+}
+.page-home .home-menu-launch__art :is(img,svg){
+ display:block;width:49px;height:49px;max-width:none;object-fit:contain;transform:none;
+ overflow:visible;filter:drop-shadow(0 3px 3px #13241d1a);
+}
+.page-home.home-menu-flight-ready .home-menu-launch{
+ background:none;border:0;box-shadow:none;transition:none;overflow:visible;
+ will-change:transform;isolation:isolate;
+}
+.page-home.home-menu-flight-ready .home-menu-launch::before{
+ content:'';position:absolute;inset:0;border-radius:50%;background:#fcfbf0f5;
+ border:1px solid #75886b40;box-shadow:0 5px 25px #10261d28;
+ opacity:var(--menu-dock-opacity,0);z-index:-1;pointer-events:none;
+}
+.page-home.home-menu-flight-ready .home-menu-launch:hover{box-shadow:none;}
+.page-home .home-menu-launch>.home-menu-launch__label{
+ position:absolute;left:50%;top:50%;bottom:auto;width:max-content;
+ transform:translate(calc(-50% + var(--menu-label-x,0px)),calc(-50% + var(--menu-label-y,22px)));
+ font:500 9px/1.4 var(--font-mono,monospace);letter-spacing:.12em;color:#1b3028;
+ padding:3px 5px;background:#fcfbf0e8;border-radius:4px;pointer-events:none;
+}
+/* Name the corner control only once the same fly has finished landing. */
+.page-home.home-menu-flight-ready .home-menu-launch>.home-menu-launch__label{
+ opacity:0;visibility:hidden;transition:none;
+}
+.page-home.home-menu-flight-ready .home-menu-launch.is-docked>.home-menu-launch__label{
+ opacity:1;visibility:visible;transition:opacity .18s ease-out;
+}
+.page-home .home-menu-launch:focus-visible{outline:3px solid #997234;outline-offset:7px;}
+.page-home .home-menu-launch:focus-visible .home-menu-launch__label{background:#1b3028;color:#fcfbf0;}
+.page-home .home-menu-launch:hover .home-menu-launch__label{text-decoration:underline;text-underline-offset:3px;}
+@media(max-width:600px){
+ .page-home .home-menu-dock{width:55px;height:55px;right:16px;top:14px;}
+ .page-home .home-menu-launch__art :is(img,svg){width:40px;height:40px;}
+ .page-home .home-menu-launch>.home-menu-launch__label{font-size:8px;}
+}
+@media(prefers-reduced-motion:reduce){
+ .page-home .home-menu-launch .home-menu-launch__art{transform:rotate(-12deg);}
+ .page-home .home-wordmark__origin>img{visibility:visible!important;}
+ .page-home .home-menu-launch>.home-menu-launch__label{transform:translate(-50%,calc(-50% + 22px));}
+}
+@media print{.page-home .home-wordmark__origin>img{visibility:visible!important;}.home-menu-dock{display:none;}}

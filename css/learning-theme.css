@@ -1,0 +1,103 @@
+/* The learning hub, five lessons and progress journal share the wiki's
+   forest cover / warm paper identity. Scientific marks keep their own colours. */
+body.page-learning {
+  --v-ink:#203a31; --v-muted:#526459; --v-paper:#f8f5eb; --v-sheet:#fffefa;
+  --v-accent:#356a4f; --v-pigment:#cfe6b5; --v-soft:#ecefdf; --v-tint:#f5f3e9;
+  --v-rule:#ccd5c5; --v-dark:#173f34; --v-cover-text:#fffdf2;
+  --v-cover-muted:#e3eddb; --v-cover-panel:#285243; --v-sketch-soft:#7d9d78;
+  --color-ink:var(--v-ink); --color-ink-body:var(--v-ink); --color-ink-muted:var(--v-muted);
+  --color-paper:var(--v-sheet); --color-paper-soft:var(--v-tint); --color-rule:var(--v-rule);
+  --color-signal-text:var(--v-accent); --color-signal-edge:var(--v-accent);
+  --color-signal:var(--v-pigment); --color-focus:var(--v-accent);
+  background:var(--v-paper); color:var(--v-ink);
+}
+body.page-learning :is(.learn-hero,.lm-hero) {
+  position:relative; isolation:isolate; padding:clamp(1.5rem,4vw,3rem)!important;
+  margin-block:1.25rem 3rem; background:var(--v-dark)!important;
+  color:var(--v-cover-text); border:0!important; border-radius:4px 28px 4px 4px!important;
+  box-shadow:0 8px 22px #173f3410!important;
+}
+body.page-learning :is(.learn-hero,.lm-hero) h1 {
+  font-family:var(--font-editorial,Georgia,serif)!important;
+  color:var(--v-cover-text)!important; font-weight:400!important;
+  font-size:clamp(2.25rem,4.6vw,4.5rem)!important; line-height:1.08!important;
+  letter-spacing:-.035em!important; text-transform:none!important; overflow-wrap:normal;
+}
+body.page-learning :is(.learn-hero,.lm-hero) :is(h1 span,h1 em) {color:inherit!important}
+body.page-learning :is(.learn-hero,.lm-hero) :is(p,li,.breadcrumb a,.learn-kicker,.lm-hero__time,.lm-pipeline) {
+  color:var(--v-cover-muted)!important; text-align:start; text-align-last:auto;
+}
+body.page-learning :is(.learn-hero,.lm-hero) :is(.learn-kicker,.breadcrumb,.lm-pipeline) {
+  --color-signal-text:var(--v-pigment); --color-ink-muted:var(--v-cover-muted);
+}
+body.page-learning :is(.learn-hero,.lm-hero) .breadcrumb a:hover {color:#fff!important;text-decoration:underline}
+body.page-learning :is(.learn-hero__sub,.lm-hero__hook) {line-height:1.7;max-width:56ch}
+body.page-learning .learn-hero__meta {border-top:1px solid #78988366;padding-top:1rem;gap:.35rem 1.5rem}
+body.page-learning .learn-path {height:4.5rem;margin-top:1.75rem;opacity:.85}
+body.page-learning .learn-path__mole {background:var(--v-pigment)}
+body.page-learning .learn-path__svg path {stroke:#b6d4a3}
+body.page-learning .learn-path__svg circle {fill:#cfe6b5}
+body.page-learning :is(.learn-section,.lm-section) {
+  background:var(--v-sheet)!important; border:0!important;
+  padding:clamp(1.15rem,3vw,2.4rem)!important; margin-block:2.5rem!important;
+  border-radius:4px 16px 4px 4px!important; box-shadow:0 3px 0 #d9decd55!important;
+}
+body.page-learning :is(.learn-section,.lm-section):nth-of-type(even) {background:var(--v-soft)!important}
+body.page-learning :is(.learn-section,.lm-section) > h2 {
+  color:var(--v-ink)!important; font-family:var(--font-editorial,Georgia,serif);
+  font-weight:400; letter-spacing:-.025em; max-width:100%;
+}
+body.page-learning .btn {border-radius:4px;box-shadow:none;min-height:44px}
+body.page-learning .btn--primary {background:var(--v-dark)!important;color:var(--v-cover-text)!important;border-color:var(--v-dark)!important}
+body.page-learning .btn--secondary {background:var(--v-sheet)!important;color:var(--v-ink)!important;border-color:var(--v-accent)!important}
+body.page-learning :is(.learn-hero,.lm-hero) .btn--primary {background:var(--v-pigment)!important;color:var(--v-dark)!important;border-color:var(--v-pigment)!important}
+body.page-learning :is(.learn-hero,.lm-hero) .btn--secondary {background:transparent!important;color:var(--v-cover-text)!important;border-color:#b4c6b6!important}
+body.page-learning :is(.learn-hero,.lm-hero) :is(a,button):focus-visible {outline-color:#e2efca!important}
+body.page-learning :is(.learn-node,.learn-layer,.learn-diff__card,.lp-card) {
+  background:var(--v-sheet); border:1px solid var(--v-rule); border-radius:8px;
+  box-shadow:none; color:var(--v-ink);
+}
+body.page-learning .learn-node {height:100%;padding:1.2rem;transition:border-color .18s ease,background .18s ease}
+body.page-learning .learn-node:hover {background:#f0f4e6;border-color:var(--v-accent)}
+body.page-learning .learn-node__icon {border:0;border-radius:50%;background:var(--v-dark);width:3rem;height:3rem}
+body.page-learning .learn-node__icon svg {stroke:var(--v-pigment)}
+body.page-learning :is(.learn-node h3,.learn-layer h3) {font-family:var(--font-editorial,Georgia,serif);font-weight:400;letter-spacing:-.015em}
+body.page-learning .learn-layer__hit {background:transparent;color:var(--v-ink)}
+body.page-learning :is(.learn-layer__more,.learn-chain,.lm-idea,.lm-deeper) {background:#e7eddb;color:var(--v-ink);border-color:#c3d1b8;border-radius:6px}
+body.page-learning :is(.learn-node,.learn-dash) p,
+body.page-learning .learn-layer__more-label {text-align:start!important;text-align-last:auto}
+body.page-learning :is(.learn-dock,.lm-sticky,.learn-drawer) {background:var(--v-sheet);color:var(--v-ink);border-color:var(--v-rule)}
+body.page-learning .learn-rail {padding-right:1rem;border-right-color:var(--v-rule)}
+body.page-learning .learn-rail__link {padding:.8rem .6rem;border:0;border-radius:5px;color:var(--v-ink)}
+body.page-learning .learn-rail__link[aria-current="page"] {background:#e2ead5;color:#214e39;box-shadow:inset 3px 0 #356a4f}
+body.page-learning :is(.lm-quiz__card,.lm-interact__canvas,.lm-qc__review) {border-color:var(--v-rule);border-radius:8px;background:var(--v-sheet);color:var(--v-ink)}
+body.page-learning :is(.lm-choice,.lm-chip,.lm-part,.lm-path__node,.lm-finger__compare-btn) {color:var(--v-ink);border-color:var(--v-rule);border-radius:5px;background:var(--v-sheet)}
+body.page-learning :is(.lm-choice,.lm-chip):has(input:checked),
+body.page-learning :is(.lm-part,.lm-path__node,.lm-finger__compare-btn)[aria-pressed="true"] {background:#e2ead5;color:#214e39;border-color:#356a4f}
+body.page-learning :is(input[type="radio"],input[type="checkbox"],input[type="range"]) {accent-color:#356a4f}
+body.page-learning .lm-matrix__cell::before {opacity:calc(var(--fill,0) * .003)}
+body.page-learning :is(.lm-choice.is-right,.lm-feedback--correct) {background:#e4efe1;color:#205b3c}
+body.page-learning :is(.lm-choice.is-wrong,.lm-feedback--incorrect) {background:#f8e9e8;color:#873746}
+body.page-learning :is(.lm-heat-wrap,.lm-matrix__table-wrap,.table-scroll) {max-width:100%;overflow-x:auto}
+body.page-learning :is(.lm-article,.learn-module,.learn-hero,.lm-hero,.learn-journey__scroller) {min-width:0}
+@media(min-width:768px) and (max-width:1199px) {
+  body.page-learning .learn-journey__track {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;min-width:0}
+  body.page-learning .learn-journey__scroller {overflow:visible;background:none;scroll-snap-type:none}
+  body.page-learning .learn-journey__hint {display:none}
+  body.page-learning .learn-node {border:1px solid var(--v-rule)}
+  body.page-learning .learn-node::after {display:none}
+}
+@media(max-width:767px) {
+  body.page-learning :is(.learn-hero,.lm-hero) {padding:1.45rem 1.15rem!important;margin-block:1rem 2rem}
+  body.page-learning :is(.learn-hero,.lm-hero).ed-has-vignette > :is(h1,p,.learn-hero__copy) {max-width:100%!important}
+  body.page-learning :is(.learn-hero,.lm-hero) h1 {font-size:clamp(2rem,8vw,3rem)!important;max-width:100%!important}
+  body.page-learning :is(.learn-section,.lm-section) {margin-block:1.6rem!important}
+  body.page-learning .learn-actions .btn {width:100%;min-width:0}
+  body.page-learning .learn-hero__meta {display:flex;gap:.2rem 1.1rem}
+  body.page-learning .learn-path {height:3rem}
+  body.page-learning .learn-node {padding:1rem}
+}
+@media(prefers-reduced-motion:reduce) {body.page-learning .learn-node {transition:none}}
+/* Beat the older editorial cover selector, which otherwise paints pale paper
+   behind the light cover text. */
+body.page-learning.editorial-2026 :is(.learn-hero,.lm-hero){background:#173f34!important;color:#fffdf2!important;}

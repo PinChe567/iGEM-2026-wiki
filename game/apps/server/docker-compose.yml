@@ -1,0 +1,21 @@
+# Local PostgreSQL for Online companion development.
+# Passwords here are for LOCAL DEV ONLY — never reuse in production.
+services:
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: suite
+      POSTGRES_PASSWORD: suite_dev_only
+      POSTGRES_DB: suite_online
+    volumes:
+      - suite_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U suite -d suite_online"]
+      interval: 3s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  suite_pg_data:

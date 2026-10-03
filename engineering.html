@@ -4,18 +4,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Engineering · AeroSense · NTHU iGEM 2026</title>
-  <meta name="description" content="Engineering documents Design→Build→Test→Learn→Redesign cycles across Wet Lab and Dry Lab (Hardware and Model). Hardware cycles 1–2 are review-supported; physical V2 validation remains open.">
-  <link rel="stylesheet" href="css/styles.css">
+  <meta name="description" content="Follow AeroSense’s Design–Build–Test–Learn–Redesign records across Wet Lab, Hardware, Model, Entrepreneurship, Education and Wiki Design.">
+  <link rel="stylesheet" href="css/styles.css?v=20261003-context">
   <link rel="stylesheet" href="css/engineering.css">
-  <script src="js/main.js" defer></script>
-  <script src="js/glossary.js?v=7" defer></script>
-  <script src="js/microinteractions.js" defer></script>
-  <script src="js/search.js" defer></script>
-  <script src="js/engineering.js" defer></script>
-  <script src="js/engineering-gears-v7.js?v=7.3" defer></script>
+  <script src="js/main.js?v=20261003-references" defer></script>
+  <script src="js/glossary.js?v=20261003-readflow" defer></script>
+  <script src="js/microinteractions.js?v=20261001b" defer></script>
+  <script src="js/search.js?v=20261003-wiki-design" defer></script>
+  <script src="js/engineering.js?v=20261003-deeplinks" defer></script>
+  <script src="js/engineering-gears-v7.js?v=20261003-sticky-film" defer></script>
+  <script src="js/engineering-scroll.js?v=20261003-deeplinks" defer></script>
   <link rel="stylesheet" href="css/revision.css?v=10">
   <link rel="stylesheet" href="css/experience.css?v=3">
-  <script src="js/experience.js?v=7.1" defer></script>
+  <script src="js/experience.js?v=20261003-readflow" defer></script>
   <link rel="icon" type="image/x-icon" href="logo/favicon.ico">
   <link rel="icon" type="image/png" sizes="96x96" href="logo/favicon-96.png">
   <link rel="apple-touch-icon" sizes="180x180" href="logo/favicon-180.png">
@@ -30,12 +31,22 @@
   <link rel="stylesheet" href="css/art-direction.css?v=6.2">
   <link rel="stylesheet" href="css/signal-system.css?v=6">
   <link rel="stylesheet" href="css/diary-overhaul.css?v=7">
-  <link rel="stylesheet" href="css/targeted-polish.css?v=6">
+  <link rel="stylesheet" href="css/targeted-polish.css?v=8">
   <link rel="stylesheet" href="css/engineering-gear.css?v=2">
-  <script src="js/signal-guide.js?v=7.1" defer></script>
-<link rel="stylesheet" href="css/revision-v7.css?v=7.6">
+  <script src="js/fly-section-questions.js?v=20261004-brain-corner" defer></script>
+<script src="js/signal-guide.js?v=20261003-context" defer></script>
+<link rel="stylesheet" href="css/revision-v7.css?v=7.8">
+  <link rel="stylesheet" href="css/editorial-2026.css?v=20261004-reading">
+  <script src="js/editorial-2026.js?v=20261003-readflow" defer></script>
+  <link rel="stylesheet" href="css/vivid-theme.css?v=20261002h">
+  <link rel="stylesheet" href="css/engineering-workstreams.css?v=20261004-reading">
+<link rel="stylesheet" href="css/reading-polish.css?v=20261004-reading">
+<link rel="stylesheet" href="css/navigation-type.css?v=20261003-portal">
+<link rel="stylesheet" href="css/definition-message.css?v=20261003-portal">
+<script src="js/navigation-type.js?v=20261003-portal" defer></script>
+  <link rel="stylesheet" href="css/reference-groups.css?v=20261003-categories">
 </head>
-<body class="page-engineering">
+<body class="page-engineering editorial-2026">
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="reading-progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
 
@@ -223,7 +234,6 @@
             Construct WHY lives on <a href="design.html">Design</a>; methods on <a href="experiments.html">Experiments</a>; measured outcomes on <a href="results.html">Results</a>.
             Open a cycle only when you need the Design → Build → Test → Learn → Redesign record.
           </p>
-          <span class="status-label status-label--signal">Hardware cycles 1–2 evidenced · physical V2 validation still open</span>
           <span id="engineering-principle" class="anchor-alias"></span>
           <span id="engineering-map" class="anchor-alias"></span>
           <span id="tab-read" class="anchor-alias"></span>
@@ -241,68 +251,51 @@
         <article class="page-article prose">
           
           <section class="section-block eng-glance" id="engineering-at-a-glance" data-reveal aria-labelledby="eng-glance-heading">
-            <p class="eng-eyebrow">Overview</p>
+            <p class="eng-eyebrow">Six paths. One learning process.</p>
             <h2 id="eng-glance-heading">Engineering at a glance</h2>
-            <p class="eng-glance__lede">Wet Lab, Hardware, Model, and Human Practices each show the decision, evidence, learning, and next design choice.</p>
-            <div class="eng-glance__flow" role="table" aria-label="Engineering tracks at a glance">
-              <div class="eng-glance__axis" aria-hidden="true">
-                <span>Starting point</span><span>Turning point</span><span>Current design</span>
-              </div>
-
-              <a class="eng-glance__row" id="glance-wetlab" href="#stream-wetlab" data-eng-glance="wetlab">
-                <div class="eng-glance__track">
-                  <span class="eng-glance__num">01</span>
-                  <span class="eng-glance__name">Wet Lab</span>
-                  <span class="eng-glance__cycles">3 cycles</span>
-                </div>
-                <dl>
-                  <div><dt>Starting point</dt><dd>Cloning backbone + Orco→IRES→GCaMP would report in HEK293.</dd></div>
-                  <div><dt>Turning point</dt><dd>No mammalian promoter/poly(A); VUAA1 real but too weak to quantify.</dd></div>
-                  <div><dt>Current design</dt><dd>pcDNA3.1(+) panel; GCaMP6f–Orco fusion awaiting imaging.</dd></div>
-                </dl>
-                <span class="eng-glance__cta">View cycles →</span>
+            <p class="eng-glance__lede">Every redesign starts with a question the previous design could not answer.</p>
+            <div class="eng-overview-grid">
+              <a class="eng-overview-card" id="glance-wetlab" href="#stream-wetlab" data-eng-glance="wetlab">
+                <span class="eng-overview-card__meta"><b>Wet Lab</b><span>3 cycles</span></span>
+                <h3>Make the biological signal readable.</h3>
+                <p>Backbone checks and a weak IRES reporter led to a mammalian expression system and a GCaMP6f–Orco fusion construct.</p>
+                <span class="eng-overview-card__route">Backbone → Reporter → Fusion</span>
+                <span class="eng-overview-card__link">Explore the decisions <span aria-hidden="true">↗</span></span>
               </a>
-
-              <a class="eng-glance__row" id="glance-hardware" href="#group-hardware" data-eng-glance="hardware">
-                <div class="eng-glance__track">
-                  <span class="eng-glance__num">02</span>
-                  <span class="eng-glance__name">Dry Lab · Hardware</span>
-                  <span class="eng-glance__cycles">3 cycles</span>
-                </div>
-                <dl>
-                  <div><dt>Starting point</dt><dd>High analog gain + ESP32 + Raspberry Pi on V1 would read weak fluorescence.</dd></div>
-                  <div><dt>Turning point</dt><dd>73 DRC / 7 ERC errors stopped fab; Pi added no unique measurement function.</dd></div>
-                  <div><dt>Current design</dt><dd>ESP32-standalone V2; physical validation ladder still planned.</dd></div>
-                </dl>
-                <span class="eng-glance__cta">View cycles →</span>
+              <a class="eng-overview-card" id="glance-hardware" href="#group-hardware" data-eng-glance="hardware">
+                <span class="eng-overview-card__meta"><b>Hardware</b><span>3 cycles</span></span>
+                <h3>Build a clearer route from light to data.</h3>
+                <p>Electrical checks and professional review reshaped the board and simplified the reader to a standalone ESP32 architecture.</p>
+                <span class="eng-overview-card__route">Review → Redesign → Validation plan</span>
+                <span class="eng-overview-card__link">Explore the decisions <span aria-hidden="true">↗</span></span>
               </a>
-
-              <a class="eng-glance__row" id="glance-model" href="#group-model" data-eng-glance="model">
-                <div class="eng-glance__track">
-                  <span class="eng-glance__num">03</span>
-                  <span class="eng-glance__name">Dry Lab · Model</span>
-                  <span class="eng-glance__cycles">2 cycles</span>
-                </div>
-                <dl>
-                  <div><dt>Starting point</dt><dd>A strong single-seed F1 and unstandardized PCA rankings were trustworthy.</dd></div>
-                  <div><dt>Turning point</dt><dd>Multi-seed means dropped; missing StandardScaler; quantize clock bug.</dd></div>
-                  <div><dt>Current design</dt><dd>Across-seed reporting is standing rule; OFAT candidate stays gated.</dd></div>
-                </dl>
-                <span class="eng-glance__cta">View cycles →</span>
+              <a class="eng-overview-card" id="glance-model" href="#group-model" data-eng-glance="model">
+                <span class="eng-overview-card__meta"><b>Model</b><span>2 cycles</span></span>
+                <h3>Make performance withstand a second look.</h3>
+                <p>Repeated runs exposed seed sensitivity and preprocessing errors. Across-seed reporting became the rule for comparing models.</p>
+                <span class="eng-overview-card__route">Benchmark → Diagnose → Re-evaluate</span>
+                <span class="eng-overview-card__link">Explore the decisions <span aria-hidden="true">↗</span></span>
               </a>
-
-              <a class="eng-glance__row" id="glance-hp" href="#beyond-the-bench" data-eng-glance="hp">
-                <div class="eng-glance__track">
-                  <span class="eng-glance__num">04</span>
-                  <span class="eng-glance__name">Human Practices</span>
-                  <span class="eng-glance__cycles">Two paths · six decisions</span>
-                </div>
-                <dl>
-                  <div><dt>Role</dt><dd>External feedback shaped the buyer, screening claim, and education path.</dd></div>
-                  <div><dt>Turning point</dt><dd>FITI reviews and industry interviews focused the market; the public diagnostic shaped teaching questions.</dd></div>
-                  <div><dt>Current design</dt><dd>Three entrepreneurship cycles and three education cycles, linked to the detailed evidence pages.</dd></div>
-                </dl>
-                <span class="eng-glance__cta">View HP engineering →</span>
+              <a class="eng-overview-card" id="glance-hp" href="#entrepreneurship-engineering" data-eng-glance="hp">
+                <span class="eng-overview-card__meta"><b>Entrepreneurship</b><span>3 cycles</span></span>
+                <h3>Find the first useful place to start.</h3>
+                <p>Mentor reviews and an instrumentation interview refined the buyer, use case and screening-service position.</p>
+                <span class="eng-overview-card__route">Use case → Buyer → Workflow</span>
+                <span class="eng-overview-card__link">Explore the decisions <span aria-hidden="true">↗</span></span>
+              </a>
+              <a class="eng-overview-card" id="glance-education" href="#education-engineering" data-eng-glance="hp">
+                <span class="eng-overview-card__meta"><b>Education</b><span>3 cycles</span></span>
+                <h3>Turn an explanation into a learning path.</h3>
+                <p>The questionnaire, odor-coding games and Learning Lab connect science concepts to decisions a learner can try.</p>
+                <span class="eng-overview-card__route">Question → Play → Reason</span>
+                <span class="eng-overview-card__link">Explore the decisions <span aria-hidden="true">↗</span></span>
+              </a>
+              <a class="eng-overview-card" id="glance-wiki" href="#wiki-design" data-eng-glance="wiki">
+                <span class="eng-overview-card__meta"><b>Wiki Design</b><span>2 cycles</span></span>
+                <h3>Make the next question easier to ask.</h3>
+                <p>Page reviews and informal reader feedback shaped distinct routes for definitions, search and contextual questions.</p>
+                <span class="eng-overview-card__route">Find → Understand → Question</span>
+                <span class="eng-overview-card__link">Explore the decisions <span aria-hidden="true">↗</span></span>
               </a>
             </div>
           </section>
@@ -835,15 +828,7 @@
               </article>
 
                 </div>
-                <section class="eng-hw-meta" id="wl-side-decisions" aria-labelledby="wl-rfc-heading">
-                <p class="eng-eyebrow">Recorded decision</p>
-                <h4 id="wl-rfc-heading">Not recoding restriction sites</h4>
-                <p>
-                  Synonymous fixes could remove internal BsaI/SapI/PstI sites, but we deferred them: DNA was already synthesised,
-                  a mutagenesis week would sit on the imaging critical path, and the Registry sequence must match what was built.
-                  Compatibility tables and which parts already pass RFC&nbsp;1000: <a href="parts.html">Parts</a>.
-                </p>
-              </section>
+                
                 <section class="eng-hw-meta" id="wl-diagnostic-logic" aria-labelledby="wl-diag-heading">
                 <p class="eng-eyebrow">Diagnostic logic</p>
                 <h4 id="wl-diag-heading">Ionomycin × VUAA1 matrix</h4>
@@ -885,6 +870,12 @@
                     Running both localises a failure faster; this is the control set we wish we had applied at the start of Cycle&nbsp;2.
                   </p>
                 </div>
+              </section>
+<section class="eng-summary" id="wl-side-decisions" aria-labelledby="wl-rfc-heading">
+                <p class="eng-eyebrow">Engineering summary</p>
+                <h4 id="wl-rfc-heading">What we built. What changed.</h4>
+                <p><strong>Work.</strong> We checked the mammalian expression backbone, investigated the weak IRES reporter, and redesigned the sensing construct as a GCaMP6f–Orco fusion.</p>
+                <p><strong>Outcome.</strong> The constructs were consolidated onto pcDNA3.1(+), and fusion construct BBa_26E11Z80 was synthesised for transfection and calcium imaging. The ionomycin × VUAA1 control scheme separates reporter response from channel response.</p><details class="eng-summary__note"><summary>Construct compatibility decision</summary><p>Internal BsaI/SapI/PstI sites were retained in the synthesised construct to keep the Registry sequence consistent with the built material and protect the imaging schedule. <a href="parts.html">View the compatibility tables →</a></p></details>
               </section>
             </section>
 
@@ -1691,28 +1682,11 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
               </article>
 
                 </div>
-                    <section class="eng-hw-meta eng-hw-meta--external" id="hw-professional-review" aria-labelledby="hw-pro-review-heading">
-                <p class="eng-eyebrow">Attribution</p>
-                <h4 id="hw-pro-review-heading">Professional engineering review</h4>
-                <p class="eng-ext-badge" role="note">
-                  <span aria-hidden="true">◎</span>
-                  <strong>External engineering support</strong> — not team-authored circuit work.
-                </p>
-                <p>
-                  The NTHU student team defined the sensing requirements, selected the core components and developed the initial schematic, BOM and PCB layout.
-                </p>
-                <p>
-                  <strong>iST Group</strong> provided professional schematic/layout review and subsequently assisted with V2 design review and manufacturing preparation.
-                  These contributions are treated as <strong>external engineering support</strong> and are acknowledged under
-                  <a href="attributions.html#attr-ist-group">Attributions · iST Group</a>.
-                  Professional feedback was translated by the student team into specific engineering changes.
-                </p>
-                <p>
-                  We intentionally document professional feedback because engineering is strengthened—not weakened—when external expertise is translated into specific design changes.
-                </p>
-                <p>
-                  The correspondence shows that the team supplied the initial design package and requested review of schematic, PCB layout, ERC/DRC, high-impedance routing, BOM and manufacturability.
-                </p>
+                    <section class="eng-summary" id="hw-professional-review" aria-labelledby="hw-pro-review-heading">
+                <p class="eng-eyebrow">Engineering summary</p>
+                <h4 id="hw-pro-review-heading">What we built. What changed.</h4>
+                <p><strong>Work.</strong> The student team specified the sensing requirements, selected the core components, and prepared the initial schematic, BOM and PCB layout. iST Group supplied professional schematic/layout review and manufacturing-preparation support.</p>
+                <p><strong>Outcome.</strong> The review informed the photodiode/TIA routing, separate analog and digital supplies, and a staged verification plan. The revised board entered fabrication and validation preparation. <a href="attributions.html#attr-ist-group">Read the contribution attribution →</a></p>
               </section>
             </section>
 
@@ -1938,7 +1912,7 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
                     <h5>Related page / link</h5>
                     <ul>
                       <li><a href="model.html">Model</a> — pipeline and validation narrative</li>
-                      <li><a href="#dl-practice">What this changed in our modeling practice</a></li>
+                      <li><a href="#dl-practice">Model engineering summary</a></li>
             </ul>
                   </div>
 </footer>
@@ -2154,60 +2128,149 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
                     <h5>Related page / link</h5>
                     <ul>
                       <li><a href="model.html">Model</a></li>
-                      <li><a href="#dl-practice">What this changed in our modeling practice</a></li>
+                      <li><a href="#dl-practice">Model engineering summary</a></li>
             </ul>
                   </div>
 </footer>
               </article>
 
                 </div>
-                    <section class="eng-hw-meta" id="dl-practice" aria-labelledby="dl-practice-heading">
-                <p class="eng-eyebrow">Practice</p>
-                <h4 id="dl-practice-heading">What this changed in our modeling practice</h4>
-                <ul class="eng-practice-list">
-                  <li><strong>Multi-seed statistics by default</strong> — a single attractive F1 is not a publishable claim.</li>
-                  <li><strong>Preprocessing must be audited</strong> — missing <code>StandardScaler</code> can invent sensor “importance.”</li>
-                  <li><strong>Improvements require validation gates</strong> — candidates stay labeled until multi-seed / k-fold support exists.</li>
-                  <li><strong>Bugs invalidate conclusions, not just code</strong> — the quantization clock bug downgraded prior precision claims until rerun.</li>
-            </ul>
+                    <section class="eng-summary" id="dl-practice" aria-labelledby="dl-practice-heading">
+                <p class="eng-eyebrow">Engineering summary</p>
+                <h4 id="dl-practice-heading">What we built. What changed.</h4>
+                <p><strong>Work.</strong> We audited preprocessing, compared seed-dependent model results, and investigated the quantization clock mismatch before evaluating parameter-sweep candidates.</p>
+                <p><strong>Outcome.</strong> The workflow now requires preprocessing checks and multi-seed validation. The clock mismatch was corrected, and precision conclusions were withdrawn for re-evaluation. The fixed-seed candidate (macro F1 0.8870) remains separate from the 0.8676 baseline until the validation gate is met.</p>
               </section>
             </section>
           </section>
 
           
-          <section class="section-block eng-hp eng-track--hp" id="beyond-the-bench" data-reveal aria-labelledby="eng-hp-heading">
+          <section class="section-block eng-workstream-section eng-track--hp" id="entrepreneurship-engineering" data-reveal aria-labelledby="eng-hp-heading">
+            <span id="beyond-the-bench" class="anchor-alias"></span>
             <span id="track-integrated" class="anchor-alias"></span>
-            <p class="eng-eyebrow">Human Practices Engineering</p>
-            <h2 id="eng-hp-heading">Two independent questions. One learning cycle.</h2>
-            <p class="eng-hp-intro">Can a buyer use and pay for this screening layer? Can our audience understand the decisions it supports? We tested both assumptions outside the lab and recorded the changes using the same <dfn class="term" data-term="dbtlr">Design → Build → Test → Learn → Redesign</dfn> sequence used for our technical work.</p>
-            <div class="eng-hp-tracks" aria-label="Human Practices engineering paths">
-              <a href="#hp-ent-cycles"><span>01 · Entrepreneurship</span><strong>Three external reviews → a focused buyer and product position</strong><span>Explore cycles ↓</span></a>
-              <a href="#hp-edu-cycles"><span>02 · Education</span><strong>A public diagnostic → games → a five-module learning path</strong><span>Explore cycles ↓</span></a>
-            </div>
-
-            <div class="eng-hp-track" id="hp-ent-cycles">
-              <div class="eng-hp-track__head"><p class="eng-eyebrow">Entrepreneurship · three cycles</p><h3>From a broad technology to a defined first use</h3><p>Each review changed a document or positioning decision that the team can trace. Market size and performance figures remain estimates until tested against actual buyers.</p></div>
-              <div class="eng-hp-cycle-grid">
-                <details class="eng-hp-cycle" id="hp-ent-1" open><summary><span>01 · 27 Aug</span><strong>Six crops → banana beachhead</strong><span class="eng-hp-cycle__arrow" aria-hidden="true">↗</span></summary><dl><div><dt>Design &amp; build</dt><dd>A general facility-agriculture proposal spanning six crops was submitted for FITI business-plan review.</dd></div><div><dt>Test &amp; learn</dt><dd>The 11-point mentor review asked for one expensive, specific customer problem and challenged market sizing based on a broad instrument category.</dd></div><div><dt>Redesign</dt><dd>Focus the first use on disease-risk screening in Taiwan's banana export chain. Keep mango and tea as later opportunities, and rebuild market assumptions from the chosen use case.</dd></div></dl><p><a href="human-practices.html#decision-beachhead">Trace the stakeholder decision →</a></p></details>
-                <details class="eng-hp-cycle" id="hp-ent-2"><summary><span>02 · 7 Sep</span><strong>Technology-first deck → positioned platform</strong><span class="eng-hp-cycle__arrow" aria-hidden="true">↗</span></summary><dl><div><dt>Design &amp; build</dt><dd>A FITI pitch led with platform versatility and compared electronic noses mainly on analysis time.</dd></div><div><dt>Test &amp; learn</dt><dd>Slide-level mentor feedback asked who the customer was, what loss the product addressed, and why this team could build it.</dd></div><div><dt>Redesign</dt><dd>Reframe the pitch as a B2B agricultural VOC screening platform. Compare relevant sensing and deployment dimensions, distinguish proposed revenue streams, and show the team's capabilities.</dd></div></dl><p><a href="entrepreneurship.html#learn-fiti-pitch">See the business-plan changes →</a></p></details>
-                <details class="eng-hp-cycle" id="hp-ent-3"><summary><span>03 · 13 Sep</span><strong>“Cheaper than the lab” → the lab's screening layer</strong><span class="eng-hp-cycle__arrow" aria-hidden="true">↗</span></summary><dl><div><dt>Design &amp; build</dt><dd>The early value proposition compared AeroSense with GC–MS and LC–MS as if instrument purchase price were the main obstacle.</dd></div><div><dt>Test &amp; learn</dt><dd>An analytical-instrumentation interview emphasized trained personnel, infrastructure, sample triage, and the need to resolve similar signals. Cost figures are interviewee estimates.</dd></div><div><dt>Redesign</dt><dd>Position the proposed service as fast, on-site, and less dependent on specialist operators, with laboratory confirmation as the next step. Test associations, stations, cooperatives, and certifiers as potential buyers.</dd></div></dl><p><a href="human-practices.html#decision-screening">Trace the screening decision →</a></p></details>
-              </div>
-              <p class="eng-hp-bridge"><strong>Feedback reached the bench.</strong> A biotechnology interview separated a mold-associated VOC signal from a toxin or food-safety verdict. The resulting target-selection rule — Detectability × Consequence × Unmet Need × Willingness to Pay — guides which receptor and assay questions to test next, including the Or49b/indole path. <a href="human-practices.html#decision-claims">Read the claim-boundary decision →</a></p>
-            </div>
-
-            <div class="eng-hp-track" id="hp-edu-cycles">
-              <div class="eng-hp-track__head"><p class="eng-eyebrow">Education · three cycles</p><h3>From a question to a teachable decision</h3><p>The public questionnaire, playable tools, and Learning Lab serve different purposes. We connect them by learning objective without treating the survey or a live game as proof of learning gain.</p></div>
-              <div class="eng-hp-cycle-grid">
-                <details class="eng-hp-cycle" id="hp-edu-1" open><summary><span>01 · 23 Aug</span><strong>Broad concern → three testable food-safety decisions</strong><span class="eng-hp-cycle__arrow" aria-hidden="true">↗</span></summary><dl><div><dt>Design &amp; build</dt><dd>The team asked about mold, heating, visual and smell cues, storage habits, risk tolerance, and product expectations in a public questionnaire.</dd></div><div><dt>Test &amp; learn</dt><dd>The team reports n = 107. Updated item-level results are unavailable, so this cycle does not rank misconceptions or infer how common a belief is.</dd></div><div><dt>Redesign</dt><dd>Use the three food-safety questions as explicit teaching targets and move from a one-way warning toward decisions that learners can try and discuss.</dd></div></dl><p><a href="education.html#survey">See the instrument and data status →</a></p></details>
-                <details class="eng-hp-cycle" id="hp-edu-2"><summary><span>02 · Learning tool</span><strong>Explain odor coding through three short games</strong><span class="eng-hp-cycle__arrow" aria-hidden="true">↗</span></summary><dl><div><dt>Design &amp; build</dt><dd>Odor Pixel Suite offers pattern recognition, an odor maze, and a mixture-decoding game. Each gives visitors a short route into receptor patterns and signal interpretation.</dd></div><div><dt>Test &amp; learn</dt><dd>The playable hub is an educational artifact. Its games teach odor coding; they are not, by themselves, a measured intervention for mold-safety beliefs.</dd></div><div><dt>Next iteration</dt><dd>Use the educator mode and an audience workshop to compare responses before and after teaching, then refine the game prompts from observed confusion.</dd></div></dl><p><a href="education.html#game-pixel">Explore the games and educator use →</a></p></details>
-                <details class="eng-hp-cycle" id="hp-edu-3"><summary><span>03 · Learning path</span><strong>Five modules connect biology to a responsible decision</strong><span class="eng-hp-cycle__arrow" aria-hidden="true">↗</span></summary><dl><div><dt>Design &amp; build</dt><dd>The AeroSense Learning Lab links Discover, Question, Build, Decode, and Decide. The Question module addresses the same three claims as the public questionnaire.</dd></div><div><dt>Test &amp; learn</dt><dd>The module sequence and prompts can be reviewed now; paired workshop or camp learning results should be reported only after delivery.</dd></div><div><dt>Next iteration</dt><dd>Run the planned university workshop and school camp, record participant feedback and paired responses with consent, and improve the lessons from those results.</dd></div></dl><p><a href="learning-platform.html">Open the five-module Learning Lab →</a></p></details>
-              </div>
-            </div>
-            <aside class="eng-hp-principle"><strong>One piece of evidence, one question.</strong> The public survey can inform user and education design; customer demand requires buyer conversations, and sensing performance requires technical tests. This separation keeps a strong signal in one area from being stretched into a claim in another. <a href="human-practices.html">Explore Integrated Human Practices →</a></aside>
-            <details class="eng-hp-reflection"><summary>What we would sequence differently</summary><div><p>We would interview the organization that pays for the first banana-screening use before writing the first business plan. We would also schedule a small educator pilot while building the Learning Lab, so questions and activities could be refined from observed use.</p><p>In future interviews, we will ask directly who owns the loss, who acts on the result, and who pays. The FITI mentor reviews and industry interviews shaped the decisions above; the team remains responsible for interpreting and implementing that feedback. Individual interviewee names are withheld until permission to publish them is confirmed.</p></div></details>
+            <p class="eng-eyebrow">Beyond the bench · Business development</p>
+            <h2 id="eng-hp-heading">Entrepreneurship</h2>
+            <p>Who needs this screening layer, who would pay for it, and where does it fit in an existing workflow? External reviews changed each part of our answer.</p>
+            <section class="eng-track eng-track--hp eng-hp-track" id="hp-ent-cycles" data-eng-track="hp" data-cycle-viewer data-cycle-prefix="hp-ent" data-track-label="Entrepreneurship">
+              <header class="eng-track__head"><p class="eng-track__kicker">Entrepreneurship</p><h3 class="eng-track__title">From a broad technology to a defined first use</h3><p class="eng-track__abstract">Three external reviews sharpened the first use case, pitch, and screening-service position.</p></header>
+              <nav class="eng-cycle-tabs" role="tablist" aria-orientation="horizontal" aria-label="Entrepreneurship cycles"><button type="button" class="eng-cycle-tabs__btn is-active" role="tab" id="hp-ent-tab-1" data-cycle-tab="1" aria-selected="true" aria-controls="hp-ent-1" tabindex="0">Cycle 1</button><button type="button" class="eng-cycle-tabs__btn" role="tab" id="hp-ent-tab-2" data-cycle-tab="2" aria-selected="false" aria-controls="hp-ent-2" tabindex="-1">Cycle 2</button><button type="button" class="eng-cycle-tabs__btn" role="tab" id="hp-ent-tab-3" data-cycle-tab="3" aria-selected="false" aria-controls="hp-ent-3" tabindex="-1">Cycle 3</button></nav>
+              <div class="eng-cycle-stage"><article class="eng-cycle eng-cycle--hp" id="hp-ent-1" data-eng-cycle data-eng-track="hp" data-eng-cycle-num="1" data-cycle-panel="1" role="tabpanel" aria-labelledby="hp-ent-tab-1">
+                  <header class="eng-cycle__head"><div class="eng-cycle__meta"><p class="eng-cycle__track"><span class="eng-cycle__track-layer">Entrepreneurship</span><span class="eng-cycle__track-name">27 Aug</span></p><h4 class="eng-cycle__title" id="hp-ent-1-title"><span class="eng-cycle__num">Cycle 1</span>Six crops → banana beachhead</h4></div></header>
+                  <div class="eng-cycle__panels"><section class="eng-cycle__panel" id="hp-ent-1-design" data-eng-stage="design"><h5 class="eng-cycle__panel-title">Design</h5><p>Define an agricultural use for AeroSense. The first proposal covered six crops in facility agriculture.</p></section>
+<section class="eng-cycle__panel" id="hp-ent-1-build" data-eng-stage="build"><h5 class="eng-cycle__panel-title">Build</h5><p>Prepare and submit the general facility-agriculture proposal for FITI business-plan review.</p></section>
+<section class="eng-cycle__panel" id="hp-ent-1-test" data-eng-stage="test"><h5 class="eng-cycle__panel-title">Test</h5><p>The 11-point mentor review asked for one expensive, specific customer problem and challenged market sizing based on a broad instrument category.</p></section>
+<section class="eng-cycle__panel" id="hp-ent-1-learn" data-eng-stage="learn"><h5 class="eng-cycle__panel-title">Learn</h5><p>The first market needed to be defined by a concrete customer problem, rather than the breadth of the sensing technology.</p></section>
+<section class="eng-cycle__panel" id="hp-ent-1-redesign" data-eng-stage="redesign"><h5 class="eng-cycle__panel-title">Redesign</h5><p>Focus the first use on disease-risk screening in Taiwan’s banana export chain. Keep mango and tea as later opportunities, and rebuild market assumptions from the chosen use case.</p></section></div>
+                  <footer class="eng-cycle__footer"><div class="eng-cycle__decision"><h5>Key decision</h5><p>Use a defined banana-export problem to guide the first market assumptions.</p></div><div class="eng-cycle__links"><h5>Related page / link</h5><p><a href="human-practices.html#decision-beachhead">Trace the stakeholder decision →</a></p></div></footer>
+                </article><article class="eng-cycle eng-cycle--hp" id="hp-ent-2" data-eng-cycle data-eng-track="hp" data-eng-cycle-num="2" data-cycle-panel="2" role="tabpanel" aria-labelledby="hp-ent-tab-2" hidden>
+                  <header class="eng-cycle__head"><div class="eng-cycle__meta"><p class="eng-cycle__track"><span class="eng-cycle__track-layer">Entrepreneurship</span><span class="eng-cycle__track-name">7 Sep</span></p><h4 class="eng-cycle__title" id="hp-ent-2-title"><span class="eng-cycle__num">Cycle 2</span>Technology-first deck → positioned platform</h4></div></header>
+                  <div class="eng-cycle__panels"><section class="eng-cycle__panel" id="hp-ent-2-design" data-eng-stage="design"><h5 class="eng-cycle__panel-title">Design</h5><p>Explain the value of a versatile agricultural VOC sensing platform.</p></section>
+<section class="eng-cycle__panel" id="hp-ent-2-build" data-eng-stage="build"><h5 class="eng-cycle__panel-title">Build</h5><p>Prepare a FITI pitch that leads with platform versatility and compares electronic noses mainly on analysis time.</p></section>
+<section class="eng-cycle__panel" id="hp-ent-2-test" data-eng-stage="test"><h5 class="eng-cycle__panel-title">Test</h5><p>Slide-level mentor feedback asked who the customer was, what loss the product addressed, and why this team could build it.</p></section>
+<section class="eng-cycle__panel" id="hp-ent-2-learn" data-eng-stage="learn"><h5 class="eng-cycle__panel-title">Learn</h5><p>A technology comparison needs a customer, a deployment context, and a clear explanation of team capability.</p></section>
+<section class="eng-cycle__panel" id="hp-ent-2-redesign" data-eng-stage="redesign"><h5 class="eng-cycle__panel-title">Redesign</h5><p>Reframe the pitch as a B2B agricultural VOC screening platform. Compare relevant sensing and deployment dimensions, distinguish proposed revenue streams, and show the team’s capabilities.</p></section></div>
+                  <footer class="eng-cycle__footer"><div class="eng-cycle__decision"><h5>Key decision</h5><p>Lead with the customer problem and deployment value, then explain the technology.</p></div><div class="eng-cycle__links"><h5>Related page / link</h5><p><a href="entrepreneurship.html#learn-fiti-pitch">See the business-plan changes →</a></p></div></footer>
+                </article><article class="eng-cycle eng-cycle--hp" id="hp-ent-3" data-eng-cycle data-eng-track="hp" data-eng-cycle-num="3" data-cycle-panel="3" role="tabpanel" aria-labelledby="hp-ent-tab-3" hidden>
+                  <header class="eng-cycle__head"><div class="eng-cycle__meta"><p class="eng-cycle__track"><span class="eng-cycle__track-layer">Entrepreneurship</span><span class="eng-cycle__track-name">13 Sep</span></p><h4 class="eng-cycle__title" id="hp-ent-3-title"><span class="eng-cycle__num">Cycle 3</span>“Cheaper than the lab” → the lab’s screening layer</h4></div></header>
+                  <div class="eng-cycle__panels"><section class="eng-cycle__panel" id="hp-ent-3-design" data-eng-stage="design"><h5 class="eng-cycle__panel-title">Design</h5><p>Explore an accessible alternative for screening samples before laboratory analysis.</p></section>
+<section class="eng-cycle__panel" id="hp-ent-3-build" data-eng-stage="build"><h5 class="eng-cycle__panel-title">Build</h5><p>Frame the early value proposition around the purchase price of GC–MS and LC–MS instruments.</p></section>
+<section class="eng-cycle__panel" id="hp-ent-3-test" data-eng-stage="test"><h5 class="eng-cycle__panel-title">Test</h5><p>An analytical-instrumentation interview emphasized trained personnel, infrastructure, sample triage, and the need to resolve similar signals. Cost figures are interviewee estimates.</p></section>
+<section class="eng-cycle__panel" id="hp-ent-3-learn" data-eng-stage="learn"><h5 class="eng-cycle__panel-title">Learn</h5><p>Purchase price alone does not explain the screening workflow. Operator requirements and the next decision after screening also matter.</p></section>
+<section class="eng-cycle__panel" id="hp-ent-3-redesign" data-eng-stage="redesign"><h5 class="eng-cycle__panel-title">Redesign</h5><p>Position the proposed service as fast, on-site, and less dependent on specialist operators, with laboratory confirmation as the next step. Test associations, stations, cooperatives, and certifiers as potential buyers.</p></section></div>
+                  <footer class="eng-cycle__footer"><div class="eng-cycle__decision"><h5>Key decision</h5><p>Position AeroSense as a screening layer linked to laboratory confirmation.</p></div><div class="eng-cycle__links"><h5>Related page / link</h5><p><a href="human-practices.html#decision-screening">Trace the screening decision →</a></p></div></footer>
+                </article></div>
+            <section class="eng-summary" id="hp-engineering-summary" aria-labelledby="hp-summary-heading">
+                <span id="ent-engineering-summary" class="anchor-alias"></span>
+                <p class="eng-eyebrow">Engineering summary</p>
+                <h4 id="hp-summary-heading">What we built. What changed.</h4>
+                <p><strong>Work.</strong> FITI reviews and an analytical-instrumentation interview challenged the first-use strategy, pitch and cost assumptions.</p>
+                <p><strong>Outcome.</strong> The business narrative now identifies a banana-export screening use, potential institutional buyers and a route to laboratory confirmation. <a href="entrepreneurship.html">Read the market and deployment rationale →</a></p>
+              </section>
+            </section>
+            <p class="eng-hp-bridge"><strong>Feedback reached the bench.</strong> A biotechnology interview separated a mold-associated VOC signal from a toxin or food-safety verdict. Detectability × Consequence × Unmet Need × Willingness to Pay became a target-selection rule, including for the Or49b/indole path. <a href="human-practices.html#decision-claims">Read the claim-boundary decision →</a></p>
           </section>
 
-          
+          <section class="section-block eng-workstream-section eng-track--hp" id="education-engineering" data-reveal aria-labelledby="eng-education-heading">
+            <p class="eng-eyebrow">Beyond the bench · Learning design</p>
+            <h2 id="eng-education-heading">Education</h2>
+            <p>Understanding odor patterns and making a food-safety decision are different learning tasks. We connected the questionnaire, games and lessons through explicit teaching objectives.</p>
+            <section class="eng-track eng-track--hp eng-hp-track" id="hp-edu-cycles" data-eng-track="hp" data-cycle-viewer data-cycle-prefix="hp-edu" data-track-label="Education">
+              <header class="eng-track__head"><p class="eng-track__kicker">Education</p><h3 class="eng-track__title">From a question to a teachable decision</h3><p class="eng-track__abstract">The questionnaire, games and Learning Lab connect through explicit learning objectives; their evidence serves different purposes.</p></header>
+              <nav class="eng-cycle-tabs" role="tablist" aria-orientation="horizontal" aria-label="Education cycles"><button type="button" class="eng-cycle-tabs__btn is-active" role="tab" id="hp-edu-tab-1" data-cycle-tab="1" aria-selected="true" aria-controls="hp-edu-1" tabindex="0">Cycle 1</button><button type="button" class="eng-cycle-tabs__btn" role="tab" id="hp-edu-tab-2" data-cycle-tab="2" aria-selected="false" aria-controls="hp-edu-2" tabindex="-1">Cycle 2</button><button type="button" class="eng-cycle-tabs__btn" role="tab" id="hp-edu-tab-3" data-cycle-tab="3" aria-selected="false" aria-controls="hp-edu-3" tabindex="-1">Cycle 3</button></nav>
+              <div class="eng-cycle-stage"><article class="eng-cycle eng-cycle--hp" id="hp-edu-1" data-eng-cycle data-eng-track="hp" data-eng-cycle-num="1" data-cycle-panel="1" role="tabpanel" aria-labelledby="hp-edu-tab-1">
+                  <header class="eng-cycle__head"><div class="eng-cycle__meta"><p class="eng-cycle__track"><span class="eng-cycle__track-layer">Education</span><span class="eng-cycle__track-name">23 Aug</span></p><h4 class="eng-cycle__title" id="hp-edu-1-title"><span class="eng-cycle__num">Cycle 1</span>Broad concern → three testable food-safety decisions</h4></div></header>
+                  <div class="eng-cycle__panels"><section class="eng-cycle__panel" id="hp-edu-1-design" data-eng-stage="design"><h5 class="eng-cycle__panel-title">Design</h5><p>Explore how people reason about mold, heating, sensory cues, storage, risk and product expectations.</p></section>
+<section class="eng-cycle__panel" id="hp-edu-1-build" data-eng-stage="build"><h5 class="eng-cycle__panel-title">Build</h5><p>Build a public questionnaire around these food-safety and product-use questions.</p></section>
+<section class="eng-cycle__panel" id="hp-edu-1-test" data-eng-stage="test"><h5 class="eng-cycle__panel-title">Test</h5><p>The team reports n = 107. Updated item-level results are not available in this record.</p></section>
+<section class="eng-cycle__panel" id="hp-edu-1-learn" data-eng-stage="learn"><h5 class="eng-cycle__panel-title">Learn</h5><p>The record supports the questionnaire scope and reported response count, but does not support ranking misconceptions or estimating their prevalence.</p></section>
+<section class="eng-cycle__panel" id="hp-edu-1-redesign" data-eng-stage="redesign"><h5 class="eng-cycle__panel-title">Redesign</h5><p>Use the three food-safety questions as explicit teaching targets and move from a one-way warning toward decisions that learners can try and discuss.</p></section></div>
+                  <footer class="eng-cycle__footer"><div class="eng-cycle__decision"><h5>Key decision</h5><p>Turn the three food-safety questions into explicit teaching targets.</p></div><div class="eng-cycle__links"><h5>Related page / link</h5><p><a href="education.html#survey">See the questionnaire record →</a></p></div></footer>
+                </article><article class="eng-cycle eng-cycle--hp" id="hp-edu-2" data-eng-cycle data-eng-track="hp" data-eng-cycle-num="2" data-cycle-panel="2" role="tabpanel" aria-labelledby="hp-edu-tab-2" hidden>
+                  <header class="eng-cycle__head"><div class="eng-cycle__meta"><p class="eng-cycle__track"><span class="eng-cycle__track-layer">Education</span><span class="eng-cycle__track-name">Learning tool</span></p><h4 class="eng-cycle__title" id="hp-edu-2-title"><span class="eng-cycle__num">Cycle 2</span>Explain odor coding through three short games</h4></div></header>
+                  <div class="eng-cycle__panels"><section class="eng-cycle__panel" id="hp-edu-2-design" data-eng-stage="design"><h5 class="eng-cycle__panel-title">Design</h5><p>Give visitors a short, interactive route into receptor patterns and signal interpretation.</p></section>
+<section class="eng-cycle__panel" id="hp-edu-2-build" data-eng-stage="build"><h5 class="eng-cycle__panel-title">Build</h5><p>Create Odor Pixel Suite: pattern recognition, an odor maze, and a mixture-decoding game.</p></section>
+<section class="eng-cycle__panel" id="hp-edu-2-test" data-eng-stage="test"><h5 class="eng-cycle__panel-title">Test</h5><p>The playable hub provides the artifact for review and use. This record does not contain a measured learning-gain study.</p></section>
+<section class="eng-cycle__panel" id="hp-edu-2-learn" data-eng-stage="learn"><h5 class="eng-cycle__panel-title">Learn</h5><p>The games explain odor coding; a playable artifact alone does not establish a change in mold-safety beliefs.</p></section>
+<section class="eng-cycle__panel" id="hp-edu-2-redesign" data-eng-stage="redesign"><h5 class="eng-cycle__panel-title">Redesign</h5><p>Use educator mode and an audience workshop to compare responses before and after teaching, then refine prompts from observed confusion.</p></section></div>
+                  <footer class="eng-cycle__footer"><div class="eng-cycle__decision"><h5>Key decision</h5><p>Pair the playable tool with an audience evaluation before claiming learning gains.</p></div><div class="eng-cycle__links"><h5>Related page / link</h5><p><a href="education.html#game-pixel">Explore the games and educator use →</a></p></div></footer>
+                </article><article class="eng-cycle eng-cycle--hp" id="hp-edu-3" data-eng-cycle data-eng-track="hp" data-eng-cycle-num="3" data-cycle-panel="3" role="tabpanel" aria-labelledby="hp-edu-tab-3" hidden>
+                  <header class="eng-cycle__head"><div class="eng-cycle__meta"><p class="eng-cycle__track"><span class="eng-cycle__track-layer">Education</span><span class="eng-cycle__track-name">Learning path</span></p><h4 class="eng-cycle__title" id="hp-edu-3-title"><span class="eng-cycle__num">Cycle 3</span>Five modules connect biology to a responsible decision</h4></div></header>
+                  <div class="eng-cycle__panels"><section class="eng-cycle__panel" id="hp-edu-3-design" data-eng-stage="design"><h5 class="eng-cycle__panel-title">Design</h5><p>Connect the biological mechanism with how a screening result informs a responsible decision.</p></section>
+<section class="eng-cycle__panel" id="hp-edu-3-build" data-eng-stage="build"><h5 class="eng-cycle__panel-title">Build</h5><p>Build the AeroSense Learning Lab around Discover, Question, Build, Decode, and Decide. Question addresses the same three claims as the public questionnaire.</p></section>
+<section class="eng-cycle__panel" id="hp-edu-3-test" data-eng-stage="test"><h5 class="eng-cycle__panel-title">Test</h5><p>The module sequence and prompts are available for review. Paired workshop or camp learning results are to be reported after delivery.</p></section>
+<section class="eng-cycle__panel" id="hp-edu-3-learn" data-eng-stage="learn"><h5 class="eng-cycle__panel-title">Learn</h5><p>The sequence makes the intended learning path explicit; participant feedback and paired responses are needed to assess its effect.</p></section>
+<section class="eng-cycle__panel" id="hp-edu-3-redesign" data-eng-stage="redesign"><h5 class="eng-cycle__panel-title">Redesign</h5><p>Run the planned university workshop and school camp, record participant feedback and paired responses with consent, and improve the lessons from those results.</p></section></div>
+                  <footer class="eng-cycle__footer"><div class="eng-cycle__decision"><h5>Key decision</h5><p>Evaluate the complete learning path with consented participant feedback and paired responses.</p></div><div class="eng-cycle__links"><h5>Related page / link</h5><p><a href="learning-platform.html">Open the five-module Learning Lab →</a></p></div></footer>
+                </article></div>
+            <section class="eng-summary" id="edu-engineering-summary" aria-labelledby="edu-summary-heading">
+                <p class="eng-eyebrow">Engineering summary</p>
+                <h4 id="edu-summary-heading">What we built. What changed.</h4>
+                <p><strong>Work.</strong> We connected the public questionnaire to three teaching targets, Odor Pixel Suite and the five-module Learning Lab.</p>
+                <p><strong>Outcome.</strong> Learners can move from odor patterns to a reasoned screening decision. The tools define what to teach; paired audience evaluations address what participants learn. <a href="education.html">Read the educational objectives and evaluation plan →</a></p>
+              </section>
+            </section>
+          </section>
+
+          <section class="section-block eng-workstream-section eng-track--wiki" id="wiki-design" data-reveal aria-labelledby="eng-wiki-heading">
+            <p class="eng-eyebrow">Designing the reading experience</p>
+            <h2 id="eng-wiki-heading">Wiki Design</h2>
+            <p>Make the science easier to find, understand and question. These two interface-design cycles document how review and reader feedback shaped the wiki’s help tools.</p>
+            <section class="eng-track eng-track--wiki" id="wiki-design-cycles" data-eng-track="wiki" data-cycle-viewer data-cycle-prefix="wiki-cycle" data-track-label="Wiki Design">
+              <header class="eng-track__head"><p class="eng-track__kicker">Reader experience</p><h3 class="eng-track__title">Help that meets the reader where they are</h3><p class="eng-track__abstract">A shared dictionary explains terms; search finds a destination; the fly connects a question to the section behind it.</p></header>
+              <nav class="eng-cycle-tabs" role="tablist" aria-orientation="horizontal" aria-label="Wiki Design cycles"><button type="button" class="eng-cycle-tabs__btn is-active" role="tab" id="wiki-cycle-tab-1" data-cycle-tab="1" aria-selected="true" aria-controls="wiki-cycle-1" tabindex="0">Cycle 1</button><button type="button" class="eng-cycle-tabs__btn" role="tab" id="wiki-cycle-tab-2" data-cycle-tab="2" aria-selected="false" aria-controls="wiki-cycle-2" tabindex="-1">Cycle 2</button></nav>
+              <div class="eng-cycle-stage">
+              <article class="eng-cycle eng-cycle--wiki" id="wiki-cycle-1" data-eng-cycle data-eng-track="wiki" data-eng-cycle-num="1" data-cycle-panel="1" role="tabpanel" aria-labelledby="wiki-cycle-tab-1">
+                <header class="eng-cycle__head"><div class="eng-cycle__meta"><p class="eng-cycle__track"><span class="eng-cycle__track-layer">Wiki Design</span><span class="eng-cycle__track-name">Information architecture</span></p><h4 class="eng-cycle__title" id="wiki-cycle-1-title"><span class="eng-cycle__num">Cycle 1</span>Three tools, three reading needs</h4></div></header>
+                <div class="eng-cycle__panels">
+                  <section class="eng-cycle__panel" id="wiki-cycle-1-design" data-eng-stage="design"><h5 class="eng-cycle__panel-title">Design</h5><p>Help readers move through a project that spans biology, electronics and computation without requiring them to learn every term first. A definition, a destination and a question about a claim need different kinds of help.</p></section>
+                  <section class="eng-cycle__panel" id="wiki-cycle-1-build" data-eng-stage="build"><h5 class="eng-cycle__panel-title">Build</h5><p>Build Project Search around page and section titles, keywords and short excerpts. Maintain a shared glossary for the dictionary page and in-text term definitions; offer Ask the Fly as an optional question guide.</p></section>
+                  <section class="eng-cycle__panel" id="wiki-cycle-1-test" data-eng-stage="test"><h5 class="eng-cycle__panel-title">Test</h5><p>During page reviews, the three tools appeared to serve the same purpose: finding an answer. The review also highlighted the cost of leaving a paragraph just to understand one unfamiliar term.</p></section>
+                  <section class="eng-cycle__panel" id="wiki-cycle-1-learn" data-eng-stage="learn"><h5 class="eng-cycle__panel-title">Learn</h5><p>A useful help system must make the reader’s next action clear. “What does this mean?”, “Where can I find it?” and “Why does this matter here?” should not all lead to the same interface.</p></section>
+                  <section class="eng-cycle__panel" id="wiki-cycle-1-redesign" data-eng-stage="redesign"><h5 class="eng-cycle__panel-title">Redesign</h5><p>Give each tool one primary role. In-text definitions explain a term beside the passage; Glossary supports wider browsing. Project Search opens the relevant page or section. Ask the Fly addresses the context and reasoning of the passage being read.</p></section>
+                </div>
+                <footer class="eng-cycle__footer"><div class="eng-cycle__decision"><h5>Key decision</h5><p>Separate meaning, location and interpretation so that help supports the reading flow.</p></div><div class="eng-cycle__links"><h5>Related page / link</h5><p><a href="glossary.html">Browse the field dictionary →</a> · <a href="hardware.html#electronics-bridge">Inspect definitions in the electronics narrative →</a></p></div></footer>
+              </article>
+              <article class="eng-cycle eng-cycle--wiki" id="wiki-cycle-2" data-eng-cycle data-eng-track="wiki" data-eng-cycle-num="2" data-cycle-panel="2" role="tabpanel" aria-labelledby="wiki-cycle-tab-2" hidden>
+                <header class="eng-cycle__head"><div class="eng-cycle__meta"><p class="eng-cycle__track"><span class="eng-cycle__track-layer">Wiki Design</span><span class="eng-cycle__track-name">Reader feedback</span></p><h4 class="eng-cycle__title" id="wiki-cycle-2-title"><span class="eng-cycle__num">Cycle 2</span>From generic help to questions about this section</h4></div></header>
+                <div class="eng-cycle__panels">
+                  <section class="eng-cycle__panel" id="wiki-cycle-2-design" data-eng-stage="design"><h5 class="eng-cycle__panel-title">Design</h5><p>Use the fly companion to help readers ask about AeroSense, while keeping the main research narrative readable on its own.</p></section>
+                  <section class="eng-cycle__panel" id="wiki-cycle-2-build" data-eng-stage="build"><h5 class="eng-cycle__panel-title">Build</h5><p>Prepare a bank of concise, team-written questions and answers. Give each answer a direct link to the project explanation that supports it, rather than generating a new scientific claim.</p></section>
+                  <section class="eng-cycle__panel" id="wiki-cycle-2-test" data-eng-stage="test"><h5 class="eng-cycle__panel-title">Test</h5><p>We asked people around us to browse the wiki and tell us what they wanted to know or found unclear. We collected recurring questions and used this informal feedback to shape the question bank.</p></section>
+                  <section class="eng-cycle__panel" id="wiki-cycle-2-learn" data-eng-stage="learn"><h5 class="eng-cycle__panel-title">Learn</h5><p>The useful question depends on where someone is reading. Questions about a receptor mechanism differ from questions about detector noise or the meaning of a screening result. A generic list cannot preserve that context.</p></section>
+                  <section class="eng-cycle__panel" id="wiki-cycle-2-redesign" data-eng-stage="redesign"><h5 class="eng-cycle__panel-title">Redesign</h5><p>Match the question choices to the current page and section when the fly is opened. Keep answers short and link to the underlying explanation. The companion starts hidden for a first-time visitor; clicking the visible fly opens the guide, and Hide fly lets the reader turn it off.</p></section>
+                </div>
+                <footer class="eng-cycle__footer"><div class="eng-cycle__decision"><h5>Key decision</h5><p>Turn recurring reader questions into optional, section-specific routes to the evidence.</p></div><div class="eng-cycle__links"><h5>Related page / link</h5><p><a href="design.html#how-aerosense-senses">Explore the mechanism question context →</a> · <a href="description.html#is-and-is-not">Explore the screening question context →</a></p></div></footer>
+              </article>
+              </div>
+              <section class="eng-summary" id="wiki-engineering-summary" aria-labelledby="wiki-summary-heading">
+                <p class="eng-eyebrow">Design summary</p>
+                <h4 id="wiki-summary-heading">What we built. What changed.</h4>
+                <p><strong>Work.</strong> We separated the jobs of glossary, search and contextual questions, then organized recurring reader questions by page and section.</p>
+                <p><strong>Outcome.</strong> Readers can look up a term in place, navigate to a topic, or follow a team-written answer back to its explanation. Ask the Fly uses a curated local question bank; it does not generate answers or upload visitor questions.</p>
+              </section>
+            </section>
+          </section>
+
           <section class="section-block" id="change-log" data-reveal>
             <p class="eng-eyebrow">Across tracks</p>
             <h2>Change log</h2>
@@ -2286,40 +2349,29 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
             <p class="eng-eyebrow">Reflection</p>
             <h2>What we would do differently</h2>
             <ul>
-              <li><strong>Hardware</strong> — verify critical symbols/footprints against datasheets before routing; define the validation ladder before first layout; treat the PD/TIA region as a measurement instrument (<a href="#hw-do-differently">detail</a>).</li>
+              <li><strong>Hardware</strong> — verify critical symbols/footprints against datasheets before routing; define the validation ladder before first layout; treat the PD/TIA region as a measurement instrument.</li>
               <li><strong>Wet lab</strong> — verify host-required elements before synthesis orders; apply ionomycin × VUAA1 diagnostics from the first reporter test (<a href="#wl-diagnostic-logic">matrix</a>).</li>
               <li><strong>Dry lab</strong> — multi-seed statistics and preprocessing audits before trusting rankings or “improvements.”</li>
               <li><strong>External evidence sequencing</strong> — interview paying customers earlier; commercial and education narratives stay on their owner pages.</li>
             </ul>
               <span id="hw-do-differently-alias" class="anchor-alias" hidden></span>
-<section class="eng-hw-meta eng-hw-meta--inline" id="hw-do-differently" aria-labelledby="hw-do-diff-heading">
-                <p class="eng-eyebrow">Reflection</p>
-                <h4 id="hw-do-diff-heading">Hardware in particular</h4>
-                <ul>
-                  <li>Verify every critical symbol and footprint against the manufacturer datasheet <strong>before</strong> beginning detailed routing.</li>
-                  <li>Define the complete validation ladder before layout so that test points, gain options, optical blanks and calibration access were built into the first PCB.</li>
-                  <li>Most importantly: treat the photodiode/TIA region as a <strong>measurement instrument</strong>, not as an ordinary analog circuit. That lesson now guides V2.</li>
-            </ul>
-                <p>
-                  Full READ-layer theory, BOM, and verification narrative:
-                  <a href="hardware.html">Hardware page</a>.
-                </p>
-              </section>
+<span id="hw-do-differently" class="anchor-alias"></span>
 
           </section>
           
           <section class="references" aria-labelledby="references-heading" id="references" data-reveal>
         <h2 id="references-heading">References</h2>
-        <p class="ref-papers-note">Numbered in-text markers such as [1] cite only papers. Documents, iGEM Foundation materials, and datasheets sit in a separate list below when this page uses them — they are not given [n] markers in the text.</p>
-        <ol class="ref-list">
-          <li id="ref-w-zboray-2023">
+        <div class="reference-group" aria-labelledby="references-research-heading">
+          <h3 class="reference-group__heading" id="references-research-heading">Research papers</h3>
+          <ol class="ref-list" start="1">
+            <li value="1" id="ref-w-zboray-2023">
             <span class="ref-authors">Zboray, K., et al.</span>
             <span class="ref-year">(2023).</span>
             <span class="ref-title">High-throughput ligand profile characterization in novel cell lines expressing seven heterologous insect olfactory receptors for the detection of volatile plant biomarkers.</span>
             <span class="ref-venue"><i>Scientific Reports</i>, <span class="ref-volume">13</span>, 21757.</span>
             <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/s41598-023-47455-4" rel="noopener noreferrer">10.1038/s41598-023-47455-4</a>.</span>
           </li>
-          <li id="ref-w-jones-2011">
+            <li value="2" id="ref-w-jones-2011">
             <span class="ref-authors">Jones, P. L., Pask, G. M., Rinker, D. C., &amp; Zwiebel, L. J.</span>
             <span class="ref-year">(2011).</span>
             <span class="ref-title">Functional agonism of insect odorant receptor ion channels.</span>
@@ -2327,67 +2379,70 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
             <span class="ref-doi">DOI: <a href="https://doi.org/10.1073/pnas.1102425108" rel="noopener noreferrer">10.1073/pnas.1102425108</a>.</span>
             <a class="ref-backlink" href="#cite-w2-a">Back to citation</a>
           </li>
-          <li id="ref-w-ibrahimi-2009">
+            <li value="3" id="ref-w-ibrahimi-2009">
             <span class="ref-authors">Ibrahimi, A., et al.</span>
             <span class="ref-year">(2009).</span>
             <span class="ref-title">Highly efficient multicistronic lentiviral vectors with peptide 2A sequences.</span>
             <span class="ref-venue"><i>Human Gene Therapy</i>, <span class="ref-volume">20</span>(8), 845–860.</span>
             <span class="ref-doi">DOI: <a href="https://doi.org/10.1089/hum.2008.188" rel="noopener noreferrer">10.1089/hum.2008.188</a>.</span>
           </li>
-          <li id="ref-w-chen-2013">
+            <li value="4" id="ref-w-chen-2013">
             <span class="ref-authors">Chen, T.-W., et al.</span>
             <span class="ref-year">(2013).</span>
             <span class="ref-title">Ultrasensitive fluorescent proteins for imaging neuronal activity.</span>
             <span class="ref-venue"><i>Nature</i>, <span class="ref-volume">499</span>(7458), 295–300.</span>
             <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/nature12354" rel="noopener noreferrer">10.1038/nature12354</a>.</span>
           </li>
-          <li id="ref-w-benton-2006">
+            <li value="5" id="ref-w-benton-2006">
             <span class="ref-authors">Benton, R., Sachse, S., Michnick, S. W., &amp; Vosshall, L. B.</span>
             <span class="ref-year">(2006).</span>
             <span class="ref-title">Atypical membrane topology and heteromeric function of <i>Drosophila</i> odorant receptors in vivo.</span>
             <span class="ref-venue"><i>PLoS Biology</i>, <span class="ref-volume">4</span>(2), e20.</span>
             <span class="ref-doi">DOI: <a href="https://doi.org/10.1371/journal.pbio.0040020" rel="noopener noreferrer">10.1371/journal.pbio.0040020</a>.</span>
           </li>
-          <li id="ref-w-butterwick-2018">
+            <li value="6" id="ref-w-butterwick-2018">
             <span class="ref-authors">Butterwick, J. A., et al.</span>
             <span class="ref-year">(2018).</span>
             <span class="ref-title">Cryo-EM structure of the insect olfactory receptor Orco.</span>
             <span class="ref-venue"><i>Nature</i>, <span class="ref-volume">560</span>(7716), 447–452.</span>
             <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/s41586-018-0420-8" rel="noopener noreferrer">10.1038/s41586-018-0420-8</a>.</span>
           </li>
-          <li id="ref-d-stimberg-2019">
+            <li value="7" id="ref-d-stimberg-2019">
             <span class="ref-authors">Stimberg, M., Brette, R., &amp; Goodman, D. F.</span>
             <span class="ref-year">(2019).</span>
             <span class="ref-title">Brian 2, an intuitive and efficient neural simulator.</span>
             <span class="ref-venue"><i>eLife</i>, <span class="ref-volume">8</span>, e47314.</span>
             <span class="ref-doi">DOI: <a href="https://doi.org/10.7554/eLife.47314" rel="noopener noreferrer">10.7554/eLife.47314</a>.</span>
           </li>
-        </ol>
-        <div class="ref-docs" id="technical-sources">
-          <h3 id="technical-sources-heading">Documents, iGEM Foundation, and datasheets</h3>
-          <p class="ref-docs__note">These are not numbered. In-text markers such as [1] cite only the papers above.</p>
-          <h4>Datasheets</h4>
+          </ol>
+        </div>
+        <div class="reference-groups" id="technical-sources">
+        <div class="reference-group" aria-labelledby="technical-sources-heading">
+          <h3 class="reference-group__heading" id="technical-sources-heading">Datasheets</h3>
           <ul class="tech-source-list">
-          <li id="tech-ti-lmp7721">
+            <li id="tech-ti-lmp7721">
             <a class="tech-source" href="https://www.ti.com/lit/ds/symlink/lmp7721.pdf" rel="noopener noreferrer" target="_blank">Texas Instruments · LMP7721 datasheet <span class="ext-mark" aria-hidden="true">↗</span><span class="visually-hidden"> (opens in a new tab)</span></a>
             — 3-Femtoampere Input Bias Current Precision Amplifier, Rev. E.
           </li>
-          <li id="tech-ti-ads8866">
+            <li id="tech-ti-ads8866">
             Texas Instruments · ADS8866 16-bit, 100-kSPS SAR ADC — Datasheet, Rev. C.
           </li>
-          <li id="tech-espressif-esp32">
+            <li id="tech-espressif-esp32">
             Espressif · ESP32-WROOM-32E / ESP32-WROOM-32UE Datasheet.
           </li>
-        </ul>
-          <h4>iGEM Foundation</h4>
+          </ul>
+        </div>
+        <div class="reference-group" aria-labelledby="references-igem-heading">
+          <h3 class="reference-group__heading" id="references-igem-heading">iGEM resources</h3>
           <ul class="tech-source-list">
-          <li id="tech-igem-eng">
+            <li id="tech-igem-eng">
             iGEM · 2026 Project Awards and Judging Criteria — Engineering principles and iterative engineering.
           </li>
-          <li id="tech-igem-hp">
+            <li id="tech-igem-hp">
             iGEM · 2026 Project Awards and Judging Criteria — Integrated Human Practices, Entrepreneurship, and Education.
           </li>
-        </ul>
+          </ul>
+        </div>
         </div>
       </section>
         </article>
@@ -2405,8 +2460,10 @@ ERC report (2026-08-02T00:48:55, Encoding UTF8)
           <li><a href="#stream-wetlab"><span class="tech-label">03</span> Wet Lab</a></li>
           <li><a href="#group-hardware"><span class="tech-label">04</span> Hardware</a></li>
           <li><a href="#group-model"><span class="tech-label">05</span> Model</a></li>
-          <li><a href="#beyond-the-bench"><span class="tech-label">06</span> HP engineering</a></li>
-          <li><a href="#change-log"><span class="tech-label">07</span> Change log</a></li>
+          <li><a href="#entrepreneurship-engineering"><span class="tech-label">06</span> Entrepreneurship</a></li>
+          <li><a href="#education-engineering"><span class="tech-label">07</span> Education</a></li>
+          <li><a href="#wiki-design"><span class="tech-label">08</span> Wiki Design</a></li>
+          <li><a href="#change-log"><span class="tech-label">09</span> Change log</a></li>
           
                   <li><a href="#references"><span class="tech-label">Ref</span> References</a></li>
 </ol>

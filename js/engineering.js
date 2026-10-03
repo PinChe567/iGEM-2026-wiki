@@ -300,6 +300,7 @@
 
     refreshStageObserver();
     updateDialFromViewport();
+    viewer.dispatchEvent(new CustomEvent("eng:cycle-change", { bubbles:true, detail:{ panel:activePanel, source:options.source || "navigation" } }));
 
     if (options.scroll === "track") {
       var heading = trackHeading(viewer);
@@ -317,8 +318,8 @@
     viewers.push(viewer);
 
     tabs.forEach(function (tab, index) {
-      tab.addEventListener("click", function () {
-        selectCycle(viewer, tab.getAttribute("data-cycle-tab"), { hash: "replace", scroll: "none" });
+      tab.addEventListener("click", function (event) {
+        selectCycle(viewer, tab.getAttribute("data-cycle-tab"), { hash: "replace", scroll: "none", source: event.isTrusted ? "user" : "guide" });
       });
       tab.addEventListener("keydown", function (event) {
         var next = null;
@@ -333,14 +334,14 @@
         }
         if (!next) return;
         event.preventDefault();
-        selectCycle(viewer, next.getAttribute("data-cycle-tab"), { hash: "replace", scroll: "none" });
+        selectCycle(viewer, next.getAttribute("data-cycle-tab"), { hash: "replace", scroll: "none", source: event.isTrusted ? "user" : "guide" });
         next.focus();
       });
     });
   }
 
   function visibleStages() {
-    return qsa("[data-cycle-panel]:not([hidden]) [data-eng-stage]");
+    return qsa("[data-cycle-panel]:not([hidden]) [data-eng-stage]:not([hidden])");
   }
 
   function nearestStage() {
@@ -381,6 +382,7 @@
   }
 
   function updateDialFromViewport() {
+    if (!dial) return;
     var stageEl = nearestStage();
     if (!stageEl) {
       setDial(null);
@@ -392,6 +394,7 @@
   }
 
   function refreshStageObserver() {
+    if (!dial) return;
     if (!window.IntersectionObserver) {
       updateDialFromViewport();
       return;
@@ -451,7 +454,9 @@
     if (!ctx) return;
     if (ctx.viewer && ctx.cycle) {
       selectCycle(ctx.viewer, ctx.cycle, { hash: false, scroll: "none" });
+      document.dispatchEvent(new CustomEvent("eng:reveal-stage", { detail: { target: ctx.el } }));
       if (options.scroll !== false) {
+        if (navigateReader(ctx.el)) return;
         var heading = trackHeading(ctx.viewer);
         if (heading && typeof heading.scrollIntoView === "function") {
           heading.scrollIntoView({ block: "start" });
@@ -462,6 +467,14 @@
     if (options.scroll !== false && ctx.el && typeof ctx.el.scrollIntoView === "function") {
       ctx.el.scrollIntoView({ block: "start" });
     }
+  }
+
+  function navigateReader(target) {
+    // The sticky reader owns cycle/stage positioning once it is initialized.
+    // A cancelable event leaves ordinary anchor navigation as the fallback.
+    return !document.dispatchEvent(new CustomEvent("eng:navigate", {
+      cancelable: true, detail: { target: target }
+    }));
   }
 
   function ready(fn) {
@@ -493,10 +506,17 @@
       var ctx = resolveHash(href);
       if (!ctx || !ctx.viewer || !ctx.cycle) return;
       event.preventDefault();
-      selectCycle(ctx.viewer, ctx.cycle, { hash: "push", scroll: "track" });
+      selectCycle(ctx.viewer, ctx.cycle, { hash: false, scroll: "none" });
+      if (location.hash !== href) history.pushState(null, "", href);
+      document.dispatchEvent(new CustomEvent("eng:reveal-stage", { detail: { target: ctx.el } }));
+      if (!navigateReader(ctx.el)) {
+        trackHeading(ctx.viewer).scrollIntoView({ block: "start" });
+      }
     });
 
-    syncFromHash({ scroll: true });
+    // Reveal the initial target now; let native fragment layout finish before
+    // the sticky reader performs its one initial timeline seek.
+    syncFromHash({ scroll: false });
     window.addEventListener("hashchange", function () {
       syncFromHash({ scroll: true });
     });

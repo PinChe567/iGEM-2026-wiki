@@ -805,8 +805,17 @@ html.js .page-safety [data-reveal].is-pending {
  max-width: none;
 }
 
+/* These are structured records, so use the full section rather than prose measure. */
+body.page-safety #compliance .saf-deps {
+ width: 100%;
+ max-width: none;
+}
+
 .saf-deps li {
  min-width: 0;
+ display: grid;
+ grid-template-columns: minmax(0, 1fr);
+ gap: var(--space-3) var(--space-5);
  padding: var(--space-4);
  border-top: var(--border-w) solid var(--color-rule);
 }
@@ -817,16 +826,21 @@ html.js .page-safety [data-reveal].is-pending {
 
 .saf-deps strong {
  display: block;
- margin-bottom: var(--space-2);
+ margin: 0;
  font-family: var(--font-display);
  font-size: var(--text-md);
  font-weight: 400;
 }
 
-.saf-deps > span {
+.saf-deps li > span {
  display: block;
+ min-width: 0;
  font-size: var(--text-sm);
  color: var(--color-ink-muted);
+ text-align: justify;
+ text-align-last: start;
+ hyphens: auto;
+ overflow-wrap: break-word;
 }
 
 .saf-callout {
@@ -1146,27 +1160,9 @@ html.js .page-safety [data-reveal].is-pending {
 }
 
 @media (min-width: 640px) {
- .saf-deps {
- grid-template-columns: 1fr 1fr;
- }
-
  .saf-deps li {
- border-top: var(--border-w) solid var(--color-rule);
- border-left: var(--border-w) solid var(--color-rule);
- }
-
- .saf-deps li:first-child,
- .saf-deps li:nth-child(2) {
- border-top: 0;
- }
-
- .saf-deps li:nth-child(2n + 1) {
- border-left: 0;
- }
-
- .saf-deps li:nth-child(5) {
- grid-column: 1 / -1;
- border-left: 0;
+ grid-template-columns: minmax(8rem, .28fr) minmax(0, 1fr);
+ align-items: start;
  }
 
  .saf-chem__item dl {
@@ -1201,26 +1197,6 @@ html.js .page-safety [data-reveal].is-pending {
 }
 
 @media (min-width: 900px) {
- .saf-deps {
- grid-template-columns: repeat(5, minmax(0, 1fr));
- }
-
- .saf-deps li,
- .saf-deps li:nth-child(5) {
- grid-column: auto;
- border-top: 0;
- border-left: var(--border-w) solid var(--color-rule);
- }
-
- .saf-deps li:first-child,
- .saf-deps li:nth-child(2n + 1) {
- border-left: var(--border-w) solid var(--color-rule);
- }
-
- .saf-deps li:first-child {
- border-left: 0;
- }
-
  .saf-equip {
  grid-template-columns: repeat(3, minmax(0, 1fr));
  }
@@ -2058,7 +2034,7 @@ html.js .page-safety [data-reveal].is-pending {
 
 .saf-layers__card {
  min-width: 0;
- padding: var(--space-4);
+ padding: clamp(1rem, 2.5vw, 1.75rem);
  border: var(--border-w) solid var(--color-rule);
  background: var(--color-paper);
 }
@@ -2084,7 +2060,7 @@ html.js .page-safety [data-reveal].is-pending {
  font-size: var(--text-xs);
  letter-spacing: 0.06em;
  text-transform: uppercase;
- color: var(--color-ink-muted);
+ color: var(--color-signal-text);
 }
 
 .saf-layers__card dd {
@@ -2203,8 +2179,8 @@ html.js .page-safety [data-reveal].is-pending {
 
 @media (min-width: 640px) {
  .saf-layers__card dl {
- grid-template-columns: minmax(9rem, 14rem) minmax(0, 1fr);
- gap: var(--space-3) var(--space-4);
+ grid-template-columns: minmax(7rem, .25fr) minmax(0, 1fr);
+ gap: var(--space-4) clamp(1rem, 3vw, 2rem);
  align-items: start;
  }
 
@@ -2258,7 +2234,7 @@ html.js .page-safety [data-reveal].is-pending {
 
 @media (min-width: 900px) {
  .saf-layers {
- grid-template-columns: 1fr 1fr;
+ grid-template-columns: minmax(0, 1fr);
  }
 
  .saf-guard {
@@ -2753,8 +2729,13 @@ html.js .page-safety [data-reveal].is-pending {
 
 .saf-award__card dd {
  margin: 0;
+ min-width: 0;
  max-width: none;
  font-size: var(--text-sm);
+ text-align: justify;
+ text-align-last: start;
+ hyphens: auto;
+ overflow-wrap: break-word;
 }
 
 @media (min-width: 640px) {
@@ -2803,8 +2784,8 @@ html.js .page-safety [data-reveal].is-pending {
  }
 
  .saf-award__card dl {
- grid-template-columns: minmax(8rem, 12rem) minmax(0, 1fr);
- gap: var(--space-3) var(--space-4);
+ grid-template-columns: minmax(7rem, .22fr) minmax(0, 1fr);
+ gap: var(--space-3) var(--space-5);
  align-items: start;
  }
 }
@@ -2862,9 +2843,6 @@ html.js .page-safety [data-reveal].is-pending {
  border-top-style: dashed;
  }
 
- .saf-award__grid {
- grid-template-columns: 1fr 1fr;
- }
 }
 
 @media (min-width: 640px) {

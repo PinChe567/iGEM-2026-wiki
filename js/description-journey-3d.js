@@ -25,7 +25,14 @@ const AUTO_AIM_DAMP = 1.85;
 const AUTO_SEEK = 5.4;
 const AUTO_DRAG = 4.1;
 const ODOR_RIBBON_SEGS = 360;
-const STAGE_SECONDS = 12.0;
+// Give each destination its own stretch of flight. Doubling the timeline with
+// the physical spacing keeps the fly responsive instead of simply slowing it.
+const STAGE_SECONDS = 24.0;
+const STAGE_DISTANCE = 16;
+const WAYPOINT_PHASE = 0.73;
+const HANDOFF_SECONDS = 2.8;
+const ENTRY_SECONDS = 2.2;
+const FINISH_PHASE = 0.78;
 const OVERLAP = 0.22;
 const DIVE_PRE_START = -1.55;
 const DIVE_PRE_END = -0.88;
@@ -211,6 +218,13 @@ function smoothstep(a, b, x) {
   if (b === a) return x >= b ? 1 : 0;
   const t = clamp((x - a) / (b - a), 0, 1);
   return t * t * (3 - 2 * t);
+}
+
+function cinematicEase(a, b, x) {
+  const t = clamp((x - a) / (b - a), 0, 1);
+  // Zero velocity and acceleration at both ends make a shorter camera move
+  // feel settled instead of abruptly accelerating into or out of the shot.
+  return t * t * t * (t * (t * 6 - 15) + 10);
 }
 
 function odorOffset(u) {
@@ -1065,12 +1079,12 @@ function loadGltf(url) {
   };
 
   const waypointTexts = [
-    {at:STAGE_SECONDS*.73,title:'The odor source',text:'You reached the food headspace. The fly can follow a changing odor plume before a change is visible.'},
-    {at:STAGE_SECONDS*1.73,title:'The fly antenna',text:'The fly stays here. Continue as an odor cue approaching the receptor; the next scene is an engineered cell, not the fly’s body.'},
-    {at:STAGE_SECONDS*2.73,title:'The engineered cell',text:'OR and Orco form the proposed recognition path. GCaMP6f is the intended green Ca²⁺ reporter; functional validation is a separate question.'},
-    {at:STAGE_SECONDS*3.73,title:'The optical reader',text:'Fluorescence must pass through the photodiode and electronics before it becomes a digital measurement.'},
-    {at:STAGE_SECONDS*4.73,title:'The pattern decoder',text:'A distributed response can inform screening, with follow-up testing needed before any safety decision.'}
-  ];
+    {title:'The odor source',text:'You reached the food headspace. The fly can follow a changing odor plume before a change is visible.'},
+    {title:'The fly antenna',text:'The fly stays here. Continue as an odor cue approaching the receptor; the next scene is an engineered cell, not the fly’s body.'},
+    {title:'The engineered cell',text:'OR and Orco form the proposed recognition path. GCaMP6f is the intended green Ca²⁺ reporter; functional validation is a separate question.'},
+    {title:'The optical reader',text:'Fluorescence must pass through the photodiode and electronics before it becomes a digital measurement.'},
+    {title:'The pattern decoder',text:'A distributed response can inform screening, with follow-up testing needed before any safety decision.'}
+  ].map((waypoint, index) => ({...waypoint, at: STAGE_SECONDS * (index + WAYPOINT_PHASE)}));
   const quest=document.createElement('div');quest.className='flight__quest';quest.hidden=true;
   quest.innerHTML='<p class="flight__quest-kicker">Signal waypoint reached</p><h4></h4><p class="flight__quest-copy"></p><button type="button">Continue the journey →</button>';
   const questMap=document.createElement('div');questMap.className='flight__quest-map';questMap.setAttribute('aria-label','Journey waypoint progress');
@@ -1136,6 +1150,9 @@ function loadGltf(url) {
     questIndex: 0,
     questHold: false,
     questApproach: false,
+    cinematic: null,
+    travelFloor: 0,
+    completed: false,
     waitLoad: false,
     auto: false,
     forwardInput: 0,
@@ -1151,11 +1168,14 @@ function loadGltf(url) {
   };
   quest.querySelector('button').addEventListener('click',function(){
     if(!state.questHold)return;
+    const reached = state.questIndex;
     state.questHold=false;state.questIndex++;
     state.questApproach=false;questLabel.classList.remove('is-approach');
     state.time=Math.min(totalDuration(),state.time+.06);
     quest.hidden=true;
     questLabel.textContent=state.questIndex<waypointTexts.length?'NEXT SIGNAL · '+waypointTexts[state.questIndex].title.toUpperCase():'RETURN TO THE BIG PICTURE';
+    if (reached === 0) beginCinematic('handoff');
+    else if (reached === 1) beginCinematic('entry');
     if(els.world)els.world.focus({preventScroll:true});
   });
 
@@ -1172,7 +1192,6 @@ function loadGltf(url) {
   let facingFlyPose = null;
   let path = null;
   let pathLen = 1;
-  let corridorZ = 0;
   let course = null;
   let obstacles = [];
   let checkpoints = [];
@@ -1217,9 +1236,53 @@ function loadGltf(url) {
   const _railPos = new THREE.Vector3();
   const _odorTan = new THREE.Vector3();
   const _odorRight = new THREE.Vector3();
+  const _cinemaPos = new THREE.Vector3();
+  const _cinemaLook = new THREE.Vector3();
+  const _cinemaOffset = new THREE.Vector3();
+  const _orbOffset = new THREE.Vector3();
   let camReady = false;
   let viewW = 0;
   let viewH = 0;
+
+  function beginCinematic(kind) {
+    if (state.completed || state.cinematic || !camera || !fly) return;
+    if (kind === 'handoff') {
+      facingFlyPose = {
+        position: fly.root.position.clone(),
+        forward: flyFwd.clone().normalize(),
+        quaternion: fly.root.quaternion.clone()
+      };
+    }
+    state.cinematic = {
+      kind, elapsed: 0, duration: kind === 'handoff' ? HANDOFF_SECONDS : ENTRY_SECONDS,
+      start: state.time, end: STAGE_SECONDS * (kind === 'handoff' ? 1.32 : 2.12),
+      position: camera.position.clone(), quaternion: camera.quaternion.clone()
+    };
+    state.forwardInput = 0;
+    state.keyInput = 0;
+    state.pointerInput = 0;
+    state.vx = 0;
+    els.flightRoot.dataset.flightMode = kind;
+    questLabel.textContent = kind === 'handoff'
+      ? 'PERSPECTIVE SHIFT · FOLLOW ONE ODOR MOLECULE'
+      : 'ENTERING THE ANTENNA · NEXT: ENGINEERED CELL';
+    hideCard();
+    announce(kind === 'handoff' ? 'The fly pauses. The camera turns to follow an odor molecule. Movement resumes after the transition.' : 'Follow the molecule toward the antenna. The next scene connects this idea to the engineered cell.');
+  }
+
+  function finishJourney() {
+    if (state.completed) return;
+    state.completed = true;
+    state.forwardInput = 0;
+    state.keyInput = 0;
+    state.pointerInput = 0;
+    state.vx = 0;
+    state.cinematic = null;
+    els.flightRoot.dataset.flightMode = 'complete';
+    questLabel.textContent = 'JOURNEY COMPLETE · YOUR SCORE IS SAVED';
+    hideCard();
+    announce('Journey complete. Your final score is ' + padScore(state.score) + '.');
+  }
 
   window.__aerosenseJourney = { detected: detected, loaded: loaded, failed: failed };
 
@@ -1308,7 +1371,7 @@ function loadGltf(url) {
       els.score.classList.toggle("is-off", state.auto || !state.onTrail);
     }
     if (els.scoreMode) els.scoreMode.hidden = false;
-    if (els.autoState) els.autoState.textContent = state.forwardInput ? "MOVING" : "READY";
+    if (els.autoState) els.autoState.textContent = state.completed ? "COMPLETE" : state.cinematic ? "STORY" : state.forwardInput ? "MOVING" : "READY";
     if (els.finaleScore && state.stage === 5 && state.stageU > 0.78) {
       els.finaleScore.textContent = "GAME SCORE · " + padScore(state.score);
     }
@@ -1548,25 +1611,23 @@ function loadGltf(url) {
       return item;
     });
     const pts = [];
-    for (let i = 0; i < packs.length; i++) {
-      const pack = packs[i];
-      if (!pack || !pack.pathLocal || !pack.group) continue;
-      const local = pack.pathLocal;
-      const start = pack.group.localToWorld(local[0].clone());
-      const end = pack.group.localToWorld(local[local.length - 1].clone());
-      if (pts.length) {
-        const prev = pts[pts.length - 1];
-        pts.push(new THREE.Vector3(0, (prev.y + start.y) * 0.5, (prev.z + start.z) * 0.5));
-      }
-      const y0 = start.y;
-      const y1 = end.y;
-      const z0 = start.z;
-      const z1 = Math.max(start.z + 0.8, end.z);
-      pts.push(new THREE.Vector3(0, y0, z0));
-      pts.push(new THREE.Vector3(0, lerp(y0, y1, 0.5), lerp(z0, z1, 0.5)));
-      pts.push(new THREE.Vector3(0, y1, z1));
-    }
-    if (pts.length < 2) pts.push(new THREE.Vector3(0, 1.2, -4), new THREE.Vector3(0, 1.1, 4));
+    // The full route is defined before the lazy-loaded models arrive. Building
+    // it from only the loaded scenes changed every beacon's position mid-flight.
+    // Keep scene art at its native scale and insert space between destinations.
+    STAGES.forEach(function (spec, i) {
+      const local = spec.fallback;
+      const start = local[0];
+      const end = local[local.length - 1];
+      const chapterZ = i * STAGE_DISTANCE;
+      const waypointZ = chapterZ + WAYPOINT_PHASE * STAGE_DISTANCE;
+      const nativeSpan = Math.max(0.8, end[2] - start[2]);
+      if (i === 0) pts.push(new THREE.Vector3(0, start[1], chapterZ));
+      pts.push(new THREE.Vector3(0, start[1], waypointZ - nativeSpan));
+      pts.push(new THREE.Vector3(0, lerp(start[1], end[1], 0.5), waypointZ - nativeSpan * 0.5));
+      pts.push(new THREE.Vector3(0, end[1], waypointZ));
+      const nextY = STAGES[i + 1]?.fallback[0][1] ?? end[1];
+      pts.push(new THREE.Vector3(0, lerp(end[1], nextY, 0.5), chapterZ + STAGE_DISTANCE));
+    });
     const raw = new THREE.CatmullRomCurve3(pts, false, "centripetal", 0.12);
     const even = [];
     const n = 48;
@@ -1651,7 +1712,7 @@ function loadGltf(url) {
           return matchesName(obj, spec.names);
         });
         if (!objs.length) return;
-        checkpoints.push({ id: spec.id, objs: objs, bonus: spec.bonus, label: spec.label });
+        checkpoints.push({ id: spec.id, stage: spec.stage, objs: objs, bonus: spec.bonus, label: spec.label });
       });
     });
   }
@@ -1752,10 +1813,11 @@ function loadGltf(url) {
     const local = pack.pathLocal;
     const start = local[0];
     const end = local[local.length - 1];
-    const span = Math.max(0.5, end.z - start.z);
-    if (index === 0) corridorZ = 0;
-    pack.group.position.set(-start.x, 0, corridorZ - start.z);
-    corridorZ += span + 1.6;
+    const reference = STAGES[index].fallback;
+    const referenceEnd = reference[reference.length - 1];
+    const waypointZ = (index + WAYPOINT_PHASE) * STAGE_DISTANCE;
+    // Align the exhibit with its beacon without stretching cells or electronics.
+    pack.group.position.set(-start.x, referenceEnd[1] - end.y, waypointZ - end.z);
     pack.basePos = pack.group.position.clone();
     pack.baseScale = pack.group.scale.clone();
     scene.add(pack.group);
@@ -1820,7 +1882,6 @@ function loadGltf(url) {
         packs[index] = pack;
         if (scene) {
           placePack(pack, index);
-          rebuildPath();
         }
         if (!silent) setLoading(false);
         return pack;
@@ -1830,7 +1891,6 @@ function loadGltf(url) {
         packs[index] = pack;
         if (scene) {
           placePack(pack, index);
-          rebuildPath();
         }
         if (!silent) setLoading(false);
         return pack;
@@ -1844,7 +1904,7 @@ function loadGltf(url) {
 
   function buildRenderer() {
     renderer = new THREE.WebGLRenderer({ antialias: !mobile, alpha: false, powerPreference: "high-performance" });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1.5 : 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1.25 : 1.5));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.08;
@@ -1930,17 +1990,51 @@ function loadGltf(url) {
     buildRenderer();
     orb = makeSignalOrb();
     scene.add(orb.mesh);
+    setLoading(true, 'Preparing the complete journey…');
     return maybeLoadCorridor()
       .then(function () {
-        return Promise.all([loadFly(), ensureStage(0)]);
+        // Decode every chapter before take-off. Loading a GLB and rebuilding the
+        // entire route at a chapter boundary caused a visible stall mid-flight.
+        return Promise.all([loadFly(), ...STAGES.map((_, index) => ensureStage(index, { silent: true }))]);
       })
       .then(function () {
         rebuildPath();
+        setLoading(true, 'Preparing light and materials…');
+        orb.mesh.visible = true;
+        giantFly.visible = true;
+        scene.updateMatrixWorld(true);
+        const compiled = renderer.compileAsync ? renderer.compileAsync(scene, camera) : Promise.resolve(renderer.compile(scene, camera));
+        return compiled.then(function () {
+          // Upload buffers and textures into a tiny off-screen target before
+          // movement starts, so a chapter's first visible frame does no setup.
+          const target = new THREE.WebGLRenderTarget(2, 2);
+          const culling = [];
+          scene.traverse(function (obj) {
+            if (obj.isMesh || obj.isSprite || obj.isLine) {
+              culling.push([obj, obj.frustumCulled]);
+              obj.frustumCulled = false;
+            }
+          });
+          try {
+            renderer.setRenderTarget(target);
+            renderer.render(scene, camera);
+          } finally {
+            renderer.setRenderTarget(null);
+            culling.forEach(([obj, value]) => { obj.frustumCulled = value; });
+            target.dispose();
+          }
+        }).finally(function () {
+          orb.mesh.visible = false;
+          giantFly.visible = false;
+        });
+      })
+      .then(function () {
         state.built = true;
-        prefetchNext(0);
+        setLoading(false);
         return true;
       })
       .catch(function (err) {
+        setLoading(false);
         console.error("Follow the Signal: 3D setup failed", err);
         return false;
       });
@@ -2069,8 +2163,11 @@ function loadGltf(url) {
 
   function physics(dt) {
     state.scan = 0;
+    if (state.completed) return;
+    const previousTime = state.time;
+    const cinematicAtStart = !!state.cinematic;
 
-    const input = clamp(state.pointer && state.pointer.mode === "steer" ? state.pointerInput : state.keyInput, -1, 1);
+    const input = state.cinematic ? 0 : clamp(state.pointer && state.pointer.mode === "steer" ? state.pointerInput : state.keyInput, -1, 1);
     if (Math.abs(input) > 0.08) takeManual();
 
     const progressU = clamp(state.time / totalDuration(), 0, 0.999);
@@ -2112,12 +2209,18 @@ function loadGltf(url) {
     state.dive = diveNow.dive;
     state.speedMul = diveNow.speed;
 
-    if (!state.waitLoad && !state.checkpointOpen && !state.staticMode && !state.questHold) {
+    if (state.cinematic) {
+      const movie = state.cinematic;
+      movie.elapsed = Math.min(movie.duration, movie.elapsed + dt);
+      const progress = cinematicEase(0, 1, movie.elapsed / movie.duration);
+      state.time = lerp(movie.start, movie.end, progress);
+      state.offset = damp(state.offset, state.odorX, 4, dt);
+    } else if (!state.waitLoad && !state.checkpointOpen && !state.staticMode && !state.questHold) {
       const endSlow = state.time > totalDuration() - 3.2 ? 0.42 : 1;
-      state.time = clamp(state.time + dt * state.forwardInput * 4.8 * endSlow * state.speedMul, 0, totalDuration());
+      state.time = clamp(state.time + dt * state.forwardInput * 4.8 * endSlow * state.speedMul, state.travelFloor, totalDuration());
     }
     const waypoint=waypointTexts[state.questIndex];
-    if(waypoint && state.time>=waypoint.at && !state.questHold && !state.staticMode){
+    if(waypoint && state.time>=waypoint.at && !state.questHold && !state.staticMode && !state.cinematic){
       state.time=waypoint.at;
       const marker=course?.beacons?.[state.questIndex];
       const antennaApproach=state.stage===1;
@@ -2134,6 +2237,7 @@ function loadGltf(url) {
         state.questHold=true;quest.hidden=false;
         quest.querySelector('h4').textContent=waypoint.title;
         quest.querySelector('.flight__quest-copy').textContent=waypoint.text;
+        quest.querySelector('button').textContent = state.questIndex === 0 ? 'Follow one odor molecule →' : state.questIndex === 1 ? 'Enter the antenna →' : 'Continue the journey →';
         questLabel.textContent='SIGNAL FOUND · '+waypoint.title.toUpperCase();
         quest.querySelector('button').focus({preventScroll:true});
         announce('Waypoint reached. '+waypoint.text);
@@ -2145,7 +2249,6 @@ function loadGltf(url) {
     const localT = (state.time - next * STAGE_SECONDS) / STAGE_SECONDS;
     state.stageU = clamp(localT, 0, 1);
     if (next !== state.stage) {
-      if(next===1 && state.stage===0 && fly?.root) facingFlyPose={position:fly.root.position.clone(),forward:flyFwd.clone().normalize(),quaternion:fly.root.quaternion.clone()};
       state.stage = next;
       setProgressUi(next);
       prefetchNext(next);
@@ -2165,23 +2268,23 @@ function loadGltf(url) {
     state.dive = diveNow.dive;
     if (diveNow.active) ensureStage(diveNow.to, { silent: true });
 
-    const morphT = next === 0 ? smoothstep(0.75, 0.97, state.stageU) : 1;
+    const morphT = state.cinematic?.kind === 'handoff' ? cinematicEase(.12, .52, state.cinematic.elapsed / state.cinematic.duration) : next === 0 ? 0 : 1;
     state.morph = damp(state.morph, morphT, 3.2, dt);
 
     if (state.cardShown < 0 && state.time > 0.78 && !diveNow.active) showCard(0);
     if (diveNow.active && diveNow.pre > 0.35 && state.cardShown === diveNow.from) hideCard();
-    if (state.stage > 0 && state.cardShown !== state.stage) {
+    if (state.stage > 0 && state.cardShown !== state.stage && !state.cinematic) {
       const textReady = !diveNow.active || (diveNow.to === state.stage && diveNow.recover > 0.62);
       if (textReady) showCard(state.stage);
     }
 
-    const showFinale = state.stage === 5 && state.stageU > 0.78;
+    const showFinale = state.stage === 5 && state.stageU >= FINISH_PHASE;
     if (els.finale) els.finale.hidden = !showFinale;
-    if (showFinale) hideCard();
+    if (showFinale) finishJourney();
 
     const odorDist = Math.abs(state.offset - state.odorX);
     state.onTrail = odorDist < SCORE_MID;
-    if (!state.auto && state.forwardInput > 0 && !state.staticMode && !state.userPaused && !state.waitLoad) {
+    if (!state.completed && !cinematicAtStart && !state.questHold && state.time > previousTime && !state.auto && state.forwardInput > 0 && !state.staticMode && !state.userPaused && !state.waitLoad) {
       state.score += trackingRate(odorDist) * dt;
     }
     updateScoreUi();
@@ -2213,11 +2316,11 @@ function loadGltf(url) {
   }
 
   function scoreCheckpoints() {
-    if (!fly || !fly.root || !checkpoints.length) return;
-    const pos = fly.root.position;
+    if (state.completed || state.cinematic || state.questHold || !fly || !fly.root || !checkpoints.length) return;
+    const pos = state.stage === 0 ? fly.root.position : orb.mesh.position;
     for (let i = 0; i < checkpoints.length; i++) {
       const ck = checkpoints[i];
-      if (state.bonusHits[ck.id]) continue;
+      if (state.bonusHits[ck.id] || ck.stage !== state.stage) continue;
       let hit = false;
       for (let j = 0; j < ck.objs.length; j++) {
         if (pos.distanceTo(worldPos(ck.objs[j])) <= 1.32) {
@@ -2320,14 +2423,14 @@ function loadGltf(url) {
         m.opacity = (wingish ? 0.36 : 1) * bodyA;
         if (state.morph > 0.2 && m.emissive) m.emissive.setRGB(0.04 * state.morph, 0.2 * state.morph, 0.07 * state.morph);
       });
-      fly.root.visible = bodyA > 0.05;
+      fly.root.visible = bodyA > 0.05 && state.cinematic?.kind !== 'handoff';
       if (!fly.wingLeft && !fly.wingRight) {
         fly.root.position.y += Math.sin(state.time * 9) * 0.008 * bodyA;
       }
     }
 
     if (giantFly && path) {
-      giantFly.visible = state.stage === 1;
+      giantFly.visible = state.stage === 1 || state.cinematic?.kind === 'handoff' || (state.cinematic?.kind === 'entry' && state.cinematic.elapsed / state.cinematic.duration < .65);
       if (giantFly.visible) {
         if(!facingFlyPose){
           path.getPointAt(1/STAGES.length,_ndc);
@@ -2336,14 +2439,15 @@ function loadGltf(url) {
         }
         giantFly.position.copy(facingFlyPose.position);
         giantFly.quaternion.copy(facingFlyPose.quaternion);
-        giantFly.scale.copy(fly.root.scale).multiplyScalar(lerp(1,8,smoothstep(.02,.32,state.stageU)));
+        const growing = state.cinematic?.kind === 'handoff' ? cinematicEase(.08,.9,state.cinematic.elapsed/state.cinematic.duration) : 1;
+        giantFly.scale.copy(fly.root.scale).multiplyScalar(lerp(1,8,growing));
       }
     }
 
     if (orb) {
-      // In the antenna approach the visitor looks through the odor cue.
-      // Rendering the molecule immediately in front of the lens obscures the fly.
-      orb.mesh.visible = state.morph > 0.08 && state.stage !== 1;
+      // Keep the molecular token in view during the approach and entry. It sits
+      // below the sight line so the visitor can still see the fly's antenna.
+      orb.mesh.visible = state.morph > 0.08;
       orb.mesh.position.copy(_pos);
       orb.mat.opacity = 0.92 * state.morph;
       orb.haloMat.opacity = 0.28 * state.morph;
@@ -2386,21 +2490,68 @@ function loadGltf(url) {
     }
     camera.quaternion.copy(camQuat);
     camera.up.set(0, 1, 0);
-    if (giantFly && giantFly.visible && state.stage === 1 && facingFlyPose) {
+    if (giantFly && giantFly.visible && state.stage === 1 && facingFlyPose && !state.cinematic) {
       // The camera turns around the very fly the visitor just controlled, then
       // follows the odor cue toward its antenna rather than spawning a new scene fly.
-      const turn = smoothstep(0.01, 0.23, state.stageU);
       const approach = smoothstep(0.15, 0.70, state.stageU);
-      const enter = state.questIndex > 1 ? smoothstep(.75,1,state.stageU) : 0;
-      const distance = lerp(lerp(5.4,3.8,approach),1.8,enter);
+      const distance = lerp(5.4,3.8,approach);
       const targetCam = _coursePos.copy(facingFlyPose.position).addScaledVector(facingFlyPose.forward, distance);
       targetCam.y += .22 - .12*approach;
-      camera.position.lerp(targetCam,turn);
-      camLook.copy(facingFlyPose.position).add(new THREE.Vector3(0, 0.22, 0));
+      camera.position.copy(targetCam);
+      camLook.copy(facingFlyPose.position);camLook.y += .22;
       _camMat.lookAt(camera.position, camLook, _up);
       _desiredQuat.setFromRotationMatrix(_camMat);
-      camera.quaternion.slerp(_desiredQuat, turn);
-      if(orb?.mesh?.visible) orb.mesh.position.copy(camera.position).addScaledVector(facingFlyPose.forward,-.55);
+      camera.quaternion.copy(_desiredQuat);
+    }
+    if (state.cinematic && facingFlyPose) {
+      const movie = state.cinematic;
+      const p = movie.elapsed / movie.duration;
+      const eased = cinematicEase(0, 1, p);
+      _cinemaLook.copy(facingFlyPose.position);_cinemaLook.y += .22;
+      if (movie.kind === 'handoff') {
+        // A timed half-orbit around the frozen player fly. Keyboard and touch
+        // input cannot scrub or reverse this perspective change.
+        _cinemaOffset.subVectors(movie.position, facingFlyPose.position);
+        const startRadius = Math.hypot(_cinemaOffset.x, _cinemaOffset.z);
+        const startAngle = Math.atan2(_cinemaOffset.x, _cinemaOffset.z);
+        const targetAngle = Math.atan2(facingFlyPose.forward.x, facingFlyPose.forward.z);
+        let arc = targetAngle - startAngle;
+        while (arc < 0) arc += Math.PI * 2;
+        while (arc > Math.PI * 2) arc -= Math.PI * 2;
+        const endApproach = smoothstep(.15, .70, .32);
+        const radius = lerp(startRadius, lerp(5.4,3.8,endApproach), eased);
+        const angle = startAngle + arc * eased;
+        camera.position.copy(facingFlyPose.position);
+        camera.position.x += Math.sin(angle)*radius;
+        camera.position.z += Math.cos(angle)*radius;
+        camera.position.y += lerp(_cinemaOffset.y,.22-.12*endApproach,eased);
+        _camMat.lookAt(camera.position,_cinemaLook,_up);
+        _desiredQuat.setFromRotationMatrix(_camMat);
+        camera.quaternion.copy(movie.quaternion).slerp(_desiredQuat,cinematicEase(0,.55,p));
+      } else {
+        // Enter the same fly, then bridge to the engineered-cell scene instead
+        // of snapping from an antenna close-up to a distant rail camera.
+        _cinemaPos.copy(facingFlyPose.position).addScaledVector(facingFlyPose.forward,.32);
+        _cinemaPos.y += .18;
+        if (p < .56) {
+          camera.position.copy(movie.position).lerp(_cinemaPos,cinematicEase(0,.56,p));
+          _camMat.lookAt(camera.position,_cinemaLook,_up);
+          _desiredQuat.setFromRotationMatrix(_camMat);
+          camera.quaternion.copy(movie.quaternion).slerp(_desiredQuat,cinematicEase(0,.56,p));
+        } else {
+          camera.position.lerp(_cinemaPos,1-cinematicEase(.56,1,p));
+          camera.quaternion.slerp(movie.quaternion,1-cinematicEase(.56,1,p));
+        }
+      }
+    }
+    if (orb) {
+      const closeView = state.stage === 1 || !!state.cinematic;
+      orb.mesh.scale.setScalar(closeView ? .48 : 1);
+      orb.mat.depthTest = orb.haloMat.depthTest = orb.streakMat.depthTest = !closeView;
+      if (closeView) {
+        _orbOffset.set(.09,-.20,-1.05).applyQuaternion(camera.quaternion);
+        orb.mesh.position.copy(camera.position).add(_orbOffset);
+      }
     }
     // Pull back for the closing view rather than flying into the explanatory labels.
     if(state.stage===5&&packs[5]&&state.stageU>.68){
@@ -2412,6 +2563,18 @@ function loadGltf(url) {
       camera.quaternion.slerp(_desiredQuat,blend);
     }
     updateOdorVisual(state.time);
+    if (state.cinematic && state.cinematic.elapsed >= state.cinematic.duration) {
+      state.travelFloor = state.cinematic.end;
+      state.cinematic = null;
+      state.forwardInput = 0;
+      state.keyInput = 0;
+      state.pointerInput = 0;
+      camPos.copy(camera.position);
+      camQuat.copy(camera.quaternion);
+      els.flightRoot.dataset.flightMode = 'manual';
+      questLabel.textContent = 'YOUR MOVE · NEXT: ' + waypointTexts[state.questIndex].title.toUpperCase();
+      announce('Perspective change complete. Use forward, back and steering to reach the next glowing waypoint.');
+    }
   }
 
   function applyScanLook() {
@@ -2600,6 +2763,11 @@ function loadGltf(url) {
 
   function resetFlight() {
     state.time = 0;
+    state.completed = false;
+    state.cinematic = null;
+    state.travelFloor = 0;
+    facingFlyPose = null;
+    els.flightRoot.dataset.flightMode = 'manual';
     state.questIndex=0;state.questHold=false;state.questApproach=false;quest.hidden=true;questLabel.classList.remove('is-approach');
     questLabel.textContent='FOLLOW THE LUMINOUS TRAIL · NEXT: ODOR SOURCE';
     questMap.querySelectorAll('span').forEach(el=>el.className='');
@@ -2717,6 +2885,9 @@ function loadGltf(url) {
       .then(function (ok) {
         state.opening = false;
         if (els.start) els.start.disabled = false;
+        // The visitor may exit while the one-time scene preparation is running.
+        // Keep the prepared assets for next time without starting a hidden loop.
+        if (els.dialog && !els.dialog.hasAttribute('open')) return;
         if (ok === "static") {
           state.open = true;
           startReduced();
@@ -2772,6 +2943,7 @@ function loadGltf(url) {
     if (key === "ArrowLeft" || key === "a" || key === "A") v = -1;
     if (key === "ArrowRight" || key === "d" || key === "D") v = 1;
     if (!v) return false;
+    if (state.cinematic || state.completed) return true;
     if (down) {
       takeManual();
       state.keyInput = v;
@@ -2784,11 +2956,12 @@ function loadGltf(url) {
     if (key === "ArrowUp" || key === "w" || key === "W") v = 1;
     if (key === "ArrowDown" || key === "s" || key === "S") v = -1;
     if (!v) return false;
+    if (state.cinematic || state.completed) return true;
     if (down) {
       // A short key tap must still move on devices where keyup arrives before
       // the next animation frame. Held keys use the continuous physics step.
       if (!state.forwardInput && !state.waitLoad && !state.checkpointOpen && !state.questHold && !state.userPaused)
-        state.time = clamp(state.time + v * .12, 0, totalDuration());
+        state.time = clamp(state.time + v * .12, state.travelFloor, totalDuration());
       state.forwardInput = v;
     }
     else if (state.forwardInput === v) state.forwardInput = 0;
@@ -2815,7 +2988,7 @@ function loadGltf(url) {
   }
 
   function onPointerDown(event) {
-    if (!state.open || !els.world || state.staticMode) return;
+    if (!state.open || !els.world || state.staticMode || state.cinematic || state.completed) return;
     if (event.target && event.target.closest && event.target.closest("button, a, summary")) return;
     if (event.pointerType === "mouse" && event.button !== 0) return;
     state.pointer = { id: event.pointerId, x: event.clientX, mode: "pending" };

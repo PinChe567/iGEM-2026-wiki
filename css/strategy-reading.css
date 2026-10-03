@@ -1,0 +1,204 @@
+/* Strategy diagrams and food-flow cards keep enough room to be read. */
+/* Some labels intentionally sit beside or inside a wedge, not on its painted
+   path. Their own linked hit areas keep the complete label clickable. */
+body.page-entrepreneurship .atlas-art [data-atlas-target] :is(text,tspan) {pointer-events:all;cursor:pointer}
+body.page-entrepreneurship .atlas-art .atlas-label-hit {fill:transparent!important;stroke:none!important;filter:none!important;pointer-events:all;cursor:pointer}
+body.page-entrepreneurship .ent-matrix-desk {max-width:100%;overflow-x:auto;overscroll-behavior-x:contain}
+@media(min-width:900px) {
+  body.page-entrepreneurship #beachhead .ent-matrix {table-layout:fixed;min-width:1120px;width:100%}
+  body.page-entrepreneurship #beachhead .ent-matrix tr > :first-child {width:220px}
+  body.page-entrepreneurship #beachhead .ent-matrix :is(th,td) {padding:1rem;word-break:normal;overflow-wrap:break-word}
+  body.page-entrepreneurship #beachhead .ent-matrix tbody th {font-size:1rem;line-height:1.5;background:var(--v-tint)}
+  body.page-entrepreneurship #beachhead .ent-matrix__tag {display:block;width:fit-content;font-size:.66rem;line-height:1.5}
+}
+body.page-entrepreneurship .framework.has-local-reveal {
+  display:block!important;position:relative;isolation:isolate;
+}
+body.page-entrepreneurship .framework.has-local-reveal > .framework-board {display:none!important}
+body.page-entrepreneurship .framework.has-local-reveal .atlas-art {max-width:900px}
+body.page-entrepreneurship .framework-stage {position:relative;min-width:0;overflow:clip;border-radius:8px}
+body.page-entrepreneurship .framework-stage > .atlas-art {transition:opacity 180ms ease,transform 350ms ease}
+body.page-entrepreneurship .framework.is-revealing .framework-stage > .atlas-art {opacity:.16}
+body.page-entrepreneurship .framework-reveal {
+  position:absolute;inset:clamp(.65rem,3vw,2rem);z-index:2;
+  display:flex;flex-direction:column;justify-content:safe center;
+  padding:clamp(1.4rem,4vw,3rem);padding-top:2.8rem;
+  border:1px solid color-mix(in srgb,var(--region-color,var(--v-pigment)) 70%,var(--v-ink));
+  border-left:8px solid var(--region-color,var(--v-accent));border-radius:7px;
+  background:#fffefb;box-shadow:0 13px 30px #372b301c;color:var(--v-ink);
+  overflow:auto;overscroll-behavior:contain;
+}
+body.page-entrepreneurship .framework-reveal__reading {position:relative;z-index:1;min-width:0;max-width:100%}
+body.page-entrepreneurship .framework-reveal__emblem {display:none;pointer-events:none}
+body.page-entrepreneurship .framework[data-interaction] .framework-reveal[hidden] {display:none!important}
+body.page-entrepreneurship .framework-reveal__kicker {
+  margin:0 2rem .6rem 0;font:500 .7rem/1.6 var(--font-mono);letter-spacing:.1em;
+  text-transform:uppercase;color:var(--v-accent);
+}
+body.page-entrepreneurship .framework-reveal h4 {
+  font:400 clamp(1.4rem,3vw,2.1rem)/1.2 var(--font-editorial);margin:0 2rem 1rem 0;color:var(--v-ink);
+}
+body.page-entrepreneurship .framework-reveal__body {max-width:66ch;font-size:clamp(.9rem,1.5vw,1.05rem);line-height:1.7}
+body.page-entrepreneurship .framework-reveal__body p {margin:0 0 1rem}
+body.page-entrepreneurship .framework-reveal__body a {color:var(--v-accent)}
+body.page-entrepreneurship .framework-reveal__close {
+  position:absolute;top:.65rem;right:.65rem;min-width:44px;min-height:44px;padding:.3rem .8rem;
+  border:1px solid var(--v-rule);border-radius:4px;background:var(--v-tint);color:var(--v-ink);cursor:pointer;
+  font:500 .73rem var(--font-mono);
+}
+body.page-entrepreneurship .framework-reveal__nav {display:flex;justify-content:space-between;gap:.6rem;flex-wrap:wrap;margin-top:1rem}
+body.page-entrepreneurship .framework-reveal__nav button {min-height:44px;padding:.4rem .8rem;border:1px solid var(--v-rule);border-radius:4px;background:var(--v-tint);color:var(--v-accent);cursor:pointer}
+body.page-entrepreneurship .framework-reveal__nav button:disabled {opacity:.35;cursor:default}
+body.page-entrepreneurship .framework-reveal :is(button,a):focus-visible {outline:3px solid var(--v-accent);outline-offset:3px}
+/* Each analysis has its own reading object, while the original diagram stays
+   in place underneath. Content is always copied from its source evidence. */
+body.page-entrepreneurship .framework[data-interaction="circle"] .framework-reveal {
+  display:grid;grid-template-columns:clamp(90px,14vw,145px) minmax(0,1fr);gap:1.5rem;
+  align-items:center;align-content:center;border:1px solid var(--v-rule);border-radius:80px 12px 80px 12px;
+  background:radial-gradient(circle at 14% 50%,var(--v-soft) 0 30%,#fffefb 30.3%);
+}
+body.page-entrepreneurship .framework[data-interaction="circle"] .framework-reveal__emblem {
+  display:grid;place-items:center;aspect-ratio:1;border-radius:50%;padding:.8rem;
+  border:1px solid var(--v-accent);box-shadow:0 0 0 9px #fffefb,0 0 0 10px var(--v-rule);
+  font:500 clamp(1.1rem,3vw,1.8rem) var(--font-editorial);color:var(--v-accent);text-transform:uppercase;
+}
+body.page-entrepreneurship .framework[data-interaction="steps"] .framework-reveal {
+  border:0;border-radius:3px 14px 14px 3px;border-left:27px solid var(--v-soft);padding-left:2rem;
+  box-shadow:4px 4px 0 #fff,5px 5px 0 var(--v-rule),0 12px 30px #372b301c;transform-origin:50% 100%;
+}
+body.page-entrepreneurship .framework[data-interaction="steps"] .framework-reveal::before {
+  content:"";position:absolute;left:-20px;top:14px;bottom:14px;width:13px;
+  background:radial-gradient(ellipse at center,#fffefb 0 28%,var(--v-accent) 30% 48%,transparent 52%) 0 0 / 13px 26px;
+}
+body.page-entrepreneurship .framework[data-interaction="steps"] .framework-reveal__emblem {
+  display:block;position:absolute;right:1.5rem;bottom:3.5rem;font:500 7rem/1 var(--font-editorial);opacity:.08;
+}
+body.page-entrepreneurship .framework-reveal__nav {position:relative;z-index:1;align-items:center}
+body.page-entrepreneurship .framework-reveal__nav span {font:500 .75rem var(--font-mono);color:var(--v-accent)}
+body.page-entrepreneurship .framework[data-interaction="pair"] .framework-reveal {
+  border:0;background:var(--v-tint);border-radius:3px;box-shadow:none;padding-inline:1rem;
+}
+body.page-entrepreneurship .framework[data-interaction="pair"] .framework-reveal__body {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1rem;max-width:none}
+body.page-entrepreneurship .framework-pair__sheet {min-width:0;padding:1.1rem;background:#fffefb;box-shadow:0 4px 12px #372b3010;border-top:6px solid var(--region-color,var(--v-accent))}
+body.page-entrepreneurship .framework-pair__sheet:nth-child(2) {background:var(--v-soft);border-color:var(--v-accent)}
+body.page-entrepreneurship .framework-pair__role {font:500 .64rem/1.5 var(--font-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--v-accent)}
+body.page-entrepreneurship .framework-pair__sheet h5 {font:500 1.1rem/1.3 var(--font-editorial);margin:0 0 .7rem;color:var(--v-ink)}
+body.page-entrepreneurship .framework-pair__sheet p {font-size:.86rem;line-height:1.6}
+body.page-entrepreneurship .framework-pair__sheet a {font-size:.78rem;line-height:1.5}
+body.page-entrepreneurship .framework[data-interaction="folio"] .framework-reveal {
+  border:1px solid var(--v-rule);border-left:14px solid var(--region-color,var(--v-accent));
+  border-radius:2px 18px 18px 2px;box-shadow:4px 3px 0 #fff,5px 4px 0 var(--v-rule),8px 7px 0 #fff,9px 8px 0 var(--v-rule);
+  transform-origin:0 50%;padding-bottom:4.5rem;
+}
+body.page-entrepreneurship .framework[data-interaction="folio"] .framework-reveal__emblem {
+  display:block;font:500 .8rem var(--font-mono);color:var(--v-accent);margin-bottom:1rem;
+}
+body.page-entrepreneurship .framework-reveal__tabs {display:flex;flex-wrap:wrap;gap:.3rem;margin-top:1rem;position:relative;z-index:1}
+body.page-entrepreneurship .framework-reveal__tabs button {
+  min-width:38px;min-height:38px;padding:.3rem;border:1px solid var(--v-rule);border-radius:3px;
+  background:var(--v-tint);color:var(--v-accent);font:500 .7rem var(--font-mono);cursor:pointer;
+}
+body.page-entrepreneurship .framework-reveal__tabs button[aria-pressed="true"] {background:var(--v-accent);border-color:var(--v-accent);color:#fff}
+body.page-entrepreneurship .framework[data-interaction="lens"] .framework-reveal {
+  border:1px solid var(--v-rule);border-radius:100px 100px 18px 18px;text-align:center;
+  background:radial-gradient(ellipse at 50% 0%,var(--v-soft) 0 30%,#fffefb 30.3%);align-items:center;
+}
+body.page-entrepreneurship .framework[data-interaction="lens"] .framework-reveal__emblem {
+  display:block;font:500 clamp(2.8rem,6vw,4.5rem)/1 var(--font-editorial);letter-spacing:-.06em;color:var(--v-accent);margin:.2rem 0 1rem;
+}
+body.page-entrepreneurship .framework[data-interaction="lens"] :is(.framework-reveal__kicker,.framework-reveal h4) {margin-right:0}
+body.page-entrepreneurship .framework[data-interaction="lens"] .framework-reveal__body {max-width:48ch;margin:auto}
+body.page-entrepreneurship .framework[data-interaction="drawer"] .framework-reveal {
+  left:clamp(1rem,16%,7rem);border:0;border-radius:8px 0 0 8px;border-left:10px solid var(--region-color,var(--v-accent));
+  background:linear-gradient(90deg,var(--v-soft) 0 48px,#fffefb 48px);padding-left:4.5rem;transform-origin:100% 50%;
+}
+body.page-entrepreneurship .framework[data-interaction="drawer"] .framework-reveal__emblem {
+  display:block;position:absolute;left:9px;top:50%;transform:translateY(-50%);font:500 2rem/1 var(--font-editorial);color:var(--v-accent);
+}
+body.page-entrepreneurship .framework[data-interaction="paper"] .framework-reveal {
+  inset:clamp(1.5rem,5%,3rem);border:1px solid var(--v-rule);border-top:7px solid var(--region-color,var(--v-accent));
+  border-radius:1% 3% 2% 1%;background:color-mix(in srgb,var(--region-color,var(--v-pigment)) 7%,#fffefb);box-shadow:5px 10px 18px #372b3020;
+}
+body.page-entrepreneurship .framework[data-interaction="paper"] .framework-reveal::after {
+  content:"";position:absolute;left:38%;top:3px;width:76px;height:14px;background:#f0d9967a;transform:rotate(-4deg);pointer-events:none;
+}
+body.page-entrepreneurship .framework[data-interaction="paper"] .framework-reveal__emblem {
+  display:block;position:absolute;right:1rem;bottom:-.1em;font:600 clamp(7rem,16vw,12rem)/1 var(--font-editorial);color:var(--region-color,var(--v-accent));opacity:.11;
+}
+body.page-entrepreneurship .framework[data-interaction="contact"] .framework-reveal {
+  display:grid;grid-template-columns:75px minmax(0,1fr);gap:1.25rem;align-content:center;align-items:start;
+  inset:clamp(1.5rem,8%,4rem);border:1px solid var(--v-rule);border-top:8px solid var(--region-color,var(--v-accent));
+  border-radius:20px;background:#fffefb;
+}
+body.page-entrepreneurship .framework[data-interaction="contact"] .framework-reveal__emblem {
+  display:grid;place-items:center;width:75px;height:75px;border-radius:50%;border:1px solid var(--v-rule);
+  background:var(--v-soft);color:var(--v-accent);font:500 1.5rem var(--font-editorial);
+}
+body.page-entrepreneurship .framework[data-interaction="contact"] .framework-reveal__body {border-top:1px solid var(--v-rule);padding-top:1rem}
+@media(max-width:700px) {
+  body.page-entrepreneurship .framework.is-revealing .framework-stage > .atlas-art {display:none}
+  body.page-entrepreneurship .framework[data-interaction] .framework-reveal {position:relative;inset:auto!important;padding:3.2rem 1rem 1rem;justify-content:flex-start;border-left-width:4px;overflow:visible;max-height:none;min-height:0}
+  body.page-entrepreneurship .framework-reveal h4 {font-size:1.45rem}
+  body.page-entrepreneurship .framework-reveal__body {font-size:.93rem}
+  body.page-entrepreneurship .framework[data-interaction="pair"] .framework-reveal__body {grid-template-columns:minmax(0,1fr)}
+  body.page-entrepreneurship .framework[data-interaction="circle"] .framework-reveal {display:block;border-radius:24px 4px}
+  body.page-entrepreneurship .framework[data-interaction="circle"] .framework-reveal__emblem {width:80px;margin:.5rem 0 1.8rem}
+  body.page-entrepreneurship .framework[data-interaction="drawer"] .framework-reveal {padding-left:3.8rem}
+  body.page-entrepreneurship .framework[data-interaction="contact"] .framework-reveal {display:block}
+  body.page-entrepreneurship .framework[data-interaction="contact"] .framework-reveal__emblem {width:58px;height:58px;margin-bottom:1rem;font-size:1.2rem}
+  body.page-entrepreneurship .framework[data-interaction="lens"] .framework-reveal {border-radius:45px 45px 8px 8px}
+  body.page-entrepreneurship .framework[data-interaction="steps"] .framework-reveal::before {display:none}
+}
+
+/* Three readable cards per row, following a continuous serpentine path.
+   The DOM and keyboard order remain 01 -> 06. */
+body.page-sustainability .sust-path__board {padding:clamp(.75rem,2vw,1.5rem);overflow:visible}
+body.page-sustainability .sust-path__stages {
+  display:grid;grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr) 24px minmax(0,1fr);
+  grid-template-rows:auto 28px auto;gap:.35rem;align-items:stretch;
+}
+body.page-sustainability .sust-path__stages > :nth-child(1) {grid-column:1;grid-row:1}
+body.page-sustainability .sust-path__stages > :nth-child(2) {grid-column:2;grid-row:1}
+body.page-sustainability .sust-path__stages > :nth-child(3) {grid-column:3;grid-row:1}
+body.page-sustainability .sust-path__stages > :nth-child(4) {grid-column:4;grid-row:1}
+body.page-sustainability .sust-path__stages > :nth-child(5) {grid-column:5;grid-row:1}
+body.page-sustainability .sust-path__stages > :nth-child(6) {grid-column:5;grid-row:2}
+body.page-sustainability .sust-path__stages > :nth-child(7) {grid-column:5;grid-row:3}
+body.page-sustainability .sust-path__stages > :nth-child(8) {grid-column:4;grid-row:3;transform:rotate(180deg)}
+body.page-sustainability .sust-path__stages > :nth-child(9) {grid-column:3;grid-row:3}
+body.page-sustainability .sust-path__stages > :nth-child(10) {grid-column:2;grid-row:3;transform:rotate(180deg)}
+body.page-sustainability .sust-path__stages > :nth-child(11) {grid-column:1;grid-row:3}
+body.page-sustainability .sust-path__node {
+  height:100%;min-height:156px;display:flex;flex-direction:column;gap:.6rem;align-items:flex-start;
+  padding:1rem;border-radius:6px;overflow-wrap:break-word;
+}
+body.page-sustainability .sust-path__label {font-size:clamp(.95rem,1.5vw,1.15rem);line-height:1.35;max-width:100%}
+body.page-sustainability .sust-path__blurb {font-size:.82rem;line-height:1.55;max-width:100%;word-break:normal}
+body.page-sustainability .sust-path__index {padding:0;font-size:.7rem}
+body.page-sustainability .sust-path__conn {padding:0;align-self:center;min-width:0}
+body.page-sustainability .sust-path__arrow--h {display:block;width:22px;max-width:100%}
+body.page-sustainability .sust-path__arrow--v {display:none}
+body.page-sustainability .sust-path__stages > :nth-child(6) .sust-path__arrow--h {display:none}
+body.page-sustainability .sust-path__stages > :nth-child(6) .sust-path__arrow--v {display:block;font-size:1.3rem}
+@media(max-width:700px) {
+  body.page-sustainability .sust-path__stages {display:flex;flex-direction:column;gap:.3rem}
+  body.page-sustainability .sust-path__stages > .sust-path__conn {transform:none}
+  body.page-sustainability .sust-path__node {display:grid;grid-template-columns:1.8rem minmax(0,1fr);gap:.3rem .6rem;min-height:0;padding:1rem}
+  body.page-sustainability .sust-path__index {grid-row:1 / span 2;grid-column:1}
+  body.page-sustainability .sust-path__label {grid-column:2;grid-row:1;font-size:1.05rem}
+  body.page-sustainability .sust-path__blurb {grid-column:2;grid-row:2}
+  body.page-sustainability .sust-path__conn {min-height:22px}
+  body.page-sustainability .sust-path__arrow--h {display:none!important}
+  body.page-sustainability .sust-path__arrow--v {display:block;font-size:1.2rem}
+}
+@media(prefers-reduced-motion:reduce) {body.page-entrepreneurship .framework-stage > .atlas-art {transition:none}}
+@media print {
+  body.page-entrepreneurship .framework.has-local-reveal > .framework-board {display:block!important}
+  body.page-entrepreneurship .framework-reveal {display:none!important}
+  body.page-entrepreneurship .framework.is-revealing .framework-stage > .atlas-art {opacity:1}
+}
+/* Compact interaction notes use ragged-right text; long report prose keeps
+   its shared justification without stretching words in narrow cards. */
+@media(max-width:600px){
+ body.page-entrepreneurship .framework-reveal :is(p,li){text-align:start!important;text-align-last:auto!important;hyphens:none;}
+}

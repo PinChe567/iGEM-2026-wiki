@@ -666,6 +666,88 @@
     return section.id || "This page";
   }
 
+  // One viewport-bound layer for reference previews. Hidden panels have no layout
+  // box; open panels leave transformed/overflow-clipped article ancestors.
+  var citationPanels = (function () {
+    var active=null, closeTimer=0, frame=0, restoring=false;
+    var bridge=doc.createElement('div');bridge.className='reading-popover-bridge';bridge.hidden=true;bridge.setAttribute('aria-hidden','true');
+    function cancelClose(){window.clearTimeout(closeTimer);closeTimer=0;}
+    function hide(panel,restoreFocus){
+      if(!active||(panel&&active.panel!==panel))return;
+      cancelClose();var previous=active;active=null;
+      previous.panel.classList.remove('is-open');previous.panel.hidden=true;bridge.hidden=true;
+      if(previous.next&&previous.next.parentNode===previous.home)previous.home.insertBefore(previous.panel,previous.next);else previous.home.appendChild(previous.panel);
+      previous.anchor.setAttribute('aria-expanded','false');
+      if(previous.onClose)previous.onClose();
+      if(restoreFocus){restoring=true;previous.anchor.focus({preventScroll:true});restoring=false;}
+    }
+    function place(){
+      frame=0;if(!active)return;
+      var vp=window.visualViewport,vl=vp?vp.offsetLeft:0,vt=vp?vp.offsetTop:0,vw=vp?vp.width:window.innerWidth,vh=vp?vp.height:window.innerHeight;
+      var a=active.anchor.getBoundingClientRect(),panel=active.panel,margin=12,gap=4;
+      if(a.bottom<vt||a.top>vt+vh||a.right<vl||a.left>vl+vw){hide();return;}
+      var above=Math.max(0,a.top-vt-margin-gap),below=Math.max(0,vt+vh-a.bottom-margin-gap);
+      var useBelow=below>=180||below>=above;
+      var available=Math.min(vh-2*margin,Math.max(80,useBelow?below:above));
+      panel.style.setProperty('--reading-panel-width',Math.max(100,Math.min(panel.classList.contains('ref-passages')?440:352,vw-2*margin))+'px');
+      panel.style.setProperty('--reading-panel-height',available+'px');
+      var p=panel.getBoundingClientRect();
+      var left=Math.max(vl+margin,Math.min(a.left,vl+vw-margin-p.width));
+      var top=useBelow?a.bottom+gap:a.top-p.height-gap;
+      top=Math.max(vt+margin,Math.min(top,vt+vh-margin-p.height));
+      panel.style.setProperty('--reading-panel-left',left+'px');panel.style.setProperty('--reading-panel-top',top+'px');
+      var edgeTop=useBelow?a.bottom:top+p.height,edgeBottom=useBelow?top:a.top;
+      bridge.hidden=edgeBottom<=edgeTop;
+      bridge.style.left=Math.min(left,a.left)+'px';bridge.style.top=edgeTop+'px';
+      bridge.style.width=(Math.max(left+p.width,a.right)-Math.min(left,a.left))+'px';bridge.style.height=Math.max(0,edgeBottom-edgeTop)+'px';
+    }
+    function requestPlace(){if(active&&!frame)frame=requestAnimationFrame(place);}
+    function show(anchor,panel,region,onClose){
+      if(restoring)return;
+      cancelClose();
+      if(active&&active.panel===panel){active.anchor.setAttribute('aria-expanded','false');active.anchor=anchor;anchor.setAttribute('aria-expanded','true');place();return;}
+      hide();
+      active={anchor:anchor,panel:panel,region:region||anchor,home:panel.parentNode,next:panel.nextSibling,onClose:onClose};
+      panel.classList.add('reading-popover');panel.setAttribute('role','dialog');
+      panel.setAttribute('aria-label',panel.classList.contains('ref-passages')?'Cited passages':'Reference preview');
+      if(!panel.querySelector('.reading-popover__close')){
+        var close=doc.createElement('button');close.type='button';close.className='reading-popover__close';close.textContent='×';close.setAttribute('aria-label','Close reference preview');
+        close.addEventListener('click',function(){hide(panel,true);});panel.prepend(close);
+        panel.addEventListener('mouseenter',cancelClose);panel.addEventListener('mouseleave',scheduleClose);
+        panel.addEventListener('focusin',cancelClose);panel.addEventListener('focusout',scheduleClose);
+      }
+      if(!bridge.isConnected)doc.body.appendChild(bridge);
+      doc.body.appendChild(panel);panel.hidden=false;panel.classList.add('is-open');anchor.setAttribute('aria-expanded','true');place();
+    }
+    function scheduleClose(){
+      cancelClose();closeTimer=window.setTimeout(function(){
+        if(!active)return;
+        if(active.panel.contains(doc.activeElement)||active.region.contains(doc.activeElement)||active.panel.matches(':hover')||active.region.matches(':hover')||bridge.matches(':hover'))return;
+        hide();
+      },220);
+    }
+    bridge.addEventListener('mouseenter',cancelClose);bridge.addEventListener('mouseleave',scheduleClose);
+    doc.addEventListener('pointerdown',function(event){if(active&&!active.panel.contains(event.target)&&!active.region.contains(event.target)&&event.target!==bridge)hide();});
+    doc.addEventListener('keydown',function(event){
+      if(!active)return;
+      if(event.key==='Escape'){event.preventDefault();hide(null,true);return;}
+      if(event.key!=='Tab')return;
+      var links=Array.prototype.slice.call(active.panel.querySelectorAll('a[href],button:not([disabled]),[tabindex="0"]'));
+      if(!links.length)return;
+      if(active.region.contains(doc.activeElement)&&!event.shiftKey){event.preventDefault();links[0].focus();return;}
+      if(doc.activeElement===links[0]&&event.shiftKey){event.preventDefault();var anchor=active.anchor;hide();anchor.focus({preventScroll:true});return;}
+      if(doc.activeElement===links[links.length-1]&&!event.shiftKey){
+        event.preventDefault();var current=active,all=Array.prototype.slice.call(doc.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex="0"]')).filter(function(el){return !current.panel.contains(el)&&el.getClientRects().length;});
+        var next=all[all.indexOf(current.anchor)+1];hide();if(next)next.focus({preventScroll:true});else current.anchor.focus({preventScroll:true});
+      }
+    });
+    window.addEventListener('resize',requestPlace);
+    doc.addEventListener('scroll',function(event){if(active&&!active.panel.contains(event.target))requestPlace();},true);
+    if(window.visualViewport){window.visualViewport.addEventListener('resize',requestPlace);window.visualViewport.addEventListener('scroll',requestPlace);}
+    return {show:show,hide:hide,scheduleClose:scheduleClose,cancelClose:cancelClose,isRestoring:function(){return restoring;}};
+  }());
+  window.AeroSenseCitationPanels=citationPanels;
+
   function initReferencesEnhance() {
     var items = qsa(".ref-list > li[id]");
     if (!items.length) return;
@@ -675,12 +757,12 @@
       var cites = qsa('a.cite[href="#' + refId + '"]');
       var backlinks = qsa(".ref-backlink", item);
 
-      /* Paper highlights (collapsed by default) */
+      /* Source highlights (collapsed by default) */
       if (!qs(".ref-highlights", item) && REF_HIGHLIGHTS[refId]) {
         var details = doc.createElement("details");
         details.className = "ref-highlights";
         var summary = doc.createElement("summary");
-        summary.textContent = "Paper highlights";
+        summary.textContent = "Source highlights";
         var body = doc.createElement("div");
         body.className = "ref-highlights__body";
         var ul = doc.createElement("ul");
@@ -689,12 +771,7 @@
           li.textContent = point;
           ul.appendChild(li);
         });
-        var note = doc.createElement("p");
-        note.className = "ref-highlights__note";
-        note.textContent =
-          "Short team reading notes for navigation — not a substitute for the paper.";
         body.appendChild(ul);
-        body.appendChild(note);
         details.appendChild(summary);
         details.appendChild(body);
         item.appendChild(details);
@@ -713,7 +790,7 @@
       var panel = doc.createElement("div");
       panel.className = "ref-passages";
       panel.setAttribute("role", "tooltip");
-      panel.hidden = false;
+      panel.hidden = true;
 
       var title = doc.createElement("p");
       title.className = "ref-passages__title";
@@ -750,11 +827,12 @@
 
       group.appendChild(panel);
 
-      function openPanel() {
-        panel.classList.add("is-open");
+      function openPanel(event) {
+        var anchor=event&&event.target.closest?event.target.closest('.ref-backlink'):null;
+        citationPanels.show(anchor||backlinks[0],panel,group);
       }
       function closePanel() {
-        if (!group.contains(doc.activeElement)) panel.classList.remove("is-open");
+        citationPanels.scheduleClose();
       }
 
       group.addEventListener("mouseenter", openPanel);
@@ -763,6 +841,7 @@
       group.addEventListener("focusout", function () {
         window.setTimeout(closePanel, 0);
       });
+      panel.addEventListener('click',function(event){if(event.target.closest('a[href]'))citationPanels.hide(panel);});
     });
   }
 

@@ -1,0 +1,210 @@
+/* AeroSense field notebook, 2026. Interior pages only.
+   Open chapters carry the report; paper is reserved for figures and annotations. */
+body.editorial-2026:not(.page-home) {
+  --ed-paper:#f8f5ec; --ed-sheet:#fffdf7; --ed-ink:#263a31;
+  --ed-accent:#45674b; --ed-soft:#e5ecda; --ed-rule:#bfc4b4;
+  --ed-tape:#e7d39da8;
+  background-color:var(--ed-paper)!important;
+  background-image:radial-gradient(#64715712 .6px,transparent .7px)!important;
+  background-size:8px 8px!important;
+  color:var(--ed-ink);
+}
+body.editorial-2026.ed-blue {--ed-accent:#315f77;--ed-soft:#dfeaf0;--ed-rule:#bacbd1;--ed-tape:#bdd9e0ad}
+body.editorial-2026.ed-violet {--ed-accent:#665077;--ed-soft:#eae1ee;--ed-rule:#cbbfd0;--ed-tape:#d4c3e1b8}
+body.editorial-2026.ed-amber {--ed-accent:#886031;--ed-soft:#f0e5cc;--ed-rule:#d1c2a7;--ed-tape:#ead3a3bb}
+body.editorial-2026.ed-teal {--ed-accent:#356b65;--ed-soft:#dcebe4;--ed-rule:#b8cdc4;--ed-tape:#b9d9c7aa}
+body.editorial-2026.ed-rose {--ed-accent:#8a5053;--ed-soft:#f0e1de;--ed-rule:#d2bdb9;--ed-tape:#e7c4bdaa}
+
+/* A report cover, with room for a hand-drawn subject vignette. */
+body.editorial-2026:not(.page-home):not(.page-members) .page-hero {
+  position:relative;isolation:isolate;min-height:310px;
+  margin:1.2rem 0 3.6rem!important;padding:2rem 0 2.7rem!important;
+  border:0!important;border-bottom:2px solid var(--ed-ink)!important;
+  background:transparent!important;box-shadow:none!important;border-radius:0!important;
+}
+body.editorial-2026:not(.page-home):not(.page-members) .page-hero::before {
+  content:"";position:absolute;top:0;left:0;width:62px;height:6px;
+  background:var(--ed-accent)!important;transform:rotate(-1deg);border:0;box-shadow:none;
+}
+body.editorial-2026:not(.page-home):not(.page-members) .page-hero::after {display:none!important}
+body.editorial-2026:not(.page-home) .page-hero > nav[aria-label="Breadcrumb"] {margin-bottom:2rem}
+body.editorial-2026:not(.page-home) .page-hero h1 {
+  font-family:Georgia,"Times New Roman",serif!important;font-weight:500!important;
+  font-size:clamp(3.2rem,5.8vw,5.6rem)!important;line-height:1.02!important;
+  letter-spacing:-.06em!important;color:var(--ed-ink)!important;max-width:16ch!important;
+  overflow-wrap:normal;hyphens:none;margin-block:.3rem 1.25rem!important;text-wrap:balance;
+}
+body.editorial-2026:not(.page-home) .page-hero h1::before {display:none!important}
+body.editorial-2026:not(.page-home) .page-hero .hero-tagline,
+body.editorial-2026:not(.page-home) .page-hero:not(:has(.hero-tagline)) > .page-purpose {
+  font:400 clamp(1.05rem,1.7vw,1.32rem)/1.55 var(--font-body,sans-serif)!important;
+  color:#4d5a50!important;max-width:48ch!important;margin:0!important;
+}
+body.editorial-2026:not(.page-home) .page-hero.ed-has-vignette > h1,
+body.editorial-2026:not(.page-home) .page-hero.ed-has-vignette > .hero-tagline,
+body.editorial-2026:not(.page-home) .page-hero.ed-has-vignette > .page-purpose {max-width:64%!important}
+body.editorial-2026:not(.page-home) .page-hero > .ed-vignette {
+  display:block!important;position:absolute;right:0;bottom:1.5rem;width:29%;max-width:265px;
+  margin:0;padding:0;pointer-events:none;transform:rotate(3deg);z-index:-1;
+}
+.ed-vignette svg {display:block;width:100%;height:auto;overflow:visible;color:var(--ed-accent)}
+.ed-vignette .ed-sketch-sheet {fill:var(--ed-sheet);stroke:var(--ed-rule);stroke-width:1}
+.ed-vignette .ed-sketch-soft {fill:var(--ed-soft)}
+.ed-vignette .ed-sketch-ink {fill:var(--ed-accent)}
+.ed-vignette .ed-sketch-line {fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.ed-vignette .ed-sketch-fine {fill:none;stroke:currentColor;stroke-width:1.15;opacity:.55}
+.ed-vignette .ed-sketch-tape {fill:var(--ed-tape)}
+
+/* Break out of the repeated-card pattern. Figure/data panels keep their own frames. */
+body.editorial-2026:not(.page-home):not(.page-members) .page-article > .section-block,
+body.editorial-2026:not(.page-home):not(.page-members) .page-article > section:not(.references) {
+  position:relative;min-width:0;
+  margin:0 0 3.5rem!important;padding:2.9rem 0 2.3rem!important;
+  border:0!important;border-top:1px solid var(--ed-rule)!important;border-radius:0!important;
+  background:transparent!important;background-image:none!important;box-shadow:none!important;
+  overflow:visible!important;
+}
+body.editorial-2026:not(.page-home):not(.page-members) .page-article > .section-block::before,
+body.editorial-2026:not(.page-home):not(.page-members) .page-article > .section-block::after {display:none!important}
+body.editorial-2026:not(.page-home) .page-article > .section-block > h2 {
+  font-family:Georgia,"Times New Roman",serif!important;font-size:clamp(1.85rem,3.1vw,3rem)!important;
+  font-weight:500!important;line-height:1.14!important;letter-spacing:-.042em!important;
+  color:var(--ed-ink)!important;margin:.6rem 0 1.5rem!important;max-width:30ch!important;
+  text-wrap:balance;
+}
+body.editorial-2026:not(.page-home) .page-article > .section-block > h2::before,
+body.editorial-2026:not(.page-home) .page-article > .section-block > h2::after {display:none!important}
+body.editorial-2026:not(.page-home) .ed-section-index {
+  position:absolute;left:0;top:-.7rem;display:inline-block;padding:.2rem .72rem;
+  background:var(--ed-accent);color:#fffdf6;font:600 .72rem/1.45 var(--font-mono,monospace);
+  letter-spacing:.06em;transform:rotate(-2deg);border-radius:1px;
+}
+body.editorial-2026:not(.page-home) .page-article > .section-block:nth-of-type(3n) > .ed-section-index {transform:rotate(2deg)}
+body.editorial-2026:not(.page-home) .page-article > .section-block > p,
+body.editorial-2026:not(.page-home) .page-article > .section-block > ul,
+body.editorial-2026:not(.page-home) .page-article > .section-block > ol {max-width:100%;line-height:1.76}
+body.editorial-2026:not(.page-home) .page-article > .section-block > p:first-of-type:not(.section-eyebrow) {
+  font-size:clamp(1rem,1.25vw,1.17rem);color:#3d5043;
+}
+body.editorial-2026:not(.page-home) .page-article h3 {letter-spacing:-.02em;line-height:1.3}
+
+/* A small number of evidence artefacts receive the notebook treatment. */
+body.editorial-2026:not(.page-home) .page-article > .section-block > figure:has(> img),
+body.editorial-2026:not(.page-home) .page-article > figure.revision-visual {
+  position:relative;border:1px solid #d6d2c4!important;background:var(--ed-sheet)!important;
+  padding:clamp(.7rem,1.6vw,1.3rem)!important;border-radius:2px!important;
+  box-shadow:3px 5px 0 #e5e0d4,0 12px 30px #293e3510!important;margin-block:2rem!important;
+}
+body.editorial-2026:not(.page-home) .page-article > .section-block > figure:has(> img)::before,
+body.editorial-2026:not(.page-home) .page-article > figure.revision-visual::before {
+  content:"";position:absolute;left:calc(50% - 40px);top:-10px;width:80px;height:22px;
+  background:var(--ed-tape);border:1px solid #96866922;transform:rotate(-4deg);pointer-events:none;
+}
+body.editorial-2026:not(.page-home) main figcaption {
+  font-size:.84rem;line-height:1.6;color:#4a584e;text-align:left;
+}
+body.editorial-2026:not(.page-home) .media-caption__label {color:var(--ed-accent);font-size:.77rem}
+body.editorial-2026:not(.page-home) .page-article > .section-block > .notice,
+body.editorial-2026:not(.page-home) .page-article > .section-block > blockquote {
+  padding:1.3rem 1.6rem;border:0;border-left:4px solid var(--ed-accent);border-radius:0 16px 16px 0;
+  background:var(--ed-soft);box-shadow:none;color:var(--ed-ink);margin-block:1.7rem;
+}
+body.editorial-2026:not(.page-home) .page-article > .section-block > .notice p:last-child {margin-bottom:0}
+body.editorial-2026:not(.page-home) .page-article > .section-block > details:not([class]) {
+  border:0;border-block:1px solid var(--ed-rule);border-radius:0;background:transparent;padding:1rem 0;
+}
+body.editorial-2026:not(.page-home) main details > summary:focus-visible,
+body.editorial-2026:not(.page-home) main a:focus-visible {outline:3px solid var(--ed-accent);outline-offset:4px}
+
+/* Existing TOC, not a second navigation or another progress widget. */
+body.editorial-2026:not(.page-home) .page-toc-slot {padding-left:1.2rem!important}
+body.editorial-2026:not(.page-home) .page-toc {
+  border:0!important;border-top:2px solid var(--ed-accent)!important;padding:.8rem 0 0!important;
+  border-radius:0!important;background:transparent!important;box-shadow:none!important;
+}
+body.editorial-2026:not(.page-home) .toc__summary {padding:.5rem 0 .8rem!important}
+body.editorial-2026:not(.page-home) .toc__label {
+  color:var(--ed-accent);font:700 .72rem/1.5 var(--font-mono,monospace);letter-spacing:.08em;text-transform:uppercase;
+}
+body.editorial-2026:not(.page-home) .page-toc nav {border-left:0!important}
+body.editorial-2026:not(.page-home) .page-toc a {
+  border:0!important;border-bottom:1px solid #afb7a730!important;padding:.6rem .45rem!important;
+  min-height:40px;font-size:.79rem!important;line-height:1.4;gap:.5rem;background:transparent!important;
+  color:#586254!important;box-shadow:none!important;
+}
+body.editorial-2026:not(.page-home) .page-toc a .tech-label {color:var(--ed-accent)!important;font-size:.65rem}
+body.editorial-2026:not(.page-home) .page-toc a[aria-current="true"],
+body.editorial-2026:not(.page-home) .page-toc a:hover {color:var(--ed-accent)!important;background:var(--ed-soft)!important}
+body.editorial-2026:not(.page-home) .page-toc a[aria-current="true"]::before {display:none!important}
+
+/* Evidence and citations remain conventional, readable and printable. */
+body.editorial-2026:not(.page-home) .references {
+  padding:2rem 0;border-top:3px double var(--ed-rule);background:transparent;box-shadow:none;border-radius:0;
+}
+body.editorial-2026:not(.page-home) .references h2 {font:500 2rem/1.2 Georgia,serif;color:var(--ed-ink);letter-spacing:-.035em}
+body.editorial-2026:not(.page-home) .references > ol {padding-left:1.6rem}
+body.editorial-2026:not(.page-home) .references > ol > li {padding:.65rem .4rem;border-bottom:1px solid #b5bfad55;line-height:1.65;overflow-wrap:anywhere}
+/* Keep a dedicated number gutter; the general editorial list padding must not
+   collapse the space occupied by the absolute [n] reference counter. */
+body.editorial-2026:not(.page-home) .references > ol.ref-list {padding-left:0;list-style:none}
+body.editorial-2026:not(.page-home) .references > ol.ref-list > li {padding:.85rem .4rem .85rem 3.5rem}
+body.editorial-2026:not(.page-home) .references > ol.ref-list > li::before {top:.85rem;left:0;width:2.75rem;line-height:inherit}
+body.editorial-2026:not(.page-home) .references li::marker {font:700 .78rem var(--font-mono,monospace);color:var(--ed-accent)}
+body.editorial-2026:not(.page-home) .prose table {background:var(--ed-sheet);border-color:var(--ed-rule)}
+body.editorial-2026:not(.page-home) .prose thead th {background:var(--ed-soft);color:var(--ed-ink);border-bottom:2px solid var(--ed-accent)}
+body.editorial-2026:not(.page-home) .prose td {line-height:1.6}
+body.editorial-2026:not(.page-home) .prose table caption {color:var(--ed-accent)!important}
+
+/* Landing details: retain the unique diagrams, gears, viewers and album. */
+body.editorial-2026.page-entrepreneurship .ent-ballot-card {border-radius:2px 20px 20px 2px!important;box-shadow:3px 4px 0 #b6b99b35!important}
+body.editorial-2026.page-entrepreneurship .ent-ballot-card__num {color:var(--ed-accent)!important}
+body.editorial-2026.page-engineering .eng-track {margin-top:2.6rem;border-top:2px solid var(--gear-color);padding-top:1.4rem}
+body.editorial-2026.page-hardware .hw-r22__opening {background:var(--ed-soft);border:0;border-radius:2px 30px 2px 2px;padding:1.5rem 2rem;box-shadow:4px 5px 0 #b8c7cc40;margin-bottom:3rem}
+body.editorial-2026.page-hardware .hw-r22__opening h2 {font:500 1.8rem/1.2 Georgia,serif;letter-spacing:-.035em}
+body.editorial-2026.page-model .model-panel {border-color:var(--ed-rule)}
+body.editorial-2026.page-learning .learn-section {background:transparent!important;border:0!important;border-top:1px solid var(--ed-rule)!important;box-shadow:none!important;border-radius:0!important;padding:2.5rem 0!important;margin-top:2.5rem}
+body.editorial-2026.page-learning .learn-section::before {display:none!important}
+body.editorial-2026.page-learning .learn-hero {background:var(--ed-soft)!important;border:0;border-radius:2px 45px 2px 2px;box-shadow:5px 6px 0 #c1cfb449;margin-block:1.5rem 3rem}
+body.editorial-2026.page-learning .learn-hero h1 {font-weight:500!important;line-height:1.05;letter-spacing:-.05em!important}
+body.editorial-2026.page-glossary .glossary-page {padding-top:3.5rem}
+body.editorial-2026.page-glossary .glossary-page h1 {font-size:clamp(3rem,6vw,5rem);letter-spacing:-.055em;margin-bottom:1rem}
+body.editorial-2026.page-glossary .glossary-index {gap:0 2rem}
+body.editorial-2026.page-glossary .glossary-entry {border:0;border-top:1px solid var(--ed-rule);border-radius:0;background:transparent;background-image:none;box-shadow:none;padding:1.6rem 0}
+body.editorial-2026.page-glossary .glossary-entry::before {display:none}
+body.editorial-2026.page-glossary .glossary-entry h2 {font-size:1.5rem;color:var(--ed-accent)}
+
+@media (min-width:1100px) {
+  body.editorial-2026:not(.page-home) .shell--with-toc {column-gap:clamp(1.5rem,3.4vw,3.8rem)}
+}
+@media (max-width:1099px) {
+  body.editorial-2026:not(.page-home) .page-toc-slot {padding-left:0!important}
+  body.editorial-2026:not(.page-home) .page-toc {border-bottom:1px solid var(--ed-rule)!important}
+}
+@media (max-width:760px) {
+  body.editorial-2026:not(.page-home):not(.page-members) .page-hero {margin-top:1rem!important;min-height:0;padding:1.5rem 0 2rem!important;margin-bottom:2.7rem!important}
+  body.editorial-2026:not(.page-home) .page-hero > nav[aria-label="Breadcrumb"] {margin-bottom:1.5rem}
+  body.editorial-2026:not(.page-home) .page-hero h1 {font-size:clamp(2.6rem,9vw,4rem)!important}
+  body.editorial-2026:not(.page-home) .page-hero.ed-has-vignette > h1,
+  body.editorial-2026:not(.page-home) .page-hero.ed-has-vignette > .hero-tagline,
+  body.editorial-2026:not(.page-home) .page-hero.ed-has-vignette > .page-purpose {max-width:100%!important}
+  body.editorial-2026:not(.page-home) .page-hero > .ed-vignette {position:relative;right:auto;bottom:auto;width:150px;margin:1.4rem 8px 0 auto;transform:rotate(3deg);z-index:0}
+  body.editorial-2026:not(.page-home):not(.page-members) .page-article > .section-block,
+  body.editorial-2026:not(.page-home):not(.page-members) .page-article > section:not(.references) {padding:2.2rem 0 1.7rem!important;margin:0 0 2.5rem!important}
+  body.editorial-2026:not(.page-home) .page-article > .section-block > h2 {font-size:clamp(1.7rem,6vw,2.3rem)!important;max-width:100%!important}
+  body.editorial-2026:not(.page-home) .page-article > .section-block > .notice,
+  body.editorial-2026:not(.page-home) .page-article > .section-block > blockquote {padding:1rem 1.15rem}
+  body.editorial-2026.page-hardware .hw-r22__opening {padding:1.3rem}
+}
+@media (prefers-reduced-motion:no-preference) {
+  .ed-vignette.is-seen .ed-sketch-draw {stroke-dasharray:500;stroke-dashoffset:0;animation:ed-draw 1.1s ease-out both}
+  @keyframes ed-draw {from {stroke-dashoffset:500} to {stroke-dashoffset:0}}
+}
+@media print {
+  body.editorial-2026:not(.page-home) {background:#fff!important}
+  body.editorial-2026:not(.page-home) .ed-vignette {display:none!important}
+  body.editorial-2026:not(.page-home) .page-hero.ed-has-vignette > h1,
+  body.editorial-2026:not(.page-home) .page-hero.ed-has-vignette > .hero-tagline,
+  body.editorial-2026:not(.page-home) .page-hero.ed-has-vignette > .page-purpose {max-width:100%!important}
+  body.editorial-2026:not(.page-home) .ed-section-index {color:#111;background:#eee;transform:none}
+  body.editorial-2026:not(.page-home) .page-article > .section-block {break-inside:auto}
+}

@@ -288,7 +288,7 @@
   }
 
   function isMobileDetail() {
-    return window.matchMedia("(max-width: 900px)").matches;
+    return window.matchMedia("(max-width: 1099px)").matches;
   }
 
   function initHpDetailPanel() {
@@ -298,6 +298,16 @@
     var closeBtn = qs("[data-hp-detail-close]", panel);
     var buttons = qsa("[data-hp-open-detail]");
     if (!panel || !content || !buttons.length) return;
+    var layout = qs(".hp-road-layout");
+    var desktop = window.matchMedia("(min-width: 1100px)");
+    var currentId = "";
+
+    function placeReader() {
+      var checkpoint = currentId && doc.getElementById(currentId);
+      var stop = checkpoint && checkpoint.closest(".hp-road-stop");
+      if (desktop.matches && layout) layout.prepend(panel);
+      else if (stop) stop.appendChild(panel);
+    }
 
     var ids = buttons
       .map(function (btn) {
@@ -317,6 +327,10 @@
     function closeMobile() {
       panel.classList.remove("is-open");
       setExpanded(null);
+      content.hidden = true;
+      if (empty) empty.hidden = false;
+      var trigger = buttons.find(function (btn) { return btn.getAttribute("data-checkpoint-id") === currentId; });
+      if (trigger) trigger.focus({preventScroll:true});
     }
 
     function renderCheckpointDetail(id, opts) {
@@ -336,7 +350,9 @@
       });
       article.classList.add("is-active");
       var stop = article.closest(".hp-road-stop");
-      if (stop) { stop.classList.add("is-active"); stop.appendChild(panel); }
+      currentId = id;
+      if (stop) stop.classList.add("is-active");
+      placeReader();
       setExpanded(id);
 
       var portraits = doc.createElement("div");
@@ -394,25 +410,34 @@
       content.appendChild(nav);
 
       prevBtn.addEventListener("click", function () {
-        if (prevId) renderCheckpointDetail(prevId, { focus: opts.focus });
+        if (prevId) renderCheckpointDetail(prevId, { focus: true });
       });
       nextBtn.addEventListener("click", function () {
-        if (nextId) renderCheckpointDetail(nextId, { focus: opts.focus });
+        if (nextId) renderCheckpointDetail(nextId, { focus: true });
       });
 
       if (empty) empty.hidden = true;
       content.hidden = false;
       panel.classList.add("is-open");
+      var reader = qs(".hp-detail-panel__inner", panel);
+      if (reader) reader.scrollTop = 0;
 
       if (opts.focus) {
         heading.focus();
+      } else if (opts.reveal && desktop.matches) {
+        var bounds = panel.getBoundingClientRect();
+        var header = qs(".site-header");
+        var headerBottom = header ? header.getBoundingClientRect().bottom : 80;
+        if (bounds.top < headerBottom || bounds.top > window.innerHeight * .5) {
+          panel.scrollIntoView({block:"start",behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth"});
+        }
       }
     }
 
     buttons.forEach(function (button) {
       button.addEventListener("click", function (event) {
         var id = button.getAttribute("data-checkpoint-id");
-        renderCheckpointDetail(id, { focus: event.detail === 0 });
+        renderCheckpointDetail(id, { focus: event.detail === 0, reveal:true });
       });
     });
 
@@ -422,7 +447,7 @@
 
     doc.addEventListener("keydown", function (event) {
       if (event.key !== "Escape") return;
-      if (isMobileDetail() && panel.classList.contains("is-open")) {
+      if (panel.classList.contains("is-open")) {
         closeMobile();
       }
     });
@@ -460,6 +485,11 @@
 
     window.addEventListener("hashchange", openFromHash);
     openFromHash();
+    if (!currentId && desktop.matches) renderCheckpointDetail(ids[0], {focus:false});
+    desktop.addEventListener("change", function () {
+      if (!currentId && desktop.matches) renderCheckpointDetail(ids[0], {focus:false});
+      else placeReader();
+    });
   }
 
   function initEngagements() {

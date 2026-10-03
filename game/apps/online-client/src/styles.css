@@ -1,0 +1,233 @@
+:root {
+  --online-ink: #1c2418;
+  --online-paper: #e8efe2;
+  --online-accent: #2f6b4f;
+  --online-warn: #8a4b2a;
+  --online-ok: #2f6b4f;
+  --online-muted: #5a6758;
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+  color: var(--online-ink);
+  background:
+    radial-gradient(1200px 600px at 10% -10%, #d7e8cf 0%, transparent 55%),
+    radial-gradient(900px 500px at 100% 0%, #cfe0d8 0%, transparent 50%),
+    linear-gradient(180deg, #f3f7f0, var(--online-paper));
+}
+
+.shell-header {
+  padding: 1.25rem 1.5rem 0.5rem;
+}
+
+.online-tag {
+  margin: 0.35rem 0 0;
+  color: var(--online-muted);
+}
+
+.online-main {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 1rem 1.25rem 3rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.card-block {
+  padding: 0.25rem 0 1rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--online-ink) 12%, transparent);
+}
+
+.card-block h2 {
+  font-family: "Fraunces", "Palatino Linotype", serif;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+}
+
+.muted { color: var(--online-muted); }
+.ok { color: var(--online-ok); font-weight: 600; }
+.warn { color: var(--online-warn); font-weight: 600; }
+.disclaimer { font-size: 0.95rem; color: var(--online-muted); }
+
+label {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0.75rem 0;
+}
+
+input[type="text"] {
+  font: inherit;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid color-mix(in srgb, var(--online-ink) 25%, transparent);
+  background: #fff;
+  border-radius: 4px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.primary-button,
+.ghost-button {
+  font: inherit;
+  padding: 0.5rem 0.9rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.primary-button {
+  background: var(--online-accent);
+  color: #fff;
+  border: none;
+}
+
+.primary-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ghost-button {
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--online-ink) 30%, transparent);
+}
+
+.online-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0 1.5rem 0.75rem;
+}
+
+.online-nav button {
+  font: inherit;
+  padding: 0.35rem 0.7rem;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  color: var(--online-muted);
+}
+
+.online-nav button.active {
+  color: var(--online-ink);
+  border-color: color-mix(in srgb, var(--online-ink) 25%, transparent);
+  background: #fff;
+}
+
+.badge.verified {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--online-accent);
+  border-bottom: 2px solid color-mix(in srgb, var(--online-accent) 45%, transparent);
+  margin: 0 0 0.5rem;
+}
+
+.ranked-flag {
+  font-size: 0.95rem;
+  color: var(--online-muted);
+}
+
+.led-matrix {
+  --size: 5;
+  display: grid;
+  grid-template-columns: repeat(var(--size), 1fr);
+  gap: 4px;
+  width: min(240px, 70vw);
+  aspect-ratio: 1;
+  margin: 0.75rem 0 1rem;
+  padding: 0.5rem;
+  background: #12180f;
+  border-radius: 6px;
+}
+
+.led-cell {
+  display: block;
+  border-radius: 2px;
+  background: #2a3326;
+}
+
+.led-cell.on {
+  background: #7dff9a;
+  box-shadow: 0 0 6px color-mix(in srgb, #7dff9a 55%, transparent);
+}
+
+.led-cell.noise-cell {
+  background: #c6a15b;
+}
+
+.option-grid {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.option-button {
+  font: inherit;
+  text-align: left;
+  padding: 0.55rem 0.75rem;
+  border-radius: 4px;
+  border: 1px solid color-mix(in srgb, var(--online-ink) 22%, transparent);
+  background: #fff;
+  cursor: pointer;
+}
+
+.option-button:hover {
+  border-color: var(--online-accent);
+}
+
+.signal-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 72px;
+  margin: 0.75rem 0;
+  padding: 0.35rem;
+  background: #12180f;
+  border-radius: 6px;
+}
+
+.signal-bars span {
+  flex: 1;
+  background: #7dff9a;
+  border-radius: 2px 2px 0 0;
+  min-height: 4px;
+}
+
+.pool-grid {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0.75rem 0;
+}
+
+.pool-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.95rem;
+}
+
+.pool-item input[type="number"] {
+  width: 4.5rem;
+  font: inherit;
+  padding: 0.25rem 0.35rem;
+}
+
+.sync-stage {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid color-mix(in srgb, var(--online-ink) 12%, transparent);
+}
+
+@media (max-width: 640px) {
+  .online-main {
+    padding: 0.75rem 1rem 2.5rem;
+  }
+}
+

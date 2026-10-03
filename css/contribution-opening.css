@@ -1,0 +1,267 @@
+/* Contribution / an indexed resource shelf and a compact engineering fieldbook.
+   Native details retain keyboard, deep-link and print behaviour. */
+body.page-contribution #library,
+body.page-contribution #lessons {
+  --contrib-rule: color-mix(in srgb, var(--v-accent) 18%, white);
+}
+
+body.page-contribution :is(#library, #lessons) > .ed-section-index {display:none;}
+body.page-contribution :is(#library, #lessons) > h2 {
+  max-width:none;
+  margin:0 0 1.1rem;
+  font-size:clamp(1.9rem, 3.2vw, 2.85rem)!important;
+}
+body.page-contribution :is(#library, #lessons) > .contrib-section-deck {
+  max-width:none;
+  margin:0 0 2rem;
+  color:var(--v-muted);
+  font-size:1rem;
+  line-height:1.7;
+}
+
+/* A single connected catalogue, rather than five disconnected display cards. */
+body.page-contribution #library .contrib-package {
+  margin:0;
+  padding:0;
+  border:0;
+  border-top:1px solid var(--contrib-rule);
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
+body.page-contribution #library .contrib-package:last-of-type {border-bottom:1px solid var(--contrib-rule);}
+body.page-contribution #library .contrib-package__summary {
+  display:grid!important;
+  grid-template-columns:4.25rem minmax(0, 1fr) 2.4rem!important;
+  align-items:center!important;
+  gap:1.5rem!important;
+  padding:1.5rem .35rem!important;
+  border:0;
+  border-radius:0;
+  color:var(--v-ink);
+  transition:background-color .18s ease;
+}
+body.page-contribution #library .contrib-package__summary:hover,
+body.page-contribution #library .contrib-package[open] > .contrib-package__summary {
+  background:color-mix(in srgb, var(--pkg-accent) 9%, white);
+}
+body.page-contribution #library .contrib-package__symbol {
+  display:grid;
+  place-items:center;
+  width:4.25rem;
+  height:4.25rem;
+  background:color-mix(in srgb, var(--pkg-accent) 24%, white);
+  color:color-mix(in srgb, var(--pkg-accent) 30%, var(--v-ink));
+  border-radius:50% 50% 44% 44%;
+}
+body.page-contribution #library .contrib-package__symbol svg {
+  display:block;
+  width:2.7rem;
+  height:2.7rem;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.65;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+body.page-contribution #library .contrib-package__copy {
+  display:grid;
+  gap:.36rem;
+  align-items:start;
+  min-width:0;
+}
+body.page-contribution #library .contrib-package__stream {
+  font-size:.66rem;
+  letter-spacing:.1em;
+  line-height:1.4;
+  color:color-mix(in srgb, var(--pkg-accent) 22%, var(--v-ink));
+}
+body.page-contribution #library .contrib-package__title {
+  font-family:var(--font-body);
+  font-size:clamp(1.1rem, 1.9vw, 1.42rem);
+  font-weight:650;
+  letter-spacing:-.02em;
+  line-height:1.3;
+  color:var(--v-ink);
+}
+body.page-contribution #library .contrib-package__desc {
+  display:block;
+  max-width:none;
+  font-size:.94rem;
+  line-height:1.6;
+  color:var(--v-muted);
+  text-align:start;
+}
+body.page-contribution #library .contrib-package__toggle {
+  position:relative;
+  display:block;
+  width:2.2rem;
+  height:2.2rem;
+  border:1px solid var(--contrib-rule);
+  border-radius:50%;
+  background:white;
+}
+body.page-contribution #library .contrib-package__toggle span {
+  position:absolute;
+  left:calc(50% - .4rem);
+  top:calc(50% - .6px);
+  width:.8rem;
+  height:1.2px;
+  background:var(--v-accent);
+  transition:transform .18s ease;
+}
+body.page-contribution #library .contrib-package__toggle span:last-child {transform:rotate(90deg);}
+body.page-contribution #library .contrib-package[open] .contrib-package__toggle span:last-child {transform:rotate(0deg);}
+body.page-contribution #library .contrib-package__body {
+  padding:1.75rem clamp(.35rem, 1.5vw, 1.25rem) 2rem;
+  gap:2rem;
+  border-top:1px solid var(--contrib-rule);
+}
+body.page-contribution #library .contrib-package__body .contrib-pkg__header h3 {
+  max-width:none;
+  margin:0;
+  font-family:var(--font-editorial);
+  font-weight:400;
+  font-size:clamp(1.25rem, 2vw, 1.65rem);
+}
+
+/* Lessons are an annotated index: topic in the margin, the reasoning beside it. */
+body.page-contribution #lessons .contrib-lesson-group {
+  --lesson-accent:var(--aero-cyan-on-light, #295e81);
+  display:grid;
+  grid-template-columns:clamp(7.5rem, 14vw, 10rem) minmax(0, 1fr);
+  gap:clamp(1rem, 2.5vw, 2rem);
+  padding:1.8rem 0;
+  border-top:1px solid var(--contrib-rule);
+}
+body.page-contribution #lessons .contrib-lesson-group--interpretation {--lesson-accent:var(--aero-violet-on-light, #675084);}
+body.page-contribution #lessons .contrib-lesson-group__heading {padding-top:.3rem;}
+body.page-contribution #lessons .contrib-lesson-group__category {
+  display:block;
+  color:var(--lesson-accent);
+  font-family:var(--font-mono);
+  font-size:.64rem;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  line-height:1.5;
+}
+body.page-contribution #lessons .contrib-lesson-group__heading h3 {
+  margin:.45rem 0 .65rem;
+  padding:0;
+  font-family:var(--font-editorial);
+  font-size:1.25rem;
+  font-weight:400;
+  line-height:1.3;
+  color:var(--v-ink);
+}
+body.page-contribution #lessons .contrib-lesson-group__heading p {
+  margin:0;
+  max-width:none;
+  font-size:.88rem;
+  line-height:1.55;
+  color:var(--v-muted);
+  text-align:start;
+}
+body.page-contribution #lessons .contrib-lesson-group__items {min-width:0;}
+body.page-contribution #lessons .contrib-lesson {
+  margin:0;
+  padding:0;
+  border:0;
+  border-bottom:1px solid var(--contrib-rule);
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
+body.page-contribution #lessons .contrib-lesson:last-child {border-bottom:0;}
+body.page-contribution #lessons .contrib-lesson__summary {
+  display:grid;
+  grid-template-columns:1.6rem minmax(0, 1fr) 1.5rem;
+  align-items:baseline;
+  gap:.6rem;
+  padding:1rem .1rem;
+  color:var(--v-ink);
+}
+body.page-contribution #lessons .contrib-lesson__summary:hover {color:var(--lesson-accent);}
+body.page-contribution #lessons .contrib-lesson__number {
+  font-family:var(--font-mono);
+  font-size:.7rem;
+  color:var(--lesson-accent);
+}
+body.page-contribution #lessons .contrib-lesson__title {
+  min-width:0;
+  font-size:1rem;
+  font-weight:600;
+  line-height:1.55;
+  color:inherit;
+}
+body.page-contribution #lessons .contrib-lesson__toggle {
+  display:inline-block;
+  font-family:var(--font-body);
+  font-size:1.3rem;
+  line-height:1;
+  text-align:center;
+  color:var(--lesson-accent);
+  transition:transform .18s ease;
+}
+body.page-contribution #lessons .contrib-lesson[open] .contrib-lesson__toggle {transform:rotate(45deg);}
+body.page-contribution #lessons .contrib-lesson__body {
+  padding:.25rem 0 1.4rem 2.2rem;
+}
+body.page-contribution #lessons .contrib-lesson__points {
+  display:grid;
+  grid-template-columns:minmax(0, 1fr);
+  gap:1.1rem;
+  margin:0;
+}
+body.page-contribution #lessons .contrib-lesson__points > div {
+  display:block;
+  margin:0;
+  padding:0;
+  border:0;
+}
+body.page-contribution #lessons .contrib-lesson__points dt {
+  margin:0 0 .35rem;
+  color:var(--lesson-accent);
+  font-size:.65rem;
+  line-height:1.5;
+  letter-spacing:.07em;
+}
+body.page-contribution #lessons .contrib-lesson__points dd {
+  margin:0;
+  max-width:none;
+  font-size:.95rem;
+  line-height:1.75;
+  text-align:justify;
+  text-align-last:start;
+}
+
+@media (max-width:700px) {
+  body.page-contribution #library .contrib-package__summary {
+    grid-template-columns:3rem minmax(0, 1fr) 1.8rem!important;
+    gap:.75rem!important;
+    padding:1.15rem 0!important;
+    align-items:start!important;
+  }
+  body.page-contribution #library .contrib-package__symbol {width:3rem;height:3rem;}
+  body.page-contribution #library .contrib-package__symbol svg {width:2rem;height:2rem;}
+  body.page-contribution #library .contrib-package__title {font-size:1.05rem;}
+  body.page-contribution #library .contrib-package__desc {font-size:.88rem;}
+  body.page-contribution #library .contrib-package__toggle {width:1.8rem;height:1.8rem;}
+  body.page-contribution #library .contrib-package__body {padding:1.4rem 0 1.75rem;}
+  body.page-contribution #lessons .contrib-lesson-group {grid-template-columns:minmax(0, 1fr);gap:.8rem;padding:1.5rem 0;}
+  body.page-contribution #lessons .contrib-lesson-group__heading {
+    display:grid;
+    grid-template-columns:minmax(0, 1fr) auto;
+    align-items:baseline;
+    gap:.25rem .75rem;
+    padding:0;
+  }
+  body.page-contribution #lessons .contrib-lesson-group__category {grid-column:2;grid-row:1;}
+  body.page-contribution #lessons .contrib-lesson-group__heading h3 {grid-column:1;grid-row:1;margin:0;}
+  body.page-contribution #lessons .contrib-lesson-group__heading p {grid-column:1 / -1;}
+  body.page-contribution #lessons .contrib-lesson__body {padding-left:0;}
+}
+
+@media (prefers-reduced-motion:reduce) {
+  body.page-contribution :is(.contrib-package__summary,.contrib-package__toggle span,.contrib-lesson__toggle) {transition:none!important;}
+}

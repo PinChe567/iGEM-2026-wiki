@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Hardware · Dry Lab · AeroSense · NTHU iGEM 2026</title>
   <meta name="description" content="AeroSense Hardware presents the four-well optical reader architecture, CAD assembly, PCB, Monte Carlo optics, gas-flow simulations, signal-processing analysis and reproduction files.">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/styles.css?v=20261003-context">
   <link rel="stylesheet" href="css/hardware.css">
   <link rel="stylesheet" href="css/hardware-r22.css?v=2">
-  <script src="js/main.js" defer></script>
-  <script src="js/glossary.js?v=7" defer></script>
-  <script src="js/microinteractions.js" defer></script>
+  <script src="js/main.js?v=20261003-references" defer></script>
+  <script src="js/glossary.js?v=20261003-readflow" defer></script>
+  <script src="js/microinteractions.js?v=20261001b" defer></script>
   <script src="js/search.js" defer></script>
   <link rel="stylesheet" href="css/revision.css?v=10">
   <link rel="stylesheet" href="css/experience.css?v=3">
-  <script src="js/experience.js?v=7.1" defer></script>
+  <script src="js/experience.js?v=20261003-readflow" defer></script>
   <link rel="icon" type="image/x-icon" href="logo/favicon.ico">
   <link rel="icon" type="image/png" sizes="96x96" href="logo/favicon-96.png">
   <link rel="apple-touch-icon" sizes="180x180" href="logo/favicon-180.png">
@@ -29,11 +29,22 @@
   <link rel="stylesheet" href="css/art-direction.css?v=6.2">
   <link rel="stylesheet" href="css/signal-system.css?v=6">
   <link rel="stylesheet" href="css/diary-overhaul.css?v=7">
-  <link rel="stylesheet" href="css/targeted-polish.css?v=6">
-  <script src="js/signal-guide.js?v=7.1" defer></script>
-<link rel="stylesheet" href="css/revision-v7.css?v=7.6">
+  <link rel="stylesheet" href="css/targeted-polish.css?v=8">
+  <script src="js/fly-section-questions.js?v=20261004-brain-corner" defer></script>
+<script src="js/signal-guide.js?v=20261003-context" defer></script>
+<link rel="stylesheet" href="css/revision-v7.css?v=7.8">
+  <link rel="stylesheet" href="css/editorial-2026.css?v=20261004-reading">
+  <link rel="stylesheet" href="css/hardware-pcb.css?v=20261003-context">
+  <script src="js/editorial-2026.js?v=20261003-readflow" defer></script>
+  <link rel="stylesheet" href="css/hardware-showcase.css?v=20261003studio3">
+  <link rel="stylesheet" href="css/vivid-theme.css?v=20261002h">
+<link rel="stylesheet" href="css/reading-polish.css?v=20261004-reading">
+<link rel="stylesheet" href="css/navigation-type.css?v=20261003-portal">
+<link rel="stylesheet" href="css/definition-message.css?v=20261003-portal">
+<script src="js/navigation-type.js?v=20261003-portal" defer></script>
+  <link rel="stylesheet" href="css/reference-groups.css?v=20261003-categories">
 </head>
-<body class="page-hardware">
+<body class="page-hardware editorial-2026">
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="reading-progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
 
@@ -175,8 +186,6 @@
           <span class="page-kicker">Dry Lab · Hardware</span>
           <h1>Hardware</h1>
           <p class="page-purpose">Building a reader around light, airflow and living samples</p>
-          <span class="status-label">Four-well optics · gas-flow analysis · PCB and firmware</span>
-
           <aside class="page-glance" aria-labelledby="hw-page-glance-title">
             <h2 class="page-glance__title" id="hw-page-glance-title">What this page establishes</h2>
             <dl class="page-glance__grid page-glance__grid--4">
@@ -201,12 +210,30 @@
     <span id="why-hardware" class="anchor-alias"></span><span class="section-eyebrow">01 / System</span><h2>Follow the signal from sample to number</h2>
     <p>Four transparent wells register to four blue LEDs in the board geometry; they share an upper gas space and a single photodiode. Proposed OR/Orco–GCaMP cells would turn a receptor-associated calcium change into green fluorescence. An optical filter, transimpedance amplifier (TIA), 16-bit ADC and ESP32 would carry that signal toward a four-frequency decoder. Frequency channels identify LED excitations; they are <em>not</em> automatically independent biological wells. A measured mixing matrix is required before claiming well separation.</p>
     <div class="hw-r22__chain" aria-label="Proposed signal chain"><span>Filtered headspace</span><b>→</b><span>Four wells</span><b>→</b><span>470 nm excitation / 520 nm emission</span><b>→</b><span>One photodiode</span><b>→</b><span>TIA + ADC + ESP32</span></div>
-    <figure class="hw-r22__figure hw-r22__figure--wide hw-exploded" data-stl-viewer><div class="hw-exploded__stage"><canvas aria-label="Rotatable three-dimensional exploded view of eight operating print meshes. Select a part below to highlight it." tabindex="0"></canvas><img class="hw-exploded__fallback" src="hardware%20information/AeroSense/results/images/assembly_exploded.png" alt="CAD exploded view of the enclosure" loading="lazy"><div class="hw-exploded__hint">Drag to rotate · wheel to zoom · select a part</div></div><div class="hw-exploded__controls" role="group" aria-label="Inspect an assembly part"></div><div class="hw-exploded__detail" aria-live="polite"></div><figcaption>Interactive assembly from the supplied STL meshes. Components are centred and spaced apart for inspection; the relative exploded spacing is illustrative. <a href="hardware%20information/AeroSense/docs/EN/Assembly_Manual_EN.pdf">Use the assembly manual for actual placement</a>.</figcaption></figure>
+    <figure class="hw-r22__figure hw-r22__figure--wide hw-exploded hw-showcase hw-studio" id="reader-assembly" data-stl-viewer>
+      <div class="hw-exploded__stage">
+        <div class="hw-showcase__watermark" aria-hidden="true">AEROSENSE</div>
+        <div class="hw-showcase__masthead"><p>The optical reader<strong>Look inside AeroSense.</strong></p><span class="hw-showcase__state" data-assembly-state>Assembled</span></div>
+        <canvas aria-label="Interactive AeroSense assembly. Drag to rotate. Arrow keys rotate, plus and minus zoom, Home resets the view. Select components with the buttons below." tabindex="0"></canvas>
+        <img class="hw-exploded__fallback" src="hardware%20information/AeroSense/results/images/assembly_exploded.png" alt="CAD exploded view of the enclosure, lid, gas-optical cap, four-well cartridge and service tray" loading="lazy">
+        <div class="hw-showcase__loading" data-assembly-loading>Preparing the 3D assembly…</div>
+        <div class="hw-exploded__hint">Drag to orbit · select a component</div>
+        <div class="hw-showcase__view-tools" role="group" aria-label="Model zoom"><button type="button" data-assembly-zoom="-.1" aria-label="Zoom into the assembly">+</button><button type="button" data-assembly-zoom=".1" aria-label="Zoom out of the assembly">−</button></div>
+      </div>
+      <div class="hw-showcase__slider-panel" data-assembly-controls>
+        <div class="hw-showcase__slider-title"><label for="assembly-explosion">Open the assembly</label><output for="assembly-explosion" data-assembly-output>0%</output></div>
+        <input id="assembly-explosion" data-assembly-slider type="range" min="0" max="100" step="1" value="0" aria-valuetext="Assembled" disabled>
+        <div class="hw-showcase__endpoints"><button type="button" data-assembly-preset="0" disabled>Assembled</button><button type="button" data-assembly-preset="100" disabled>Exploded ↗</button></div>
+        <div class="hw-showcase__preferences"><label><input type="checkbox" data-assembly-turn checked disabled> Rotate while opening</label><button type="button" data-assembly-reset disabled>Reset view ↺</button></div>
+      </div>
+      <div class="hw-showcase__inspection"><div class="hw-exploded__controls" role="group" aria-label="Inspect an assembly component"></div><div class="hw-exploded__detail" aria-live="polite"></div></div>
+      <figcaption>Interactive CAD assembly from eight supplied meshes. At 0%, components use the original assembly coordinates; exploded spacing and studio lighting are illustrative. The four wells move as one group. <a href="hardware%20information/AeroSense/docs/EN/Assembly_Manual_EN.pdf">Read the assembly manual</a>.</figcaption>
+    </figure>
   </section>
 
   <section class="section-block" id="optical-question" data-reveal>
     <span id="optical-design" class="anchor-alias"></span><span class="section-eyebrow">02 / Optics</span><h2>Where does the detector actually collect light?</h2>
-    <p>We adapted the spatial measurement logic of <a href="#ref-burton-2020">Burton et al.</a>, not their device geometry or performance. Our model separates excitation fluence Φ, collection fraction η(r), and their spatial correspondence J = Φ<sub>em</sub>(r)η(r). η is received power divided by power emitted from an isotropic point source. The volume integral of J alone is not detector power: emission density and the emitting cell layer must also be included.</p>
+    <p>We adapted the spatial measurement logic of Burton et al. <span class="cite-wrap"><a class="cite" href="#ref-burton-2020" id="cite-burton-2020-a" aria-describedby="cite-preview-burton-2020">[1]</a><span class="cite-preview" id="cite-preview-burton-2020" role="tooltip">Burton et al., 2020 — optical photometry system and spatial measurement definitions.</span></span>, not their device geometry or performance. Our model separates excitation fluence Φ, collection fraction η(r), and their spatial correspondence J = Φ<sub>em</sub>(r)η(r). η is received power divided by power emitted from an isotropic point source. The volume integral of J alone is not detector power: emission density and the emitting cell layer must also be included.</p>
     <figure class="hw-r22__figure hw-r22__figure--wide"><img src="hardware%20information/AeroSense/results/images/paper_I_J_correspondence.png" alt="Calculated detector acceptance and fluorescence-fluence correspondence maps" loading="lazy"><figcaption>Computed acceptance/fluence maps. The 247 sampled liquid positions used 32,768 photon packets each (8,093,696 packets). Maximum η was 1.398%; median relative Monte Carlo SE was 11.3%. Gray regions lie outside the liquid-source domain.</figcaption></figure>
     <p>For one stated scenario, the simulated received green power was <strong>0.657 ± 0.058 nW</strong> (mean ± Monte Carlo SE). The model assumes 470/520 nm wavelengths, a 500 µW LED, 20 µm emitting cell layer, quantum yield 1, specified resin/liquid optical coefficients and a proxy absorbing filter. It omits measured resin autofluorescence, GCaMP expression and calcium state, real LED angular output, filter-angle behavior and electronic noise. This number cannot be presented as measured power, SNR or detection limit.</p>
     <figure class="hw-r22__figure hw-r22__figure--wide"><img src="hardware%20information/AeroSense/results/images/optical_registration.png" alt="CAD registration of four wells to four LEDs and offset photodiode" loading="lazy"><figcaption>Well centers follow LED coordinates. The photodiode drawing gives a 0.4 mm long-axis offset; its signed direction still needs bottom-view mirroring and board-rotation verification.</figcaption></figure>
@@ -247,10 +274,20 @@
   <section class="section-block" id="electronics-bridge" data-reveal>
     <span id="pcb-explorer" class="anchor-alias"></span><span id="tia" class="anchor-alias"></span><span id="high-impedance-pcb" class="anchor-alias"></span><span id="digitization" class="anchor-alias"></span><span id="multiplexing" class="anchor-alias"></span>
     <span class="section-eyebrow">06 / PCB and firmware</span><h2>Four frequency-tagged excitations, one high-impedance receiver</h2>
-    <p>The supplied board schematic and top/bottom layouts specify four LED gates and a photodiode/TIA feeding an ADS8866 16-bit ADC and ESP32. Firmware assigns LED gates to GPIO 25/26/27/32 and ADC CONVST/SCLK/DOUT to 33/18/19. Its proposed 4 kHz sample timebase yields 8,000 samples in a two-second I/Q block. Candidate excitation frequencies are 41/67/89/113 Hz. All assignments and waveform timing must be checked on hardware before operation.</p>
-    <figure class="hw-r22__figure hw-pcb-map" data-pcb-map><div class="hw-pcb-map__toolbar"><strong data-board-side>Front · power and control</strong><button type="button" data-board-flip>Turn board over ↻</button></div><div class="hw-pcb-map__image"><img src="fig/hardware/v2-pcb-top.png" alt="Supplied PCB front rendering" loading="lazy"></div><figcaption>PCB layout, front and back. Markers use the labels visible in each supplied CAD image; component notes distinguish these from BOM designators. <a data-board-source href="hardware%20information/pcb%20v2/NTHU-TEST_BOARD_V1-TOP-0911.pdf">Source layout PDF</a>.</figcaption></figure>
+    <p>The reader's power path uses a TPS61023 boost converter <a class="cite" href="#ref-tps61023" id="cite-tps61023-a">[2]</a> and BQ24074 battery charger <a class="cite" href="#ref-bq24074" id="cite-bq24074-a">[3]</a>. The ESP32-WROOM-32E coordinates excitation and data acquisition <a class="cite" href="#ref-esp32" id="cite-esp32-a">[4]</a>. The map below locates each selected component on the supplied board layout; the inspector connects its function to the corresponding schematic block.</p>
+    <p>The analog chain uses an LP5907 low-noise LDO <a class="cite" href="#ref-lp5907" id="cite-lp5907-a">[5]</a> and LTC6655 2.5 V reference <a class="cite" href="#ref-ltc6655" id="cite-ltc6655-a">[6]</a>. An LMP7721 transimpedance amplifier converts photodiode current to voltage <a class="cite" href="#ref-lmp7721" id="cite-lmp7721-a">[7]</a>, before an ADS8866 16-bit SAR ADC digitizes the signal <a class="cite" href="#ref-ads8866" id="cite-ads8866-a">[8]</a>. Four Würth 155124BS73200 blue LEDs supply excitation <a class="cite" href="#ref-excitation-led" id="cite-excitation-led-a">[9]</a>; the VEMD5060X01 silicon PIN photodiode receives collected light <a class="cite" href="#ref-vemd5060" id="cite-vemd5060-a">[10]</a>.</p>
+    <p>Firmware assigns LED gates to GPIO 25/26/27/32 and ADC CONVST/SCLK/DOUT to 33/18/19. Its proposed 4 kHz sample timebase yields 8,000 samples in a two-second I/Q block. Candidate excitation frequencies are 41/67/89/113 Hz. All assignments and waveform timing must be checked on hardware before operation.</p>
+    <figure class="hw-r22__figure hw-pcb-map" data-pcb-map>
+      <div class="hw-pcb-map__toolbar"><strong data-board-side>Front · component layout</strong><div class="hw-pcb-map__actions"><button type="button" data-board-flip>Turn board over ↻</button><button type="button" data-board-etch aria-pressed="false">Show copper traces</button></div></div>
+      <div class="hw-pcb-map__viewport"><div class="hw-pcb-map__image"><img src="hardware%20information/pcb%20v2/PCB_TOP.png" alt="Reader PCB front component layout from the supplied board source" loading="lazy"></div></div>
+      <figcaption>Reader PCB, component layout and copper routing. Switch sides to follow power, excitation and signal acquisition. <a data-board-source href="hardware%20information/pcb%20v2/PCB_TOP.png" target="_blank" rel="noopener">Open full-resolution source ↗</a>.</figcaption>
+    </figure>
     <div class="hw-component-explorer" data-component-explorer><label for="hw-component-select">Inspect the main sensing, conversion and control components</label><select id="hw-component-select"></select><div class="hw-component-explorer__detail" aria-live="polite"></div></div>
-    <figure class="hw-r22__figure hw-r22__figure--wide"><img src="fig/hardware/schematics/v2-schematic-p1.png" alt="First sheet of the supplied reader schematic" loading="lazy"><figcaption>Reader schematic preview. <a href="hardware%20information/pcb%20v2/NTHU_TEST_BOARD_Schematic.pdf">Complete schematic PDF</a> · <a href="hardware%20information/pcb%20v2/NTHU_TEST_BOARD_BOM.docx">Original board BOM</a>.</figcaption></figure>
+    <figure class="hw-r22__figure hw-r22__figure--wide hw-schematic" data-schematic>
+      <div class="hw-schematic__nav" role="group" aria-label="Schematic sheet"><button type="button" data-schematic-page="1" aria-pressed="true">01 · Power &amp; charging</button><button type="button" data-schematic-page="2" aria-pressed="false">02 · Sensing &amp; control</button></div>
+      <a class="hw-schematic__preview" href="hardware%20information/pcb%20v2/NTHU_TEST_BOARD_Schematic.pdf#page=1" target="_blank" rel="noopener" aria-label="Open selected schematic sheet in the source PDF"><img src="fig/hardware/schematics/reader-schematic-1.png" alt="Reader schematic sheet 1: battery, charging, USB and boost supply" loading="lazy"></a>
+      <figcaption>Reader schematic. Select a sheet; open the drawing to inspect component values in the original PDF. <a href="hardware%20information/pcb%20v2/NTHU_TEST_BOARD_Schematic.pdf">Complete schematic PDF</a> · <a href="hardware%20information/pcb%20v2/NTHU_TEST_BOARD_BOM.docx">Board BOM</a>.</figcaption>
+    </figure>
     <p>In 48 <em>synthetic</em> lock-in test cases varying 0.5/1/2/4 s windows, 0.1/1/10 mV noise and 0/1/10/50 µs timing perturbation, the maximum offline joint least-squares relative amplitude error was 5.82%. Simulated 25%-duty DDS cross-frequency leakage reached 0.71%. Neither is a board-accuracy figure. A simplified 100 MΩ × 2.2 pF feedback pole is about 723 Hz, but amplifier stability, ADC drive, leakage and Wi-Fi interference require measurement.</p>
     <figure class="hw-r22__figure hw-r22__figure--wide"><img src="hardware%20information/AeroSense/results/images/DLIA_sweep.png" alt="Synthetic digital lock-in parameter sweep" loading="lazy"><figcaption>Synthetic electronics validation only. <a href="hardware%20information/AeroSense/results/DLIA_sweep.csv" download>Download case table</a>.</figcaption></figure>
   </section>
@@ -278,8 +315,33 @@
 
       <section class="references" aria-labelledby="references-heading" id="references" data-reveal>
         <h2 id="references-heading">References and source package</h2>
-        <ol class="ref-list"><li id="ref-burton-2020">Burton, A. et al. (2020). <i>Wireless, battery-free subdermally implantable photometry systems for chronic recording of neural dynamics.</i> PNAS, 117, 2835–2845. <a href="https://www.pnas.org/doi/10.1073/pnas.1920073117" rel="noopener noreferrer">DOI: 10.1073/pnas.1920073117</a>. Inspiration for optical measurement definitions; not validation of AeroSense.</li></ol>
-        <p>Primary AeroSense source: <a href="hardware%20information/AeroSense/README_EN.md">engineering package</a> and <a href="hardware%20information/AeroSense/docs/EN/Simulation_Analysis_EN.pdf">simulation report</a>. Board source drawings and BOM are linked in the electronics section.</p>
+        <div class="reference-group" aria-labelledby="references-research-heading">
+          <h3 class="reference-group__heading" id="references-research-heading">Research papers</h3>
+          <ol class="ref-list" start="1">
+            <li value="1" id="ref-burton-2020"><span class="ref-authors">Burton, A. et al.</span> <span class="ref-year">(2020).</span> <span class="ref-title">Wireless, battery-free subdermally implantable photometry systems for chronic recording of neural dynamics.</span> <span class="ref-venue"><i>PNAS</i>, 117(6), 2835–2845.</span> <span class="ref-doi">DOI: <a href="https://www.pnas.org/doi/10.1073/pnas.1920073117" rel="noopener noreferrer">10.1073/pnas.1920073117</a>.</span> <a class="ref-backlink" href="#cite-burton-2020-a">Back to citation</a></li>
+          </ol>
+        </div>
+        <div class="reference-group" aria-labelledby="references-datasheets-heading">
+          <h3 class="reference-group__heading" id="references-datasheets-heading">Datasheets</h3>
+          <ol class="ref-list" start="2">
+            <li value="2" id="ref-tps61023"><span class="ref-authors">Texas Instruments.</span> <span class="ref-title">TPS61023 3.7-A Boost Converter With 0.5-V Ultra-Low Input Voltage.</span> <span class="ref-venue">Manufacturer datasheet, revision B.</span> <span class="ref-url"><a href="https://www.ti.com/lit/ds/symlink/tps61023.pdf" rel="noopener noreferrer">Original TPS61023 datasheet</a>.</span> <a class="ref-backlink" href="#cite-tps61023-a">Back to citation</a></li>
+            <li value="3" id="ref-bq24074"><span class="ref-authors">Texas Instruments.</span> <span class="ref-title">BQ2407x Standalone 1-Cell 1.5-A Linear Battery Chargers with Power Path.</span> <span class="ref-venue">Manufacturer datasheet, revision N.</span> <span class="ref-url"><a href="https://www.ti.com/lit/gpn/bq24074" rel="noopener noreferrer">Original BQ24074 datasheet</a>.</span> <a class="ref-backlink" href="#cite-bq24074-a">Back to citation</a></li>
+            <li value="4" id="ref-esp32"><span class="ref-authors">Espressif Systems.</span> <span class="ref-title">ESP32-WROOM-32E &amp; ESP32-WROOM-32UE Datasheet.</span> <span class="ref-venue">Manufacturer datasheet, version 2.1.</span> <span class="ref-url"><a href="https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf" rel="noopener noreferrer">Original ESP32 module datasheet</a>.</span> <a class="ref-backlink" href="#cite-esp32-a">Back to citation</a></li>
+            <li value="5" id="ref-lp5907"><span class="ref-authors">Texas Instruments.</span> <span class="ref-title">LP5907 250-mA, Low-Noise, Low-IQ LDO.</span> <span class="ref-venue">Manufacturer datasheet, revision Q.</span> <span class="ref-url"><a href="https://www.ti.com/lit/ds/symlink/lp5907.pdf" rel="noopener noreferrer">Original LP5907 datasheet</a>.</span> <a class="ref-backlink" href="#cite-lp5907-a">Back to citation</a></li>
+            <li value="6" id="ref-ltc6655"><span class="ref-authors">Analog Devices.</span> <span class="ref-title">LTC6655/LTC6655LN 0.25ppm Noise, Low Drift Precision References.</span> <span class="ref-venue">Manufacturer datasheet, revision J.</span> <span class="ref-url"><a href="https://www.analog.com/media/en/technical-documentation/data-sheets/ltc6655-6655ln.pdf" rel="noopener noreferrer">Original LTC6655 datasheet</a>.</span> <a class="ref-backlink" href="#cite-ltc6655-a">Back to citation</a></li>
+            <li value="7" id="ref-lmp7721"><span class="ref-authors">Texas Instruments.</span> <span class="ref-title">LMP7721 3-Femtoampere Input Bias Current Precision Amplifier.</span> <span class="ref-venue">Manufacturer datasheet, revision E.</span> <span class="ref-url"><a href="https://www.ti.com/lit/ds/symlink/lmp7721.pdf" rel="noopener noreferrer">Original LMP7721 datasheet</a>.</span> <a class="ref-backlink" href="#cite-lmp7721-a">Back to citation</a></li>
+            <li value="8" id="ref-ads8866"><span class="ref-authors">Texas Instruments.</span> <span class="ref-title">ADS8866 16-Bit, 100-kSPS, Serial Interface, microPower, Miniature, SAR ADC.</span> <span class="ref-venue">Manufacturer datasheet, revision C.</span> <span class="ref-url"><a href="https://www.ti.com/lit/ds/symlink/ads8866.pdf" rel="noopener noreferrer">Original ADS8866 datasheet</a>.</span> <a class="ref-backlink" href="#cite-ads8866-a">Back to citation</a></li>
+            <li value="9" id="ref-excitation-led"><span class="ref-authors">Würth Elektronik.</span> <span class="ref-title">WL-SMSW SMT Mono-color Sideview Waterclear: 155124BS73200.</span> <span class="ref-venue">Manufacturer datasheet, revision 001.011.</span> <span class="ref-url"><a href="https://www.we-online.com/components/products/datasheet/155124BS73200.pdf" rel="noopener noreferrer">Original excitation LED datasheet</a>.</span> <a class="ref-backlink" href="#cite-excitation-led-a">Back to citation</a></li>
+            <li value="10" id="ref-vemd5060"><span class="ref-authors">Vishay Semiconductors.</span> <span class="ref-title">VEMD5060X01 Silicon PIN Photodiode.</span> <span class="ref-venue">Manufacturer datasheet, revision 1.2.</span> <span class="ref-url"><a href="https://www.vishay.com/doc?84278=" rel="noopener noreferrer">Original VEMD5060X01 datasheet</a>.</span> <a class="ref-backlink" href="#cite-vemd5060-a">Back to citation</a></li>
+          </ol>
+        </div>
+        <div class="reference-group" aria-labelledby="references-other-heading">
+          <h3 class="reference-group__heading" id="references-other-heading">Other sources</h3>
+          <ul class="tech-source-list">
+            <li>AeroSense · <a href="hardware%20information/AeroSense/README_EN.md">engineering package</a>.</li>
+            <li>AeroSense · <a href="hardware%20information/AeroSense/docs/EN/Simulation_Analysis_EN.pdf">simulation report</a>.</li>
+          </ul>
+        </div>
       </section>
     </div>
 
@@ -376,8 +438,8 @@
 </footer>
 <script src="js/figure-numbering.js?v=7.6" defer></script>
 <script src="js/hardware-bom-data.js?v=1" defer></script>
-<script src="js/hardware-components-v7.js?v=7.6" defer></script>
-<script type="module" src="js/hardware-assembly.js?v=7.1"></script>
+<script src="js/hardware-components-v7.js?v=20261003-context" defer></script>
+<script type="module" src="js/hardware-assembly.js?v=20261003studio3"></script>
 </body>
 </html>
 

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://suite.local/schemas/online-event-envelope.json",
+  "title": "OnlineGameEventEnvelope",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["protocolVersion", "gameVersion", "contentVersion", "gameKey", "type"],
+  "properties": {
+    "protocolVersion": { "type": "string", "minLength": 1 },
+    "gameVersion": { "type": "string", "minLength": 1 },
+    "contentVersion": { "type": "string", "minLength": 1 },
+    "gameKey": { "type": "string", "enum": ["pixel", "labyrinth", "spectrum"] },
+    "challengeId": { "type": "string", "format": "uuid" },
+    "matchId": { "type": "string", "format": "uuid" },
+    "type": { "type": "string", "minLength": 1 }
+  },
+  "anyOf": [
+    { "required": ["challengeId"] },
+    { "required": ["matchId"] },
+    { "not": { "required": ["challengeId", "matchId"] } }
+  ],
+  "description": "All game-related WebSocket events must carry version fields. Incompatible versions are rejected (no silent rule fallback)."
+}

@@ -1,0 +1,53 @@
+/* Source families share one References section. Explicit values preserve the
+   original in-text citation numbers when a source moves between families. */
+body .references .reference-group {
+  margin-top:1.65rem;
+  min-width:0;
+}
+body .references .reference-group:first-of-type {margin-top:1.25rem}
+body .references .reference-group__heading {
+  margin:0 0 .55rem;
+  padding:0 0 .55rem;
+  border-bottom:2px solid var(--v-line, #d5dfdc);
+  color:var(--v-accent, #176456);
+  font-family:var(--font-body, sans-serif)!important;
+  font-size:1rem!important;
+  font-weight:700!important;
+  line-height:1.4;
+  letter-spacing:.015em;
+  text-transform:none;
+}
+body .references .reference-group > :is(.ref-list, .tech-source-list) {
+  max-width:none;
+  margin:0;
+  list-style:none;
+  padding:0;
+}
+body .references .reference-group > .ref-list > li {
+  margin:0;
+  padding:.9rem 0 .9rem 3.5rem;
+  border-top:0;
+  border-bottom:1px solid var(--v-line, #d5dfdc);
+  line-height:1.7;
+  text-align:start;
+  word-break:normal;
+}
+body .references .ref-list > li[value]::before {
+  content:"[" attr(value) "]";
+  top:.9rem;
+  line-height:inherit;
+}
+body .references .reference-group > .tech-source-list > li {
+  padding:.9rem 0;
+  border-top:0;
+  border-bottom:1px solid var(--v-line, #d5dfdc);
+  line-height:1.7;
+  text-align:start;
+}
+body .references .reference-group > :is(.ref-list, .tech-source-list) > li:last-child {border-bottom:0}
+body .references .reference-group a {overflow-wrap:anywhere}
+body .references .reference-groups {scroll-margin-top:calc(var(--header-offset,80px) + 1rem)}
+@media(max-width:600px) {
+  body .references .reference-group > .ref-list > li {padding-left:2.75rem}
+  body .references .ref-list > li[value]::before {width:2.25rem;font-size:.8rem}
+}

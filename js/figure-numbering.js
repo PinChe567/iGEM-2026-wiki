@@ -5,7 +5,7 @@
   let figureNumber = 0;
   main.querySelectorAll('figure').forEach(figure => {
     const caption = figure.querySelector(':scope > figcaption');
-    if (!caption || figure.closest('.footer-partners__logos,.home-partners__logos') || figure.classList.contains('footer-partners__slot')) return;
+    if (!caption || figure.closest('.footer-partners__logos,.home-partners__logos,.home-supporters__gallery') || figure.classList.contains('footer-partners__slot')) return;
     figureNumber++;
     const existing = caption.querySelector(':scope > .wiki-figure__num');
     if (existing) {
