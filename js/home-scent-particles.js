@@ -35,7 +35,7 @@
    if(d[i]>110&&(d[i-8]<110||d[i+8]<110||d[i-1440]<110||d[i+1440]<110))points.push([xx*1.12,y*.82]);
   }
   shapes.fly={label:'THE FRUIT FLY',points};wake();
- };fly.src='assets/brand/logo-fly-cutout.png';
+ };fly.src='assets/brand/logo-fly-cutout.webp';
  function quiet(){return reduced.matches;}
  function refreshViewport(rect=host.getBoundingClientRect()){
   const wasVisible=visible;

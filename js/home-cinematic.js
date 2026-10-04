@@ -237,10 +237,7 @@
     var scrollSpan = Math.max(1, vh * (st.w < pacedStage ? 7.2 : 6.4) - pacedStage) / (0.8 * 0.7);
     root.style.setProperty('--asc-track', Math.round(pacedStage + scrollSpan) + 'px');
     var layout = st.w / st.h < 0.9 ? 'portrait' : 'landscape';
-    if (layout !== st.layout) {
-      st.layout = layout;
-      loadVideos();
-    }
+    st.layout = layout;
     cacheGeometry(top);
     invalidate();
   }
@@ -262,15 +259,14 @@
     };
   }
 
-  /* ---------- media loading (lazy, normal first, then sensor) */
+  /* ---------- media loading (visible film, normal first, then sensor) */
+  var mediaLayout = '';
+  var mediaFetches = new Map();
   function srcFor(mode) {
     var base = root.getAttribute('data-asc-igem-base') || root.getAttribute('data-asc-base') || 'homepage_animation/media/';
-    var res;
-    if (st.layout === 'portrait') res = 'portrait-720';
-    // A dense display does not need two 1080p decoders for a small viewport.
-    // Reserve the larger pair for genuinely wide displays with adequate cores.
-    else res = EXT === 'mp4' && st.w > 1440 && (navigator.hardwareConcurrency || 4) >= 6 &&
-      !(navigator.connection && navigator.connection.saveData) ? 'landscape-1080' : 'landscape-720';
+    // Screen width and CPU count do not tell us download speed. The 720p pair
+    // saves almost half the transfer on desktop while retaining the same film.
+    var res = st.layout + '-720';
     return base + 'aerosense-desc-' + res + '-' + mode + '.' + EXT;
   }
   // H.264 MP4 everywhere it is supported (Safari, Chrome, Edge, Firefox);
@@ -290,8 +286,9 @@
 
   // Scrubbing needs a seekable resource. GitHub Pages / iGEM hosting serve HTTP
   // byte ranges; Python's preview server (preview.ps1) does not. On localhost,
-  // or when the browser reports the media as non-seekable, load the file as a
-  // Blob (always fully seekable) — the same workaround js/ink-film.js uses.
+  // or after an actual seek fails, load the file as a Blob (always seekable).
+  // Do not require the whole duration to be seekable at loadeddata: a browser
+  // can report only its first buffered range while streaming a valid MP4.
   var LOCAL = ['localhost', '127.0.0.1', '::1', '[::1]', ''].indexOf(location.hostname) >= 0;
   function setSource(v, url) {
     v.dataset.srcUrl = url;
@@ -304,14 +301,24 @@
     if (v.dataset.blob) return;
     v.dataset.blob = '1';
     var url = v.dataset.srcUrl;
-    fetch(url).then(function (r) {
+    // Stop the old streaming request before starting the full-file fallback.
+    v.pause();
+    v.removeAttribute('src');
+    v.load();
+    var controller = window.AbortController ? new AbortController() : null;
+    if (controller) mediaFetches.set(v, controller);
+    fetch(url, controller ? { signal: controller.signal } : {}).then(function (r) {
       if (!r.ok) throw new Error(r.status);
       return r.blob();
     }).then(function (b) {
-      if (v.dataset.srcUrl !== url) return; // superseded (layout changed)
+      if (v.dataset.srcUrl !== url || (controller && controller.signal.aborted)) return;
       v.src = URL.createObjectURL(b);
       v.load();
-    }).catch(function () { if (v.dataset.srcUrl === url) mediaUnavailable(); });
+    }).catch(function (error) {
+      if (error.name !== 'AbortError' && v.dataset.srcUrl === url) mediaFailed(v);
+    }).finally(function () {
+      if (mediaFetches.get(v) === controller) mediaFetches.delete(v);
+    });
   }
   function seekableOK(v) {
     var s = v.seekable;
@@ -319,10 +326,16 @@
   }
 
   function loadVideos() {
+    mediaLayout = st.layout;
+    root.classList.remove('is-drawn');
     st.ready.normal = st.ready.sensor = false;
+    st.sensorSynced = false;
     st.frameShown = -1;
     st.seek = null;
+    useBtn.disabled = true;
     [vN, vS].forEach(function (v) {
+      var pendingFetch = mediaFetches.get(v);
+      if (pendingFetch) { pendingFetch.abort(); mediaFetches.delete(v); }
       v.pause();
       if (v.src && v.src.indexOf('blob:') === 0) URL.revokeObjectURL(v.src);
       v.removeAttribute('src');
@@ -331,19 +344,35 @@
     });
     vN.preload = 'auto';
     setSource(vN, srcFor('normal'));
-    // Sensor waits until the normal layer can draw, so the default view is usable first.
-    var startSensor = function () {
-      if (vS.dataset.srcUrl) return;
-      vS.preload = 'auto';
-      setSource(vS, srcFor('sensor'));
-    };
-    vN.addEventListener('loadeddata', startSensor, { once: true });
-    window.setTimeout(startSensor, 2500);
+  }
+  function startSensor() {
+    // The opening frame gets the connection first. No fallback timer competes
+    // with a still-loading normal stream on a slow mobile connection.
+    if (reading || vS.dataset.srcUrl || !st.ready.normal) return;
+    vS.preload = 'auto';
+    setSource(vS, srcFor('sensor'));
+  }
+  function mediaFailed(v) {
+    if (v === vN) { mediaUnavailable(); return; }
+    // A missing sensor layer must not discard the healthy normal film.
+    st.ready.sensor = false;
+    st.sensorSynced = false;
+    st.seek = null;
+    st.r = 0;
+    useBtn.disabled = true;
+    setMode('off', 'media');
+  }
+  function recoverSeek(v) {
+    st.seek = null;
+    st.ready[v === vN ? 'normal' : 'sensor'] = false;
+    st.sensorSynced = false;
+    if (v.dataset.blob) mediaFailed(v);
+    else toBlob(v);
   }
 
   function onReady(which, v) {
     return function () {
-      if (!seekableOK(v) && !v.dataset.blob) { toBlob(v); return; }
+      if (!v.dataset.srcUrl || st.ready[which]) return;
       st.ready[which] = true;
       st.videoW = v.videoWidth || st.videoW;
       st.videoH = v.videoHeight || st.videoH;
@@ -361,7 +390,7 @@
   [vN, vS].forEach(function (v) {
     v.addEventListener('error', function () {
       // Media unavailable (e.g. not yet hosted): the poster + HTML story still work.
-      mediaUnavailable();
+      if (v.dataset.srcUrl) mediaFailed(v);
     });
   });
   useBtn.disabled = true;
@@ -498,9 +527,7 @@
     if (!s || s.list.indexOf(v) < 0 || s['done_' + (v === vN ? 'n' : 's')]) return;
     if (Math.abs(v.currentTime - frameTime(s.frame)) > 0.5 / TL.fps) {
       // the element refused the seek (non-seekable resource): reload as Blob
-      st.seek = null;
-      st.ready[v === vN ? 'normal' : 'sensor'] = false;
-      toBlob(v);
+      recoverSeek(v);
       return;
     }
     s['done_' + (v === vN ? 'n' : 's')] = true;
@@ -576,6 +603,7 @@
         ctx.restore();
       }
       if (!root.classList.contains('is-drawn')) root.classList.add('is-drawn');
+      startSensor();
     } catch (e) {
       // Canvas compositing failed (very old engines): fall back to CSS layers.
       st.fallback = true;
@@ -719,6 +747,8 @@
   function tick(now) {
     tickId = 0;
     if (!st.running) return;
+    // Direct reading links and offscreen films do not need either movie yet.
+    if (!directReadingPending && st.layout && mediaLayout !== st.layout) loadVideos();
     var dt = st.lastNow ? Math.min(0.05, (now - st.lastNow) / 1000) : 0.016;
     st.lastNow = now;
 
@@ -730,8 +760,13 @@
     if (Math.abs(st.tTarget - st.t) < 0.2 / TL.fps) st.t = st.tTarget;
     st.frameWanted = clamp(Math.round(st.t * TL.fps), 0, TL.frames - 1);
 
-    // stuck-seek guard (e.g. a tab resumed mid-seek)
-    if (st.seek && now - st.seek.started > 1500) st.seek = null;
+    // Give a slow byte-range request time to arrive instead of restarting it
+    // every 1.5s. Only fall back after a sustained stall; range-capable streams
+    // get 30s, and a source that cannot seek gets 15s before the Blob fallback.
+    if (st.seek && now - st.seek.started > 15000) {
+      var stalled = st.seek.list.find(function (v) { return !st.seek['done_' + (v === vN ? 'n' : 's')]; });
+      if (stalled && (!seekableOK(stalled) || now - st.seek.started > 30000)) recoverSeek(stalled);
+    }
     pumpSeek();
 
     // lens spring: low latency position, softer radius
@@ -958,7 +993,7 @@
   /* ---------- data files (non-blocking) */
   var base = root.getAttribute('data-asc-base') || 'homepage_animation/media/';
   function getJSON(url) {
-    return fetch(url, { cache: 'force-cache' }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
+    return fetch(url).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
   }
   getJSON(base + 'timeline.json').then(function (j) {
     if (j && j.fps && j.frames && j.web) TL = j;

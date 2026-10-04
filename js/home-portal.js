@@ -33,7 +33,11 @@
     const ctx=canvas.getContext('2d');if(!ctx)return;
     let width=1,height=1,visible=false,frame=0,last=0,time=0;
     const isBrain=!!canvas.closest('dialog');
-    const nodes=[],edges=[];
+    const nodes=[],edges=[],offsets=[];
+    let geometryReady=false;
+    function initializeGeometry(){
+      if(geometryReady)return;
+      geometryReady=true;
     if(isBrain){
       // Original decorative geometry: paired optic lobes around a central brain.
       // Anatomical reference: https://www.janelia.org/open-science/complete-fly-brain-image
@@ -79,13 +83,19 @@
       for(let i=0;i<100;i++){const y=1-2*(i+.5)/100,r=Math.sqrt(1-y*y),a=i*Math.PI*(3-Math.sqrt(5));nodes.push([r*Math.cos(a),y,r*Math.sin(a),0]);}
       nodes.forEach((p,i)=>nodes.slice(i+1).forEach((q,k)=>{if(Math.hypot(...p.slice(0,3).map((v,j)=>v-q[j]))<.39)edges.push([i,i+1+k,0]);}));
     }
-    const offsets=nodes.map(()=>({x:0,y:0,vx:0,vy:0}));
+      nodes.forEach(()=>offsets.push({x:0,y:0,vx:0,vy:0}));
+    }
+    // The closed navigation does not need its detailed brain mesh yet.
+    // Build it once when its canvas first draws; the hero orb remains immediate.
+    if(!isBrain)initializeGeometry();
     const pointer={x:-9999,y:-9999};
     const surface=canvas.closest('dialog')||canvas.closest('section');
     // Pointer interaction lives on the surface, leaving every menu link clickable.
     surface?.addEventListener('pointermove',event=>{if(event.pointerType==='touch')return;const rect=canvas.getBoundingClientRect();pointer.x=event.clientX-rect.left;pointer.y=event.clientY-rect.top;},{passive:true});
     surface?.addEventListener('pointerleave',()=>{pointer.x=pointer.y=-9999;},{passive:true});
     function draw(){
+      if(isBrain&&!menu.open)return;
+      initializeGeometry();
       ctx.clearRect(0,0,width,height);
       const radius=isBrain?Math.min(width/3.6,height/2.1):Math.min(width,height)*.41;
       const cy=height*.51,cx=width*.5,a=isBrain?.22+time*.000055:time*.00008,c=Math.cos(a),s=Math.sin(a),tilt=isBrain?-.12:.32;
@@ -109,8 +119,8 @@
         ctx.beginPath();ctx.arc(x,y,size,0,Math.PI*2);ctx.fill();
       });ctx.globalAlpha=1;
     }
-    function tick(now){frame=0;if(!visible||document.hidden||canvas.closest('dialog')&&!menu.open)return;if(!last||now-last>40){time+=last?Math.min(80,now-last):0;last=now;draw();}if(!reduced.matches)frame=requestAnimationFrame(tick);}
-    function wake(){cancelAnimationFrame(frame);frame=0;last=0;if(visible&&!document.hidden){draw();if(!reduced.matches)frame=requestAnimationFrame(tick);}}
+    function tick(now){frame=0;if(!visible||document.hidden||isBrain&&!menu.open)return;if(!last||now-last>40){time+=last?Math.min(80,now-last):0;last=now;draw();}if(!reduced.matches)frame=requestAnimationFrame(tick);}
+    function wake(){cancelAnimationFrame(frame);frame=0;last=0;if(visible&&!document.hidden&&(!isBrain||menu.open)){draw();if(!reduced.matches)frame=requestAnimationFrame(tick);}}
     function size(){const rect=canvas.getBoundingClientRect();width=rect.width;height=rect.height;const dpr=Math.min(devicePixelRatio||1,1.5);canvas.width=Math.max(1,Math.round(width*dpr));canvas.height=Math.max(1,Math.round(height*dpr));ctx.setTransform(dpr,0,0,dpr,0,0);wake();}
     new ResizeObserver(size).observe(canvas);new IntersectionObserver(e=>{visible=e[0].isIntersecting;wake();}).observe(canvas);
     new MutationObserver(wake).observe(menu,{attributes:true,attributeFilter:['open']});
@@ -200,7 +210,7 @@
       const scoped=source.replaceAll('id="logo-fly-','id="menu-fly-').replaceAll('#logo-fly-','#menu-fly-');
       const svg=new DOMParser().parseFromString(scoped,'image/svg+xml').documentElement;
       if(svg.localName!=='svg')return;
-      svg.querySelector('image')?.setAttribute('href',new URL('assets/brand/logo-fly-cutout.png',document.baseURI).href);
+      svg.querySelector('image')?.setAttribute('href',new URL('assets/brand/logo-fly-cutout.webp',document.baseURI).href);
       puppet=document.importNode(svg,true);art.replaceChildren(puppet);lastProgress=-1;queue();
     }).catch(()=>{});
   }

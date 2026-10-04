@@ -1891,8 +1891,191 @@
 }
 
 /* Movement is temporarily locked during the two cinematic perspective shifts. */
-.flight:is([data-flight-mode="handoff"],[data-flight-mode="entry"],[data-flight-mode="complete"]) .flight__move-pad { opacity: .3; pointer-events: none; }
+.flight[data-controls-locked="true"] .flight__joystick { opacity: .3; pointer-events: none; }
 .flight:is([data-flight-mode="handoff"],[data-flight-mode="entry"]) .flight__hint { opacity: 0; }
 .flight[data-flight-mode="complete"] .flight__quest-map,
 .flight[data-flight-mode="complete"] .flight__quest-label { display: none; }
 .flight:is([data-flight-mode="handoff"],[data-flight-mode="entry"]) .flight__quest-label { color: #ecffd6; text-shadow: 0 2px 8px #071d17; }
+
+/* The touch pad owns only its own gesture area; HUD buttons stay independent. */
+.flight__joystick {
+ display: none;
+ position: absolute;
+ z-index: 6;
+ right: calc(1rem + env(safe-area-inset-right, 0px));
+ bottom: calc(3rem + env(safe-area-inset-bottom, 0px));
+ width: clamp(6.75rem, 24vw, 8rem);
+ aspect-ratio: 1;
+ border-radius: 50%;
+ pointer-events: auto;
+ touch-action: none;
+ user-select: none;
+ -webkit-user-select: none;
+ cursor: grab;
+}
+
+.flight__joystick-ring {
+ position: absolute;
+ inset: 0;
+ border: 1px solid rgba(179, 255, 202, .7);
+ border-radius: 50%;
+ background: radial-gradient(circle, rgba(133, 240, 174, .14) 0 32%, rgba(5, 28, 23, .65) 33% 100%);
+ box-shadow: 0 3px 20px rgba(0, 0, 0, .2), inset 0 0 0 7px rgba(128, 225, 161, .06);
+ pointer-events: none;
+}
+
+.flight__joystick::before,
+.flight__joystick::after,
+.flight__joystick-ring::before,
+.flight__joystick-ring::after {
+ position: absolute;
+ z-index: 1;
+ color: #d1f7df;
+ font: 500 .8rem/1 sans-serif;
+ pointer-events: none;
+}
+
+.flight__joystick::before { content: '↑'; top: .45rem; left: 50%; transform: translateX(-50%); }
+.flight__joystick::after { content: '↓'; bottom: .45rem; left: 50%; transform: translateX(-50%); }
+.flight__joystick-ring::before { content: '←'; left: .45rem; top: 50%; transform: translateY(-50%); }
+.flight__joystick-ring::after { content: '→'; right: .45rem; top: 50%; transform: translateY(-50%); }
+
+.flight__joystick-knob {
+ position: absolute;
+ left: 50%;
+ top: 50%;
+ z-index: 2;
+ width: 2.65rem;
+ height: 2.65rem;
+ border: 1px solid #c6ffda;
+ border-radius: 50%;
+ background: #4eaa78;
+ box-shadow: 0 2px 12px rgba(0, 0, 0, .28);
+ transform: translate(-50%, -50%);
+ pointer-events: none;
+}
+
+.flight__joystick.is-active { cursor: grabbing; }
+.flight__joystick.is-active .flight__joystick-knob { background: #a5f2bd; }
+.flight__joystick-label {
+ position: absolute;
+ left: 50%;
+ bottom: -1.15rem;
+ width: max-content;
+ transform: translateX(-50%);
+ color: #e1f5e6;
+ font: .58rem/1.2 var(--font-mono);
+ letter-spacing: .1em;
+ text-shadow: 0 1px 5px #052219;
+ pointer-events: none;
+}
+
+.flight .flight__quest-auto {
+ margin: .75rem 0 0;
+ color: #b5e6c6;
+ font: .72rem/1.5 var(--font-mono);
+}
+
+.flight .flight__quest-auto[hidden] { display: none; }
+.flight .flight__icon-btn[data-flight-auto] { min-width: 0; white-space: nowrap; letter-spacing: .04em; }
+.flight .flight__icon-btn[data-flight-auto][aria-pressed="true"] { background: #123f2b; color: #cbf9d8; border-color: #9febba; }
+.flight .flight__icon-btn:disabled { opacity: .5; cursor: default; }
+.flight:is([data-flight-mode="complete"], [data-flight-mode="static"]) .flight__joystick { display: none; }
+
+@media (max-width: 899px), (pointer: coarse) {
+ .flight__joystick { display: block; }
+ .flight .flight__joystick-label { display: none; }
+ .flight .flight__hint--touch { right: calc(10rem + env(safe-area-inset-right, 0px)); }
+ /* Override the later theme's 125px panel cap: controls and score each get
+    their own row, including browsers that expose the Fullscreen button. */
+ .flight .flight__hud-top {
+  left: calc(.55rem + env(safe-area-inset-left, 0px));
+  right: calc(.55rem + env(safe-area-inset-right, 0px));
+  width: auto;
+  min-width: 0;
+  max-width: none;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: .35rem;
+  padding: .3rem;
+ }
+ .flight .flight__hud-actions {
+  order: 0;
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  flex-wrap: nowrap;
+  gap: .25rem;
+ }
+ .flight .flight__hud-actions > .flight__icon-btn,
+ .flight .flight__hud-actions > .flight__exit {
+  flex: 1 1 auto;
+  min-width: 44px;
+  min-height: 44px !important;
+  padding: .45rem .4rem !important;
+  font-size: .65rem !important;
+  white-space: nowrap;
+ }
+ .flight .flight__hud-actions > [hidden] { display: none !important; }
+ .flight .flight__hud-meta {
+  order: 1;
+  width: 100%;
+  min-width: 0;
+  justify-content: space-between;
+ }
+ .flight .flight__score-block {
+  width: 100%;
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  align-items: center;
+  gap: .4rem;
+ }
+ /* Global prose gives every paragraph width: 100%; HUD values must size to
+    their content so the status cannot collapse to a one-character column. */
+ .flight .flight__score-block > .flight__score {
+  width: max-content;
+  min-width: 0;
+  max-width: 100%;
+  flex: none;
+  justify-self: start;
+  margin: 0;
+  white-space: nowrap;
+  overflow-wrap: normal;
+ }
+ .flight .flight__score::before {
+  display: inline-block;
+  margin: 0 .6em 0 0;
+  font-size: .55em;
+  vertical-align: middle;
+ }
+ .flight .flight__score-mode {
+  width: auto;
+  min-width: 0;
+  max-width: 100%;
+  flex: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: .15rem .6rem;
+  margin: 0;
+  font-size: .6rem;
+  letter-spacing: .04em;
+  overflow-wrap: normal;
+ }
+ .flight .flight__score-mode span { white-space: nowrap; }
+ .flight .flight__score-mode span[data-auto-state] { margin: 0; }
+ .flight .flight__hud-actions .flight__icon-btn[data-flight-pause] { display: inline-flex; align-items: center; }
+ .flight-dialog .flight__entity {
+  left: calc(.85rem + env(safe-area-inset-left, 0px));
+  top: calc(6.1rem + env(safe-area-inset-top, 0px));
+  max-width: calc(100% - 1.7rem - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
+ }
+ .flight .flight__card { top: calc(8.7rem + env(safe-area-inset-top, 0px)) !important; }
+ .flight .flight__progress,
+ .flight .flight__quest-map { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+ .flight__joystick { display: none; }
+}

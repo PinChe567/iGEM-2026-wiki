@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="css/styles.css?v=20261003-context">
   <link rel="stylesheet" href="css/description.css?v=20261004-reading">
   <link rel="stylesheet" href="css/evidence-2026.css?v=1">
-  <link rel="stylesheet" href="css/description-journey.css?v=20261003a">
+  <link rel="stylesheet" href="css/description-journey.css?v=20261004-autopilot">
   <script src="js/main.js?v=20261003-references" defer></script>
   <script src="js/glossary.js?v=20261003-readflow" defer></script>
   <script src="js/microinteractions.js?v=20261001b" defer></script>
@@ -46,7 +46,7 @@
           return;
         }
         if (!loading) {
-          loading = import("./js/description-journey-3d.js?v=20261003-portal");
+          loading = import("./js/description-journey-3d.js?v=20261004-autopilot");
         }
         loading.then(function () {
           if (typeof window.__aerosenseOpenFlight === "function") {
@@ -489,8 +489,8 @@
             <span class="section-eyebrow">Exploratory observation</span>
               <h2>Before building a reader, we watched fluorescence change</h2>
             <p>We first used light-sheet microscopy to locate a TH-associated fluorescent signal in the fly preparation and observe what happened during three odor presentations: isopentyl acetate, 3-octanol and 4-methylcyclohexanol. The supplied recording and exploratory plots show fluorescence changes across selected image regions around those presentations. This offered a visual starting point for asking how odor-dependent biological signals might be captured as data.</p>
-            <div class="desc-lightsheet__media"><figure><div class="desc-lightsheet__player" data-lightsheet-player data-index="wetlab%20results/description_lightsheet/Normalized_TH_frames.json" data-frames="wetlab%20results/description_lightsheet/Normalized_TH_frames.bin"><canvas width="640" height="640" role="img" aria-label="Team light-sheet recording of TH-associated fluorescence, with seek and play controls below"></canvas><img src="wetlab%20results/description_lightsheet/Normalized_TH_poster.jpg" alt="First frame of the team light-sheet recording" loading="lazy" data-lightsheet-poster><div class="desc-lightsheet__controls"><button type="button" data-lightsheet-play aria-label="Play light-sheet recording">Play</button><input type="range" min="0" max="695" value="0" step="1" aria-label="Light-sheet recording frame" data-lightsheet-seek><output data-lightsheet-time>00:00 / 01:56</output></div><p class="desc-lightsheet__status" data-lightsheet-status role="status">Select Play to load the recording.</p></div><figcaption>Team-supplied light-sheet recording of a TH-associated fluorescent preparation. Displayed at 6 frames/s and resized for web viewing. <a href="wetlab%20results/description_lightsheet/Normalized_TH.avi" download>Original AVI file</a>.</figcaption></figure><figure><img src="wetlab%20results/description_lightsheet/flouresent_intensity.png" alt="Mean fluorescence intensity over time in center, up, down, left and right regions, with three approximate odor presentation windows" loading="lazy"><figcaption>Regional mean intensity (arbitrary units). Shaded intervals mark approximate odor presentation, not precisely measured delivery at the tissue.</figcaption></figure></div>
-            <figure class="desc-lightsheet__plot"><img src="wetlab%20results/description_lightsheet/exploratory_local_dff.png" alt="Exploratory local-baseline delta F over F traces for five image regions around the three odor presentations" loading="lazy"><figcaption>Exploratory ΔF/F₀ plots with local baselines. The traces vary by region and odor; they are not a calibrated dose response or replicated statistical test.</figcaption></figure>
+            <div class="desc-lightsheet__media"><figure><div class="desc-lightsheet__player" data-lightsheet-player data-index="wetlab%20results/description_lightsheet/Normalized_TH_frames.json" data-frames="wetlab%20results/description_lightsheet/Normalized_TH_frames.bin"><canvas width="640" height="640" role="img" aria-label="Team light-sheet recording of TH-associated fluorescence, with seek and play controls below"></canvas><img src="wetlab%20results/description_lightsheet/Normalized_TH_poster.jpg" alt="First frame of the team light-sheet recording" loading="lazy" data-lightsheet-poster><div class="desc-lightsheet__controls"><button type="button" data-lightsheet-play aria-label="Play light-sheet recording">Play</button><input type="range" min="0" max="695" value="0" step="1" aria-label="Light-sheet recording frame" data-lightsheet-seek><output data-lightsheet-time>00:00 / 01:56</output></div><p class="desc-lightsheet__status" data-lightsheet-status role="status">Select Play to load the recording.</p></div><figcaption>Team-supplied light-sheet recording of a TH-associated fluorescent preparation. Displayed at 6 frames/s and resized for web viewing. <a href="wetlab%20results/description_lightsheet/Normalized_TH.avi" download>Original AVI file</a>.</figcaption></figure><figure><img src="wetlab%20results/description_lightsheet/exploratory_local_dff.png" alt="Exploratory local-baseline delta F over F traces for five image regions around the three odor presentations" loading="lazy"><figcaption>Exploratory ΔF/F₀ plots with local baselines. The traces vary by region and odor; they are not a calibrated dose response or replicated statistical test.</figcaption></figure></div>
+            <figure class="desc-lightsheet__plot"><img src="wetlab%20results/description_lightsheet/flouresent_intensity.png" alt="Mean fluorescence intensity over time in center, up, down, left and right regions, with three approximate odor presentation windows" loading="lazy"><figcaption>Regional mean intensity (arbitrary units). Shaded intervals mark approximate odor presentation, not precisely measured delivery at the tissue.</figcaption></figure>
             <p class="desc-lightsheet__boundary"><strong>Interpretation boundary.</strong> These files alone do not establish TH-cell identity, sample size, stimulus timing at the specimen, motion correction, replicate consistency or the mechanism of each fluorescence change. They do not validate our proposed OR/Orco–GCaMP cell sensor or hardware reader. <a href="#ref-avishai-2025">Avishai and Parnas (2025)</a> provides context for TH-associated neurons and odor-dependent dopaminergic modulation in the fly antennal lobe; that paper used structural and two-photon functional imaging, not our light-sheet method.</p>
           </section>
 
@@ -510,7 +510,7 @@
                     <button type="button" class="journey-launch__start" data-flight-start aria-haspopup="dialog" aria-controls="follow-the-signal-flight">Start flight</button>
                     <button type="button" class="journey-launch__skip" data-journey-skip>Skip interactive</button>
                   </div>
-                  <p class="journey-launch__meta journey-launch__meta--live">W / ↑ fly forward · S / ↓ move back · A D / ← → steer · reach each glowing waypoint</p>
+                  <p class="journey-launch__meta journey-launch__meta--live">Keyboard: W / ↑ forward · S / ↓ back · A D / ← → steer. Touch: hold and drag the joystick. Or switch on Autopilot.</p>
                   <p class="journey-launch__meta journey-launch__meta--static">Movement is paused for reduced motion. The same conceptual path is available as stills.</p>
                   <p class="journey-launch__disclaimer">Conceptual interactive · not experimental data</p>
                   <p class="journey-launch__unavailable" data-flight-unavailable hidden>Interactive 3D view unavailable on this device.</p>
@@ -587,12 +587,13 @@
                           <p class="flight__score-note">INTERACTIVE SCORE</p>
                           <p class="flight__score is-on" data-flight-score>000000</p>
                           <p class="flight__score-mode" data-score-mode>
-                            <span>MANUAL FLIGHT</span>
+                            <span data-flight-mode-label>MANUAL FLIGHT</span>
                             <span data-auto-state>READY</span>
                           </p>
                         </div>
                       </div>
                       <div class="flight__hud-actions">
+                        <button type="button" class="flight__icon-btn" data-flight-auto aria-pressed="false" aria-label="Autopilot">Autopilot off</button>
                         <button type="button" class="flight__icon-btn" data-flight-pause>Pause</button>
                         <button type="button" class="flight__icon-btn" data-flight-fs hidden>Fullscreen</button>
                         <button type="button" class="flight__exit" data-flight-exit>Exit</button>
@@ -600,9 +601,9 @@
                     </div>
                     <p class="flight__score-tick" data-score-tick hidden></p>
                     <p class="flight__hint flight__hint--desk" data-steer-hint>W / ↑ forward · S / ↓ back · A D / ← → steer · fly into the glow</p>
-                    <p class="flight__hint flight__hint--touch">Hold ↑ to fly · use ← → to steer</p>
+                    <p class="flight__hint flight__hint--touch">Drag ↑ forward · ↓ back · ← → steer · release to stop</p>
                     <p class="flight__disclaimer">Conceptual interactive · not experimental data</p>
-                    <div class="flight__move-pad" aria-label="Flight controls"><button type="button" data-flight-move="left" aria-label="Steer left">←</button><button type="button" data-flight-move="forward" aria-label="Fly forward">↑</button><button type="button" data-flight-move="right" aria-label="Steer right">→</button><button type="button" data-flight-move="back" aria-label="Fly backward">↓</button></div>
+                    <div class="flight__joystick" data-flight-joystick role="group" aria-label="Flight joystick"><span class="flight__joystick-ring" aria-hidden="true"><span class="flight__joystick-knob" data-joystick-knob></span></span><span class="flight__joystick-label" aria-hidden="true">DRAG TO FLY</span></div>
                     <div class="flight__load" data-flight-load hidden>
                       <span class="flight__load-mark" aria-hidden="true"></span>
                       <span data-load-text>Loading</span>

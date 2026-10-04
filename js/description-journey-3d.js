@@ -24,6 +24,9 @@ const STEER_DRAG = 3.35;
 const AUTO_AIM_DAMP = 1.85;
 const AUTO_SEEK = 5.4;
 const AUTO_DRAG = 4.1;
+const AUTO_FORWARD = 0.58;
+const AUTO_STORY_SECONDS = 8;
+const JOYSTICK_DEADZONE = 0.14;
 const ODOR_RIBBON_SEGS = 360;
 // Give each destination its own stretch of flight. Doubling the timeline with
 // the physical spacing keeps the fly responsive instead of simply slowing it.
@@ -1052,6 +1055,8 @@ function loadGltf(url) {
     finale: qs("[data-flight-finale]", root),
     pauseBtn: qs("[data-flight-pause]", root),
     autoBtn: qs("[data-flight-auto]", root),
+    joystick: qs("[data-flight-joystick]", root),
+    joystickKnob: qs("[data-joystick-knob]", root),
     fsBtn: qs("[data-flight-fs]", root),
     scanBtn: qs("[data-flight-scan]", root),
     exitBtns: qsa("[data-flight-exit]", root),
@@ -1073,6 +1078,7 @@ function loadGltf(url) {
     scanDot: qs("[data-scan-dot]", root),
     score: qs("[data-flight-score]", root),
     scoreMode: qs("[data-score-mode]", root),
+    modeLabel: qs("[data-flight-mode-label]", root),
     autoState: qs("[data-auto-state]", root),
     scoreTick: qs("[data-score-tick]", root),
     finaleScore: qs("[data-finale-score]", root)
@@ -1087,6 +1093,13 @@ function loadGltf(url) {
   ].map((waypoint, index) => ({...waypoint, at: STAGE_SECONDS * (index + WAYPOINT_PHASE)}));
   const quest=document.createElement('div');quest.className='flight__quest';quest.hidden=true;
   quest.innerHTML='<p class="flight__quest-kicker">Signal waypoint reached</p><h4></h4><p class="flight__quest-copy"></p><button type="button">Continue the journey →</button>';
+  const questButton = quest.querySelector('button');
+  const questHeading = quest.querySelector('h4');
+  const questCopy = quest.querySelector('.flight__quest-copy');
+  const questAutoNote = document.createElement('p');
+  questAutoNote.className = 'flight__quest-auto';
+  questAutoNote.hidden = true;
+  quest.appendChild(questAutoNote);
   const questMap=document.createElement('div');questMap.className='flight__quest-map';questMap.setAttribute('aria-label','Journey waypoint progress');
   questMap.innerHTML=waypointTexts.map(()=>'<span aria-hidden="true"></span>').join('');
   const questLabel=document.createElement('p');questLabel.className='flight__quest-label';questLabel.textContent='FOLLOW THE LUMINOUS TRAIL · NEXT: ODOR SOURCE';
@@ -1135,6 +1148,7 @@ function loadGltf(url) {
     keyInput: 0,
     pointer: null,
     pointerInput: 0,
+    pointerForward: 0,
     userPaused: false,
     hidden: false,
     built: false,
@@ -1150,6 +1164,8 @@ function loadGltf(url) {
     questIndex: 0,
     questHold: false,
     questApproach: false,
+    questAutoElapsed: 0,
+    questAutoRemaining: -1,
     cinematic: null,
     travelFloor: 0,
     completed: false,
@@ -1166,18 +1182,23 @@ function loadGltf(url) {
     camDivePitch: 0,
     camDiveY: 0
   };
-  quest.querySelector('button').addEventListener('click',function(){
+  function continueQuest() {
     if(!state.questHold)return;
     const reached = state.questIndex;
     state.questHold=false;state.questIndex++;
     state.questApproach=false;questLabel.classList.remove('is-approach');
     state.time=Math.min(totalDuration(),state.time+.06);
     quest.hidden=true;
+    state.questAutoElapsed = 0;
+    state.questAutoRemaining = -1;
+    questAutoNote.hidden = true;
     questLabel.textContent=state.questIndex<waypointTexts.length?'NEXT SIGNAL · '+waypointTexts[state.questIndex].title.toUpperCase():'RETURN TO THE BIG PICTURE';
     if (reached === 0) beginCinematic('handoff');
     else if (reached === 1) beginCinematic('entry');
+    updateControlUi();
     if(els.world)els.world.focus({preventScroll:true});
-  });
+  }
+  questButton.addEventListener('click', continueQuest);
 
   let renderer = null;
   let scene = null;
@@ -1258,11 +1279,9 @@ function loadGltf(url) {
       start: state.time, end: STAGE_SECONDS * (kind === 'handoff' ? 1.32 : 2.12),
       position: camera.position.clone(), quaternion: camera.quaternion.clone()
     };
-    state.forwardInput = 0;
-    state.keyInput = 0;
-    state.pointerInput = 0;
-    state.vx = 0;
+    clearManualInput();
     els.flightRoot.dataset.flightMode = kind;
+    updateControlUi();
     questLabel.textContent = kind === 'handoff'
       ? 'PERSPECTIVE SHIFT · FOLLOW ONE ODOR MOLECULE'
       : 'ENTERING THE ANTENNA · NEXT: ENGINEERED CELL';
@@ -1273,12 +1292,11 @@ function loadGltf(url) {
   function finishJourney() {
     if (state.completed) return;
     state.completed = true;
-    state.forwardInput = 0;
-    state.keyInput = 0;
-    state.pointerInput = 0;
-    state.vx = 0;
+    clearManualInput();
+    setAuto(false);
     state.cinematic = null;
     els.flightRoot.dataset.flightMode = 'complete';
+    updateControlUi();
     questLabel.textContent = 'JOURNEY COMPLETE · YOUR SCORE IS SAVED';
     hideCard();
     announce('Journey complete. Your final score is ' + padScore(state.score) + '.');
@@ -1315,22 +1333,50 @@ function loadGltf(url) {
   }
 
   function setAuto(on) {
-    const next = !!on;
+    const next = !!on && !state.completed && !state.staticMode && !reduceMotion;
+    if (next !== state.auto) clearManualInput();
     if (next && !state.auto) state.autoAim = state.offset;
     state.auto = next;
-    qsa('.flight__hint--desk', els.dialog || root).forEach(el => {
-      el.textContent = 'W / ↑ forward · S / ↓ back · A D / ← → steer · fly into the glow';
-    });
+    state.questAutoElapsed = 0;
+    state.questAutoRemaining = -1;
+    if (!state.cinematic && !state.completed) els.flightRoot.dataset.flightMode = next ? 'auto' : 'manual';
+    questAutoNote.hidden = !next || !state.questHold;
+    if (!questAutoNote.hidden) questAutoNote.textContent = 'Autopilot continues in ' + AUTO_STORY_SECONDS + 's. Turn it off to keep reading.';
     if (els.autoBtn) {
-      els.autoBtn.textContent = state.auto ? "Auto pilot on" : "Auto pilot off";
+      els.autoBtn.textContent = state.auto ? "Autopilot on" : "Autopilot off";
       els.autoBtn.setAttribute("aria-pressed", state.auto ? "true" : "false");
-      els.autoBtn.setAttribute("aria-label", "Auto pilot");
+      els.autoBtn.setAttribute("aria-label", "Autopilot");
     }
+    updateControlUi();
     updateScoreUi();
   }
 
   function takeManual() {
-    if (state.auto) setAuto(false);
+    if (state.auto) {
+      setAuto(false);
+      announce('Autopilot off. You control the flight.');
+    }
+  }
+
+  function updateControlUi() {
+    const blocked = state.staticMode || state.completed || state.userPaused || state.hidden || !!state.cinematic || state.questHold || state.checkpointOpen || state.waitLoad;
+    els.flightRoot.dataset.controlsLocked = blocked ? 'true' : 'false';
+    if (els.joystick) els.joystick.setAttribute('aria-disabled', blocked ? 'true' : 'false');
+    if (els.autoBtn) els.autoBtn.disabled = state.completed || state.staticMode;
+  }
+
+  function clearManualInput() {
+    const pointer = state.pointer;
+    state.pointer = null;
+    state.pointerInput = 0;
+    state.pointerForward = 0;
+    state.keyInput = 0;
+    state.forwardInput = 0;
+    state.vx = 0;
+    if (els.world) els.world.classList.remove('is-steering');
+    if (els.joystick) els.joystick.classList.remove('is-active');
+    if (els.joystickKnob) els.joystickKnob.style.transform = 'translate(-50%, -50%)';
+    if (pointer?.target?.hasPointerCapture?.(pointer.id)) pointer.target.releasePointerCapture(pointer.id);
   }
 
   function padScore(n) {
@@ -1371,8 +1417,9 @@ function loadGltf(url) {
       els.score.classList.toggle("is-off", state.auto || !state.onTrail);
     }
     if (els.scoreMode) els.scoreMode.hidden = false;
-    if (els.autoState) els.autoState.textContent = state.completed ? "COMPLETE" : state.cinematic ? "STORY" : state.forwardInput ? "MOVING" : "READY";
-    if (els.finaleScore && state.stage === 5 && state.stageU > 0.78) {
+    if (els.modeLabel) els.modeLabel.textContent = state.auto ? 'AUTOPILOT' : 'MANUAL FLIGHT';
+    if (els.autoState) els.autoState.textContent = state.completed ? "COMPLETE" : state.userPaused ? "PAUSED" : state.cinematic ? "STORY" : state.questHold ? "READING" : state.waitLoad || state.checkpointOpen ? "WAITING" : state.auto || state.forwardInput || state.pointerForward ? "MOVING" : "READY";
+    if (els.finaleScore && state.completed) {
       els.finaleScore.textContent = "GAME SCORE · " + padScore(state.score);
     }
   }
@@ -2153,6 +2200,9 @@ function loadGltf(url) {
 
   function setPaused(on) {
     state.userPaused = on;
+    if (on) clearManualInput();
+    updateControlUi();
+    updateScoreUi();
     if (els.pauseBtn) {
       els.pauseBtn.textContent = on ? "Resume" : "Pause";
       els.pauseBtn.setAttribute("aria-pressed", on ? "true" : "false");
@@ -2163,11 +2213,12 @@ function loadGltf(url) {
 
   function physics(dt) {
     state.scan = 0;
-    if (state.completed) return;
+    if (state.completed || state.userPaused || state.hidden || state.staticMode) return;
     const previousTime = state.time;
     const cinematicAtStart = !!state.cinematic;
 
-    const input = state.cinematic ? 0 : clamp(state.pointer && state.pointer.mode === "steer" ? state.pointerInput : state.keyInput, -1, 1);
+    const blocked = !!state.cinematic || state.questHold || state.checkpointOpen || state.waitLoad;
+    const input = blocked ? 0 : clamp(state.pointer ? state.pointerInput : state.keyInput, -1, 1);
     if (Math.abs(input) > 0.08) takeManual();
 
     const progressU = clamp(state.time / totalDuration(), 0, 0.999);
@@ -2175,7 +2226,9 @@ function loadGltf(url) {
     state.odorX = odor.x;
     state.odorY = odor.y;
 
-    if (state.auto) {
+    if (blocked) {
+      state.vx = 0;
+    } else if (state.auto) {
       state.autoAim = damp(state.autoAim, state.odorX, AUTO_AIM_DAMP, dt);
       state.vx += (state.autoAim - state.offset) * AUTO_SEEK * dt;
       state.vx *= Math.exp(-AUTO_DRAG * dt);
@@ -2184,7 +2237,7 @@ function loadGltf(url) {
       state.vx += input * STEER_ACCEL * dt;
       state.vx *= Math.exp(-STEER_DRAG * dt);
       state.offset += state.vx * dt;
-      if (Math.abs(state.offset) > SOFT_RAIL) {
+      if ((input || Math.abs(state.vx) > 0.001) && Math.abs(state.offset) > SOFT_RAIL) {
         const extra = state.offset - Math.sign(state.offset) * SOFT_RAIL;
         state.vx += -extra * 1.7 * dt;
         state.offset = damp(state.offset, Math.sign(state.offset) * SOFT_RAIL, 0.62, dt);
@@ -2198,7 +2251,7 @@ function loadGltf(url) {
       if (state.vx < 0) state.vx *= 0.35;
     }
 
-    applyObstacleAvoid(dt);
+    if (!blocked && (state.auto || input || state.forwardInput || state.pointerForward || Math.abs(state.vx) > 0.001)) applyObstacleAvoid(dt);
 
     state.holdY = damp(state.holdY, state.odorY, 6.5, dt);
 
@@ -2217,7 +2270,20 @@ function loadGltf(url) {
       state.offset = damp(state.offset, state.odorX, 4, dt);
     } else if (!state.waitLoad && !state.checkpointOpen && !state.staticMode && !state.questHold) {
       const endSlow = state.time > totalDuration() - 3.2 ? 0.42 : 1;
-      state.time = clamp(state.time + dt * state.forwardInput * 4.8 * endSlow * state.speedMul, state.travelFloor, totalDuration());
+      const forward = state.auto ? AUTO_FORWARD : state.pointer?.mode === 'joystick' ? state.pointerForward : state.forwardInput;
+      state.time = clamp(state.time + dt * forward * 4.8 * endSlow * state.speedMul, state.travelFloor, totalDuration());
+    }
+    // Advance the story on the same paused/visible clock as flight movement.
+    // No independent timer can dismiss a card while the visitor is away.
+    if (state.questHold && state.auto && !state.checkpointOpen && !state.waitLoad) {
+      state.questAutoElapsed += dt;
+      const remaining = Math.max(0, Math.ceil(AUTO_STORY_SECONDS - state.questAutoElapsed));
+      if (remaining !== state.questAutoRemaining) {
+        state.questAutoRemaining = remaining;
+        questAutoNote.hidden = false;
+        questAutoNote.textContent = 'Autopilot continues in ' + remaining + 's. Turn it off to keep reading.';
+      }
+      if (state.questAutoElapsed >= AUTO_STORY_SECONDS) continueQuest();
     }
     const waypoint=waypointTexts[state.questIndex];
     if(waypoint && state.time>=waypoint.at && !state.questHold && !state.staticMode && !state.cinematic){
@@ -2235,11 +2301,17 @@ function loadGltf(url) {
       }else{
         state.questApproach=false;questLabel.classList.remove('is-approach');
         state.questHold=true;quest.hidden=false;
-        quest.querySelector('h4').textContent=waypoint.title;
-        quest.querySelector('.flight__quest-copy').textContent=waypoint.text;
-        quest.querySelector('button').textContent = state.questIndex === 0 ? 'Follow one odor molecule →' : state.questIndex === 1 ? 'Enter the antenna →' : 'Continue the journey →';
+        clearManualInput();
+        state.questAutoElapsed = 0;
+        state.questAutoRemaining = -1;
+        questAutoNote.hidden = !state.auto;
+        if (state.auto) questAutoNote.textContent = 'Autopilot continues in ' + AUTO_STORY_SECONDS + 's. Turn it off to keep reading.';
+        questHeading.textContent=waypoint.title;
+        questCopy.textContent=waypoint.text;
+        questButton.textContent = state.questIndex === 0 ? 'Follow one odor molecule →' : state.questIndex === 1 ? 'Enter the antenna →' : 'Continue the journey →';
         questLabel.textContent='SIGNAL FOUND · '+waypoint.title.toUpperCase();
-        quest.querySelector('button').focus({preventScroll:true});
+        updateControlUi();
+        if (!state.auto) questButton.focus({preventScroll:true});
         announce('Waypoint reached. '+waypoint.text);
       }
     }
@@ -2254,9 +2326,12 @@ function loadGltf(url) {
       prefetchNext(next);
       if (!packs[next] && prefetch[next]) {
         state.waitLoad = true;
+        clearManualInput();
+        updateControlUi();
         setLoading(true, "Loading " + STAGES[next].num);
         prefetch[next].then(function () {
           state.waitLoad = false;
+          updateControlUi();
           setLoading(false);
           if (failed[STAGES[next].id] && next > 0) openCheckpoint(next);
         });
@@ -2284,7 +2359,7 @@ function loadGltf(url) {
 
     const odorDist = Math.abs(state.offset - state.odorX);
     state.onTrail = odorDist < SCORE_MID;
-    if (!state.completed && !cinematicAtStart && !state.questHold && state.time > previousTime && !state.auto && state.forwardInput > 0 && !state.staticMode && !state.userPaused && !state.waitLoad) {
+    if (!state.completed && !cinematicAtStart && !state.cinematic && !state.questHold && state.time > previousTime && !state.auto && (state.forwardInput > 0 || state.pointerForward > 0) && !state.staticMode && !state.userPaused && !state.waitLoad) {
       state.score += trackingRate(odorDist) * dt;
     }
     updateScoreUi();
@@ -2352,6 +2427,8 @@ function loadGltf(url) {
   function openCheckpoint(index) {
     if (!els.checkpoint || state.checkpointOpen) return;
     state.checkpointOpen = true;
+    clearManualInput();
+    updateControlUi();
     els.checkpoint.hidden = false;
     if (els.checkpointText) {
       els.checkpointText.textContent =
@@ -2362,6 +2439,7 @@ function loadGltf(url) {
 
   function closeCheckpoint() {
     state.checkpointOpen = false;
+    updateControlUi();
     if (els.checkpoint) els.checkpoint.hidden = true;
   }
 
@@ -2566,14 +2644,13 @@ function loadGltf(url) {
     if (state.cinematic && state.cinematic.elapsed >= state.cinematic.duration) {
       state.travelFloor = state.cinematic.end;
       state.cinematic = null;
-      state.forwardInput = 0;
-      state.keyInput = 0;
-      state.pointerInput = 0;
+      clearManualInput();
       camPos.copy(camera.position);
       camQuat.copy(camera.quaternion);
-      els.flightRoot.dataset.flightMode = 'manual';
-      questLabel.textContent = 'YOUR MOVE · NEXT: ' + waypointTexts[state.questIndex].title.toUpperCase();
-      announce('Perspective change complete. Use forward, back and steering to reach the next glowing waypoint.');
+      els.flightRoot.dataset.flightMode = state.auto ? 'auto' : 'manual';
+      updateControlUi();
+      questLabel.textContent = (state.auto ? 'AUTOPILOT · NEXT: ' : 'YOUR MOVE · NEXT: ') + waypointTexts[state.questIndex].title.toUpperCase();
+      announce(state.auto ? 'Perspective change complete. Autopilot is continuing to the next glowing waypoint.' : 'Perspective change complete. Use forward, back and steering to reach the next glowing waypoint.');
     }
   }
 
@@ -2742,6 +2819,10 @@ function loadGltf(url) {
 
   function startReduced() {
     state.staticMode = true;
+    clearManualInput();
+    setAuto(false);
+    els.flightRoot.dataset.flightMode = 'static';
+    updateControlUi();
     if (els.staticNav) els.staticNav.hidden = false;
     if (els.pauseBtn) els.pauseBtn.hidden = true;
     if (els.autoBtn) els.autoBtn.hidden = true;
@@ -2762,6 +2843,8 @@ function loadGltf(url) {
   }
 
   function resetFlight() {
+    clearManualInput();
+    state.staticMode = false;
     state.time = 0;
     state.completed = false;
     state.cinematic = null;
@@ -2769,6 +2852,9 @@ function loadGltf(url) {
     facingFlyPose = null;
     els.flightRoot.dataset.flightMode = 'manual';
     state.questIndex=0;state.questHold=false;state.questApproach=false;quest.hidden=true;questLabel.classList.remove('is-approach');
+    state.questAutoElapsed = 0;
+    state.questAutoRemaining = -1;
+    questAutoNote.hidden = true;
     questLabel.textContent='FOLLOW THE LUMINOUS TRAIL · NEXT: ODOR SOURCE';
     questMap.querySelectorAll('span').forEach(el=>el.className='');
     state.stage = 0;
@@ -2791,6 +2877,7 @@ function loadGltf(url) {
     state.keyInput = 0;
     state.forwardInput = 0;
     state.pointerInput = 0;
+    state.pointerForward = 0;
     state.pointer = null;
     state.userPaused = false;
     state.cardShown = -1;
@@ -2814,6 +2901,7 @@ function loadGltf(url) {
       els.pauseBtn.setAttribute("aria-pressed", "false");
     }
     if (els.autoBtn) els.autoBtn.hidden = false;
+    qsa('.flight__hint', els.dialog || root).forEach(el => el.classList.remove('is-gone'));
     if (els.score) els.score.classList.remove("is-pop");
     if (els.scoreTick) {
       els.scoreTick.hidden = true;
@@ -2850,6 +2938,8 @@ function loadGltf(url) {
 
   function closeFlight() {
     state.open = false;
+    clearManualInput();
+    setAuto(false);
     quest.hidden=true;
     stopLoop();
     state.scanHeld = false;
@@ -2910,7 +3000,7 @@ function loadGltf(url) {
           camPos.set(0, 2.1, -6);
           render(0.016);
           startLoop();
-          announce("Follow the signal. Hold W or Up to fly forward, A and D or Left and Right to steer. Reach the luminous waypoint to reveal the next scene.");
+          announce(mobile ? "Follow the signal. Drag the joystick up to fly forward, down to go back, and left or right to steer. Release to stop, or enable Autopilot for a guided tour." : "Follow the signal. Hold W or Up to fly forward, S or Down to go back, A and D or Left and Right to steer. Enable Autopilot for a guided tour.");
           window.clearTimeout(state.hintTimer);
           state.hintTimer = window.setTimeout(function () {
             qsa(".flight__hint", els.dialog || root).forEach(function (el) {
@@ -2943,9 +3033,10 @@ function loadGltf(url) {
     if (key === "ArrowLeft" || key === "a" || key === "A") v = -1;
     if (key === "ArrowRight" || key === "d" || key === "D") v = 1;
     if (!v) return false;
-    if (state.cinematic || state.completed) return true;
+    if (state.cinematic || state.completed || state.staticMode) return true;
+    if (down) takeManual();
+    if (state.userPaused || state.questHold || state.checkpointOpen || state.waitLoad) return true;
     if (down) {
-      takeManual();
       state.keyInput = v;
     } else if (state.keyInput === v) state.keyInput = 0;
     return true;
@@ -2956,7 +3047,9 @@ function loadGltf(url) {
     if (key === "ArrowUp" || key === "w" || key === "W") v = 1;
     if (key === "ArrowDown" || key === "s" || key === "S") v = -1;
     if (!v) return false;
-    if (state.cinematic || state.completed) return true;
+    if (state.cinematic || state.completed || state.staticMode) return true;
+    if (down) takeManual();
+    if (state.userPaused || state.questHold || state.checkpointOpen || state.waitLoad) return true;
     if (down) {
       // A short key tap must still move on devices where keyup arrives before
       // the next animation frame. Held keys use the continuous physics step.
@@ -2988,18 +3081,22 @@ function loadGltf(url) {
   }
 
   function onPointerDown(event) {
-    if (!state.open || !els.world || state.staticMode || state.cinematic || state.completed) return;
+    if (!canPointerControl() || !els.world || state.pointer) return;
     if (event.target && event.target.closest && event.target.closest("button, a, summary")) return;
     if (event.pointerType === "mouse" && event.button !== 0) return;
-    state.pointer = { id: event.pointerId, x: event.clientX, mode: "pending" };
+    // Touch uses the visible two-axis joystick; keep mouse dragging for desktop.
+    if (event.pointerType !== 'mouse') return;
+    state.pointer = { id: event.pointerId, x: event.clientX, mode: "pending", target: els.world };
   }
 
   function onPointerMove(event) {
     if (!state.open || !state.pointer || event.pointerId !== state.pointer.id) return;
     const dx = event.clientX - state.pointer.x;
     if (state.pointer.mode === "pending" && Math.abs(dx) > 8) {
-      state.pointer.mode = "steer";
+      const pointer = state.pointer;
       takeManual();
+      state.pointer = pointer;
+      state.pointer.mode = "steer";
       if (els.world.setPointerCapture) els.world.setPointerCapture(event.pointerId);
       els.world.classList.add("is-steering");
     }
@@ -3012,9 +3109,41 @@ function loadGltf(url) {
 
   function onPointerUp(event) {
     if (!state.pointer || event.pointerId !== state.pointer.id) return;
-    state.pointer = null;
-    state.pointerInput = 0;
-    if (els.world) els.world.classList.remove("is-steering");
+    clearManualInput();
+  }
+
+  function canPointerControl() {
+    return state.open && !state.staticMode && !state.cinematic && !state.completed && !state.userPaused && !state.hidden && !state.questHold && !state.checkpointOpen && !state.waitLoad;
+  }
+
+  function onJoystickDown(event) {
+    if (!canPointerControl() || state.pointer || (event.pointerType === 'mouse' && event.button !== 0)) return;
+    event.preventDefault();
+    takeManual();
+    const rect = els.joystick.getBoundingClientRect();
+    const radius = Math.min(rect.width, rect.height) * 0.32;
+    state.pointer = { id: event.pointerId, mode: 'joystick', x: rect.left + rect.width / 2, y: rect.top + rect.height / 2, radius, target: els.joystick };
+    state.keyInput = 0;
+    state.forwardInput = 0;
+    els.joystick.setPointerCapture(event.pointerId);
+    els.joystick.classList.add('is-active');
+    onJoystickMove(event);
+  }
+
+  function onJoystickMove(event) {
+    const pointer = state.pointer;
+    if (!pointer || pointer.mode !== 'joystick' || pointer.id !== event.pointerId) return;
+    event.preventDefault();
+    const dx = event.clientX - pointer.x;
+    const dy = event.clientY - pointer.y;
+    const distance = Math.hypot(dx, dy);
+    const travel = Math.min(distance, pointer.radius);
+    const x = distance ? dx / distance : 0;
+    const y = distance ? dy / distance : 0;
+    const strength = clamp((travel / pointer.radius - JOYSTICK_DEADZONE) / (1 - JOYSTICK_DEADZONE), 0, 1);
+    state.pointerInput = x * strength;
+    state.pointerForward = -y * strength;
+    if (els.joystickKnob) els.joystickKnob.style.transform = 'translate(-50%, -50%) translate(' + (x * travel).toFixed(1) + 'px, ' + (y * travel).toFixed(1) + 'px)';
   }
 
   if (els.start) {
@@ -3031,16 +3160,13 @@ function loadGltf(url) {
       closeFlight();
     });
   });
-  qsa('[data-flight-move]', els.dialog || root).forEach(function (button) {
-    const direction = button.getAttribute('data-flight-move');
-    const value = direction === 'forward' ? 1 : direction === 'back' ? -1 : direction === 'left' ? -1 : 1;
-    const axis = direction === 'forward' || direction === 'back' ? 'forwardInput' : 'keyInput';
-    button.addEventListener('pointerdown', function (event) { event.preventDefault(); button.setPointerCapture(event.pointerId); state[axis] = value; });
-    function release() { if (state[axis] === value) state[axis] = 0; }
-    button.addEventListener('pointerup', release);
-    button.addEventListener('pointercancel', release);
-    button.addEventListener('lostpointercapture', release);
-  });
+  if (els.joystick) {
+    els.joystick.addEventListener('pointerdown', onJoystickDown);
+    els.joystick.addEventListener('pointermove', onJoystickMove, { passive: false });
+    els.joystick.addEventListener('pointerup', onPointerUp);
+    els.joystick.addEventListener('pointercancel', onPointerUp);
+    els.joystick.addEventListener('lostpointercapture', onPointerUp);
+  }
   if (els.pauseBtn) {
     els.pauseBtn.addEventListener("click", function () {
       setPaused(!state.userPaused);
@@ -3049,6 +3175,7 @@ function loadGltf(url) {
   if (els.autoBtn) {
     els.autoBtn.addEventListener("click", function () {
       setAuto(!state.auto);
+      announce(state.auto ? 'Autopilot on. The tour follows the signal and continues each story after eight seconds. Use movement controls or turn Autopilot off to take over.' : 'Autopilot off. You control the flight.');
     });
   }
   if (els.fsBtn && document.fullscreenEnabled) {
@@ -3077,12 +3204,16 @@ function loadGltf(url) {
     els.dialog.addEventListener("close", function () {
       if (state.open) {
         state.open = false;
+        clearManualInput();
+        setAuto(false);
         stopLoop();
         if (els.start) els.start.focus();
       }
     });
     els.dialog.addEventListener("cancel", function () {
       state.open = false;
+      clearManualInput();
+      setAuto(false);
       stopLoop();
     });
   }
@@ -3091,16 +3222,23 @@ function loadGltf(url) {
     els.world.addEventListener("pointermove", onPointerMove, { passive: false });
     els.world.addEventListener("pointerup", onPointerUp);
     els.world.addEventListener("pointercancel", onPointerUp);
+    els.world.addEventListener("lostpointercapture", onPointerUp);
   }
   document.addEventListener("keydown", onKeyDown, true);
   document.addEventListener("keyup", onKeyUp, true);
   window.addEventListener("resize", function () {
+    clearManualInput();
     if (state.open && renderer) resize();
   });
+  window.addEventListener('blur', clearManualInput);
   document.addEventListener("visibilitychange", function () {
     state.hidden = document.hidden;
-    if (document.hidden) state.last = 0;
+    if (document.hidden) {
+      state.last = 0;
+      clearManualInput();
+    }
     else if (state.open && !state.userPaused && !state.staticMode) startLoop();
+    updateControlUi();
   });
 
   window.__aerosenseOpenFlight = openFlight;
