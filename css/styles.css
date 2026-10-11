@@ -525,7 +525,7 @@ svg.header-icon {
 }
 
 .nav-toggle {
- display: none; /* shown only when JS enables the mobile disclosure pattern */
+ display: inline-flex; /* stable before deferred scripts initialize */
 }
 
 html.js .nav-toggle {
@@ -591,7 +591,7 @@ html.js .nav-toggle {
  }
 }
 
-/* Navigation -- no-JS: all links visible */
+/* Navigation shell; no-script fallback is in navigation-type.css. */
 .site-nav {
  width: 100%;
  order: 3;
@@ -682,41 +682,41 @@ html.js .nav-toggle {
  flex-shrink: 0;
 }
 
-/* JS-enhanced desktop/mobile nav */
-html.js .site-nav {
+/* Navigation starts closed in CSS, before deferred JavaScript runs. */
+.site-nav {
  display: none;
 }
 
-html.js .site-nav.is-open {
+.site-nav.is-open {
  display: block;
 }
 
-html.js .nav-label-static {
+.nav-label-static {
  display: none;
 }
 
-html.js .nav-trigger {
+.nav-trigger {
  display: flex;
  justify-content: space-between;
 }
 
-html.js .nav-trigger::after {
+.nav-trigger::after {
  content: "+";
  font-family: var(--font-mono);
 }
 
-html.js .nav-trigger[aria-expanded="true"]::after {
+.nav-trigger[aria-expanded="true"]::after {
  content: "\2013";
 }
 
-html.js .nav-submenu {
+.nav-submenu {
  display: none;
  margin: 0;
  padding: 0 0 var(--space-3) var(--space-3);
  border-left: var(--border-w) solid var(--color-rule);
 }
 
-html.js .nav-submenu.is-open {
+.nav-submenu.is-open {
  display: block;
 }
 
@@ -745,7 +745,7 @@ html.js .nav-submenu.is-open {
  min-width: 0;
  }
 
- html.js .site-nav.is-open {
+ .site-nav.is-open {
  margin-top: var(--space-2);
  }
 }
@@ -764,7 +764,6 @@ html.js .nav-submenu.is-open {
  display: none !important;
  }
 
- html.js .site-nav,
  .site-nav {
  display: block !important;
  width: auto;
@@ -792,11 +791,11 @@ html.js .nav-submenu.is-open {
  width: auto;
  }
 
- html.js .nav-trigger {
+ .nav-trigger {
  width: auto;
  }
 
- html.js .nav-trigger::after {
+ .nav-trigger::after {
  content: "";
  width: 0;
  height: 0;
@@ -806,7 +805,7 @@ html.js .nav-submenu.is-open {
  border-top: 5px solid currentColor;
  }
 
- html.js .nav-trigger[aria-expanded="true"]::after {
+ .nav-trigger[aria-expanded="true"]::after {
  content: "";
  border-top: 0;
  border-bottom: 5px solid currentColor;
@@ -817,7 +816,7 @@ html.js .nav-submenu.is-open {
  padding-left: var(--space-3);
  }
 
- html.js .nav-submenu {
+ .nav-submenu {
  position: absolute;
  top: 100%;
  left: 0;
@@ -830,11 +829,11 @@ html.js .nav-submenu.is-open {
  z-index: 1100;
  }
 
- html.js .nav-submenu.is-open {
+ .nav-submenu.is-open {
  display: block;
  }
 
- html.js .nav-submenu a {
+ .nav-submenu a {
  padding: var(--space-2) var(--space-4);
  }
 }

@@ -1,0 +1,113 @@
+/* The four chapters sit on broad paper fields that extend beyond the viewport. */
+.page-home.home-edition-2026.home-atlas-edition .research-stop {
+  --chapter-paper: #f8f6ee;
+  --chapter-edge: #c5d0b7;
+}
+.page-home.home-edition-2026.home-atlas-edition .research-stop--hardware { --chapter-edge: #b8ceca; }
+.page-home.home-edition-2026.home-atlas-edition .research-stop--model { --chapter-edge: #d2c9dd; }
+.page-home.home-edition-2026.home-atlas-edition .research-stop--people { --chapter-edge: #ded0b7; }
+.page-home.home-edition-2026.home-atlas-edition .research-stop__visual {
+  transform: none;
+  padding: 0 0 30px;
+  overflow: visible;
+  background: transparent!important;
+  isolation: isolate;
+}
+.page-home.home-edition-2026.home-atlas-edition .research-stop__visual::before {
+  content: "";
+  display: block;
+  position: absolute;
+  inset: -24% -3% -18% auto;
+  width: calc(100vw + 100%);
+  z-index: -1;
+  background: var(--chapter-paper);
+  border-radius: 0 140px 180px 0 / 0 130px 140px 0;
+  transform: rotate(-3deg);
+  transform-origin: right center;
+  pointer-events: none;
+}
+.page-home.home-edition-2026.home-atlas-edition .research-stop__visual::after {
+  content: "";
+  display: block;
+  position: absolute;
+  right: 1%;
+  bottom: -10%;
+  width: calc(100vw + 100%);
+  height: 25%;
+  z-index: -2;
+  background: var(--chapter-edge);
+  border-radius: 0 10% 46% 0 / 0 20% 100% 0;
+  transform: rotate(-2deg);
+  transform-origin: right center;
+  pointer-events: none;
+}
+.page-home.home-edition-2026.home-atlas-edition .research-stop:nth-of-type(even) .research-stop__visual::before {
+  border-radius: 0 180px 110px 0 / 0 150px 120px 0;
+  transform: rotate(3deg);
+}
+.page-home.home-edition-2026.home-atlas-edition .research-stop__visual :is(.research-editorial-print,.research-team-photo) {
+  -webkit-mask: none;
+  mask: none;
+  border: 0;
+  border-radius: 0!important;
+  filter: none!important;
+  box-shadow: none!important;
+  transform: none;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+  background: transparent;
+}
+.page-home.home-edition-2026.home-atlas-edition .research-stop__visual .research-editorial-print {
+  max-width: 520px;
+  mix-blend-mode: darken;
+}
+.page-home.home-edition-2026.home-atlas-edition .research-stop__visual .research-team-photo {
+  width: 86%;
+  max-width: 410px;
+  clip-path: polygon(1% 2%, 98% 0, 100% 97%, 0 100%);
+}
+.page-home.home-edition-2026.home-atlas-edition .research-stop__image-note {
+  color: #4e6258;
+  bottom: 0;
+  transform: none;
+  background: transparent;
+}
+.page-home.home-edition-2026.home-atlas-edition .research-stop__copy { z-index: 1; }
+@media (max-width: 759px) {
+  .page-home.home-edition-2026.home-atlas-edition .research-stop { gap: 64px; padding-block: 70px; }
+  .page-home.home-edition-2026.home-atlas-edition .research-stop__visual { max-width: 100%; height: 270px; }
+  .page-home.home-edition-2026.home-atlas-edition .research-stop__visual::before { inset-block: -12%; right: -15%; border-radius: 0 85px 65px 0 / 0 70px 90px 0; }
+  .page-home.home-edition-2026.home-atlas-edition .research-stop__visual::after { right: -15%; }
+  .page-home.home-edition-2026.home-atlas-edition .research-stop__visual .research-team-photo { width: 88%; }
+}
+
+/* In the scroll story, the paper and illustrations stay in one fixed position. */
+.research-stills { display: none; }
+.page-home.home-edition-2026.home-atlas-edition .research-story--cinematic .research-stop__visual { opacity: 0; pointer-events: none; }
+.page-home.home-edition-2026.home-atlas-edition .research-story--cinematic .research-stills {
+  display: block; position: absolute; z-index: 1; isolation: isolate; pointer-events: none;
+}
+.research-stills::before {
+  content: ''; position: absolute; inset: -24% -3% -18% auto;
+  width: calc(100vw + 100%); background: #f8f6ee; z-index: -1;
+  border-radius: 0 140px 180px 0 / 0 130px 140px 0;
+  transform: rotate(-3deg); transform-origin: right center;
+}
+.research-stills::after {
+  content: ''; position: absolute; right: 1%; bottom: -10%; width: calc(100vw + 100%);
+  height: 25%; background: #c5d0b7; z-index: -2;
+  border-radius: 0 10% 46% 0 / 0 20% 100% 0; transform: rotate(-2deg); transform-origin: right center;
+}
+.research-stills__picture { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding-bottom: 30px; opacity: 0; transition: opacity .22s ease; }
+.research-stills__picture.is-active { opacity: 1; }
+.research-stills__picture img { display: block; width: 100%; max-width: 520px; height: auto; max-height: 100%; object-fit: contain; border: 0; border-radius: 0; box-shadow: none; mix-blend-mode: darken; }
+.research-stills__picture img.research-team-photo { width: 86%; max-width: 410px; clip-path: polygon(1% 2%,98% 0,100% 97%,0 100%); mix-blend-mode: normal; }
+.page-home.home-edition-2026.home-atlas-edition .research-stills .research-stop__image-note { position: absolute; bottom: 0; color: #4e6258; background: transparent; }
+
+/* Pixel artwork is shown whole, with its negative space left intact. */
+.page-home.home-edition-2026.home-atlas-edition .home-flight-cover { background: #f8f6ee; overflow: hidden; border-radius: 48% 8% 7% 4% / 8% 3% 6% 3%; }
+.page-home.home-edition-2026.home-atlas-edition .home-flight-cover>img { width: 100%; height: 100%; inset: 0; object-fit: contain; transform: none; mask: none; -webkit-mask: none; }
+.page-home.home-edition-2026.home-atlas-edition .home-flight-cover:hover>img { transform: none; }
+.page-home.home-edition-2026.home-atlas-edition .home-flight-cover :is(.home-cover-top,.home-cover-bottom) { color: #35533e; text-shadow: none; }
+@media(prefers-reduced-motion:reduce) { .research-stills__picture { transition: none; } }

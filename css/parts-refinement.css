@@ -1,4 +1,13 @@
 /* One selected feature, one inline explanation, one construct-map home. */
+.page-parts .parts-topology [hidden]{display:none!important}
+.page-parts .parts-view-switch{display:flex;flex-wrap:wrap;gap:.35rem;padding:.3rem;border:1px solid #bec8b9;border-radius:10px;background:#edf0e7;width:fit-content;max-width:100%;margin:.9rem 0 .55rem}
+.page-parts .parts-view-switch button{border:1px solid transparent;border-radius:7px;padding:.65rem .9rem;min-height:44px;background:transparent;color:#31513d;font:600 .82rem/1.3 var(--font-body, sans-serif);cursor:pointer}
+.page-parts .parts-view-switch button[aria-pressed=true]{background:#234735;color:#fff;box-shadow:0 1px 4px #173e2b22}
+.page-parts .parts-view-switch button:focus-visible{outline:3px solid #a06b2d;outline-offset:3px}
+.page-parts .parts-topology .receptor-viewer{margin-top:0}
+.page-parts .parts-topology .parts-topology__caption{margin:.9rem 0 .55rem;font-size:.9rem;line-height:1.65;text-align:left!important}
+.page-parts .parts-topology .parts-topology__note{margin:.55rem 0 0;font-size:.76rem;line-height:1.6;color:#526653;text-align:left!important}
+@media print{.page-parts .parts-view-switch,.page-parts #receptor-3d-panel{display:none!important}.page-parts .parts-topology #receptor-2d-panel{display:block!important}}
 .page-parts .parts-explorer{grid-template-columns:minmax(0,1fr)!important;grid-template-areas:'intro' 'select' 'stack' 'detail' 'maps';background:#fcfaf5;border:1px solid #dcd6c9;box-shadow:2px 4px 0 #e7e2d7;padding:clamp(1rem,2.5vw,2.2rem)}
 .page-parts .parts-builder__stack{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.2rem;align-items:start}
 .page-parts .parts-builder__stack>[data-layer=dna]{grid-column:1/-1}
@@ -13,8 +22,6 @@
 .page-parts .parts-fusion{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,.9fr) auto minmax(0,.8fr);gap:.2rem;align-items:stretch;width:100%}
 .page-parts .parts-fusion .parts-protein{min-width:0;padding:.45rem .35rem;justify-content:center;align-items:center;text-align:center;font-size:.84rem}
 .page-parts .parts-fusion .parts-protein__name{overflow-wrap:anywhere}.page-parts .parts-fusion .parts-protein__meta{display:none}.page-parts .parts-fusion__link{align-self:center;font-weight:800}
-.page-parts .receptor-viewer__labels button[data-protein-focus=gcamp] i{background:#78fb48!important;box-shadow:0 0 12px 5px #75ed56!important}.page-parts .receptor-viewer__labels button[data-protein-focus=mcherry] i{background:#ff5186!important;box-shadow:0 0 12px 5px #ff5c8c!important}
-.page-parts .receptor-viewer__reading-note{margin:.4rem 1rem 1rem;border-top:1px solid #aec8b5;padding-top:.55rem;color:#3b5644;font-size:.78rem}.page-parts .receptor-viewer__reading-note summary{cursor:pointer;font-weight:700}.page-parts .receptor-viewer__reading-note p{margin:.4rem 0}
 .page-parts .parts-map-preview__hit.is-expanded img,.page-parts .parts-atlas__hit.is-expanded img{max-height:min(75vh,780px);height:auto;object-fit:contain}.page-parts .parts-atlas__hit.is-expanded .parts-atlas__frame{aspect-ratio:auto}.page-parts .parts-map-preview__hit.is-expanded,.page-parts .parts-atlas__hit.is-expanded{background:#fff;box-shadow:0 6px 18px #35462c1e}
 .page-parts .parts-catalog__detail-row td{padding:0!important;background:#eef2e9;border-left:3px solid #648e70}.page-parts .parts-catalog__detail-row .parts-drawer__panel{padding:1rem 1.2rem}.page-parts .parts-catalog__detail-row .parts-drawer__dl{grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem 1.1rem}.page-parts .parts-catalog__row[aria-expanded=true]{background:#e7efe4}
 @media(max-width:900px){.page-parts .parts-builder__stack{grid-template-columns:1fr}.page-parts .parts-builder__stack>[data-layer]{grid-column:1}.page-parts .parts-explorer__maps{grid-template-columns:1fr}.page-parts .parts-or-card__meta{grid-template-columns:repeat(2,minmax(0,1fr))}.page-parts .parts-atlas-archive{grid-column:1}.page-parts .parts-catalog__detail-row .parts-drawer__dl{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -29,3 +36,14 @@
 .page-parts .parts-protein[data-feature] { background:var(--v-sheet,#fff)!important; color:var(--v-ink,#172824)!important; box-shadow:none!important; border-color:var(--v-rule,#d5dfd9); }
 .page-parts .parts-protein[data-feature] .parts-protein__name::before { content:''; display:inline-block; width:.65rem; height:.65rem; margin-right:.4rem; border-radius:50%; vertical-align:.025em; background:var(--parts-feature); box-shadow:inset 0 0 0 1px #0002; }
 .page-parts .parts-protein[data-feature]:is(:hover,:focus-visible,.is-active) { border-color:var(--parts-feature); outline:2px solid var(--parts-feature); outline-offset:1px; }
+.page-parts .parts-protein[data-feature].is-active { background:color-mix(in srgb,var(--parts-feature) 16%,white)!important; box-shadow:inset 5px 0 0 var(--parts-feature)!important; }
+/* A portrait topology keeps the membrane, fusion and separate marker readable. */
+.page-parts .parts-topology .protein-map { margin-top:0; max-width:440px; margin-inline:auto; }
+.page-parts .parts-topology .protein-map svg { width:100%; height:auto; aspect-ratio:2/3; }
+.page-parts .protein-map [role="button"] { cursor:pointer; outline:none; }
+.page-parts .protein-map .protein-hit-area { fill:transparent; stroke:transparent; stroke-width:2; }
+.page-parts .protein-map [role="button"]:is(:hover,.is-active) .protein-domain { stroke:#183e2c; stroke-width:3; filter:drop-shadow(0 2px 3px #224e3233); }
+.page-parts .protein-map [data-feature="linker"] .protein-domain { stroke:#aa91b0; stroke-width:7; }
+.page-parts .protein-map [data-feature="linker"]:is(:hover,.is-active) .protein-domain { stroke:#6c4775; stroke-width:10; }
+.page-parts .protein-map [role="button"]:focus-visible .protein-hit-area { stroke:#9b6022; stroke-dasharray:5 4; fill:#ffffff44; }
+.page-parts .parts-topology__note { text-align:left; }

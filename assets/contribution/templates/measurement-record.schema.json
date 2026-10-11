@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AeroSense measurement record template (no observations)",
+  "type": "object",
+  "properties": {
+    "run_id": {
+      "type": "string",
+      "description": "run id"
+    },
+    "sample_id": {
+      "type": "string",
+      "description": "sample id"
+    },
+    "biological_replicate_id": {
+      "type": "string",
+      "description": "biological replicate id"
+    },
+    "technical_replicate_id": {
+      "type": "string",
+      "description": "technical replicate id"
+    },
+    "time_s": {
+      "type": "number",
+      "description": "time s"
+    },
+    "channel": {
+      "type": "string",
+      "description": "channel"
+    },
+    "raw_value": {
+      "type": "number",
+      "description": "raw value"
+    },
+    "raw_unit": {
+      "type": "string",
+      "description": "raw unit"
+    },
+    "blank_run_id": {
+      "type": "string",
+      "description": "blank run id"
+    },
+    "exposure_ms": {
+      "type": "number",
+      "description": "exposure ms"
+    },
+    "gain": {
+      "type": "number",
+      "description": "gain"
+    },
+    "temperature_C": {
+      "type": "number",
+      "description": "temperature C"
+    },
+    "humidity_percent": {
+      "type": "number",
+      "description": "humidity percent"
+    },
+    "flow_mL_min": {
+      "type": "number",
+      "description": "flow mL min"
+    },
+    "cell_condition": {
+      "type": "string",
+      "description": "cell condition"
+    },
+    "odor_identity": {
+      "type": "string",
+      "description": "odor identity"
+    },
+    "odor_concentration": {
+      "type": "number",
+      "description": "odor concentration"
+    },
+    "odor_concentration_unit": {
+      "type": "string",
+      "description": "odor concentration unit"
+    },
+    "qc_status": {
+      "type": "string",
+      "description": "qc status",
+      "enum": [
+        "unreviewed",
+        "accepted",
+        "excluded"
+      ]
+    },
+    "exclusion_reason": {
+      "type": "string",
+      "description": "exclusion reason"
+    },
+    "source_file_sha256": {
+      "type": "string",
+      "description": "source file sha256"
+    }
+  },
+  "required": [
+    "run_id",
+    "sample_id",
+    "time_s",
+    "channel",
+    "raw_value",
+    "raw_unit",
+    "qc_status",
+    "source_file_sha256"
+  ],
+  "additionalProperties": false
+}

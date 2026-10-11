@@ -282,7 +282,7 @@
 
     function visitorLine(choseCorrect) {
       return (choseCorrect ? "You disagreed. " : "You agreed. ") +
-        "Scientifically, this claim should be rejected. Your choice stays in this browser tab. The n=107 response distribution is awaiting verification.";
+        "Scientifically, this claim should be rejected. Your choice stays in this browser tab. The early n=28 counts are listed below; the later n=107 item-level table is unavailable.";
     }
 
     function allAnswered() {

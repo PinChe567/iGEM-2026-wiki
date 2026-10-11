@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Experiments · AeroSense · NTHU iGEM 2026</title>
   <meta name="description" content="AeroSense wet-lab protocol specification: molecular cloning, mammalian culture, transfection, stable-line selection, expression/functional validation, 384-well calcium imaging, and VUAA1-normalised analysis. Execution and measured outcomes are on Notebook and Results.">
-  <link rel="stylesheet" href="css/styles.css?v=20261003-context">
-  <link rel="stylesheet" href="css/experiments.css">
-  <script src="js/main.js?v=20261003-references" defer></script>
-  <script src="js/glossary.js?v=20261003-readflow" defer></script>
+  <link rel="stylesheet" href="css/styles.css?v=20261010-v3">
+  <link rel="stylesheet" href="css/experiments.css?v=20261010-methods">
+  <script src="js/main.js?v=20261011-v7" defer></script>
+  <script src="js/glossary.js?v=20261011-v7" defer></script>
   <script src="js/microinteractions.js?v=20261001b" defer></script>
-  <script src="js/search.js" defer></script>
-  <script src="js/experiments.js" defer></script>
+  <script src="js/search.js?v=20261011-v7" defer></script>
+  <script src="js/experiments.js?v=20261010-tracks" defer></script>
   <link rel="stylesheet" href="css/revision.css?v=10">
   <link rel="stylesheet" href="css/experience.css?v=3">
   <script src="js/experience.js?v=20261003-readflow" defer></script>
@@ -30,18 +29,19 @@
   <link rel="stylesheet" href="css/signal-system.css?v=6">
   <link rel="stylesheet" href="css/diary-overhaul.css?v=7">
   <link rel="stylesheet" href="css/targeted-polish.css?v=8">
-  <script src="js/fly-section-questions.js?v=20261004-brain-corner" defer></script>
+  <script src="js/fly-section-questions.js?v=20261010-v5" defer></script>
 <script src="js/signal-guide.js?v=20261003-context" defer></script>
 <link rel="stylesheet" href="css/revision-v7.css?v=7.8">
   <link rel="stylesheet" href="css/editorial-2026.css?v=20261004-reading">
-  <script src="js/editorial-2026.js?v=20261003-readflow" defer></script>
-  <link rel="stylesheet" href="css/vivid-theme.css?v=20261002h">
+  <script src="js/editorial-2026.js?v=20261011-lab-themes" defer></script>
+  <link rel="stylesheet" href="css/vivid-theme.css?v=20261011-lab-themes">
 <link rel="stylesheet" href="css/reading-polish.css?v=20261004-reading">
-<link rel="stylesheet" href="css/navigation-type.css?v=20261003-portal">
-<link rel="stylesheet" href="css/definition-message.css?v=20261003-portal">
+<link rel="stylesheet" href="css/navigation-type.css?v=20261010-v3">
+<link rel="stylesheet" href="css/definition-message.css?v=20261008-motion">
 <script src="js/navigation-type.js?v=20261003-portal" defer></script>
-  <link rel="stylesheet" href="css/reference-groups.css?v=20261003-categories">
-</head>
+  <link rel="stylesheet" href="css/reference-groups.css?v=20261010-v3">
+<link rel="stylesheet" href="css/experiment-tracks.css?v=20261010">
+<link rel="canonical" href="https://2026.igem.wiki/nthu/experiments"><meta property="og:url" content="https://2026.igem.wiki/nthu/experiments"><link rel="stylesheet" href="css/judging-review-v7.css?v=20261011-v7"><script src="js/judging-review-v7.js?v=20261011-v7" defer></script></head>
 <body class="page-experiments editorial-2026">
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="reading-progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
@@ -57,9 +57,9 @@
       </a>
       <div class="header-tools">
         <a class="btn-search" href="index.html#site-map" aria-haspopup="dialog" aria-controls="project-search" aria-label="Project Search" title="Project Search">
-          <svg class="header-icon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
-            <path d="M15.5 15.5L21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <svg class="header-icon" width="22" height="22" viewbox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"></circle>
+            <path d="M15.5 15.5L21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
           </svg>
           <span class="btn-search__label">Project Search</span>
         </a>
@@ -100,7 +100,7 @@
               <li><a href="design.html">Design</a></li>
               <li><a href="experiments.html" aria-current="page">Experiments</a></li>
               <li><a href="results.html">Results</a></li>
-            </ul>
+            <li><a href="alternative-platform.html">Alternative Platform</a></li></ul>
           </li>
           <li class="nav-item nav-item--dropdown">
             <span class="nav-label-static">Dry Lab</span>
@@ -108,7 +108,7 @@
             <ul class="nav-submenu" id="submenu-drylab">
               <li><a href="hardware.html">Hardware</a></li>
               <li><a href="model.html">Model</a></li>
-            </ul>
+            <li><a href="measurement.html">Measurement</a></li></ul>
           </li>
                     <li class="nav-item nav-item--dropdown">
             <span class="nav-label-static">Human Practices</span>
@@ -129,14 +129,14 @@
     <div class="search-dialog__panel">
       <div class="search-dialog__header">
         <h2 id="search-title">Project Search</h2>
-        <button type="button" class="search-dialog__close" data-search-close>Close</button>
+        <button type="button" class="search-dialog__close" data-search-close="">Close</button>
       </div>
       <form class="search-dialog__form" role="search" action="index.html#site-map" method="get">
         <label for="project-search-input">Search the AeroSense wiki</label>
         <p id="project-search-instructions" class="search-dialog__hint">Type keywords from page titles and sections. Results stay on this site. No remote requests are made. Arrow keys move through results; Enter opens; Escape closes.</p>
         <div class="search-dialog__field">
           <input id="project-search-input" type="search" name="q" placeholder="e.g. Orco, G418, calcium assay" autocomplete="off" aria-describedby="project-search-instructions project-search-count" aria-controls="project-search-results">
-          <button type="button" class="search-dialog__clear" data-search-clear hidden>Clear</button>
+          <button type="button" class="search-dialog__clear" data-search-clear="" hidden="">Clear</button>
         </div>
         <div class="search-dialog__actions">
           <button type="submit">Search</button>
@@ -150,8 +150,8 @@
   <div class="shell shell--with-toc">
     <div class="page-main-column">
       <main id="main">
-        <p class="visually-hidden" data-exp-live aria-live="polite" aria-atomic="true"></p>
-        <header class="page-hero" data-reveal>
+        <p class="visually-hidden" data-exp-live="" aria-live="polite" aria-atomic="true"></p>
+        <header class="page-hero" data-reveal="">
           <nav aria-label="Breadcrumb">
             <ol class="breadcrumb">
               <li><a href="index.html">Home</a></li>
@@ -222,17 +222,12 @@
           </nav>
           <span class="page-kicker">Wet Lab · Experiments</span>
           <h1>Experiments</h1>
-          <p class="page-purpose">How the biological sensing system was experimentally tested — protocols and assay parameters.</p>
-          <p class="page-lede">
-            Methods for building, validating, and characterizing olfactory sensing cell lines.
-            Construct rationale: <a href="design.html">Design</a>.
-            Iteration after failure: <a href="engineering.html#stream-wetlab">Engineering · Wet Lab</a>.
-            Wet-lab evidence: <a href="results.html">Results</a>.
-          </p>
+          <p class="page-purpose">Three experimental tracks, with methods and evidence kept connected.</p>
+          <p class="page-lede">From plasmid preparation to engineered HEK293 assays and exploratory fly brain imaging. Choose a track to follow its preparation, measurement and analysis. <a href="results.html">Read the results</a>.</p>
           <p class="page-lede page-lede--secondary">
             The calcium-response assay was adapted from Zboray <i>et al.</i>
             <span class="cite-wrap">
-              <a class="cite" href="#ref-zboray-2023" id="cite-zboray-hero" aria-describedby="cite-preview-zboray-hero">[1]</a>
+              <a class="cite" href="#ref-zboray-2023" id="cite-zboray-hero" aria-describedby="cite-preview-zboray-hero" aria-label="Reference 1">[1]</a>
               <span class="cite-preview" id="cite-preview-zboray-hero" role="tooltip">Zboray et al., 2023 — full entry in References.</span>
             </span>.
             AeroSense-specific construct, transfection, and validation procedures are documented separately below.
@@ -241,194 +236,35 @@
 
 
 
-        <article class="page-article prose">
-          <span id="why-this-matters" class="anchor-alias"></span>
-          <span id="experimental-map" class="anchor-alias"></span>
-          <span id="experimental-evidence-map" class="anchor-alias"></span>
-          <span id="experimental-strategy" class="anchor-alias"></span>
-          <span id="protocol-index" class="anchor-alias"></span>
-          <span id="protocol-navigator" class="anchor-alias"></span>
-          <span id="core-protocols" class="anchor-alias"></span>
-          <span id="status-legend" class="anchor-alias"></span>
-
-          <div class="exp-protocol-filter" data-protocol-filter>
-            <p class="exp-protocol-filter__label" id="protocol-filter-label">Protocol</p>
-            <div class="exp-protocol-filter__list" role="group" aria-labelledby="protocol-filter-label">
-              <button type="button" data-protocol-id="all" aria-pressed="true">All</button>
-              <button type="button" data-protocol-id="molecular-cloning" aria-pressed="false">Molecular cloning</button>
-              <button type="button" data-protocol-id="cell-culture" aria-pressed="false">Cell culture</button>
-              <button type="button" data-protocol-id="transfection" aria-pressed="false">Transfection</button>
-              <button type="button" data-protocol-id="stable-selection" aria-pressed="false">Stable selection</button>
-              <button type="button" data-protocol-id="expression-validation" aria-pressed="false">Expression validation</button>
-              <button type="button" data-protocol-id="calcium-imaging" aria-pressed="false">Calcium imaging</button>
-              <button type="button" data-protocol-id="data-analysis" aria-pressed="false">Data analysis</button>
-            </div>
-          </div>
-
-          <section class="section-block" id="workflow" data-reveal>
-            <h2>Experimental workflow</h2>
-            <p>One canonical protocol sequence. Bacterial propagation is part of molecular cloning, not a separate numbered step.</p>
-            <p class="exp-tools">
-              <button type="button" class="exp-print" data-exp-print hidden aria-label="Print AeroSense experimental protocols">Print protocols</button>
-            </p>
-            <figure class="wiki-figure exp-figure" id="fig-workflow">
-              <div class="wiki-figure__media">
-                <nav class="exp-flow" aria-label="Canonical experimental workflow">
-                  <ol class="exp-flow__list" data-exp-flow>
-                    <li>
-                      <a href="#molecular-cloning">
-                        <span class="exp-flow__num">01</span>
-                        <span class="exp-flow__title">Molecular cloning</span>
-                        <span class="exp-flow__desc">Constructs, bacterial prep, sequencing</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#cell-culture">
-                        <span class="exp-flow__num">02</span>
-                        <span class="exp-flow__title">Mammalian cell culture</span>
-                        <span class="exp-flow__desc">Host maintenance</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#transfection">
-                        <span class="exp-flow__num">03</span>
-                        <span class="exp-flow__title">Transfection</span>
-                        <span class="exp-flow__desc">DNA delivery</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#stable-selection">
-                        <span class="exp-flow__num">04</span>
-                        <span class="exp-flow__title">Stable-line selection</span>
-                        <span class="exp-flow__desc">G418 / NeoR</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#expression-validation">
-                        <span class="exp-flow__num">05</span>
-                        <span class="exp-flow__title">Expression / functional validation</span>
-                        <span class="exp-flow__desc">mCherry / VUAA1</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#calcium-imaging">
-                        <span class="exp-flow__num">06</span>
-                        <span class="exp-flow__title">Calcium imaging assay</span>
-                        <span class="exp-flow__desc">384-well, two-round injection</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#data-analysis">
-                        <span class="exp-flow__num">07</span>
-                        <span class="exp-flow__title">Data analysis</span>
-                        <span class="exp-flow__desc"><i>R</i> then <i>R</i><sub>norm</sub></span>
-                      </a>
-                    </li>
-                  </ol>
-                </nav>
-              </div>
-              <figcaption>
-                <span class="wiki-figure__num">Figure 1.</span>
-                <span class="wiki-figure__title"> Canonical experimental workflow.</span>
-                <p class="wiki-figure__explain">
-                  Protocol navigator for this page. Each step jumps to the corresponding method.
-                  This is a methods outline, not a Gantt chart of completed work.
-                </p>
-              </figcaption>
-            </figure>
-          </section>
-
-          <section class="section-block exp-proto" id="molecular-cloning" data-protocol-id="molecular-cloning" data-reveal>
-            <span id="build" class="anchor-alias"></span>
-            <span id="exp-as-01" class="anchor-alias"></span>
-            <span id="construct-architecture" class="anchor-alias"></span>
-            <span id="construct-provenance" class="anchor-alias"></span>
-            <span id="sequence-verification" class="anchor-alias"></span>
-            <header class="exp-proto__head">
-              <p class="exp-proto__num">01</p>
-              <h2>Molecular cloning</h2>
-              <p class="exp-proto__purpose">Prepare sequence-checked, endotoxin-free plasmids for mammalian transfection.</p>
-            </header>
-
-            <div class="exp-params">
-            <h3>Key parameters</h3>
-            <div class="table-scroll" tabindex="0" role="region" aria-label="Cloning and bacterial propagation conditions. Scroll horizontally to see all columns.">
-              <table class="goal-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Parameter</th>
-                    <th scope="col">Value</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">Constructs</th>
-                    <td>Ten, specified as chemically synthesised and pre-cloned (GenScript)</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Vector</th>
-                    <td>pcDNA3.1(+)</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Host strain</th>
-                    <td><i>E. coli</i> DH5α (Risk Group 1)</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Bacterial selection</th>
-                    <td>Ampicillin 100 µg/mL</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Culture medium</th>
-                    <td>LB broth (Miller), 25 g/L</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Growth</th>
-                    <td>37 °C, 180 rpm, overnight</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Plasmid prep</th>
-                    <td>Endotoxin-free maxiprep</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            </div>
-
-            <h3>Method</h3>
-            <ol class="exp-method-steps">
-              <li>Verify sequences in silico before ordering. Check returned vendor sequences against the designs base-by-base.</li>
-              <li>Obtain all ten constructs chemically synthesised and pre-cloned into pcDNA3.1(+) (GenScript).</li>
-              <li>Propagate plasmids in <i>E. coli</i> DH5α under the bacterial conditions in the table above.</li>
-              <li>Prepare DNA by endotoxin-free maxiprep. Keep DNA concentrated and low-salt.</li>
-              <li>
-                Verify both insert junctions by Sanger sequencing using the vector T7 forward and BGH reverse priming sites, plus internal primers for full coverage.
-                Place one read across the (GGGGS)<sub>3</sub> linker of the Orco construct so a repeat-driven deletion is not invisible.
-              </li>
-            </ol>
-            <aside class="exp-box exp-box--critical">
-              <h3 class="exp-box__label">Controls &amp; critical notes</h3>
-              <p>Use an endotoxin-free maxiprep. Keep DNA concentrated and low-salt.</p>
-              <p>Do not use PstI for diagnostic digests — most of the coding sequences contain internal PstI sites.</p>
-            </aside>
-
-            <p class="exp-see-also"><a href="design.html">See Design</a> · <a href="parts.html">See Parts</a> · <a href="notebook.html#fallback-wet-maxiprep">See Notebook</a></p>
-          </section>
-
-          <section class="section-block exp-proto" id="cell-culture" data-protocol-id="cell-culture" data-reveal>
+        <article class="page-article prose"><section class="section-block" id="abstract" data-reveal=""><h2>Abstract</h2><p>This methods record follows three distinct experimental tracks: bacterial cloning and plasmid preparation; HEK293 expression, selection and odor-response assays; and fly brain imaging during odor presentation. The endpoint microscopy methods describe the supplied 25-field HEK293 dataset and its reproducible analysis. Protocol specifications, acquired data and planned experiments remain distinguished. The <a href="results.html">Results</a> page presents the evidence and its limitations.</p></section><section class="section-block" id="introduction" data-reveal=""><h2>Introduction</h2><p>Preparing the DNA, measuring an engineered cell sensor and observing a fly neural preparation answer different questions. The tracks below keep their sample identities and conclusions separate. All mammalian wet-lab experiments use HEK293. Missing execution details are identified rather than inferred from a published protocol.</p></section><span id="why-this-matters" class="anchor-alias"></span><span id="experimental-map" class="anchor-alias"></span><span id="experimental-evidence-map" class="anchor-alias"></span><span id="experimental-strategy" class="anchor-alias"></span><span id="protocol-index" class="anchor-alias"></span><span id="protocol-navigator" class="anchor-alias"></span><span id="core-protocols" class="anchor-alias"></span><span id="status-legend" class="anchor-alias"></span><section class="section-block" id="workflow" data-reveal=""><h2>Three experimental tracks</h2><p class="exp-box"><strong>Protocol execution key.</strong> “Executed, details incomplete” means an observation or sample exists but the execution record lacks specified metadata. “Executed analysis” applies to reproducible computation on archived images. “Partially executed” separates acquired endpoints from unrun functional assays. “Specification; not run” is an assay design, not a completed result. The protocol values below are not silently assigned to the imaged batch when its delivery record is missing.</p><p>Each track has its own preparation, readout and evidence. Cloning supplies the genetic material. The HEK293 track evaluates the engineered sensor. Fly brain imaging provides biological context in a separate preparation.</p>
+<div class="exp-protocol-filter" data-protocol-filter=""><p class="exp-protocol-filter__label" id="protocol-filter-label">Read a track</p><div class="exp-protocol-filter__list" role="group" aria-labelledby="protocol-filter-label"><button type="button" data-protocol-id="all" aria-pressed="true">All tracks</button><button type="button" data-protocol-id="cloning" aria-pressed="false">A · Cloning</button><button type="button" data-protocol-id="cell-odor" aria-pressed="false">B · HEK293 &amp; odors</button><button type="button" data-protocol-id="fly-imaging" aria-pressed="false">C · Fly brain imaging</button></div></div>
+<nav class="exp-track-map" id="fig-workflow" aria-label="Three independent experiment tracks" data-exp-flow="">
+<div class="exp-track-map__row"><a class="exp-track-map__heading" href="#cloning-track"><span>A</span><strong>Cloning</strong><small>Plasmid preparation</small></a><ol><li><a href="#bacterial-transformation">Transformation</a></li><li><a href="#plasmid-miniprep">Miniprep</a></li><li><a href="#dna-gel">DNA gel &amp; identity checks</a></li></ol></div>
+<div class="exp-track-map__row"><a class="exp-track-map__heading" href="#cell-odor-track"><span>B</span><strong>HEK293 &amp; odor testing</strong><small>Engineered cell sensor</small></a><ol><li><a href="#cell-culture">Culture &amp; transfection</a></li><li><a href="#expression-validation">Expression &amp; selection</a></li><li><a href="#microscopy-analysis">Microscopy analysis</a></li><li><a href="#calcium-imaging">Odor assay &amp; response analysis</a></li></ol></div>
+<div class="exp-track-map__row"><a class="exp-track-map__heading" href="#fly-imaging-track"><span>C</span><strong>Fly brain imaging</strong><small>Exploratory biological study</small></a><ol><li><a href="#fly-preparation">Strains &amp; preparation</a></li><li><a href="#fly-acquisition">Light-sheet &amp; odors</a></li><li><a href="description.html#lightsheet-observation">Regional fluorescence</a></li></ol></div></nav>
+<p class="exp-tools"><button type="button" class="exp-print" data-exp-print="" hidden="" aria-label="Print AeroSense experimental protocols">Print protocols</button></p><p class="visually-hidden" data-exp-live="" aria-live="polite"></p></section><div class="exp-track" id="cloning-track" data-exp-track="cloning"><header class="exp-track__header"><p>Track A</p><h2>Cloning and plasmid preparation</h2></header><section class="section-block exp-proto" id="molecular-cloning" data-protocol-id="molecular-cloning" data-reveal="">
+<span id="build" class="anchor-alias"></span><span id="exp-as-01" class="anchor-alias"></span><span id="construct-architecture" class="anchor-alias"></span><span id="construct-provenance" class="anchor-alias"></span><span id="sequence-verification" class="anchor-alias"></span>
+<header class="exp-proto__head"><p class="exp-proto__num">A01</p><h2>Molecular cloning</h2><p class="exp-proto__purpose">Maintain sample identity from a bacterial colony to the plasmid preparation used downstream.</p></header><p class="exp-execution"><strong>Executed, details incomplete.</strong> Colony photographs archived; preparation yields, gel lane map and linked sequence reads are unavailable.</p>
+<ol class="exp-preparation-flow" aria-label="Cloning workflow"><li><a href="#bacterial-transformation"><span>01</span><strong>Transform</strong><small>Introduce the plasmid and retain plate identity</small></a></li><li><a href="#plasmid-miniprep"><span>02</span><strong>Miniprep</strong><small>Recover plasmid DNA from a selected colony</small></a></li><li><a href="#dna-gel"><span>03</span><strong>DNA gel</strong><small>Inspect preparation quality with a documented lane map</small></a></li></ol>
+<h3 id="bacterial-transformation">Transformation and colony selection</h3><p>The existing specification uses <i>E. coli</i> DH5α, LB and ampicillin selection (100 µg/mL), with overnight propagation at 37 °C and 180 rpm. The supplied plate photographs retain the original labels and marked colonies. Competent-cell preparation, DNA input, transformation and recovery settings, and the corresponding negative-control record are not yet documented. <a href="results.html#cloning-results">View the three original plate photographs</a>.</p>
+<h3 id="plasmid-miniprep">Plasmid miniprep</h3><p>Link each picked colony to its construct and preparation identifier. Record the purification method, culture input, elution volume, concentration and purity. The current source does not identify the miniprep kit or provide a measured yield. The earlier endotoxin-free maxiprep specification remains a separate requirement for mammalian transfection-quality DNA.</p>
+<h3 id="dna-gel">DNA gel electrophoresis</h3><p>The original gel and lane map are not yet supplied. The final record should identify sample treatment, ladder, expected sizes and run settings. Colony growth and band migration cannot substitute for sequence verification.</p>
+<details class="exp-cloning-detail"><summary>Construct provenance and sequence checks</summary><p>The earlier preparation specification names chemically synthesised, pre-cloned pcDNA3.1(+) constructs from GenScript. Its construct count must be reconciled with the <a href="parts.html">Parts</a> record and the labels in the image dataset. Compare returned sequences with the designs, retain both insertion junctions and internal Sanger coverage, and include a read across the (GGGGS)<sub>3</sub> linker. The specification advises against PstI diagnostic digests because of internal coding-sequence sites. These are verification requirements, not a declaration that every supplied colony passed.</p></details>
+<p class="exp-see-also"><a href="design.html">Construct design</a> · <a href="parts.html">Parts</a> · <a href="notebook.html#fallback-wet-maxiprep">Notebook</a></p><p class="exp-see-also"><a href="results.html#cloning-results">Read the corresponding evidence →</a></p></section></div><div class="exp-track" id="cell-odor-track" data-exp-track="cell-odor"><header class="exp-track__header"><p>Track B</p><h2>HEK293 cell experiments and odor testing</h2></header><section class="section-block exp-proto" id="cell-culture" data-protocol-id="cell-culture" data-reveal="">
             <span id="establish" class="anchor-alias"></span>
             <span id="cell-line" class="anchor-alias"></span>
             <span id="culture-conditions" class="anchor-alias"></span>
             <header class="exp-proto__head">
-              <p class="exp-proto__num">02</p>
+              <p class="exp-proto__num">B01</p>
               <h2>Mammalian cell culture</h2>
               <p class="exp-proto__purpose">Maintain the mammalian host under defined growth, wash, and detachment conditions.</p>
-            </header>
+            </header><p class="exp-execution"><strong>Executed, details incomplete.</strong> HEK293 cultures were imaged; passage, seeding history and a dated operator record for this batch remain unresolved.</p>
 
             <div class="exp-params">
             <h3>Key parameters</h3>
             <div class="table-scroll" tabindex="0" role="region" aria-label="Mammalian culture conditions. Scroll horizontally to see all columns.">
-              <table class="goal-table">
-                <thead>
+              <table class="goal-table" id="table-1">
+                <caption><strong class="media-caption__label">Table 1. </strong>Data summary</caption><thead>
                   <tr>
                     <th scope="col">Parameter</th>
                     <th scope="col">Condition</th>
@@ -437,7 +273,7 @@
                 <tbody>
                   <tr>
                     <th scope="row">Cell line</th>
-                    <td>HEK293 (current protocol specification)</td>
+                    <td>HEK293 (team-confirmed mammalian experimental host)</td>
                   </tr>
                   <tr>
                     <th scope="row">Growth medium</th>
@@ -473,25 +309,28 @@
             </ol>
 
             <p class="exp-see-also"><a href="safety-and-security.html#biological-materials">See Safety</a> · <a href="notebook.html#fallback-wet-transfection-planned">See Notebook</a></p>
-          </section>
-
-          <section class="section-block exp-proto" id="transfection" data-protocol-id="transfection" data-reveal>
+          <p class="exp-see-also"><a href="results.html#wet-lab">Read the corresponding evidence →</a></p></section><section class="section-block exp-proto" id="transfection" data-protocol-id="transfection" data-reveal="">
             <span id="transfection-method" class="anchor-alias"></span>
             <span id="exp-as-02" class="anchor-alias"></span>
             <header class="exp-proto__head">
-              <p class="exp-proto__num">03</p>
+              <p class="exp-proto__num">B02</p>
               <h2>Transfection</h2>
-              <p class="exp-proto__purpose">Deliver OR and Orco plasmids into mammalian cells.</p>
-            </header>
+              <p class="exp-proto__purpose">Deliver OR and Orco plasmids into HEK293 cells and preserve the delivery record for each image set.</p>
+            </header><p class="exp-execution"><strong>Executed, details incomplete.</strong> The imaged cells were transfected. The earlier electroporation specification and Lipofectamine/P3000 workbook are not enough to identify the delivery method used for WL-MIC-01.</p>
 
-            <div class="exp-params" data-exp-copy-block>
+            <aside class="exp-box exp-box--critical">
+              <h3 class="exp-box__label">Method provenance</h3>
+              <p>The earlier protocol specification describes electroporation. The supplied <a href="wetlab%20results/transfection%20effeciency/transfect.xlsx" download="">transfection workbook</a> also contains P3000 and Lipofectamine 3000 reagent tables, but does not establish a dated link between those mixtures and each microscopy set. The electroporation parameters retained below are therefore a prior specification, not evidence of the delivery method used for the current images. The executed method, reagent amounts and sample mapping remain to be confirmed from the experimental record.</p>
+            </aside>
+
+            <div class="exp-params" data-exp-copy-block="">
             <div class="exp-params__head">
             <h3>Key parameters</h3>
-            <button type="button" class="exp-copy" data-exp-copy hidden>Copy as text</button>
+            <button type="button" class="exp-copy" data-exp-copy="" hidden="">Copy as text</button>
             </div>
             <div class="table-scroll" tabindex="0" role="region" aria-label="Electroporation parameters. Scroll horizontally to see all columns.">
-              <table class="goal-table">
-                <thead>
+              <table class="goal-table" id="table-2">
+                <caption><strong class="media-caption__label">Table 2. </strong>Data summary</caption><thead>
                   <tr>
                     <th scope="col">Parameter</th>
                     <th scope="col">Value</th>
@@ -499,8 +338,8 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <th scope="row">Current method in this specification</th>
-                    <td>Electroporation in suspension (not adherent)</td>
+                    <th scope="row">Earlier protocol specification</th>
+                    <td>Electroporation in suspension; execution for the imaged samples is unconfirmed</td>
                   </tr>
                   <tr>
                     <th scope="row">Cells per reaction</th>
@@ -525,10 +364,10 @@
 
             <h3>Method</h3>
             <p>
-              Transfect cells in suspension, not adherent, using the DNA mass, plasmid DNA mass ratio, buffer volume, and recovery medium in the table.
+              The earlier specification calls for suspension electroporation using the DNA mass, plasmid DNA mass ratio, buffer volume, and recovery medium in the table.
               Pulse voltage, pulse number, instrument programme, cuvette, and named buffer are not specified in this source.
             </p>
-            <p>Zboray <i>et al.</i> used FuGene HD into HEK293 stable lines <a class="cite" href="#ref-zboray-2023">[1]</a>. That is not substituted for the AeroSense transfection specification above.</p>
+            <p>Zboray <i>et al.</i> used FuGene HD into HEK293 stable lines <a class="cite" href="#ref-zboray-2023" id="cite-auto-ref-zboray-2023-1" aria-label="Reference 1">[1]</a>. That is not substituted for the AeroSense transfection specification above.</p>
 
             <aside class="exp-box exp-box--controls" id="controls">
               <span id="control-matrix" class="anchor-alias"></span>
@@ -546,17 +385,16 @@
             </aside>
 
             <p class="exp-see-also"><a href="design.html">See Design</a> · <a href="notebook.html#fallback-wet-transfection-planned">See Notebook</a></p>
-          </section>
-
-          <section class="section-block exp-proto" id="stable-selection" data-protocol-id="stable-selection" data-reveal>
+          <p class="exp-see-also"><a href="results.html#wet-lab">Read the corresponding evidence →</a></p></section><section class="section-block exp-proto" id="stable-selection" data-protocol-id="stable-selection" data-reveal="">
             <span id="selection-strategy" class="anchor-alias"></span>
             <header class="exp-proto__head">
-              <p class="exp-proto__num">04</p>
+              <p class="exp-proto__num">B03</p>
               <h2>Stable-line selection</h2>
               <p class="exp-proto__purpose">Select G418-resistant mammalian lines after transfection.</p>
-            </header>
+            </header><p class="exp-execution"><strong>Partially executed.</strong> A separate G418 batch was reported in progress; no selection trajectory or endpoint dataset is archived.</p>
+            <p><strong>Current experimental status.</strong> The supplied fluorescence images were acquired approximately 44–48 h after transfection, before G418 selection. A separate batch is undergoing G418 selection. Consequently, these images cannot establish enrichment or survival after selection, and the schedule below remains a protocol target rather than a confirmed result for the imaged batch.</p>
 
-            <figure class="wiki-figure exp-figure" id="fig-selection-timeline">
+            <figure class="wiki-figure exp-figure" id="fig-selection-timeline" data-static-figure-number="1">
               <div class="wiki-figure__media" role="img" aria-labelledby="fig-selection-timeline-title fig-selection-timeline-desc">
                 <p class="exp-fig-kicker" id="fig-selection-timeline-title">Current protocol target — not a validated kill curve</p>
                 <p class="visually-hidden" id="fig-selection-timeline-desc">Protocol target timeline. Day 0 transfection with antibiotic-free recovery. G418 at 100 micrograms per millilitre starts 24 to 48 hours later and runs for 2 weeks. Concentration is then raised to 150 for 1 week, then maintenance at about 75 ongoing. These doses are a literature-informed starting condition, not an AeroSense-confirmed kill-curve result.</p>
@@ -583,8 +421,8 @@
                   </li>
                 </ol>
               </div>
-              <figcaption>
-                <span class="wiki-figure__num">Figure 2.</span>
+              <figcaption><strong class="media-caption__label">Figure 1. </strong>
+                
                 <span class="wiki-figure__title"> G418 selection timeline (protocol target).</span>
                 <p class="wiki-figure__explain">
                   Current protocol target / literature-informed starting condition: G418 started 24–48 h after transfection at 100 µg/mL for 2 weeks, then 150 µg/mL for 1 week, then maintenance at ~75 µg/mL.
@@ -593,14 +431,14 @@
               </figcaption>
             </figure>
 
-            <div class="exp-params exp-params--wide" data-exp-copy-block>
+            <div class="exp-params exp-params--wide" data-exp-copy-block="">
             <div class="exp-params__head">
             <h3>Key parameters</h3>
-            <button type="button" class="exp-copy" data-exp-copy hidden>Copy as text</button>
+            <button type="button" class="exp-copy" data-exp-copy="" hidden="">Copy as text</button>
             </div>
             <div class="table-scroll" tabindex="0" role="region" aria-label="G418 selection schedule. Scroll horizontally to see all columns.">
-              <table class="goal-table">
-                <thead>
+              <table class="goal-table" id="table-3">
+                <caption><strong class="media-caption__label">Table 3. </strong>Data summary</caption><thead>
                   <tr>
                     <th scope="col">Stage</th>
                     <th scope="col">G418 concentration</th>
@@ -651,9 +489,7 @@
             </aside>
 
             <p class="exp-see-also"><a href="design.html#shared-backbone">See Design</a> · <a href="notebook.html#fallback-wet-transfection-planned">See Notebook</a></p>
-          </section>
-
-          <section class="section-block exp-proto" id="expression-validation" data-protocol-id="expression-validation" data-reveal>
+          <p class="exp-see-also"><a href="results.html#limitations">Read the corresponding evidence →</a></p></section><section class="section-block exp-proto" id="expression-validation" data-protocol-id="expression-validation" data-reveal="">
             <span id="validate" class="anchor-alias"></span>
             <span id="exp-as-03" class="anchor-alias"></span>
             <span id="exp-as-04" class="anchor-alias"></span>
@@ -663,16 +499,21 @@
             <span id="ionomycin" class="anchor-alias"></span>
             <span id="validate-interpretation" class="anchor-alias"></span>
             <header class="exp-proto__head">
-              <p class="exp-proto__num">05</p>
+              <p class="exp-proto__num">B04</p>
               <h2>Expression / functional validation</h2>
               <p class="exp-proto__purpose">Confirm cassette transcription and Orco/GCaMP function before VOC assays.</p>
-            </header>
+            </header><p class="exp-execution"><strong>Partially executed.</strong> Fixed-cell endpoint imaging was acquired; the localization and time-resolved functional tests below remain assay specifications.</p>
+
+            <h3>Current microscopy record</h3>
+            <p>The team confirms that the supplied HEK293 images were acquired approximately 44–48 h after transfection and before G418 selection. Cells were fixed with 2% paraformaldehyde before DAPI staining, without a permeabilization step. Blue images show DAPI. Files sharing the same field number refer to the same field of view across channels; exposure was held constant within each channel across groups, and blank calibration was performed. Fixation duration, numerical exposure settings and the complete acquisition log have not been supplied.</p>
+            <p>The available fields are technical observations from one experimental batch, with no independent biological repeats and no live/dead assay. DAPI provides a nuclear denominator for an image-based estimate after segmentation quality control; it does not establish viability. Dense or overlapping nuclei require explicit uncertainty handling. Report the number of analyzable fields per sample and distinguish a nuclear-normalized reporter-positive fraction from confirmed live-cell transfection efficiency. GCaMP6f resting fluorescence and mCherry expression are interpreted separately from stimulus-dependent response and cell viability.</p>
+            <p class="exp-see-also"><a href="results.html">Image analysis, sample-level estimates and limitations</a> · <a href="wetlab%20results/transfection%20effeciency/transfect.xlsx" download="">Original preparation workbook</a></p>
 
             <div class="exp-params">
             <h3>Key parameters</h3>
             <div class="table-scroll" tabindex="0" role="region" aria-label="Validation readout parameters. Scroll horizontally to see all columns.">
-              <table class="goal-table">
-                <thead>
+              <table class="goal-table" id="table-4">
+                <caption><strong class="media-caption__label">Table 4. </strong>Data summary</caption><thead>
                   <tr>
                     <th scope="col">Parameter</th>
                     <th scope="col">Value</th>
@@ -689,7 +530,7 @@
                   </tr>
                   <tr>
                     <th scope="row">VUAA1</th>
-                    <td>Synthetic Orco agonist used as a functional positive-control stimulus <a class="cite" href="#ref-jones-2011">[2]</a></td>
+                    <td>Synthetic Orco agonist used as a functional positive-control stimulus <a class="cite" href="#ref-jones-2011" id="cite-auto-ref-jones-2011-1" aria-label="Reference 2">[2]</a></td>
                   </tr>
                   <tr>
                     <th scope="row">Western blot</th>
@@ -714,7 +555,7 @@
                 After an expression gate, compare vehicle versus VUAA1 on cells that should contain Orco–GCaMP6f.
                 VUAA1 is a synthetic Orco agonist used as a functional positive-control stimulus
                 <span class="cite-wrap">
-                  <a class="cite" href="#ref-jones-2011" id="cite-jones-vuaa1" aria-describedby="cite-preview-jones-2011">[2]</a>
+                  <a class="cite" href="#ref-jones-2011" id="cite-jones-vuaa1" aria-describedby="cite-preview-jones-2011" aria-label="Reference 2">[2]</a>
                   <span class="cite-preview" id="cite-preview-jones-2011" role="tooltip">Jones et al., 2011 — full entry in References.</span>
                 </span>.
                 A VUAA1 response supports functionality of the Orco/GCaMP sensing chain. It does not, by itself, prove membrane trafficking.
@@ -741,9 +582,19 @@
             </aside>
 
             <p class="exp-see-also"><a href="design.html#assay-design">See Design</a> · <a href="results.html#wet-lab">See Results</a> · <a href="notebook.html#fallback-wet-expression-validation-planned">See Notebook</a></p>
-          </section>
-
-          <section class="section-block exp-proto" id="calcium-imaging" data-protocol-id="calcium-imaging" data-reveal>
+          <p class="exp-see-also"><a href="results.html#wet-lab">Read the corresponding evidence →</a></p></section><!-- microscopy-methods:start --><section class="section-block exp-proto" id="microscopy-analysis" data-protocol-id="microscopy-analysis" data-reveal=""><header class="exp-proto__head"><p class="exp-proto__num">B05</p><h2>Endpoint microscopy and image analysis</h2><p class="exp-proto__purpose">Reproduce the DAPI-object fluorescence screen reported in Results.</p></header><p class="exp-execution"><strong>Executed analysis.</strong> All 25 fields and all 2,624 eligible objects are retained in the published data tables and reproducibility package.</p><h3>Source data and experimental context</h3>
+<p>The host was HEK293, as confirmed by the team. Imaging occurred approximately 44–48 h after transfection and before G418. The team fixed cells with 2% paraformaldehyde (PFA), performed no permeabilization step, and then stained with DAPI. The source workbook contains plate-layout and reagent-calculation records, including DAPI/G418 layouts and lipid-reagent mixtures. These records do not independently establish experimental execution or an assay outcome; the VUAA1/odor grids contain labels without response measurements. The workbook does not supply objective, numerical aperture, camera model, gain, acquisition software, DAPI concentration, fixation duration, or field coordinates. Neither the source TIFF tags nor the workbook establishes these missing acquisition details. The biological preparation and transfection record is linked from <a href="experiments.html#exp-as-02">Experiments</a>; undocumented settings are not reconstructed from a literature protocol.</p>
+<h3>Conservative DAPI segmentation</h3>
+<p>The BLUE plane was extracted from each exported TIFF. A 3 × 3 median filter was used for segmentation only, followed by a common threshold of &gt;128 on the 0–255 export scale and 8-connected labeling. The bottom-right annotation rectangle (x ≥85% of image width and y ≥90% of image height) was excluded equally in every field. Eligible objects had area 200–2200 pixels, bounding-box aspect ratio ≤2.5, and object area/bounding-box area ≥0.4. Objects within 49 pixels of a frame edge or whose measurement neighborhood intersected the annotation exclusion were rejected. No watershed split was imposed on merged objects.</p>
+<p>These rules define a conservative image-analysis subset, not a validated nuclear census. Segmentation has been visually inspected, but not benchmarked against independently annotated cell boundaries. Small touching nuclei or nuclear fragments can still pass these geometric filters, so an accepted object is not guaranteed to equal one cell. DAPI is a nuclear counterstain commonly used with fixed preparations. Here, fixation is confirmed and no permeabilization was performed; completeness and uniformity of nuclear labeling were not independently assessed. Fixed DAPI images do not recover the cells’ viability before fixation. <a href="#ref-dapi-guidance" id="cite-auto-ref-dapi-guidance-1" class="cite" aria-label="Reference 3">[3]</a></p>
+<h3>Reporter measurement and positivity threshold</h3><p>The full <a href="measurement.html#control-statistics">Measurement record</a> adds an explicit statistical specification, all three same-batch blank-field holdouts and the area-versus-object audit. These additions leave the original segmentation and primary thresholds unchanged.</p>
+<p>For each eligible object, the signal region contains its nuclear mask plus pixels within 12 pixels, assigned to the nearest blue connected component to limit sharing between adjacent objects. The local background is sampled 24–48 pixels from that object, excluding blue foreground; at least 100 background pixels are required. For RED and GREEN separately, the score is the signal region’s 90th percentile intensity minus the background median. Measurements use the original exported channel values, before the display adjustments.</p>
+<p>This nearest-DAPI expansion does not segment cell boundaries. Excluding blue foreground from the background ring also does not exclude every neighboring cell’s cytoplasm. Fluorescent cytoplasm within that ring can raise the estimated background and reduce an object's score, particularly in dense fields.</p>
+<p>The primary positivity threshold is the maximum of the three blank-field 99th percentiles of these object scores: <strong>RED &gt;16.60 DN and GREEN &gt;11.95 DN</strong>. DN denotes the 8-bit exported digital value. Alternative P95 and P99.5 blank thresholds are reported for sensitivity analysis. Thresholds are calibrated and evaluated using the same blank set, so the blank fraction is a calibration diagnostic, not an independent false-positive validation.</p>
+<p>The reported fraction is 100 × positive eligible objects / all eligible objects. Condition summaries pool these counts across fields; they do not average percentages with different denominators. “Both” indicates both channel criteria within one object's measurement region. It does not prove two-plasmid delivery, protein localization, or co-expression in a viable cell.</p>
+<h3>Image processing and presentation</h3>
+<p>Original TIFF and workbook files were opened read-only and verified by SHA-256 checksums. New figures use fixed linear display windows across all conditions: DAPI 0–255, GREEN 0–120 and RED 0–180; brightfield remains 0–255. The enhanced display can clip bright exported values and is used only for viewing. Original-level views remain available. No sharpening, deconvolution, content removal, generative enhancement or reconstruction of missing detail was applied. The same-field RGB merges combine the original channel positions; no registration correction was imposed. <a href="#ref-microscopy-reporting" id="cite-auto-ref-microscopy-reporting-1" class="cite" aria-label="Reference 4">[4]</a> <a href="#ref-image-integrity" id="cite-auto-ref-image-integrity-1" class="cite" aria-label="Reference 5">[5]</a></p>
+<p>Web previews are resized with Lanczos resampling and saved as lossless WebP. The original scale bars remain within the full field; they were not used to infer pixel size. Object overlays mark classifications on a dimmed merge for legibility and have full-resolution PNG versions for audit.</p><p class="exp-see-also"><a href="results.html#wet-lab">Microscopy results and all-field gallery</a> · <a href="results.html#data-availability">Scripts, data and source files</a> · <a href="measurement.html#reproducibility">Reproduce the control comparison</a></p><p class="exp-see-also"><a href="results.html#control-comparison">Read the corresponding evidence →</a></p></section><!-- microscopy-methods:end --><section class="section-block exp-proto" id="calcium-imaging" data-protocol-id="calcium-imaging" data-reveal="">
             <span id="challenge" class="anchor-alias"></span>
             <span id="exp-as-05" class="anchor-alias"></span>
             <span id="plate-preparation" class="anchor-alias"></span>
@@ -752,15 +603,15 @@
             <span id="concentrations" class="anchor-alias"></span>
             <span id="assay-rationale" class="anchor-alias"></span>
             <header class="exp-proto__head">
-              <p class="exp-proto__num">06</p>
+              <p class="exp-proto__num">B06</p>
               <h2>Calcium imaging assay</h2>
               <p class="exp-proto__purpose">Measure VOC-evoked GCaMP6f fluorescence in a 384-well plate with a matched vehicle injection.</p>
-            </header>
+            </header><p class="exp-execution"><strong>Specification; not run.</strong> This 384-well assay has no executed plate-level dataset in the current archive. The earlier qualitative VUAA1 observation does not verify this protocol.</p>
 
             <p class="exp-source">
               The calcium-response assay was adapted from Zboray <i>et al.</i>
               <span class="cite-wrap">
-                <a class="cite" href="#ref-zboray-2023" id="cite-zboray-assay" aria-describedby="cite-preview-zboray-assay">[1]</a>
+                <a class="cite" href="#ref-zboray-2023" id="cite-zboray-assay" aria-describedby="cite-preview-zboray-assay" aria-label="Reference 1">[1]</a>
                 <span class="cite-preview" id="cite-preview-zboray-assay" role="tooltip">Zboray et al., 2023 — full entry in References.</span>
               </span>.
               AeroSense-specific construct, transfection, and validation procedures are documented separately above.
@@ -770,8 +621,8 @@
             <div class="exp-params exp-params--wide">
             <h3>Key parameters</h3>
             <div class="table-scroll" tabindex="0" role="region" aria-label="Calcium-imaging assay parameters. Scroll horizontally to see all columns.">
-              <table class="goal-table">
-                <thead>
+              <table class="goal-table" id="table-5">
+                <caption><strong class="media-caption__label">Table 5. </strong>Data summary</caption><thead>
                   <tr>
                     <th scope="col">Parameter</th>
                     <th scope="col">Value</th>
@@ -827,14 +678,14 @@
             </div>
             </div>
 
-            <div class="exp-params exp-params--wide" data-exp-copy-block>
+            <div class="exp-params exp-params--wide" data-exp-copy-block="">
             <div class="exp-params__head">
             <h3>Buffers</h3>
-            <button type="button" class="exp-copy" data-exp-copy hidden>Copy as text</button>
+            <button type="button" class="exp-copy" data-exp-copy="" hidden="">Copy as text</button>
             </div>
             <div class="table-scroll" tabindex="0" role="region" aria-label="Assay and VOC buffer composition. Scroll horizontally to see all columns.">
-              <table class="goal-table">
-                <thead>
+              <table class="goal-table" id="table-6">
+                <caption><strong class="media-caption__label">Table 6. </strong>Data summary</caption><thead>
                   <tr>
                     <th scope="col">Component</th>
                     <th scope="col">Assay buffer</th>
@@ -866,7 +717,7 @@
             </ol>
             <p>The volumes are self-consistent: 20 + 7 = 27 µL, then + 9 = 36 µL; 9/36 = 1/4, so a 4× stock dilutes exactly to 1× final. The vehicle injection simultaneously establishes the volume for the second round and measures the solvent and injection artefact alone.</p>
 
-            <figure class="wiki-figure exp-figure" id="fig-two-round">
+            <figure class="wiki-figure exp-figure" id="fig-two-round" data-static-figure-number="2">
               <div class="wiki-figure__media">
                 <p class="exp-fig-kicker">Well volume and two-round sequence</p>
                 <div class="exp-assay">
@@ -894,7 +745,7 @@
                       <span class="exp-well__sum">= 36 µL</span>
                     </div>
                   </div>
-                  <p class="exp-assay__math">9 / 36 = 1/4 &nbsp;→&nbsp; 4× stock dilutes to 1× final</p>
+                  <p class="exp-assay__math">9 / 36 = 1/4  →  4× stock dilutes to 1× final</p>
                   <ol class="exp-seq">
                     <li>
                       <span class="exp-seq__round">Round 1</span>
@@ -911,13 +762,13 @@
                   </ol>
                 </div>
               </div>
-              <figcaption>
-                <span class="wiki-figure__num">Figure 3.</span>
+              <figcaption><strong class="media-caption__label">Figure 2. </strong>
+                
                 <span class="wiki-figure__title"> Two-round calcium assay volumes.</span>
                 <p class="wiki-figure__explain">
                   20 µL assay buffer + 7 µL vehicle = 27 µL; then + 9 µL of 4× VOC = 36 µL.
                   9/36 = 1/4, so a 4× stock becomes 1× final concentration.
-                  Geometry adapted from Zboray <i>et al.</i> <a class="cite" href="#ref-zboray-2023">[1]</a>.
+                  Geometry adapted from Zboray <i>et al.</i> <a class="cite" href="#ref-zboray-2023" id="cite-auto-ref-zboray-2023-3" aria-label="Reference 1">[1]</a>.
                 </p>
               </figcaption>
             </figure>
@@ -948,7 +799,7 @@
                 <li>
                   <span class="exp-ctrl__kind">Specificity control</span>
                   Ca<sup>2+</sup>-free condition. Zboray <i>et al.</i> showed that Ca<sup>2+</sup>-free and Ca<sup>2+</sup>-free + EGTA buffers abolish the VUAA1 response
-                  <a class="cite" href="#ref-zboray-2023">[1]</a>.
+                  <a class="cite" href="#ref-zboray-2023" id="cite-auto-ref-zboray-2023-4" aria-label="Reference 1">[1]</a>.
                 </li>
             </ul>
               <p>Keep DMSO identical in VOC, vehicle, and VUAA1 wells.</p>
@@ -975,9 +826,7 @@
             </div>
 
             <p class="exp-see-also"><a href="safety-and-security.html#chemical-voc">See Safety</a> · <a href="results.html#wet-lab">See Results</a> · <a href="notebook.html#fallback-wet-voc-imaging-planned">See Notebook</a></p>
-          </section>
-
-          <section class="section-block exp-proto" id="data-analysis" data-protocol-id="data-analysis" data-reveal>
+          <p class="exp-see-also"><a href="results.html#limitations">Read the corresponding evidence →</a></p></section><section class="section-block exp-proto" id="data-analysis" data-protocol-id="data-analysis" data-reveal="">
             <span id="quantify" class="anchor-alias"></span>
             <span id="exp-as-07" class="anchor-alias"></span>
             <span id="delta-f" class="anchor-alias"></span>
@@ -988,15 +837,15 @@
             <span id="output-structure" class="anchor-alias"></span>
             <span id="data-management" class="anchor-alias"></span>
             <header class="exp-proto__head">
-              <p class="exp-proto__num">07</p>
+              <p class="exp-proto__num">B07</p>
               <h2>Data analysis</h2>
               <p class="exp-proto__purpose">Convert raw fluorescence into a VUAA1-normalised relative response for each receptor–stimulus pair.</p>
-            </header>
+            </header><p class="exp-execution"><strong>Specification; not run.</strong> These response metrics apply to future time courses; fixed-cell image fractions use the separate microscopy pipeline.</p>
 
             <p class="exp-source">
               Relative-response definition, the ≤ 0.05 floor, plate/day VUAA1 mean normalisation, and Grubbs’ outlier removal follow Zboray <i>et al.</i>
               <span class="cite-wrap">
-                <a class="cite" href="#ref-zboray-2023" id="cite-zboray-analysis" aria-describedby="cite-preview-zboray-analysis">[1]</a>
+                <a class="cite" href="#ref-zboray-2023" id="cite-zboray-analysis" aria-describedby="cite-preview-zboray-analysis" aria-label="Reference 1">[1]</a>
                 <span class="cite-preview" id="cite-preview-zboray-analysis" role="tooltip">Zboray et al., 2023 — full entry in References.</span>
               </span>.
               Zboray <i>et al.</i> denote the relative response <i>R</i> as Δ<i>F</i>. This page uses <i>R</i> and <i>R</i><sub>norm</sub> to avoid mixing Δ<i>F</i> with Δ<i>F</i>/<i>F</i><sub>0</sub>.
@@ -1005,8 +854,8 @@
             <div class="exp-params">
             <h3>Key parameters</h3>
             <div class="table-scroll" tabindex="0" role="region" aria-label="Analysis parameters. Scroll horizontally to see all columns.">
-              <table class="goal-table">
-                <thead>
+              <table class="goal-table" id="table-7">
+                <caption><strong class="media-caption__label">Table 7. </strong>Data summary</caption><thead>
                   <tr>
                     <th scope="col">Parameter</th>
                     <th scope="col">Value</th>
@@ -1035,11 +884,11 @@
                   </tr>
                   <tr>
                     <th scope="row">Zero floor</th>
-                    <td><i>R</i><sub>norm</sub> ≤ 0.05 treated as zero, following <a class="cite" href="#ref-zboray-2023">[1]</a></td>
+                    <td><i>R</i><sub>norm</sub> ≤ 0.05 treated as zero, following <a class="cite" href="#ref-zboray-2023" id="cite-auto-ref-zboray-2023-6" aria-label="Reference 1">[1]</a></td>
                   </tr>
                   <tr>
                     <th scope="row">Outliers</th>
-                    <td>Removed by Grubbs’ test, following <a class="cite" href="#ref-zboray-2023">[1]</a> (α not specified here)</td>
+                    <td>Removed by Grubbs’ test, following <a class="cite" href="#ref-zboray-2023" id="cite-auto-ref-zboray-2023-7" aria-label="Reference 1">[1]</a> (α not specified here)</td>
                   </tr>
                 </tbody>
               </table>
@@ -1051,16 +900,16 @@
               <li>Record raw fluorescence at ex 485 nm / em 535 nm. Take F<sub>0</sub> as the 5 s baseline before the relevant injection.</li>
               <li>Take F<sub>max</sub> as the peak in the post-injection window. Compute <i>R</i> = (F<sub>max</sub> − F<sub>0</sub>) / F<sub>0</sub>.</li>
               <li>Normalise each VOC response to the mean 50 µM VUAA1 response of the corresponding OR cell line measured on the same plate/day: <i>R</i><sub>norm</sub> = <i>R</i><sub>VOC</sub> / mean(<i>R</i><sub>VUAA1</sub>, corresponding cell line, same plate/day). Do not use a same-well VUAA1 injection as the denominator.</li>
-              <li>Following <a class="cite" href="#ref-zboray-2023">[1]</a>, treat <i>R</i><sub>norm</sub> ≤ 0.05 as zero, and remove outliers by Grubbs’ test.</li>
+              <li>Following <a class="cite" href="#ref-zboray-2023" id="cite-auto-ref-zboray-2023-8" aria-label="Reference 1">[1]</a>, treat <i>R</i><sub>norm</sub> ≤ 0.05 as zero, and remove outliers by Grubbs’ test.</li>
             </ol>
 
-            <figure class="exp-eq">
+            <figure class="exp-eq" id="figure-3" data-static-figure-number="3">
               <p class="exp-eq__math"><i>R</i> = (<i>F</i><sub>max</sub> − <i>F</i><sub>0</sub>) / <i>F</i><sub>0</sub></p>
-              <figcaption>Raw relative response. Not an absolute Ca<sup>2+</sup> concentration. Zboray <i>et al.</i> denote <i>R</i> as Δ<i>F</i>.</figcaption>
+              <figcaption><strong class="media-caption__label">Figure 3. </strong>Raw relative response. Not an absolute Ca<sup>2+</sup> concentration. Zboray <i>et al.</i> denote <i>R</i> as Δ<i>F</i>.</figcaption>
             </figure>
-            <figure class="exp-eq">
+            <figure class="exp-eq" id="figure-4" data-static-figure-number="4">
               <p class="exp-eq__math"><i>R</i><sub>norm</sub> = <i>R</i><sub>VOC</sub> / mean(<i>R</i><sub>VUAA1</sub>, line, plate/day)</p>
-              <figcaption>VOC responses are normalized to the mean 50 µM VUAA1 response of the corresponding OR cell line measured on the same plate/day.</figcaption>
+              <figcaption><strong class="media-caption__label">Figure 4. </strong>VOC responses are normalized to the mean 50 µM VUAA1 response of the corresponding OR cell line measured on the same plate/day.</figcaption>
             </figure>
 
             <aside class="exp-box exp-box--critical">
@@ -1076,12 +925,12 @@
                 <dt>Sampling</dt>
                 <dd>F<sub>0</sub> for 5 s before the relevant injection</dd>
                 <dt>Analysis method</dt>
-                <dd><i>R</i>, then plate/day mean 50 µM VUAA1 <i>R</i><sub>norm</sub>; ≤ 0.05 floor and Grubbs’ test following <a class="cite" href="#ref-zboray-2023">[1]</a></dd>
+                <dd><i>R</i>, then plate/day mean 50 µM VUAA1 <i>R</i><sub>norm</sub>; ≤ 0.05 floor and Grubbs’ test following <a class="cite" href="#ref-zboray-2023" id="cite-auto-ref-zboray-2023-9" aria-label="Reference 1">[1]</a></dd>
                 <dt>Downstream</dt>
                 <dd>
                   Multi-receptor vectors are intended for a sparse-coding classifier based on
                   <span class="cite-wrap">
-                    <a class="cite" href="#ref-dasgupta-2017" id="cite-dasgupta-model" aria-describedby="cite-preview-dasgupta-2017">[3]</a>
+                    <a class="cite" href="#ref-dasgupta-2017" id="cite-dasgupta-model" aria-describedby="cite-preview-dasgupta-2017" aria-label="Reference 6">[6]</a>
                     <span class="cite-preview" id="cite-preview-dasgupta-2017" role="tooltip">Dasgupta et al., 2017 — full entry in References.</span>
                   </span>.
                   That classifier is not specified on this page. See <a href="model.html">Model</a>.
@@ -1090,30 +939,61 @@
             </div>
 
             <p class="exp-see-also"><a href="model.html">See Model</a> · <a href="results.html#res-EXP-AS-07">See Results</a> · <a href="notebook.html#chronicle-controls">See Notebook</a></p>
-          </section>
-
-          <section class="section-block" id="safety" data-reveal>
+          <p class="exp-see-also"><a href="results.html#limitations">Read the corresponding evidence →</a></p></section></div><div class="exp-track" id="fly-imaging-track" data-exp-track="fly-imaging"><header class="exp-track__header"><p>Track C</p><h2>Fly brain imaging</h2></header><section class="section-block exp-proto" id="fly-lightsheet" data-protocol-id="fly-lightsheet" data-reveal="">
+            <header class="exp-proto__head">
+              <p class="exp-proto__num">C01</p>
+              <h2>Fly brain imaging and odor presentation</h2>
+              <p class="exp-proto__purpose">Document the exploratory observation that motivated an optical approach to biological olfaction.</p>
+            </header><p class="exp-execution"><strong>Partially executed.</strong> An exploratory recording is archived in Description; the PN comparison is not yet supplied and driver stock identity requires reconciliation.</p>
+            <p>The team-supplied fly recording and regional fluorescence plots are presented in <a href="description.html#lightsheet-observation">Description · First observation</a>. Including their methods here makes that observation traceable while keeping its role distinct from validation of the engineered HEK293 sensor.</p>
+            <ol class="exp-preparation-flow exp-preparation-flow--supporting" aria-label="Supporting fly observation workflow">
+              <li><a href="#fly-preparation"><span>01</span><strong>Fly strain &amp; environment</strong><small>Identify the specimen and its preparation</small></a></li>
+              <li><a href="#fly-acquisition"><span>02</span><strong>Light-sheet &amp; odors</strong><small>Record fluorescence around odor presentation</small></a></li>
+              <li><a href="description.html#lightsheet-observation"><span>03</span><strong>Exploratory observation</strong><small>View the recording and regional traces</small></a></li>
+            </ol>
+            <h3 id="fly-preparation">Fly strain and preparation environment</h3>
+            <p>The team records a TH-associated preparation under the label “TH (5137)” and a planned projection-neuron preparation under “PN (GH146)”. Both preparations use <strong>UAS-GCaMP6f</strong>, as confirmed by the team. The TH imaging record is dated 20 April; the PN preparation record is dated 4 May, and PN imaging has not yet been performed. The full progeny genotypes, animal age and sex, animal count, rearing conditions, dissection or immobilisation procedure and imaging environment remain to be documented. The identifier 5137 still needs stock-system confirmation: BDSC #5137 is a UAS-mCD8::GFP reporter stock. This catalogue-number discrepancy concerns the driver/preparation label and does not replace the confirmed UAS-GCaMP6f reporter. <a href="description.html#fly-stock-note">Stock and marker interpretation</a> distinguishes the unresolved stock identifier from the confirmed reporter and observed fluorescence.</p>
+            <h3 id="fly-acquisition">Light-sheet acquisition and odor presentation</h3>
+            <p>The existing record includes three odor presentations: isopentyl acetate, 3-octanol and 4-methylcyclohexanol. The original AVI recording is retained alongside its web preview. The preview is displayed at 6 frames/s; this is a display setting and does not establish the microscope acquisition rate. Instrument model, optical settings, exposure, acquired frame rate, odor concentrations, carrier flow and delivery timing at the specimen are not documented here.</p>
+            <h3>Analysis and interpretation</h3>
+            <p>Regional mean-intensity traces and exploratory local-baseline ΔF/F₀ traces describe changes around the approximate presentation windows. UAS-GCaMP6f provides a calcium-sensitive reporter, but a normalized fluorescence change alone does not separate calcium-dependent responses from motion, bleaching, baseline drift or stimulus-delivery artifacts. Motion correction, background handling, independent animals and replicate consistency are not established by these files. The observation motivates a design question about converting biological fluorescence into data; it does not establish receptor specificity, validate the HEK293 OR/Orco–GCaMP system or demonstrate hardware performance.</p>
+            <p class="exp-see-also"><a href="description.html#lightsheet-observation">Recording, plots and interpretation</a> · <a href="wetlab%20results/description_lightsheet/Normalized_TH.avi" download="">Download source recording</a></p>
+          <p class="exp-see-also"><a href="description.html#lightsheet-observation">Read the corresponding evidence →</a></p></section></div><section class="section-block" id="results-record" data-reveal="">
+            <h2>Results record</h2>
+            <p>Evidence is reported on the <a href="results.html">Results</a> page, where images and analyses can be read alongside their controls and limitations. The protocols above specify what each assay is intended to measure. A fluorescence image alone does not establish cell viability or a cell-count-based transfection efficiency, and survival under G418 does not by itself demonstrate a functional odor response. The supporting fly observations remain in <a href="description.html#lightsheet-observation">Description</a>.</p>
+          </section><section class="section-block" id="discussion" data-reveal="">
+            <h2>Discussion and future work</h2>
+            <p>The central limitation is the gap between an assay specification and a complete, reproducible execution record. The plate photographs document visible growth. Colony identities, miniprep measurements and gel documentation must still connect that record to verified plasmids. Mammalian-cell records must connect the construct, transfection condition, selection history and image acquisition settings to each experiment. The current electroporation specification and literature-informed G418 schedule should not be read as independently validated operating conditions.</p>
+            <p>The next validation priorities are to complete the cloning evidence, document the actual transfection settings, establish host- and batch-specific selection controls, and evaluate reporter expression with appropriate cell-count and viability information. Functional fluorescence responses then require matched stimulus controls and independent biological replicates. Fly imaging can strengthen the project's biological context when its preparation and acquisition metadata are recovered; it remains a separate study rather than a substitute for these core tests.</p>
+          </section><section class="section-block" id="conclusion" data-reveal="">
+            <h2>Conclusion</h2>
+            <p>The three experimental tracks separately document cloning, HEK293 expression and odor testing, and exploratory fly brain imaging. Its value depends on keeping construct verification, expression, selection and sensing performance as distinct evidence requirements. The available methods support that progression without claiming completion of experiments whose records are still being assembled.</p>
+          </section><section class="section-block" id="supplementary" data-reveal="">
+            <h2>Supplementary information and data availability</h2><p><a href="assets/experiments/aerosense-protocols.html" download="">Download standalone protocol record</a> · <a href="assets/experiments/aerosense-protocol-record.zip" download="">Protocol record ZIP</a>. Execution status and missing metadata are preserved in both versions.</p>
+            <p>Construct identities and maps are available in <a href="parts.html">Parts</a>; design decisions are in <a href="design.html">Design</a>; dated experimental records are in <a href="notebook.html">Notebook</a>; and currently available image evidence and analyses are in <a href="results.html">Results</a>. The supporting fly recording is downloadable from <a href="description.html#lightsheet-observation">Description</a>.</p>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="Method metadata still required for reproducibility. Scroll horizontally to see all columns.">
+              <table class="goal-table" id="table-8">
+                <caption><strong class="media-caption__label">Table 8. </strong>Data summary</caption><thead><tr><th scope="col">Record</th><th scope="col">Details still required</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">Transformation and miniprep</th><td>Transformation method, competent-cell and recovery details, colony identifiers, purification kit and yield measurements.</td></tr>
+                  <tr><th scope="row">DNA gel</th><td>Original image, lane map, sample treatment, ladder, expected sizes and complete run settings.</td></tr>
+                  <tr><th scope="row">Transfection and selection</th><td>Executed delivery method and instrument settings, sample-level DNA amounts and dates, G418 controls and selection outcome.</td></tr>
+                  <tr><th scope="row">Microscopy and functional assay</th><td>Instrument and numerical acquisition settings, fixation duration, matched control files, segmentation validation, viability information and stimulus record. The current images are DAPI-paired after 2% PFA fixation without permeabilization, pre-G418 and from one batch without biological repeats.</td></tr>
+                  <tr><th scope="row">Supporting fly observation</th><td>Genotype, animals and preparation, acquisition metadata, odor delivery, motion/background treatment and independent replicates.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p>The methods page is not a claim that every listed source file has been deposited. Missing records are identified here so that readers can assess reproducibility directly.</p>
+          </section><section class="section-block" id="safety" data-reveal="">
             <h2>Safety</h2>
             <p>
-              All work is contained. <i>E. coli</i> DH5α is Risk Group 1 (BSL-1); HEK293 (the mammalian line named in this protocol specification) is handled at BSL-2 in a Class II biosafety cabinet.
+              All work is contained. <i>E. coli</i> DH5α is Risk Group 1 (BSL-1); HEK293 is handled at BSL-2 in a Class II biosafety cabinet.
               Aromatic VOC ligands are flammable and toxic and are handled in a fume hood per their Safety Data Sheets.
               Nothing is released outside the laboratory.
             </p>
             <p>Full biosafety, chemical handling, and training records are on the <a href="safety-and-security.html">Safety &amp; Security</a> page.</p>
             <p class="exp-see-also"><a href="safety-and-security.html#biological-materials">Biological materials</a> · <a href="safety-and-security.html#chemical-voc">Chemical and VOC handling</a></p>
-          </section>
-
-          <span id="adaptations" class="anchor-alias"></span>
-          <span id="reproducibility" class="anchor-alias"></span>
-          <span id="protocol-changes" class="anchor-alias"></span>
-          <span id="literature-precautions" class="anchor-alias"></span>
-          <span id="draft-warnings" class="anchor-alias"></span>
-          <span id="reproduction-packet" class="anchor-alias"></span>
-          <span id="adjacent-ids" class="anchor-alias"></span>
-          <span id="exp-as-06" class="anchor-alias"></span>
-          <span id="exp-as-08" class="anchor-alias"></span>
-          <span id="continue" class="anchor-alias"></span>
-        </article>
+          </section><span id="adaptations" class="anchor-alias"></span><span id="reproducibility" class="anchor-alias"></span><span id="protocol-changes" class="anchor-alias"></span><span id="literature-precautions" class="anchor-alias"></span><span id="draft-warnings" class="anchor-alias"></span><span id="reproduction-packet" class="anchor-alias"></span><span id="adjacent-ids" class="anchor-alias"></span><span id="exp-as-06" class="anchor-alias"></span><span id="exp-as-08" class="anchor-alias"></span><span id="continue" class="anchor-alias"></span></article>
       </main>
 
       <nav class="page-turn" aria-label="Page">
@@ -1121,58 +1001,42 @@
         <a class="page-turn__next" href="results.html"><span class="page-turn__dir">Next</span><span class="page-turn__title">Results</span></a>
       </nav>
 
-      <section class="references" aria-labelledby="references-heading" id="references" data-reveal>
-        <h2 id="references-heading">References</h2>
-        <div class="reference-group" aria-labelledby="references-research-heading">
-          <h3 class="reference-group__heading" id="references-research-heading">Research papers</h3>
-          <ol class="ref-list" start="1">
-            <li value="1" id="ref-zboray-2023">
+      <section class="references" aria-labelledby="references-heading" id="references" data-reveal="">
+        <h2 id="references-heading">References</h2><span id="microscopy-method-references" class="visually-hidden">Microscopy methods and image integrity sources</span>
+        
+          <span id="references-research-heading" class="visually-hidden">Research papers</span>
+          <ol class="ref-list" data-reference-order="first-citation"><li value="1" id="ref-zboray-2023">
             <span class="ref-authors">Zboray, K., Toth, A. V., Miskolczi, T. D., Pesti, K., Casanova, E., Kreidl, E., Mike, A., Szenes, Á., Sági, L., &amp; Lukacs, P.</span>
             <span class="ref-year">(2023).</span>
             <span class="ref-title">High-throughput ligand profile characterization in novel cell lines expressing seven heterologous insect olfactory receptors for the detection of volatile plant biomarkers.</span>
             <span class="ref-venue"><i>Scientific Reports</i>, <span class="ref-volume">13</span>, Article 21757.</span>
             <span class="ref-doi">DOI: <a href="https://doi.org/10.1038/s41598-023-47455-4" rel="noopener noreferrer">10.1038/s41598-023-47455-4</a>.</span>
-            <a class="ref-backlink" href="#cite-zboray-hero">Back to citation</a>
-          </li>
-            <li value="2" id="ref-jones-2011">
+            
+          <details class="ref-highlights"><summary>Source highlights</summary><div class="ref-highlights__body"><ul><li>Heterologous insect olfactory receptors expressed in mammalian cell lines for odorant / volatile profiling.</li><li>Demonstrates a living-cell sensor route for plant-related VOC biomarker detection (literature context, not AeroSense data).</li></ul></div></details><div class="ref-return-tools"><a class="ref-backlink" href="#cite-zboray-hero">Back to citation</a></div></li><li value="2" id="ref-jones-2011">
             <span class="ref-authors">Jones, P. L., Pask, G. M., Rinker, D. C., &amp; Zwiebel, L. J.</span>
             <span class="ref-year">(2011).</span>
             <span class="ref-title">Functional agonism of insect odorant receptor ion channels.</span>
             <span class="ref-venue"><i>Proceedings of the National Academy of Sciences of the United States of America</i>, <span class="ref-volume">108</span>(21), 8821–8825.</span>
             <span class="ref-doi">DOI: <a href="https://doi.org/10.1073/pnas.1102425108" rel="noopener noreferrer">10.1073/pnas.1102425108</a>.</span>
-            <a class="ref-backlink" href="#cite-jones-vuaa1">Back to citation</a>
-          </li>
-            <li value="3" id="ref-dasgupta-2017">
+            
+          <details class="ref-highlights"><summary>Source highlights</summary><div class="ref-highlights__body"><ul><li>Reports functional agonism of insect odorant receptor ion channels.</li><li>Supports VUAA1 as an Orco-family agonist useful for functional controls.</li></ul></div></details><div class="ref-return-tools"><a class="ref-backlink" href="#cite-auto-ref-jones-2011-1">Back to citation</a></div></li><li value="3" id="ref-dapi-guidance"><span class="ref-authors">Thermo Fisher Scientific.</span> <span class="ref-title">DAPI solution: nuclear labeling and preparation limits.</span> <a href="https://www.thermofisher.com/order/catalog/product/62248/faqs" rel="noopener noreferrer">Manufacturer guidance</a>.<details class="ref-highlights"><summary>Source highlights</summary><div class="ref-highlights__body"><ul><li>Manufacturer guidance for DAPI nuclear labeling; staining conditions affect how the nuclear signal can be interpreted.</li></ul></div></details><div class="ref-return-tools"><a class="ref-backlink" href="#cite-auto-ref-dapi-guidance-1">Back to citation</a></div></li><li value="4" id="ref-microscopy-reporting"><span class="ref-authors">Montero Llopis, P., et al.</span> <span class="ref-year">(2021).</span> <span class="ref-title">Best practices and tools for reporting reproducible fluorescence microscopy methods.</span> <span class="ref-venue"><i>Nature Methods</i>, 18, 1463–1476.</span> <a href="https://doi.org/10.1038/s41592-021-01156-w" rel="noopener noreferrer">doi:10.1038/s41592-021-01156-w</a>.<details class="ref-highlights"><summary>Source highlights</summary><div class="ref-highlights__body"><ul><li>Reporting guidance for reproducible fluorescence microscopy, including acquisition and image-analysis methods.</li></ul></div></details><div class="ref-return-tools"><a class="ref-backlink" href="#cite-auto-ref-microscopy-reporting-1">Back to citation</a></div></li><li value="5" id="ref-image-integrity"><span class="ref-authors">Nature Communications.</span> <span class="ref-title">Image integrity and standards.</span> <a href="https://www.nature.com/ncomms/editorial-policies/image-integrity" rel="noopener noreferrer">Editorial policy</a>.<details class="ref-highlights"><summary>Source highlights</summary><div class="ref-highlights__body"><ul><li>Editorial standards for preserving image evidence and disclosing image processing.</li></ul></div></details><div class="ref-return-tools"><a class="ref-backlink" href="#cite-auto-ref-image-integrity-1">Back to citation</a></div></li><li value="6" id="ref-dasgupta-2017">
             <span class="ref-authors">Dasgupta, S., Stevens, C. F., &amp; Navlakha, S.</span>
             <span class="ref-year">(2017).</span>
             <span class="ref-title">A neural algorithm for a fundamental computing problem.</span>
             <span class="ref-venue"><i>Science</i>, <span class="ref-volume">358</span>(6364), 793–796.</span>
             <span class="ref-doi">DOI: <a href="https://doi.org/10.1126/science.aam9868" rel="noopener noreferrer">10.1126/science.aam9868</a>.</span>
-            <a class="ref-backlink" href="#cite-dasgupta-model">Back to citation</a>
-          </li>
-          </ol>
-        </div>
+            
+          <details class="ref-highlights"><summary>Source highlights</summary><div class="ref-highlights__body"><ul><li>Connects fly mushroom-body sparse coding ideas to locality-sensitive hashing for similarity search.</li><li>Provides a computational rationale for sparse, efficient odor-pattern representations.</li></ul></div></details><div class="ref-return-tools"><a class="ref-backlink" href="#cite-dasgupta-model">Back to citation</a></div></li></ol>
+        
       </section>
     </div>
 
     <div class="page-toc-slot">
-    <details class="page-toc" open>
+    <details class="page-toc" open="">
       <summary class="toc__summary">
         <span class="toc__label">On this page</span>
 </summary>
-      <nav aria-label="Table of contents">
-        <ol>          <li><a href="#workflow"><span class="tech-label">01</span> Workflow</a></li>
-          <li><a href="#molecular-cloning"><span class="tech-label">02</span> Molecular cloning</a></li>
-          <li><a href="#cell-culture"><span class="tech-label">03</span> Mammalian cell culture</a></li>
-          <li><a href="#transfection"><span class="tech-label">04</span> Transfection</a></li>
-          <li><a href="#stable-selection"><span class="tech-label">05</span> Stable-line selection</a></li>
-          <li><a href="#expression-validation"><span class="tech-label">06</span> Expression validation</a></li>
-          <li><a href="#calcium-imaging"><span class="tech-label">07</span> Calcium imaging</a></li>
-          <li><a href="#data-analysis"><span class="tech-label">08</span> Data analysis</a></li>
-          <li><a href="#safety"><span class="tech-label">09</span> Safety</a></li>
-                  <li><a href="#references"><span class="tech-label">Ref</span> References</a></li>
-</ol>
-      </nav>
+      <nav aria-label="Table of contents"><ol><li><a href="#abstract">Abstract</a></li><li><a href="#introduction">Introduction</a></li><li><a href="#workflow">Three experimental tracks</a></li><li><a href="#cloning-track">A · Cloning</a></li><li><a href="#cell-odor-track">B · HEK293 &amp; odor testing</a><ol><li><a href="#cell-culture">Cell culture</a></li><li><a href="#transfection">Transfection</a></li><li><a href="#stable-selection">G418 selection</a></li><li><a href="#expression-validation">Expression validation</a></li><li><a href="#microscopy-analysis">Endpoint microscopy &amp; analysis</a></li><li><a href="#calcium-imaging">Calcium imaging assay</a></li><li><a href="#data-analysis">Response analysis</a></li></ol></li><li><a href="#fly-imaging-track">C · Fly brain imaging</a></li><li><a href="#discussion">Discussion &amp; future work</a></li><li><a href="#supplementary">Supplementary &amp; data</a></li><li><a href="#safety">Safety</a></li><li><a href="#references">References</a></li></ol></nav>
     </details>
       <a class="back-to-top" href="#main">Back to top</a>
     </div>
@@ -1180,7 +1044,7 @@
 
   <footer class="site-footer">
     <div class="site-footer__inner"><div class="shared-footer-brand"><span>AeroSense</span><p>NTHU · iGEM 2026</p></div>
-      <p class="footer-mission">AeroSense is developing a bio-digital olfactory sensing platform that pairs living-cell receptor arrays with edge-capable computational models for complex odor recognition.</p>
+      <p class="footer-mission">AeroSense investigates living-cell odor sensing, fluorescence readout and fly-inspired decoding for stored-food screening. Each research page separates observations, simulations and work still to be validated.</p>
 
       <p class="footer-sitemap-title" id="site-map-label">Site map</p>
       <div class="footer-grid" id="site-map" aria-labelledby="site-map-label">
@@ -1209,14 +1073,14 @@
             <li><a href="design.html">Design</a></li>
             <li><a href="experiments.html">Experiments</a></li>
             <li><a href="results.html">Results</a></li>
-          </ul>
+          <li><a href="alternative-platform.html">Alternative Platform</a></li></ul>
         </div>
         <div class="footer-col">
           <h2>Dry Lab</h2>
           <ul>
             <li><a href="hardware.html">Hardware</a></li>
             <li><a href="model.html">Model</a></li>
-          </ul>
+          <li><a href="measurement.html">Measurement</a></li></ul>
         </div>
         <div class="footer-col">
           <h2>Human Practices</h2>
@@ -1240,12 +1104,16 @@
         <ul class="footer-legal">
           <li><a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer">Source on GitLab</a></li>
           <li>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">Creative Commons Attribution 4.0 International</a></li>
-          <li><a href="attributions.html#responsible-ai">Attributions &amp; Responsible AI</a></li>
+          <li><a href="attributions.html#official-form">Attributions</a></li>
             </ul>
         <p class="footer-copy">© 2026 NTHU · AeroSense</p>
       </div>
     </div>
 </footer>
 <script src="js/figure-numbering.js?v=7.6" defer></script>
-</body>
-</html>
+
+
+
+
+
+</body></html>

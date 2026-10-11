@@ -126,7 +126,7 @@ const STAGES = [
     kicker: "03 / SENSE",
     heading: "WE BORROWED\nTHE RECEPTOR.",
     chain: "OR + Orco → Ca²⁺ → GCaMP6f",
-    text: "The story now moves to a separate engineered HEK293T cell carrying the proposed OR–Orco/GCaMP sensing architecture.",
+    text: "The story now moves to a separate engineered HEK293 cell carrying the proposed OR–Orco/GCaMP sensing architecture.",
     place: "nw",
     pathNames: ["FLIGHT_PATH_03", "STAGE_ANCHOR_03"],
     fallback: [
@@ -1951,7 +1951,7 @@ function loadGltf(url) {
 
   function buildRenderer() {
     renderer = new THREE.WebGLRenderer({ antialias: !mobile, alpha: false, powerPreference: "high-performance" });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1.25 : 1.5));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1 : 1.25));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.08;
@@ -2042,7 +2042,14 @@ function loadGltf(url) {
       .then(function () {
         // Decode every chapter before take-off. Loading a GLB and rebuilding the
         // entire route at a chapter boundary caused a visible stall mid-flight.
-        return Promise.all([loadFly(), ...STAGES.map((_, index) => ensureStage(index, { silent: true }))]);
+        // Keep all chapters prepared before take-off, but allow the page to
+        // paint progress between model decodes instead of parsing them at once.
+        return loadFly().then(async function () {
+          for (let index = 0; index < STAGES.length; index++) {
+            await new Promise(resolve => setTimeout(resolve, 0));
+            await ensureStage(index, { silent: true });
+          }
+        });
       })
       .then(function () {
         rebuildPath();
@@ -2096,7 +2103,7 @@ function loadGltf(url) {
     viewH = h;
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1.5 : 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1 : 1.25));
     renderer.setSize(w, h, false);
     fitFlyScale();
     if (giantFly && fly) giantFly.scale.copy(fly.root.scale).multiplyScalar(8);
@@ -2762,6 +2769,12 @@ function loadGltf(url) {
       return;
     }
     if (!state.last) state.last = now;
+    // A conceptual journey does not need to render at a 120/144 Hz monitor's
+    // refresh rate. Keep elapsed-time physics while limiting GPU work to 30 Hz.
+    if (now - state.last < 1000 / 30) {
+      state.raf = window.requestAnimationFrame(tick);
+      return;
+    }
     const dt = clamp((now - state.last) / 1000, 0, 0.05);
     state.last = now;
     render(dt);

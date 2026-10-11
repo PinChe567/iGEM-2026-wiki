@@ -33,7 +33,8 @@
   var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
 
   // Reduced motion → keep the static story (CSS shows it). Nothing to load.
-  if (reduce.matches) {
+  var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  if (reduce.matches || (connection && (connection.saveData || /(^|-)2g$/.test(connection.effectiveType)))) {
     root.classList.add('is-static');
     reduce.addEventListener && reduce.addEventListener('change', function () { if (!reduce.matches) location.reload(); });
     return;
@@ -218,7 +219,9 @@
     var rect = stage.getBoundingClientRect();
     st.w = Math.max(1, rect.width);
     st.h = Math.max(1, rect.height);
-    st.dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // The movie is 720p; a 2x full-screen canvas adds compositing work without
+    // recovering source detail. Keep touch devices especially lightweight.
+    st.dpr = Math.min(window.devicePixelRatio || 1, finePointer.matches ? 1.5 : 1.25);
     var cw = Math.round(st.w * st.dpr);
     var ch = Math.round(st.h * st.dpr);
     // Match the source's pixel budget rather than repainting an oversized
@@ -284,16 +287,14 @@
     if (p && p.then) p.then(function () { v.pause(); }).catch(function () {});
   }
 
-  // Scrubbing needs a seekable resource. GitHub Pages / iGEM hosting serve HTTP
-  // byte ranges; Python's preview server (preview.ps1) does not. On localhost,
-  // or after an actual seek fails, load the file as a Blob (always seekable).
+  // Prefer native byte-range streaming, including the local preview server.
+  // Only an actual failed seek falls back to a full-file Blob.
   // Do not require the whole duration to be seekable at loadeddata: a browser
   // can report only its first buffered range while streaming a valid MP4.
   var LOCAL = ['localhost', '127.0.0.1', '::1', '[::1]', ''].indexOf(location.hostname) >= 0;
   function setSource(v, url) {
     v.dataset.srcUrl = url;
     delete v.dataset.blob;
-    if (LOCAL) return toBlob(v);
     v.src = url;
     v.load();
   }
@@ -348,7 +349,7 @@
   function startSensor() {
     // The opening frame gets the connection first. No fallback timer competes
     // with a still-loading normal stream on a slow mobile connection.
-    if (reading || vS.dataset.srcUrl || !st.ready.normal) return;
+    if (reading || !st.running || document.hidden || vS.dataset.srcUrl || !st.ready.normal) return;
     vS.preload = 'auto';
     setSource(vS, srcFor('sensor'));
   }
@@ -658,9 +659,9 @@
     var travel = clamp((t - (TL.web.cta[1] - 0.35)) / 0.8, 0, 1);
     travel = travel * travel * (3 - 2 * travel);
     var portrait = st.w / st.h < 0.9;
-    var scale = portrait ? 1.25 : 1.8;
-    var x0 = portrait ? st.w * 0.06 : st.w * 0.58;
-    var y0 = portrait ? Math.min(st.h * 0.64, geometry.dockY - 110) : st.h * 0.42;
+    var scale = portrait ? 1.45 : 1.9;
+    var x0 = portrait ? st.w * 0.40 : st.w * 0.465;
+    var y0 = portrait ? Math.min(st.h * 0.69, geometry.dockY - 105) : Math.min(st.h * 0.63, geometry.dockY - 140);
     ctaEl.style.setProperty('--asc-note-width', Math.max(80, (st.w - x0 - 16) / scale - geometry.buttonW - 8) + 'px');
     var x = x0 + (geometry.dockX - x0) * travel;
     var y = y0 + (geometry.dockY - y0) * travel;
@@ -810,12 +811,12 @@
     var on = mode !== 'off';
     [useBtn].forEach(function (b) { b.setAttribute('aria-pressed', String(on)); });
     if (isTouch()) {
-      useLabel.textContent = on ? 'Return to visual view' : 'Use AeroSense';
+      useLabel.textContent = on ? 'Close the reader and return to visual view' : 'Open the reader and reveal AeroSense view';
       revealBtn.hidden = true;
       hint.hidden = false;
       hint.textContent = on ? 'AeroSense view' : 'Or hold & drag to sense';
     } else {
-      useLabel.textContent = on ? 'AeroSense on' : 'Use AeroSense';
+      useLabel.textContent = on ? 'Close the reader and return to visual view' : 'Open the reader and reveal AeroSense view';
       revealBtn.hidden = !on;
       revealBtn.textContent = mode === 'full' ? 'Return to visual view' : 'Reveal all';
       revealBtn.setAttribute('aria-pressed', String(mode === 'full'));
@@ -823,6 +824,9 @@
       hint.textContent = 'Move to sense · hold to widen';
     }
     useBtn.setAttribute('aria-label', useLabel.textContent);
+    ctaNote.querySelector('[data-asc-note-copy]').innerHTML = on
+      ? 'Reader open.<br>AeroSense view is on.'
+      : (isTouch() ? 'Tap to open the reader.<br>See what sight misses.' : 'Open the reader.<br>See what sight misses.');
     // Revealing a control or changing its label can move the dock without
     // resizing the outer toolbar. Refresh its target before the next frame.
     cacheGeometry();
@@ -1003,7 +1007,7 @@
 
   /* ---------- go */
   if (isTouch()) {
-    ctaNote.querySelector('[data-asc-note-copy]').textContent = 'Tap the product to reveal the AeroSense view.';
+    ctaNote.querySelector('[data-asc-note-copy]').textContent = 'Tap to open the reader. See what sight misses.';
   }
   setMode('off', 'init');
   live.textContent = '';

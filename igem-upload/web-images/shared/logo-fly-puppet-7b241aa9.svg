@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="aerosense-fly aerosense-fly--logo" viewBox="0 0 1280 1280" aria-hidden="true">
+  <style>
+    .aerosense-fly--logo{width:100%;height:100%;overflow:visible;--fly-turn:0deg}
+    .aerosense-fly--logo .fly-lift{transform-origin:640px 650px}
+    .aerosense-fly--logo .fly-neck{transform-origin:445px 684px;transform:rotate(calc(var(--fly-turn) * .3));transition:transform .5s ease}
+    .aerosense-fly--logo .fly-head{transform-origin:445px 684px}
+    .aerosense-fly--logo .fly-wing-left{transform-origin:385px 546px}
+    .aerosense-fly--logo .fly-wing-right{transform-origin:632px 699px}
+    .aerosense-fly--logo.is-flying .fly-lift{animation:logo-fly-lift 3.2s ease-in-out infinite}
+    .aerosense-fly--logo.is-flying .fly-wing-left{animation:logo-fly-wing-left .24s ease-in-out infinite alternate}
+    .aerosense-fly--logo.is-flying .fly-wing-right{animation:logo-fly-wing-right .24s -.1s ease-in-out infinite alternate}
+    .aerosense-fly--logo.is-alive .fly-head{animation:logo-fly-look 7s ease-in-out infinite}
+    .aerosense-fly--logo.is-landed .fly-wing-left,.aerosense-fly--logo.is-landed .fly-wing-right{transform:rotate(0);transition:transform .8s ease}
+    @keyframes logo-fly-lift{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-12px) rotate(1deg)}}
+    @keyframes logo-fly-wing-left{from{transform:rotate(-2deg) scaleX(.98)}to{transform:rotate(4deg) scaleX(.91)}}
+    @keyframes logo-fly-wing-right{from{transform:rotate(2deg) scaleY(.98)}to{transform:rotate(-4deg) scaleY(.92)}}
+    @keyframes logo-fly-look{0%,12%,100%{transform:rotate(0)}25%,40%{transform:rotate(3.5deg)}65%,80%{transform:rotate(-3deg)}}
+    @media(prefers-reduced-motion:reduce){.aerosense-fly--logo *{animation:none!important;transition:none!important;transform:none!important}}
+  </style>
+  <!-- All moving pieces use the same existing logo cutout. No replacement character is drawn. -->
+  <defs>
+    <image id="logo-fly-source" href="logo-fly-cutout.png" width="1280" height="1280"/>
+    <clipPath id="logo-fly-left"><path d="M246 612C238 491 255 397 331 290 388 212 464 104 535 30 661 129 625 301 568 444L508 478Q410 453 329 508L310 603Z"/></clipPath>
+    <clipPath id="logo-fly-right"><path d="M550 455Q580 390 758 393L1240 443 1190 530 1060 635 880 720 688 770 643 717 658 662C660 573 606 510 550 455Z"/></clipPath>
+    <clipPath id="logo-fly-face"><path d="m259 649 100-42 68 35 188 44 56 84-19 164-124 60-126-31-123-124-28-117Z"/></clipPath>
+    <mask id="logo-fly-body"><rect width="1280" height="1280" fill="white"/><path d="M246 612C238 491 255 397 331 290 388 212 464 104 535 30 661 129 625 301 568 444L508 478Q410 453 329 508L310 603Z" fill="black"/><path d="M550 455Q580 390 758 393L1240 443 1190 530 1060 635 880 720 688 770 643 717 658 662C660 573 606 510 550 455Z" fill="black"/><path d="m259 649 100-42 68 35 188 44 56 84-19 164-124 60-126-31-123-124-28-117Z" fill="black"/></mask>
+  </defs>
+  <g class="fly-lift">
+    <use href="#logo-fly-source" mask="url(#logo-fly-body)"/>
+    <g class="fly-wing-left"><use href="#logo-fly-source" clip-path="url(#logo-fly-left)"/></g>
+    <g class="fly-wing-right"><use href="#logo-fly-source" clip-path="url(#logo-fly-right)"/></g>
+    <g class="fly-neck"><g class="fly-head"><use href="#logo-fly-source" clip-path="url(#logo-fly-face)"/></g></g>
+  </g>
+</svg>

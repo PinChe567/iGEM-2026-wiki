@@ -18,7 +18,7 @@
  *   needs-update — source is too incomplete or internally contradictory to treat as settled
  *
  * datePrecision: day | range | month
- * stream: wetlab | drylab | hp | igem
+ * stream: wetlab | drylab | hp | team | igem
  * substream: hardware | model | null
  *   Technical workstreams: Wet Lab | Dry Lab.
  *   Hardware and Model are Dry Lab substreams, not peers of Wet Lab.
@@ -110,7 +110,8 @@
     return {
       id: partial.id,
       startDate: partial.startDate,
-      endDate: partial.endDate == null ? partial.startDate : partial.endDate,
+      endDate: partial.openEnd ? null : (partial.endDate == null ? partial.startDate : partial.endDate),
+      openEnd: Boolean(partial.openEnd),
       datePrecision: partial.datePrecision,
       stream: partial.stream,
       substream: partial.substream == null ? null : partial.substream,
@@ -510,7 +511,8 @@
       substream: "hardware",
       category: "mechanical",
       status: "planned",
-      title: "Mechanical Enclosure (Planned)",
+      title: "Mechanical Enclosure — Original September Plan",
+      sourceNote: "Original planning entry retained for chronology. The 8 October timeline update separately records enclosure V1 (8–25 September) and V2 (26 September–8 October) work periods; no assembly-test result is inferred.",
       shortSummary:
         "Planned opaque SolidWorks enclosure for optical geometry, ambient-light control, and sample placement.",
       work:
@@ -534,13 +536,13 @@
       substream: "hardware",
       category: "manufacturing",
       status: "planned",
-      title: "PCB Fabrication and Assembly (Planned)",
+      title: "PCB Fabrication and Assembly — Original September Estimate",
       shortSummary:
-        "Vendor-estimated fabrication/SMT through late September. Actual dates must replace forecast before freeze.",
+        "Earlier vendor estimate for September fabrication/SMT. The newer team timeline records vendor work through 6 October; actual delivery and inspection remain unconfirmed.",
       work:
         "Planned work: the current vendor estimate places schematic/layout finalization, PCB fabrication, SMT assembly and inspection during September, with estimated delivery near the end of the month. Because this schedule is vendor-dependent, the final Notebook will record the actual fabrication and delivery dates, not only the forecast. The current schedule supplied by iST lists schematic work, layout, PCB manufacture, SMT and inspection as sequential stages through late September.",
       needsUpdate: [
-        "BEFORE FREEZE — Replace planned dates with actual fabrication and delivery dates.",
+        "Record confirmed fabrication completion, delivery and inspection separately from the newer 12 September–6 October vendor work window.",
       ],
       references: [HARDWARE_REFS["5"]],
       tags: ["fabrication", "planned", "needs-update"],
@@ -644,6 +646,282 @@
    * WET LAB
    * ========================================================================= */
   var WETLAB_EVENTS = [
+    event({
+  "id": "wet-microscopy-transfection",
+  "title": "WL-MIC-01 · HEK293 transfection evidence",
+  "status": "completed",
+  "shortSummary": "Transfection preceded the 25-field endpoint dataset; the experiment date and delivery method are not archived.",
+  "work": "HEK293 cells received the constructs represented by 12 image labels, including blank and Orco-only controls. The team confirmed that these images preceded G418 selection.",
+  "result": "Evidence is the endpoint image dataset. Neither the earlier electroporation specification nor the Lipofectamine/P 3000 workbook is assigned to this batch without an operator record.",
+  "needsUpdate": [
+    "Experiment date, operator, delivery reagent and settings, plasmid identifiers, independent culture/well identifiers."
+  ],
+  "startDate": null,
+  "endDate": null,
+  "datePrecision": "range",
+  "stream": "wetlab",
+  "category": "archived-evidence",
+  "responsible": [],
+  "contributors": [],
+  "tags": [
+    "undated",
+    "source-linked",
+    "microscopy"
+  ],
+  "sourceSection": "Team-supplied images and preparation confirmations, archived 2026-10-10; experimental dates unresolved",
+  "sourceNote": "Retrospective provenance entry, not a contemporaneous dated bench record. The 2026-10-10 confirmation/archive date is NOT used as the experiment date.",
+  "relatedLinks": [
+    {
+      "label": "Results · WL-MIC-01",
+      "href": "results.html#wet-lab"
+    },
+    {
+      "label": "Experimental methods",
+      "href": "experiments.html#microscopy-analysis"
+    },
+    {
+      "label": "Microscopy source manifest",
+      "href": "assets/results/microscopy/source-manifest.json"
+    }
+  ]
+}),
+    event({
+  "id": "wet-microscopy-fixation",
+  "title": "WL-MIC-01 · Fixation and DAPI labeling",
+  "status": "completed",
+  "shortSummary": "Team-confirmed preparation: 2% PFA fixation, no permeabilization, followed by DAPI.",
+  "work": "Cells were fixed with 2% PFA before DAPI staining. No permeabilization was performed.",
+  "result": "DAPI permits an exploratory resolvable-object denominator; completeness of total-nucleus labeling has not been independently validated.",
+  "needsUpdate": [
+    "Preparation date, operator, fixation duration, DAPI concentration/incubation, wash details."
+  ],
+  "startDate": null,
+  "endDate": null,
+  "datePrecision": "range",
+  "stream": "wetlab",
+  "category": "archived-evidence",
+  "responsible": [],
+  "contributors": [],
+  "tags": [
+    "undated",
+    "source-linked",
+    "microscopy"
+  ],
+  "sourceSection": "Team-supplied images and preparation confirmations, archived 2026-10-10; experimental dates unresolved",
+  "sourceNote": "Retrospective provenance entry, not a contemporaneous dated bench record. The 2026-10-10 confirmation/archive date is NOT used as the experiment date.",
+  "relatedLinks": [
+    {
+      "label": "Results · WL-MIC-01",
+      "href": "results.html#wet-lab"
+    },
+    {
+      "label": "Experimental methods",
+      "href": "experiments.html#microscopy-analysis"
+    },
+    {
+      "label": "Microscopy source manifest",
+      "href": "assets/results/microscopy/source-manifest.json"
+    }
+  ]
+}),
+    event({
+  "id": "wet-microscopy-acquisition",
+  "title": "WL-MIC-01 · Pre-selection endpoint microscopy",
+  "status": "completed",
+  "shortSummary": "25 fields across 12 conditions, acquired 44–48 h post-transfection before G418; no independent biological repeats.",
+  "work": "Each numbered field has matching brightfield, DAPI, GREEN and RED images. The team confirmed constant exposure within each fluorescence channel across conditions and blank calibration.",
+  "result": "Conservative segmentation retained 2,624 DAPI objects. The assay reports selected-object fluorescence, not population transfection efficiency, viability or odor response.",
+  "needsUpdate": [
+    "Acquisition date, operator, microscope/objective, numeric exposure/gain, raw camera intensity mapping, replicate identifiers."
+  ],
+  "startDate": null,
+  "endDate": null,
+  "datePrecision": "range",
+  "stream": "wetlab",
+  "category": "archived-evidence",
+  "responsible": [],
+  "contributors": [],
+  "tags": [
+    "undated",
+    "source-linked",
+    "microscopy"
+  ],
+  "sourceSection": "Team-supplied images and preparation confirmations, archived 2026-10-10; experimental dates unresolved",
+  "sourceNote": "Retrospective provenance entry, not a contemporaneous dated bench record. The 2026-10-10 confirmation/archive date is NOT used as the experiment date.",
+  "relatedLinks": [
+    {
+      "label": "Results · WL-MIC-01",
+      "href": "results.html#wet-lab"
+    },
+    {
+      "label": "Experimental methods",
+      "href": "experiments.html#microscopy-analysis"
+    },
+    {
+      "label": "Microscopy source manifest",
+      "href": "assets/results/microscopy/source-manifest.json"
+    }
+  ]
+}),
+    event({
+  "id": "wet-g418-followup",
+  "title": "WL-G418-01 · Separate selection batch",
+  "status": "ongoing",
+  "shortSummary": "The team reported a G418 selection batch in progress; it is separate from WL-MIC-01.",
+  "work": "G418 selection was reported as ongoing. No dated dosing trajectory or selected-cell endpoint accompanies the archived images.",
+  "result": "No selection improvement or stable function is claimed from the pre-selection images.",
+  "needsUpdate": [
+    "Start date, operator, doses, kill-curve control, survival/growth trajectory, reporter-retention and functional endpoints."
+  ],
+  "startDate": null,
+  "endDate": null,
+  "datePrecision": "range",
+  "stream": "wetlab",
+  "category": "archived-evidence",
+  "responsible": [],
+  "contributors": [],
+  "tags": [
+    "undated",
+    "source-linked",
+    "wetlab"
+  ],
+  "sourceSection": "Team-supplied images and preparation confirmations, archived 2026-10-10; experimental dates unresolved",
+  "sourceNote": "Retrospective provenance entry, not a contemporaneous dated bench record. The 2026-10-10 confirmation/archive date is NOT used as the experiment date.",
+  "relatedLinks": [
+    {
+      "label": "Results · WL-MIC-01",
+      "href": "results.html#wet-lab"
+    },
+    {
+      "label": "Experimental methods",
+      "href": "experiments.html#microscopy-analysis"
+    },
+    {
+      "label": "Microscopy source manifest",
+      "href": "assets/results/microscopy/source-manifest.json"
+    }
+  ]
+}),
+    event({
+  "id": "wet-cloning-plates",
+  "title": "WL-CLONE-01 · Colony plate photographs",
+  "status": "completed",
+  "shortSummary": "Three plate photographs preserve colony growth and marked candidates.",
+  "work": "The supplied cloning record contains three unmodified photographs with plate labels and marked colonies.",
+  "result": "Colony growth is visible. These photographs do not establish insert sequence identity; no gel lane map or chromatogram is linked to them.",
+  "needsUpdate": [
+    "Culture/transformation date, operator, plate-to-colony-to-plasmid mapping, gel and sequence-verification records."
+  ],
+  "startDate": null,
+  "endDate": null,
+  "datePrecision": "range",
+  "stream": "wetlab",
+  "category": "archived-evidence",
+  "responsible": [],
+  "contributors": [],
+  "tags": [
+    "undated",
+    "source-linked",
+    "wetlab"
+  ],
+  "sourceSection": "Team-supplied images and preparation confirmations, archived 2026-10-10; experimental dates unresolved",
+  "sourceNote": "Retrospective provenance entry, not a contemporaneous dated bench record. The 2026-10-10 confirmation/archive date is NOT used as the experiment date.",
+  "relatedLinks": [
+    {
+      "label": "Results · WL-CLONE-01",
+      "href": "results.html#cloning-results"
+    },
+    {
+      "label": "Experimental methods",
+      "href": "experiments.html#cloning-track"
+    },
+    {
+      "label": "Cloning source manifest",
+      "href": "assets/results/cloning/source-manifest.json"
+    }
+  ]
+}),
+
+    event({
+      "id": "wet-th-lightsheet-20260420",
+      "startDate": "2026-04-20",
+      "endDate": "2026-04-20",
+      "datePrecision": "day",
+      "stream": "wetlab",
+      "category": "exploratory-fly-imaging",
+      "status": "completed",
+      "title": "TH-associated Light-Sheet Observation",
+      "shortSummary": "The team dates the TH × UAS-GCaMP6f exploratory light-sheet work to 20 April. A movie and regional traces are available; an odor-evoked response remains to be validated with acquisition controls and repeat measurements.",
+      "work": "Observed fluorescence in the team-labeled TH (5137) preparation crossed to UAS-GCaMP6f, during presentations of isopentyl acetate, 3-octanol and 4-methylcyclohexanol. The reporter and day are team-confirmed; the full progeny genotype and original acquisition timestamps remain to be matched to the record.",
+      "output": [
+        "Team-supplied TH-labeled movie",
+        "Exploratory regional intensity and normalized-intensity plots"
+      ],
+      "interpretation": "UAS-GCaMP6f is a calcium-sensitive reporter confirmed by the team. These exploratory regional traces do not yet separate calcium-dependent changes from motion, bleaching, baseline drift or delivery artifacts, or identify every labeled neuron.",
+      "nextStep": "Resolve the driver stock identifier, document the full progeny genotype, align delivery timing and motion controls, and collect biological repeats before attributing fluorescence changes to odor-evoked neural activity.",
+      "needsUpdate": [
+        "Confirm whether 5137 is a Bloomington or local stock identifier. BDSC 5137 is a UAS-mCD8::GFP reporter, not a TH-GAL4 driver or GCaMP reporter.",
+        "Document full cross, fly age/sex, preparation, acquisition and stimulus delivery metadata, and independent biological repeats."
+      ],
+      "relatedLinks": [
+        {
+          "label": "Description: exploratory recording",
+          "href": "description.html#lightsheet-observation"
+        },
+        {
+          "label": "Driver and reporter identity",
+          "href": "description.html#fly-stock-note"
+        }
+      ],
+      "references": [
+        {
+          "id": "fly-bdsc-5137",
+          "text": "FlyBase stock record FBst0005137 (BDSC 5137), https://flybase.org/reports/FBst0005137"
+        }
+      ],
+      "tags": [
+        "Drosophila",
+        "TH",
+        "light-sheet",
+        "exploratory"
+      ],
+      "sourceSection": "Fly observation update · 20 April · TH-associated light-sheet work",
+      "sourceNote": "Date, TH (5137) preparation label and UAS-GCaMP6f reporter confirmed by the team on 10 October 2026. Year follows the existing 2026 notebook context. Completed refers to image acquisition, not neural-response validation."
+    }),
+    event({
+      "id": "wet-pn-preparation-20260504",
+      "startDate": "2026-05-04",
+      "endDate": "2026-05-04",
+      "datePrecision": "day",
+      "stream": "wetlab",
+      "category": "exploratory-fly-imaging",
+      "status": "planned",
+      "title": "PN (GH146) Preparation Record — Imaging Pending",
+      "shortSummary": "The team records the PN/GH146 preparation checkpoint on 4 May. PN imaging has not yet been performed; no image, trace or odor-response outcome is assigned to this entry.",
+      "work": "Preparation/planning record for GH146 × UAS-GCaMP6f imaging; the reporter is team-confirmed. GH146-GAL4 labels a subset of projection neurons and also non-PN cells, including APL. The full progeny genotype and sample preparation remain to be documented.",
+      "pendingOutputs": [
+        "Complete progeny genotype and sample preparation (UAS-GCaMP6f reporter confirmed)",
+        "PN image acquisition",
+        "Controls, acquisition metadata and any resulting analysis"
+      ],
+      "nextQuestion": "Which structures and cells are labeled in the actual GH146 preparation?",
+      "nextStep": "Document the genotype and preparation, then acquire the PN dataset before making a TH-PN comparison.",
+      "relatedLinks": [
+        {
+          "label": "Description: TH and GH146 preparations",
+          "href": "description.html#fly-marker-preparations"
+        }
+      ],
+      "tags": [
+        "Drosophila",
+        "GH146",
+        "projection-neuron",
+        "planned-imaging"
+      ],
+      "sourceSection": "Fly observation update · 4 May · PN/GH146 preparation, imaging pending",
+      "sourceNote": "Date, PN (GH146) preparation label and UAS-GCaMP6f reporter confirmed by the team on 10 October 2026. PN imaging has not yet occurred. This is the preparation checkpoint, not an acquisition date."
+    }),
+
     event({
       id: "wet-ideation",
       startDate: "2026-04",
@@ -1274,7 +1552,449 @@
     event({ id: "hp-analytical-interview", startDate: "2026-09-13", datePrecision: "day", stream: "hp", status: "completed", category: "industry-interview", title: "Analytical-instrumentation interview", shortSummary: "Feedback positioned AeroSense as a fast on-site screening layer before laboratory confirmation, not a replacement for GC–MS.", decision: "Preserve confirmatory testing in the proposed decision path.", relatedLinks: [{ label: "IHP · analytical interview", href: "human-practices.html#cp-analytical" }], sourceSection: "IHP · analytical instrumentation · 13 September" })
   ];
 
-  var EVENTS = HARDWARE_EVENTS.concat(WETLAB_EVENTS, DRYLAB_EVENTS, HP_EVENTS);
+  // Team-supplied dates are project records, not verified official iGEM deadlines.
+  var TIMELINE_UPDATE_EVENTS = [
+    event({
+      "id": "team-recruitment",
+      "startDate": "2026-03-19",
+      "endDate": "2026-04-06",
+      "status": "completed",
+      "title": "Recruit Team Members",
+      "calendarWeeks": 3,
+      "actualWeeks": 1,
+      "shortSummary": "Team recruitment: 19 March–6 April. The form records 3 calendar weeks and 1 week of actual time worked.",
+      "work": "Recruiting members until the team was formed or enough members had committed to begin work.",
+      "sourceNote": "Team-entered dates from the supplied Attributions form screenshot. This full-team recruitment period is distinct from the 1–21 April hardware ideation and staffing phase; it is not an official iGEM deadline.",
+      "datePrecision": "range",
+      "stream": "team",
+      "category": "team-administration",
+      "tags": [
+        "team-timeline",
+        "attributions-form",
+        "planning"
+      ],
+      "observation": "Reported calendar duration: 3 weeks. Reported actual time worked: 1 week.",
+      "sourceSection": "Team & Wiki · Recruit Team Members",
+      "relatedLinks": [
+        {
+          "label": "Team attributions",
+          "href": "attributions.html"
+        }
+      ]
+    }),
+    event({
+      "id": "team-project-plan",
+      "startDate": "2026-04-13",
+      "endDate": "2026-05-11",
+      "status": "completed",
+      "title": "Development of Project Plan",
+      "calendarWeeks": 4,
+      "actualWeeks": 2,
+      "shortSummary": "Project planning: 13 April–11 May. The form records 4 calendar weeks and 2 weeks of actual time worked.",
+      "work": "Brainstorming project ideas, deciding goals, and drafting the initial work plan.",
+      "sourceNote": "Team-entered full-project planning dates from the supplied Attributions form screenshot. Hardware and model workstream records retain their own dates and scope.",
+      "datePrecision": "range",
+      "stream": "team",
+      "category": "team-administration",
+      "tags": [
+        "team-timeline",
+        "attributions-form",
+        "planning"
+      ],
+      "observation": "Reported calendar duration: 4 weeks. Reported actual time worked: 2 weeks.",
+      "sourceSection": "Team & Wiki · Development of Project Plan",
+      "relatedLinks": [
+        {
+          "label": "Team attributions",
+          "href": "attributions.html"
+        }
+      ]
+    }),
+    event({
+      "id": "team-wiki-building",
+      "startDate": "2026-09-07",
+      "endDate": "2026-10-20",
+      "status": "ongoing",
+      "title": "Building the Team Wiki",
+      "calendarWeeks": 6,
+      "actualWeeks": 4,
+      "shortSummary": "Wiki coding began on 7 September. The recorded end date, 20 October, is planned as of 8 October; the form lists 6 calendar weeks and 4 weeks of actual time worked.",
+      "work": "Building the team Wiki, beginning with the coding work recorded in the team form.",
+      "sourceNote": "Team-entered Attributions form screenshot. The 20 October date is a team-recorded target, not a verified official Wiki Freeze deadline. The reported 4 worked weeks are copied from the form and are not inferred from elapsed time or claimed as final audited effort.",
+      "datePrecision": "range",
+      "stream": "team",
+      "category": "team-administration",
+      "tags": [
+        "team-timeline",
+        "attributions-form",
+        "wiki"
+      ],
+      "observation": "Reported calendar duration: 6 weeks. Reported actual time worked: 4 weeks.",
+      "sourceSection": "Team & Wiki · Building the Team Wiki",
+      "relatedLinks": [
+        {
+          "label": "Team attributions",
+          "href": "attributions.html"
+        }
+      ]
+    }),
+    event({
+      "id": "hw-airflow-optics-window",
+      "startDate": "2026-05-10",
+      "endDate": "2026-07-05",
+      "openEnd": false,
+      "datePrecision": "range",
+      "stream": "drylab",
+      "substream": "hardware",
+      "category": "reported-phase",
+      "status": "completed",
+      "title": "Airflow and Optical Simulations",
+      "shortSummary": "The hardware timeline records the airflow and optics simulation phase. Simulation results belong with their assumptions and design implications on Hardware and Model.",
+      "work": "The hardware timeline records the airflow and optics simulation phase. Simulation results belong with their assumptions and design implications on Hardware and Model.",
+      "sourceNote": "Team-supplied timeline screenshot, incorporated on 8 October 2026. These are reported work periods; a dated phase does not establish instrument performance or completed validation.",
+      "sourceSection": "Hardware timeline update · Airflow and Optical Simulations",
+      "tags": [
+        "team-timeline",
+        "hardware-phase"
+      ],
+      "relatedLinks": [
+        {
+          "label": "Hardware evidence and design files",
+          "href": "hardware.html"
+        },
+        {
+          "label": "Model methods and assumptions",
+          "href": "model.html"
+        }
+      ]
+    }),
+    event({
+      "id": "hw-pcb-v1-design-window",
+      "startDate": "2026-06-07",
+      "endDate": "2026-08-02",
+      "openEnd": false,
+      "datePrecision": "range",
+      "stream": "drylab",
+      "substream": "hardware",
+      "category": "reported-phase",
+      "status": "completed",
+      "title": "PCB V1 Design and Planning — Phase Window",
+      "shortSummary": "The team reports the overall PCB V1 design and planning period. The schematic and ERC/DRC entries retain their more specific records.",
+      "work": "The team reports the overall PCB V1 design and planning period. The schematic and ERC/DRC entries retain their more specific records.",
+      "sourceNote": "Team-supplied timeline screenshot, incorporated on 8 October 2026. These are reported work periods; a dated phase does not establish instrument performance or completed validation.",
+      "sourceSection": "Hardware timeline update · PCB V1 Design and Planning — Phase Window",
+      "tags": [
+        "team-timeline",
+        "hardware-phase"
+      ],
+      "relatedLinks": [
+        {
+          "label": "Hardware evidence and design files",
+          "href": "hardware.html"
+        }
+      ]
+    }),
+    event({
+      "id": "hw-pcb-cycle1-assessment-window",
+      "startDate": "2026-08-03",
+      "endDate": "2026-08-28",
+      "openEnd": false,
+      "datePrecision": "range",
+      "stream": "drylab",
+      "substream": "hardware",
+      "category": "reported-phase",
+      "status": "completed",
+      "title": "PCB V1 Assessment — Engineering Cycle 1 Phase",
+      "shortSummary": "The supplied timeline labels this preliminary PCB simulation, testing and assessment. Existing archived evidence documents ERC/DRC evaluation; this label does not establish a complete circuit simulation or bench test.",
+      "work": "The supplied timeline labels this preliminary PCB simulation, testing and assessment. Existing archived evidence documents ERC/DRC evaluation; this label does not establish a complete circuit simulation or bench test.",
+      "sourceNote": "Team-supplied timeline screenshot, incorporated on 8 October 2026. These are reported work periods; a dated phase does not establish instrument performance or completed validation.",
+      "sourceSection": "Hardware timeline update · PCB V1 Assessment — Engineering Cycle 1 Phase",
+      "tags": [
+        "team-timeline",
+        "hardware-phase"
+      ],
+      "relatedLinks": [
+        {
+          "label": "Hardware evidence and design files",
+          "href": "hardware.html"
+        }
+      ]
+    }),
+    event({
+      "id": "hw-pcb-v2-design-window",
+      "startDate": "2026-08-29",
+      "endDate": "2026-09-11",
+      "openEnd": false,
+      "datePrecision": "range",
+      "stream": "drylab",
+      "substream": "hardware",
+      "category": "reported-phase",
+      "status": "completed",
+      "title": "PCB V2 Revision and Design — Engineering Cycle 2 Phase",
+      "shortSummary": "The team reports the PCB V2 revision and design window. This period does not by itself close the broader system-integration or validation work.",
+      "work": "The team reports the PCB V2 revision and design window. This period does not by itself close the broader system-integration or validation work.",
+      "sourceNote": "Team-supplied timeline screenshot, incorporated on 8 October 2026. These are reported work periods; a dated phase does not establish instrument performance or completed validation.",
+      "sourceSection": "Hardware timeline update · PCB V2 Revision and Design — Engineering Cycle 2 Phase",
+      "tags": [
+        "team-timeline",
+        "hardware-phase"
+      ],
+      "relatedLinks": [
+        {
+          "label": "Hardware evidence and design files",
+          "href": "hardware.html"
+        }
+      ]
+    }),
+    event({
+      "id": "hw-vendor-layout-window",
+      "startDate": "2026-09-12",
+      "endDate": "2026-10-06",
+      "openEnd": false,
+      "datePrecision": "range",
+      "stream": "drylab",
+      "substream": "hardware",
+      "category": "reported-phase",
+      "status": "completed",
+      "title": "PCB Layout and Vendor Fabrication — Reported Window",
+      "shortSummary": "The timeline records vendor PCB layout and fabrication work from 12 September to 6 October. Receipt, inspection, assembly and measured performance require their own evidence.",
+      "work": "The timeline records vendor PCB layout and fabrication work from 12 September to 6 October. Receipt, inspection, assembly and measured performance require their own evidence.",
+      "sourceNote": "Team-supplied timeline screenshot, incorporated on 8 October 2026. These are reported work periods; a dated phase does not establish instrument performance or completed validation.",
+      "sourceSection": "Hardware timeline update · PCB Layout and Vendor Fabrication — Reported Window",
+      "tags": [
+        "team-timeline",
+        "hardware-phase"
+      ],
+      "relatedLinks": [
+        {
+          "label": "Hardware evidence and design files",
+          "href": "hardware.html"
+        }
+      ]
+    }),
+    event({
+      "id": "hw-enclosure-v1-window",
+      "startDate": "2026-09-08",
+      "endDate": "2026-09-25",
+      "openEnd": false,
+      "datePrecision": "range",
+      "stream": "drylab",
+      "substream": "hardware",
+      "category": "reported-phase",
+      "status": "completed",
+      "title": "3D-Printed Enclosure V1 — Development Window",
+      "shortSummary": "The team records the first 3D-printed enclosure development phase. The timeline supplies dates, without dimensional or optical test results.",
+      "work": "The team records the first 3D-printed enclosure development phase. The timeline supplies dates, without dimensional or optical test results.",
+      "sourceNote": "Team-supplied timeline screenshot, incorporated on 8 October 2026. These are reported work periods; a dated phase does not establish instrument performance or completed validation.",
+      "sourceSection": "Hardware timeline update · 3D-Printed Enclosure V1 — Development Window",
+      "tags": [
+        "team-timeline",
+        "hardware-phase"
+      ],
+      "relatedLinks": [
+        {
+          "label": "Hardware evidence and design files",
+          "href": "hardware.html"
+        }
+      ]
+    }),
+    event({
+      "id": "hw-enclosure-v2-window",
+      "startDate": "2026-09-26",
+      "endDate": "2026-10-08",
+      "openEnd": false,
+      "datePrecision": "range",
+      "stream": "drylab",
+      "substream": "hardware",
+      "category": "reported-phase",
+      "status": "ongoing",
+      "title": "3D-Printed Enclosure V2 — Development Window",
+      "shortSummary": "The second enclosure phase is recorded for 26 September–8 October. This update falls on the reported end date; final completion and assembly-test results are not established by the schedule.",
+      "work": "The second enclosure phase is recorded for 26 September–8 October. This update falls on the reported end date; final completion and assembly-test results are not established by the schedule.",
+      "sourceNote": "Team-supplied timeline screenshot, incorporated on 8 October 2026. These are reported work periods; a dated phase does not establish instrument performance or completed validation.",
+      "sourceSection": "Hardware timeline update · 3D-Printed Enclosure V2 — Development Window",
+      "tags": [
+        "team-timeline",
+        "hardware-phase"
+      ],
+      "relatedLinks": [
+        {
+          "label": "Hardware evidence and design files",
+          "href": "hardware.html"
+        }
+      ]
+    }),
+    event({
+      "id": "hw-pcb-soldering-ui",
+      "startDate": "2026-10-07",
+      "endDate": "2026-10-10",
+      "openEnd": false,
+      "datePrecision": "range",
+      "stream": "drylab",
+      "substream": "hardware",
+      "category": "reported-phase",
+      "status": "ongoing",
+      "title": "PCB Soldering and User-Interface Design",
+      "shortSummary": "PCB soldering and UI design are scheduled for 7–10 October. Work is in progress as of 8 October; the end date remains planned.",
+      "work": "PCB soldering and UI design are scheduled for 7–10 October. Work is in progress as of 8 October; the end date remains planned.",
+      "sourceNote": "Team-supplied timeline screenshot, incorporated on 8 October 2026. These are reported work periods; a dated phase does not establish instrument performance or completed validation.",
+      "sourceSection": "Hardware timeline update · PCB Soldering and User-Interface Design",
+      "tags": [
+        "team-timeline",
+        "hardware-phase"
+      ],
+      "relatedLinks": [
+        {
+          "label": "Hardware evidence and design files",
+          "href": "hardware.html"
+        }
+      ]
+    }),
+    event({
+      "id": "hw-enclosure-assembly-test",
+      "startDate": "2026-10-09",
+      "endDate": null,
+      "openEnd": true,
+      "datePrecision": "range",
+      "stream": "drylab",
+      "substream": "hardware",
+      "category": "reported-phase",
+      "status": "planned",
+      "title": "Enclosure Assembly and Testing (Planned)",
+      "shortSummary": "Assembly testing is planned to start on 9 October. The supplied note gives the end as “10/?”; no completion date or test outcome is available.",
+      "work": "Assembly testing is planned to start on 9 October. The supplied note gives the end as “10/?”; no completion date or test outcome is available.",
+      "sourceNote": "Team-supplied timeline screenshot, incorporated on 8 October 2026. These are reported work periods; a dated phase does not establish instrument performance or completed validation.",
+      "sourceSection": "Hardware timeline update · Enclosure Assembly and Testing (Planned)",
+      "tags": [
+        "team-timeline",
+        "hardware-phase"
+      ],
+      "relatedLinks": [
+        {
+          "label": "Hardware evidence and design files",
+          "href": "hardware.html"
+        }
+      ]
+    }),
+    event({
+      "id": "hp-game-ideas-rules",
+      "startDate": "2026-07-13",
+      "endDate": "2026-07-15",
+      "datePrecision": "range",
+      "stream": "hp",
+      "category": "education-games",
+      "status": "completed",
+      "title": "Learning Game: Ideas and Rules",
+      "shortSummary": "Defined the web game idea and rules.",
+      "work": "Defined the web game idea and rules.",
+      "sourceNote": "Team-supplied learning-game timeline screenshot, incorporated on 8 October 2026. No participant counts or learning-effect measurements were supplied with these dates.",
+      "sourceSection": "Learning game timeline · Learning Game: Ideas and Rules",
+      "tags": [
+        "team-timeline",
+        "education",
+        "game-development"
+      ],
+      "relatedLinks": [
+        {
+          "label": "Education",
+          "href": "education.html"
+        },
+        {
+          "label": "Learning platform",
+          "href": "learning-platform.html"
+        }
+      ]
+    }),
+    event({
+      "id": "hp-game-initial-design",
+      "startDate": "2026-07-16",
+      "endDate": "2026-07-30",
+      "datePrecision": "range",
+      "stream": "hp",
+      "category": "education-games",
+      "status": "completed",
+      "title": "Learning Game: Initial Design",
+      "shortSummary": "Prepared the initial web game design.",
+      "work": "Prepared the initial web game design.",
+      "sourceNote": "Team-supplied learning-game timeline screenshot, incorporated on 8 October 2026. No participant counts or learning-effect measurements were supplied with these dates.",
+      "sourceSection": "Learning game timeline · Learning Game: Initial Design",
+      "tags": [
+        "team-timeline",
+        "education",
+        "game-development"
+      ],
+      "relatedLinks": [
+        {
+          "label": "Education",
+          "href": "education.html"
+        },
+        {
+          "label": "Learning platform",
+          "href": "learning-platform.html"
+        }
+      ]
+    }),
+    event({
+      "id": "hp-game-internal-review",
+      "startDate": "2026-07-31",
+      "endDate": "2026-08-29",
+      "datePrecision": "range",
+      "stream": "hp",
+      "category": "education-games",
+      "status": "completed",
+      "title": "Learning Game: Internal Evaluation and Suggestions",
+      "shortSummary": "Conducted internal evaluation and gathered suggestions for the web game. This is internal development feedback, not evidence of learning gains.",
+      "work": "Conducted internal evaluation and gathered suggestions for the web game. This is internal development feedback, not evidence of learning gains.",
+      "sourceNote": "Team-supplied learning-game timeline screenshot, incorporated on 8 October 2026. No participant counts or learning-effect measurements were supplied with these dates.",
+      "sourceSection": "Learning game timeline · Learning Game: Internal Evaluation and Suggestions",
+      "tags": [
+        "team-timeline",
+        "education",
+        "game-development"
+      ],
+      "relatedLinks": [
+        {
+          "label": "Education",
+          "href": "education.html"
+        },
+        {
+          "label": "Learning platform",
+          "href": "learning-platform.html"
+        }
+      ]
+    }),
+    event({
+      "id": "hp-game-updates",
+      "startDate": "2026-08-30",
+      "endDate": "2026-09-15",
+      "datePrecision": "range",
+      "stream": "hp",
+      "category": "education-games",
+      "status": "completed",
+      "title": "Learning Game: Updates and Outcomes",
+      "shortSummary": "Updated the web game following the internal review. The timeline records the development period without supplying measured educational outcomes.",
+      "work": "Updated the web game following the internal review. The timeline records the development period without supplying measured educational outcomes.",
+      "sourceNote": "Team-supplied learning-game timeline screenshot, incorporated on 8 October 2026. No participant counts or learning-effect measurements were supplied with these dates.",
+      "sourceSection": "Learning game timeline · Learning Game: Updates and Outcomes",
+      "tags": [
+        "team-timeline",
+        "education",
+        "game-development"
+      ],
+      "relatedLinks": [
+        {
+          "label": "Education",
+          "href": "education.html"
+        },
+        {
+          "label": "Learning platform",
+          "href": "learning-platform.html"
+        }
+      ]
+    })
+  ];
+
+  var EVENTS = HARDWARE_EVENTS.concat(WETLAB_EVENTS, DRYLAB_EVENTS, HP_EVENTS, TIMELINE_UPDATE_EVENTS);
 
   /**
    * Turning points — curated only from documented decisions in notebook_content.md.
@@ -1375,6 +2095,8 @@
 
   /* -------- Coverage map: every unique source section → event id -------- */
   var SOURCE_COVERAGE = [
+    {"section":"Fly observation update · 20 April · TH-associated light-sheet work","eventId":"wet-th-lightsheet-20260420"},
+    {"section":"Fly observation update · 4 May · PN/GH146 preparation, imaging pending","eventId":"wet-pn-preparation-20260504"},
     { section: "Hardware · April 1–21 · Project Ideation and Team Formation", eventId: "hw-ideation" },
     { section: "Hardware · April 22–May 9 · Literature Review and Hardware Requirements", eventId: "hw-literature-requirements" },
     { section: "Hardware · May 10–June · Component Selection and First-Order Calculations", eventId: "hw-component-selection" },
@@ -1409,6 +2131,10 @@
     { section: "Dry lab · October and November (Planned)", eventId: "dry-oct-nov-planned" },
   ];
 
+  TIMELINE_UPDATE_EVENTS.forEach(function (ev) {
+    SOURCE_COVERAGE.push({ section: ev.sourceSection, eventId: ev.id });
+  });
+
   function byId(id) {
     for (var i = 0; i < EVENTS.length; i += 1) {
       if (EVENTS[i].id === id) return EVENTS[i];
@@ -1417,7 +2143,7 @@
   }
 
   function summarize() {
-    var byStream = { wetlab: 0, drylab: 0, hp: 0, igem: 0 };
+    var byStream = { wetlab: 0, drylab: 0, hp: 0, team: 0, igem: 0 };
     var bySubstream = { hardware: 0, model: 0 };
     var byStatus = { completed: 0, ongoing: 0, planned: 0, "needs-update": 0 };
     var needsUpdateFields = [];
@@ -2035,8 +2761,8 @@
       "Supports VUAA1 as an Orco-family agonist useful for functional controls.",
     ],
     "ref-w-butterwick-2018": [
-      "Cryo-EM structure of an insect odorant receptor / Orco ion channel complex.",
-      "Structural context for OR–Orco channel architecture in design discussions.",
+      "Cryo-EM structure of the insect olfactory co-receptor Orco.",
+      "Structural context for the Orco channel in design discussions.",
     ],
     "ref-scofield-1994": [
       "Classic frequency-domain description of lock-in amplification.",
@@ -2119,8 +2845,8 @@
       "Supports VUAA1 as an Orco-family agonist useful for functional controls.",
     ],
     "ref-butterwick-2018": [
-      "Cryo-EM structure of an insect odorant receptor / Orco ion channel complex.",
-      "Structural context for OR–Orco channel architecture in design discussions.",
+      "Cryo-EM structure of the insect olfactory co-receptor Orco.",
+      "Structural context for the Orco channel in design discussions.",
     ],
     "ref-robertson-2003": [
       "Molecular characterization of Drosophila odorant receptors and the Orco co-receptor family.",
@@ -2248,102 +2974,137 @@
   }());
   window.AeroSenseCitationPanels=citationPanels;
 
+  // Unnumbered technical sources and new references use the same reading tools.
+  // Explicit context maps place uncited background reading near its actual topic;
+  // they never attach a new paper as evidence for an experimental result.
+  var REFERENCE_CONTEXTS = {
+    'engineering.html': {'ref-w-zboray-2023':'#stream-wetlab','ref-w-ibrahimi-2009':'#stream-wetlab','ref-w-chen-2013':'#stream-wetlab','ref-w-benton-2006':'#stream-wetlab','ref-w-butterwick-2018':'#stream-wetlab','ref-d-stimberg-2019':'#group-model','tech-ti-lmp7721':'#group-hardware','tech-igem-eng':'#engineering-methods','tech-igem-hp':'#entrepreneurship-engineering'},
+    'entrepreneurship.html': {'ref-cheng-2025':'#aerosense-10'},
+    'human-practices.html': {'ref-zboray-2023':'#ihp','ref-cheng-2025':'#ihp'},
+    'parts.html': {'ref-sato-2008':'#sensor-builder','ref-benton-2006':'#sensor-builder','ref-butterwick-2018':'#sensor-builder','ref-chen-2013':'#sensor-builder'},
+    'results.html': {'micro-ref-2':'#wet-lab','micro-ref-3':'#limitations','micro-ref-6':'#supplementary'},
+    'hardware.html': {'reference-auto-11':'#cost-and-reproduction','reference-auto-12':'#optical-question'},
+    'safety-and-security.html': {'tech-ti-bq2407x':'#safe-to-measure','tech-ti-tps61023':'#safe-to-measure','tech-wurth-155124':'#safe-to-measure','tech-ti-lmp7721':'#safe-to-measure','tech-igem-rules':'#compliance','tech-igem-whitelist':'#safe-to-build','tech-igem-release':'#safe-to-deploy','tech-igem-human-subjects':'#people-and-data','tech-igem-surveys':'#people-and-data','tech-igem-project-safety':'#compliance','tech-igem-check-in':'#compliance','tech-igem-special-awards':'#award-map'},
+    'sustainability.html': {'ref-cheng-2025':'#system-boundary','ref-wced-1987':'#system-boundary','ref-meadows-2008':'#tradeoff-map','tech-fao-flw':'#food-pathway'}
+  };
+  var NEW_REFERENCE_HIGHLIGHTS = {
+    'ref-avishai-2025':'Published context for dopaminergic modulation in the fly antennal lobe; independent of the team light-sheet experiment.',
+    'ref-gh146-flybase':'Curated expression evidence for GH146. Driver expression includes projection neurons and non-PN cells.',
+    'ref-aso-architecture':'Mushroom-body circuit anatomy: Kenyon cells, dopaminergic inputs and compartmental organization.',
+    'ref-aso-output':'Mushroom-body output neurons and their role in valence and memory-guided behavior.',
+    'ref-th-driver':'TH regulatory sequences used to target gene expression in dopaminergic cells; the driver is not a complete identity check for every labeled cell.',
+    'ref-mao-davis':'Anatomical and physiological diversity of dopaminergic inputs to the mushroom body.',
+    'ref-bdsc-5137':'BDSC 5137 is a UAS-mCD8::GFP catalogue entry. It flags a stock-number discrepancy, not a replacement for the team-confirmed UAS-GCaMP6f reporter.',
+    'ref-liu-apl':'The APL neuron contributes inhibitory feedback in the mushroom body and is relevant to interpreting GH146 expression.',
+    'ref-dapi-guidance':'Manufacturer guidance for DAPI nuclear labeling; staining conditions affect how the nuclear signal can be interpreted.',
+    'ref-microscopy-reporting':'Reporting guidance for reproducible fluorescence microscopy, including acquisition and image-analysis methods.',
+    'ref-image-integrity':'Editorial standards for preserving image evidence and disclosing image processing.',
+    'ref-burton-2020':'Published photometry-system engineering used as design context; its device performance is not an AeroSense result.',
+    'micro-ref-1':'GCaMP6 calcium-indicator development. Basal brightness alone is not a functional calcium-response assay.',
+    'micro-ref-2':'DAPI nuclear-labeling guidance relevant to preparation and denominator limits.',
+    'micro-ref-3':'Reproducible fluorescence-microscopy reporting: acquisition conditions, processing and analysis should be traceable.',
+    'micro-ref-4':'Independent viability assays measure features such as membrane integrity or esterase activity. mCherry fluorescence alone does not establish viability.',
+    'micro-ref-5':'Stable-line selection requires selection conditions and parental-cell kill-curve guidance; pre-selection images do not demonstrate a stable selected line.',
+    'micro-ref-6':'Image-integrity guidance for source preservation and disclosure of display adjustments.',
+    'tech-un-2015':'The UN 2030 Agenda supplies the SDG framework; it is not a measurement of this project\'s impact.',
+    'tech-fao-flw':'Food-loss and post-harvest context. These resources do not establish Taiwan banana losses or AeroSense effectiveness.',
+    'tech-igem-eng':'Official judging context for describing engineering iteration and its evidence.',
+    'tech-igem-hp':'Official judging context for integrated Human Practices, Education and Entrepreneurship.',
+    'tech-igem-rules':'Official safety-policy framework relevant to the project safety case.',
+    'tech-igem-whitelist':'Official organism and activity screening guidance; applicable approvals still depend on the actual project.',
+    'tech-igem-release':'Official rules concerning release beyond containment.',
+    'tech-igem-human-subjects':'Official guidance for research involving human participants.',
+    'tech-igem-surveys':'Official guidance for surveys and interviews, relevant to participant information and consent.',
+    'tech-igem-project-safety':'Official Project Safety Form and reporting requirements.',
+    'tech-igem-check-in':'Official check-in process for work requiring further safety review.',
+    'tech-igem-special-awards':'Official award criteria used to organize the safety-and-security evidence.',
+    'tech-igem-official-milestone':'Official iGEM guidance cited for this competition milestone. This is an external competition date, separate from the team\'s experimental or project activities.'
+  };
+
+  function revealCitation(target) {
+    var ancestor = target.parentElement;
+    while (ancestor) {
+      if (ancestor.tagName === 'DETAILS') ancestor.open = true;
+      // Existing tab controls own visibility of engineering-cycle panels.
+      if (ancestor.getAttribute('role') === 'tabpanel' && ancestor.id) {
+        var controller = qs('[role="tab"][aria-controls="' + ancestor.id + '"]');
+        if (controller) controller.click();
+      }
+      ancestor = ancestor.parentElement;
+    }
+    qsa('.is-citation-highlight').forEach(function (el) { el.classList.remove('is-citation-highlight'); });
+    var passage = target.closest('p,td,dd,figcaption') || target.closest('li') || target;
+    passage.classList.add('is-citation-highlight');
+    target.focus({preventScroll:true});
+    target.scrollIntoView({behavior:reduceMotion ? 'auto' : 'smooth',block:'center'});
+    window.setTimeout(function () {passage.classList.remove('is-citation-highlight');},5000);
+  }
+
   function initReferencesEnhance() {
-    var items = qsa(".ref-list > li[id]");
-    if (!items.length) return;
-
-    items.forEach(function (item) {
+    var listSelector = '.ref-list, .tech-source-list, .reference-list';
+    var items = qsa('.ref-list > li, .tech-source-list > li, .reference-list > li');
+    var pageName = location.pathname.split('/').pop() || 'index.html';
+    var contextMap = REFERENCE_CONTEXTS[pageName] || {};
+    items.forEach(function (item, itemIndex) {
+      if (item.dataset.referenceEnhanced) return;
+      item.dataset.referenceEnhanced = 'true';
+      if (!item.id) item.id = 'reference-auto-' + (itemIndex + 1);
       var refId = item.id;
-      var cites = qsa('a.cite[href="#' + refId + '"]');
-      var backlinks = qsa(".ref-backlink", item);
-
-      /* Source highlights (collapsed by default) */
-      if (!qs(".ref-highlights", item) && REF_HIGHLIGHTS[refId]) {
-        var details = doc.createElement("details");
-        details.className = "ref-highlights";
-        var summary = doc.createElement("summary");
-        summary.textContent = "Source highlights";
-        var body = doc.createElement("div");
-        body.className = "ref-highlights__body";
-        var ul = doc.createElement("ul");
-        REF_HIGHLIGHTS[refId].forEach(function (point) {
-          var li = doc.createElement("li");
-          li.textContent = point;
-          ul.appendChild(li);
-        });
-        body.appendChild(ul);
-        details.appendChild(summary);
-        details.appendChild(body);
-        item.appendChild(details);
-      }
-
-      if (!backlinks.length) return;
-
-      /* Wrap backlinks and attach cited-passage preview */
-      var group = doc.createElement("div");
-      group.className = "ref-backlink-group";
-      backlinks[0].parentNode.insertBefore(group, backlinks[0]);
-      backlinks.forEach(function (link) {
-        group.appendChild(link);
-      });
-
-      var panel = doc.createElement("div");
-      panel.className = "ref-passages";
-      panel.setAttribute("role", "tooltip");
-      panel.hidden = true;
-
-      var title = doc.createElement("p");
-      title.className = "ref-passages__title";
-      title.textContent =
-        cites.length === 1
-          ? "1 passage on this page cites this source"
-          : cites.length + " passages on this page cite this source";
-      panel.appendChild(title);
-
+      var originalText = item.textContent.replace(/\s+/g,' ').trim();
+      var sourceLinks = qsa('a[href]', item).filter(function (a) {return !a.classList.contains('ref-backlink') && a.getAttribute('href').charAt(0) !== '#';});
+      var cites = qsa('a[href="#' + refId + '"]').filter(function (a) {return !a.closest(listSelector);});
+      // Direct source hyperlinks are already genuine citations, including ones
+      // that predate the numbered-reference system.
       if (!cites.length) {
-        var empty = doc.createElement("p");
-        empty.textContent = "No in-text citation markers currently point to this entry.";
-        panel.appendChild(empty);
-      } else {
-        var ol = doc.createElement("ol");
-        cites.forEach(function (cite, index) {
-          if (!cite.id) {
-            cite.id = "cite-auto-" + refId + "-" + (index + 1);
-          }
-          var li = doc.createElement("li");
-          var label = doc.createElement("strong");
-          label.textContent = sectionLabelFor(cite) + ": ";
-          li.appendChild(label);
-          li.appendChild(doc.createTextNode(excerptAroundCite(cite)));
-          li.appendChild(doc.createTextNode(" "));
-          var jump = doc.createElement("a");
-          jump.href = "#" + cite.id;
-          jump.textContent = "Jump to cite";
-          li.appendChild(jump);
-          ol.appendChild(li);
-        });
-        panel.appendChild(ol);
+        var urls = sourceLinks.map(function(a){return a.href;});
+        cites = qsa('main a[href], .page-article a[href]').filter(function(a){return !a.closest(listSelector) && !a.closest('.page-toc') && urls.indexOf(a.href) !== -1;});
       }
-
-      group.appendChild(panel);
-
-      function openPanel(event) {
-        var anchor=event&&event.target.closest?event.target.closest('.ref-backlink'):null;
-        citationPanels.show(anchor||backlinks[0],panel,group);
+      if (!cites.length) {
+        var contextSelector = item.dataset.referenceContext || contextMap[refId];
+        var context = contextSelector && qs(contextSelector);
+        if (!context) context = qs('main .page-article > section:not(.references), main .page-article, main article, main');
+        if (!context) return;
+        var reading = qs(':scope > .reference-reading-note', context);
+        if (!reading) {reading=doc.createElement('p');reading.className='reference-reading-note';reading.appendChild(doc.createTextNode('Further reading: '));context.appendChild(reading);}
+        else reading.appendChild(doc.createTextNode(' · '));
+        var marker=doc.createElement('a');marker.href='#'+refId;marker.className='cite cite--background';
+        marker.textContent=item.hasAttribute('value') ? '['+item.getAttribute('value')+']' : (sourceLinks[0] ? sourceLinks[0].textContent.replace(/\s+/g,' ').trim().slice(0,76) : originalText.slice(0,70));
+        marker.setAttribute('aria-label','Further reading: '+originalText.slice(0,140));reading.appendChild(marker);cites=[marker];
       }
-      function closePanel() {
-        citationPanels.scheduleClose();
+      cites.forEach(function(cite,index){if(!cite.id)cite.id='cite-auto-'+refId+'-'+(index+1);});
+      if (!qs('.ref-highlights',item)) {
+        var details=doc.createElement('details');details.className='ref-highlights';
+        var summary=doc.createElement('summary');summary.textContent='Source highlights';details.appendChild(summary);
+        var body=doc.createElement('div');body.className='ref-highlights__body';
+        var sourceId=item.dataset.referenceSource || refId;
+        var points=REF_HIGHLIGHTS[sourceId] || (NEW_REFERENCE_HIGHLIGHTS[sourceId] ? [NEW_REFERENCE_HIGHLIGHTS[sourceId]] : null);
+        if (!points) {
+          var isDatasheet=/datasheet/i.test(originalText);
+          points=isDatasheet ? ['Component specifications and operating limits from the manufacturer. Used for design or safety context; not a measurement of the assembled AeroSense device.'] : ['Reading context: '+sectionLabelFor(cites[0])+'.',originalText.replace(/Back to (first )?citation/g,'').trim()];
+        }
+        var ul=doc.createElement('ul');points.forEach(function(point){var li=doc.createElement('li');li.textContent=point;ul.appendChild(li);});body.appendChild(ul);details.appendChild(body);item.appendChild(details);
       }
-
-      group.addEventListener("mouseenter", openPanel);
-      group.addEventListener("mouseleave", closePanel);
-      group.addEventListener("focusin", openPanel);
-      group.addEventListener("focusout", function () {
-        window.setTimeout(closePanel, 0);
+      qsa('.ref-return-tools, .ref-backlink, .ref-backlink-group',item).forEach(function(el){el.remove();});
+      var group=doc.createElement('div');group.className='ref-return-tools';
+      var back=doc.createElement('a');back.className='ref-backlink';back.href='#'+cites[0].id;back.textContent='Back to citation';group.appendChild(back);
+      var selected=0;
+      if(cites.length>1){
+        var label=doc.createElement('label');label.className='ref-citation-picker';
+        var caption=doc.createElement('span');caption.className='visually-hidden';caption.textContent='Choose a cited passage for '+refId;label.appendChild(caption);
+        var select=doc.createElement('select');select.setAttribute('aria-label','Choose a cited passage for '+refId);
+        cites.forEach(function(cite,index){var option=doc.createElement('option');option.value=String(index);option.textContent=(index+1)+' / '+cites.length+' · '+sectionLabelFor(cite);select.appendChild(option);});
+        select.addEventListener('change',function(){selected=Number(select.value);back.href='#'+cites[selected].id;});label.appendChild(select);group.appendChild(label);
+      }
+      back.addEventListener('click',function(event){event.preventDefault();if(!back.closest('dialog'))history.replaceState(null,'','#'+cites[selected].id);revealCitation(cites[selected]);});
+      item.appendChild(group);
+      cites.forEach(function(cite,index){
+        if(cite.getAttribute('href')!=='#'+refId)return;
+        cite.addEventListener('click',function(event){selected=index;var select=qs('select',group);if(select)select.value=String(index);back.href='#'+cite.id;if(cite.closest('dialog')){event.preventDefault();item.setAttribute('tabindex','-1');item.focus({preventScroll:true});item.scrollIntoView({block:'center',behavior:reduceMotion?'auto':'smooth'});}item.classList.add('is-citation-highlight');window.setTimeout(function(){item.classList.remove('is-citation-highlight');},5000);});
       });
-      panel.addEventListener('click',function(event){if(event.target.closest('a[href]'))citationPanels.hide(panel);});
     });
   }
+
+  window.AeroSenseEnhanceReferences = initReferencesEnhance;
 
   doc.addEventListener("DOMContentLoaded", function () {
     initNav();
@@ -2470,6 +3231,16 @@
   "use strict";
 
   var DEFINITIONS = {
+    "uart": { term: "UART", def: "Universal asynchronous receiver-transmitter — a serial data interface. The AeroSense programming connection uses 3.3 V UART; it is separate from USB-C power." },
+    "pdms": { term: "PDMS", def: "Polydimethylsiloxane — a silicone polymer considered in transport models. It is not part of the current AeroSense assembly or required bill of materials." },
+    "led": { term: "LED", def: "Light-emitting diode — a semiconductor light source. In the reader, blue excitation light stimulates a fluorescent response; it is not the fluorescence signal itself." },
+    "mcu": { term: "MCU", def: "Microcontroller unit — a small computer on a chip that coordinates electronics, timing, and data acquisition." },
+    "ema": { term: "EMA", def: "Exponential moving average — a display smoothing method that gives more weight to recent values. Smoothing does not remove systematic measurement error." },
+    "stl": { term: "STL", def: "A triangle-mesh file format commonly used to transfer a three-dimensional part to 3D-printing software. A printable model is not evidence of validated fit or function." },
+    "cad": { term: "CAD", def: "Computer-aided design — the digital geometry and drawings used to describe and revise a physical part." },
+    "t90": { term: "t90", def: "The time needed for a response to reach 90% of its final change. Gas-phase, liquid-phase, and biological response times describe different processes." },
+    "cross-talk": { term: "Cross-talk", def: "Signal from one channel appearing in another. In the four-well reader, optical mixing can remain even after frequency-selective processing." },
+    "adc-clipping": { term: "Clipping", def: "A signal exceeding the usable measurement range and being cut off at a limit. Background subtraction cannot recover the missing signal." },
     voc: {
       term: "VOC",
       def: "Volatile organic compound — a carbon-containing chemical that readily enters the gas phase at ambient conditions.",
@@ -2508,8 +3279,8 @@
       def: "A synthetic compound used to activate Orco-containing insect odorant-receptor channels; useful as a pathway control.",
     },
     hek293t: {
-      term: "HEK293T",
-      def: "A human embryonic kidney cell line commonly used for heterologous protein expression.",
+      term: "HEK293",
+      def: "A human cell line derived from embryonic kidney culture and transformed with adenovirus 5 DNA. HEK293 is the host used for the team’s heterologous receptor-expression experiments.",
     },
     gcamp6: {
       term: "GCaMP6",
@@ -2703,7 +3474,7 @@
   var closeTimer = null;
   var definitionOrb = null;
   var ILLUSTRATIONS = {
-    drosophila: { src: 'fig/fly.jpg', alt: 'Fruit fly, the organism inspiring the receptor and coding designs', caption: 'Fruit-fly visual' },
+    drosophila: { src: 'assets/editorial/2026-10-10-refined/biology-print.webp', alt: 'Editorial illustration of a fruit fly, the organism inspiring the receptor and coding designs', caption: 'Fruit fly · conceptual illustration' },
     gcamp: { src: 'fig/engineering/GCaMP6f_GGGGSx3_DmOrco.png', alt: 'Team construct map showing GCaMP6f linked to Orco', caption: 'Our reporter construct map · not a protein structure' },
     pcb: { src: 'fig/hardware/v2-pcb-top.png', alt: 'Team reader-board top layout', caption: 'Reader-board design · not a built-device photo' }
   };
@@ -2888,10 +3659,11 @@
     openPopover(termEl);
   }
 
-  // One unobtrusive explanation per concept on each page. Existing hand-placed
+  // One explanation per concept in each reading block. Existing hand-placed
   // definitions remain in place; links, controls, code, references and headings
   // are never rewritten.
   var AUTO_ALIASES = {
+    uart:["UART"], pdms:["PDMS"], led:["LED", "LEDs"], mcu:["MCU"], ema:["EMA"], stl:["STL"], cad:["CAD"], t90:["t90"], "cross-talk":["cross-talk", "crosstalk"], "adc-clipping":["clipping", "clipped"],
     voc: ["VOCs", "VOC", "volatile organic compounds"],
     mycotoxin: ["mycotoxins", "mycotoxin"],
     aflatoxin: ["aflatoxins", "aflatoxin"],
@@ -2903,7 +3675,7 @@
     or: ["odorant receptor", "odorant receptors", "OR"],
     drosophila: ["Drosophila"],
     vuaa1: ["VUAA1"],
-    hek293t: ["HEK293T"],
+    hek293t: ["HEK293", "HEK-293"],
     gcamp6: ["GCaMP6", "GCaMP6f"],
     gcamp: ["GCaMP"],
     obp: ["OBP"],
@@ -2942,7 +3714,7 @@
     drc: ["DRC"],
     erc: ["ERC"],
     kicad: ["KiCad"],
-    esp32: ["ESP32"],
+    esp32: ["ESP32-S3", "ESP32"],
     spi: ["SPI"],
     pcb: ["PCB", "printed circuit board"],
     "gc-ms": ["GC–MS", "GC-MS"],
@@ -3009,65 +3781,49 @@
     iso17025: ["ISO 17025", "ISO/IEC 17025"]
   };
 
+  var annotationPattern = null;
+  var annotationAliases = Object.create(null);
   function autoAnnotateTerms(root) {
     var main = root || document.querySelector("main");
-    if (!main) return;
-    var patterns = [];
-    Object.keys(AUTO_ALIASES).forEach(function (key) {
-      if (!DEFINITIONS[key]) return;
-      AUTO_ALIASES[key].forEach(function (alias) {
-        var special = "\\^$.*+?()[]{}|";
-        var escaped = alias.split("").map(function (character) {
-          return special.indexOf(character) >= 0 ? "\\" + character : character;
-        }).join("");
-        var flags = alias.length <= 4 && alias === alias.toUpperCase() ? "" : "i";
-        patterns.push({ key: key, re: new RegExp("(?<![A-Za-z0-9])" + escaped + "(?![A-Za-z0-9])", flags) });
-      });
-    });
-    var used = new Set();
-    var nodes = [];
-    var walker = document.createTreeWalker(main, 4);
-    while (walker.nextNode()) {
-      var node = walker.currentNode;
-      var parent = node.parentElement;
-      if (!parent || !node.nodeValue.trim()) continue;
-      if (!parent.closest("p, li, dd, dt, td, th, figcaption, blockquote")) continue;
-      if (parent.closest("a, button, dfn, code, pre, script, style, textarea, nav, header, footer, svg, .cite-wrap, .cite-preview, .glossary-popover, .references, .aerosense-cinematic")) continue;
-      nodes.push(node);
-    }
-    var count = 0;
-    nodes.some(function (node) {
-      if (count >= 48) return true;
-      var remaining = node.nodeValue;
-      var fragment = document.createDocumentFragment();
-      var replacements = 0;
-      while (remaining && replacements < 2 && count < 48) {
-        var best = null;
-        patterns.forEach(function (item) {
-          if (used.has(item.key)) return;
-          var match = item.re.exec(remaining);
-          if (match && (!best || match.index < best.index || (match.index === best.index && match[0].length > best.text.length))) {
-            best = { key: item.key, index: match.index, text: match[0] };
-          }
+    if (!main || main.classList.contains('glossary-page')) return;
+    if (!annotationPattern) {
+      var aliases = [];
+      Object.keys(AUTO_ALIASES).forEach(function(key) {
+        if (!DEFINITIONS[key]) return;
+        AUTO_ALIASES[key].forEach(function(alias) {
+          var item = {key:key, text:alias, exact:alias.length<=4 && alias===alias.toUpperCase()};
+          (annotationAliases[alias.toLowerCase()] || (annotationAliases[alias.toLowerCase()]=[])).push(item);
+          aliases.push(alias.split('').map(function(character) {
+            return '\\^$.*+?()[]{}|'.includes(character) ? '\\' + character : character;
+          }).join(''));
         });
-        if (!best) break;
-        fragment.appendChild(document.createTextNode(remaining.slice(0, best.index)));
-        var term = document.createElement("dfn");
-        term.className = "term";
-        term.setAttribute("data-term", best.key);
-        term.setAttribute("data-glossary-auto", "");
-        term.textContent = best.text;
-        fragment.appendChild(term);
-        remaining = remaining.slice(best.index + best.text.length);
-        used.add(best.key);
-        replacements += 1;
-        count += 1;
+      });
+      aliases.sort(function(a,b){return b.length-a.length;});
+      annotationPattern = new RegExp('(?<![A-Za-z0-9])(?:'+aliases.join('|')+')(?![A-Za-z0-9])','gi');
+    }
+    var blocks = new Map(), nodes = [], walker = document.createTreeWalker(main, 4);
+    while(walker.nextNode()) {
+      var node=walker.currentNode, parent=node.parentElement;
+      if (!parent || !node.nodeValue.trim()) continue;
+      var block=parent.closest('p, li, dd, dt, td, th, figcaption, blockquote');
+      if (!block || parent.closest('a, button, dfn, code, pre, script, style, textarea, select, option, optgroup, label, summary, nav, header, footer, svg, .cite-wrap, .cite-preview, .glossary-popover, .references, .aerosense-cinematic')) continue;
+      if (!blocks.has(block)) blocks.set(block, new Set(Array.from(block.querySelectorAll('dfn[data-term]')).map(function(el){return el.dataset.term;})));
+      nodes.push({node:node, block:block});
+    }
+    nodes.forEach(function(item) {
+      var used=blocks.get(item.block), value=item.node.nodeValue, fragment=document.createDocumentFragment();
+      var previous=0, changed=false, match;
+      annotationPattern.lastIndex=0;
+      while((match=annotationPattern.exec(value))) {
+        var options=annotationAliases[match[0].toLowerCase()] || [];
+        var entry=options.find(function(row){return !row.exact || row.text===match[0];});
+        if (!entry || used.has(entry.key)) continue;
+        fragment.appendChild(document.createTextNode(value.slice(previous,match.index)));
+        var term=document.createElement('dfn'); term.className='term';
+        term.setAttribute('data-term',entry.key); term.setAttribute('data-glossary-auto',''); term.textContent=match[0];
+        fragment.appendChild(term);previous=match.index+match[0].length;used.add(entry.key);changed=true;
       }
-      if (replacements) {
-        fragment.appendChild(document.createTextNode(remaining));
-        node.parentNode.replaceChild(fragment, node);
-      }
-      return false;
+      if(changed){fragment.appendChild(document.createTextNode(value.slice(previous)));item.node.parentNode.replaceChild(fragment,item.node);}
     });
   }
 
@@ -3090,7 +3846,7 @@
       // mentions another field, so it is not used as a keyword classifier.
       var known = {
         biology: 'voc mycotoxin or orco drosophila vuaa1 hek293t gcamp6 gcamp delta-f-over-f0 obp ali rfc1000 biobrick ies ires headspace aflatoxin indole or49b fluorescence gc-ms lc-ms registry part-collection cds cmv kozak mcherry pcdna plasmid composite-part rfc10 codon-optimization sanger bsai ionomycin poly-a emcv neor g418',
-        hardware: 'fdm dlia tia adc cfd monte-carlo fluence quantum-yield responsivity ldo sar gpio dds iq-demodulation high-impedance pcb spi e-nose photodiode excitation detection-limit snr dark-noise calibration bom drc erc kicad esp32 vref',
+        hardware: 'uart pdms led mcu ema stl cad t90 cross-talk adc-clipping fdm dlia tia adc cfd monte-carlo fluence quantum-yield responsivity ldo sar gpio dds iq-demodulation high-impedance pcb spi e-nose photodiode excitation detection-limit snr dark-noise calibration bom drc erc kicad esp32 vref',
         model: 'al pn mb kc mbon lateral-inhibition sparse-coding lsh snn false-positive false-negative sensitivity specificity f1-score cross-validation data-leakage confusion-matrix baseline-model pca svm loso anova-f stdp standardscaler',
         people: 'sds sop rg poc screening confirmatory risk-tier dbtlr ihp sdg b2b beachhead mvp tam sam som fiti willingness-to-pay lca bsl irb loi iso17025'
       };
@@ -3107,6 +3863,7 @@
     }).filter(function (entry, index, all) {
       return all.findIndex(function (candidate) { return candidate.term === entry.term; }) === index;
     }).sort(function (a, b) { return a.term.localeCompare(b.term, "en"); });
+    list.replaceChildren();
     entries.forEach(function (entry,index) {
       var article = document.createElement("article");
       article.className = "glossary-entry";
@@ -3838,6 +4595,11 @@
    * Do not index nav/footer boilerplate, emails, or reference lists as primary hits.
    */
   var SEARCH_INDEX = [
+    { pageTitle: "Alternative Platform", section: "HEK293 host rationale and evidence", excerpt: "Why a mammalian host was selected, what endpoint expression supports, and the validation still required.", keywords: "HEK293 alternative platform host receptor OR Orco", url: "alternative-platform.html", anchor: "main" },
+    { pageTitle: "Measurement", section: "Endpoint microscopy measurement", excerpt: "Measurand, controls, excluded dense regions, threshold sensitivity, and limits of a one-batch study.", keywords: "measurement DAPI uncertainty Fisher Holm blank density", url: "measurement.html", anchor: "main" },
+    { pageTitle: "Attributions", section: "Responsible AI", excerpt: "AI-assisted code, editing and conceptual artwork; retained raw data and scientific limits.", keywords: "AI disclosure authors contributions responsibility", url: "attributions.html", anchor: "responsible-ai" },
+    { pageTitle: "Contribution", section: "Released analysis package", excerpt: "Reproduce the endpoint fluorescence analysis and its exploratory control comparison.", keywords: "download microscopy Python CSV controls package", url: "contribution.html", anchor: "released-contribution" },
+
     /* Home */
     {
       pageTitle: "Home",
@@ -3916,7 +4678,7 @@
     {
       pageTitle: "Description",
       section: "How AeroSense works",
-      excerpt: "Four-stage overview: Sense (OR/Orco + HEK293T + GCaMP), Read (weak-fluorescence reader), Decode (AL/MB-inspired), Act (QC and follow-up).",
+      excerpt: "Four-stage overview: Sense (OR/Orco + HEK293 + GCaMP), Read (weak-fluorescence reader), Decode (AL/MB-inspired), Act (QC and follow-up).",
       keywords: "AeroSense glance thesis Sense Read Decode Act screening fungal risk",
       url: "description.html",
       anchor: "glance",
@@ -3956,8 +4718,8 @@
     {
       pageTitle: "Description",
       section: "SENSE",
-      excerpt: "Drosophila OR/Orco in HEK293T with GCaMP fluorescence, using VUAA1 as a functional positive control.",
-      keywords: "Sense biological OR Orco HEK293T GCaMP mCherry VUAA1 construct",
+      excerpt: "Drosophila OR/Orco in HEK293 with GCaMP fluorescence, using VUAA1 as a functional positive control.",
+      keywords: "Sense biological OR Orco HEK293 GCaMP mCherry VUAA1 construct",
       url: "description.html",
       anchor: "sense",
     },
@@ -4086,8 +4848,8 @@
     {
       pageTitle: "Contribution",
       section: "Biological sensing package",
-      excerpt: "Adaptation map: published OR/Orco precedent versus AeroSense implementation. HEK293T and GCaMP–Orco linker pending verification. No validated AeroSense construct results on this page.",
-      keywords: "OR Orco HEK293T GCaMP VUAA1 Zboray parts constructs wet lab",
+      excerpt: "Adaptation map: published OR/Orco precedent and the AeroSense implementation in HEK293. Construct architecture, reproducible workflows and available biological evidence are linked separately.",
+      keywords: "OR Orco HEK293 GCaMP VUAA1 Zboray parts constructs wet lab",
       url: "contribution.html",
       anchor: "pkg-biology",
     },
@@ -4176,10 +4938,26 @@
     {
       pageTitle: "Engineering",
       section: "Hardware Cycle 3",
-      excerpt: "From PCB to instrument: V2 layout ~100×90 mm; Learn/Redesign pending; validation ladder 10 steps all PLANNED.",
+      excerpt: "From PCB to instrument: a focused standard-solution protocol defines the next physical test. The historical validation ladder remains planned.",
       keywords: "hw-cycle-3 validation ladder FDM DLIA dark noise IN PROGRESS",
       url: "engineering.html",
       anchor: "hw-cycle-3",
+    },
+    {
+      pageTitle: "Engineering",
+      section: "Hardware Cycle 4 · Optical and gas co-design",
+      excerpt: "Optical, airflow and membrane simulations constrain the enclosure. Computational results guide design choices; physical validation remains pending.",
+      keywords: "hw-cycle-4 optics airflow membrane CAD enclosure simulation PDMS diffusion",
+      url: "engineering.html",
+      anchor: "hw-cycle-4",
+    },
+    {
+      pageTitle: "Engineering",
+      section: "Hardware Cycle 5 · Reproducible assembly",
+      excerpt: "Bilingual assembly and operation manuals, a local interface and a feedback form prepare an independent assembly study. Participant testing has not yet run.",
+      keywords: "hw-cycle-5 assembly manual user study usability feedback documentation validation",
+      url: "engineering.html",
+      anchor: "hw-cycle-5",
     },
     {
       pageTitle: "Engineering",
@@ -4200,7 +4978,7 @@
     {
       pageTitle: "Engineering",
       section: "Dry Lab · Hardware track",
-      excerpt: "Dry Lab Hardware cycles: measurable circuit, ESP32-standalone after Raspberry Pi removal, PCB-to-instrument still open.",
+      excerpt: "Five hardware cycles connect circuit integrity, ESP32 architecture, physical validation planning, computational enclosure design and reproducible assembly.",
       keywords: "track-hardware hw-cycle measurement integrity ESP32 Raspberry Pi V2",
       url: "engineering.html",
       anchor: "track-hardware",
@@ -4216,7 +4994,7 @@
     {
       pageTitle: "Engineering",
       section: "Wet Lab Cycle 2",
-      excerpt: "Orco–IRES–GCaMP6: real but weak VUAA1 fluorescence; revised hypothesis points to IRES-downstream reporter abundance/proximity. MEASURED.",
+      excerpt: "Preliminary weak fluorescence in the Orco–IRES–GCaMP6 design prompted hypotheses about reporter abundance and localization, with controls needed to separate the causes.",
       keywords: "wl-cycle-2 Orco IRES GCaMP6 VUAA1 weak signal",
       url: "engineering.html",
       anchor: "wl-cycle-2",
@@ -4224,7 +5002,7 @@
     {
       pageTitle: "Engineering",
       section: "Wet Lab Cycle 3",
-      excerpt: "GCaMP6f–(GGGGS)3–Orco fusion BBa_26E11Z80 built; imaging pending. Success criteria vs observed result separated. BUILT — TEST PENDING.",
+      excerpt: "GCaMP6f–(GGGGS)3–Orco fusion BBa_26E11Z80 separates sequence verification, static fluorescence and dynamic sensor function. Functional validation remains pending.",
       keywords: "wl-cycle-3 fusion GCaMP6f Orco topology BBa_26E11Z80",
       url: "engineering.html",
       anchor: "wl-cycle-3",
@@ -4248,7 +5026,7 @@
     {
       pageTitle: "Engineering",
       section: "Dry Lab · Model Cycle 1",
-      excerpt: "Multi-seed honesty (~0.90 luck vs ~0.85 mean); pca_dim=5 stability; SNN missing StandardScaler caused sensor-importance contradiction. MEASURED.",
+      excerpt: "Multi-seed comparisons and preprocessing checks exposed instability hidden by one favorable run. A missing StandardScaler caused a contradiction in sensor importance.",
       keywords: "dl-cycle-1 multi-seed StandardScaler PCA sensor importance",
       url: "engineering.html",
       anchor: "dl-cycle-1",
@@ -4344,7 +5122,7 @@
     {
       pageTitle: "Engineering",
       section: "What remains unknown",
-      excerpt: "Open items: Hardware C3 physical tests, Wet Lab C2 imaging, Dry Lab validation gate, education playtests, end-to-end integration.",
+      excerpt: "Open items include dynamic cell-sensor function, physical reader validation, independent assembly, corrected precision sweeps, educational effectiveness and end-to-end testing.",
       keywords: "unknown pending validation incomplete Learn Redesign",
       url: "engineering.html",
       anchor: "what-we-would-do-differently",
@@ -4395,8 +5173,8 @@
     {
       pageTitle: "Safety & Security",
       section: "Biological materials",
-      excerpt: "Named cloning and sensing materials include E. coli DH5α and HEK293/HEK293T. Chassis identity is not frozen. Final project organism inventory pending team confirmation.",
-      keywords: "HEK293 HEK293T biological materials chassis containment Drosophila DH5α",
+      excerpt: "Named cloning and sensing materials include E. coli DH5α and HEK293. The team has confirmed HEK293 for all wet-lab experiments; cell-stock and institutional records remain separate documentation.",
+      keywords: "HEK293 HEK293 biological materials chassis containment Drosophila DH5α",
       url: "safety-and-security.html",
       anchor: "biological-materials",
     },
@@ -4493,8 +5271,8 @@
     {
       pageTitle: "Members",
       section: "Student team",
-      excerpt: "Jeffrey (Pin-Che Huang) leads hardware and wiki design. Evangeline (Yi-Chia Fang) is vice leader for human practices. Tim (Chun-Ting Chou) works on the model. Bennett (Kuan-hua Lin) leads wiki and design.",
-      keywords: "Jeffrey Pin-Che Huang 黃品喆 Evangeline Yi-Chia Fang 方以佳 Tim Chun-Ting Chou 周峻廷 Bennett Kuan-hua Lin 林冠樺 student team leader hardware wiki design model human practices",
+      excerpt: "Meet Jeffrey, Evangeline, Tim, Bennett and Pterosaur through their personal introductions.",
+      keywords: "Jeffrey Pin-Che Huang 黃品喆 Evangeline Yi-Chia Fang 方以佳 Tim Chun-Ting Chou 周峻廷 Bennett Kuan-hua Lin 林冠樺 Pterosaur I-jung Chen student team introductions",
       url: "members.html",
       anchor: "student-team",
     },
@@ -4509,7 +5287,7 @@
     {
       pageTitle: "Members",
       section: "PIs",
-      excerpt: "Primary and Secondary PI profiles coming soon.",
+      excerpt: "Meet our primary and vice principal investigators.",
       keywords: "PI principal investigator Primary Secondary",
       url: "members.html",
       anchor: "pis",
@@ -4524,19 +5302,11 @@
     },
     {
       pageTitle: "Attributions",
-      section: "Asset and media credits",
-      excerpt: "Asset register records creator, source, license, and modifications for third-party and team media.",
-      keywords: "attributions credits assets license CC BY",
+      section: "Official Project Attributions Form",
+      excerpt: "NTHU Team 6460’s official iGEM contribution record, displayed directly from iGEM. Use the form’s own category menu to read who did what.",
+      keywords: "attributions official form 6460 iGEM credits team contributions external support timeline",
       url: "attributions.html",
-      anchor: "asset-credits",
-    },
-    {
-      pageTitle: "Attributions",
-      section: "Responsible AI use",
-      excerpt: "Responsible AI boundaries prohibit inventing scientific evidence images, data, or unverified research prose.",
-      keywords: "responsible AI boundaries wiki writing",
-      url: "attributions.html",
-      anchor: "responsible-ai",
+      anchor: "official-form",
     },
 
     /* Parts */
@@ -4616,9 +5386,9 @@
     },
     {
       pageTitle: "Design",
-      section: "Why HEK293T?",
-      excerpt: "HEK293T is the planned heterologous host for OR/Orco expression and fluorescence reporting.",
-      keywords: "HEK293T host chassis mammalian expression",
+      section: "Why HEK293?",
+      excerpt: "HEK293 is the planned heterologous host for OR/Orco expression and fluorescence reporting.",
+      keywords: "HEK293 host chassis mammalian expression",
       url: "design.html",
       anchor: "why-hek293t",
     },
@@ -4675,7 +5445,7 @@
     {
       pageTitle: "Experiments",
       section: "Mammalian cell culture",
-      excerpt: "Current protocol specification names HEK293 in DMEM with 10 % FBS, passaged at ~80 % confluence, detached with TrypLE Express. HEK293 vs HEK293T is unresolved.",
+      excerpt: "Current protocol specification names HEK293 in DMEM with 10 % FBS, passaged at ~80 % confluence, detached with TrypLE Express. The team has confirmed HEK293 as its wet-lab host.",
       keywords: "HEK293 DMEM TrypLE FBS penicillin culture EXP-AS-02",
       url: "experiments.html",
       anchor: "cell-culture",
@@ -4683,8 +5453,8 @@
     {
       pageTitle: "Experiments",
       section: "Transfection",
-      excerpt: "Current specification: electroporation in suspension, ~5 µg DNA, OR plasmid : Orco plasmid DNA mass ratio 2:1, antibiotic-free recovery. Pulse parameters pending. Zboray FuGene HD is not substituted.",
-      keywords: "electroporation DNA mass ratio 2:1 OR Orco plasmid transfection EXP-AS-02",
+      excerpt: "The earlier electroporation specification and workbook listing P3000/Lipofectamine 3000 are distinct source records. Delivery method for the supplied image set is not confirmed. HEK293 images were acquired 44–48 h after transfection, before G418.",
+      keywords: "electroporation lipofectamine P3000 OR Orco plasmid transfection HEK293 EXP-AS-02 source record",
       url: "experiments.html",
       anchor: "transfection",
     },
@@ -4747,10 +5517,34 @@
 
     /* Notebook / Results */
     {
+      pageTitle: "Description",
+      section: "TH, GH146 and the fly olfactory circuit",
+      excerpt: "TH and GH146 preparations both use team-confirmed UAS-GCaMP6f. Projection neurons relay antennal-lobe input toward the mushroom body and lateral horn; dopamine modulates the circuit. TH (5137) stock numbering still needs checking, and PN imaging remains pending.",
+      keywords: "TH 5137 GH146 PN UAS-GCaMP6f calcium reporter projection neuron dopamine mushroom body MBON antennal lobe light-sheet",
+      url: "description.html",
+      anchor: "fly-neural-circuit",
+    },
+    {
+      pageTitle: "Notebook",
+      section: "20 April · TH light-sheet record",
+      excerpt: "TH × UAS-GCaMP6f light-sheet record: the reporter is confirmed by the team. The driver stock identifier and full progeny genotype still need checking; odor-evoked neural responses require acquisition controls and biological repeats.",
+      keywords: "April 20 4/20 TH 5137 UAS-GCaMP6f confirmed reporter fly brain light-sheet notebook",
+      url: "notebook.html",
+      anchor: "wet-th-lightsheet-20260420",
+    },
+    {
+      pageTitle: "Notebook",
+      section: "4 May · PN preparation",
+      excerpt: "GH146 × UAS-GCaMP6f preparation entry with team-confirmed reporter. PN image acquisition remains pending; no PN response or TH–PN comparison is reported.",
+      keywords: "May 4 5/4 PN GH146 UAS-GCaMP6f confirmed reporter projection neuron fly brain notebook preparation",
+      url: "notebook.html",
+      anchor: "wet-pn-preparation-20260504",
+    },
+    {
       pageTitle: "Notebook",
       section: "Actual notebook entries",
-      excerpt: "No dated laboratory notebook entries are published yet; planned EXP-AS slots reserve anchors for future records.",
-      keywords: "notebook lab notes entries EXP-AS slots",
+      excerpt: "Dated team, hardware, model and Human Practices records appear in Calendar, Timeline and Gantt views, with completed work separated from ongoing and planned tasks.",
+      keywords: "notebook lab notes calendar timeline Gantt hardware PCB enclosure recruitment project planning wiki games",
       url: "notebook.html",
       anchor: "chronicle-views",
     },
@@ -4765,34 +5559,68 @@
     {
       pageTitle: "Results",
       section: "Evidence overview",
-      excerpt: "Explore the preliminary light-sheet fluorescence observations, linked biological assay questions and interpretation scope.",
-      keywords: "results evidence overview unpublished wet lab",
+      excerpt: "HEK293 endpoint microscopy: 12 conditions and 25 fields, recorded 44–48 h after transfection before G418. Full images, controls, analysis and limitations; no validated population transfection efficiency.",
+      keywords: "results evidence DAPI PFA microscopy mCherry GCaMP6f transfection efficiency HEK293 pre G418",
       url: "results.html",
       anchor: "evidence-overview",
     },
     {
       pageTitle: "Results",
       section: "Wet Lab results",
-      excerpt: "Seven assay questions connect construct verification, expression, channel activity and odor response to their methods.",
-      keywords: "biological sensing results fluorescence HEK293T wet lab",
+      excerpt: "Browse all 25 fields: original fluorescence channels, brightfield, matched-channel merges and DAPI-object overlays. Compare per-field reporter-positive fractions and threshold sensitivity without treating fields as biological repeats.",
+      keywords: "biological sensing results fluorescence HEK293 wet lab dense cluster DAPI merge transfection efficiency analysis",
       url: "results.html",
       anchor: "wet-lab",
+    },
+
+    {
+      pageTitle: "Results",
+      section: "Microscopy data and downloads",
+      excerpt: "Download scripts, source hashes, object-level measurements and all-field tables. 2% PFA fixation followed by DAPI without permeabilization; no live/dead assay or independent biological repeats.",
+      keywords: "microscopy CSV download data availability analysis package PFA DAPI segmentation mCherry GCaMP",
+      url: "results.html",
+      anchor: "data-availability",
+    },
+
+    {
+      pageTitle: "Experiments",
+      section: "Three experimental tracks",
+      excerpt: "Follow three separate workflows: molecular cloning, HEK293 cell experiments and odor testing, and exploratory fly-brain imaging. Each has its own methods and evidence boundary.",
+      keywords: "cloning transformation miniprep DNA gel HEK293 odor fly light-sheet three workflows",
+      url: "experiments.html",
+      anchor: "cloning-track",
+    },
+    {
+      pageTitle: "Experiments",
+      section: "Endpoint microscopy methods",
+      excerpt: "Acquisition metadata, DAPI-object segmentation, blank-derived reporter thresholds and display processing for the 25 pre-G418 fields. These methods estimate a selected-object fluorescence fraction, not whole-population transfection efficiency.",
+      keywords: "DAPI PFA microscopy methods segmentation threshold sensitivity transfection efficiency GCaMP mCherry dense cells",
+      url: "experiments.html",
+      anchor: "microscopy-analysis",
+    },
+    {
+      pageTitle: "Results",
+      section: "Cloning plate photographs",
+      excerpt: "Three supplied bacterial plate photographs document visible plate growth. Photographs alone do not confirm plasmid identity, sequence or cloning efficiency; gel evidence is not yet available.",
+      keywords: "cloning bacteria plate colony transformation miniprep DNA gel",
+      url: "results.html",
+      anchor: "cloning-results",
     },
 
     /* Model */
     {
       pageTitle: "Model",
       section: "Question and role in the project",
-      excerpt: "The model asks whether fly-inspired AL/MB steps improve odor-pattern decoding over simpler baselines on fluorescence features.",
-      keywords: "model question role AL MB sparse coding",
+      excerpt: "The updated decoder record separates KT random five-fold and unseen-day tests, readout diagnosis, UCI drift calibration and single-run sequential learning. Physical models separately guide the reader.",
+      keywords: "model question KT UCI metal oxide macro F1 0.87 0.73 SNN physical measurement optics gas",
       url: "model.html",
       anchor: "evidence-snapshot",
     },
     {
       pageTitle: "Model",
-      section: "AL-inspired layer",
-      excerpt: "Antennal-lobe-inspired processing is designed as a contrast or lateral-interaction step on receptor-like channels.",
-      keywords: "AL antennal lobe lateral inhibition contrast",
+      section: "Fly-inspired neural architecture",
+      excerpt: "The biological inspiration connects projection neurons, sparse Kenyon-cell activity, APL-like inhibition and MBON readout. The implementation encodes PCA features in PN bins before the spiking network.",
+      keywords: "fly brain PN KC APL MBON mushroom body sparse coding PCA bins",
       url: "model.html",
       anchor: "why-fly-brain",
     },
@@ -4807,44 +5635,149 @@
     {
       pageTitle: "Model",
       section: "Preprocessing and response extraction",
-      excerpt: "Preprocessing extracts ΔF/F₀-style fluorescence responses with documented provenance labels.",
-      keywords: "preprocessing delta F F0 fluorescence features",
+      excerpt: "The KT benchmark extracts metal-oxide sensor response features and applies training-only preprocessing before spike encoding. Transfer to AeroSense fluorescence remains a separate step.",
+      keywords: "preprocessing KT metal oxide sensor delta features PCA train only spike encoding",
       url: "model.html",
       anchor: "sensor-to-spikes",
     },
     {
       pageTitle: "Model",
-      section: "Validation",
-      excerpt: "Validation plans compare fly-inspired pipelines against baselines with held-out or cross-validated splits.",
-      keywords: "validation baseline cross-validation metrics",
+      section: "Training and evaluation",
+      excerpt: "Training-only preprocessing and explicit exposure partitions separate random five-fold validation, whole-day holdout and the chronological SNN tests still required.",
+      keywords: "validation five fold random day holdout chronological split training presentations unique exposures leakage",
       url: "model.html",
       anchor: "training-evaluation",
     },
     {
       pageTitle: "Model",
-      section: "Engineering / validation history",
-      excerpt: "Multi-seed lesson, missing StandardScaler on SNN PCA, quantization clock bug, and gated w_kc_mbon=13 candidate — linked to Engineering Dry Lab DBTL.",
-      keywords: "multi-seed StandardScaler quantize_states defaultclock w_kc_mbon validation history Engineering Dry Lab",
+      section: "Generalization and sensitivity",
+      excerpt: "Performance falls on unseen measurement days. Learning curves and parameter sweeps motivate better collection schedules and split-resolved validation.",
+      keywords: "learning curve sensitivity parameter sweep random unseen days five fold generalization",
       url: "model.html",
       anchor: "what-we-learned",
     },
     {
       pageTitle: "Model",
       section: "Reproducibility",
-      excerpt: "Reproducibility requires code revision, seed, data provenance, and environment notes before claiming model results.",
-      keywords: "reproducibility code seed environment",
+      excerpt: "Figures and settings document the study; independent reproduction still requires decoder code, resolved configurations, fold membership, sampling seeds and predictions.",
+      keywords: "reproducibility code seed fold environment TOML prediction logs preprocessing",
       url: "model.html",
       anchor: "reproduce",
+    },
+
+    {
+      pageTitle: "Model",
+      section: "Decoder classification results",
+      excerpt: "KT random-split five-fold macro-F1 is reported as 0.87 ± 0.03, falling to about 0.73 on unseen days. The displayed single diagnostic run is reported separately.",
+      keywords: "performance macro F1 0.87 0.73 five fold confusion matrix gas classification KT",
+      url: "model.html",
+      anchor: "performance",
+    },
+    {
+      pageTitle: "Model",
+      section: "Readout diagnosis",
+      excerpt: "Layerwise probes compare PN, KC and learned MBON representations on matched data. Offline readout comparisons motivate an error-driven learning test.",
+      keywords: "readout bottleneck MBON PN KC linear SVM Hebbian learning teacher diagnostic",
+      url: "model.html",
+      anchor: "readout-bottleneck",
+    },
+    {
+      pageTitle: "Model",
+      section: "Drift and reference-gas correction",
+      excerpt: "On UCI sensor recordings, ten ethanol references per new batch improve mean cross-batch SVM accuracy from 33% to 58%. This is a conventional-classifier result, separate from pending SNN drift tests.",
+      keywords: "UCI drift 36 months calibration ethanol reference gas SVM 33 58 concentration batch",
+      url: "model.html",
+      anchor: "drift-robustness",
+    },
+    {
+      pageTitle: "Model",
+      section: "Sequential learning",
+      excerpt: "One NH3-only learning run raises new-gas recognition from 0% to 72%, while old classes lose 4–10 percentage points. Retention across seeds and class orders remains untested.",
+      keywords: "continual sequential learning NH3 ammonia dopamine teacher catastrophic forgetting retention",
+      url: "model.html",
+      anchor: "continual-learning",
+    },
+    {
+      pageTitle: "Model",
+      section: "Figures and data availability",
+      excerpt: "Seventeen decoder figures open at full resolution. UCI data are linked; KT thesis metadata, redistribution permission and decoder reproduction artifacts remain unresolved.",
+      keywords: "data availability figures KT thesis UCI source code full resolution reproduction",
+      url: "model.html",
+      anchor: "model-data",
+    },
+    {
+      pageTitle: "Model",
+      section: "Physical measurement models",
+      excerpt: "Optical transport, detector interference and gas-to-liquid-interface delivery inform the reader design under explicit assumptions. These are computational results, separate from the SNN benchmark.",
+      keywords: "physical model Monte Carlo optical transport finite detector CFD airflow gas liquid 100 µL 80 µL",
+      url: "model.html",
+      anchor: "physical-models",
+    },
+    {
+      pageTitle: "Model",
+      section: "Optical transport and well mixing",
+      excerpt: "The current optical model predicts a conditional collection path, nonuniform floor illumination and nonzero well mixing; a dye standard uses a separate volume-source model.",
+      keywords: "optical transport Monte Carlo photodiode well mixing matrix floor irradiance standard fluorescence",
+      url: "model.html",
+      anchor: "optical-transport",
+    },
+    {
+      pageTitle: "Model",
+      section: "Detector interference",
+      excerpt: "Frequency tagging retains LED-synchronous excitation leakage and other-well light. Declared synthetic signal comparisons inform measured I/Q blank correction.",
+      keywords: "interference lock in DLIA I/Q blank correction reflected light noise SINR OD",
+      url: "model.html",
+      anchor: "detector-interference",
+    },
+    {
+      pageTitle: "Model",
+      section: "Gas and liquid transport",
+      excerpt: "The fixed-CAD operating sweep conditionally selects 3 mL/min with worst near-liquid gas t90 about 50 seconds. Gas arrival does not establish bottom-cell exposure or safety.",
+      keywords: "gas liquid transport CFD diffusion airflow t90 3 mL min 50 seconds PDMS boundary",
+      url: "model.html",
+      anchor: "gas-and-liquid-transport",
+    },
+    {
+      pageTitle: "Model",
+      section: "Optical simulation video",
+      excerpt: "Watch the original optical paths and modulated detector traces. The 100× slow-motion movie shows sampled paths and conditional optical signals, not measured cellular responses.",
+      keywords: "optical simulation video movie MP4 photon paths slow motion fluorescence LED",
+      url: "model.html",
+      anchor: "optical-simulation-video",
+    },
+    {
+      pageTitle: "Model",
+      section: "Airflow simulation video",
+      excerpt: "Watch the original airflow comparison at 1 mL/min. Sixty physical seconds are shown in twenty playback seconds; the separate operating sweep evaluates the 3 mL/min candidate.",
+      keywords: "airflow simulation video movie MP4 CFD wash in gas flow",
+      url: "model.html",
+      anchor: "airflow-simulation-video",
+    },
+    {
+      pageTitle: "Model",
+      section: "Liquid and membrane transport",
+      excerpt: "Liquid depth, diffusion and membrane assumptions affect delivery to cells. Gas wash-in does not by itself establish a biological response time.",
+      keywords: "liquid membrane PDMS transport diffusion depth cell exposure",
+      url: "model.html",
+      anchor: "liquid-transport",
+    },
+    {
+      pageTitle: "Model",
+      section: "Model to build",
+      excerpt: "Each computational question links evidence to a concrete hardware choice and the independent physical measurement still required.",
+      keywords: "model build decision optical calibration gas shelf measured validation hardware",
+      url: "model.html",
+      anchor: "model-to-build",
     },
 
     /* Hardware */
     {
       pageTitle: "Hardware",
-      section: "Why hardware?",
-      excerpt: "Hardware (Dry Lab) is the Read layer of the Sense → Read → Decode → Act architecture: it must convert weak GCaMP fluorescence into digital measurements while preserving measurement integrity.",
-      keywords: "need READ layer GCaMP fluorescence measurement integrity HEK293T Orco",
+      section: "PCB design and engineering revisions",
+      excerpt: "The electronics record starts with the V1 audit, then follows the V2 layout, guarded TIA, ADC interface and ESP32 acquisition decisions.",
+      keywords: "PCB V1 V2 DRC ERC guard TIA ADC ESP32 measurement integrity",
       url: "hardware.html",
-      anchor: "why-hardware",
+      anchor: "electronics-bridge",
     },
     {
       pageTitle: "Hardware",
@@ -4865,7 +5798,7 @@
     {
       pageTitle: "Hardware",
       section: "Optical design",
-      excerpt: "Four approximately 470 nm side-view LEDs and an intended orthogonal collection path; filter and enclosure remain measurement requirements.",
+      excerpt: "Four LED-referenced wells share a finite offset photodiode. Current Monte Carlo figures show conditional collection and residual mixing; physical optical calibration remains necessary.",
       keywords: "optical design LED filter photodiode excitation 470 nm Würth",
       url: "hardware.html",
       anchor: "optical-design",
@@ -4873,50 +5806,59 @@
     {
       pageTitle: "Hardware",
       section: "Multiplexing the signal",
-      excerpt: "Provisional FDM tones at 137, 173, 211, and 257 Hz plus digital lock-in remain hypotheses until measured. Figure H5 is a conceptual demonstration, not a spectrum or SNR result.",
-      keywords: "multiplexing FDM DLIA lock-in 137 173 211 257 Hz conceptual demonstration",
+      excerpt: "The current firmware uses 41/67/89/113 Hz LED channels with two-second I/Q blocks. Actual mapping, timing and ADC headroom require physical-board checks.",
+      keywords: "multiplexing FDM DLIA lock-in 41 67 89 113 Hz I/Q timing ADC",
       url: "hardware.html",
       anchor: "multiplexing",
     },
     {
       pageTitle: "Hardware",
       section: "Engineering iterations",
-      excerpt: "V1 failed a 2 August DRC/ERC audit (73 DRC, 4 unconnected, 7 ERC errors, 11 ERC warnings). Review informed the 11 September V2 layout; fabrication is pending.",
+      excerpt: "The dated electronics history follows V1 review into the V2 layout. The October package adds current CAD, a categorized BOM, manuals and compiled software while physical validation remains open.",
       keywords: "PCB V1 V2 DRC ERC ESP32 Raspberry Pi standalone LMP7721 ADS8866 guard high-impedance",
-      url: "hardware.html",
-      anchor: "validation-boundary",
+      url: "engineering.html",
+      anchor: "group-hardware",
     },
     {
       pageTitle: "Hardware",
       section: "Validation and evidence",
-      excerpt: "No assembled-reader measurements are reported. Design evidence is separated from a ten-stage validation ladder that is entirely pending.",
-      keywords: "validation dark noise crosstalk fluorescence calibration pending ladder bring-up user testing",
+      excerpt: "The next cell-free experiment uses an independent illuminated blank, single-well and concentration conditions after electrical preflight. Technical blocks are not biological replicates.",
+      keywords: "validation dark blank B_CAL B_CHECK fluorescein crosstalk calibration mixing matrix preflight user testing",
       url: "hardware.html",
       anchor: "validation-evidence",
     },
     {
       pageTitle: "Hardware",
       section: "Can someone other than us use it?",
-      excerpt: "User testing is pending. Final UI is not finalized. No operator sessions are recorded.",
-      keywords: "user testing usability task success feedback pending UI",
+      excerpt: "Assembly and operation manuals and a local phone UI are supplied. A planned independent manual trial records completion, time, assistance and concrete changes; results are not supplied yet.",
+      keywords: "user testing usability manual task success feedback pending UI assembly",
       url: "hardware.html",
-      anchor: "cost-and-reproduction",
+      anchor: "validation-boundary",
     },
     {
       pageTitle: "Hardware",
       section: "Built for reproduction",
-      excerpt: "Build AeroSense lists electronics, mechanical, firmware, and validation files. None are published as wiki downloads yet.",
-      keywords: "reproducibility KiCad Gerber BOM firmware enclosure downloads Build AeroSense",
+      excerpt: "Eight current operating STLs, CAD, bilingual assembly and setup manuals, categorized BOM, software and simulation sources are available, with key evidence readable on the page.",
+      keywords: "reproducibility STL CAD BOM firmware enclosure downloads assembly manuals eight parts",
       url: "hardware.html",
       anchor: "mechanical-package",
     },
     {
       pageTitle: "Hardware",
       section: "Limitations and next build",
-      excerpt: "No experimental detection limit is assigned yet; filter, enclosure, power, UI, and FDM/DLIA characterization remain open.",
+      excerpt: "Populated-board fit, acquisition, material compatibility, gas-to-cell delivery and odor classification remain unverified. A prepared design and software package does not establish instrument performance.",
       keywords: "limitations detection limit enclosure user testing pending validation",
       url: "hardware.html",
       anchor: "validation-boundary",
+    },
+
+    {
+      pageTitle: "Hardware",
+      section: "BOM and document previews",
+      excerpt: "Read Required, Developer and Future budget categories, all PCB component rows, and assembly/setup/validation documents without leaving the page. Estimates and allowances stay labeled.",
+      keywords: "BOM budget cost required developer future PDF preview XLSX 79873.79 custom filter manuals",
+      url: "hardware.html",
+      anchor: "cost-and-reproduction",
     },
 
     /* Human Practices */
@@ -4996,11 +5938,11 @@
     /* Education */
     {
       pageTitle: "Education",
-      section: "Two education tracks",
-      excerpt: "Track A diagnoses residual food-safety decision misconceptions. Track B turns a curious visitor toward synthetic-biology participation. They are not one learning-gain number.",
-      keywords: "education two tracks food safety olfactory coding learning lab",
+      section: "Our education journey through the fly brain",
+      excerpt: "Three teaching regions connect broad participation, structured learning and public exchange: antennal lobe, mushroom-body calyx and MBON output. The brain route is an educational metaphor.",
+      keywords: "education journey antennal lobe mushroom body calyx MBON survey games social learning exchange",
       url: "education.html",
-      anchor: "tracks",
+      anchor: "education-journey",
     },
     {
       pageTitle: "Education",
@@ -5028,9 +5970,9 @@
     },
     {
       pageTitle: "Education",
-      section: "Reach is not the same as learning",
-      excerpt: "Social posts distribute claims. Views and comments are not paired knowledge gain. Reach, engagement, and learning evidence are not reported yet.",
-      keywords: "social media reels instagram reach engagement not learning",
+      section: "Parts Design posts and science questions",
+      excerpt: "The published Instagram Parts Design series introduces the project's biology. Model and Hardware series are planned; post screenshots document delivery without claiming measured learning gain.",
+      keywords: "social media reels instagram Parts Design science pop quiz model hardware coming soon",
       url: "education.html",
       anchor: "social-media",
     },
@@ -5073,6 +6015,47 @@
       keywords: "reuse study protocol question bank data dictionary learning lab toolkit",
       url: "education.html",
       anchor: "reuse",
+    },
+
+    {
+      pageTitle: "Education",
+      section: "Exchange and teaching records",
+      excerpt: "SynBioBeta's poster setting, the China Medical University neuroscience session and the iGEM TAU team exchange brought AeroSense to different audiences. Activity records and the conference poster are available.",
+      keywords: "SynBioBeta CMU China Medical University neuroscience Ching-Che Charng TAU Israel meetup poster",
+      url: "education.html",
+      anchor: "region-output",
+    },
+    {
+      pageTitle: "Integrated Human Practices",
+      section: "Six encounters in the project record",
+      excerpt: "Photographs and event narratives document Garage+, Dao Foundation, SynBioBeta, FITI, China Medical University and the iGEM team exchange, with their roles in the project explained.",
+      keywords: "events photos Garage Dao Foundation SynBioBeta FITI CMU iGEM exchange",
+      url: "human-practices.html",
+      anchor: "events",
+    },
+    {
+      pageTitle: "Hardware",
+      section: "Membrane design decision",
+      excerpt: "The conditional PDMS thickness and diffusivity sweep informs the decision not to make a film compulsory in the current enclosure. It does not establish measured transport or containment performance.",
+      keywords: "PDMS membrane thickness diffusivity gas transport enclosure film simulation",
+      url: "hardware.html",
+      anchor: "membrane-design-results",
+    },
+    {
+      pageTitle: "Hardware",
+      section: "Reader interface and functions",
+      excerpt: "The phone interface shows connection, acquisition scheduling, raw-signal inspection and export. The screenshot uses DEMO DATA; instrument performance tests remain planned.",
+      keywords: "UI interface phone demo data acquisition schedule raw signal export",
+      url: "hardware.html",
+      anchor: "reader-interface",
+    },
+    {
+      pageTitle: "Hardware",
+      section: "Forms, results and assembly documents",
+      excerpt: "Prepared test and feedback forms sit alongside the current result ledger and assembly documentation. The ledger contains no experimental performance rows yet.",
+      keywords: "forms results validation feedback assembly documents BOM performance planned",
+      url: "hardware.html",
+      anchor: "forms-and-results",
     },
 
     /* Entrepreneurship */
@@ -5167,10 +6150,18 @@
     {
       pageTitle: "Entrepreneurship",
       section: "Unit Economics & Financials",
-      excerpt: "Unit economics still to validate (no priced COGS). Illustrative 3-year model — not contracted revenue. TAM/SAM/SOM with calculation method. Cap table collapsed.",
-      keywords: "unit economics COGS financials TAM SAM SOM revenue model cartridge NT$120000 illustrative",
+      excerpt: "The current prototype budget is available; recurring production COGS and operating cost remain unverified. The three-year financial model and market estimates remain illustrative, not contracted revenue.",
+      keywords: "unit economics COGS prototype budget financials TAM SAM SOM revenue model cartridge illustrative",
       url: "entrepreneurship.html",
       anchor: "unit-economics",
+    },
+    {
+      pageTitle: "Entrepreneurship",
+      section: "Prototype cost and adoption gaps",
+      excerpt: "The required-device budget is NTD 79,873.79, including allocated PCB development cost and a custom-filter allowance. Assembly usability, target-buyer demand and field performance are separate evidence gates.",
+      keywords: "prototype cost hardware BOM 79873.79 development budget custom filter assembly adoption usability customer pilot",
+      url: "entrepreneurship.html",
+      anchor: "prototype-cost",
     },
     {
       pageTitle: "Entrepreneurship",
@@ -5963,7 +6954,7 @@
         ['Does a screening result mean that food is safe?', 'AeroSense is positioned as a screening layer. It can prompt further investigation; it is not a standalone food-safety or mycotoxin verdict.', 'description.html#is-and-is-not']
       ],
       'home-film': [
-        ['Why does this wiki look so incredible?', 'Pin-Che: I know, right? Haha, thank you! Come for the science, stay for the tiny details. Peek at Engineering’s Wiki Design section to see how the little touches came together.', 'engineering.html#wiki-design'],
+        ['Why does this wiki look so incredible? Is someone dreaming of Best Wiki?', 'Pin-Che: Haha, thank you! We put a lot of care into making the science easy to explore. Peek at Engineering’s Wiki Design section for the thinking behind the details.', 'engineering.html#wiki-design'],
         ['What does the revealed glow represent?', 'It visualizes otherwise invisible odor-pattern changes. The glow is part of the story, not a measurement of contamination in the pictured food.'],
         ['What changes when I click the product?', 'The product activates the film’s sensing view: the paired scene reveals conceptual odor cues around your cursor. The two views share the same story timeline.']
       ],
@@ -5972,12 +6963,12 @@
         ['Why combine biology with electronics?', 'In the proposed chain, cells translate receptor activation into fluorescence. The reader is designed to measure that weak signal for pattern decoding.', 'description.html#pipeline']
       ],
       'signal-wordmark': [
-        ['Why does this wiki look so incredible?', 'Pin-Che: I know, right? Haha, thank you! Come for the science, stay for the tiny details. Peek at Engineering’s Wiki Design section to see how the little touches came together.', 'engineering.html#wiki-design'],
+        ['Why does this wiki look so incredible? Is someone dreaming of Best Wiki?', 'Pin-Che: Haha, thank you! We put a lot of care into making the science easy to explore. Peek at Engineering’s Wiki Design section for the thinking behind the details.', 'engineering.html#wiki-design'],
         ['Why is a fruit fly part of the identity?', 'Both receptor-based sensing and the decoding architecture draw inspiration from insect olfaction. They contribute different layers to AeroSense.', 'description.html#why-olfaction'],
         ['Does the animated fly represent an experiment?', 'It is a visual guide through the project. Scientific observations, engineering simulations, and conceptual illustrations have separate roles on the wiki.', 'description.html#evidence-ladder']
       ],
       'explore': [
-        ['Why does this wiki look so incredible?', 'Pin-Che: I know, right? Haha, thank you! Come for the science, stay for the tiny details. Peek at Engineering’s Wiki Design section to see how the little touches came together.', 'engineering.html#wiki-design'],
+        ['Why does this wiki look so incredible? Is someone dreaming of Best Wiki?', 'Pin-Che: Haha, thank you! We put a lot of care into making the science easy to explore. Peek at Engineering’s Wiki Design section for the thinking behind the details.', 'engineering.html#wiki-design'],
         ['How do the four workstreams depend on each other?', 'Wet Lab designs the biological response, Hardware measures light, Model interprets patterns, and Human Practices shapes useful and responsible decisions.'],
         ['Which result establishes the whole system?', 'A result from one layer does not validate the entire chain. Description explains the dependencies, and the individual evidence pages report their scope.', 'description.html#evidence-ladder']
       ],
@@ -5986,17 +6977,17 @@
         ['What should I read after the film?', 'Description connects the initial fluorescence observation to the proposed sensing, readout, and decoding chain.', 'description.html#lightsheet-observation']
       ],
       'experience': [
-        ['Why does this wiki look so incredible?', 'Pin-Che: I know, right? Haha, thank you! Come for the science, stay for the tiny details. Peek at Engineering’s Wiki Design section to see how the little touches came together.', 'engineering.html#wiki-design'],
+        ['Why does this wiki look so incredible? Is someone dreaming of Best Wiki?', 'Pin-Che: Haha, thank you! We put a lot of care into making the science easy to explore. Peek at Engineering’s Wiki Design section for the thinking behind the details.', 'engineering.html#wiki-design'],
         ['What should the 3D journey teach me?', 'It traces a conceptual signal from odor source to receptor, reader, and decoder. It illustrates the architecture rather than simulating a biological experiment.', 'description.html#follow-the-signal'],
         ['What is different about the games and the research?', 'The games teach odor coding as a pattern. Their availability demonstrates an educational resource, not measured learning gains or sensor accuracy.', 'education.html#track-b']
       ],
       'team': [
-        ['Why does this wiki look so incredible?', 'Pin-Che: I know, right? Haha, thank you! Come for the science, stay for the tiny details. Peek at Engineering’s Wiki Design section to see how the little touches came together.', 'engineering.html#wiki-design'],
-        ['Does everyone work on just one layer?', 'The team index shows overlapping workstreams where applicable. Individual roles and contributions are documented separately.', 'members.html#student-team'],
-        ['How are outside contributions credited?', 'Attributions distinguishes student work, advisor support, external services, reused work, and media or software credits.', 'attributions.html#student-work']
+        ['Why does this wiki look so incredible? Is someone dreaming of Best Wiki?', 'Pin-Che: Haha, thank you! We put a lot of care into making the science easy to explore. Peek at Engineering’s Wiki Design section for the thinking behind the details.', 'engineering.html#wiki-design'],
+        ['Does everyone work on just one layer?', 'Members introduces the people. Their project contributions are recorded in the official Attributions form.', 'members.html#student-team'],
+        ['How are outside contributions credited?', 'The official Attributions form records the team’s contributions and external support.', 'attributions.html#student-work']
       ],
       'journey': [
-        ['Why does this wiki look so incredible?', 'Pin-Che: I know, right? Haha, thank you! Come for the science, stay for the tiny details. Peek at Engineering’s Wiki Design section to see how the little touches came together.', 'engineering.html#wiki-design'],
+        ['Why does this wiki look so incredible? Is someone dreaming of Best Wiki?', 'Pin-Che: Haha, thank you! We put a lot of care into making the science easy to explore. Peek at Engineering’s Wiki Design section for the thinking behind the details.', 'engineering.html#wiki-design'],
         ['Does the calendar contain completed work only?', 'Notebook distinguishes dated records from future work and goals. Workstream filters do not turn a planned entry into a completed experiment.', 'notebook.html#chronicle-views'],
         ['How do I connect a date to a design decision?', 'Notebook gives the chronology; Engineering records the evidence, learning, and redesign associated with each cycle.', 'engineering.html#engineering-cycles']
       ],
@@ -6088,7 +7079,7 @@
       ],
       'shared-backbone': [
         ['Why use the same backbone for all plasmids?', 'The shared pcDNA3.1(+) context simplifies cloning, sequencing, selection, and interpretation across constructs.'],
-        ['Are HEK293 and HEK293T interchangeable in every claim?', 'The page distinguishes general heterologous expression in HEK293 from the SV40-origin context associated with HEK293T. Host-specific claims should retain that distinction.']
+        ['Which mammalian cell line does the team use?', 'All team wet-lab experiments use HEK293. The pcDNA3.1 SV40 origin does not justify a plasmid-amplification benefit in this workflow; expression and function must be measured in the actual cells.']
       ],
       'assay-design': [
         ['Why include a vehicle control?', 'A matched vehicle condition helps separate the stimulus response from injection, solvent, and other non-target effects.'],
@@ -6239,11 +7230,11 @@
         ['What does repeating seeds add?', 'The optical sweep uses three seeds per condition to expose sampling variation in the simulated packet transport. This does not replace physical validation.']
       ],
       'gas-path-results': [
-        ['Did the perforated plate improve the chosen metric?', 'The section reports that the plate did not reduce the selected headspace-speed metric relative to the no-plate comparison.'],
+        ['What trade-off led to the integral shelf?', 'The modeled shelf reduces the downward-momentum proxy by 36.1% and near-liquid P95 gas speed by 20.1%, while making the interface-flux distribution less uniform. These conditional results guide a physical flow test.', 'model.html#gas-and-liquid-transport'],
         ['Does solver convergence prove a good gas-distribution design?', 'Convergence and mass balance describe the numerical solution. Design usefulness still depends on the chosen metric and its relationship to the experiment.']
       ],
       'mechanical-package': [
-        ['What should the exploded view help me inspect?', 'It shows how the enclosure, lid, shared well assembly, and service components fit together. Assembly coordinates and printing coordinates have different purposes.'],
+        ['What should the exploded view help me inspect?', 'It shows the black base, hood, gas lid and compression plate around four separate clear wells. These are the eight supplied printed parts; the PCB, fan, seals and tubing are not included in the 3D geometry.'],
         ['Does a transparent printed well establish cell-culture compatibility?', 'Optical transparency and fit are not biocompatibility evidence. The mechanical record distinguishes cell-free trials from direct culture qualification.']
       ],
       'electronics-bridge': [
@@ -6261,9 +7252,9 @@
     },
     'model.html': {
       '*': [
-        ['Was the decoder benchmark measured on AeroSense fluorescence?', 'No. The reported baseline uses the KT gas-sensor corpus as a surrogate for Decode development.', 'model.html#data-and-network'],
-        ['What does the reported macro-F1 of 0.868 mean?', 'It is the reported pooled baseline classification result under the stated evaluation protocol, not a field food-spoilage accuracy claim.', 'model.html#performance'],
-        ['Does the baseline establish drift robustness?', 'The pooled, stratified split does not test temporal or cross-batch drift. That requires a different evaluation.', 'model.html#training-evaluation']
+        ['Was the decoder benchmark measured on AeroSense fluorescence?', 'No. KT and UCI metal-oxide sensor recordings support separate decoding studies. Neither is a test of AeroSense cellular fluorescence.', 'model.html#data-and-network'],
+        ['What does the reported macro-F1 of 0.87 ± 0.03 mean?', 'It summarizes five random folds on KT. The supplied spread is not defined as SD, SE or a confidence interval; mean F1 on unseen measurement days is approximately 0.73.', 'model.html#performance'],
+        ['Do these results establish SNN drift robustness?', 'Whole-day holdout measures transfer to unseen days. The cross-batch calibration result uses a conventional SVM; chronological cross-batch SNN testing remains separate work.', 'model.html#drift-robustness']
       ],
       'evidence-snapshot': [
         ['Can I read the baseline score as system accuracy?', 'The score belongs to the specified surrogate-data benchmark. It does not validate the biological sensor, reader, or food application.'],
@@ -6271,7 +7262,7 @@
       ],
       'drift-problem': [
         ['What makes sensor drift difficult for an odor classifier?', 'A changing sensor response can shift the input pattern without an equivalent change in the underlying gas identity.'],
-        ['Does recognizing the drift problem mean it was solved here?', 'No. The problem motivates the architecture, while drift-specific evaluation is separate from the pooled baseline.', 'model.html#training-evaluation']
+        ['What does the drift study demonstrate?', 'On UCI data, reference-gas correction raises cross-batch SVM accuracy from 33% to 58%. This calibration comparison does not establish SNN drift robustness.', 'model.html#reference-calibration']
       ],
       'why-fly-brain': [
         ['What is useful about mushroom-body inspiration?', 'The architecture takes inspiration from expanded, sparse Kenyon-cell representations downstream of projection-neuron input.'],
@@ -6282,7 +7273,7 @@
         ['How is preprocessing leakage avoided?', 'PCA and preprocessing parameters are fitted on training data only, so held-out exposures do not define the learned transformation.']
       ],
       'data-and-network': [
-        ['What does KT stand for in the evidence chain?', 'It is the public sensor corpus used as a surrogate aging dataset for decoding development, rather than AeroSense’s own cellular fluorescence.'],
+        ['What does KT represent in the evidence chain?', 'It is the metal-oxide sensor corpus used for decoding development. Its thesis citation and redistribution permission remain unresolved; it is not AeroSense cellular fluorescence.'],
         ['Why state the included batches and excluded devices?', 'Those choices define the actual benchmark population and are needed to interpret or reproduce the reported evaluation.']
       ],
       'network': [
@@ -6298,7 +7289,7 @@
         ['Can this number be compared directly with another paper’s score?', 'Only after checking datasets, exclusions, features, splits, and scoring. Different protocols can make headline scores incomparable.']
       ],
       'what-we-learned': [
-        ['What makes an engineering lesson supported?', 'The cards connect evidence to interpretation and then to a design consequence, rather than presenting a plausible idea as a measured finding.'],
+        ['What did the layerwise comparison reveal?', 'In one diagnostic split, a linear KC probe reached macro-F1 0.97 while the learned MBON readout reached 0.84. This supports testing the learning rule; those scores are separate from the five-fold result.'],
         ['How do model results influence experimental design?', 'The page traces model-to-experiment decisions separately from assumptions that still require project-specific validation.', 'model.html#aerosense-bridge']
       ],
       'aerosense-bridge': [
@@ -6310,8 +7301,14 @@
         ['Does a repository link guarantee an executable model package?', 'Use the resource status and actual files listed here. A proposed release location is not itself a runnable reproduction package.']
       ],
       'limitations': [
-        ['Why request conventional ML baselines?', 'Matched baselines help identify whether the fly-inspired architecture adds value under the same data and evaluation protocol.'],
-        ['Which test would address drift more directly?', 'A temporal or cross-batch evaluation would address transfer across sensor aging more directly than the reported pooled split.']
+        ['Why retain matched conventional baselines?', 'Layerwise probes and SVM calibration comparisons address specific questions. End-to-end comparisons need the same data, held-out splits and calibration budget.'],
+        ['Which evaluation remains necessary?', 'Chronological cross-batch SNN testing, repeated continual-learning runs and biological fluorescence validation remain necessary beyond the random-fold and unseen-day results.']
+      ],
+      'readout-bottleneck': [
+        ['Does the linear probe define the best possible decoder?', 'No. It is an empirical comparator on one split. The KC probe outperformed the learned MBON readout, but is not a universal upper bound.']
+      ],
+      'continual-learning': [
+        ['Was forgetting eliminated when ammonia was added?', 'No. One run raised ammonia accuracy from 0% to 72%, while existing classes fell by 4–10 percentage points. Repeated runs and retention comparisons remain necessary.']
       ]
     }
   };
@@ -6339,7 +7336,7 @@
         ['Does building a game prove that learners understand more?', 'A playable tool establishes an educational artifact. Paired audience responses and feedback address its learning effect.', 'education.html#measurement-chain']
       ],
       'wiki-design': [
-        ['Why does this wiki look so incredible?', 'Pin-Che: I know, right? Haha, thank you! Come for the science, stay for the tiny details. Peek at Engineering’s Wiki Design section to see how the little touches came together.', 'engineering.html#wiki-design'],
+        ['Why does this wiki look so incredible? Is someone dreaming of Best Wiki?', 'Pin-Che: Haha, thank you! We put a lot of care into making the science easy to explore. Peek at Engineering’s Wiki Design section for the thinking behind the details.', 'engineering.html#wiki-design'],
         ['Why include Wiki Design in this record?', 'The section documents interface-design decisions using the same cycle structure. Its evidence concerns the reading experience; it does not substitute for biological or hardware validation.'],
         ['How did readers influence Ask the Fly?', 'The team asked people around them to browse the wiki, collected recurring questions and used that informal feedback to shape the curated question bank.', 'engineering.html#wiki-cycle-2']
       ],
@@ -6556,7 +7553,7 @@
     },
     'members.html': {
       '*': [
-        ['Why are some people listed in more than one workstream?', 'Workstream labels describe overlapping responsibilities rather than separate teams of unique people.', 'members.html#student-team'],
+        ['What will I find in a personal profile?', 'Open a card to read that person’s introduction, role and contact links. Project contributions are recorded in the official Attributions form.', 'members.html#student-team'],
         ['How do profiles differ from formal attribution?', 'Profiles introduce the people. Attributions records the work and support associated with the project.', 'attributions.html#student-work'],
         ['What do the album photographs document?', 'They are team memories. They are not presented as evidence of a specific experiment, interview, or device pilot.', 'members.html#team-memories']
       ],
@@ -6566,11 +7563,11 @@
       ],
       'team-index': [
         ['Why does the index separate students, advisors, and PIs?', 'Those groups have different project roles. The index keeps student work and supporting roles easy to distinguish.'],
-        ['How can I identify responsibility for a particular layer?', 'Student workstream labels identify roles, while the attribution table gives the work-package record.', 'attributions.html#student-work']
+        ['How can I identify responsibility for a particular layer?', 'Read the official Attributions form for each person’s project contributions.', 'attributions.html#student-work']
       ],
       'student-team': [
-        ['What does a workstream filter change?', 'It shows people associated with the selected role. A person can appear in multiple filters when responsibilities overlap.'],
-        ['Which workstreams are listed for Jeffrey?', 'Jeffrey is listed for Hardware and Leadership, matching the team leader/hardware role shown in his profile.']
+        ['How do I open a personal introduction?', 'Select a member’s card to open the profile, then use Close or Escape to return to the team.'],
+        ['Where can I read each person’s project contributions?', 'The official Attributions form contains the submitted contribution record.', 'attributions.html#official-form']
       ],
       'advisors': [
         ['How is advisor support distinguished from student work?', 'Profiles introduce advisors; the attribution record should identify the specific guidance or support they provided.', 'attributions.html#advisors-support'],
@@ -6582,7 +7579,7 @@
       ],
       'team-contact': [
         ['Which contact channels are public?', 'The team contact section lists the public channels supplied for AeroSense.'],
-        ['Where should I look before asking who contributed something?', 'The attribution record organizes contributions by student work, advisors, external support, and reused resources.', 'attributions.html']
+        ['Where should I look before asking who contributed something?', 'The official Attributions form is the project’s contribution record.', 'attributions.html']
       ]
     },
     'notebook.html': {
@@ -6753,49 +7750,8 @@
     },
     'attributions.html': {
       '*': [
-        ['How is project credit organized?', 'The page separates student work, advisor and institutional support, external contributions, prior work, software, and media.', 'attributions.html#student-work'],
-        ['Does the wiki replace the official attribution form?', 'No. The official form and its verified team-specific link are separate deliverables.', 'attributions.html#official-form'],
-        ['How is AI assistance distinguished from scientific evidence?', 'The page records assistance and its verification boundary; generated scientific data, experimental results, stakeholder quotations, and citations are outside the stated intended use.', 'attributions.html#ai-boundaries']
-      ],
-      'official-form': [
-        ['Why link the official attribution process separately?', 'A wiki summary is not the official project attribution form. The page distinguishes the public record from the required deliverable.'],
-        ['Does a dashboard link prove the team form is submitted?', 'No. A dashboard route provides access; a team-specific form and its submission state require their own verified record.']
-      ],
-      'student-work': [
-        ['Why organize student credit by work package?', 'It ties credit to actual project work rather than distributing identical descriptions across everyone.'],
-        ['Does a workstream label capture the whole contribution?', 'It is an overview. The attribution table provides the more specific work-package account.']
-      ],
-      'advisors-support': [
-        ['How should advisor help be described?', 'The record should name the specific guidance, training, or institutional support received rather than using generic credit such as “everything.”'],
-        ['Why distinguish student execution from outside support?', 'It makes the project’s provenance clear and lets a reader understand how the work was actually produced.']
-      ],
-      'external': [
-        ['Is a sponsor the same as a scientific collaborator?', 'No. The page distinguishes intellectual contribution, training, material donation, paid services, and sponsorship.'],
-        ['What should accompany an external logo or contribution?', 'The specific role and the relevant publication permission or license should be recorded rather than inferred from the logo alone.']
-      ],
-      'prior-work': [
-        ['Why name adaptations as well as citations?', 'A citation supports a source claim; an adaptation statement explains how reused ideas, tools, or resources entered this project.'],
-        ['Does acknowledging prior work reduce the new contribution?', 'It defines the starting point, allowing the AeroSense-specific integration and engineering work to be identified accurately.']
-      ],
-      'software-licenses': [
-        ['Does publicly accessible software automatically mean open source?', 'No. The stated license determines reuse conditions; access alone does not establish an open-source license.'],
-        ['Why list software licenses individually?', 'Different components can have different obligations, so the project’s overall license should not be assumed to replace each dependency’s terms.']
-      ],
-      'asset-credits': [
-        ['Can a team logo or supplied image be published without checking its terms?', 'The attribution record calls for checking the relationship and publication permission or compatible license for third-party assets.'],
-        ['Why distinguish original team media from third-party media?', 'Their authorship and reuse rights differ, and a clear credit record preserves that distinction.']
-      ],
-      'responsible-ai': [
-        ['What should an AI-use disclosure record?', 'It should identify the assistance actually used and the information visible to the operator, without guessing a hidden model or version.'],
-        ['Does AI assistance remove the need for team verification?', 'No. Scientific statements, citations, data interpretations, and the final published content still require responsible human review.']
-      ],
-      'ai-boundaries': [
-        ['Can an illustrative animation be treated as experimental evidence?', 'No. Illustration and interface assistance must remain distinct from scientific data, microscopy, results, and stakeholder quotations.'],
-        ['Does a written AI policy prove every use followed it?', 'The section distinguishes the intended boundary from the team review needed to confirm actual practice.']
-      ],
-      'license': [
-        ['Does the wiki’s license cover every linked asset?', 'The team-authored content’s intended CC BY 4.0 release does not replace the separate terms of third-party software, photographs, logos, or documents.'],
-        ['What does reuse of team-authored content require?', 'The stated CC BY 4.0 terms include attribution. Check separately licensed components before assuming the same permissions apply.']
+        ['Where can I read who did what?', 'The form on this page is served directly by iGEM for NTHU, team 6460. Use its own category menu to explore the contributions.', 'attributions.html#official-form'],
+        ['Can I open the form on its own?', 'Yes. The link above the form opens the same official record in a separate tab.', 'attributions.html#official-form']
       ]
     },
     'glossary.html': {
@@ -6986,7 +7942,7 @@
         ['Why does the lesson separate published inspiration from team evidence?', 'A published receptor-reporter method motivates the architecture but does not establish that a specific AeroSense construct functions in the team’s system.']
       ],
       'not-a-nose': [
-        ['What does heterologous expression mean here?', 'It means expressing insect receptor components in the HEK293T host-cell system, rather than measuring a complete fly nose.'],
+        ['What does heterologous expression mean here?', 'It means expressing insect receptor components in the HEK293 host-cell system, rather than measuring a complete fly nose.'],
         ['Where should I look for exact construct maps?', 'Parts documents the construct architecture and sequence resources; this lesson keeps the functional pathway in the foreground.', 'parts.html#sensor-builder']
       ],
       'three-parts': [
@@ -7200,7 +8156,8 @@
   var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
 
   // Reduced motion → keep the static story (CSS shows it). Nothing to load.
-  if (reduce.matches) {
+  var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  if (reduce.matches || (connection && (connection.saveData || /(^|-)2g$/.test(connection.effectiveType)))) {
     root.classList.add('is-static');
     reduce.addEventListener && reduce.addEventListener('change', function () { if (!reduce.matches) location.reload(); });
     return;
@@ -7385,7 +8342,9 @@
     var rect = stage.getBoundingClientRect();
     st.w = Math.max(1, rect.width);
     st.h = Math.max(1, rect.height);
-    st.dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // The movie is 720p; a 2x full-screen canvas adds compositing work without
+    // recovering source detail. Keep touch devices especially lightweight.
+    st.dpr = Math.min(window.devicePixelRatio || 1, finePointer.matches ? 1.5 : 1.25);
     var cw = Math.round(st.w * st.dpr);
     var ch = Math.round(st.h * st.dpr);
     // Match the source's pixel budget rather than repainting an oversized
@@ -7451,16 +8410,14 @@
     if (p && p.then) p.then(function () { v.pause(); }).catch(function () {});
   }
 
-  // Scrubbing needs a seekable resource. GitHub Pages / iGEM hosting serve HTTP
-  // byte ranges; Python's preview server (preview.ps1) does not. On localhost,
-  // or after an actual seek fails, load the file as a Blob (always seekable).
+  // Prefer native byte-range streaming, including the local preview server.
+  // Only an actual failed seek falls back to a full-file Blob.
   // Do not require the whole duration to be seekable at loadeddata: a browser
   // can report only its first buffered range while streaming a valid MP4.
   var LOCAL = ['localhost', '127.0.0.1', '::1', '[::1]', ''].indexOf(location.hostname) >= 0;
   function setSource(v, url) {
     v.dataset.srcUrl = url;
     delete v.dataset.blob;
-    if (LOCAL) return toBlob(v);
     v.src = url;
     v.load();
   }
@@ -7515,7 +8472,7 @@
   function startSensor() {
     // The opening frame gets the connection first. No fallback timer competes
     // with a still-loading normal stream on a slow mobile connection.
-    if (reading || vS.dataset.srcUrl || !st.ready.normal) return;
+    if (reading || !st.running || document.hidden || vS.dataset.srcUrl || !st.ready.normal) return;
     vS.preload = 'auto';
     setSource(vS, srcFor('sensor'));
   }
@@ -7825,9 +8782,9 @@
     var travel = clamp((t - (TL.web.cta[1] - 0.35)) / 0.8, 0, 1);
     travel = travel * travel * (3 - 2 * travel);
     var portrait = st.w / st.h < 0.9;
-    var scale = portrait ? 1.25 : 1.8;
-    var x0 = portrait ? st.w * 0.06 : st.w * 0.58;
-    var y0 = portrait ? Math.min(st.h * 0.64, geometry.dockY - 110) : st.h * 0.42;
+    var scale = portrait ? 1.45 : 1.9;
+    var x0 = portrait ? st.w * 0.40 : st.w * 0.465;
+    var y0 = portrait ? Math.min(st.h * 0.69, geometry.dockY - 105) : Math.min(st.h * 0.63, geometry.dockY - 140);
     ctaEl.style.setProperty('--asc-note-width', Math.max(80, (st.w - x0 - 16) / scale - geometry.buttonW - 8) + 'px');
     var x = x0 + (geometry.dockX - x0) * travel;
     var y = y0 + (geometry.dockY - y0) * travel;
@@ -7977,12 +8934,12 @@
     var on = mode !== 'off';
     [useBtn].forEach(function (b) { b.setAttribute('aria-pressed', String(on)); });
     if (isTouch()) {
-      useLabel.textContent = on ? 'Return to visual view' : 'Use AeroSense';
+      useLabel.textContent = on ? 'Close the reader and return to visual view' : 'Open the reader and reveal AeroSense view';
       revealBtn.hidden = true;
       hint.hidden = false;
       hint.textContent = on ? 'AeroSense view' : 'Or hold & drag to sense';
     } else {
-      useLabel.textContent = on ? 'AeroSense on' : 'Use AeroSense';
+      useLabel.textContent = on ? 'Close the reader and return to visual view' : 'Open the reader and reveal AeroSense view';
       revealBtn.hidden = !on;
       revealBtn.textContent = mode === 'full' ? 'Return to visual view' : 'Reveal all';
       revealBtn.setAttribute('aria-pressed', String(mode === 'full'));
@@ -7990,6 +8947,9 @@
       hint.textContent = 'Move to sense · hold to widen';
     }
     useBtn.setAttribute('aria-label', useLabel.textContent);
+    ctaNote.querySelector('[data-asc-note-copy]').innerHTML = on
+      ? 'Reader open.<br>AeroSense view is on.'
+      : (isTouch() ? 'Tap to open the reader.<br>See what sight misses.' : 'Open the reader.<br>See what sight misses.');
     // Revealing a control or changing its label can move the dock without
     // resizing the outer toolbar. Refresh its target before the next frame.
     cacheGeometry();
@@ -8170,7 +9130,7 @@
 
   /* ---------- go */
   if (isTouch()) {
-    ctaNote.querySelector('[data-asc-note-copy]').textContent = 'Tap the product to reveal the AeroSense view.';
+    ctaNote.querySelector('[data-asc-note-copy]').textContent = 'Tap to open the reader. See what sight misses.';
   }
   setMode('off', 'init');
   live.textContent = '';
@@ -8223,6 +9183,16 @@
   const windowEl=story?.querySelector('[data-wheel-window]');
   const wheel=story?.querySelector('[data-research-wheel]');
   const panels=story?[...story.querySelectorAll('.research-stop')]:[];
+  // Artwork occupies one stationary paper field; only the chapter copy turns.
+  const stills=document.createElement('div');
+  stills.className='research-stills';stills.setAttribute('aria-hidden','true');
+  const stillPictures=panels.map((panel,i)=>{
+    const visual=panel.querySelector('.research-stop__visual').cloneNode(true);
+    visual.className='research-stills__picture';visual.dataset.still=String(i);
+    visual.querySelectorAll('img').forEach(img=>{img.alt='';if(i===0)img.loading='eager';});
+    stills.appendChild(visual);return visual;
+  });
+  if(windowEl)windowEl.appendChild(stills);
   const buttons=story?[...story.querySelectorAll('[data-research-go]')]:[];
   const wordmark=document.querySelector('#signal-wordmark');
   const scent=document.querySelector('.home-opening__scent');
@@ -8248,6 +9218,8 @@
     if(transferFocus)panels[index]?.querySelector('a')?.focus({preventScroll:true});
     buttons.forEach((button,i)=>{if(i===index)button.setAttribute('aria-current','step');else button.removeAttribute('aria-current');});
     story.dataset.activePerspective=String(index+1);
+    stillPictures.forEach((picture,i)=>picture.classList.toggle('is-active',i===index));
+    const image=stillPictures[index]?.querySelector('img');if(image)image.loading='eager';
   }
   function goToPanel(index){
     if(!panels[index])return;
@@ -8285,6 +9257,11 @@
         story.style.setProperty('--wheel-diameter',`${radius*2}px`);story.style.setProperty('--wheel-left',`${cx-radius}px`);story.style.setProperty('--wheel-top',`${cy-radius}px`);
         story.style.setProperty('--wheel-panel-width',`${panelWidth}px`);story.style.setProperty('--wheel-panel-height',`${panelHeight}px`);
         panels.forEach((panel,i)=>{panel.style.transform=`rotate(${i*90}deg) translate(${vx}px,${vy}px)`;});
+        const visual=panels[0].querySelector('.research-stop__visual');
+        stills.style.left=`${w*.53-panelWidth/2}px`;
+        stills.style.top=`${h*.51-panelHeight/2+visual.offsetTop}px`;
+        stills.style.width=`${visual.offsetWidth}px`;
+        stills.style.height=`${visual.offsetHeight}px`;
         if(oldProgress!==null&&oldProgress>=0&&oldProgress<=1&&oldHeight!==`${height}px`)window.scrollTo({top:story.getBoundingClientRect().top+scrollY-storyTop+oldProgress*storyTravel,behavior:'instant'});
       }else{
         const previousActive=active;active=-1;delete story.dataset.activePerspective;delete story.dataset.wheelAngle;
@@ -8793,9 +9770,9 @@
     const caption = figure.querySelector(':scope > figcaption');
     if (!caption || figure.closest('.footer-partners__logos,.home-partners__logos,.home-supporters__gallery') || figure.classList.contains('footer-partners__slot')) return;
     figureNumber++;
-    const existing = caption.querySelector(':scope > .wiki-figure__num');
+    const existing = caption.querySelector(':scope > .wiki-figure__num, :scope > .media-caption__label');
     if (existing) {
-      existing.textContent = `Figure ${figureNumber}.`;
+      existing.textContent = `Figure ${figureNumber}. `;
       existing.classList.add('media-caption__label');
       return;
     }
@@ -8817,6 +9794,11 @@
       const context = table.closest('[aria-label]')?.getAttribute('aria-label');
       caption.textContent = context || table.getAttribute('aria-label') || 'Data summary';
       table.prepend(caption);
+    }
+    const existing = caption.querySelector(':scope > .media-caption__label');
+    if (existing) {
+      existing.textContent = `Table ${tableNumber}. `;
+      return;
     }
     const first = caption.firstChild;
     if (first?.nodeType === Node.TEXT_NODE) {
@@ -8849,6 +9831,53 @@
  }
  function shift(by){const [y,m]=month.split('-').map(Number),d=new Date(y,m-1+by,1);month=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');draw();}
  host.querySelector('[data-month-prev]').addEventListener('click',()=>shift(-1));host.querySelector('[data-month-next]').addEventListener('click',()=>shift(1));draw();
+})();
+
+
+;
+/* Source: js/home-product-v5.js */
+/* The static reading alternative retains the same removable-lid interaction. */
+(() => {
+ 'use strict';
+ document.querySelectorAll('[data-home-product-static]').forEach(button => {
+  button.addEventListener('click', () => {
+   const open=button.getAttribute('aria-pressed')!=='true';
+   button.setAttribute('aria-pressed',String(open));
+   button.setAttribute('aria-label',open?'Close the CAD reader lid':'Open the CAD reader lid');
+   const caption=button.closest('.asc-product-study').querySelector('[data-home-product-state]');
+   if(caption)caption.textContent=open?'Lid open · click to close':'Click the reader to lift its lid';
+  });
+ });
+})();
+
+
+;
+/* Source: js/judging-review-v7.js */
+/* A compact native jump menu for long scientific articles; no scroll interception. */
+(() => {
+  const main = document.querySelector('main');
+  if (!main || document.body.classList.contains('page-home') || document.querySelector('[data-learn-root]')) return;
+  const headers = [...main.querySelectorAll('h2')].filter(h => h.id || h.closest('section[id]'));
+  if (headers.length < 5) return;
+  const menu = document.createElement('details');
+  menu.className = 'audit-mobile-jump';
+  const summary = document.createElement('summary');
+  summary.textContent = 'On this page';
+  const nav = document.createElement('nav');
+  nav.setAttribute('aria-label','Section shortcuts');
+  const seen = new Set();
+  headers.forEach(h => {
+    const id = h.id || h.closest('section[id]').id;
+    if (seen.has(id)) return;
+    seen.add(id);
+    const a = document.createElement('a');
+    a.href = '#' + id; a.textContent = h.textContent.trim();
+    a.addEventListener('click', () => {menu.open = false;});
+    nav.append(a);
+  });
+  menu.append(summary,nav);
+  const header = document.querySelector('.site-header');
+  if (header) header.after(menu);
 })();
 
 ;

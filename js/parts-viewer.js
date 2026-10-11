@@ -1,9 +1,9 @@
 import * as THREE from './vendor/three.module.js';
 
-export async function createPartsViewer(host, api, reduceMotion) {
+export async function createPartsViewer(host, api) {
   const canvas=host.querySelector('canvas'), fallback=host.querySelector('[data-parts-3d-fallback]');
-  const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
-  renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+  const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:!matchMedia('(pointer:coarse)').matches,powerPreference:'low-power'});
+  renderer.setPixelRatio(Math.min(devicePixelRatio||1,matchMedia('(pointer:coarse)').matches?1.25:1.5));
   renderer.outputColorSpace=THREE.SRGBColorSpace;
   renderer.toneMapping=THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure=1.16;
@@ -13,7 +13,7 @@ export async function createPartsViewer(host, api, reduceMotion) {
     const l=new THREE.DirectionalLight(color,intensity);l.position.set(x,y,z);scene.add(l);
   }
   const camera=new THREE.PerspectiveCamera(38,1,.1,50), target=new THREE.Vector3(-.15,-.12,0);
-  let theta=.14,phi=1.34,radius=6.4,visible=true,active=false,raf=0,last=0,time=0;
+  let theta=.14,phi=1.34,radius=6.4,visible=true,enabled=!host.hidden,raf=0;
   const place=()=>{const r=radius/Math.min(1,camera.aspect);camera.position.set(r*Math.sin(phi)*Math.sin(theta),target.y+r*Math.cos(phi),r*Math.sin(phi)*Math.cos(theta));camera.lookAt(target);};
   place();
   // Illustrated topology: rounded, deliberately non-atomic forms make roles clear.
@@ -79,35 +79,16 @@ export async function createPartsViewer(host, api, reduceMotion) {
     const sprite=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTexture,color,transparent:true,opacity:.82,depthWrite:false,depthTest:false}));
     sprite.position.copy(center);sprite.position.z-=.24;sprite.scale.set(Math.max(1.25,size.x*2.5),Math.max(1.25,size.y*2.3),1);sprite.renderOrder=2;scene.add(sprite);sprite.userData.rest=sprite.position.clone();glows[feature]=sprite;
   }
-  const ions=new THREE.Group();scene.add(ions);
-  for(let i=0;i<7;i++) {
-    const ion=new THREE.Mesh(new THREE.SphereGeometry(.07,12,8),new THREE.MeshBasicMaterial({color:0x8be7ff}));
-    ion.userData.phase=i/7;ions.add(ion);
-  }
-  ions.visible=false;
-  const odor=new THREE.Group();scene.add(odor);odor.visible=false;
-  for(let i=0;i<3;i++){
-    const bead=new THREE.Mesh(new THREE.SphereGeometry(i===0?.10:.065,16,10),new THREE.MeshStandardMaterial({color:0xedb44e,roughness:.35}));
-    bead.position.set((i-1)*.14,i===1?.1:0,0);odor.add(bead);
-  }
-  odor.position.set(-.55,1.1,.05);
-  function render(now=0) {
-    raf=0;if(document.hidden||!visible)return;
-    const dt=Math.min(.04,(now-last)/1000||0);last=now;time+=dt;
-    if(active&&!reduceMotion){
-      odor.position.y=1.0+.5*Math.max(0,Math.cos(time*1.6));
-      ions.children.forEach((ion,i)=>{const p=(time*.32+ion.userData.phase)%1;ion.position.set(.15*Math.sin(i*2),1.8-p*3.1,.12*Math.cos(i));});
-      (groups.gcamp||[]).forEach(o=>{o.material.emissiveIntensity=1.15+.35*Math.sin(time*3);});
-      if(glows.gcamp)glows.gcamp.material.opacity=.75+.2*Math.sin(time*3);
-    }
+  function render() {
+    raf=0;if(document.hidden||!visible||!enabled||host.hidden)return;
     renderer.render(scene,camera);
-    if(active&&!reduceMotion)raf=requestAnimationFrame(render);
   }
-  function request(){if(!raf&&visible&&!document.hidden)raf=requestAnimationFrame(render);}
-  function size(){const w=host.clientWidth;const h=Math.max(350,Math.min(580,w*.72));renderer.setSize(w,h,false);canvas.style.width='100%';canvas.style.height=h+'px';camera.aspect=w/h;camera.updateProjectionMatrix();place();request();}
+  function request(){if(!raf&&visible&&enabled&&!host.hidden&&!document.hidden)raf=requestAnimationFrame(render);}
+  function size(){const w=host.clientWidth;if(w<=0||host.hidden)return;const h=Math.max(350,Math.min(580,w*.72));renderer.setSize(w,h,false);canvas.style.width='100%';canvas.style.height=h+'px';camera.aspect=w/h;camera.updateProjectionMatrix();place();request();}
+  api.setEnabled=on=>{enabled=Boolean(on);if(!enabled){cancelAnimationFrame(raf);raf=0;}else{size();request();}};
   const resize=new ResizeObserver(size);resize.observe(host);size();
-  new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if(visible){last=performance.now();request();}else{cancelAnimationFrame(raf);raf=0;}},{threshold:.01}).observe(host);
-  document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(raf);raf=0;}else{last=performance.now();request();}});
+  new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if(visible){request();}else{cancelAnimationFrame(raf);raf=0;}},{threshold:.01}).observe(host);
+  document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(raf);raf=0;}else{request();}});
   let selected=null,hovered=null;
   const names={or:'OR · odor selectivity',orco:'Orco · channel partner',gcamp:'GCaMP6f · Ca²⁺ reporter',mcherry:'mCherry · expression marker',linker:'Linker · connects GCaMP6f and Orco'};
   const tooltip=document.createElement('div');tooltip.className='protein-hover';tooltip.hidden=true;host.append(tooltip);
@@ -115,46 +96,41 @@ export async function createPartsViewer(host, api, reduceMotion) {
     const focus=hovered||selected;
     pickables.forEach(o=>{const on=o.userData.feature===focus;o.material.emissive.copy(o.userData.baseEmissive);o.material.emissiveIntensity=on?1.5:o.userData.baseIntensity;o.material.color.setHex(({or:0x42a980,orco:0x56a9d7,gcamp:0x83e74d,mcherry:0xff6b91,linker:0xf8bf5e})[o.userData.feature]);if(focus&&!on)o.material.color.multiplyScalar(.65);});
     Object.entries(glows).forEach(([feature,sprite])=>{sprite.material.opacity=focus&&focus!==feature?.36:.82;});
-    host.querySelectorAll('[data-protein-focus]').forEach(b=>b.classList.toggle('is-highlighted',b.dataset.proteinFocus===focus));request();
+    request();
   }
   api.focus=feature=>{selected=feature;highlight();};
-  host.querySelectorAll('[data-protein-focus]').forEach(button=>{
-    button.addEventListener('pointerenter',()=>{hovered=button.dataset.proteinFocus;highlight();});
-    button.addEventListener('pointerleave',()=>{hovered=null;highlight();});
-    button.addEventListener('focus',()=>{hovered=button.dataset.proteinFocus;highlight();});
-    button.addEventListener('blur',()=>{hovered=null;highlight();});
-    button.addEventListener('click',()=>api.pick(button.dataset.proteinFocus));
-  });
   api.setOrName=name=>{const label=host.querySelector('[data-or-3d-label]');if(label)label.textContent=name;};
-  api.setMembrane=on=>{(groups.membrane||[]).forEach(o=>o.visible=on);request();};
-  api.setExploded=on=>{for(const [feature,objects] of Object.entries(groups)){const delta={or:[-.5,.2,0],orco:[.5,.2,0],gcamp:[.8,-.65,0],linker:[.7,-.3,0],mcherry:[-.6,-.35,0]}[feature]||[0,0,0];objects.forEach(o=>{o.position.copy(o.userData.rest);if(on)o.position.add(new THREE.Vector3(...delta));});if(glows[feature]){glows[feature].position.copy(glows[feature].userData.rest);if(on)glows[feature].position.add(new THREE.Vector3(...delta));}}request();};
   api.reset=()=>{theta=.14;phi=1.34;radius=6.4;place();request();};
-  host.querySelector('[data-receptor-activate]').addEventListener('click',event=>{
-    active=!active;event.currentTarget.setAttribute('aria-pressed',String(active));event.currentTarget.textContent=active?'Reset odor response':'Show odor response';ions.visible=active;odor.visible=active;time=0;
-    host.querySelector('[data-receptor-caption]').textContent=active?'Conceptual sequence: odor activation → the OR–Orco channel conducts ions → intracellular Ca²⁺ rises → GCaMP6f fluorescence changes. mCherry marks expression; it is not the odor readout.':'OR helps determine odor selectivity. OR and Orco assemble into an odor-gated ion channel; Ca²⁺ entry can drive a GCaMP6f fluorescence change.';
-    ions.children.forEach((ion,i)=>ion.position.set(0,1.6-i*.45,0));
-    (groups.gcamp||[]).forEach(o=>o.material.emissiveIntensity=active?1.8:o.userData.baseIntensity);
-    request();
-  });
   const ray=new THREE.Raycaster(),pointer=new THREE.Vector2();let down=null;
+  function pick(event){
+    const rect=canvas.getBoundingClientRect();
+    pointer.set((event.clientX-rect.left)/rect.width*2-1,-(event.clientY-rect.top)/rect.height*2+1);
+    ray.setFromCamera(pointer,camera);
+    return ray.intersectObjects(pickables)[0]?.object.userData.feature||null;
+  }
   canvas.addEventListener('pointerdown',event=>{if(event.button!==0)return;down={id:event.pointerId,x:event.clientX,y:event.clientY,startX:event.clientX,startY:event.clientY};canvas.setPointerCapture(event.pointerId);});
   canvas.addEventListener('pointermove',event=>{if(!down){
-      const r=canvas.getBoundingClientRect();pointer.set((event.clientX-r.left)/r.width*2-1,-(event.clientY-r.top)/r.height*2+1);ray.setFromCamera(pointer,camera);
-      const hit=ray.intersectObjects(pickables)[0],next=hit?.object.userData.feature||null;
+      const r=canvas.getBoundingClientRect(),next=pick(event);
       if(next!==hovered){hovered=next;highlight();}
       canvas.style.cursor=next?'pointer':'grab';tooltip.hidden=!next;
-      if(next){tooltip.textContent=names[next]+' · click to explore';tooltip.style.left=Math.min(host.clientWidth-250,Math.max(10,event.clientX-r.left+14))+'px';tooltip.style.top=(event.clientY-host.getBoundingClientRect().top+20)+'px';}
+      if(next){tooltip.textContent=names[next];tooltip.style.left=Math.min(host.clientWidth-250,Math.max(10,event.clientX-r.left+14))+'px';tooltip.style.top=(event.clientY-host.getBoundingClientRect().top+20)+'px';}
       return;
     }if(down.id!==event.pointerId)return;tooltip.hidden=true;theta-=(event.clientX-down.x)*.008;phi=THREE.MathUtils.clamp(phi-(event.clientY-down.y)*.008,.3,2.6);down.x=event.clientX;down.y=event.clientY;place();request();});
   canvas.addEventListener('pointerup',event=>{
     if(!down||down.id!==event.pointerId)return;
-    if(Math.hypot(event.clientX-down.startX,event.clientY-down.startY)<5){
-      const r=canvas.getBoundingClientRect();pointer.set((event.clientX-r.left)/r.width*2-1,-(event.clientY-r.top)/r.height*2+1);ray.setFromCamera(pointer,camera);
-      const hit=ray.intersectObjects(pickables)[0];if(hit)api.pick(hit.object.userData.feature);
-    }down=null;
+    const click=Math.hypot(event.clientX-down.startX,event.clientY-down.startY)<7;
+    if(canvas.hasPointerCapture(event.pointerId))canvas.releasePointerCapture(event.pointerId);
+    down=null;
+    if(click){const feature=pick(event);if(feature)api.select?.(feature);}
   });
   canvas.addEventListener('pointercancel',()=>down=null);canvas.addEventListener('pointerleave',()=>{hovered=null;tooltip.hidden=true;highlight();});
   canvas.addEventListener('keydown',event=>{
+    if(event.key==='Enter'||event.key===' '){
+      event.preventDefault();
+      const features=['or','orco','linker','gcamp','mcherry'];
+      api.select?.(features[(features.indexOf(selected)+1)%features.length]);
+      return;
+    }
     if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','+','=','-','Home'].includes(event.key))return;
     event.preventDefault();
     if(event.key==='Home')api.reset();
@@ -165,7 +141,6 @@ export async function createPartsViewer(host, api, reduceMotion) {
   });
   // Zoom only when deliberately focused; ordinary page scrolling stays available.
   canvas.addEventListener('wheel',event=>{if(document.activeElement!==canvas)return;event.preventDefault();radius=THREE.MathUtils.clamp(radius+event.deltaY*.008,5,14);place();request();},{passive:false});
-  matchMedia('(prefers-reduced-motion:reduce)').addEventListener('change',event=>{reduceMotion=event.matches;request();});
   request();
 }
 

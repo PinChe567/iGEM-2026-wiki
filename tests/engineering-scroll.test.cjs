@@ -43,6 +43,23 @@ test('next and previous cross cycle boundaries without wrapping the whole story'
   assert.equal(logic.next(2,4,1,3),null);
 });
 
+test('long stages receive their full content travel before advancing',()=>{
+  const timeline=logic.timeline([0,780,120],200,200);
+  assert.equal(timeline[1].end-timeline[1].start,1180);
+  const bottom=timeline[1].start+200+780;
+  assert.deepEqual(logic.reading(bottom-1,timeline),{index:1,offset:779});
+  assert.deepEqual(logic.reading(bottom+100,timeline),{index:1,offset:780});
+  assert.deepEqual(logic.reading(timeline[1].end,timeline),{index:2,offset:0});
+});
+
+test('content-aware reverse reading returns to the previous text tail',()=>{
+  const timeline=logic.timeline([350,20],180,200);
+  assert.deepEqual(logic.reading(timeline[1].start-30,timeline),{index:0,offset:350});
+  assert.deepEqual(logic.reading(300,timeline),{index:0,offset:120});
+  assert.deepEqual(logic.reading(-100,timeline),{index:0,offset:0});
+  assert.deepEqual(logic.reading(99999,timeline),{index:1,offset:20});
+});
+
 // These mocks exercise navigation/state contracts only. Actual sticky placement,
 // smoothness and responsive layout must also be checked in a real browser.
 function harness({reducedMotion=false,height=800,trackCount=1,initialHash='',loading=false,fontsLoading=false}={}){

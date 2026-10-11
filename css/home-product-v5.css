@@ -1,0 +1,40 @@
+/* The film reader is rendered from the current eight-part CAD, in the film's ink palette. */
+.aerosense-cinematic .asc-product { width:112px; height:84px; overflow:visible; }
+.aerosense-cinematic .asc-product-dock { height:84px; }
+.aerosense-cinematic .asc-product__assembly { display:block; position:absolute; inset:0; isolation:isolate; }
+.aerosense-cinematic .asc-product__assembly::before {
+ content:""; position:absolute; left:14%; right:10%; height:12%; bottom:0;
+ border-radius:50%; background:#3b3028; opacity:.18; filter:blur(4px); z-index:-1;
+}
+.aerosense-cinematic .asc-product .asc-product__layer,
+.aerosense-cinematic .asc-product:hover .asc-product__layer,
+.aerosense-cinematic .asc-product:focus-visible .asc-product__layer,
+.aerosense-cinematic .asc-product[aria-pressed=true] .asc-product__layer {
+ position:absolute; inset:0; width:100%; height:100%; object-fit:contain;
+ filter:none; transform:none; transition:transform .65s cubic-bezier(.22,.75,.2,1);
+}
+.aerosense-cinematic .asc-product .asc-product__lid { z-index:2; }
+.aerosense-cinematic .asc-product[aria-pressed=true] .asc-product__lid { transform:translateY(-27%); }
+.aerosense-cinematic .asc-product:focus-visible { outline:2px solid #a24d2c; outline-offset:8px; border-radius:8px; }
+.aerosense-cinematic .asc-product:disabled { cursor:wait; }
+.aerosense-cinematic .asc-product-pointer { display:none; }
+.aerosense-cinematic .asc-cta__note {
+ left:9%; top:-45%; transform:translateY(-100%); width:160px; max-width:160px;
+ font:600 10px/1.4 var(--asc-sans); color:#273c2c; text-shadow:0 1px 2px #f6ecd7;
+}
+.aerosense-cinematic .asc-cta__note::after {
+ content:""; position:absolute; left:4px; bottom:-10px; height:8px; width:1px; background:#53644b;
+}
+.aerosense-cinematic .asc-cta.is-docked .asc-product__assembly::before { opacity:0; }
+.aerosense-cinematic .asc-cta.is-docked .asc-product { filter:brightness(1.35); }
+.aerosense-cinematic .asc-product-study { margin-top:24px; display:flex; align-items:center; gap:20px; }
+.aerosense-cinematic .asc-product-study .asc-product { width:144px; height:108px; flex:none; }
+.aerosense-cinematic .asc-product-study__copy { font:500 .73rem/1.6 var(--asc-mono); color:var(--asc-bone); }
+.aerosense-cinematic .asc-product-study__action { display:block; color:inherit; font:inherit; text-decoration:underline; text-underline-offset:4px; }
+@media (max-aspect-ratio:9/10) {
+ .aerosense-cinematic .asc-product,.aerosense-cinematic .asc-product-dock { width:96px; height:72px; }
+ .aerosense-cinematic .asc-cta__note { top:-48%; width:140px; max-width:140px; font-size:10px; }
+}
+@media (prefers-reduced-motion:reduce) {
+ .aerosense-cinematic .asc-product .asc-product__layer { transition:none; }
+}

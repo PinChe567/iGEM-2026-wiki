@@ -18,6 +18,8 @@
   var drawing = false;
   var requestedFrame = null;
   var loading = null;
+  var visible = true;
+  var playRequest = 0;
 
   function timestamp(seconds) {
     var value = Math.floor(seconds);
@@ -34,6 +36,7 @@
   }
 
   function stop() {
+    playRequest += 1;
     playing = false;
     if (timer !== null) window.clearInterval(timer);
     timer = null;
@@ -104,9 +107,16 @@
       stop();
       return;
     }
+    var request = ++playRequest;
     try {
       await load();
     } catch (error) {
+      return;
+    }
+    // A scroll or tab change during loading cancels the pending play action.
+    if (request !== playRequest || document.hidden || !visible) {
+      status.textContent = "Recording paused. Select Play to continue.";
+      updateControls();
       return;
     }
     playing = true;
@@ -135,6 +145,19 @@
   });
 
   document.addEventListener("visibilitychange", function () {
-    if (document.hidden && playing) stop();
+    if (document.hidden && (playing || loading)) {
+      stop();
+      status.textContent = "Recording paused. Select Play to continue.";
+    }
   });
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (entries) {
+      visible = entries[0].isIntersecting;
+      if (!visible && (playing || loading)) {
+        stop();
+        status.textContent = "Recording paused outside the reading area. Select Play to continue.";
+      }
+    }, { threshold: 0 }).observe(root);
+  }
+  window.addEventListener("pagehide", stop);
 })();

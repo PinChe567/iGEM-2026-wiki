@@ -15,7 +15,7 @@
  *   needs-update — source is too incomplete or internally contradictory to treat as settled
  *
  * datePrecision: day | range | month
- * stream: wetlab | drylab | hp | igem
+ * stream: wetlab | drylab | hp | team | igem
  * substream: hardware | model | null
  *   Technical workstreams: Wet Lab | Dry Lab.
  *   Hardware and Model are Dry Lab substreams, not peers of Wet Lab.
@@ -107,7 +107,8 @@
     return {
       id: partial.id,
       startDate: partial.startDate,
-      endDate: partial.endDate == null ? partial.startDate : partial.endDate,
+      endDate: partial.openEnd ? null : (partial.endDate == null ? partial.startDate : partial.endDate),
+      openEnd: Boolean(partial.openEnd),
       datePrecision: partial.datePrecision,
       stream: partial.stream,
       substream: partial.substream == null ? null : partial.substream,
@@ -507,7 +508,8 @@
       substream: "hardware",
       category: "mechanical",
       status: "planned",
-      title: "Mechanical Enclosure (Planned)",
+      title: "Mechanical Enclosure — Original September Plan",
+      sourceNote: "Original planning entry retained for chronology. The 8 October timeline update separately records enclosure V1 (8–25 September) and V2 (26 September–8 October) work periods; no assembly-test result is inferred.",
       shortSummary:
         "Planned opaque SolidWorks enclosure for optical geometry, ambient-light control, and sample placement.",
       work:
@@ -531,13 +533,13 @@
       substream: "hardware",
       category: "manufacturing",
       status: "planned",
-      title: "PCB Fabrication and Assembly (Planned)",
+      title: "PCB Fabrication and Assembly — Original September Estimate",
       shortSummary:
-        "Vendor-estimated fabrication/SMT through late September. Actual dates must replace forecast before freeze.",
+        "Earlier vendor estimate for September fabrication/SMT. The newer team timeline records vendor work through 6 October; actual delivery and inspection remain unconfirmed.",
       work:
         "Planned work: the current vendor estimate places schematic/layout finalization, PCB fabrication, SMT assembly and inspection during September, with estimated delivery near the end of the month. Because this schedule is vendor-dependent, the final Notebook will record the actual fabrication and delivery dates, not only the forecast. The current schedule supplied by iST lists schematic work, layout, PCB manufacture, SMT and inspection as sequential stages through late September.",
       needsUpdate: [
-        "BEFORE FREEZE — Replace planned dates with actual fabrication and delivery dates.",
+        "Record confirmed fabrication completion, delivery and inspection separately from the newer 12 September–6 October vendor work window.",
       ],
       references: [HARDWARE_REFS["5"]],
       tags: ["fabrication", "planned", "needs-update"],
@@ -641,6 +643,282 @@
    * WET LAB
    * ========================================================================= */
   var WETLAB_EVENTS = [
+    event({
+  "id": "wet-microscopy-transfection",
+  "title": "WL-MIC-01 · HEK293 transfection evidence",
+  "status": "completed",
+  "shortSummary": "Transfection preceded the 25-field endpoint dataset; the experiment date and delivery method are not archived.",
+  "work": "HEK293 cells received the constructs represented by 12 image labels, including blank and Orco-only controls. The team confirmed that these images preceded G418 selection.",
+  "result": "Evidence is the endpoint image dataset. Neither the earlier electroporation specification nor the Lipofectamine/P 3000 workbook is assigned to this batch without an operator record.",
+  "needsUpdate": [
+    "Experiment date, operator, delivery reagent and settings, plasmid identifiers, independent culture/well identifiers."
+  ],
+  "startDate": null,
+  "endDate": null,
+  "datePrecision": "range",
+  "stream": "wetlab",
+  "category": "archived-evidence",
+  "responsible": [],
+  "contributors": [],
+  "tags": [
+    "undated",
+    "source-linked",
+    "microscopy"
+  ],
+  "sourceSection": "Team-supplied images and preparation confirmations, archived 2026-10-10; experimental dates unresolved",
+  "sourceNote": "Retrospective provenance entry, not a contemporaneous dated bench record. The 2026-10-10 confirmation/archive date is NOT used as the experiment date.",
+  "relatedLinks": [
+    {
+      "label": "Results · WL-MIC-01",
+      "href": "results.html#wet-lab"
+    },
+    {
+      "label": "Experimental methods",
+      "href": "experiments.html#microscopy-analysis"
+    },
+    {
+      "label": "Microscopy source manifest",
+      "href": "assets/results/microscopy/source-manifest.json"
+    }
+  ]
+}),
+    event({
+  "id": "wet-microscopy-fixation",
+  "title": "WL-MIC-01 · Fixation and DAPI labeling",
+  "status": "completed",
+  "shortSummary": "Team-confirmed preparation: 2% PFA fixation, no permeabilization, followed by DAPI.",
+  "work": "Cells were fixed with 2% PFA before DAPI staining. No permeabilization was performed.",
+  "result": "DAPI permits an exploratory resolvable-object denominator; completeness of total-nucleus labeling has not been independently validated.",
+  "needsUpdate": [
+    "Preparation date, operator, fixation duration, DAPI concentration/incubation, wash details."
+  ],
+  "startDate": null,
+  "endDate": null,
+  "datePrecision": "range",
+  "stream": "wetlab",
+  "category": "archived-evidence",
+  "responsible": [],
+  "contributors": [],
+  "tags": [
+    "undated",
+    "source-linked",
+    "microscopy"
+  ],
+  "sourceSection": "Team-supplied images and preparation confirmations, archived 2026-10-10; experimental dates unresolved",
+  "sourceNote": "Retrospective provenance entry, not a contemporaneous dated bench record. The 2026-10-10 confirmation/archive date is NOT used as the experiment date.",
+  "relatedLinks": [
+    {
+      "label": "Results · WL-MIC-01",
+      "href": "results.html#wet-lab"
+    },
+    {
+      "label": "Experimental methods",
+      "href": "experiments.html#microscopy-analysis"
+    },
+    {
+      "label": "Microscopy source manifest",
+      "href": "assets/results/microscopy/source-manifest.json"
+    }
+  ]
+}),
+    event({
+  "id": "wet-microscopy-acquisition",
+  "title": "WL-MIC-01 · Pre-selection endpoint microscopy",
+  "status": "completed",
+  "shortSummary": "25 fields across 12 conditions, acquired 44–48 h post-transfection before G418; no independent biological repeats.",
+  "work": "Each numbered field has matching brightfield, DAPI, GREEN and RED images. The team confirmed constant exposure within each fluorescence channel across conditions and blank calibration.",
+  "result": "Conservative segmentation retained 2,624 DAPI objects. The assay reports selected-object fluorescence, not population transfection efficiency, viability or odor response.",
+  "needsUpdate": [
+    "Acquisition date, operator, microscope/objective, numeric exposure/gain, raw camera intensity mapping, replicate identifiers."
+  ],
+  "startDate": null,
+  "endDate": null,
+  "datePrecision": "range",
+  "stream": "wetlab",
+  "category": "archived-evidence",
+  "responsible": [],
+  "contributors": [],
+  "tags": [
+    "undated",
+    "source-linked",
+    "microscopy"
+  ],
+  "sourceSection": "Team-supplied images and preparation confirmations, archived 2026-10-10; experimental dates unresolved",
+  "sourceNote": "Retrospective provenance entry, not a contemporaneous dated bench record. The 2026-10-10 confirmation/archive date is NOT used as the experiment date.",
+  "relatedLinks": [
+    {
+      "label": "Results · WL-MIC-01",
+      "href": "results.html#wet-lab"
+    },
+    {
+      "label": "Experimental methods",
+      "href": "experiments.html#microscopy-analysis"
+    },
+    {
+      "label": "Microscopy source manifest",
+      "href": "assets/results/microscopy/source-manifest.json"
+    }
+  ]
+}),
+    event({
+  "id": "wet-g418-followup",
+  "title": "WL-G418-01 · Separate selection batch",
+  "status": "ongoing",
+  "shortSummary": "The team reported a G418 selection batch in progress; it is separate from WL-MIC-01.",
+  "work": "G418 selection was reported as ongoing. No dated dosing trajectory or selected-cell endpoint accompanies the archived images.",
+  "result": "No selection improvement or stable function is claimed from the pre-selection images.",
+  "needsUpdate": [
+    "Start date, operator, doses, kill-curve control, survival/growth trajectory, reporter-retention and functional endpoints."
+  ],
+  "startDate": null,
+  "endDate": null,
+  "datePrecision": "range",
+  "stream": "wetlab",
+  "category": "archived-evidence",
+  "responsible": [],
+  "contributors": [],
+  "tags": [
+    "undated",
+    "source-linked",
+    "wetlab"
+  ],
+  "sourceSection": "Team-supplied images and preparation confirmations, archived 2026-10-10; experimental dates unresolved",
+  "sourceNote": "Retrospective provenance entry, not a contemporaneous dated bench record. The 2026-10-10 confirmation/archive date is NOT used as the experiment date.",
+  "relatedLinks": [
+    {
+      "label": "Results · WL-MIC-01",
+      "href": "results.html#wet-lab"
+    },
+    {
+      "label": "Experimental methods",
+      "href": "experiments.html#microscopy-analysis"
+    },
+    {
+      "label": "Microscopy source manifest",
+      "href": "assets/results/microscopy/source-manifest.json"
+    }
+  ]
+}),
+    event({
+  "id": "wet-cloning-plates",
+  "title": "WL-CLONE-01 · Colony plate photographs",
+  "status": "completed",
+  "shortSummary": "Three plate photographs preserve colony growth and marked candidates.",
+  "work": "The supplied cloning record contains three unmodified photographs with plate labels and marked colonies.",
+  "result": "Colony growth is visible. These photographs do not establish insert sequence identity; no gel lane map or chromatogram is linked to them.",
+  "needsUpdate": [
+    "Culture/transformation date, operator, plate-to-colony-to-plasmid mapping, gel and sequence-verification records."
+  ],
+  "startDate": null,
+  "endDate": null,
+  "datePrecision": "range",
+  "stream": "wetlab",
+  "category": "archived-evidence",
+  "responsible": [],
+  "contributors": [],
+  "tags": [
+    "undated",
+    "source-linked",
+    "wetlab"
+  ],
+  "sourceSection": "Team-supplied images and preparation confirmations, archived 2026-10-10; experimental dates unresolved",
+  "sourceNote": "Retrospective provenance entry, not a contemporaneous dated bench record. The 2026-10-10 confirmation/archive date is NOT used as the experiment date.",
+  "relatedLinks": [
+    {
+      "label": "Results · WL-CLONE-01",
+      "href": "results.html#cloning-results"
+    },
+    {
+      "label": "Experimental methods",
+      "href": "experiments.html#cloning-track"
+    },
+    {
+      "label": "Cloning source manifest",
+      "href": "assets/results/cloning/source-manifest.json"
+    }
+  ]
+}),
+
+    event({
+      "id": "wet-th-lightsheet-20260420",
+      "startDate": "2026-04-20",
+      "endDate": "2026-04-20",
+      "datePrecision": "day",
+      "stream": "wetlab",
+      "category": "exploratory-fly-imaging",
+      "status": "completed",
+      "title": "TH-associated Light-Sheet Observation",
+      "shortSummary": "The team dates the TH × UAS-GCaMP6f exploratory light-sheet work to 20 April. A movie and regional traces are available; an odor-evoked response remains to be validated with acquisition controls and repeat measurements.",
+      "work": "Observed fluorescence in the team-labeled TH (5137) preparation crossed to UAS-GCaMP6f, during presentations of isopentyl acetate, 3-octanol and 4-methylcyclohexanol. The reporter and day are team-confirmed; the full progeny genotype and original acquisition timestamps remain to be matched to the record.",
+      "output": [
+        "Team-supplied TH-labeled movie",
+        "Exploratory regional intensity and normalized-intensity plots"
+      ],
+      "interpretation": "UAS-GCaMP6f is a calcium-sensitive reporter confirmed by the team. These exploratory regional traces do not yet separate calcium-dependent changes from motion, bleaching, baseline drift or delivery artifacts, or identify every labeled neuron.",
+      "nextStep": "Resolve the driver stock identifier, document the full progeny genotype, align delivery timing and motion controls, and collect biological repeats before attributing fluorescence changes to odor-evoked neural activity.",
+      "needsUpdate": [
+        "Confirm whether 5137 is a Bloomington or local stock identifier. BDSC 5137 is a UAS-mCD8::GFP reporter, not a TH-GAL4 driver or GCaMP reporter.",
+        "Document full cross, fly age/sex, preparation, acquisition and stimulus delivery metadata, and independent biological repeats."
+      ],
+      "relatedLinks": [
+        {
+          "label": "Description: exploratory recording",
+          "href": "description.html#lightsheet-observation"
+        },
+        {
+          "label": "Driver and reporter identity",
+          "href": "description.html#fly-stock-note"
+        }
+      ],
+      "references": [
+        {
+          "id": "fly-bdsc-5137",
+          "text": "FlyBase stock record FBst0005137 (BDSC 5137), https://flybase.org/reports/FBst0005137"
+        }
+      ],
+      "tags": [
+        "Drosophila",
+        "TH",
+        "light-sheet",
+        "exploratory"
+      ],
+      "sourceSection": "Fly observation update · 20 April · TH-associated light-sheet work",
+      "sourceNote": "Date, TH (5137) preparation label and UAS-GCaMP6f reporter confirmed by the team on 10 October 2026. Year follows the existing 2026 notebook context. Completed refers to image acquisition, not neural-response validation."
+    }),
+    event({
+      "id": "wet-pn-preparation-20260504",
+      "startDate": "2026-05-04",
+      "endDate": "2026-05-04",
+      "datePrecision": "day",
+      "stream": "wetlab",
+      "category": "exploratory-fly-imaging",
+      "status": "planned",
+      "title": "PN (GH146) Preparation Record — Imaging Pending",
+      "shortSummary": "The team records the PN/GH146 preparation checkpoint on 4 May. PN imaging has not yet been performed; no image, trace or odor-response outcome is assigned to this entry.",
+      "work": "Preparation/planning record for GH146 × UAS-GCaMP6f imaging; the reporter is team-confirmed. GH146-GAL4 labels a subset of projection neurons and also non-PN cells, including APL. The full progeny genotype and sample preparation remain to be documented.",
+      "pendingOutputs": [
+        "Complete progeny genotype and sample preparation (UAS-GCaMP6f reporter confirmed)",
+        "PN image acquisition",
+        "Controls, acquisition metadata and any resulting analysis"
+      ],
+      "nextQuestion": "Which structures and cells are labeled in the actual GH146 preparation?",
+      "nextStep": "Document the genotype and preparation, then acquire the PN dataset before making a TH-PN comparison.",
+      "relatedLinks": [
+        {
+          "label": "Description: TH and GH146 preparations",
+          "href": "description.html#fly-marker-preparations"
+        }
+      ],
+      "tags": [
+        "Drosophila",
+        "GH146",
+        "projection-neuron",
+        "planned-imaging"
+      ],
+      "sourceSection": "Fly observation update · 4 May · PN/GH146 preparation, imaging pending",
+      "sourceNote": "Date, PN (GH146) preparation label and UAS-GCaMP6f reporter confirmed by the team on 10 October 2026. PN imaging has not yet occurred. This is the preparation checkpoint, not an acquisition date."
+    }),
+
     event({
       id: "wet-ideation",
       startDate: "2026-04",
@@ -1271,7 +1549,449 @@
     event({ id: "hp-analytical-interview", startDate: "2026-09-13", datePrecision: "day", stream: "hp", status: "completed", category: "industry-interview", title: "Analytical-instrumentation interview", shortSummary: "Feedback positioned AeroSense as a fast on-site screening layer before laboratory confirmation, not a replacement for GC–MS.", decision: "Preserve confirmatory testing in the proposed decision path.", relatedLinks: [{ label: "IHP · analytical interview", href: "human-practices.html#cp-analytical" }], sourceSection: "IHP · analytical instrumentation · 13 September" })
   ];
 
-  var EVENTS = HARDWARE_EVENTS.concat(WETLAB_EVENTS, DRYLAB_EVENTS, HP_EVENTS);
+  // Team-supplied dates are project records, not verified official iGEM deadlines.
+  var TIMELINE_UPDATE_EVENTS = [
+    event({
+      "id": "team-recruitment",
+      "startDate": "2026-03-19",
+      "endDate": "2026-04-06",
+      "status": "completed",
+      "title": "Recruit Team Members",
+      "calendarWeeks": 3,
+      "actualWeeks": 1,
+      "shortSummary": "Team recruitment: 19 March–6 April. The form records 3 calendar weeks and 1 week of actual time worked.",
+      "work": "Recruiting members until the team was formed or enough members had committed to begin work.",
+      "sourceNote": "Team-entered dates from the supplied Attributions form screenshot. This full-team recruitment period is distinct from the 1–21 April hardware ideation and staffing phase; it is not an official iGEM deadline.",
+      "datePrecision": "range",
+      "stream": "team",
+      "category": "team-administration",
+      "tags": [
+        "team-timeline",
+        "attributions-form",
+        "planning"
+      ],
+      "observation": "Reported calendar duration: 3 weeks. Reported actual time worked: 1 week.",
+      "sourceSection": "Team & Wiki · Recruit Team Members",
+      "relatedLinks": [
+        {
+          "label": "Team attributions",
+          "href": "attributions.html"
+        }
+      ]
+    }),
+    event({
+      "id": "team-project-plan",
+      "startDate": "2026-04-13",
+      "endDate": "2026-05-11",
+      "status": "completed",
+      "title": "Development of Project Plan",
+      "calendarWeeks": 4,
+      "actualWeeks": 2,
+      "shortSummary": "Project planning: 13 April–11 May. The form records 4 calendar weeks and 2 weeks of actual time worked.",
+      "work": "Brainstorming project ideas, deciding goals, and drafting the initial work plan.",
+      "sourceNote": "Team-entered full-project planning dates from the supplied Attributions form screenshot. Hardware and model workstream records retain their own dates and scope.",
+      "datePrecision": "range",
+      "stream": "team",
+      "category": "team-administration",
+      "tags": [
+        "team-timeline",
+        "attributions-form",
+        "planning"
+      ],
+      "observation": "Reported calendar duration: 4 weeks. Reported actual time worked: 2 weeks.",
+      "sourceSection": "Team & Wiki · Development of Project Plan",
+      "relatedLinks": [
+        {
+          "label": "Team attributions",
+          "href": "attributions.html"
+        }
+      ]
+    }),
+    event({
+      "id": "team-wiki-building",
+      "startDate": "2026-09-07",
+      "endDate": "2026-10-20",
+      "status": "ongoing",
+      "title": "Building the Team Wiki",
+      "calendarWeeks": 6,
+      "actualWeeks": 4,
+      "shortSummary": "Wiki coding began on 7 September. The recorded end date, 20 October, is planned as of 8 October; the form lists 6 calendar weeks and 4 weeks of actual time worked.",
+      "work": "Building the team Wiki, beginning with the coding work recorded in the team form.",
+      "sourceNote": "Team-entered Attributions form screenshot. The 20 October date is a team-recorded target, not a verified official Wiki Freeze deadline. The reported 4 worked weeks are copied from the form and are not inferred from elapsed time or claimed as final audited effort.",
+      "datePrecision": "range",
+      "stream": "team",
+      "category": "team-administration",
+      "tags": [
+        "team-timeline",
+        "attributions-form",
+        "wiki"
+      ],
+      "observation": "Reported calendar duration: 6 weeks. Reported actual time worked: 4 weeks.",
+      "sourceSection": "Team & Wiki · Building the Team Wiki",
+      "relatedLinks": [
+        {
+          "label": "Team attributions",
+          "href": "attributions.html"
+        }
+      ]
+    }),
+    event({
+      "id": "hw-airflow-optics-window",
+      "startDate": "2026-05-10",
+      "endDate": "2026-07-05",
+      "openEnd": false,
+      "datePrecision": "range",
+      "stream": "drylab",
+      "substream": "hardware",
+      "category": "reported-phase",
+      "status": "completed",
+      "title": "Airflow and Optical Simulations",
+      "shortSummary": "The hardware timeline records the airflow and optics simulation phase. Simulation results belong with their assumptions and design implications on Hardware and Model.",
+      "work": "The hardware timeline records the airflow and optics simulation phase. Simulation results belong with their assumptions and design implications on Hardware and Model.",
+      "sourceNote": "Team-supplied timeline screenshot, incorporated on 8 October 2026. These are reported work periods; a dated phase does not establish instrument performance or completed validation.",
+      "sourceSection": "Hardware timeline update · Airflow and Optical Simulations",
+      "tags": [
+        "team-timeline",
+        "hardware-phase"
+      ],
+      "relatedLinks": [
+        {
+          "label": "Hardware evidence and design files",
+          "href": "hardware.html"
+        },
+        {
+          "label": "Model methods and assumptions",
+          "href": "model.html"
+        }
+      ]
+    }),
+    event({
+      "id": "hw-pcb-v1-design-window",
+      "startDate": "2026-06-07",
+      "endDate": "2026-08-02",
+      "openEnd": false,
+      "datePrecision": "range",
+      "stream": "drylab",
+      "substream": "hardware",
+      "category": "reported-phase",
+      "status": "completed",
+      "title": "PCB V1 Design and Planning — Phase Window",
+      "shortSummary": "The team reports the overall PCB V1 design and planning period. The schematic and ERC/DRC entries retain their more specific records.",
+      "work": "The team reports the overall PCB V1 design and planning period. The schematic and ERC/DRC entries retain their more specific records.",
+      "sourceNote": "Team-supplied timeline screenshot, incorporated on 8 October 2026. These are reported work periods; a dated phase does not establish instrument performance or completed validation.",
+      "sourceSection": "Hardware timeline update · PCB V1 Design and Planning — Phase Window",
+      "tags": [
+        "team-timeline",
+        "hardware-phase"
+      ],
+      "relatedLinks": [
+        {
+          "label": "Hardware evidence and design files",
+          "href": "hardware.html"
+        }
+      ]
+    }),
+    event({
+      "id": "hw-pcb-cycle1-assessment-window",
+      "startDate": "2026-08-03",
+      "endDate": "2026-08-28",
+      "openEnd": false,
+      "datePrecision": "range",
+      "stream": "drylab",
+      "substream": "hardware",
+      "category": "reported-phase",
+      "status": "completed",
+      "title": "PCB V1 Assessment — Engineering Cycle 1 Phase",
+      "shortSummary": "The supplied timeline labels this preliminary PCB simulation, testing and assessment. Existing archived evidence documents ERC/DRC evaluation; this label does not establish a complete circuit simulation or bench test.",
+      "work": "The supplied timeline labels this preliminary PCB simulation, testing and assessment. Existing archived evidence documents ERC/DRC evaluation; this label does not establish a complete circuit simulation or bench test.",
+      "sourceNote": "Team-supplied timeline screenshot, incorporated on 8 October 2026. These are reported work periods; a dated phase does not establish instrument performance or completed validation.",
+      "sourceSection": "Hardware timeline update · PCB V1 Assessment — Engineering Cycle 1 Phase",
+      "tags": [
+        "team-timeline",
+        "hardware-phase"
+      ],
+      "relatedLinks": [
+        {
+          "label": "Hardware evidence and design files",
+          "href": "hardware.html"
+        }
+      ]
+    }),
+    event({
+      "id": "hw-pcb-v2-design-window",
+      "startDate": "2026-08-29",
+      "endDate": "2026-09-11",
+      "openEnd": false,
+      "datePrecision": "range",
+      "stream": "drylab",
+      "substream": "hardware",
+      "category": "reported-phase",
+      "status": "completed",
+      "title": "PCB V2 Revision and Design — Engineering Cycle 2 Phase",
+      "shortSummary": "The team reports the PCB V2 revision and design window. This period does not by itself close the broader system-integration or validation work.",
+      "work": "The team reports the PCB V2 revision and design window. This period does not by itself close the broader system-integration or validation work.",
+      "sourceNote": "Team-supplied timeline screenshot, incorporated on 8 October 2026. These are reported work periods; a dated phase does not establish instrument performance or completed validation.",
+      "sourceSection": "Hardware timeline update · PCB V2 Revision and Design — Engineering Cycle 2 Phase",
+      "tags": [
+        "team-timeline",
+        "hardware-phase"
+      ],
+      "relatedLinks": [
+        {
+          "label": "Hardware evidence and design files",
+          "href": "hardware.html"
+        }
+      ]
+    }),
+    event({
+      "id": "hw-vendor-layout-window",
+      "startDate": "2026-09-12",
+      "endDate": "2026-10-06",
+      "openEnd": false,
+      "datePrecision": "range",
+      "stream": "drylab",
+      "substream": "hardware",
+      "category": "reported-phase",
+      "status": "completed",
+      "title": "PCB Layout and Vendor Fabrication — Reported Window",
+      "shortSummary": "The timeline records vendor PCB layout and fabrication work from 12 September to 6 October. Receipt, inspection, assembly and measured performance require their own evidence.",
+      "work": "The timeline records vendor PCB layout and fabrication work from 12 September to 6 October. Receipt, inspection, assembly and measured performance require their own evidence.",
+      "sourceNote": "Team-supplied timeline screenshot, incorporated on 8 October 2026. These are reported work periods; a dated phase does not establish instrument performance or completed validation.",
+      "sourceSection": "Hardware timeline update · PCB Layout and Vendor Fabrication — Reported Window",
+      "tags": [
+        "team-timeline",
+        "hardware-phase"
+      ],
+      "relatedLinks": [
+        {
+          "label": "Hardware evidence and design files",
+          "href": "hardware.html"
+        }
+      ]
+    }),
+    event({
+      "id": "hw-enclosure-v1-window",
+      "startDate": "2026-09-08",
+      "endDate": "2026-09-25",
+      "openEnd": false,
+      "datePrecision": "range",
+      "stream": "drylab",
+      "substream": "hardware",
+      "category": "reported-phase",
+      "status": "completed",
+      "title": "3D-Printed Enclosure V1 — Development Window",
+      "shortSummary": "The team records the first 3D-printed enclosure development phase. The timeline supplies dates, without dimensional or optical test results.",
+      "work": "The team records the first 3D-printed enclosure development phase. The timeline supplies dates, without dimensional or optical test results.",
+      "sourceNote": "Team-supplied timeline screenshot, incorporated on 8 October 2026. These are reported work periods; a dated phase does not establish instrument performance or completed validation.",
+      "sourceSection": "Hardware timeline update · 3D-Printed Enclosure V1 — Development Window",
+      "tags": [
+        "team-timeline",
+        "hardware-phase"
+      ],
+      "relatedLinks": [
+        {
+          "label": "Hardware evidence and design files",
+          "href": "hardware.html"
+        }
+      ]
+    }),
+    event({
+      "id": "hw-enclosure-v2-window",
+      "startDate": "2026-09-26",
+      "endDate": "2026-10-08",
+      "openEnd": false,
+      "datePrecision": "range",
+      "stream": "drylab",
+      "substream": "hardware",
+      "category": "reported-phase",
+      "status": "ongoing",
+      "title": "3D-Printed Enclosure V2 — Development Window",
+      "shortSummary": "The second enclosure phase is recorded for 26 September–8 October. This update falls on the reported end date; final completion and assembly-test results are not established by the schedule.",
+      "work": "The second enclosure phase is recorded for 26 September–8 October. This update falls on the reported end date; final completion and assembly-test results are not established by the schedule.",
+      "sourceNote": "Team-supplied timeline screenshot, incorporated on 8 October 2026. These are reported work periods; a dated phase does not establish instrument performance or completed validation.",
+      "sourceSection": "Hardware timeline update · 3D-Printed Enclosure V2 — Development Window",
+      "tags": [
+        "team-timeline",
+        "hardware-phase"
+      ],
+      "relatedLinks": [
+        {
+          "label": "Hardware evidence and design files",
+          "href": "hardware.html"
+        }
+      ]
+    }),
+    event({
+      "id": "hw-pcb-soldering-ui",
+      "startDate": "2026-10-07",
+      "endDate": "2026-10-10",
+      "openEnd": false,
+      "datePrecision": "range",
+      "stream": "drylab",
+      "substream": "hardware",
+      "category": "reported-phase",
+      "status": "ongoing",
+      "title": "PCB Soldering and User-Interface Design",
+      "shortSummary": "PCB soldering and UI design are scheduled for 7–10 October. Work is in progress as of 8 October; the end date remains planned.",
+      "work": "PCB soldering and UI design are scheduled for 7–10 October. Work is in progress as of 8 October; the end date remains planned.",
+      "sourceNote": "Team-supplied timeline screenshot, incorporated on 8 October 2026. These are reported work periods; a dated phase does not establish instrument performance or completed validation.",
+      "sourceSection": "Hardware timeline update · PCB Soldering and User-Interface Design",
+      "tags": [
+        "team-timeline",
+        "hardware-phase"
+      ],
+      "relatedLinks": [
+        {
+          "label": "Hardware evidence and design files",
+          "href": "hardware.html"
+        }
+      ]
+    }),
+    event({
+      "id": "hw-enclosure-assembly-test",
+      "startDate": "2026-10-09",
+      "endDate": null,
+      "openEnd": true,
+      "datePrecision": "range",
+      "stream": "drylab",
+      "substream": "hardware",
+      "category": "reported-phase",
+      "status": "planned",
+      "title": "Enclosure Assembly and Testing (Planned)",
+      "shortSummary": "Assembly testing is planned to start on 9 October. The supplied note gives the end as “10/?”; no completion date or test outcome is available.",
+      "work": "Assembly testing is planned to start on 9 October. The supplied note gives the end as “10/?”; no completion date or test outcome is available.",
+      "sourceNote": "Team-supplied timeline screenshot, incorporated on 8 October 2026. These are reported work periods; a dated phase does not establish instrument performance or completed validation.",
+      "sourceSection": "Hardware timeline update · Enclosure Assembly and Testing (Planned)",
+      "tags": [
+        "team-timeline",
+        "hardware-phase"
+      ],
+      "relatedLinks": [
+        {
+          "label": "Hardware evidence and design files",
+          "href": "hardware.html"
+        }
+      ]
+    }),
+    event({
+      "id": "hp-game-ideas-rules",
+      "startDate": "2026-07-13",
+      "endDate": "2026-07-15",
+      "datePrecision": "range",
+      "stream": "hp",
+      "category": "education-games",
+      "status": "completed",
+      "title": "Learning Game: Ideas and Rules",
+      "shortSummary": "Defined the web game idea and rules.",
+      "work": "Defined the web game idea and rules.",
+      "sourceNote": "Team-supplied learning-game timeline screenshot, incorporated on 8 October 2026. No participant counts or learning-effect measurements were supplied with these dates.",
+      "sourceSection": "Learning game timeline · Learning Game: Ideas and Rules",
+      "tags": [
+        "team-timeline",
+        "education",
+        "game-development"
+      ],
+      "relatedLinks": [
+        {
+          "label": "Education",
+          "href": "education.html"
+        },
+        {
+          "label": "Learning platform",
+          "href": "learning-platform.html"
+        }
+      ]
+    }),
+    event({
+      "id": "hp-game-initial-design",
+      "startDate": "2026-07-16",
+      "endDate": "2026-07-30",
+      "datePrecision": "range",
+      "stream": "hp",
+      "category": "education-games",
+      "status": "completed",
+      "title": "Learning Game: Initial Design",
+      "shortSummary": "Prepared the initial web game design.",
+      "work": "Prepared the initial web game design.",
+      "sourceNote": "Team-supplied learning-game timeline screenshot, incorporated on 8 October 2026. No participant counts or learning-effect measurements were supplied with these dates.",
+      "sourceSection": "Learning game timeline · Learning Game: Initial Design",
+      "tags": [
+        "team-timeline",
+        "education",
+        "game-development"
+      ],
+      "relatedLinks": [
+        {
+          "label": "Education",
+          "href": "education.html"
+        },
+        {
+          "label": "Learning platform",
+          "href": "learning-platform.html"
+        }
+      ]
+    }),
+    event({
+      "id": "hp-game-internal-review",
+      "startDate": "2026-07-31",
+      "endDate": "2026-08-29",
+      "datePrecision": "range",
+      "stream": "hp",
+      "category": "education-games",
+      "status": "completed",
+      "title": "Learning Game: Internal Evaluation and Suggestions",
+      "shortSummary": "Conducted internal evaluation and gathered suggestions for the web game. This is internal development feedback, not evidence of learning gains.",
+      "work": "Conducted internal evaluation and gathered suggestions for the web game. This is internal development feedback, not evidence of learning gains.",
+      "sourceNote": "Team-supplied learning-game timeline screenshot, incorporated on 8 October 2026. No participant counts or learning-effect measurements were supplied with these dates.",
+      "sourceSection": "Learning game timeline · Learning Game: Internal Evaluation and Suggestions",
+      "tags": [
+        "team-timeline",
+        "education",
+        "game-development"
+      ],
+      "relatedLinks": [
+        {
+          "label": "Education",
+          "href": "education.html"
+        },
+        {
+          "label": "Learning platform",
+          "href": "learning-platform.html"
+        }
+      ]
+    }),
+    event({
+      "id": "hp-game-updates",
+      "startDate": "2026-08-30",
+      "endDate": "2026-09-15",
+      "datePrecision": "range",
+      "stream": "hp",
+      "category": "education-games",
+      "status": "completed",
+      "title": "Learning Game: Updates and Outcomes",
+      "shortSummary": "Updated the web game following the internal review. The timeline records the development period without supplying measured educational outcomes.",
+      "work": "Updated the web game following the internal review. The timeline records the development period without supplying measured educational outcomes.",
+      "sourceNote": "Team-supplied learning-game timeline screenshot, incorporated on 8 October 2026. No participant counts or learning-effect measurements were supplied with these dates.",
+      "sourceSection": "Learning game timeline · Learning Game: Updates and Outcomes",
+      "tags": [
+        "team-timeline",
+        "education",
+        "game-development"
+      ],
+      "relatedLinks": [
+        {
+          "label": "Education",
+          "href": "education.html"
+        },
+        {
+          "label": "Learning platform",
+          "href": "learning-platform.html"
+        }
+      ]
+    })
+  ];
+
+  var EVENTS = HARDWARE_EVENTS.concat(WETLAB_EVENTS, DRYLAB_EVENTS, HP_EVENTS, TIMELINE_UPDATE_EVENTS);
 
   /**
    * Turning points — curated only from documented decisions in notebook_content.md.
@@ -1372,6 +2092,8 @@
 
   /* -------- Coverage map: every unique source section → event id -------- */
   var SOURCE_COVERAGE = [
+    {"section":"Fly observation update · 20 April · TH-associated light-sheet work","eventId":"wet-th-lightsheet-20260420"},
+    {"section":"Fly observation update · 4 May · PN/GH146 preparation, imaging pending","eventId":"wet-pn-preparation-20260504"},
     { section: "Hardware · April 1–21 · Project Ideation and Team Formation", eventId: "hw-ideation" },
     { section: "Hardware · April 22–May 9 · Literature Review and Hardware Requirements", eventId: "hw-literature-requirements" },
     { section: "Hardware · May 10–June · Component Selection and First-Order Calculations", eventId: "hw-component-selection" },
@@ -1406,6 +2128,10 @@
     { section: "Dry lab · October and November (Planned)", eventId: "dry-oct-nov-planned" },
   ];
 
+  TIMELINE_UPDATE_EVENTS.forEach(function (ev) {
+    SOURCE_COVERAGE.push({ section: ev.sourceSection, eventId: ev.id });
+  });
+
   function byId(id) {
     for (var i = 0; i < EVENTS.length; i += 1) {
       if (EVENTS[i].id === id) return EVENTS[i];
@@ -1414,7 +2140,7 @@
   }
 
   function summarize() {
-    var byStream = { wetlab: 0, drylab: 0, hp: 0, igem: 0 };
+    var byStream = { wetlab: 0, drylab: 0, hp: 0, team: 0, igem: 0 };
     var bySubstream = { hardware: 0, model: 0 };
     var byStatus = { completed: 0, ongoing: 0, planned: 0, "needs-update": 0 };
     var needsUpdateFields = [];

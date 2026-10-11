@@ -282,7 +282,7 @@
     });
     panels.forEach(function (panel) {
       var on = panel.getAttribute("data-cycle-panel") === cycleKey;
-      panel.hidden = !on;
+      panel.hidden = !on && !document.documentElement.classList.contains('eng-reading-plain');
       panel.classList.toggle("is-active", on);
       if (on) activePanel = panel;
     });

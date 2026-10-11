@@ -7,9 +7,9 @@
     const caption = figure.querySelector(':scope > figcaption');
     if (!caption || figure.closest('.footer-partners__logos,.home-partners__logos,.home-supporters__gallery') || figure.classList.contains('footer-partners__slot')) return;
     figureNumber++;
-    const existing = caption.querySelector(':scope > .wiki-figure__num');
+    const existing = caption.querySelector(':scope > .wiki-figure__num, :scope > .media-caption__label');
     if (existing) {
-      existing.textContent = `Figure ${figureNumber}.`;
+      existing.textContent = `Figure ${figureNumber}. `;
       existing.classList.add('media-caption__label');
       return;
     }
@@ -31,6 +31,11 @@
       const context = table.closest('[aria-label]')?.getAttribute('aria-label');
       caption.textContent = context || table.getAttribute('aria-label') || 'Data summary';
       table.prepend(caption);
+    }
+    const existing = caption.querySelector(':scope > .media-caption__label');
+    if (existing) {
+      existing.textContent = `Table ${tableNumber}. `;
+      return;
     }
     const first = caption.firstChild;
     if (first?.nodeType === Node.TEXT_NODE) {

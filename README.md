@@ -1,4 +1,14 @@
-# AeroSense Wiki · September 24 design edition
+# AeroSense Wiki · October 10 editorial update
+
+目前本機預覽：[AeroSense](http://127.0.0.1:8010/index.html)。可在此資料夾執行 `node scripts/preview-server.mjs 8010` 啟動；另有下方 PowerShell 預覽方式。
+
+**要上傳 iGEM 的圖片全部集中在本資料夾的 [igem-upload](igem-upload/README.md)：486 張圖片依頁面整理，附各頁清單與官方網址對照表。**
+
+Reference 最新修正見[引用排序與圖片位置](../reports/2026-10-10-v6-reference-order.md)：14 頁的 123 筆來源依正文首次引用排列，內文與文末連續對應。
+
+最新內容與檢查請看 [第五輪更新報告](../reports/2026-10-10-v5-update-report.md)：Model (2) 全文與 17 張結果圖、首頁產品開蓋互動、固定研究圖層、新封面、Description／Contribution 插畫導覽、Engineering 停駐閱讀。Notion 始終唯讀。首頁載入 `home.bundle.css`／`home.bundle.js`；修改其來源後執行 `node scripts/build-home-bundles.mjs`。以下 September 24 說明保留為歷史設計背景，以最新報告與目前頁面為準。
+
+## September 24 design edition — historical notes
 
 新版入口是 `index.html`。在此資料夾執行 `./preview.ps1` 可開啟本機預覽，網址為 `http://127.0.0.1:8000/index.html`；若 8000 已使用，可執行 `./preview.ps1 -Port 8001`。不需要安裝網站套件。
 
@@ -15,7 +25,7 @@
 - 果蠅改成 rear-dorsal chase 用模型，翅膀 pivot 與身體連在胸部。
 - Warehouse 有貨架、咖啡袋、咖啡豆、木箱、燈具、障礙物、實際 VOC source。
 - Olfaction 不再是一堆圈圈，而是一個 antenna/sensilla corridor + 明確 receptor gateway。
-- Cell 是單一大型 HEK293T-like cell chamber，含 receptor、Ca²⁺ 路徑、GCaMP signal。
+- Cell 是單一大型 HEK293-inspired cell chamber，含 receptor、Ca²⁺ 路徑、GCaMP signal。
 - Hardware 是 sample chamber → PD → TIA → ADC → MCU 的 PCB 場景。
 - Decoder 是 AL glomeruli → projection → sparse KC field，不再用不明圓圈。
 - Return 回到 stored-food application。

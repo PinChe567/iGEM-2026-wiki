@@ -1,0 +1,133 @@
+{
+  "retrieved": "2026-10-06",
+  "status": "Proposed protocol; no experiment performed and no hardware detection limit established",
+  "engineering_choices_not_manufacturer_protocol": [
+    "PBS approximately pH 7.4; 100 uL per well; C=0.10 uM and half C=0.05 uM are a proposed starting range",
+    "One bounded fallback pilot C=0.50 uM with half C=0.25 uM; restart all formal calibration/series if changed",
+    "Nine formal states with five distinct 2-second technical blocks per state, plus separate dark QC",
+    "Relative row-normalized volume-model comparison, not a radiometric calibration or GCaMP concentration conversion",
+    "Conditional same-batch cell/reference comparison uses established laboratory controls and a prespecified sustained-response window"
+  ],
+  "sources": [
+    {
+      "id": "fluorescein_supplier",
+      "title": "Sigma/Merck 46960 Fluorescein sodium salt, suitable for fluorescence",
+      "url": "https://www.sigmaaldrich.com/US/en/product/sigma/46960",
+      "type": "official supplier",
+      "verified_claims": [
+        "CAS 518-47-8",
+        "Formula mass 376.27 g/mol",
+        "Excitation/emission 490/514 nm in 0.1 M Tris pH 8.0",
+        "Water-soluble powder"
+      ],
+      "boundary": "No claim of local availability, price, actual lot concentration or exact PBS spectral peaks"
+    },
+    {
+      "id": "actual_LED",
+      "title": "Wurth 155124BS73200 WL-SMSW datasheet",
+      "url": "https://www.we-online.com/components/products/datasheet/155124BS73200.pdf",
+      "type": "official component datasheet",
+      "revision": "001.011, 2026-07-06",
+      "location": "page 2",
+      "verified_claims": [
+        "At 20 mA: typical peak 468 nm, dominant 470 nm, spectral bandwidth 25 nm"
+      ],
+      "boundary": "Datasheet test current and luminous intensity do not measure board drive current or radiant power"
+    },
+    {
+      "id": "fluorescein_handbook",
+      "title": "Thermo Fisher Molecular Probes Handbook, Section 1.5",
+      "url": "https://www.thermofisher.com/us/en/home/references/molecular-probes-the-handbook/fluorophores-and-their-amine-reactive-derivatives/fluorescein-oregon-green-and-rhodamine-green-dyes.html",
+      "type": "official supplier technical reference",
+      "verified_claims": [
+        "Fluorescein emission is pH dependent",
+        "Photobleaching is a relevant limitation"
+      ],
+      "boundary": "Do not transfer extinction coefficients of a reactive derivative or alkaline condition to sodium fluorescein at 470 nm in PBS"
+    },
+    {
+      "id": "doughty_2010",
+      "title": "pH dependent spectral properties of sodium fluorescein ophthalmic solutions revisited",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/20444121/",
+      "doi": "10.1111/j.1475-1313.2009.00703.x",
+      "year": 2010,
+      "type": "primary experimental research, abstract inspected",
+      "verified_claims": [
+        "Solution pH and concentration affect sodium-fluorescein spectra and measured fluorescence"
+      ],
+      "boundary": "Cuvette-specific quenching and spectral thresholds are not universal thresholds for this printed well"
+    },
+    {
+      "id": "nist_guidance",
+      "title": "NISTIR 7457 Recommendations and Guidelines for Standardization of Fluorescence Spectroscopy",
+      "url": "https://nvlpubs.nist.gov/nistpubs/ir/2007/ir7457.pdf",
+      "publication_date": "2007-10",
+      "type": "primary metrology guidance",
+      "verified_claims": [
+        "Absorption/reabsorption, sample environment and photodegradation can compromise concentration/intensity proportionality",
+        "Instrument/sample matching is required for quantitative fluorescence"
+      ],
+      "boundary": "This screen does not implement a full NIST qualification or absolute-intensity calibration"
+    },
+    {
+      "id": "certified_standard",
+      "title": "Thermo Fisher F36915 Fluorescein NIST-Traceable Standard instructions",
+      "url": "https://documents.thermofisher.com/TFS-Assets/LSG/manuals/mp36915.pdf",
+      "document_revision_date": "2004-02-26",
+      "type": "official product instructions",
+      "verified_claims": [
+        "Certified standard is supplied in borate buffer pH 9.5",
+        "Comparable pH, buffer and temperature matter for intensity comparisons",
+        "Fresh working dilution and light protection are specified"
+      ],
+      "boundary": "Not a required purchase, not a claim that the proposed PBS dilution is certified, and not the source of the proposed 0.10 uM concentration"
+    },
+    {
+      "id": "gcamp6_original",
+      "title": "Chen et al., Ultrasensitive fluorescent proteins for imaging neuronal activity",
+      "url": "https://www.nature.com/articles/nature12354",
+      "doi": "10.1038/nature12354",
+      "year": 2013,
+      "type": "primary GCaMP6 research",
+      "verified_claims": [
+        "GCaMP6 includes a fast calcium indicator; acquisition timing matters for fast signals"
+      ],
+      "boundary": "Neuronal results do not validate this HEK293T receptor, odor dose, material compatibility or device time response"
+    }
+  ],
+  "local_evidence": {
+    "volume_model": "../02_simulation/optics/results/volume_standard_summary.json",
+    "row_order": [
+      "NE",
+      "NW",
+      "SW",
+      "SE"
+    ],
+    "column_order": [
+      "NE",
+      "NW",
+      "SW",
+      "SE"
+    ],
+    "model_absorption_per_mm": 0.001,
+    "model_fill_uL": 100,
+    "model_reference_QY": 1,
+    "model_LED_on_uW": 500,
+    "model_diagonal_row_fraction": [
+      0.8060157840236554,
+      0.8675851927269969,
+      0.8670554567109082,
+      0.8254863375856646
+    ],
+    "protocol": "Validation_Plan_EN.md",
+    "correction_guide": "../03_software/guides/Measured_Correction_EN.md",
+    "acquisition_boundary": "2-second blocks plus at least 3 seconds idle; carrier frequencies do not imply fast per-well cell time series"
+  },
+  "no_claims": [
+    "No measured result",
+    "No absolute optical power or GCaMP concentration calibration",
+    "No gas or protein-assisted uptake validation",
+    "No new biological stimulus concentration",
+    "No independent biological replication from five technical blocks or four shared-gas wells"
+  ]
+}

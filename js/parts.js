@@ -71,8 +71,6 @@
   var openPartDrawer = function () {};
   var sensor3d = {
     focus: function () {},
-    setExploded: function () {},
-    setMembrane: function () {},
     reset: function () {},
     setOrName: function () {},
   };
@@ -453,9 +451,8 @@
         setText("[data-or-3d-label]", orKey);
         setText("[data-or-map-label]", orKey + " · tuning OR");
         qsa('.protein-map [data-feature="or"]', root).forEach(function (hit) {
-          hit.setAttribute("href", "#part-" + cds.id);
           hit.setAttribute("data-part-id", cds.id);
-          hit.setAttribute("aria-label", "Open " + orKey + " part " + cds.id);
+          hit.setAttribute("aria-label", "Highlight " + orKey + " tuning receptor");
         });
         if (cdsHit) {
           cdsHit.setAttribute("href", "#part-" + cds.id);
@@ -522,6 +519,9 @@
       if (event) event.preventDefault();
       showFeature(feature, true, event && event.currentTarget);
     }
+
+    // Both views share one selection; the diagram never navigates away from it.
+    sensor3d.select = function (feature) { showFeature(feature, true); };
 
     radios.forEach(function (radio, index) {
       radio.addEventListener("click", function (event) {
@@ -621,38 +621,6 @@
     if (radios[0]) selectReceptor(radios[0], false);
     showFeature("or", false);
 
-    var explodeBtn = qs("[data-3d-explode]", root);
-    var membraneBtn = qs("[data-3d-membrane]", root);
-    var resetBtn = qs("[data-3d-reset]", root);
-    var fusionEl = qs("[data-fusion]", root);
-
-    function setExploded(on) {
-      if (explodeBtn) explodeBtn.setAttribute("aria-pressed", on ? "true" : "false");
-      if (fusionEl) fusionEl.setAttribute("data-exploded", on ? "true" : "false");
-      sensor3d.setExploded(on);
-    }
-
-    if (explodeBtn) {
-      explodeBtn.addEventListener("click", function () {
-        setExploded(explodeBtn.getAttribute("aria-pressed") !== "true");
-      });
-    }
-    if (membraneBtn) {
-      membraneBtn.addEventListener("click", function () {
-        var on = membraneBtn.getAttribute("aria-pressed") !== "true";
-        membraneBtn.setAttribute("aria-pressed", on ? "true" : "false");
-        sensor3d.setMembrane(on);
-      });
-    }
-    if (resetBtn) {
-      resetBtn.addEventListener("click", function () {
-        sensor3d.reset();
-      });
-    }
-
-    sensor3d.pick = function (feature) {
-      showFeature(feature, true, qs('[data-feature="' + feature + '"]', root));
-    };
   }
 
   function initLightbox() {
@@ -882,7 +850,7 @@
           empty.textContent = hints.length
             ? "No parts match in this view. " + hints.join("; ") + "."
             : filters.indexOf("rfc10-yes") !== -1
-              ? "No parts in this view are recorded as RFC 10 compatible. RFC 10 stays Unknown unless independently verified."
+              ? "No parts in this view were reported RFC 10 compatible in the public Registry check of 11 October 2026."
               : "No parts match this search or filter.";
         }
       }
@@ -995,15 +963,60 @@
   function initSensor3D() {
     var host = qs("[data-parts-3d]");
     if (!host) return;
-    import("./parts-viewer.js?v=7.4").then(function (module) {
-      return module.createPartsViewer(host, sensor3d, reduceMotion);
-    }).catch(function (error) {
-      console.warn("Receptor viewer unavailable", error);
-      host.querySelector("canvas").hidden = true;
-      host.querySelector("[data-parts-3d-fallback]").hidden = false;
-      var diagram = qs(".protein-alternative");
-      if (diagram) diagram.open = true;
+    var diagram = qs("#receptor-2d-panel");
+    var switcher = qs("[data-parts-view-switch]");
+    var canvas = qs("canvas", host);
+    var status = qs("[data-parts-3d-fallback]", host);
+    var loading = false;
+    var selectedView = "2d";
+    if (!canvas || !status || !diagram || !switcher) return;
+    switcher.hidden = false;
+    function selectView(view) {
+      selectedView = view === "3d" ? "3d" : "2d";
+      var show3d = selectedView === "3d";
+      host.hidden = !show3d;
+      diagram.hidden = show3d;
+      qsa("[data-parts-view]", switcher).forEach(function (control) {
+        control.setAttribute("aria-pressed", String(control.getAttribute("data-parts-view") === selectedView));
+      });
+      if (sensor3d.setEnabled) sensor3d.setEnabled(show3d);
+      if (show3d) loadViewer();
+    }
+    // Only an explicit 3D selection imports Three.js and creates a WebGL context.
+    // Keep the selected control focused so repeated switching is straightforward.
+    function loadViewer() {
+      if (loading || canvas.dataset.loaded) return;
+      loading = true;
+      status.hidden = false;
+      status.textContent = "Loading the interactive model…";
+      host.setAttribute("aria-busy", "true");
+      import("./parts-viewer.js?v=20261010-linked-selection").then(function (module) {
+        canvas.hidden = false;
+        return module.createPartsViewer(host, sensor3d);
+      }).then(function () {
+        // Keep the same selected protein when moving between 2D and 3D.
+        var explorer = host.closest("[data-parts-explorer]");
+        if (explorer) {
+          sensor3d.setOrName(explorer.getAttribute("data-or") || "Or7a");
+        }
+        sensor3d.focus(explorer ? explorer.getAttribute("data-feature") : null);
+        if (sensor3d.setEnabled) sensor3d.setEnabled(selectedView === "3d");
+        status.hidden = true;
+      }).catch(function (error) {
+        console.warn("Receptor viewer unavailable", error);
+        delete canvas.dataset.loaded;
+        canvas.hidden = true;
+        status.hidden = false;
+        status.textContent = "The 3D model could not load. Select 3D model again to retry, or switch to the 2D diagram.";
+      }).finally(function () {
+        loading = false;
+        host.removeAttribute("aria-busy");
+      });
+    }
+    qsa("[data-parts-view]", switcher).forEach(function (control) {
+      control.addEventListener("click", function () { selectView(control.getAttribute("data-parts-view")); });
     });
+    selectView("2d");
   }
 
   function initMetrics() {
@@ -1036,12 +1049,12 @@
     }
 
     function evidenceFor(part) {
-      if (!part) return "Pending — no AeroSense characterization claimed on this page";
+      if (!part) return "Architecture annotation; no independent characterization record.";
       if (part.characterization) return String(part.characterization);
       if (part.hek293Literature && part.hek293Literature.aerosenseCharacterization === false) {
-        return "Pending — AeroSense assay data not claimed; see literature note";
+        return "Expression-associated endpoint imaging is linked in Results. Receptor-specific function and membrane trafficking are not established; the literature note is separate evidence.";
       }
-      return "Pending — no AeroSense characterization claimed on this page";
+      return "System-level endpoint imaging is available in Results; no isolated-part functional assay is claimed here.";
     }
 
     function litFor(part) {

@@ -12,8 +12,8 @@
       biology:
         "In the fly, odor information originates at olfactory receptor neurons and is formatted before higher centers act on it. On this page the sensor array is an engineering analogue of that sensory front end — not a claim of anatomical identity.",
       computation:
-        "KT Batch1–3 metal-oxide exposures are converted to delta-peak / steady-state feature vectors, median-imputed, then reduced by PCA fit on the training split only.",
-      params: "14 sensors · delta feature suite · pca_dim = 8 (baseline)",
+        "KT Batch 1–3 metal-oxide exposures use fourteen signed delta-peak values. Median imputation and eight-component PCA are fitted only on training data; KT peaks are not standardized.",
+      params: "14 peak features · 8 PCs · 160 PNs / 8 active",
       robustness:
         "Hypothesis: starting from relative, baseline-referenced features may emphasize pattern over absolute scale — a possible ingredient for later robustness tests, not a demonstrated drift fix.",
     },
@@ -42,8 +42,8 @@
       biology:
         "The anterior paired lateral (APL) neuron provides global feedback inhibition that helps keep Kenyon-cell activity sparse and decorrelated.",
       computation:
-        "A global inhibitory pathway parameterized by w_apl_kc and lateral feeds back onto all KCs, analogous to APL. An intrinsic-plasticity term (ip) can further adapt KC thresholds.",
-      params: "w_apl_kc · lateral · ip",
+        "One APL neuron receives from all KCs and inhibits every KC with 30 nS connections. Intrinsic plasticity adapts KC thresholds; the separate lateral parameter controls MBON mutual inhibition.",
+      params: "APL→KC = 30 nS · KC→APL = 30 nS · ip = 2",
       robustness:
         "Hypothesis: enforcing sparse, decorrelated KC codes may reduce sensitivity to correlated sensor drift shared across channels — a mechanistic conjecture, not a measured result on this page.",
     },
@@ -62,8 +62,8 @@
       biology:
         "MBONs read Kenyon-cell activity through synapses shaped by learning and help link odor representations to meaning or action.",
       computation:
-        "All-to-all excitatory KC→MBON weights evolve under an event-driven, pair-based STDP rule (learning_rate). Only these readout weights are plastic during the reported training cycles.",
-      params: "w_kc_mbon = 10 (baseline) · learning_rate = 0.025 · cycles = 300",
+        "KC→MBON weights potentiate for both spike orders, then each KC’s outputs are normalized to 10 nS. Only readout synapses learn; KC thresholds also adapt during training.",
+      params: "Outgoing total = 10 nS / KC · spike-pair step ≤0.025 nS · 300 cycles × five gases",
       robustness:
         "Hypothesis: fixing the random expansion while learning only the readout may adapt class boundaries without re-fitting an explicit drift model — not yet evidenced by a temporal/cross-batch test here.",
     },
@@ -73,9 +73,9 @@
         "In the fly, MBON activity contributes to odor-guided choices. Here the endpoint is a gas-class label for an e-nose exposure.",
       computation:
         "Held-out exposures are classified by taking the MBON unit with the strongest response (argmax), scored with macro-averaged precision, recall, and F1.",
-      params: "test_iterations = 50 · macro F1 = 0.868 (pooled split · seed 100)",
+      params: "50 presentations / gas · KT five-fold F1 0.87 ± 0.03 random / 0.73 whole-day",
       robustness:
-        "The reported macro F1 is a pooled random-split baseline — not a cross-batch drift validation. Class decisions under sensor aging remain a planned evaluation.",
+        "The five-fold random and whole-day results measure different generalization questions. Fold spread is not a stated confidence interval; chronological cross-batch SNN validation remains future work.",
     },
   };
 
@@ -90,7 +90,7 @@
     dilute: {
       title: "Dilute baseline",
       body:
-        "The Dilute segment is clean air. The baseline for the following Test is the median of this Dilute segment’s final readings — a local reference, not a global dataset mean.",
+        "The Dilute segment is clean air. The baseline for the following Test is the median of the last 60 Dilute readings, independently for each sensor.",
     },
     test: {
       title: "Test exposure",
@@ -100,7 +100,7 @@
     delta: {
       title: "Delta features",
       body:
-        "Per sensor, extract signed delta-median, delta-steady, and delta-peak, plus baseline-relative counterparts. Across 14 sensors this yields the exposure’s feature vector. See the conceptual diagram below for definitions.",
+        "Candidate features are signed delta-median, delta-steady and delta-peak, with relative variants. The reported network uses the fourteen delta-peak values, one per sensor.",
     },
     impute: {
       title: "Missing-value handling",
@@ -110,12 +110,12 @@
     pca: {
       title: "Train-only PCA",
       body:
-        "PCA is fit exclusively on the training split (pca_dim = 8 in the v0 baseline), then applied to transform features. Test exposures are projected with that fixed train-fit — never used to refit PCA.",
+        "KT uses eight train-fitted components from unstandardized peaks. UCI uses training-standardized features and twenty components. Validation never refits imputation, scaling or PCA.",
     },
     bins: {
       title: "Discretization / PN bins",
       body:
-        "Each principal-component axis is cut into pn_bins = 20 bins. A sample’s location on an axis selects one bin index — the PN-like unit that will spike for that axis.",
+        "Each PC axis has twenty equal-width bins spanning the training range. One bin per axis receives input; out-of-range values are clamped to an outer bin.",
     },
     spikes: {
       title: "PN spike representation",
@@ -125,7 +125,7 @@
     snn: {
       title: "SNN",
       body:
-        "PN spikes drive the Brian2 PN→KC→APL→MBON network. Only KC→MBON synapses learn (STDP) during the reported training cycles. Continue in Inside the network and Training & Evaluation.",
+        "PN spikes drive a Brian2 PN→KC→APL→MBON circuit. KC→MBON weights and KC thresholds change during training, then all learning is frozen for held-out tests.",
     },
   };
 
@@ -526,9 +526,7 @@
     });
 
     qsa("[data-model-pipe]").forEach(function (root) {
-      whenVisible(root, function () {
-        initPipe(root);
-      });
+      initPipe(root);
     });
   }
 

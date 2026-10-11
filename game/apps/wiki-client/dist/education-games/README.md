@@ -9,10 +9,14 @@ This folder is the facilitator-facing documentation for the three Wiki games. It
 | Game | Wiki route | Doc |
 |------|------------|-----|
 | 1 · Odor Pixel Lab | `games/pixel/index.html` | [game-1-pixel.md](./game-1-pixel.md) |
-| 2 · AeroSense QC Shift | `games/labyrinth/index.html` | [game-2-qc-shift.md](./game-2-qc-shift.md) |
+| 2 · Odor Maze (Scentbound Labyrinth) | [Current maze](../games/labyrinth/index.html) | See current-activity note below; no matched facilitator assessment is published |
 | 3 · Scent Mixer | `games/spectrum/index.html` | [game-3-scent-mixer.md](./game-3-scent-mixer.md) |
 
-All three are **playable**. Game 2 keeps the historical `/games/labyrinth/` URL; the live activity is QC Shift, not a maze.
+All three are **playable**. Game 2 at the existing `/games/labyrinth/` route is the current **Odor Maze / Scentbound Labyrinth**: the player finds an exit while dead-end chests unlock scans, scent guidance and secret passages. The current build exposes Junior, Standard and Challenge difficulty choices. Its teaching opportunity is using limited signal information to navigate; no learning improvement or real sensor performance is established.
+
+## Archived Game 2 materials
+
+[QC Shift facilitator notes](./game-2-qc-shift.md) and the `G2-SCREEN-01`, `G2-QC-01`, and `G2-TRANSFER-01` items in the [question bank](./question-bank.md) describe an earlier screening-decision activity. They are retained as an archive, **not a facilitator guide or matched assessment for the current maze**. Do not use those items to report a Maze learning gain. The current Maze needs a version-matched protocol and assessment before an education study is reported.
 
 ## What this suite is (and is not)
 
@@ -24,7 +28,7 @@ They do **not** validate AeroSense sensor hardware, measure real gas concentrati
 
 | Resource | File |
 |----------|------|
-| Study-mode instructions | [../education-study-protocol.md](../education-study-protocol.md) (copied next to this pack on Wiki build as `education-study-protocol.md`) |
+| Study-mode instructions | [education-study-protocol.md](./education-study-protocol.md) (included next to this pack in the Wiki build) |
 | Question bank (stable item IDs) | [question-bank.md](./question-bank.md) |
 | Playtest protocol | [playtest-protocol.md](./playtest-protocol.md) |
 | Anonymous data schema | [data-dictionary.md](./data-dictionary.md) |

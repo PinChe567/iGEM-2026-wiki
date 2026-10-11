@@ -1846,7 +1846,7 @@
             "Correct. Engineered cells should not contact the food. Physical isolation, sealed handling, and contained waste keep a living sensor from becoming a release pathway. This is a teaching sketch, not a certified device.";
         } else {
           live.textContent =
-            "No. A living HEK293T sensor belongs behind a barrier. Contact with food or users would mix a genetically modified culture with the thing being screened. Isolation is the responsible default.";
+            "No. A living HEK293 sensor belongs behind a barrier. Contact with food or users would mix a genetically modified culture with the thing being screened. Isolation is the responsible default.";
         }
       });
     }
@@ -1902,7 +1902,7 @@
         return "mCherry is an expression reporter inside the cell, not a detector or an algorithm.";
       }
       if (placement.hek === "readout" || placement.hek === "computation") {
-        return "HEK293T is the living chassis. It belongs in the cell zone.";
+        return "HEK293 is the living chassis. It belongs in the cell zone.";
       }
       if (
         (placement.or && placement.or !== "cell" && placement.or !== "tray") ||
@@ -1914,7 +1914,7 @@
       if (coreComplete()) {
         return "That is the minimum biological sensing chain, with a detector outside the cell and computation after measurement. mCherry may sit in the cell as an expression reporter.";
       }
-      return "Minimum biology in the cell: HEK293T, OR, Orco, GCaMP. Photodiode in readout. AI in computation.";
+      return "Minimum biology in the cell: HEK293, OR, Orco, GCaMP. Photodiode in readout. AI in computation.";
     }
 
     function paintSlots() {

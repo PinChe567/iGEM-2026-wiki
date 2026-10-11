@@ -1,0 +1,102 @@
+{
+  "kind": "conditional synthetic detector superposition using saved MC geometric gains",
+  "sampling_Hz": 4000,
+  "duration_s": 2.0,
+  "duty": 0.25,
+  "seed": 100506,
+  "noise_per_sample_nW": 0.005,
+  "green_gains_nW": [
+    0.6506043925955489,
+    0.5518205266374867,
+    0.7094002696493998,
+    0.8377579202034172
+  ],
+  "blue_gains_nW": [
+    0.019383259517093812,
+    0.013073751258708376,
+    0.023473561019151802,
+    0.03015250420585209
+  ],
+  "MC_blue_by_LED_nW": [
+    0.02422907439636726,
+    0.016342189073385468,
+    0.02934195127393975,
+    0.03769063025731511
+  ],
+  "MC_blue_by_LED_SE_nW": [
+    0.004228755250722103,
+    0.0064675740291072386,
+    0.005150784901474133,
+    0.0029201733926289683
+  ],
+  "MC_reflected_blue_by_LED_nW": [
+    0.02422907439636726,
+    0.016342189073385468,
+    0.02934195127393975,
+    0.03769063025731511
+  ],
+  "assumed_responsivity_ratio_R470_over_R520": 0.8,
+  "ambient_case": "100p3_Hz",
+  "ambient": {
+    "dc": 0.15,
+    "amplitude": 0.05,
+    "frequency": 100.3,
+    "phase": 0.4
+  },
+  "quadrant_frequency_Hz": {
+    "NE": 89.0,
+    "NW": 113.0,
+    "SW": 41.0,
+    "SE": 67.0
+  },
+  "quadrant_mapping": "PROVISIONAL D1 SW/41, D2 SE/67, D3 NE/89, D4 NW/113; physical bottom-view mirror unconfirmed.",
+  "blue_assumption": "Each LED has its own 3-seed OD3/4/5 MC calculation; gains and MC standard errors are in leakage_MC_summary.json.",
+  "desired_signal": "All OD3-case MC green collection, including reflected fluorescence and existing source-well mixing. Reflected green fluorescence is not automatically interference.",
+  "ideal_comparator": "Same green gains, waveforms and sampling, but zero parasitic excitation, ambient and electronic noise. Green gains are held at OD3 means across the rejection sweep; emission filter transmittance is 0.9 in every extra MC case.",
+  "units": "nW equivalent at green wavelength. Excitation optical nW is multiplied by assumed R470/R520. Ambient and noise are already green-equivalent; no current/voltage prediction.",
+  "metrics": {
+    "time_RMSE_nW": 0.17630830857820629,
+    "residual_DC_nW": 0.1715535228275016,
+    "AC_residual_RMS_nW": 0.04066950306042463,
+    "desired_AC_RMS_nW": 0.6016732420037793,
+    "waveform_AC_SINR_dB": 23.40183663791189,
+    "amplitude_bias_percent": [
+      2.780642772263777,
+      2.6256584328471457,
+      3.2826843038398072,
+      3.5205720691116746
+    ],
+    "complex_relative_error_percent": [
+      2.780679961754505,
+      2.626027524060981,
+      3.2835588869974375,
+      3.5205853076142724
+    ],
+    "phase_error_degrees": [
+      0.008127671328314724,
+      -0.024900661532492794,
+      -0.04272360790401411,
+      -0.005436892663565586
+    ],
+    "demodulation_SINR_dB": [
+      31.116979854807298,
+      31.61401452543986,
+      29.67310381430576,
+      29.067702555803745
+    ],
+    "shot_noise_RMS_nW": 0.0013583667159597008,
+    "electronic_noise_RMS_nW": 0.005010387406815164
+  },
+  "limits": "No measured ambient, noise, responsivity, TIA/ADC transfer, saturation, jitter, biological dynamics. MC sampling/model uncertainty is not noise in the synthetic sweep.",
+  "lifetime_assumption_ns": 10,
+  "max_phase_shift_at_113Hz_deg": 0.0004068,
+  "photon_flight_distance_example_mm": 20,
+  "flight_delay_ns_at_n1p5": 0.10006922855944561,
+  "assumed_shot_noise": {
+    "R520_A_W": 0.3,
+    "integration_time_s": 0.00025,
+    "electrons_per_nW_sample": 468113.18058455724,
+    "seed": 100507,
+    "model": "Independent Poisson photoelectron counts from total fluorescence + leakage + DC/flickering ambient. Gate state is held over each 250 us sample bin; true PWM-edge overlap is not integrated. No TIA bandwidth or dark-current model."
+  }
+}

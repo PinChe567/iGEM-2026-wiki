@@ -51,7 +51,7 @@
       if (!body || body.querySelector('.eng-gears')) return;
       const stages = names.map(name => body.querySelector(`[data-eng-stage="${name.toLowerCase()}"]`));
       if (stages.some(stage => !stage)) return;
-      const extras = [...panel.children].filter(el => el !== body && !el.matches('.eng-cycle__head,.eng-cycle__footer'));
+      const extras = [...panel.children].filter(el => el !== body && !el.matches('.eng-cycle__head,.eng-cycle__footer,.eng-cycle-context'));
       if (extras.length) {
         const appendix = document.createElement('details');
         appendix.className = 'eng-source-notes';
@@ -71,7 +71,7 @@
         if (index < 0 || index >= stages.length) return;
         active = index;
         angle += delta * Math.PI / 4;
-        stages.forEach((stage, i) => { stage.hidden = i !== index; });
+        stages.forEach((stage, i) => { stage.hidden = i !== index && !document.documentElement.classList.contains('eng-reading-plain'); });
         controls.forEach((control, i) => {
           control.setAttribute('aria-pressed', String(i === index));
           control.querySelector('.eng-gears__rotor').style.transform = `rotate(${(gears[i].phase + angle * gears[i].ratio) * 180 / Math.PI}deg)`;

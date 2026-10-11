@@ -37,7 +37,9 @@ $previewLauncher = Get-Command py -ErrorAction SilentlyContinue
 $previewBundledPython = Join-Path $env:USERPROFILE '.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe'
 Write-Host "AeroSense preview: http://127.0.0.1:$Port/index.html"
 Write-Host 'Press Ctrl+C to stop the preview.'
-if ($previewPython) {
+if ($previewNodePath) {
+    & $previewNodePath (Join-Path $PSScriptRoot 'scripts\preview-server.mjs') $Port
+} elseif ($previewPython) {
     & $previewPython.Source -m http.server $Port --bind 127.0.0.1 --directory $PSScriptRoot
 } elseif ($previewLauncher) {
     & $previewLauncher.Source -3 -m http.server $Port --bind 127.0.0.1 --directory $PSScriptRoot

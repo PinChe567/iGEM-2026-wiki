@@ -37,7 +37,7 @@
       key: "RECEPTOR / CELL",
       num: "03",
       heading: "We borrowed the receptor.",
-      chain: "OR / Orco  →  HEK293T  →  Ca²⁺  →  GCaMP",
+      chain: "OR / Orco  →  HEK293  →  Ca²⁺  →  GCaMP",
       text: "Living cells translate receptor activation into fluorescence.",
       start: 22,
       end: 34
@@ -358,7 +358,7 @@
     state.labels = [
       { at: 0.2, text: "RECEPTOR CHANNELS", x: 0.18, y: -0.28, z0: 520 },
       { at: 0.36, text: "OR / Orco", x: -0.22, y: -0.18, z0: 420 },
-      { at: 0.4, text: "HEK293T", x: 0.26, y: 0.08, z0: 360 },
+      { at: 0.4, text: "HEK293", x: 0.26, y: 0.08, z0: 360 },
       { at: 0.44, text: "Ca²⁺", x: -0.08, y: -0.02, z0: 280 },
       { at: 0.47, text: "GCaMP", x: 0.16, y: 0.16, z0: 220 },
       { at: 0.55, text: "LIGHT", x: -0.2, y: -0.22, z0: 480 },

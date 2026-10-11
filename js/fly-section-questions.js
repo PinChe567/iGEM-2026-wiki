@@ -11,7 +11,7 @@
         ['Does a screening result mean that food is safe?', 'AeroSense is positioned as a screening layer. It can prompt further investigation; it is not a standalone food-safety or mycotoxin verdict.', 'description.html#is-and-is-not']
       ],
       'home-film': [
-        ['Why does this wiki look so incredible?', 'Pin-Che: I know, right? Haha, thank you! Come for the science, stay for the tiny details. Peek at Engineering’s Wiki Design section to see how the little touches came together.', 'engineering.html#wiki-design'],
+        ['Why does this wiki look so incredible? Is someone dreaming of Best Wiki?', 'Pin-Che: Haha, thank you! We put a lot of care into making the science easy to explore. Peek at Engineering’s Wiki Design section for the thinking behind the details.', 'engineering.html#wiki-design'],
         ['What does the revealed glow represent?', 'It visualizes otherwise invisible odor-pattern changes. The glow is part of the story, not a measurement of contamination in the pictured food.'],
         ['What changes when I click the product?', 'The product activates the film’s sensing view: the paired scene reveals conceptual odor cues around your cursor. The two views share the same story timeline.']
       ],
@@ -20,12 +20,12 @@
         ['Why combine biology with electronics?', 'In the proposed chain, cells translate receptor activation into fluorescence. The reader is designed to measure that weak signal for pattern decoding.', 'description.html#pipeline']
       ],
       'signal-wordmark': [
-        ['Why does this wiki look so incredible?', 'Pin-Che: I know, right? Haha, thank you! Come for the science, stay for the tiny details. Peek at Engineering’s Wiki Design section to see how the little touches came together.', 'engineering.html#wiki-design'],
+        ['Why does this wiki look so incredible? Is someone dreaming of Best Wiki?', 'Pin-Che: Haha, thank you! We put a lot of care into making the science easy to explore. Peek at Engineering’s Wiki Design section for the thinking behind the details.', 'engineering.html#wiki-design'],
         ['Why is a fruit fly part of the identity?', 'Both receptor-based sensing and the decoding architecture draw inspiration from insect olfaction. They contribute different layers to AeroSense.', 'description.html#why-olfaction'],
         ['Does the animated fly represent an experiment?', 'It is a visual guide through the project. Scientific observations, engineering simulations, and conceptual illustrations have separate roles on the wiki.', 'description.html#evidence-ladder']
       ],
       'explore': [
-        ['Why does this wiki look so incredible?', 'Pin-Che: I know, right? Haha, thank you! Come for the science, stay for the tiny details. Peek at Engineering’s Wiki Design section to see how the little touches came together.', 'engineering.html#wiki-design'],
+        ['Why does this wiki look so incredible? Is someone dreaming of Best Wiki?', 'Pin-Che: Haha, thank you! We put a lot of care into making the science easy to explore. Peek at Engineering’s Wiki Design section for the thinking behind the details.', 'engineering.html#wiki-design'],
         ['How do the four workstreams depend on each other?', 'Wet Lab designs the biological response, Hardware measures light, Model interprets patterns, and Human Practices shapes useful and responsible decisions.'],
         ['Which result establishes the whole system?', 'A result from one layer does not validate the entire chain. Description explains the dependencies, and the individual evidence pages report their scope.', 'description.html#evidence-ladder']
       ],
@@ -34,17 +34,17 @@
         ['What should I read after the film?', 'Description connects the initial fluorescence observation to the proposed sensing, readout, and decoding chain.', 'description.html#lightsheet-observation']
       ],
       'experience': [
-        ['Why does this wiki look so incredible?', 'Pin-Che: I know, right? Haha, thank you! Come for the science, stay for the tiny details. Peek at Engineering’s Wiki Design section to see how the little touches came together.', 'engineering.html#wiki-design'],
+        ['Why does this wiki look so incredible? Is someone dreaming of Best Wiki?', 'Pin-Che: Haha, thank you! We put a lot of care into making the science easy to explore. Peek at Engineering’s Wiki Design section for the thinking behind the details.', 'engineering.html#wiki-design'],
         ['What should the 3D journey teach me?', 'It traces a conceptual signal from odor source to receptor, reader, and decoder. It illustrates the architecture rather than simulating a biological experiment.', 'description.html#follow-the-signal'],
         ['What is different about the games and the research?', 'The games teach odor coding as a pattern. Their availability demonstrates an educational resource, not measured learning gains or sensor accuracy.', 'education.html#track-b']
       ],
       'team': [
-        ['Why does this wiki look so incredible?', 'Pin-Che: I know, right? Haha, thank you! Come for the science, stay for the tiny details. Peek at Engineering’s Wiki Design section to see how the little touches came together.', 'engineering.html#wiki-design'],
-        ['Does everyone work on just one layer?', 'The team index shows overlapping workstreams where applicable. Individual roles and contributions are documented separately.', 'members.html#student-team'],
-        ['How are outside contributions credited?', 'Attributions distinguishes student work, advisor support, external services, reused work, and media or software credits.', 'attributions.html#student-work']
+        ['Why does this wiki look so incredible? Is someone dreaming of Best Wiki?', 'Pin-Che: Haha, thank you! We put a lot of care into making the science easy to explore. Peek at Engineering’s Wiki Design section for the thinking behind the details.', 'engineering.html#wiki-design'],
+        ['Does everyone work on just one layer?', 'Members introduces the people. Their project contributions are recorded in the official Attributions form.', 'members.html#student-team'],
+        ['How are outside contributions credited?', 'The official Attributions form records the team’s contributions and external support.', 'attributions.html#student-work']
       ],
       'journey': [
-        ['Why does this wiki look so incredible?', 'Pin-Che: I know, right? Haha, thank you! Come for the science, stay for the tiny details. Peek at Engineering’s Wiki Design section to see how the little touches came together.', 'engineering.html#wiki-design'],
+        ['Why does this wiki look so incredible? Is someone dreaming of Best Wiki?', 'Pin-Che: Haha, thank you! We put a lot of care into making the science easy to explore. Peek at Engineering’s Wiki Design section for the thinking behind the details.', 'engineering.html#wiki-design'],
         ['Does the calendar contain completed work only?', 'Notebook distinguishes dated records from future work and goals. Workstream filters do not turn a planned entry into a completed experiment.', 'notebook.html#chronicle-views'],
         ['How do I connect a date to a design decision?', 'Notebook gives the chronology; Engineering records the evidence, learning, and redesign associated with each cycle.', 'engineering.html#engineering-cycles']
       ],
@@ -136,7 +136,7 @@
       ],
       'shared-backbone': [
         ['Why use the same backbone for all plasmids?', 'The shared pcDNA3.1(+) context simplifies cloning, sequencing, selection, and interpretation across constructs.'],
-        ['Are HEK293 and HEK293T interchangeable in every claim?', 'The page distinguishes general heterologous expression in HEK293 from the SV40-origin context associated with HEK293T. Host-specific claims should retain that distinction.']
+        ['Which mammalian cell line does the team use?', 'All team wet-lab experiments use HEK293. The pcDNA3.1 SV40 origin does not justify a plasmid-amplification benefit in this workflow; expression and function must be measured in the actual cells.']
       ],
       'assay-design': [
         ['Why include a vehicle control?', 'A matched vehicle condition helps separate the stimulus response from injection, solvent, and other non-target effects.'],
@@ -287,11 +287,11 @@
         ['What does repeating seeds add?', 'The optical sweep uses three seeds per condition to expose sampling variation in the simulated packet transport. This does not replace physical validation.']
       ],
       'gas-path-results': [
-        ['Did the perforated plate improve the chosen metric?', 'The section reports that the plate did not reduce the selected headspace-speed metric relative to the no-plate comparison.'],
+        ['What trade-off led to the integral shelf?', 'The modeled shelf reduces the downward-momentum proxy by 36.1% and near-liquid P95 gas speed by 20.1%, while making the interface-flux distribution less uniform. These conditional results guide a physical flow test.', 'model.html#gas-and-liquid-transport'],
         ['Does solver convergence prove a good gas-distribution design?', 'Convergence and mass balance describe the numerical solution. Design usefulness still depends on the chosen metric and its relationship to the experiment.']
       ],
       'mechanical-package': [
-        ['What should the exploded view help me inspect?', 'It shows how the enclosure, lid, shared well assembly, and service components fit together. Assembly coordinates and printing coordinates have different purposes.'],
+        ['What should the exploded view help me inspect?', 'It shows the black base, hood, gas lid and compression plate around four separate clear wells. These are the eight supplied printed parts; the PCB, fan, seals and tubing are not included in the 3D geometry.'],
         ['Does a transparent printed well establish cell-culture compatibility?', 'Optical transparency and fit are not biocompatibility evidence. The mechanical record distinguishes cell-free trials from direct culture qualification.']
       ],
       'electronics-bridge': [
@@ -309,9 +309,9 @@
     },
     'model.html': {
       '*': [
-        ['Was the decoder benchmark measured on AeroSense fluorescence?', 'No. The reported baseline uses the KT gas-sensor corpus as a surrogate for Decode development.', 'model.html#data-and-network'],
-        ['What does the reported macro-F1 of 0.868 mean?', 'It is the reported pooled baseline classification result under the stated evaluation protocol, not a field food-spoilage accuracy claim.', 'model.html#performance'],
-        ['Does the baseline establish drift robustness?', 'The pooled, stratified split does not test temporal or cross-batch drift. That requires a different evaluation.', 'model.html#training-evaluation']
+        ['Was the decoder benchmark measured on AeroSense fluorescence?', 'No. KT and UCI metal-oxide sensor recordings support separate decoding studies. Neither is a test of AeroSense cellular fluorescence.', 'model.html#data-and-network'],
+        ['What does the reported macro-F1 of 0.87 ± 0.03 mean?', 'It summarizes five random folds on KT. The supplied spread is not defined as SD, SE or a confidence interval; mean F1 on unseen measurement days is approximately 0.73.', 'model.html#performance'],
+        ['Do these results establish SNN drift robustness?', 'Whole-day holdout measures transfer to unseen days. The cross-batch calibration result uses a conventional SVM; chronological cross-batch SNN testing remains separate work.', 'model.html#drift-robustness']
       ],
       'evidence-snapshot': [
         ['Can I read the baseline score as system accuracy?', 'The score belongs to the specified surrogate-data benchmark. It does not validate the biological sensor, reader, or food application.'],
@@ -319,7 +319,7 @@
       ],
       'drift-problem': [
         ['What makes sensor drift difficult for an odor classifier?', 'A changing sensor response can shift the input pattern without an equivalent change in the underlying gas identity.'],
-        ['Does recognizing the drift problem mean it was solved here?', 'No. The problem motivates the architecture, while drift-specific evaluation is separate from the pooled baseline.', 'model.html#training-evaluation']
+        ['What does the drift study demonstrate?', 'On UCI data, reference-gas correction raises cross-batch SVM accuracy from 33% to 58%. This calibration comparison does not establish SNN drift robustness.', 'model.html#reference-calibration']
       ],
       'why-fly-brain': [
         ['What is useful about mushroom-body inspiration?', 'The architecture takes inspiration from expanded, sparse Kenyon-cell representations downstream of projection-neuron input.'],
@@ -330,7 +330,7 @@
         ['How is preprocessing leakage avoided?', 'PCA and preprocessing parameters are fitted on training data only, so held-out exposures do not define the learned transformation.']
       ],
       'data-and-network': [
-        ['What does KT stand for in the evidence chain?', 'It is the public sensor corpus used as a surrogate aging dataset for decoding development, rather than AeroSense’s own cellular fluorescence.'],
+        ['What does KT represent in the evidence chain?', 'It is the metal-oxide sensor corpus used for decoding development. Its thesis citation and redistribution permission remain unresolved; it is not AeroSense cellular fluorescence.'],
         ['Why state the included batches and excluded devices?', 'Those choices define the actual benchmark population and are needed to interpret or reproduce the reported evaluation.']
       ],
       'network': [
@@ -346,7 +346,7 @@
         ['Can this number be compared directly with another paper’s score?', 'Only after checking datasets, exclusions, features, splits, and scoring. Different protocols can make headline scores incomparable.']
       ],
       'what-we-learned': [
-        ['What makes an engineering lesson supported?', 'The cards connect evidence to interpretation and then to a design consequence, rather than presenting a plausible idea as a measured finding.'],
+        ['What did the layerwise comparison reveal?', 'In one diagnostic split, a linear KC probe reached macro-F1 0.97 while the learned MBON readout reached 0.84. This supports testing the learning rule; those scores are separate from the five-fold result.'],
         ['How do model results influence experimental design?', 'The page traces model-to-experiment decisions separately from assumptions that still require project-specific validation.', 'model.html#aerosense-bridge']
       ],
       'aerosense-bridge': [
@@ -358,8 +358,14 @@
         ['Does a repository link guarantee an executable model package?', 'Use the resource status and actual files listed here. A proposed release location is not itself a runnable reproduction package.']
       ],
       'limitations': [
-        ['Why request conventional ML baselines?', 'Matched baselines help identify whether the fly-inspired architecture adds value under the same data and evaluation protocol.'],
-        ['Which test would address drift more directly?', 'A temporal or cross-batch evaluation would address transfer across sensor aging more directly than the reported pooled split.']
+        ['Why retain matched conventional baselines?', 'Layerwise probes and SVM calibration comparisons address specific questions. End-to-end comparisons need the same data, held-out splits and calibration budget.'],
+        ['Which evaluation remains necessary?', 'Chronological cross-batch SNN testing, repeated continual-learning runs and biological fluorescence validation remain necessary beyond the random-fold and unseen-day results.']
+      ],
+      'readout-bottleneck': [
+        ['Does the linear probe define the best possible decoder?', 'No. It is an empirical comparator on one split. The KC probe outperformed the learned MBON readout, but is not a universal upper bound.']
+      ],
+      'continual-learning': [
+        ['Was forgetting eliminated when ammonia was added?', 'No. One run raised ammonia accuracy from 0% to 72%, while existing classes fell by 4–10 percentage points. Repeated runs and retention comparisons remain necessary.']
       ]
     }
   };
@@ -387,7 +393,7 @@
         ['Does building a game prove that learners understand more?', 'A playable tool establishes an educational artifact. Paired audience responses and feedback address its learning effect.', 'education.html#measurement-chain']
       ],
       'wiki-design': [
-        ['Why does this wiki look so incredible?', 'Pin-Che: I know, right? Haha, thank you! Come for the science, stay for the tiny details. Peek at Engineering’s Wiki Design section to see how the little touches came together.', 'engineering.html#wiki-design'],
+        ['Why does this wiki look so incredible? Is someone dreaming of Best Wiki?', 'Pin-Che: Haha, thank you! We put a lot of care into making the science easy to explore. Peek at Engineering’s Wiki Design section for the thinking behind the details.', 'engineering.html#wiki-design'],
         ['Why include Wiki Design in this record?', 'The section documents interface-design decisions using the same cycle structure. Its evidence concerns the reading experience; it does not substitute for biological or hardware validation.'],
         ['How did readers influence Ask the Fly?', 'The team asked people around them to browse the wiki, collected recurring questions and used that informal feedback to shape the curated question bank.', 'engineering.html#wiki-cycle-2']
       ],
@@ -604,7 +610,7 @@
     },
     'members.html': {
       '*': [
-        ['Why are some people listed in more than one workstream?', 'Workstream labels describe overlapping responsibilities rather than separate teams of unique people.', 'members.html#student-team'],
+        ['What will I find in a personal profile?', 'Open a card to read that person’s introduction, role and contact links. Project contributions are recorded in the official Attributions form.', 'members.html#student-team'],
         ['How do profiles differ from formal attribution?', 'Profiles introduce the people. Attributions records the work and support associated with the project.', 'attributions.html#student-work'],
         ['What do the album photographs document?', 'They are team memories. They are not presented as evidence of a specific experiment, interview, or device pilot.', 'members.html#team-memories']
       ],
@@ -614,11 +620,11 @@
       ],
       'team-index': [
         ['Why does the index separate students, advisors, and PIs?', 'Those groups have different project roles. The index keeps student work and supporting roles easy to distinguish.'],
-        ['How can I identify responsibility for a particular layer?', 'Student workstream labels identify roles, while the attribution table gives the work-package record.', 'attributions.html#student-work']
+        ['How can I identify responsibility for a particular layer?', 'Read the official Attributions form for each person’s project contributions.', 'attributions.html#student-work']
       ],
       'student-team': [
-        ['What does a workstream filter change?', 'It shows people associated with the selected role. A person can appear in multiple filters when responsibilities overlap.'],
-        ['Which workstreams are listed for Jeffrey?', 'Jeffrey is listed for Hardware and Leadership, matching the team leader/hardware role shown in his profile.']
+        ['How do I open a personal introduction?', 'Select a member’s card to open the profile, then use Close or Escape to return to the team.'],
+        ['Where can I read each person’s project contributions?', 'The official Attributions form contains the submitted contribution record.', 'attributions.html#official-form']
       ],
       'advisors': [
         ['How is advisor support distinguished from student work?', 'Profiles introduce advisors; the attribution record should identify the specific guidance or support they provided.', 'attributions.html#advisors-support'],
@@ -630,7 +636,7 @@
       ],
       'team-contact': [
         ['Which contact channels are public?', 'The team contact section lists the public channels supplied for AeroSense.'],
-        ['Where should I look before asking who contributed something?', 'The attribution record organizes contributions by student work, advisors, external support, and reused resources.', 'attributions.html']
+        ['Where should I look before asking who contributed something?', 'The official Attributions form is the project’s contribution record.', 'attributions.html']
       ]
     },
     'notebook.html': {
@@ -801,49 +807,8 @@
     },
     'attributions.html': {
       '*': [
-        ['How is project credit organized?', 'The page separates student work, advisor and institutional support, external contributions, prior work, software, and media.', 'attributions.html#student-work'],
-        ['Does the wiki replace the official attribution form?', 'No. The official form and its verified team-specific link are separate deliverables.', 'attributions.html#official-form'],
-        ['How is AI assistance distinguished from scientific evidence?', 'The page records assistance and its verification boundary; generated scientific data, experimental results, stakeholder quotations, and citations are outside the stated intended use.', 'attributions.html#ai-boundaries']
-      ],
-      'official-form': [
-        ['Why link the official attribution process separately?', 'A wiki summary is not the official project attribution form. The page distinguishes the public record from the required deliverable.'],
-        ['Does a dashboard link prove the team form is submitted?', 'No. A dashboard route provides access; a team-specific form and its submission state require their own verified record.']
-      ],
-      'student-work': [
-        ['Why organize student credit by work package?', 'It ties credit to actual project work rather than distributing identical descriptions across everyone.'],
-        ['Does a workstream label capture the whole contribution?', 'It is an overview. The attribution table provides the more specific work-package account.']
-      ],
-      'advisors-support': [
-        ['How should advisor help be described?', 'The record should name the specific guidance, training, or institutional support received rather than using generic credit such as “everything.”'],
-        ['Why distinguish student execution from outside support?', 'It makes the project’s provenance clear and lets a reader understand how the work was actually produced.']
-      ],
-      'external': [
-        ['Is a sponsor the same as a scientific collaborator?', 'No. The page distinguishes intellectual contribution, training, material donation, paid services, and sponsorship.'],
-        ['What should accompany an external logo or contribution?', 'The specific role and the relevant publication permission or license should be recorded rather than inferred from the logo alone.']
-      ],
-      'prior-work': [
-        ['Why name adaptations as well as citations?', 'A citation supports a source claim; an adaptation statement explains how reused ideas, tools, or resources entered this project.'],
-        ['Does acknowledging prior work reduce the new contribution?', 'It defines the starting point, allowing the AeroSense-specific integration and engineering work to be identified accurately.']
-      ],
-      'software-licenses': [
-        ['Does publicly accessible software automatically mean open source?', 'No. The stated license determines reuse conditions; access alone does not establish an open-source license.'],
-        ['Why list software licenses individually?', 'Different components can have different obligations, so the project’s overall license should not be assumed to replace each dependency’s terms.']
-      ],
-      'asset-credits': [
-        ['Can a team logo or supplied image be published without checking its terms?', 'The attribution record calls for checking the relationship and publication permission or compatible license for third-party assets.'],
-        ['Why distinguish original team media from third-party media?', 'Their authorship and reuse rights differ, and a clear credit record preserves that distinction.']
-      ],
-      'responsible-ai': [
-        ['What should an AI-use disclosure record?', 'It should identify the assistance actually used and the information visible to the operator, without guessing a hidden model or version.'],
-        ['Does AI assistance remove the need for team verification?', 'No. Scientific statements, citations, data interpretations, and the final published content still require responsible human review.']
-      ],
-      'ai-boundaries': [
-        ['Can an illustrative animation be treated as experimental evidence?', 'No. Illustration and interface assistance must remain distinct from scientific data, microscopy, results, and stakeholder quotations.'],
-        ['Does a written AI policy prove every use followed it?', 'The section distinguishes the intended boundary from the team review needed to confirm actual practice.']
-      ],
-      'license': [
-        ['Does the wiki’s license cover every linked asset?', 'The team-authored content’s intended CC BY 4.0 release does not replace the separate terms of third-party software, photographs, logos, or documents.'],
-        ['What does reuse of team-authored content require?', 'The stated CC BY 4.0 terms include attribution. Check separately licensed components before assuming the same permissions apply.']
+        ['Where can I read who did what?', 'The form on this page is served directly by iGEM for NTHU, team 6460. Use its own category menu to explore the contributions.', 'attributions.html#official-form'],
+        ['Can I open the form on its own?', 'Yes. The link above the form opens the same official record in a separate tab.', 'attributions.html#official-form']
       ]
     },
     'glossary.html': {
@@ -1034,7 +999,7 @@
         ['Why does the lesson separate published inspiration from team evidence?', 'A published receptor-reporter method motivates the architecture but does not establish that a specific AeroSense construct functions in the team’s system.']
       ],
       'not-a-nose': [
-        ['What does heterologous expression mean here?', 'It means expressing insect receptor components in the HEK293T host-cell system, rather than measuring a complete fly nose.'],
+        ['What does heterologous expression mean here?', 'It means expressing insect receptor components in the HEK293 host-cell system, rather than measuring a complete fly nose.'],
         ['Where should I look for exact construct maps?', 'Parts documents the construct architecture and sequence resources; this lesson keeps the functional pathway in the foreground.', 'parts.html#sensor-builder']
       ],
       'three-parts': [

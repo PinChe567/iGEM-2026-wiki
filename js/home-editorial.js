@@ -11,6 +11,16 @@
   const windowEl=story?.querySelector('[data-wheel-window]');
   const wheel=story?.querySelector('[data-research-wheel]');
   const panels=story?[...story.querySelectorAll('.research-stop')]:[];
+  // Artwork occupies one stationary paper field; only the chapter copy turns.
+  const stills=document.createElement('div');
+  stills.className='research-stills';stills.setAttribute('aria-hidden','true');
+  const stillPictures=panels.map((panel,i)=>{
+    const visual=panel.querySelector('.research-stop__visual').cloneNode(true);
+    visual.className='research-stills__picture';visual.dataset.still=String(i);
+    visual.querySelectorAll('img').forEach(img=>{img.alt='';if(i===0)img.loading='eager';});
+    stills.appendChild(visual);return visual;
+  });
+  if(windowEl)windowEl.appendChild(stills);
   const buttons=story?[...story.querySelectorAll('[data-research-go]')]:[];
   const wordmark=document.querySelector('#signal-wordmark');
   const scent=document.querySelector('.home-opening__scent');
@@ -36,6 +46,8 @@
     if(transferFocus)panels[index]?.querySelector('a')?.focus({preventScroll:true});
     buttons.forEach((button,i)=>{if(i===index)button.setAttribute('aria-current','step');else button.removeAttribute('aria-current');});
     story.dataset.activePerspective=String(index+1);
+    stillPictures.forEach((picture,i)=>picture.classList.toggle('is-active',i===index));
+    const image=stillPictures[index]?.querySelector('img');if(image)image.loading='eager';
   }
   function goToPanel(index){
     if(!panels[index])return;
@@ -73,6 +85,11 @@
         story.style.setProperty('--wheel-diameter',`${radius*2}px`);story.style.setProperty('--wheel-left',`${cx-radius}px`);story.style.setProperty('--wheel-top',`${cy-radius}px`);
         story.style.setProperty('--wheel-panel-width',`${panelWidth}px`);story.style.setProperty('--wheel-panel-height',`${panelHeight}px`);
         panels.forEach((panel,i)=>{panel.style.transform=`rotate(${i*90}deg) translate(${vx}px,${vy}px)`;});
+        const visual=panels[0].querySelector('.research-stop__visual');
+        stills.style.left=`${w*.53-panelWidth/2}px`;
+        stills.style.top=`${h*.51-panelHeight/2+visual.offsetTop}px`;
+        stills.style.width=`${visual.offsetWidth}px`;
+        stills.style.height=`${visual.offsetHeight}px`;
         if(oldProgress!==null&&oldProgress>=0&&oldProgress<=1&&oldHeight!==`${height}px`)window.scrollTo({top:story.getBoundingClientRect().top+scrollY-storyTop+oldProgress*storyTravel,behavior:'instant'});
       }else{
         const previousActive=active;active=-1;delete story.dataset.activePerspective;delete story.dataset.wheelAngle;

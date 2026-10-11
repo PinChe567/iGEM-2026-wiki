@@ -14,6 +14,19 @@
     next(cycle,stage,direction,count) {
       const index=cycle*5+stage+direction;
       return index<0||index>=count*5?null:{cycle:Math.floor(index/5),stage:index%5};
+    },
+    timeline(overflows,lead=200,tail=200) {
+      let end=0;
+      return overflows.map(overflow=>{
+        const item={start:end,lead,overflow:Math.max(0,overflow),tail};
+        item.end=end+lead+item.overflow+tail;end=item.end;return item;
+      });
+    },
+    reading(distance,timeline) {
+      let index=timeline.findIndex(item=>distance<item.end);
+      if(index<0)index=timeline.length-1;
+      const item=timeline[index];
+      return {index,offset:Math.max(0,Math.min(item.overflow,distance-item.start-item.lead))};
     }
   };
   if(typeof module!=='undefined'&&module.exports)module.exports=logic;
@@ -27,7 +40,7 @@
     const readers=[...document.querySelectorAll('[data-cycle-viewer]')].map(track=>({
       track,panels:[...track.querySelectorAll('[data-cycle-panel]')],enabled:false,step:440,travel:0,manualExit:false
     }));
-    const current=reader=>reader.panels.find(panel=>!panel.hidden);
+    const current=reader=>reader.panels.find(panel=>panel.classList.contains('is-active'))||reader.panels.find(panel=>!panel.hidden);
     const bodyOf=panel=>panel?.querySelector('.has-meshed-gears');
     const runwayOf=panel=>panel?.querySelector('.eng-reader-runway');
     const noteOf=panel=>panel?.querySelector('[data-eng-stage]:not([hidden])');
@@ -57,7 +70,9 @@
     }
     function measure(reader) {
       reader.top=anchor(reader);
-      reader.enabled=!reduced.matches&&innerHeight-reader.top>=390;
+      // Pin the reader when enough space is available. Short viewports and
+      // reduced-motion users retain the complete, manually selected text.
+      reader.enabled=!document.documentElement.classList.contains('eng-reading-plain')&&reader.track.dataset.readingMode!=='manual'&&!reduced.matches&&innerHeight-reader.top>=390;
       reader.track.classList.toggle('has-guide-layout',reader.enabled);
       reader.track.classList.toggle('has-scroll-story',reader.enabled);
       reader.track.classList.remove('is-guided');
@@ -69,8 +84,45 @@
         reader.track.style.setProperty('--eng-sticky-top',reader.top+'px');
         reader.track.style.setProperty('--eng-runway-height',(height+reader.travel)+'px');
         equalizeHeaders(reader);
+        if(reader.track.dataset.readingMode==='scroll')measureTimeline(reader,height);
       }
       reader.panels.forEach(panel=>writeControls(reader,panel));
+    }
+    function measureTimeline(reader,height) {
+      const body=bodyOf(current(reader)),note=noteOf(current(reader));
+      if(!body||!note)return;
+      const rect=note.getBoundingClientRect();
+      if(!rect.width||!rect.height)return;
+      const overflows=[];
+      reader.panels.forEach(panel=>{
+        panel.querySelectorAll('[data-eng-stage]').forEach(original=>{
+          const copy=original.cloneNode(true);
+          copy.removeAttribute('id');copy.querySelectorAll('[id]').forEach(el=>el.removeAttribute('id'));
+          copy.hidden=false;
+          Object.assign(copy.style,{position:'absolute',visibility:'hidden',pointerEvents:'none',width:rect.width+'px',height:rect.height+'px',minHeight:'0',maxHeight:'none',overflow:'hidden',top:'0',left:'0',boxSizing:'border-box'});
+          copy.style.setProperty('display','block','important');
+          body.append(copy);overflows.push(Math.ceil(Math.max(0,copy.scrollHeight-copy.clientHeight)));copy.remove();
+        });
+      });
+      reader.timeline=logic.timeline(overflows,Math.max(180,Math.min(240,Math.round(height*.35))),200);
+      reader.travel=reader.timeline.at(-1).end;
+      reader.track.style.setProperty('--eng-runway-height',(height+reader.travel)+'px');
+      // Keep the context before every iteration the same height so changing
+      // cycles does not move the native scroll origin underneath the reader.
+      const context=current(reader).querySelector('.eng-cycle-context');
+      if(context){
+        let maximum=0;
+        const width=context.getBoundingClientRect().width;
+        reader.panels.forEach(panel=>{
+          const original=panel.querySelector('.eng-cycle-context');if(!original)return;
+          const copy=original.cloneNode(true);
+          Object.assign(copy.style,{position:'absolute',visibility:'hidden',width:width+'px',height:'auto',minHeight:'0'});
+          current(reader).append(copy);maximum=Math.max(maximum,copy.getBoundingClientRect().height);copy.remove();
+        });
+        reader.track.style.setProperty('--eng-context-height',Math.ceil(maximum)+'px');
+      }
+      // A small DOM record supports inspection and retained deep-link positions.
+      reader.track.dataset.readingDistances=JSON.stringify(reader.timeline);
     }
     function writeControls(reader,panel) {
       const controls=bodyOf(panel)?.querySelector('.eng-guide-controls');if(!controls)return;
@@ -80,7 +132,7 @@
       controls.querySelector('[data-guide-prev]').disabled=cycle===0&&stage===0;
       controls.querySelector('[data-guide-next]').textContent=stage<4?'Next step →':cycle<reader.panels.length-1?'Next cycle →':'Continue reading ↓';
       controls.querySelector('[data-guide-hint]').textContent=reader.enabled
-        ?'Scroll to turn the gears and move through the cycles. Scroll up to revisit.'
+        ?'Scroll to read this stage, then continue through the gears. Scroll up to revisit.'
         :'Choose a gear, or use Previous and Next to explore the cycles.';
     }
     function render(reader,index) {
@@ -106,6 +158,7 @@
         const distance=reader.top-rect.top;
         const inside=distance>=0&&distance<=reader.travel;
         const previous=reader.lastDistance;reader.lastDistance=distance;
+        reader.track.dataset.readingPosition=String(Math.round(distance));
         reader.track.classList.toggle('is-guided',inside);
         if(reader.manualExit){
           if(!inside)reader.manualExit='outside';
@@ -116,7 +169,9 @@
         // has no scrollTo, scrollBy, preventDefault, root lock or snap-back.
         const crossedEnd=previous!==undefined&&((distance>reader.travel&&previous<=reader.travel)||(distance<0&&previous>=0));
         if(inside||crossedEnd){
-          render(reader,logic.position(distance,reader.step,reader.panels.length).index);
+          const position=reader.timeline?logic.reading(distance,reader.timeline):logic.position(distance,reader.step,reader.panels.length);
+          render(reader,position.index);
+          if(reader.timeline){const note=noteOf(current(reader));if(note)note.scrollTop=position.offset;}
         }
       });
     }
@@ -132,7 +187,9 @@
       reader.manualExit=false;
       render(reader,index);
       if(reader.enabled){
-        window.scrollTo({top:Math.max(0,logic.target(startOf(reader),reader.step,index,reader.panels.length)),behavior:'instant'});
+        const entry=reader.timeline?.[index];
+        const target=entry?startOf(reader)+entry.start+Math.min(40,entry.lead*.2):logic.target(startOf(reader),reader.step,index,reader.panels.length);
+        window.scrollTo({top:Math.max(0,target),behavior:'instant'});
       }
       if(focusNext)bodyOf(current(reader)).querySelector('[data-guide-next]')?.focus({preventScroll:true});
       schedule();
@@ -180,6 +237,7 @@
     function openTarget(target) {
       const panel=target?.closest('[data-cycle-panel]');if(!panel)return;
       const reader=readers.find(item=>item.panels.includes(panel));if(!reader)return;
+      if(document.documentElement.classList.contains('eng-reading-plain')){moveTo(target,true);return true;}
       const stage=target.closest('[data-eng-stage]');
       if(target===panel||stage){
         seek(reader,reader.panels.indexOf(panel)*5+(stage?stages.indexOf(stage.dataset.engStage):0));
@@ -197,6 +255,33 @@
     window.addEventListener('scroll',schedule,{passive:true});
     window.addEventListener('resize',()=>{readers.forEach(measure);schedule();});
     reduced.addEventListener('change',()=>{readers.forEach(measure);schedule();});
+    const readingToggle=document.querySelector('[data-eng-reading-toggle]');
+    function setPlainReading(plain,persist=false) {
+      const focused=document.activeElement;
+      document.documentElement.classList.toggle('eng-reading-plain',plain);
+      readers.forEach(reader=>{
+        const active=current(reader);
+        reader.manualExit=false;
+        reader.panels.forEach(panel=>{
+          panel.hidden=!plain&&panel!==active;
+          panel.querySelectorAll('[data-eng-stage]').forEach(note=>{
+            note.hidden=!plain&&note.dataset.engStage!==bodyOf(panel)?.dataset.activeStage;
+            note.scrollTop=0;
+          });
+        });
+        measure(reader);
+      });
+      readingToggle?.setAttribute('aria-pressed',String(plain));
+      if(readingToggle)readingToggle.textContent=plain?'Resume guided DBTLR reading':'Expand all · exit pinned reading';
+      const description=document.querySelector('[data-eng-reading-description]');
+      if(description)description.textContent=plain?'Every cycle and every stage is expanded. Scroll normally or choose a chapter.':'Guided reading keeps the DBTLR stages in view. Expand all for ordinary scrolling through every stage.';
+      if(persist){try{localStorage.setItem('aerosense-engineering-reading',plain?'plain':'guided');}catch(_){} }
+      if(focused===readingToggle)readingToggle.focus({preventScroll:true});
+      schedule();
+    }
+    let preferred='';try{preferred=localStorage.getItem('aerosense-engineering-reading')||'';}catch(_){}
+    setPlainReading(preferred==='plain');
+    readingToggle?.addEventListener('click',()=>setPlainReading(!document.documentElement.classList.contains('eng-reading-plain'),true));
     let loaded=document.readyState==='complete',fontsReady=!document.fonts?.ready,initialQueued=false;
     function finishInitialNavigation(){
       if(!loaded||!fontsReady||initialQueued)return;

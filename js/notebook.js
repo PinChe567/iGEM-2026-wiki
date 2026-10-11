@@ -19,6 +19,7 @@
     wetlab: "Wet Lab",
     drylab: "Dry Lab",
     hp: "Human Practices",
+    team: "Team & Wiki",
     hardware: "Dry Lab · Hardware",
     model: "Dry Lab · Model",
     igem: "iGEM Official",
@@ -65,6 +66,13 @@
       label: "iGEM Official",
       workstream: "iGEM Official",
     },
+    {
+      id: "team",
+      stream: "team",
+      substream: null,
+      label: "Team & Wiki",
+      workstream: "Team & Wiki",
+    },
   ];
 
   var DAY_MS = 86400000;
@@ -73,8 +81,8 @@
     {
       id: "discover",
       label: "DISCOVER & DESIGN",
-      shortLabel: "APR–JUN",
-      start: Date.UTC(YEAR, 3, 1),
+      shortLabel: "MAR–JUN",
+      start: Date.UTC(YEAR, 2, 1),
       end: Date.UTC(YEAR, 5, 30),
     },
     {
@@ -459,7 +467,7 @@
 
   function fillStreamCards(root, events) {
     var live = qs("#nb-glance-live", root);
-    var streams = ["wetlab", "drylab", "hp"];
+    var streams = ["wetlab", "drylab", "hp", "team"];
     var total = 0;
 
     streams.forEach(function (stream) {
@@ -715,6 +723,9 @@
   }
 
   function formatRange(ev) {
+    if (ev.openEnd && ev.startDate) {
+      return "From " + formatDateLabel(ev.startDate) + " · end date unconfirmed";
+    }
     if (!ev.startDate && !ev.endDate) return "Date needs update";
     if (!ev.endDate || ev.startDate === ev.endDate) {
       return formatDateLabel(ev.startDate);
@@ -906,6 +917,7 @@
       appendSection(bodyEl, "Official note", makeTextBlock(ev.note));
     }
 
+    header.id = "nb-source-context-" + ev.id;
     var sourceBlock = makeEl("div", "nb-event-drawer__stack");
     if (hasText(ev.sourceLabel)) {
       sourceBlock.appendChild(
@@ -914,8 +926,11 @@
       sourceBlock.appendChild(makeTextBlock(ev.sourceLabel));
     }
     if (hasText(ev.sourceUrl)) {
-      var sourceList = makeEl("ul", "nb-event-drawer__list");
+      var sourceList = makeEl("ul", "nb-event-drawer__list reference-list");
       var li = makeEl("li");
+      li.id = "nb-reference-" + ev.id;
+      li.dataset.referenceContext = "#" + header.id;
+      li.dataset.referenceSource = "tech-igem-official-milestone";
       var a = makeEl("a", null, ev.sourceUrl);
       a.href = ev.sourceUrl;
       a.rel = "noopener noreferrer";
@@ -943,6 +958,7 @@
     idLine.appendChild(document.createTextNode("Record ID: "));
     idLine.appendChild(makeEl("code", null, ev.id));
     bodyEl.appendChild(idLine);
+    if (window.AeroSenseEnhanceReferences) window.AeroSenseEnhanceReferences();
   }
 
   function conciseTitle(ev) {
@@ -1134,6 +1150,7 @@
       }
 
       appendSection(bodyEl, "Objective", makeTextBlock(ev.objective));
+      appendSection(bodyEl, "Source / date context", makeTextBlock(ev.sourceNote));
 
       if (planned) {
         appendSection(bodyEl, "Planned work", makeTextBlock(ev.work));
@@ -1291,9 +1308,14 @@
       }
 
       if (hasText(ev.references)) {
-        var scholarlyList = makeEl("ul", "nb-event-drawer__list");
-        var technicalList = makeEl("ul", "nb-event-drawer__list");
-        (ev.references || []).forEach(function (ref) {
+        var sourceContext = qsa(".nb-event-drawer__section", bodyEl).filter(function (section) {
+          var heading = qs("h3", section);
+          return heading && /^(Work|Planned work)$/.test(heading.textContent);
+        })[0] || header;
+        sourceContext.id = "nb-source-context-" + ev.id;
+        var scholarlyList = makeEl("ul", "nb-event-drawer__list reference-list");
+        var technicalList = makeEl("ul", "nb-event-drawer__list reference-list");
+        (ev.references || []).forEach(function (ref, index) {
           if (!ref) return;
           var id = typeof ref === "string" ? "" : ref.id || "";
           var li = makeEl(
@@ -1302,6 +1324,9 @@
             typeof ref === "string" ? ref : ref.text || ref.id || ""
           );
           if (!li.textContent) return;
+          li.id = "nb-reference-" + ev.id + "-" + (index + 1);
+          li.dataset.referenceContext = "#" + sourceContext.id;
+          li.dataset.referenceSource = id.replace(/^(dry|wet)-ref-/, "ref-").replace(/^fly-bdsc-/, "ref-bdsc-");
           if (id.indexOf("hw-ref-") === 0) {
             technicalList.appendChild(li);
           } else {
@@ -1329,6 +1354,7 @@
       var code = makeEl("code", null, ev.id);
       idLine.appendChild(code);
       bodyEl.appendChild(idLine);
+      if (window.AeroSenseEnhanceReferences) window.AeroSenseEnhanceReferences();
     }
 
     function setHash(id, fromHash) {
@@ -1542,6 +1568,7 @@
       if (vis === "hardware") return "hardware";
       if (vis === "model" || vis === "drylab") return "model";
       if (vis === "hp") return "hp";
+      if (vis === "team") return "team";
       return "wetlab";
     }
 
@@ -2125,6 +2152,10 @@
       var model = LANE_DEFS[2];
       var hp = LANE_DEFS[3];
       var igem = LANE_DEFS[4];
+      var team = LANE_DEFS[5];
+      if (laneVisible(team, filters)) {
+        items.push({ kind: "lane", lane: team, branch: "" });
+      }
       if (laneVisible(wet, filters)) {
         items.push({ kind: "lane", lane: wet, branch: "" });
       }
@@ -2246,7 +2277,7 @@
           }
           var start = Math.max(span.start, GANTT_AXIS.start);
           var end = Math.min(span.end, GANTT_AXIS.end);
-          if (lane.stream === "igem" || ev.isOfficial) {
+          if (lane.stream === "igem" || ev.isOfficial || ev.openEnd) {
             markers.push({ ev: ev, start: start, end: end });
             return;
           }
@@ -2410,7 +2441,7 @@
             (STATUS_LABEL[st] || st) +
             "</span></span>" +
             '<span class="nb-gantt-duration__stream">' +
-            spanDurationLabel(span) +
+            (ev.openEnd ? "Start recorded · end unconfirmed" : spanDurationLabel(span)) +
             "</span></span>" +
             "<strong>" +
             ev.title +

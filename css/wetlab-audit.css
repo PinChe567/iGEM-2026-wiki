@@ -1,0 +1,26 @@
+/* Keep scientific labels and numeric columns readable in narrow viewports. */
+.page-results #table-red-controls { min-width: 760px; }
+.page-results #table-red-controls :is(th, td) { word-break: normal; }
+.page-results #table-red-controls tbody :is(th, td) { white-space: nowrap; }
+.page-measurement .table-scroll table { min-width: 690px; }
+.page-alternative-platform .table-scroll table { min-width: 690px; }
+.page-design #design-decisions table { min-width: 1050px; }
+:is(.page-measurement, .page-alternative-platform) .table-scroll,
+.page-results #control-comparison .table-scroll,
+.page-design #design-decisions .table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-color: var(--v-accent) var(--v-soft);
+}
+:is(.page-measurement, .page-alternative-platform) .table-scroll:focus-visible,
+.page-results #control-comparison .table-scroll:focus-visible {
+  outline: 2px solid var(--v-accent);
+  outline-offset: 3px;
+}
+@media (max-width: 680px) {
+  :is(.page-measurement, .page-alternative-platform) .prose p,
+  .page-results :is(#control-comparison, #measurement-disagreement) p {
+    text-align: start;
+  }
+}

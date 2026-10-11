@@ -20,3 +20,21 @@ body .glossary-popover .glossary-popover__visual {margin:.75rem 0 0;padding:.6re
 body .glossary-popover .glossary-popover__visual img {max-height:110px;object-fit:contain;width:100%}
 body .glossary-popover .glossary-popover__visual figcaption {font-size:.64rem;line-height:1.45;color:var(--v-accent,#355d4b);margin-top:.4rem}
 @media(max-width:639px){body .glossary-popover {padding:.8rem 1rem;border-radius:15px 15px 15px 3px}body .glossary-popover .glossary-popover__def {font-size:.88rem}}
+
+/* Follow the surrounding ink, including light text on a dark chapter. */
+body dfn.term {
+  color:inherit;border-bottom:0;background:none;cursor:help;font-style:normal;
+  text-decoration-line:underline;text-decoration-style:dotted;
+  text-decoration-color:currentColor;text-decoration-thickness:1.5px;
+  text-underline-offset:.22em;text-decoration-skip-ink:auto;
+}
+body dfn.term:hover,body dfn.term:focus-visible {
+  text-decoration-style:solid;text-decoration-thickness:2px;
+}
+body dfn.term:focus-visible {outline:2px solid currentColor;outline-offset:4px;border-radius:2px}
+.glossary-scroll-cue {display:inline-flex;align-items:center;gap:.8rem;margin-top:1.3rem;padding:.6rem 0;color:inherit;font:600 .8rem/1.4 var(--font-mono,monospace);text-decoration:none}
+.glossary-scroll-cue span {display:grid;place-items:center;width:2.5rem;height:2.5rem;border:1px solid currentColor;border-radius:50%;font:400 1.5rem/1 sans-serif;animation:glossary-scroll-nudge 2s ease-in-out infinite}
+.glossary-scroll-cue:focus-visible {outline:2px solid currentColor;outline-offset:5px}
+@keyframes glossary-scroll-nudge {0%,20%,100% {transform:translateY(0)} 55% {transform:translateY(7px)} 75% {transform:translateY(3px)}}
+.glossary-scroll-cue:hover span,.glossary-scroll-cue:focus-visible span {animation-play-state:paused}
+@media(prefers-reduced-motion:reduce) {.glossary-scroll-cue span {animation:none}}

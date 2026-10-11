@@ -3,7 +3,7 @@
   'use strict';
   var body=document.body;
   if(!body||body.classList.contains('page-home'))return;
-  var groups={blue:['page-hardware'],violet:['page-model'],amber:['page-entrepreneurship','page-notebook','page-attributions'],teal:['page-human-practices','page-sustainability'],rose:['page-education','page-learning']};
+  var groups={blue:['page-hardware','page-measurement'],violet:['page-model'],amber:['page-entrepreneurship','page-notebook','page-attributions'],teal:['page-human-practices','page-sustainability'],rose:['page-education','page-learning']};
   var color='green';
   Object.keys(groups).forEach(function(key){if(groups[key].some(function(name){return body.classList.contains(name);}))color=key;});
   body.classList.add('editorial-2026','ed-'+color);

@@ -11,7 +11,7 @@
     all:
       "Showing all reusable packages. Biology, measurement hardware, the data contract, the neuromorphic model, and human-practices knowledge are equally available.",
     "wet-lab":
-      "For Wet Lab teams: start with the OR/Orco adaptation map, the VUAA1 functional-assay protocol, the HEK293T transfection protocol, and the minimum experimental metadata in the data contract.",
+      "For Wet Lab teams: start with the OR/Orco adaptation map, the VUAA1 functional-assay protocol, the HEK293 transfection protocol, and the minimum experimental metadata in the data contract.",
     hardware:
       "For Dry Lab / Hardware teams: start with the weak-fluorescence reader, calibration workflow, FDM/DLIA implementation and troubleshooting notes.",
     data:

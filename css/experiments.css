@@ -2,6 +2,20 @@
  Loaded only from experiments.html. Site tokens first.
  Editorial scientific interface: measure, hierarchy, quiet chrome. */
 
+.page-experiments .exp-preparation-flow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;padding:0;margin:1.2rem 0 1.5rem;list-style:none;background:#bfccbe;border:1px solid #bfccbe;border-radius:10px;overflow:hidden;max-width:none}
+.page-experiments .exp-preparation-flow li{padding:0;margin:0;min-width:0;background:#f3f5ec}
+.page-experiments .exp-preparation-flow a{display:grid;gap:.5rem;padding:1rem;height:100%;color:#254d36;text-decoration:none}
+.page-experiments .exp-preparation-flow a:hover{background:#e4ecdc}
+.page-experiments .exp-preparation-flow a:focus-visible{outline:3px solid #a56d30;outline-offset:-4px}
+.page-experiments .exp-preparation-flow span{font:600 .75rem/1.3 ui-monospace,monospace;letter-spacing:.1em;color:#697b66}
+.page-experiments .exp-preparation-flow strong{font-size:1rem;line-height:1.35}
+.page-experiments .exp-preparation-flow small{font-size:.82rem;line-height:1.5;color:#53644f;text-align:left}
+.page-experiments .exp-preparation-flow--supporting li{background:#f4f0e8}
+.page-experiments .exp-proto h3[id]{scroll-margin-top:calc(var(--header-offset) + 1.5rem)}
+@media(max-width:600px){.page-experiments .exp-preparation-flow{grid-template-columns:1fr}.page-experiments .exp-preparation-flow a{grid-template-columns:2rem 1fr;gap:.35rem .6rem}.page-experiments .exp-preparation-flow small{grid-column:2}}
+/* Narrow scientific text needs stable word spacing, including protocol summaries. */
+@media(max-width:700px){.page-experiments .page-article p{text-align:start!important;text-align-last:start;hyphens:auto}}
+
 .page-experiments {
  --exp-wash: var(--color-paper-soft);
  --exp-rule: var(--color-rule);
@@ -1530,4 +1544,13 @@ html:not(.js) .page-experiments .exp-tools {
  .page-experiments .exp-proto[hidden] {
   display: none !important;
  }
+}
+
+.page-experiments .exp-execution {
+ border-left: 3px solid #64816a;
+ padding: .8rem 1rem;
+ background: #edf1e7;
+ font-size: .92rem;
+ line-height: 1.6;
+ text-align: start;
 }

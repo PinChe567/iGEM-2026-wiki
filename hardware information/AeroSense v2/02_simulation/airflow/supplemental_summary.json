@@ -1,0 +1,1243 @@
+{
+  "original_velocity_solves": 28,
+  "original_geometry_screening": 18,
+  "additional_perforated_screening_solves": 18,
+  "additional_perforated_refinements": 2,
+  "additional_gas_scalar_solves": 9,
+  "scalar_analytic_benchmarks": 1,
+  "original_raw_data_preserved": true,
+  "CAD_changed": false,
+  "selected_case": "shelf_w8_e0p2",
+  "hole_sweep": {
+    "case_count": 18,
+    "refinement_solve_count": 2,
+    "all_converged": true,
+    "distinct_voxel_geometries": 18,
+    "min_hole_diameter_cells": 4.0,
+    "min_web_cells": 4.000000000000001,
+    "min_lower_gap_cells": 2.000000000000005,
+    "best_J_coarse": {
+      "case": "hole_d1p2_p3p6_z58p2",
+      "diameter_mm": 1.2,
+      "pitch_mm": 3.6,
+      "nominal_lattice_density_per_mm2": 0.07716049382716049,
+      "hole_count": 6.0,
+      "global_hole_density_per_mm2": 0.03378378378378378,
+      "plate_bottom_z_mm": 58.2,
+      "inlet_center_to_plate_top_mm": 1.3999999999999915,
+      "lower_gap_mm": 0.9000000000000057,
+      "plate_thickness_mm": 1.2,
+      "open_area_fraction": 0.038208559300416396,
+      "dx_mm": 0.3,
+      "diameter_cells": 4.0,
+      "web_cells": 8.000000000000002,
+      "lower_gap_cells": 3.000000000000019,
+      "converged": true,
+      "J_ratio_to_open": 0.024603325789327026,
+      "near_liquid_P95_ratio_to_open": 0.11567562537919349,
+      "pressure_Pa": 0.008502540259342597,
+      "mouth_flux_CV": 0.001586242479047356,
+      "mass_imbalance": 7.274086520281797e-06,
+      "velocity_relative_change": 4.893836037247967e-07,
+      "raw_json": "hole_sweep_results/hole_d1p2_p3p6_z58p2_dx0.3.json"
+    },
+    "max_J_coarse": {
+      "case": "hole_d2p4_p4p8_z58p2",
+      "diameter_mm": 2.4,
+      "pitch_mm": 4.8,
+      "nominal_lattice_density_per_mm2": 0.043402777777777776,
+      "hole_count": 6.0,
+      "global_hole_density_per_mm2": 0.03378378378378378,
+      "plate_bottom_z_mm": 58.2,
+      "inlet_center_to_plate_top_mm": 1.3999999999999915,
+      "lower_gap_mm": 0.9000000000000057,
+      "plate_thickness_mm": 1.2,
+      "open_area_fraction": 0.15283423720166558,
+      "dx_mm": 0.3,
+      "diameter_cells": 8.0,
+      "web_cells": 8.0,
+      "lower_gap_cells": 3.000000000000019,
+      "converged": true,
+      "J_ratio_to_open": 2.488594803014195,
+      "near_liquid_P95_ratio_to_open": 1.1829382851503814,
+      "pressure_Pa": 0.008491061500510832,
+      "mouth_flux_CV": 0.008915915042224113,
+      "mass_imbalance": 1.0480727293250032e-05,
+      "velocity_relative_change": 4.950511516120088e-07,
+      "raw_json": "hole_sweep_results/hole_d2p4_p4p8_z58p2_dx0.3.json"
+    },
+    "refinements": [
+      {
+        "case": "hole_d1p2_p3p6_z58p2",
+        "J_ratio_dx03": 0.024603325789327026,
+        "J_ratio_dx02": 0.035091702581621344,
+        "speed_ratio_dx02": 0.11979493687785714,
+        "all_converged": true
+      },
+      {
+        "case": "hole_d1p2_p4p8_z57p9",
+        "J_ratio_dx03": 0.1116532998752648,
+        "J_ratio_dx02": 0.10300607100427589,
+        "speed_ratio_dx02": 0.21608375493431597,
+        "all_converged": true
+      }
+    ],
+    "decision": "Keep current shelf prototype; hole cases demonstrate lower gas circulation, not superior cell exposure. No new CAD/print option is released.",
+    "scope": "Fixed six holes; pitch is spacing, not total hole-count density. Q normalized1mL/min. Hole/gap staircase sensitivity remains."
+  },
+  "gas_transport": {
+    "gas_scalar_solves": 9,
+    "conditions": [
+      {
+        "case": "open",
+        "tag": "open_D5_dx0.4_dt0.5",
+        "Dgas_mm2_s": 5.0,
+        "dx_mm": 0.4,
+        "dt_s": 0.5,
+        "end_time_s": 300,
+        "advection": true,
+        "Q_mL_min": 1,
+        "method": "Cell-centered conservative FV; backward Euler, first-order upwind advection, central diffusion. Face-flux projection enforces discrete incompressibility.",
+        "boundary": "C=1 at upstream inlet terminal; zero diffusive outlet flux; convective outlet; impermeable solid AND liquid boundaries; initially C=0 throughout gas.",
+        "scope": "Gas only. No odor identity, membrane, liquid, adsorption, reaction, cells, filters, external tubing. D is a sensitivity assumption, not a measured target-VOC coefficient.",
+        "sampling": {
+          "NE": {
+            "rim_sample_z_mm": 55.32857142857142,
+            "liquid_surface_z_mm": 51.92857142857143,
+            "well_rim_z_mm": 55.5,
+            "headspace_depth_mm": 3.5714285714285694,
+            "near_liquid_band_mm": [
+              52.52857142857143,
+              53.32857142857143
+            ]
+          },
+          "NW": {
+            "rim_sample_z_mm": 55.32857142857142,
+            "liquid_surface_z_mm": 51.92857142857143,
+            "well_rim_z_mm": 55.5,
+            "headspace_depth_mm": 3.5714285714285694,
+            "near_liquid_band_mm": [
+              52.52857142857143,
+              53.32857142857143
+            ]
+          },
+          "SW": {
+            "rim_sample_z_mm": 55.32857142857142,
+            "liquid_surface_z_mm": 51.92857142857143,
+            "well_rim_z_mm": 55.5,
+            "headspace_depth_mm": 3.5714285714285694,
+            "near_liquid_band_mm": [
+              52.52857142857143,
+              53.32857142857143
+            ]
+          },
+          "SE": {
+            "rim_sample_z_mm": 55.32857142857142,
+            "liquid_surface_z_mm": 51.92857142857143,
+            "well_rim_z_mm": 55.5,
+            "headspace_depth_mm": 3.5714285714285694,
+            "near_liquid_band_mm": [
+              52.52857142857143,
+              53.32857142857143
+            ]
+          }
+        },
+        "t50_s": {
+          "NE_rim": 53.90201926771115,
+          "NE_headspace": 54.6368698877185,
+          "NE_near_liquid": 54.95844519178731,
+          "NW_rim": 44.08227620475983,
+          "NW_headspace": 44.8175154227918,
+          "NW_near_liquid": 45.139320715669534,
+          "SW_rim": 44.0822762047602,
+          "SW_headspace": 44.817515422792226,
+          "SW_near_liquid": 45.13932071567,
+          "SE_rim": 53.9020192677121,
+          "SE_headspace": 54.63686988771948,
+          "SE_near_liquid": 54.95844519178828,
+          "whole_gas": 44.693850294677766
+        },
+        "t90_s": {
+          "NE_rim": 155.70240476067187,
+          "NE_headspace": 156.43695793568293,
+          "NE_near_liquid": 156.75905625610062,
+          "NW_rim": 145.8704226367126,
+          "NW_headspace": 146.6052121107825,
+          "NW_near_liquid": 146.926963247303,
+          "SW_rim": 145.87042263671427,
+          "SW_headspace": 146.60521211078517,
+          "SW_near_liquid": 146.92696324730602,
+          "SE_rim": 155.70240476067113,
+          "SE_headspace": 156.43695793568207,
+          "SE_near_liquid": 156.75905625609983,
+          "whole_gas": 146.49254075069342
+        },
+        "final_C": {
+          "NE_rim": 0.9897855181178165,
+          "NE_headspace": 0.9896661602464125,
+          "NE_near_liquid": 0.9896134471916999,
+          "NW_rim": 0.9912560360787749,
+          "NW_headspace": 0.9911538571631008,
+          "NW_near_liquid": 0.9911087316098195,
+          "SW_rim": 0.9912560360787722,
+          "SW_headspace": 0.9911538571630966,
+          "SW_near_liquid": 0.9911087316098149,
+          "SE_rim": 0.9897855181178196,
+          "SE_headspace": 0.989666160246416,
+          "SE_near_liquid": 0.9896134471917034,
+          "whole_gas": 0.9911695594446503
+        },
+        "velocity_scales": [
+          {
+            "well": "NE",
+            "near_liquid_speed_p95_mm_s": 0.0011703065970656563,
+            "local_Re_p95": 0.00027864442787277517,
+            "local_Pe_p95": 0.0008359332836183255,
+            "advective_L_over_U_s": 3051.703357379439,
+            "diffusive_L2_over_D_s": 2.551020408163262
+          },
+          {
+            "well": "NW",
+            "near_liquid_speed_p95_mm_s": 0.001116425260137977,
+            "local_Re_p95": 0.00026581553812808964,
+            "local_Pe_p95": 0.0007974466143842689,
+            "advective_L_over_U_s": 3198.9858156623786,
+            "diffusive_L2_over_D_s": 2.551020408163262
+          },
+          {
+            "well": "SW",
+            "near_liquid_speed_p95_mm_s": 0.0011164252671916179,
+            "local_Re_p95": 0.0002658155398075279,
+            "local_Pe_p95": 0.0007974466194225838,
+            "advective_L_over_U_s": 3198.9857954509966,
+            "diffusive_L2_over_D_s": 2.551020408163262
+          },
+          {
+            "well": "SE",
+            "near_liquid_speed_p95_mm_s": 0.0011703065934799593,
+            "local_Re_p95": 0.0002786444270190378,
+            "local_Pe_p95": 0.0008359332810571133,
+            "advective_L_over_U_s": 3051.7033667295386,
+            "diffusive_L2_over_D_s": 2.551020408163262
+          }
+        ],
+        "concentration_min": 0.0,
+        "concentration_max": 0.9999995099136856,
+        "max_step_mass_residual_Cin_mm3": 1.7781331962396507e-12,
+        "final_global_mass_residual_Cin_mm3": -5.786660040030256e-10,
+        "relative_global_mass_residual": 4.665137281756797e-13,
+        "uniform_field_operator_residual_relative": 5.326255561912562e-15,
+        "projection": {
+          "flux_projection_relative_L2": 0.01589582085837492,
+          "max_residual_divergence_mm3_s": 4.218847493575595e-15,
+          "net_boundary_Q_mm3_s": 0.0,
+          "field_sha256": "e10029e3c751457e099a9b7907fb4c140f1d1375682b897ffd7e06cc0252e38c"
+        },
+        "runtime_s": 11.987423658370972
+      },
+      {
+        "case": "open",
+        "tag": "open_D10_dx0.4_dt0.5",
+        "Dgas_mm2_s": 10.0,
+        "dx_mm": 0.4,
+        "dt_s": 0.5,
+        "end_time_s": 300,
+        "advection": true,
+        "Q_mL_min": 1,
+        "method": "Cell-centered conservative FV; backward Euler, first-order upwind advection, central diffusion. Face-flux projection enforces discrete incompressibility.",
+        "boundary": "C=1 at upstream inlet terminal; zero diffusive outlet flux; convective outlet; impermeable solid AND liquid boundaries; initially C=0 throughout gas.",
+        "scope": "Gas only. No odor identity, membrane, liquid, adsorption, reaction, cells, filters, external tubing. D is a sensitivity assumption, not a measured target-VOC coefficient.",
+        "sampling": {
+          "NE": {
+            "rim_sample_z_mm": 55.32857142857142,
+            "liquid_surface_z_mm": 51.92857142857143,
+            "well_rim_z_mm": 55.5,
+            "headspace_depth_mm": 3.5714285714285694,
+            "near_liquid_band_mm": [
+              52.52857142857143,
+              53.32857142857143
+            ]
+          },
+          "NW": {
+            "rim_sample_z_mm": 55.32857142857142,
+            "liquid_surface_z_mm": 51.92857142857143,
+            "well_rim_z_mm": 55.5,
+            "headspace_depth_mm": 3.5714285714285694,
+            "near_liquid_band_mm": [
+              52.52857142857143,
+              53.32857142857143
+            ]
+          },
+          "SW": {
+            "rim_sample_z_mm": 55.32857142857142,
+            "liquid_surface_z_mm": 51.92857142857143,
+            "well_rim_z_mm": 55.5,
+            "headspace_depth_mm": 3.5714285714285694,
+            "near_liquid_band_mm": [
+              52.52857142857143,
+              53.32857142857143
+            ]
+          },
+          "SE": {
+            "rim_sample_z_mm": 55.32857142857142,
+            "liquid_surface_z_mm": 51.92857142857143,
+            "well_rim_z_mm": 55.5,
+            "headspace_depth_mm": 3.5714285714285694,
+            "near_liquid_band_mm": [
+              52.52857142857143,
+              53.32857142857143
+            ]
+          }
+        },
+        "t50_s": {
+          "NE_rim": 51.4120928468577,
+          "NE_headspace": 51.77790690101393,
+          "NE_near_liquid": 51.938385266929565,
+          "NW_rim": 46.13331139588395,
+          "NW_headspace": 46.4985762619629,
+          "NW_near_liquid": 46.659726762331445,
+          "SW_rim": 46.133311395884135,
+          "SW_headspace": 46.49857626196299,
+          "SW_near_liquid": 46.6597267623315,
+          "SE_rim": 51.412092846858364,
+          "SE_headspace": 51.777906901014745,
+          "SE_near_liquid": 51.93838526693047,
+          "whole_gas": 45.56277527918115
+        },
+        "t90_s": {
+          "NE_rim": 157.50120607335487,
+          "NE_headspace": 157.86719287731975,
+          "NE_near_liquid": 158.02766282220796,
+          "NW_rim": 152.22278541204582,
+          "NW_headspace": 152.58822187637034,
+          "NW_near_liquid": 152.74916479670765,
+          "SW_rim": 152.22278541204693,
+          "SW_headspace": 152.58822187637077,
+          "SW_near_liquid": 152.74916479670765,
+          "SE_rim": 157.50120607335862,
+          "SE_headspace": 157.86719287732495,
+          "SE_near_liquid": 158.02766282221398,
+          "whole_gas": 151.65235214949413
+        },
+        "final_C": {
+          "NE_rim": 0.9884881128644352,
+          "NE_headspace": 0.9884240826462727,
+          "NE_near_liquid": 0.9883958198522514,
+          "NW_rim": 0.9893740788814832,
+          "NW_headspace": 0.9893149750847378,
+          "NW_near_liquid": 0.9892888870035825,
+          "SW_rim": 0.9893740788814819,
+          "SW_headspace": 0.9893149750847378,
+          "SW_near_liquid": 0.9892888870035831,
+          "SE_rim": 0.988488112864429,
+          "SE_headspace": 0.9884240826462644,
+          "SE_near_liquid": 0.9883958198522418,
+          "whole_gas": 0.9894656261024851
+        },
+        "velocity_scales": [
+          {
+            "well": "NE",
+            "near_liquid_speed_p95_mm_s": 0.0011703065970656563,
+            "local_Re_p95": 0.00027864442787277517,
+            "local_Pe_p95": 0.00041796664180916276,
+            "advective_L_over_U_s": 3051.703357379439,
+            "diffusive_L2_over_D_s": 1.275510204081631
+          },
+          {
+            "well": "NW",
+            "near_liquid_speed_p95_mm_s": 0.001116425260137977,
+            "local_Re_p95": 0.00026581553812808964,
+            "local_Pe_p95": 0.00039872330719213444,
+            "advective_L_over_U_s": 3198.9858156623786,
+            "diffusive_L2_over_D_s": 1.275510204081631
+          },
+          {
+            "well": "SW",
+            "near_liquid_speed_p95_mm_s": 0.0011164252671916179,
+            "local_Re_p95": 0.0002658155398075279,
+            "local_Pe_p95": 0.0003987233097112919,
+            "advective_L_over_U_s": 3198.9857954509966,
+            "diffusive_L2_over_D_s": 1.275510204081631
+          },
+          {
+            "well": "SE",
+            "near_liquid_speed_p95_mm_s": 0.0011703065934799593,
+            "local_Re_p95": 0.0002786444270190378,
+            "local_Pe_p95": 0.00041796664052855666,
+            "advective_L_over_U_s": 3051.7033667295386,
+            "diffusive_L2_over_D_s": 1.275510204081631
+          }
+        ],
+        "concentration_min": 0.0,
+        "concentration_max": 0.9999879247654164,
+        "max_step_mass_residual_Cin_mm3": 2.1103119252074976e-12,
+        "final_global_mass_residual_Cin_mm3": -7.973994797794148e-10,
+        "relative_global_mass_residual": 6.439611268744515e-13,
+        "uniform_field_operator_residual_relative": 5.686379708403841e-15,
+        "projection": {
+          "flux_projection_relative_L2": 0.01589582085837492,
+          "max_residual_divergence_mm3_s": 4.218847493575595e-15,
+          "net_boundary_Q_mm3_s": 0.0,
+          "field_sha256": "e10029e3c751457e099a9b7907fb4c140f1d1375682b897ffd7e06cc0252e38c"
+        },
+        "runtime_s": 11.90375304222107
+      },
+      {
+        "case": "open",
+        "tag": "open_D20_dx0.4_dt0.5",
+        "Dgas_mm2_s": 20.0,
+        "dx_mm": 0.4,
+        "dt_s": 0.5,
+        "end_time_s": 300,
+        "advection": true,
+        "Q_mL_min": 1,
+        "method": "Cell-centered conservative FV; backward Euler, first-order upwind advection, central diffusion. Face-flux projection enforces discrete incompressibility.",
+        "boundary": "C=1 at upstream inlet terminal; zero diffusive outlet flux; convective outlet; impermeable solid AND liquid boundaries; initially C=0 throughout gas.",
+        "scope": "Gas only. No odor identity, membrane, liquid, adsorption, reaction, cells, filters, external tubing. D is a sensitivity assumption, not a measured target-VOC coefficient.",
+        "sampling": {
+          "NE": {
+            "rim_sample_z_mm": 55.32857142857142,
+            "liquid_surface_z_mm": 51.92857142857143,
+            "well_rim_z_mm": 55.5,
+            "headspace_depth_mm": 3.5714285714285694,
+            "near_liquid_band_mm": [
+              52.52857142857143,
+              53.32857142857143
+            ]
+          },
+          "NW": {
+            "rim_sample_z_mm": 55.32857142857142,
+            "liquid_surface_z_mm": 51.92857142857143,
+            "well_rim_z_mm": 55.5,
+            "headspace_depth_mm": 3.5714285714285694,
+            "near_liquid_band_mm": [
+              52.52857142857143,
+              53.32857142857143
+            ]
+          },
+          "SW": {
+            "rim_sample_z_mm": 55.32857142857142,
+            "liquid_surface_z_mm": 51.92857142857143,
+            "well_rim_z_mm": 55.5,
+            "headspace_depth_mm": 3.5714285714285694,
+            "near_liquid_band_mm": [
+              52.52857142857143,
+              53.32857142857143
+            ]
+          },
+          "SE": {
+            "rim_sample_z_mm": 55.32857142857142,
+            "liquid_surface_z_mm": 51.92857142857143,
+            "well_rim_z_mm": 55.5,
+            "headspace_depth_mm": 3.5714285714285694,
+            "near_liquid_band_mm": [
+              52.52857142857143,
+              53.32857142857143
+            ]
+          }
+        },
+        "t50_s": {
+          "NE_rim": 45.64969433269605,
+          "NE_headspace": 45.83221732596033,
+          "NE_near_liquid": 45.91241992031001,
+          "NW_rim": 42.87487593019912,
+          "NW_headspace": 43.05719691883349,
+          "NW_near_liquid": 43.137759737578754,
+          "SW_rim": 42.874875930199366,
+          "SW_headspace": 43.05719691883368,
+          "SW_near_liquid": 43.137759737578925,
+          "SE_rim": 45.64969433269617,
+          "SE_headspace": 45.83221732596045,
+          "SE_near_liquid": 45.91241992031013,
+          "whole_gas": 41.99219733521322
+        },
+        "t90_s": {
+          "NE_rim": 144.51910675320065,
+          "NE_headspace": 144.7020171104582,
+          "NE_near_liquid": 144.78238991677154,
+          "NW_rim": 141.74476624749133,
+          "NW_headspace": 141.92700954072143,
+          "NW_near_liquid": 142.00714682907903,
+          "SW_rim": 141.74476624749352,
+          "SW_headspace": 141.92700954072313,
+          "SW_near_liquid": 142.00714682908054,
+          "SE_rim": 144.51910675320119,
+          "SE_headspace": 144.70201711045863,
+          "SE_near_liquid": 144.782389916772,
+          "whole_gas": 140.86233664127585
+        },
+        "final_C": {
+          "NE_rim": 0.9920418660078054,
+          "NE_headspace": 0.9920181894375694,
+          "NE_near_liquid": 0.992007741082489,
+          "NW_rim": 0.9923933279378496,
+          "NW_headspace": 0.9923706967282693,
+          "NW_near_liquid": 0.9923607097271678,
+          "SW_rim": 0.9923933279378454,
+          "SW_headspace": 0.9923706967282658,
+          "SW_near_liquid": 0.9923607097271651,
+          "SE_rim": 0.9920418660078044,
+          "SE_headspace": 0.9920181894375685,
+          "SE_near_liquid": 0.9920077410824886,
+          "whole_gas": 0.9925018005721662
+        },
+        "velocity_scales": [
+          {
+            "well": "NE",
+            "near_liquid_speed_p95_mm_s": 0.0011703065970656563,
+            "local_Re_p95": 0.00027864442787277517,
+            "local_Pe_p95": 0.00020898332090458138,
+            "advective_L_over_U_s": 3051.703357379439,
+            "diffusive_L2_over_D_s": 0.6377551020408155
+          },
+          {
+            "well": "NW",
+            "near_liquid_speed_p95_mm_s": 0.001116425260137977,
+            "local_Re_p95": 0.00026581553812808964,
+            "local_Pe_p95": 0.00019936165359606722,
+            "advective_L_over_U_s": 3198.9858156623786,
+            "diffusive_L2_over_D_s": 0.6377551020408155
+          },
+          {
+            "well": "SW",
+            "near_liquid_speed_p95_mm_s": 0.0011164252671916179,
+            "local_Re_p95": 0.0002658155398075279,
+            "local_Pe_p95": 0.00019936165485564595,
+            "advective_L_over_U_s": 3198.9857954509966,
+            "diffusive_L2_over_D_s": 0.6377551020408155
+          },
+          {
+            "well": "SE",
+            "near_liquid_speed_p95_mm_s": 0.0011703065934799593,
+            "local_Re_p95": 0.0002786444270190378,
+            "local_Pe_p95": 0.00020898332026427833,
+            "advective_L_over_U_s": 3051.7033667295386,
+            "diffusive_L2_over_D_s": 0.6377551020408155
+          }
+        ],
+        "concentration_min": 0.0,
+        "concentration_max": 0.9999632589841492,
+        "max_step_mass_residual_Cin_mm3": 2.348343741687131e-12,
+        "final_global_mass_residual_Cin_mm3": -8.840288501232862e-10,
+        "relative_global_mass_residual": 7.117370111194191e-13,
+        "uniform_field_operator_residual_relative": 5.900290448003193e-15,
+        "projection": {
+          "flux_projection_relative_L2": 0.01589582085837492,
+          "max_residual_divergence_mm3_s": 4.218847493575595e-15,
+          "net_boundary_Q_mm3_s": 0.0,
+          "field_sha256": "e10029e3c751457e099a9b7907fb4c140f1d1375682b897ffd7e06cc0252e38c"
+        },
+        "runtime_s": 11.58160948753357
+      },
+      {
+        "case": "shelf_w8_e0p2",
+        "tag": "shelf_w8_e0p2_D5_dx0.4_dt0.5",
+        "Dgas_mm2_s": 5.0,
+        "dx_mm": 0.4,
+        "dt_s": 0.5,
+        "end_time_s": 300,
+        "advection": true,
+        "Q_mL_min": 1,
+        "method": "Cell-centered conservative FV; backward Euler, first-order upwind advection, central diffusion. Face-flux projection enforces discrete incompressibility.",
+        "boundary": "C=1 at upstream inlet terminal; zero diffusive outlet flux; convective outlet; impermeable solid AND liquid boundaries; initially C=0 throughout gas.",
+        "scope": "Gas only. No odor identity, membrane, liquid, adsorption, reaction, cells, filters, external tubing. D is a sensitivity assumption, not a measured target-VOC coefficient.",
+        "sampling": {
+          "NE": {
+            "rim_sample_z_mm": 55.32857142857142,
+            "liquid_surface_z_mm": 51.92857142857143,
+            "well_rim_z_mm": 55.5,
+            "headspace_depth_mm": 3.5714285714285694,
+            "near_liquid_band_mm": [
+              52.52857142857143,
+              53.32857142857143
+            ]
+          },
+          "NW": {
+            "rim_sample_z_mm": 55.32857142857142,
+            "liquid_surface_z_mm": 51.92857142857143,
+            "well_rim_z_mm": 55.5,
+            "headspace_depth_mm": 3.5714285714285694,
+            "near_liquid_band_mm": [
+              52.52857142857143,
+              53.32857142857143
+            ]
+          },
+          "SW": {
+            "rim_sample_z_mm": 55.32857142857142,
+            "liquid_surface_z_mm": 51.92857142857143,
+            "well_rim_z_mm": 55.5,
+            "headspace_depth_mm": 3.5714285714285694,
+            "near_liquid_band_mm": [
+              52.52857142857143,
+              53.32857142857143
+            ]
+          },
+          "SE": {
+            "rim_sample_z_mm": 55.32857142857142,
+            "liquid_surface_z_mm": 51.92857142857143,
+            "well_rim_z_mm": 55.5,
+            "headspace_depth_mm": 3.5714285714285694,
+            "near_liquid_band_mm": [
+              52.52857142857143,
+              53.32857142857143
+            ]
+          }
+        },
+        "t50_s": {
+          "NE_rim": 51.17282178430485,
+          "NE_headspace": 51.90793320156403,
+          "NE_near_liquid": 52.23004669906166,
+          "NW_rim": 47.26532729540421,
+          "NW_headspace": 48.000206380016415,
+          "NW_near_liquid": 48.322621350255346,
+          "SW_rim": 47.265327295402074,
+          "SW_headspace": 48.000206380014156,
+          "SW_near_liquid": 48.32262135025302,
+          "SE_rim": 51.17282178430493,
+          "SE_headspace": 51.90793320156398,
+          "SE_near_liquid": 52.23004669906157,
+          "whole_gas": 42.32119537626014
+        },
+        "t90_s": {
+          "NE_rim": 147.81217774565943,
+          "NE_headspace": 148.54718447950165,
+          "NE_near_liquid": 148.86932880326992,
+          "NW_rim": 143.8931261203942,
+          "NW_headspace": 144.62845308761223,
+          "NW_near_liquid": 144.95015566674226,
+          "SW_rim": 143.89312612038862,
+          "SW_headspace": 144.62845308760546,
+          "SW_near_liquid": 144.95015566673487,
+          "SE_rim": 147.81217774565548,
+          "SE_headspace": 148.54718447949665,
+          "SE_near_liquid": 148.86932880326438,
+          "whole_gas": 138.95840677601308
+        },
+        "final_C": {
+          "NE_rim": 0.9920709596378608,
+          "NE_headspace": 0.9919732601283515,
+          "NE_near_liquid": 0.991930109631891,
+          "NW_rim": 0.9925719452949568,
+          "NW_headspace": 0.9924804234694223,
+          "NW_near_liquid": 0.9924400003123985,
+          "SW_rim": 0.9925719452949642,
+          "SW_headspace": 0.9924804234694318,
+          "SW_near_liquid": 0.9924400003124091,
+          "SE_rim": 0.9920709596378684,
+          "SE_headspace": 0.9919732601283616,
+          "SE_near_liquid": 0.9919301096319019,
+          "whole_gas": 0.9931579914999613
+        },
+        "velocity_scales": [
+          {
+            "well": "NE",
+            "near_liquid_speed_p95_mm_s": 0.0009343986548526954,
+            "local_Re_p95": 0.0002224758702030226,
+            "local_Pe_p95": 0.0006674276106090678,
+            "advective_L_over_U_s": 3822.1679289463364,
+            "diffusive_L2_over_D_s": 2.551020408163262
+          },
+          {
+            "well": "NW",
+            "near_liquid_speed_p95_mm_s": 0.0004908790280648716,
+            "local_Re_p95": 0.0001168759590630646,
+            "local_Pe_p95": 0.0003506278771891938,
+            "advective_L_over_U_s": 7275.577825167531,
+            "diffusive_L2_over_D_s": 2.551020408163262
+          },
+          {
+            "well": "SW",
+            "near_liquid_speed_p95_mm_s": 0.0004908790266794108,
+            "local_Re_p95": 0.00011687595873319297,
+            "local_Pe_p95": 0.00035062787619957893,
+            "advective_L_over_U_s": 7275.577845702178,
+            "diffusive_L2_over_D_s": 2.551020408163262
+          },
+          {
+            "well": "SE",
+            "near_liquid_speed_p95_mm_s": 0.0009343986486045444,
+            "local_Re_p95": 0.0002224758687153676,
+            "local_Pe_p95": 0.0006674276061461028,
+            "advective_L_over_U_s": 3822.1679545044667,
+            "diffusive_L2_over_D_s": 2.551020408163262
+          }
+        ],
+        "concentration_min": 0.0,
+        "concentration_max": 0.9999997076502647,
+        "max_step_mass_residual_Cin_mm3": 1.2727596754302795e-12,
+        "final_global_mass_residual_Cin_mm3": -3.922195901395753e-10,
+        "relative_global_mass_residual": 3.3401811955991357e-13,
+        "uniform_field_operator_residual_relative": 5.227246656779518e-15,
+        "projection": {
+          "flux_projection_relative_L2": 0.015402134919261934,
+          "max_residual_divergence_mm3_s": 2.631228568361621e-14,
+          "net_boundary_Q_mm3_s": 0.0,
+          "field_sha256": "dc754b731edd88362b1634d3b7bac86a5549d190a123b4aa7317af5d42226b42"
+        },
+        "runtime_s": 8.82668948173523
+      },
+      {
+        "case": "shelf_w8_e0p2",
+        "tag": "shelf_w8_e0p2_D10_dx0.4_dt0.5",
+        "Dgas_mm2_s": 10.0,
+        "dx_mm": 0.4,
+        "dt_s": 0.5,
+        "end_time_s": 300,
+        "advection": true,
+        "Q_mL_min": 1,
+        "method": "Cell-centered conservative FV; backward Euler, first-order upwind advection, central diffusion. Face-flux projection enforces discrete incompressibility.",
+        "boundary": "C=1 at upstream inlet terminal; zero diffusive outlet flux; convective outlet; impermeable solid AND liquid boundaries; initially C=0 throughout gas.",
+        "scope": "Gas only. No odor identity, membrane, liquid, adsorption, reaction, cells, filters, external tubing. D is a sensitivity assumption, not a measured target-VOC coefficient.",
+        "sampling": {
+          "NE": {
+            "rim_sample_z_mm": 55.32857142857142,
+            "liquid_surface_z_mm": 51.92857142857143,
+            "well_rim_z_mm": 55.5,
+            "headspace_depth_mm": 3.5714285714285694,
+            "near_liquid_band_mm": [
+              52.52857142857143,
+              53.32857142857143
+            ]
+          },
+          "NW": {
+            "rim_sample_z_mm": 55.32857142857142,
+            "liquid_surface_z_mm": 51.92857142857143,
+            "well_rim_z_mm": 55.5,
+            "headspace_depth_mm": 3.5714285714285694,
+            "near_liquid_band_mm": [
+              52.52857142857143,
+              53.32857142857143
+            ]
+          },
+          "SW": {
+            "rim_sample_z_mm": 55.32857142857142,
+            "liquid_surface_z_mm": 51.92857142857143,
+            "well_rim_z_mm": 55.5,
+            "headspace_depth_mm": 3.5714285714285694,
+            "near_liquid_band_mm": [
+              52.52857142857143,
+              53.32857142857143
+            ]
+          },
+          "SE": {
+            "rim_sample_z_mm": 55.32857142857142,
+            "liquid_surface_z_mm": 51.92857142857143,
+            "well_rim_z_mm": 55.5,
+            "headspace_depth_mm": 3.5714285714285694,
+            "near_liquid_band_mm": [
+              52.52857142857143,
+              53.32857142857143
+            ]
+          }
+        },
+        "t50_s": {
+          "NE_rim": 48.778404383071404,
+          "NE_headspace": 49.14411316182868,
+          "NE_near_liquid": 49.304964040388796,
+          "NW_rim": 46.406192811488815,
+          "NW_headspace": 46.77216692397101,
+          "NW_near_liquid": 46.93268557468398,
+          "SW_rim": 46.406192811488246,
+          "SW_headspace": 46.772166923970445,
+          "SW_near_liquid": 46.93268557468343,
+          "SE_rim": 48.77840438307129,
+          "SE_headspace": 49.14411316182849,
+          "SE_near_liquid": 49.30496404038857,
+          "whole_gas": 43.01871683187372
+        },
+        "t90_s": {
+          "NE_rim": 149.01926680817402,
+          "NE_headspace": 149.38534086774146,
+          "NE_near_liquid": 149.545937145606,
+          "NW_rim": 146.64756476347148,
+          "NW_headspace": 147.01298061873692,
+          "NW_near_liquid": 147.17416743634473,
+          "SW_rim": 146.64756476346977,
+          "SW_headspace": 147.01298061873533,
+          "SW_near_liquid": 147.17416743634328,
+          "SE_rim": 149.01926680817158,
+          "SE_headspace": 149.38534086773822,
+          "SE_near_liquid": 149.54593714560238,
+          "whole_gas": 143.26042637351634
+        },
+        "final_C": {
+          "NE_rim": 0.9911441643306202,
+          "NE_headspace": 0.9910920006123224,
+          "NE_near_liquid": 0.9910689749352266,
+          "NW_rim": 0.9914750944900333,
+          "NW_headspace": 0.9914248815364631,
+          "NW_near_liquid": 0.991402716599406,
+          "SW_rim": 0.9914750944900358,
+          "SW_headspace": 0.9914248815364657,
+          "SW_near_liquid": 0.9914027165994083,
+          "SE_rim": 0.9911441643306246,
+          "SE_headspace": 0.9910920006123278,
+          "SE_near_liquid": 0.9910689749352328,
+          "whole_gas": 0.991926331881166
+        },
+        "velocity_scales": [
+          {
+            "well": "NE",
+            "near_liquid_speed_p95_mm_s": 0.0009343986548526954,
+            "local_Re_p95": 0.0002224758702030226,
+            "local_Pe_p95": 0.0003337138053045339,
+            "advective_L_over_U_s": 3822.1679289463364,
+            "diffusive_L2_over_D_s": 1.275510204081631
+          },
+          {
+            "well": "NW",
+            "near_liquid_speed_p95_mm_s": 0.0004908790280648716,
+            "local_Re_p95": 0.0001168759590630646,
+            "local_Pe_p95": 0.0001753139385945969,
+            "advective_L_over_U_s": 7275.577825167531,
+            "diffusive_L2_over_D_s": 1.275510204081631
+          },
+          {
+            "well": "SW",
+            "near_liquid_speed_p95_mm_s": 0.0004908790266794108,
+            "local_Re_p95": 0.00011687595873319297,
+            "local_Pe_p95": 0.00017531393809978947,
+            "advective_L_over_U_s": 7275.577845702178,
+            "diffusive_L2_over_D_s": 1.275510204081631
+          },
+          {
+            "well": "SE",
+            "near_liquid_speed_p95_mm_s": 0.0009343986486045444,
+            "local_Re_p95": 0.0002224758687153676,
+            "local_Pe_p95": 0.0003337138030730514,
+            "advective_L_over_U_s": 3822.1679545044667,
+            "diffusive_L2_over_D_s": 1.275510204081631
+          }
+        ],
+        "concentration_min": 0.0,
+        "concentration_max": 0.9999918895934443,
+        "max_step_mass_residual_Cin_mm3": 1.4015455462867976e-12,
+        "final_global_mass_residual_Cin_mm3": -4.2223291529808193e-10,
+        "relative_global_mass_residual": 3.600242491339236e-13,
+        "uniform_field_operator_residual_relative": 5.482363654665379e-15,
+        "projection": {
+          "flux_projection_relative_L2": 0.015402134919261934,
+          "max_residual_divergence_mm3_s": 2.631228568361621e-14,
+          "net_boundary_Q_mm3_s": 0.0,
+          "field_sha256": "dc754b731edd88362b1634d3b7bac86a5549d190a123b4aa7317af5d42226b42"
+        },
+        "runtime_s": 11.446359157562256
+      },
+      {
+        "case": "shelf_w8_e0p2",
+        "tag": "shelf_w8_e0p2_D20_dx0.4_dt0.5",
+        "Dgas_mm2_s": 20.0,
+        "dx_mm": 0.4,
+        "dt_s": 0.5,
+        "end_time_s": 300,
+        "advection": true,
+        "Q_mL_min": 1,
+        "method": "Cell-centered conservative FV; backward Euler, first-order upwind advection, central diffusion. Face-flux projection enforces discrete incompressibility.",
+        "boundary": "C=1 at upstream inlet terminal; zero diffusive outlet flux; convective outlet; impermeable solid AND liquid boundaries; initially C=0 throughout gas.",
+        "scope": "Gas only. No odor identity, membrane, liquid, adsorption, reaction, cells, filters, external tubing. D is a sensitivity assumption, not a measured target-VOC coefficient.",
+        "sampling": {
+          "NE": {
+            "rim_sample_z_mm": 55.32857142857142,
+            "liquid_surface_z_mm": 51.92857142857143,
+            "well_rim_z_mm": 55.5,
+            "headspace_depth_mm": 3.5714285714285694,
+            "near_liquid_band_mm": [
+              52.52857142857143,
+              53.32857142857143
+            ]
+          },
+          "NW": {
+            "rim_sample_z_mm": 55.32857142857142,
+            "liquid_surface_z_mm": 51.92857142857143,
+            "well_rim_z_mm": 55.5,
+            "headspace_depth_mm": 3.5714285714285694,
+            "near_liquid_band_mm": [
+              52.52857142857143,
+              53.32857142857143
+            ]
+          },
+          "SW": {
+            "rim_sample_z_mm": 55.32857142857142,
+            "liquid_surface_z_mm": 51.92857142857143,
+            "well_rim_z_mm": 55.5,
+            "headspace_depth_mm": 3.5714285714285694,
+            "near_liquid_band_mm": [
+              52.52857142857143,
+              53.32857142857143
+            ]
+          },
+          "SE": {
+            "rim_sample_z_mm": 55.32857142857142,
+            "liquid_surface_z_mm": 51.92857142857143,
+            "well_rim_z_mm": 55.5,
+            "headspace_depth_mm": 3.5714285714285694,
+            "near_liquid_band_mm": [
+              52.52857142857143,
+              53.32857142857143
+            ]
+          }
+        },
+        "t50_s": {
+          "NE_rim": 43.501518499994106,
+          "NE_headspace": 43.68456672050499,
+          "NE_near_liquid": 43.76498312737987,
+          "NW_rim": 42.17616909256854,
+          "NW_headspace": 42.35866891966954,
+          "NW_near_liquid": 42.438845095167686,
+          "SW_rim": 42.17616909256917,
+          "SW_headspace": 42.358668919670265,
+          "SW_near_liquid": 42.43884509516847,
+          "SE_rim": 43.50151849999464,
+          "SE_headspace": 43.684566720505686,
+          "SE_near_liquid": 43.76498312738064,
+          "whole_gas": 39.8396756254924
+        },
+        "t90_s": {
+          "NE_rim": 137.4294927490907,
+          "NE_headspace": 137.61216115348245,
+          "NE_near_liquid": 137.69267721735102,
+          "NW_rim": 136.1037531154187,
+          "NW_headspace": 136.28647910755447,
+          "NW_near_liquid": 136.36675464232752,
+          "SW_rim": 136.10375311542532,
+          "SW_headspace": 136.28647910756206,
+          "SW_near_liquid": 136.36675464233568,
+          "SE_rim": 137.42949274909543,
+          "SE_headspace": 137.61216115348873,
+          "SE_near_liquid": 137.6926772173579,
+          "whole_gas": 133.76746227879536
+        },
+        "final_C": {
+          "NE_rim": 0.9938309577546369,
+          "NE_headspace": 0.9938116303120446,
+          "NE_near_liquid": 0.9938031010744339,
+          "NW_rim": 0.9939695256616881,
+          "NW_headspace": 0.993950632652546,
+          "NW_near_liquid": 0.9939422950602307,
+          "SW_rim": 0.9939695256616751,
+          "SW_headspace": 0.9939506326525313,
+          "SW_near_liquid": 0.9939422950602149,
+          "SE_rim": 0.9938309577546279,
+          "SE_headspace": 0.9938116303120328,
+          "SE_near_liquid": 0.9938031010744209,
+          "whole_gas": 0.9942061873818984
+        },
+        "velocity_scales": [
+          {
+            "well": "NE",
+            "near_liquid_speed_p95_mm_s": 0.0009343986548526954,
+            "local_Re_p95": 0.0002224758702030226,
+            "local_Pe_p95": 0.00016685690265226695,
+            "advective_L_over_U_s": 3822.1679289463364,
+            "diffusive_L2_over_D_s": 0.6377551020408155
+          },
+          {
+            "well": "NW",
+            "near_liquid_speed_p95_mm_s": 0.0004908790280648716,
+            "local_Re_p95": 0.0001168759590630646,
+            "local_Pe_p95": 8.765696929729845e-05,
+            "advective_L_over_U_s": 7275.577825167531,
+            "diffusive_L2_over_D_s": 0.6377551020408155
+          },
+          {
+            "well": "SW",
+            "near_liquid_speed_p95_mm_s": 0.0004908790266794108,
+            "local_Re_p95": 0.00011687595873319297,
+            "local_Pe_p95": 8.765696904989473e-05,
+            "advective_L_over_U_s": 7275.577845702178,
+            "diffusive_L2_over_D_s": 0.6377551020408155
+          },
+          {
+            "well": "SE",
+            "near_liquid_speed_p95_mm_s": 0.0009343986486045444,
+            "local_Re_p95": 0.0002224758687153676,
+            "local_Pe_p95": 0.0001668569015365257,
+            "advective_L_over_U_s": 3822.1679545044667,
+            "diffusive_L2_over_D_s": 0.6377551020408155
+          }
+        ],
+        "concentration_min": 0.0,
+        "concentration_max": 0.9999735931505391,
+        "max_step_mass_residual_Cin_mm3": 1.3393730569077889e-12,
+        "final_global_mass_residual_Cin_mm3": -4.0313352656085044e-10,
+        "relative_global_mass_residual": 3.429505809079369e-13,
+        "uniform_field_operator_residual_relative": 5.715953647682455e-15,
+        "projection": {
+          "flux_projection_relative_L2": 0.015402134919261934,
+          "max_residual_divergence_mm3_s": 2.631228568361621e-14,
+          "net_boundary_Q_mm3_s": 0.0,
+          "field_sha256": "dc754b731edd88362b1634d3b7bac86a5549d190a123b4aa7317af5d42226b42"
+        },
+        "runtime_s": 8.986391544342041
+      }
+    ],
+    "max_relative_global_mass_residual": 8.645108559826273e-12,
+    "max_uniform_field_operator_residual": 6.14875848321142e-15,
+    "concentration_bounds": [
+      0.0,
+      0.9999997076502647
+    ],
+    "scope": "Gas-only species delivery; no liquid uptake or cell arrival. Local low Pe permits diffusion even when velocity markers barely move.",
+    "mesh_NE_near_liquid_t90_relative_change": 0.017022216116014732,
+    "time_NE_near_liquid_t90_relative_change": -0.0020039951368625575
+  },
+  "analytic_benchmark": {
+    "test": "1D diffusion slab; inletDirichlet1,outletNeumann0,initial0",
+    "L_mm": 1,
+    "D_mm2_s": 1.0,
+    "dx_mm": 0.01,
+    "dt_s": 0.0005,
+    "time_s": 0.1,
+    "numerical_mean": 0.35657768349684005,
+    "analytic_mean": 0.3568234004524541,
+    "absolute_error": 0.0002457169556140393
+  },
+  "interactive_browser_tested": false,
+  "figure_caption_count": 13,
+  "figure_files": [
+    "airflow_movie_000.png",
+    "airflow_movie_080.png",
+    "airflow_movie_160.png",
+    "design_comparison.png",
+    "gas_delivery.png",
+    "hole_sweep.png",
+    "mesh_and_tradeoff.png",
+    "operating_delivery.png",
+    "operating_pareto.png",
+    "velocity_sections.png"
+  ],
+  "figure_SHA256": {
+    "airflow_movie_000.png": "144d9f3e5d63e9b9b8c08f51d8705b9a0539527b9532a4feeb4c2249700b9dad",
+    "airflow_movie_080.png": "9e67b8fef98617c46a470f932676d4d5f2a09326d20fa1c3dd1820a07f8f7383",
+    "airflow_movie_160.png": "9ae7e3f41153314a5ffb89a31a50dc5c32fab41ad447353059518f4e900f9243",
+    "design_comparison.png": "a069eaed9ba654788bba7e428566df3b4577c62bdec8d7d50612489058ec8cc7",
+    "gas_delivery.png": "00f002847fc2c301db359ee22bfac2a708ca2bc9eef78d5bfa2919f3eaefd98d",
+    "hole_sweep.png": "c52395c2e9756bb5995f3f7897f49fe1ad585cf20745ee1503f6e88dd19ce4d3",
+    "mesh_and_tradeoff.png": "8d0f23ee6c1699c95f139f5e1bc90471297e291d6fe9f3aa04a40bb204866a64",
+    "operating_delivery.png": "aa7aab7358c86d91d7dfce6d44bacc897841aa95126574ea3071e3b7c897e4cf",
+    "operating_pareto.png": "c5a4413686bdcd55fe93ecff084aec541a18cb4a43bf3fe2899270eb7373a1dc",
+    "velocity_sections.png": "b167b7dd08e30533bc2257c4f0944cb0b50fa0c68d3ece971f256560ae7050db"
+  },
+  "baseline_rim_CSV": "gas_transport_results/shelf_w8_e0p2_D10_dx0.4_dt0.5.csv",
+  "operation_extension": {
+    "configuration": {
+      "scope": "Prespecified bounded gas-side operation comparison for unchanged selected-shelf STL; no biological safety or activation target.",
+      "case": "shelf_w8_e0p2",
+      "Q_mL_min": [
+        0.25,
+        0.5,
+        1,
+        2,
+        2.5,
+        3,
+        5
+      ],
+      "Dgas_mm2_s": [
+        5,
+        10,
+        20
+      ],
+      "targets": {
+        "gas_fraction": 0.9,
+        "worst_well_worst_D_t90_max_s": 60,
+        "port_Re_max": 3,
+        "near_liquid_gas_P95_speed_max_mm_s": 0.01,
+        "status": "Provisional engineering comparison targets declared before new results; not user-confirmed and not biological injury thresholds."
+      },
+      "selection_rule": "Select the smallest sampled Q satisfying all declared constraints across four wells and all three assumed Dgas values. If no Q qualifies, return no selection. Publish nondominated worst-case gas t90 versus gas P95 speed without weighted scores. Dgas is an uncertain material property, not an adjustable operating knob.",
+      "model": "Gas-only conservative FV with prescribed steady Stokes-scaled saved velocity, impermeable liquid surface. No membrane or liquid uptake.",
+      "validation_plan": "Q5/D10 dx0.3 and dt0.125 checks; Q0.25/D10 dt0.5 check; direct near5mLmin velocity solve on dx0.3/tau0.55 compared against existing near1mLmin solution, plus scalar on the direct field.",
+      "stage1_Q_mL_min": [
+        0.25,
+        0.5,
+        1,
+        2,
+        5
+      ],
+      "adaptive_refinement": {
+        "stage": 2,
+        "declared_after": "Stage-1 results bracket the provisional 60-s target: Q2 gives about 74\u201375 s while Q5 gives about 30\u201332 s.",
+        "reason": "Resolve the wide flow bracket before recommending its highest endpoint. Preserve all original cases and selection targets; do not move thresholds.",
+        "Q_mL_min": [
+          2.5,
+          3
+        ],
+        "Dgas_mm2_s": [
+          5,
+          10,
+          20
+        ],
+        "selection_rule": "Combine stages and select the smallest actually simulated Q satisfying the original worst-well/worst-D target and engineering caps. Do not interpolate an untested optimum.",
+        "maximum_additional_screening_solves": 6,
+        "classification": "Adaptive numerical parameter refinement, not an independent preregistered validation experiment."
+      }
+    },
+    "stage1_screening_solves": 15,
+    "stage2_adaptive_screening_solves": 6,
+    "screening_scalar_solves": 21,
+    "validation_scalar_solves": 6,
+    "direct_velocity_solves": 1,
+    "chosen_conditional_point": {
+      "Q_mL_min": 3,
+      "worst_t90_s": 49.99750738191719,
+      "worst_Dgas_mm2_s": 20,
+      "gas_speed_p95_mm_s": 0.0028031959645580863,
+      "port_Re": 1.7683882566,
+      "port_mean_speed_mm_s": 11.052426603603843,
+      "chamber_pressure_drop_Pa": 0.027369200404373125,
+      "meets_declared_targets": true
+    },
+    "decision_status": "Conditional operating candidate; provisional targets, numerical checks only, no physical or biological validation.",
+    "flow_aggregates": [
+      {
+        "Q_mL_min": 0.25,
+        "worst_t90_s": 549.5920566698462,
+        "worst_Dgas_mm2_s": 5,
+        "gas_speed_p95_mm_s": 0.00023359966371317385,
+        "port_Re": 0.14736568805,
+        "port_mean_speed_mm_s": 0.9210355503003202,
+        "chamber_pressure_drop_Pa": 0.002280766700364427,
+        "meets_declared_targets": false
+      },
+      {
+        "Q_mL_min": 0.5,
+        "worst_t90_s": 299.091874291212,
+        "worst_Dgas_mm2_s": 5,
+        "gas_speed_p95_mm_s": 0.0004671993274263477,
+        "port_Re": 0.2947313761,
+        "port_mean_speed_mm_s": 1.8420711006006405,
+        "chamber_pressure_drop_Pa": 0.004561533400728854,
+        "meets_declared_targets": false
+      },
+      {
+        "Q_mL_min": 1,
+        "worst_t90_s": 149.545937145606,
+        "worst_Dgas_mm2_s": 10,
+        "gas_speed_p95_mm_s": 0.0009343986548526954,
+        "port_Re": 0.5894627522,
+        "port_mean_speed_mm_s": 3.684142201201281,
+        "chamber_pressure_drop_Pa": 0.009123066801457708,
+        "meets_declared_targets": false
+      },
+      {
+        "Q_mL_min": 2,
+        "worst_t90_s": 75.07231106973207,
+        "worst_Dgas_mm2_s": 20,
+        "gas_speed_p95_mm_s": 0.0018687973097053908,
+        "port_Re": 1.1789255044,
+        "port_mean_speed_mm_s": 7.368284402402562,
+        "chamber_pressure_drop_Pa": 0.018246133602915417,
+        "meets_declared_targets": false
+      },
+      {
+        "Q_mL_min": 2.5,
+        "worst_t90_s": 60.0357641544526,
+        "worst_Dgas_mm2_s": 20,
+        "gas_speed_p95_mm_s": 0.0023359966371317383,
+        "port_Re": 1.4736568805,
+        "port_mean_speed_mm_s": 9.210355503003202,
+        "chamber_pressure_drop_Pa": 0.02280766700364427,
+        "meets_declared_targets": false
+      },
+      {
+        "Q_mL_min": 3,
+        "worst_t90_s": 49.99750738191719,
+        "worst_Dgas_mm2_s": 20,
+        "gas_speed_p95_mm_s": 0.0028031959645580863,
+        "port_Re": 1.7683882566,
+        "port_mean_speed_mm_s": 11.052426603603843,
+        "chamber_pressure_drop_Pa": 0.027369200404373125,
+        "meets_declared_targets": true
+      },
+      {
+        "Q_mL_min": 5,
+        "worst_t90_s": 31.9526053024578,
+        "worst_Dgas_mm2_s": 5,
+        "gas_speed_p95_mm_s": 0.004671993274263477,
+        "port_Re": 2.947313761,
+        "port_mean_speed_mm_s": 18.420711006006403,
+        "chamber_pressure_drop_Pa": 0.04561533400728854,
+        "meets_declared_targets": true
+      }
+    ],
+    "pareto_Q_mL_min": [
+      0.25,
+      0.5,
+      1,
+      2,
+      2.5,
+      3,
+      5
+    ],
+    "numerical_checks": {
+      "upper_flow_grid": {
+        "raw_json": "operating_results/Q5_D10_dx0.3_dt0.25.json",
+        "worst_t90_s": 30.450830762299645,
+        "relative_change_t90": 0.020700624381785326,
+        "gas_speed_p95_mm_s": 0.00522003716147762,
+        "relative_change_gas_speed": 0.11730408308443896
+      },
+      "upper_flow_timestep": {
+        "raw_json": "operating_results/Q5_D10_dx0.4_dt0.125.json",
+        "worst_t90_s": 29.66705508046916,
+        "relative_change_t90": -0.005571247609638119,
+        "gas_speed_p95_mm_s": 0.004671993274263477,
+        "relative_change_gas_speed": 0.0
+      },
+      "lower_flow_timestep": {
+        "raw_json": "operating_results/Q0.25_D10_dx0.4_dt0.5.json",
+        "worst_t90_s": 423.39816856620035,
+        "relative_change_t90": -0.0013777458091865924,
+        "gas_speed_p95_mm_s": 0.00023359966371317385,
+        "relative_change_gas_speed": 0.0
+      },
+      "upper_flow_direct_field": {
+        "raw_json": "operating_results/Q5_D10_dx0.3_dt0.25_direct5.json",
+        "worst_t90_s": 30.476369122920687,
+        "relative_change_t90": 0.0008386753327156438,
+        "gas_speed_p95_mm_s": 0.004882060806789549,
+        "relative_change_gas_speed": -0.06474596717093117
+      },
+      "selected_point_grid": {
+        "raw_json": "operating_results/Q3_D20_dx0.3_dt0.25.json",
+        "worst_t90_s": 50.98126163745693,
+        "relative_change_t90": 0.019676066009153503,
+        "gas_speed_p95_mm_s": 0.0031320222968865717,
+        "relative_change_gas_speed": 0.11730408308443874
+      },
+      "selected_point_timestep": {
+        "raw_json": "operating_results/Q3_D20_dx0.4_dt0.125.json",
+        "worst_t90_s": 49.84543636405178,
+        "relative_change_t90": -0.0030415719868548408,
+        "gas_speed_p95_mm_s": 0.0028031959645580863,
+        "relative_change_gas_speed": 0.0
+      }
+    },
+    "direct_flow_check": {
+      "reference_flow_mL_min": 0.9401341250563697,
+      "high_flow_mL_min": 4.970770459099881,
+      "same_grid_mm": 0.3,
+      "same_tau": 0.55,
+      "normalized_velocity_relative_L2": 0.016504978076196847,
+      "normalized_pressure_drop_relative_change": 0.005880283779068796,
+      "normalized_near_liquid_P95_relative_change": 0.0029405494949377164,
+      "max_Mach": 0.02140386038416431,
+      "relative_density_range": 0.012356317501397495,
+      "converged": true,
+      "scope": "Same grid and relaxation parameter comparison, flow amplitude differs. Finite-inertia and boundary effects remain; not a continuum grid-independence proof."
+    },
+    "max_relative_global_mass_residual": 9.123742482820745e-12,
+    "max_uniform_operator_residual": 6.033535966163707e-15,
+    "concentration_bounds": [
+      0.0,
+      1.0000000000000004
+    ],
+    "old_raw_files_modified": false,
+    "CAD_changed": false,
+    "scope": "Conditional lowest-flow choice from seven sampled Q levels for fixed geometry, robust only over the three assumed gas diffusivities. Gas concentration, not cell exposure or safety. No weighted objective or global optimum is claimed.",
+    "source_config_sha256": "d0f5c26df9d8958fb9800620bb39ed788f863eb6250dd97a0210b562edfadfae",
+    "refinement_config_sha256": "d2948f8c9f7bebf2688cd84edf9142f9798afcb93cee7d3bafe7fd91d83c9c61",
+    "selected_check_config_sha256": "60431b6be987fe769de8b68deaf95a65efc0e552e69944139787e32ef4ced7db",
+    "repeated_Q1_baseline_max_abs_t90_difference_s": 0.0
+  }
+}

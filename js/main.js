@@ -535,8 +535,8 @@
       "Supports VUAA1 as an Orco-family agonist useful for functional controls.",
     ],
     "ref-w-butterwick-2018": [
-      "Cryo-EM structure of an insect odorant receptor / Orco ion channel complex.",
-      "Structural context for OR–Orco channel architecture in design discussions.",
+      "Cryo-EM structure of the insect olfactory co-receptor Orco.",
+      "Structural context for the Orco channel in design discussions.",
     ],
     "ref-scofield-1994": [
       "Classic frequency-domain description of lock-in amplification.",
@@ -619,8 +619,8 @@
       "Supports VUAA1 as an Orco-family agonist useful for functional controls.",
     ],
     "ref-butterwick-2018": [
-      "Cryo-EM structure of an insect odorant receptor / Orco ion channel complex.",
-      "Structural context for OR–Orco channel architecture in design discussions.",
+      "Cryo-EM structure of the insect olfactory co-receptor Orco.",
+      "Structural context for the Orco channel in design discussions.",
     ],
     "ref-robertson-2003": [
       "Molecular characterization of Drosophila odorant receptors and the Orco co-receptor family.",
@@ -748,102 +748,137 @@
   }());
   window.AeroSenseCitationPanels=citationPanels;
 
+  // Unnumbered technical sources and new references use the same reading tools.
+  // Explicit context maps place uncited background reading near its actual topic;
+  // they never attach a new paper as evidence for an experimental result.
+  var REFERENCE_CONTEXTS = {
+    'engineering.html': {'ref-w-zboray-2023':'#stream-wetlab','ref-w-ibrahimi-2009':'#stream-wetlab','ref-w-chen-2013':'#stream-wetlab','ref-w-benton-2006':'#stream-wetlab','ref-w-butterwick-2018':'#stream-wetlab','ref-d-stimberg-2019':'#group-model','tech-ti-lmp7721':'#group-hardware','tech-igem-eng':'#engineering-methods','tech-igem-hp':'#entrepreneurship-engineering'},
+    'entrepreneurship.html': {'ref-cheng-2025':'#aerosense-10'},
+    'human-practices.html': {'ref-zboray-2023':'#ihp','ref-cheng-2025':'#ihp'},
+    'parts.html': {'ref-sato-2008':'#sensor-builder','ref-benton-2006':'#sensor-builder','ref-butterwick-2018':'#sensor-builder','ref-chen-2013':'#sensor-builder'},
+    'results.html': {'micro-ref-2':'#wet-lab','micro-ref-3':'#limitations','micro-ref-6':'#supplementary'},
+    'hardware.html': {'reference-auto-11':'#cost-and-reproduction','reference-auto-12':'#optical-question'},
+    'safety-and-security.html': {'tech-ti-bq2407x':'#safe-to-measure','tech-ti-tps61023':'#safe-to-measure','tech-wurth-155124':'#safe-to-measure','tech-ti-lmp7721':'#safe-to-measure','tech-igem-rules':'#compliance','tech-igem-whitelist':'#safe-to-build','tech-igem-release':'#safe-to-deploy','tech-igem-human-subjects':'#people-and-data','tech-igem-surveys':'#people-and-data','tech-igem-project-safety':'#compliance','tech-igem-check-in':'#compliance','tech-igem-special-awards':'#award-map'},
+    'sustainability.html': {'ref-cheng-2025':'#system-boundary','ref-wced-1987':'#system-boundary','ref-meadows-2008':'#tradeoff-map','tech-fao-flw':'#food-pathway'}
+  };
+  var NEW_REFERENCE_HIGHLIGHTS = {
+    'ref-avishai-2025':'Published context for dopaminergic modulation in the fly antennal lobe; independent of the team light-sheet experiment.',
+    'ref-gh146-flybase':'Curated expression evidence for GH146. Driver expression includes projection neurons and non-PN cells.',
+    'ref-aso-architecture':'Mushroom-body circuit anatomy: Kenyon cells, dopaminergic inputs and compartmental organization.',
+    'ref-aso-output':'Mushroom-body output neurons and their role in valence and memory-guided behavior.',
+    'ref-th-driver':'TH regulatory sequences used to target gene expression in dopaminergic cells; the driver is not a complete identity check for every labeled cell.',
+    'ref-mao-davis':'Anatomical and physiological diversity of dopaminergic inputs to the mushroom body.',
+    'ref-bdsc-5137':'BDSC 5137 is a UAS-mCD8::GFP catalogue entry. It flags a stock-number discrepancy, not a replacement for the team-confirmed UAS-GCaMP6f reporter.',
+    'ref-liu-apl':'The APL neuron contributes inhibitory feedback in the mushroom body and is relevant to interpreting GH146 expression.',
+    'ref-dapi-guidance':'Manufacturer guidance for DAPI nuclear labeling; staining conditions affect how the nuclear signal can be interpreted.',
+    'ref-microscopy-reporting':'Reporting guidance for reproducible fluorescence microscopy, including acquisition and image-analysis methods.',
+    'ref-image-integrity':'Editorial standards for preserving image evidence and disclosing image processing.',
+    'ref-burton-2020':'Published photometry-system engineering used as design context; its device performance is not an AeroSense result.',
+    'micro-ref-1':'GCaMP6 calcium-indicator development. Basal brightness alone is not a functional calcium-response assay.',
+    'micro-ref-2':'DAPI nuclear-labeling guidance relevant to preparation and denominator limits.',
+    'micro-ref-3':'Reproducible fluorescence-microscopy reporting: acquisition conditions, processing and analysis should be traceable.',
+    'micro-ref-4':'Independent viability assays measure features such as membrane integrity or esterase activity. mCherry fluorescence alone does not establish viability.',
+    'micro-ref-5':'Stable-line selection requires selection conditions and parental-cell kill-curve guidance; pre-selection images do not demonstrate a stable selected line.',
+    'micro-ref-6':'Image-integrity guidance for source preservation and disclosure of display adjustments.',
+    'tech-un-2015':'The UN 2030 Agenda supplies the SDG framework; it is not a measurement of this project\'s impact.',
+    'tech-fao-flw':'Food-loss and post-harvest context. These resources do not establish Taiwan banana losses or AeroSense effectiveness.',
+    'tech-igem-eng':'Official judging context for describing engineering iteration and its evidence.',
+    'tech-igem-hp':'Official judging context for integrated Human Practices, Education and Entrepreneurship.',
+    'tech-igem-rules':'Official safety-policy framework relevant to the project safety case.',
+    'tech-igem-whitelist':'Official organism and activity screening guidance; applicable approvals still depend on the actual project.',
+    'tech-igem-release':'Official rules concerning release beyond containment.',
+    'tech-igem-human-subjects':'Official guidance for research involving human participants.',
+    'tech-igem-surveys':'Official guidance for surveys and interviews, relevant to participant information and consent.',
+    'tech-igem-project-safety':'Official Project Safety Form and reporting requirements.',
+    'tech-igem-check-in':'Official check-in process for work requiring further safety review.',
+    'tech-igem-special-awards':'Official award criteria used to organize the safety-and-security evidence.',
+    'tech-igem-official-milestone':'Official iGEM guidance cited for this competition milestone. This is an external competition date, separate from the team\'s experimental or project activities.'
+  };
+
+  function revealCitation(target) {
+    var ancestor = target.parentElement;
+    while (ancestor) {
+      if (ancestor.tagName === 'DETAILS') ancestor.open = true;
+      // Existing tab controls own visibility of engineering-cycle panels.
+      if (ancestor.getAttribute('role') === 'tabpanel' && ancestor.id) {
+        var controller = qs('[role="tab"][aria-controls="' + ancestor.id + '"]');
+        if (controller) controller.click();
+      }
+      ancestor = ancestor.parentElement;
+    }
+    qsa('.is-citation-highlight').forEach(function (el) { el.classList.remove('is-citation-highlight'); });
+    var passage = target.closest('p,td,dd,figcaption') || target.closest('li') || target;
+    passage.classList.add('is-citation-highlight');
+    target.focus({preventScroll:true});
+    target.scrollIntoView({behavior:reduceMotion ? 'auto' : 'smooth',block:'center'});
+    window.setTimeout(function () {passage.classList.remove('is-citation-highlight');},5000);
+  }
+
   function initReferencesEnhance() {
-    var items = qsa(".ref-list > li[id]");
-    if (!items.length) return;
-
-    items.forEach(function (item) {
+    var listSelector = '.ref-list, .tech-source-list, .reference-list';
+    var items = qsa('.ref-list > li, .tech-source-list > li, .reference-list > li');
+    var pageName = location.pathname.split('/').pop() || 'index.html';
+    var contextMap = REFERENCE_CONTEXTS[pageName] || {};
+    items.forEach(function (item, itemIndex) {
+      if (item.dataset.referenceEnhanced) return;
+      item.dataset.referenceEnhanced = 'true';
+      if (!item.id) item.id = 'reference-auto-' + (itemIndex + 1);
       var refId = item.id;
-      var cites = qsa('a.cite[href="#' + refId + '"]');
-      var backlinks = qsa(".ref-backlink", item);
-
-      /* Source highlights (collapsed by default) */
-      if (!qs(".ref-highlights", item) && REF_HIGHLIGHTS[refId]) {
-        var details = doc.createElement("details");
-        details.className = "ref-highlights";
-        var summary = doc.createElement("summary");
-        summary.textContent = "Source highlights";
-        var body = doc.createElement("div");
-        body.className = "ref-highlights__body";
-        var ul = doc.createElement("ul");
-        REF_HIGHLIGHTS[refId].forEach(function (point) {
-          var li = doc.createElement("li");
-          li.textContent = point;
-          ul.appendChild(li);
-        });
-        body.appendChild(ul);
-        details.appendChild(summary);
-        details.appendChild(body);
-        item.appendChild(details);
-      }
-
-      if (!backlinks.length) return;
-
-      /* Wrap backlinks and attach cited-passage preview */
-      var group = doc.createElement("div");
-      group.className = "ref-backlink-group";
-      backlinks[0].parentNode.insertBefore(group, backlinks[0]);
-      backlinks.forEach(function (link) {
-        group.appendChild(link);
-      });
-
-      var panel = doc.createElement("div");
-      panel.className = "ref-passages";
-      panel.setAttribute("role", "tooltip");
-      panel.hidden = true;
-
-      var title = doc.createElement("p");
-      title.className = "ref-passages__title";
-      title.textContent =
-        cites.length === 1
-          ? "1 passage on this page cites this source"
-          : cites.length + " passages on this page cite this source";
-      panel.appendChild(title);
-
+      var originalText = item.textContent.replace(/\s+/g,' ').trim();
+      var sourceLinks = qsa('a[href]', item).filter(function (a) {return !a.classList.contains('ref-backlink') && a.getAttribute('href').charAt(0) !== '#';});
+      var cites = qsa('a[href="#' + refId + '"]').filter(function (a) {return !a.closest(listSelector);});
+      // Direct source hyperlinks are already genuine citations, including ones
+      // that predate the numbered-reference system.
       if (!cites.length) {
-        var empty = doc.createElement("p");
-        empty.textContent = "No in-text citation markers currently point to this entry.";
-        panel.appendChild(empty);
-      } else {
-        var ol = doc.createElement("ol");
-        cites.forEach(function (cite, index) {
-          if (!cite.id) {
-            cite.id = "cite-auto-" + refId + "-" + (index + 1);
-          }
-          var li = doc.createElement("li");
-          var label = doc.createElement("strong");
-          label.textContent = sectionLabelFor(cite) + ": ";
-          li.appendChild(label);
-          li.appendChild(doc.createTextNode(excerptAroundCite(cite)));
-          li.appendChild(doc.createTextNode(" "));
-          var jump = doc.createElement("a");
-          jump.href = "#" + cite.id;
-          jump.textContent = "Jump to cite";
-          li.appendChild(jump);
-          ol.appendChild(li);
-        });
-        panel.appendChild(ol);
+        var urls = sourceLinks.map(function(a){return a.href;});
+        cites = qsa('main a[href], .page-article a[href]').filter(function(a){return !a.closest(listSelector) && !a.closest('.page-toc') && urls.indexOf(a.href) !== -1;});
       }
-
-      group.appendChild(panel);
-
-      function openPanel(event) {
-        var anchor=event&&event.target.closest?event.target.closest('.ref-backlink'):null;
-        citationPanels.show(anchor||backlinks[0],panel,group);
+      if (!cites.length) {
+        var contextSelector = item.dataset.referenceContext || contextMap[refId];
+        var context = contextSelector && qs(contextSelector);
+        if (!context) context = qs('main .page-article > section:not(.references), main .page-article, main article, main');
+        if (!context) return;
+        var reading = qs(':scope > .reference-reading-note', context);
+        if (!reading) {reading=doc.createElement('p');reading.className='reference-reading-note';reading.appendChild(doc.createTextNode('Further reading: '));context.appendChild(reading);}
+        else reading.appendChild(doc.createTextNode(' · '));
+        var marker=doc.createElement('a');marker.href='#'+refId;marker.className='cite cite--background';
+        marker.textContent=item.hasAttribute('value') ? '['+item.getAttribute('value')+']' : (sourceLinks[0] ? sourceLinks[0].textContent.replace(/\s+/g,' ').trim().slice(0,76) : originalText.slice(0,70));
+        marker.setAttribute('aria-label','Further reading: '+originalText.slice(0,140));reading.appendChild(marker);cites=[marker];
       }
-      function closePanel() {
-        citationPanels.scheduleClose();
+      cites.forEach(function(cite,index){if(!cite.id)cite.id='cite-auto-'+refId+'-'+(index+1);});
+      if (!qs('.ref-highlights',item)) {
+        var details=doc.createElement('details');details.className='ref-highlights';
+        var summary=doc.createElement('summary');summary.textContent='Source highlights';details.appendChild(summary);
+        var body=doc.createElement('div');body.className='ref-highlights__body';
+        var sourceId=item.dataset.referenceSource || refId;
+        var points=REF_HIGHLIGHTS[sourceId] || (NEW_REFERENCE_HIGHLIGHTS[sourceId] ? [NEW_REFERENCE_HIGHLIGHTS[sourceId]] : null);
+        if (!points) {
+          var isDatasheet=/datasheet/i.test(originalText);
+          points=isDatasheet ? ['Component specifications and operating limits from the manufacturer. Used for design or safety context; not a measurement of the assembled AeroSense device.'] : ['Reading context: '+sectionLabelFor(cites[0])+'.',originalText.replace(/Back to (first )?citation/g,'').trim()];
+        }
+        var ul=doc.createElement('ul');points.forEach(function(point){var li=doc.createElement('li');li.textContent=point;ul.appendChild(li);});body.appendChild(ul);details.appendChild(body);item.appendChild(details);
       }
-
-      group.addEventListener("mouseenter", openPanel);
-      group.addEventListener("mouseleave", closePanel);
-      group.addEventListener("focusin", openPanel);
-      group.addEventListener("focusout", function () {
-        window.setTimeout(closePanel, 0);
+      qsa('.ref-return-tools, .ref-backlink, .ref-backlink-group',item).forEach(function(el){el.remove();});
+      var group=doc.createElement('div');group.className='ref-return-tools';
+      var back=doc.createElement('a');back.className='ref-backlink';back.href='#'+cites[0].id;back.textContent='Back to citation';group.appendChild(back);
+      var selected=0;
+      if(cites.length>1){
+        var label=doc.createElement('label');label.className='ref-citation-picker';
+        var caption=doc.createElement('span');caption.className='visually-hidden';caption.textContent='Choose a cited passage for '+refId;label.appendChild(caption);
+        var select=doc.createElement('select');select.setAttribute('aria-label','Choose a cited passage for '+refId);
+        cites.forEach(function(cite,index){var option=doc.createElement('option');option.value=String(index);option.textContent=(index+1)+' / '+cites.length+' · '+sectionLabelFor(cite);select.appendChild(option);});
+        select.addEventListener('change',function(){selected=Number(select.value);back.href='#'+cites[selected].id;});label.appendChild(select);group.appendChild(label);
+      }
+      back.addEventListener('click',function(event){event.preventDefault();if(!back.closest('dialog'))history.replaceState(null,'','#'+cites[selected].id);revealCitation(cites[selected]);});
+      item.appendChild(group);
+      cites.forEach(function(cite,index){
+        if(cite.getAttribute('href')!=='#'+refId)return;
+        cite.addEventListener('click',function(event){selected=index;var select=qs('select',group);if(select)select.value=String(index);back.href='#'+cite.id;if(cite.closest('dialog')){event.preventDefault();item.setAttribute('tabindex','-1');item.focus({preventScroll:true});item.scrollIntoView({block:'center',behavior:reduceMotion?'auto':'smooth'});}item.classList.add('is-citation-highlight');window.setTimeout(function(){item.classList.remove('is-citation-highlight');},5000);});
       });
-      panel.addEventListener('click',function(event){if(event.target.closest('a[href]'))citationPanels.hide(panel);});
     });
   }
+
+  window.AeroSenseEnhanceReferences = initReferencesEnhance;
 
   doc.addEventListener("DOMContentLoaded", function () {
     initNav();

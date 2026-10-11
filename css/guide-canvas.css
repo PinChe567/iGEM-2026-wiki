@@ -1,0 +1,39 @@
+/* One open illustrated field guide, with labels in the artwork's quiet space. */
+.editorial-path.guide-canvas,.editorial-library.guide-canvas {
+  display: grid; grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: .5rem 2rem; margin: 2.4rem -1rem 3rem; padding: .6rem 0 1.5rem;
+  border: 0; background: transparent; isolation: auto;
+}
+.guide-canvas>a {
+  position: relative; display: grid; grid-template-columns: 47% 53%; align-items: center;
+  min-height: 260px; overflow: visible; padding: 1rem 0;
+  border: 0!important; border-radius: 0!important; background: transparent!important;
+  box-shadow: none!important; transform: none!important;
+}
+.guide-canvas>a:nth-child(even) { top: 30px; }
+.guide-canvas>a>img {
+  position: absolute; left: -8%; top: 50%; width: 76%; height: auto;
+  aspect-ratio: 3/2; transform: translateY(-50%); object-fit: contain;
+  background: transparent!important; mix-blend-mode: multiply;
+  mask-image: radial-gradient(ellipse at center,#000 45%,#000 62%,transparent 76%);
+  transition: filter .2s ease;
+}
+.guide-canvas>a>span { position: relative; grid-column: 2; z-index: 1; padding: 1.2rem 0; gap: .65rem; }
+.guide-canvas>a:last-child>img { left: -12%; width: 60%; }
+.guide-canvas small { font-size: .63rem; color: #52634a; line-height: 1.55; }
+.guide-canvas strong { font-size: clamp(1.45rem,2.1vw,2rem); line-height: 1.14; max-width: 13ch; }
+.guide-canvas em { font-size: .77rem; max-width: 23ch; color: #53684e; }
+.guide-canvas em::after { content: ''; display: block; margin-top: .65rem; width: 24px; height: 1px; background: #4d6a44; transition: width .2s ease; }
+.guide-canvas>a:hover em::after,.guide-canvas>a:focus-visible em::after { width: 64px; }
+.guide-canvas>a:hover strong,.guide-canvas>a:focus-visible strong { color: #547537; }
+.guide-canvas>a:focus-visible { outline: 2px solid #527841; outline-offset: 7px; }
+@media(max-width:1100px) and (min-width:681px) { .guide-canvas>a { min-height: 225px; }.guide-canvas strong { font-size: 1.45rem; } }
+@media(max-width:680px) {
+  .editorial-path.guide-canvas,.editorial-library.guide-canvas { grid-template-columns: 1fr; gap: .25rem; margin: 1.5rem -.4rem 2rem; }
+  .guide-canvas>a { min-height: 200px; grid-template-columns: 44% 56%; padding: 0; }
+  .guide-canvas>a:nth-child(even) { top: 0; }
+  .guide-canvas>a>img { left: -9%; width: 72%; }
+  .guide-canvas>a>span { padding-block: .8rem; }
+  .guide-canvas strong { font-size: 1.55rem; }
+}
+@media(prefers-reduced-motion:reduce) { .guide-canvas>a>img,.guide-canvas em::after { transition: none; } }

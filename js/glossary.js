@@ -31,6 +31,16 @@
   "use strict";
 
   var DEFINITIONS = {
+    "uart": { term: "UART", def: "Universal asynchronous receiver-transmitter — a serial data interface. The AeroSense programming connection uses 3.3 V UART; it is separate from USB-C power." },
+    "pdms": { term: "PDMS", def: "Polydimethylsiloxane — a silicone polymer considered in transport models. It is not part of the current AeroSense assembly or required bill of materials." },
+    "led": { term: "LED", def: "Light-emitting diode — a semiconductor light source. In the reader, blue excitation light stimulates a fluorescent response; it is not the fluorescence signal itself." },
+    "mcu": { term: "MCU", def: "Microcontroller unit — a small computer on a chip that coordinates electronics, timing, and data acquisition." },
+    "ema": { term: "EMA", def: "Exponential moving average — a display smoothing method that gives more weight to recent values. Smoothing does not remove systematic measurement error." },
+    "stl": { term: "STL", def: "A triangle-mesh file format commonly used to transfer a three-dimensional part to 3D-printing software. A printable model is not evidence of validated fit or function." },
+    "cad": { term: "CAD", def: "Computer-aided design — the digital geometry and drawings used to describe and revise a physical part." },
+    "t90": { term: "t90", def: "The time needed for a response to reach 90% of its final change. Gas-phase, liquid-phase, and biological response times describe different processes." },
+    "cross-talk": { term: "Cross-talk", def: "Signal from one channel appearing in another. In the four-well reader, optical mixing can remain even after frequency-selective processing." },
+    "adc-clipping": { term: "Clipping", def: "A signal exceeding the usable measurement range and being cut off at a limit. Background subtraction cannot recover the missing signal." },
     voc: {
       term: "VOC",
       def: "Volatile organic compound — a carbon-containing chemical that readily enters the gas phase at ambient conditions.",
@@ -69,8 +79,8 @@
       def: "A synthetic compound used to activate Orco-containing insect odorant-receptor channels; useful as a pathway control.",
     },
     hek293t: {
-      term: "HEK293T",
-      def: "A human embryonic kidney cell line commonly used for heterologous protein expression.",
+      term: "HEK293",
+      def: "A human cell line derived from embryonic kidney culture and transformed with adenovirus 5 DNA. HEK293 is the host used for the team’s heterologous receptor-expression experiments.",
     },
     gcamp6: {
       term: "GCaMP6",
@@ -264,7 +274,7 @@
   var closeTimer = null;
   var definitionOrb = null;
   var ILLUSTRATIONS = {
-    drosophila: { src: 'fig/fly.jpg', alt: 'Fruit fly, the organism inspiring the receptor and coding designs', caption: 'Fruit-fly visual' },
+    drosophila: { src: 'assets/editorial/2026-10-10-refined/biology-print.webp', alt: 'Editorial illustration of a fruit fly, the organism inspiring the receptor and coding designs', caption: 'Fruit fly · conceptual illustration' },
     gcamp: { src: 'fig/engineering/GCaMP6f_GGGGSx3_DmOrco.png', alt: 'Team construct map showing GCaMP6f linked to Orco', caption: 'Our reporter construct map · not a protein structure' },
     pcb: { src: 'fig/hardware/v2-pcb-top.png', alt: 'Team reader-board top layout', caption: 'Reader-board design · not a built-device photo' }
   };
@@ -449,10 +459,11 @@
     openPopover(termEl);
   }
 
-  // One unobtrusive explanation per concept on each page. Existing hand-placed
+  // One explanation per concept in each reading block. Existing hand-placed
   // definitions remain in place; links, controls, code, references and headings
   // are never rewritten.
   var AUTO_ALIASES = {
+    uart:["UART"], pdms:["PDMS"], led:["LED", "LEDs"], mcu:["MCU"], ema:["EMA"], stl:["STL"], cad:["CAD"], t90:["t90"], "cross-talk":["cross-talk", "crosstalk"], "adc-clipping":["clipping", "clipped"],
     voc: ["VOCs", "VOC", "volatile organic compounds"],
     mycotoxin: ["mycotoxins", "mycotoxin"],
     aflatoxin: ["aflatoxins", "aflatoxin"],
@@ -464,7 +475,7 @@
     or: ["odorant receptor", "odorant receptors", "OR"],
     drosophila: ["Drosophila"],
     vuaa1: ["VUAA1"],
-    hek293t: ["HEK293T"],
+    hek293t: ["HEK293", "HEK-293"],
     gcamp6: ["GCaMP6", "GCaMP6f"],
     gcamp: ["GCaMP"],
     obp: ["OBP"],
@@ -503,7 +514,7 @@
     drc: ["DRC"],
     erc: ["ERC"],
     kicad: ["KiCad"],
-    esp32: ["ESP32"],
+    esp32: ["ESP32-S3", "ESP32"],
     spi: ["SPI"],
     pcb: ["PCB", "printed circuit board"],
     "gc-ms": ["GC–MS", "GC-MS"],
@@ -570,65 +581,49 @@
     iso17025: ["ISO 17025", "ISO/IEC 17025"]
   };
 
+  var annotationPattern = null;
+  var annotationAliases = Object.create(null);
   function autoAnnotateTerms(root) {
     var main = root || document.querySelector("main");
-    if (!main) return;
-    var patterns = [];
-    Object.keys(AUTO_ALIASES).forEach(function (key) {
-      if (!DEFINITIONS[key]) return;
-      AUTO_ALIASES[key].forEach(function (alias) {
-        var special = "\\^$.*+?()[]{}|";
-        var escaped = alias.split("").map(function (character) {
-          return special.indexOf(character) >= 0 ? "\\" + character : character;
-        }).join("");
-        var flags = alias.length <= 4 && alias === alias.toUpperCase() ? "" : "i";
-        patterns.push({ key: key, re: new RegExp("(?<![A-Za-z0-9])" + escaped + "(?![A-Za-z0-9])", flags) });
-      });
-    });
-    var used = new Set();
-    var nodes = [];
-    var walker = document.createTreeWalker(main, 4);
-    while (walker.nextNode()) {
-      var node = walker.currentNode;
-      var parent = node.parentElement;
-      if (!parent || !node.nodeValue.trim()) continue;
-      if (!parent.closest("p, li, dd, dt, td, th, figcaption, blockquote")) continue;
-      if (parent.closest("a, button, dfn, code, pre, script, style, textarea, nav, header, footer, svg, .cite-wrap, .cite-preview, .glossary-popover, .references, .aerosense-cinematic")) continue;
-      nodes.push(node);
-    }
-    var count = 0;
-    nodes.some(function (node) {
-      if (count >= 48) return true;
-      var remaining = node.nodeValue;
-      var fragment = document.createDocumentFragment();
-      var replacements = 0;
-      while (remaining && replacements < 2 && count < 48) {
-        var best = null;
-        patterns.forEach(function (item) {
-          if (used.has(item.key)) return;
-          var match = item.re.exec(remaining);
-          if (match && (!best || match.index < best.index || (match.index === best.index && match[0].length > best.text.length))) {
-            best = { key: item.key, index: match.index, text: match[0] };
-          }
+    if (!main || main.classList.contains('glossary-page')) return;
+    if (!annotationPattern) {
+      var aliases = [];
+      Object.keys(AUTO_ALIASES).forEach(function(key) {
+        if (!DEFINITIONS[key]) return;
+        AUTO_ALIASES[key].forEach(function(alias) {
+          var item = {key:key, text:alias, exact:alias.length<=4 && alias===alias.toUpperCase()};
+          (annotationAliases[alias.toLowerCase()] || (annotationAliases[alias.toLowerCase()]=[])).push(item);
+          aliases.push(alias.split('').map(function(character) {
+            return '\\^$.*+?()[]{}|'.includes(character) ? '\\' + character : character;
+          }).join(''));
         });
-        if (!best) break;
-        fragment.appendChild(document.createTextNode(remaining.slice(0, best.index)));
-        var term = document.createElement("dfn");
-        term.className = "term";
-        term.setAttribute("data-term", best.key);
-        term.setAttribute("data-glossary-auto", "");
-        term.textContent = best.text;
-        fragment.appendChild(term);
-        remaining = remaining.slice(best.index + best.text.length);
-        used.add(best.key);
-        replacements += 1;
-        count += 1;
+      });
+      aliases.sort(function(a,b){return b.length-a.length;});
+      annotationPattern = new RegExp('(?<![A-Za-z0-9])(?:'+aliases.join('|')+')(?![A-Za-z0-9])','gi');
+    }
+    var blocks = new Map(), nodes = [], walker = document.createTreeWalker(main, 4);
+    while(walker.nextNode()) {
+      var node=walker.currentNode, parent=node.parentElement;
+      if (!parent || !node.nodeValue.trim()) continue;
+      var block=parent.closest('p, li, dd, dt, td, th, figcaption, blockquote');
+      if (!block || parent.closest('a, button, dfn, code, pre, script, style, textarea, select, option, optgroup, label, summary, nav, header, footer, svg, .cite-wrap, .cite-preview, .glossary-popover, .references, .aerosense-cinematic')) continue;
+      if (!blocks.has(block)) blocks.set(block, new Set(Array.from(block.querySelectorAll('dfn[data-term]')).map(function(el){return el.dataset.term;})));
+      nodes.push({node:node, block:block});
+    }
+    nodes.forEach(function(item) {
+      var used=blocks.get(item.block), value=item.node.nodeValue, fragment=document.createDocumentFragment();
+      var previous=0, changed=false, match;
+      annotationPattern.lastIndex=0;
+      while((match=annotationPattern.exec(value))) {
+        var options=annotationAliases[match[0].toLowerCase()] || [];
+        var entry=options.find(function(row){return !row.exact || row.text===match[0];});
+        if (!entry || used.has(entry.key)) continue;
+        fragment.appendChild(document.createTextNode(value.slice(previous,match.index)));
+        var term=document.createElement('dfn'); term.className='term';
+        term.setAttribute('data-term',entry.key); term.setAttribute('data-glossary-auto',''); term.textContent=match[0];
+        fragment.appendChild(term);previous=match.index+match[0].length;used.add(entry.key);changed=true;
       }
-      if (replacements) {
-        fragment.appendChild(document.createTextNode(remaining));
-        node.parentNode.replaceChild(fragment, node);
-      }
-      return false;
+      if(changed){fragment.appendChild(document.createTextNode(value.slice(previous)));item.node.parentNode.replaceChild(fragment,item.node);}
     });
   }
 
@@ -651,7 +646,7 @@
       // mentions another field, so it is not used as a keyword classifier.
       var known = {
         biology: 'voc mycotoxin or orco drosophila vuaa1 hek293t gcamp6 gcamp delta-f-over-f0 obp ali rfc1000 biobrick ies ires headspace aflatoxin indole or49b fluorescence gc-ms lc-ms registry part-collection cds cmv kozak mcherry pcdna plasmid composite-part rfc10 codon-optimization sanger bsai ionomycin poly-a emcv neor g418',
-        hardware: 'fdm dlia tia adc cfd monte-carlo fluence quantum-yield responsivity ldo sar gpio dds iq-demodulation high-impedance pcb spi e-nose photodiode excitation detection-limit snr dark-noise calibration bom drc erc kicad esp32 vref',
+        hardware: 'uart pdms led mcu ema stl cad t90 cross-talk adc-clipping fdm dlia tia adc cfd monte-carlo fluence quantum-yield responsivity ldo sar gpio dds iq-demodulation high-impedance pcb spi e-nose photodiode excitation detection-limit snr dark-noise calibration bom drc erc kicad esp32 vref',
         model: 'al pn mb kc mbon lateral-inhibition sparse-coding lsh snn false-positive false-negative sensitivity specificity f1-score cross-validation data-leakage confusion-matrix baseline-model pca svm loso anova-f stdp standardscaler',
         people: 'sds sop rg poc screening confirmatory risk-tier dbtlr ihp sdg b2b beachhead mvp tam sam som fiti willingness-to-pay lca bsl irb loi iso17025'
       };
@@ -668,6 +663,7 @@
     }).filter(function (entry, index, all) {
       return all.findIndex(function (candidate) { return candidate.term === entry.term; }) === index;
     }).sort(function (a, b) { return a.term.localeCompare(b.term, "en"); });
+    list.replaceChildren();
     entries.forEach(function (entry,index) {
       var article = document.createElement("article");
       article.className = "glossary-entry";

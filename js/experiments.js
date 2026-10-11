@@ -26,13 +26,28 @@
     "transfection",
     "stable-selection",
     "expression-validation",
+    "microscopy-analysis",
     "calcium-imaging",
-    "data-analysis"
+    "data-analysis",
+    "fly-lightsheet"
   ];
+  var TRACKS = {
+    cloning: ["molecular-cloning"],
+    "cell-odor": ["cell-culture", "transfection", "stable-selection", "expression-validation", "microscopy-analysis", "calcium-imaging", "data-analysis"],
+    "fly-imaging": ["fly-lightsheet"]
+  };
+  function trackForProtocol(id) {
+    if (Object.prototype.hasOwnProperty.call(TRACKS, id)) return id;
+    var found = "all";
+    Object.keys(TRACKS).forEach(function (track) {
+      if (TRACKS[track].indexOf(id) !== -1 || track + "-track" === id) found = track;
+    });
+    return found;
+  }
 
-  var SPY_IDS = ["workflow"]
+  var SPY_IDS = ["abstract", "introduction", "workflow"]
     .concat(PROTOCOL_IDS)
-    .concat(["safety", "references"]);
+    .concat(["results-record", "discussion", "conclusion", "supplementary", "safety", "references"]);
 
   var navLinks = Array.prototype.slice.call(
     document.querySelectorAll("[data-exp-flow] a[href^='#'], [data-exp-glance] a[href^='#']")
@@ -90,6 +105,13 @@
     }
   }
 
+  function protocolForId(id) {
+    var target = document.getElementById(id);
+    var section = target && target.closest(".exp-proto[data-protocol-id]");
+    var track = target && target.closest("[data-exp-track]");
+    return section ? section.getAttribute("data-protocol-id") : track ? track.getAttribute("data-exp-track") : "";
+  }
+
   /* A. Same-page hash links: smooth or instant scroll, hash in the URL, history intact. */
   document.addEventListener("click", function (e) {
     if (e.defaultPrevented || e.button !== 0) return;
@@ -106,24 +128,26 @@
     }
     if (!id || !document.getElementById(id)) return;
     e.preventDefault();
-    if (PROTOCOL_IDS.indexOf(id) !== -1) {
-      applyProtocolFilter(id, { updateUrl: true });
+    var protocol = protocolForId(id);
+    if (protocol) {
+      applyProtocolFilter(protocol, { updateUrl: true });
     }
     scrollToId(id);
     setHash(id);
-    markNav(id);
+    markNav(protocol || id);
   });
 
   window.addEventListener("popstate", function () {
     var id = location.hash ? location.hash.slice(1) : "";
-    if (PROTOCOL_IDS.indexOf(id) !== -1) {
-      applyProtocolFilter(id, { updateUrl: false });
+    var protocol = protocolForId(id);
+    if (protocol) {
+      applyProtocolFilter(protocol, { updateUrl: false });
     } else if (!id) {
       applyProtocolFilter("all", { updateUrl: false });
     }
     if (id && document.getElementById(id)) {
       scrollToId(id, "auto");
-      markNav(id);
+      markNav(protocol || id);
     }
   });
 
@@ -229,11 +253,12 @@
     });
   }
 
-  /* G. Protocol filter — hide, do not remove, protocol sections. */
+  /* G. Show one complete experimental track, preserving legacy protocol links. */
   var filterRoot = document.querySelector("[data-protocol-filter]");
   var protocolSections = Array.prototype.slice.call(
     document.querySelectorAll(".exp-proto[data-protocol-id]")
   );
+  var trackSections = Array.prototype.slice.call(document.querySelectorAll("[data-exp-track]"));
   var filterButtons = filterRoot
     ? Array.prototype.slice.call(filterRoot.querySelectorAll("[data-protocol-id]"))
     : [];
@@ -262,29 +287,31 @@
 
   function applyProtocolFilter(id, opts) {
     opts = opts || {};
-    if (PROTOCOL_IDS.indexOf(id) === -1) id = "all";
+    id = trackForProtocol(id);
     filterButtons.forEach(function (btn) {
       btn.setAttribute(
         "aria-pressed",
         btn.getAttribute("data-protocol-id") === id ? "true" : "false"
       );
     });
-    protocolSections.forEach(function (section) {
-      var show = id === "all" || section.getAttribute("data-protocol-id") === id;
+    protocolSections.forEach(function (section) { section.removeAttribute("hidden"); });
+    trackSections.forEach(function (section) {
+      var show = id === "all" || section.getAttribute("data-exp-track") === id;
       if (show) section.removeAttribute("hidden");
       else section.setAttribute("hidden", "");
     });
     if (opts.updateUrl) writeProtocolToUrl(id);
     if (id !== "all") markNav(id);
     else markNav("");
-    announce(id === "all" ? "Showing all protocols." : "Showing " + id.replace(/-/g, " ") + ".");
+    announce(id === "all" ? "Showing all three experimental tracks." : "Showing the " + id.replace(/-/g, " ") + " experimental track.");
   }
 
   function initialProtocol() {
     var hash = (location.hash || "").replace(/^#/, "");
-    if (PROTOCOL_IDS.indexOf(hash) !== -1) return hash;
+    var protocol = protocolForId(hash);
+    if (protocol) return protocol;
     var query = protocolFromSearch();
-    if (PROTOCOL_IDS.indexOf(query) !== -1) return query;
+    if (trackForProtocol(query) !== "all") return query;
     return "all";
   }
 
@@ -294,8 +321,8 @@
         var id = btn.getAttribute("data-protocol-id");
         applyProtocolFilter(id, { updateUrl: true });
         if (id && id !== "all") {
-          scrollToId(id);
-          setHash(id);
+          scrollToId(id + "-track");
+          setHash(id + "-track");
         } else {
           scrollToId("workflow");
           setHash("workflow");
@@ -305,8 +332,9 @@
     applyProtocolFilter(initialProtocol(), { updateUrl: false });
     window.addEventListener("hashchange", function () {
       var hash = (location.hash || "").replace(/^#/, "");
-      if (PROTOCOL_IDS.indexOf(hash) !== -1) {
-        applyProtocolFilter(hash, { updateUrl: true });
+      var protocol = protocolForId(hash);
+      if (protocol) {
+        applyProtocolFilter(protocol, { updateUrl: true });
       }
     });
     window.addEventListener("beforeprint", function () {

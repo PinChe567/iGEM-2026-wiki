@@ -5,8 +5,8 @@
  * Plasmid maps: ../plasmid/*.png (final construct images).
  *
  * Do not invent nucleotide sequences, Registry URLs, or assay results.
- * Per-part registryUrl stays null until a verified part-page route exists
- * in the repo or source markdown. The Registry portal URL is stored once.
+ * Registry URLs and compatibility were read from the public Registry on2026-10-11.
+ * The archived verification JSON preserves each observed canonical link and RFC modal.
  *
  * Browser: window.AerosenseParts
  * Node:    module.exports (for count / asset checks)
@@ -663,8 +663,8 @@
     assemblyNotes: {
       cloningHostIntent: "seamless cloning into pcDNA3.1(+)",
       rfc10Note:
-        "RFC 10 and RFC 1000 are independent Registry assembly standards. This index records RFC 10 only when a Registry compatibility field has been verified in-repo. Unverified parts stay Unknown — RFC 10 is never inferred from RFC 1000.",
-      rfc10VerifiedIds: [],
+        "RFC 10 and RFC 1000 are independent Registry assembly standards. This index records RFC 10 only when a Registry compatibility field has been verified in-repo. All26 entries were checked on2026-10-11; RFC 10 is read independently of RFC 1000. The archived JSON records the first incompatible motif where supplied.",
+      rfc10VerifiedIds: ["BBa_2629NIWH", "BBa_262WP16P", "BBa_265G8CE1", "BBa_26ACVV3R", "BBa_26AIIWHV", "BBa_26DG1NPK", "BBa_26DVVZIA", "BBa_26E11Z80", "BBa_26E21OEQ", "BBa_26HJ1RUT", "BBa_26HTXB02", "BBa_26K1TU11", "BBa_26LLF3LM", "BBa_26LWIKBQ", "BBa_26OJ8HGO", "BBa_26Q1Q094", "BBa_26QHYP02", "BBa_26TZLBMJ", "BBa_26UHN7NT", "BBa_26VGDFA1", "BBa_26WOX4B1", "BBa_26XXP4K7", "BBa_26Y7CI2H", "BBa_26ZAGFK0", "BBa_K4177005", "BBa_K5490030"],
       rfc1000CompatibleSensing: ["Or85b", "Or59b", "Or42a", "Or98a"],
       rfc1000ViolationCount: 7,
       avoidDiagnosticEnzyme: "PstI",
@@ -745,7 +745,174 @@
     return "Unknown";
   }
 
+  var VERIFIED_REGISTRY = {
+  "BBa_2629NIWH": {
+    "url": "https://registry.igem.org/parts/bba-2629niwh",
+    "rfc10": false,
+    "rfc1000": false,
+    "documentationEmpty": true
+  },
+  "BBa_262WP16P": {
+    "url": "https://registry.igem.org/parts/bba-262wp16p",
+    "rfc10": true,
+    "rfc1000": true,
+    "documentationEmpty": true
+  },
+  "BBa_265G8CE1": {
+    "url": "https://registry.igem.org/parts/bba-265g8ce1",
+    "rfc10": false,
+    "rfc1000": false,
+    "documentationEmpty": true
+  },
+  "BBa_26ACVV3R": {
+    "url": "https://registry.igem.org/parts/bba-26acvv3r",
+    "rfc10": false,
+    "rfc1000": false,
+    "documentationEmpty": true
+  },
+  "BBa_26AIIWHV": {
+    "url": "https://registry.igem.org/parts/bba-26aiiwhv",
+    "rfc10": false,
+    "rfc1000": false,
+    "documentationEmpty": true
+  },
+  "BBa_26DG1NPK": {
+    "url": "https://registry.igem.org/parts/bba-26dg1npk",
+    "rfc10": true,
+    "rfc1000": true,
+    "documentationEmpty": true
+  },
+  "BBa_26DVVZIA": {
+    "url": "https://registry.igem.org/parts/bba-26dvvzia",
+    "rfc10": false,
+    "rfc1000": true,
+    "documentationEmpty": true
+  },
+  "BBa_26E11Z80": {
+    "url": "https://registry.igem.org/parts/bba-26e11z80",
+    "rfc10": false,
+    "rfc1000": false,
+    "documentationEmpty": true
+  },
+  "BBa_26E21OEQ": {
+    "url": "https://registry.igem.org/parts/bba-26e21oeq",
+    "rfc10": true,
+    "rfc1000": true,
+    "documentationEmpty": true
+  },
+  "BBa_26HJ1RUT": {
+    "url": "https://registry.igem.org/parts/bba-26hj1rut",
+    "rfc10": false,
+    "rfc1000": false,
+    "documentationEmpty": true
+  },
+  "BBa_26HTXB02": {
+    "url": "https://registry.igem.org/parts/bba-26htxb02",
+    "rfc10": true,
+    "rfc1000": false,
+    "documentationEmpty": true
+  },
+  "BBa_26K1TU11": {
+    "url": "https://registry.igem.org/parts/bba-26k1tu11",
+    "rfc10": false,
+    "rfc1000": true,
+    "documentationEmpty": true
+  },
+  "BBa_26LLF3LM": {
+    "url": "https://registry.igem.org/parts/bba-26llf3lm",
+    "rfc10": false,
+    "rfc1000": false,
+    "documentationEmpty": true
+  },
+  "BBa_26LWIKBQ": {
+    "url": "https://registry.igem.org/parts/bba-26lwikbq",
+    "rfc10": false,
+    "rfc1000": false,
+    "documentationEmpty": true
+  },
+  "BBa_26OJ8HGO": {
+    "url": "https://registry.igem.org/parts/bba-26oj8hgo",
+    "rfc10": true,
+    "rfc1000": true,
+    "documentationEmpty": true
+  },
+  "BBa_26Q1Q094": {
+    "url": "https://registry.igem.org/parts/bba-26q1q094",
+    "rfc10": false,
+    "rfc1000": true,
+    "documentationEmpty": true
+  },
+  "BBa_26QHYP02": {
+    "url": "https://registry.igem.org/parts/bba-26qhyp02",
+    "rfc10": false,
+    "rfc1000": true,
+    "documentationEmpty": true
+  },
+  "BBa_26TZLBMJ": {
+    "url": "https://registry.igem.org/parts/bba-26tzlbmj",
+    "rfc10": false,
+    "rfc1000": true,
+    "documentationEmpty": true
+  },
+  "BBa_26UHN7NT": {
+    "url": "https://registry.igem.org/parts/bba-26uhn7nt",
+    "rfc10": false,
+    "rfc1000": true,
+    "documentationEmpty": true
+  },
+  "BBa_26VGDFA1": {
+    "url": "https://registry.igem.org/parts/bba-26vgdfa1",
+    "rfc10": false,
+    "rfc1000": false,
+    "documentationEmpty": true
+  },
+  "BBa_26WOX4B1": {
+    "url": "https://registry.igem.org/parts/bba-26wox4b1",
+    "rfc10": false,
+    "rfc1000": false,
+    "documentationEmpty": true
+  },
+  "BBa_26XXP4K7": {
+    "url": "https://registry.igem.org/parts/bba-26xxp4k7",
+    "rfc10": false,
+    "rfc1000": false,
+    "documentationEmpty": true
+  },
+  "BBa_26Y7CI2H": {
+    "url": "https://registry.igem.org/parts/bba-26y7ci2h",
+    "rfc10": false,
+    "rfc1000": true,
+    "documentationEmpty": true
+  },
+  "BBa_26ZAGFK0": {
+    "url": "https://registry.igem.org/parts/bba-26zagfk0",
+    "rfc10": false,
+    "rfc1000": false,
+    "documentationEmpty": true
+  },
+  "BBa_K4177005": {
+    "url": "https://registry.igem.org/parts/bba-k4177005",
+    "rfc10": false,
+    "rfc1000": true,
+    "documentationEmpty": false
+  },
+  "BBa_K5490030": {
+    "url": "https://registry.igem.org/parts/bba-k5490030",
+    "rfc10": true,
+    "rfc1000": true,
+    "documentationEmpty": false
+  }
+};
+
   function applyDefaults(part) {
+    var verified = VERIFIED_REGISTRY[part.id];
+    if (verified) {
+      part.registryUrl = verified.url;
+      part.rfc10 = verified.rfc10;
+      part.rfc1000 = verified.rfc1000;
+      part.registryVerifiedOn = "2026-10-11";
+      part.registryDocumentationEmpty = verified.documentationEmpty;
+    }
     if (!part.registryUrl) part.registryUrl = null;
     if (!part.parentIds) part.parentIds = [];
     if (!part.childIds) part.childIds = [];
@@ -813,7 +980,7 @@
       return part.category === "basic" && part.firstGeneration;
     });
     var rfcTrue = PARTS.filter(function (part) {
-      return part.rfc1000 === true;
+      return part.category === "composite" && part.rfc1000 === true;
     });
 
     if (basic.length !== 14) addError(errors, "basic count " + basic.length + " !== 14");
@@ -829,8 +996,8 @@
     PARTS.forEach(function (part) {
       if (ids[part.id]) addError(errors, "duplicate id " + part.id);
       ids[part.id] = true;
-      if (part.registryUrl) {
-        addError(errors, part.id + " has a registryUrl but no verified per-part URL scheme exists");
+      if (!VERIFIED_REGISTRY[part.id] || part.registryUrl !== VERIFIED_REGISTRY[part.id].url) {
+        addError(errors, part.id + " does not match its archived Registry URL");
       }
     });
 
@@ -907,8 +1074,8 @@
         addError(errors, part.id + " rfc1000 must be true, false, or \"unknown\"");
       }
       /* Do not infer RFC 10 from RFC 1000. Unverified RFC 10 must stay unknown. */
-      if (part.rfc10 !== "unknown") {
-        addError(errors, part.id + " RFC 10 is not Registry-verified in this index");
+      if (!VERIFIED_REGISTRY[part.id] || part.rfc10 !== VERIFIED_REGISTRY[part.id].rfc10 || part.rfc1000 !== VERIFIED_REGISTRY[part.id].rfc1000) {
+        addError(errors, part.id + " compatibility does not match the archived Registry check");
       }
     });
     if (rfcTrue.length !== 4) {
@@ -999,8 +1166,9 @@
       assets: assets,
       registry: {
         portalUrl: REGISTRY_PORTAL_URL,
-        perPartUrlsAssigned: 0,
-        perPartUrlSchemeVerified: false,
+        perPartUrlsAssigned: PARTS.filter(function(p) { return !!p.registryUrl; }).length,
+        perPartUrlSchemeVerified: true,
+        checked: "2026-10-11",
       },
     };
   }

@@ -105,7 +105,7 @@
       choices: [
         {
           id: "a",
-          text: "Living HEK293T cells that express insect OR/Orco proteins and a calcium reporter.",
+          text: "Living HEK293 cells that express insect OR/Orco proteins and a calcium reporter.",
         },
         {
           id: "b",
@@ -118,7 +118,7 @@
       ],
       correctAnswer: "a",
       explanation:
-        "The planned biological element is a living cell chassis (HEK293T) that expresses insect odorant receptors with Orco, plus a GCaMP-class reporter. Optics and AI sit downstream. They are not the receptor.",
+        "The planned biological element is a living cell chassis (HEK293) that expresses insect odorant receptors with Orco, plus a GCaMP-class reporter. Optics and AI sit downstream. They are not the receptor.",
     },
     SYN_GCAMP_ROLE: {
       id: "SYN_GCAMP_ROLE",
@@ -164,7 +164,7 @@
       ],
       correctAnswer: "a",
       explanation:
-        "HEK293T cells engineered to express heterologous receptors are living genetically modified material. They belong behind a sealed cartridge or other containment concept, with responsible handling and waste. They should not contact the food being screened.",
+        "HEK293 cells engineered to express heterologous receptors are living genetically modified material. They belong behind a sealed cartridge or other containment concept, with responsible handling and waste. They should not contact the food being screened.",
     },
     DEC_PATTERN_CODE: {
       id: "DEC_PATTERN_CODE",
@@ -645,7 +645,7 @@
           id: "not-a-nose",
           heading: "Not a nose — a pathway",
           paragraphs: [
-            "AeroSense does not transplant a fly’s nose into food. The plan is heterologous: selected insect odorant receptors, with Orco, expressed in HEK293T cells, with a GCaMP-class reporter that can turn a calcium change into light.",
+            "AeroSense does not transplant a fly’s nose into food. The plan is heterologous: selected insect odorant receptors, with Orco, expressed in HEK293 cells, with a GCaMP-class reporter that can turn a calcium change into light.",
             "That is an engineered information pathway. Fluorescence is still not a food verdict, and this lesson does not claim a working device in hand.",
           ],
           widget: "method-strip",
@@ -678,12 +678,12 @@
         challenge:
           "Assemble the minimum biological sensing chain, then park the detector and the classifier in the right layers. Tap a part, then tap a zone. Drag works on a pointer too.",
         explanation:
-          "HEK293T, OR, Orco, and GCaMP belong in the cell. The photodiode belongs in readout, outside the cell. The AI classifier belongs in computation. mCherry can ride in the cell as an expression reporter; it is not required for the odor-to-fluorescence conversion.",
+          "HEK293, OR, Orco, and GCaMP belong in the cell. The photodiode belongs in readout, outside the cell. The AI classifier belongs in computation. mCherry can ride in the cell as an expression reporter; it is not required for the odor-to-fluorescence conversion.",
         disclaimer: "Conceptual assembly — not experimental AeroSense data and not a plasmid map.",
         parts: [
           {
             id: "hek",
-            label: "HEK293T",
+            label: "HEK293",
             role: "Living chassis that hosts the proteins.",
           },
           {

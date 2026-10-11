@@ -51,6 +51,8 @@ What was most confusing or most useful? Options: visuals / instructions / idea /
 
 ## Game 2 — QC Shift
 
+**Archive status:** These G2 items belong to the earlier QC Shift activity, not the current Odor Maze / Scentbound Labyrinth at the same route. They must not be used as a matched measure of Maze learning. A version-matched Maze assessment has not been supplied.
+
 ### G2-SCREEN-01 (pre / post)
 
 **Measures:** Screening is an early warning, not confirmatory diagnosis.

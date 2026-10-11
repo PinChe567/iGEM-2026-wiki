@@ -51,3 +51,15 @@ body .references .reference-groups {scroll-margin-top:calc(var(--header-offset,8
   body .references .reference-group > .ref-list > li {padding-left:2.75rem}
   body .references .ref-list > li[value]::before {width:2.25rem;font-size:.8rem}
 }
+/* Reference tools work for papers, technical sources and newly added entries. */
+body .ref-return-tools{display:flex;align-items:center;flex-wrap:wrap;gap:.55rem 1rem;margin:.65rem 0 .15rem}
+body .ref-return-tools .ref-backlink{margin:0;display:inline-block;white-space:nowrap;font-size:.8rem}
+body .ref-citation-picker{display:block;min-width:0;max-width:100%;margin:0}
+body .ref-citation-picker select{max-width:min(100%,24rem);min-width:0;border:1px solid #c4d3c7;border-radius:.4rem;background:#f6f8ef;color:#315b49;font:500 .75rem/1.5 var(--font-body,sans-serif);padding:.35rem .5rem;min-height:2rem}
+body .reference-reading-note{font-size:.78rem!important;line-height:1.6!important;text-align:left!important;color:#5d7162!important;margin:1.25rem 0 .5rem!important;padding:.6rem 0;border-top:1px solid #dbe3d6}
+body .reference-reading-note a{overflow-wrap:anywhere}
+body .is-citation-highlight{outline:2px solid #af9145!important;outline-offset:5px;background-color:#fff4cd!important;border-radius:.3rem;transition:background-color .2s ease}
+body .ref-return-tools :is(a,select):focus-visible{outline:3px solid #598568;outline-offset:4px}
+body :is(.ref-list,.tech-source-list,.reference-list)>li{scroll-margin-top:calc(var(--header-offset,80px) + 2rem)}
+@media(max-width:600px){body .ref-citation-picker{width:100%}body .ref-citation-picker select{width:100%;max-width:100%}}
+@media(prefers-reduced-motion:reduce){body .is-citation-highlight{transition:none}}

@@ -91,8 +91,8 @@ export const CARDS = [
     needScan: false,
     kicker: "05 · Cell",
     heading: "We borrowed the receptor.",
-    text: "The engineered HEK293T cell uses OR and Orco to turn receptor activation into a designed green GCaMP readout.",
-    chain: "OR / Orco  →  HEK293T  →  Ca²⁺  →  GCaMP"
+    text: "The engineered HEK293 cell uses OR and Orco to turn receptor activation into a designed green GCaMP readout.",
+    chain: "OR / Orco  →  HEK293  →  Ca²⁺  →  GCaMP"
   },
   {
     id: "hw",
