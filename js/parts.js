@@ -990,11 +990,7 @@
       status.hidden = false;
       status.textContent = "Loading the interactive model…";
       host.setAttribute("aria-busy", "true");
-<<<<<<< HEAD
       import("./parts-viewer.js?v=36fdae75e1c5e6af").then(function (module) {
-=======
-      import("./parts-viewer.js?v=20261010-linked-selection").then(function (module) {
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
         canvas.hidden = false;
         return module.createPartsViewer(host, sensor3d);
       }).then(function () {

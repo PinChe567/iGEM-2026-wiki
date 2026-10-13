@@ -635,11 +635,7 @@
         term.setAttribute('data-term',entry.key); term.setAttribute('data-glossary-auto',''); term.textContent=match[0];
         fragment.appendChild(term);previous=match.index+match[0].length;used.add(entry.key);changed=true;
       }
-<<<<<<< HEAD
       if(changed){fragment.appendChild(document.createTextNode(value.slice(previous)));window.AeroSenseI18n?.registerGlossaryFragment(item.node,fragment);item.node.parentNode.replaceChild(fragment,item.node);}
-=======
-      if(changed){fragment.appendChild(document.createTextNode(value.slice(previous)));item.node.parentNode.replaceChild(fragment,item.node);}
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     });
   }
 

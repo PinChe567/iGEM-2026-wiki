@@ -18,11 +18,8 @@
  *   needs-update — source is too incomplete or internally contradictory to treat as settled
  *
  * datePrecision: day | range | month
-<<<<<<< HEAD
  * startTime/endTime: supplied HH:mm local session time; null when unspecified.
  * timeZone: Asia/Taipei for the 12 October 2026 team update.
-=======
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
  * stream: wetlab | drylab | hp | team | igem
  * substream: hardware | model | null
  *   Technical workstreams: Wet Lab | Dry Lab.
@@ -658,7 +655,6 @@
    * ========================================================================= */
   var WETLAB_EVENTS = [
     event({
-<<<<<<< HEAD
   "id": "wet-p2-kinetics-20261010",
   "startDate": "2026-10-10",
   "endDate": "2026-10-10",
@@ -725,8 +721,6 @@
   "timeZone": "Asia/Taipei"
 }),
     event({
-=======
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
   "id": "wet-microscopy-transfection",
   "title": "WL-MIC-01 · HEK293 transfection evidence",
   "status": "completed",
@@ -845,7 +839,6 @@
 }),
     event({
   "id": "wet-g418-followup",
-<<<<<<< HEAD
   "startDate": "2026-10-11",
   "endDate": "2026-10-11",
   "openEnd": false,
@@ -899,44 +892,6 @@
   "startTime": "22:00",
   "endTime": "23:00",
   "timeZone": "Asia/Taipei"
-=======
-  "title": "WL-G418-01 · Separate selection batch",
-  "status": "ongoing",
-  "shortSummary": "The team reported a G418 selection batch in progress; it is separate from WL-MIC-01.",
-  "work": "G418 selection was reported as ongoing. No dated dosing trajectory or selected-cell endpoint accompanies the archived images.",
-  "result": "No selection improvement or stable function is claimed from the pre-selection images.",
-  "needsUpdate": [
-    "Start date, operator, doses, kill-curve control, survival/growth trajectory, reporter-retention and functional endpoints."
-  ],
-  "startDate": null,
-  "endDate": null,
-  "datePrecision": "range",
-  "stream": "wetlab",
-  "category": "archived-evidence",
-  "responsible": [],
-  "contributors": [],
-  "tags": [
-    "undated",
-    "source-linked",
-    "wetlab"
-  ],
-  "sourceSection": "Team-supplied images and preparation confirmations, archived 2026-10-10; experimental dates unresolved",
-  "sourceNote": "Retrospective provenance entry, not a contemporaneous dated bench record. The 2026-10-10 confirmation/archive date is NOT used as the experiment date.",
-  "relatedLinks": [
-    {
-      "label": "Results · WL-MIC-01",
-      "href": "results.html#wet-lab"
-    },
-    {
-      "label": "Experimental methods",
-      "href": "experiments.html#microscopy-analysis"
-    },
-    {
-      "label": "Microscopy source manifest",
-      "href": "assets/results/microscopy/source-manifest.json"
-    }
-  ]
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 }),
     event({
   "id": "wet-cloning-plates",
@@ -986,30 +941,17 @@
       "stream": "wetlab",
       "category": "exploratory-fly-imaging",
       "status": "completed",
-<<<<<<< HEAD
       "title": "TH-GFP light-sheet observation",
       "shortSummary": "The 20 April recording uses the team-identified “5137;TH” (TH-GFP) preparation. A movie and regional GFP-fluorescence traces are available; they do not measure neural calcium activity.",
       "work": "Observed GFP fluorescence in the team-identified “5137;TH” preparation during presentations of isopentyl acetate, 3-octanol and 4-methylcyclohexanol. The team identifies this as TH-driven mCD8::GFP membrane labeling. The full parental cross, progeny genotype and original acquisition timestamps remain to be documented.",
-=======
-      "title": "TH-associated Light-Sheet Observation",
-      "shortSummary": "The team dates the TH × UAS-GCaMP6f exploratory light-sheet work to 20 April. A movie and regional traces are available; an odor-evoked response remains to be validated with acquisition controls and repeat measurements.",
-      "work": "Observed fluorescence in the team-labeled TH (5137) preparation crossed to UAS-GCaMP6f, during presentations of isopentyl acetate, 3-octanol and 4-methylcyclohexanol. The reporter and day are team-confirmed; the full progeny genotype and original acquisition timestamps remain to be matched to the record.",
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       "output": [
         "Team-supplied TH-labeled movie",
         "Exploratory regional intensity and normalized-intensity plots"
       ],
-<<<<<<< HEAD
       "interpretation": "mCD8::GFP is a membrane label, not a calcium indicator. Regional intensity and local-baseline ΔF/F₀ describe normalized GFP fluorescence. Motion, bleaching, baseline drift and delivery artifacts remain possible contributors; these traces do not establish odor-evoked neural or calcium activity.",
       "nextStep": "Document the full parental cross and progeny genotype, align delivery timing, assess motion and background, and collect independent animals before interpreting a reproducible odor-associated GFP-fluorescence change.",
       "needsUpdate": [
         "Document the parental cross and full progeny genotype for the team-identified “5137;TH” preparation; BDSC 5137 identifies the UAS-mCD8::GFP reporter stock, not the TH driver.",
-=======
-      "interpretation": "UAS-GCaMP6f is a calcium-sensitive reporter confirmed by the team. These exploratory regional traces do not yet separate calcium-dependent changes from motion, bleaching, baseline drift or delivery artifacts, or identify every labeled neuron.",
-      "nextStep": "Resolve the driver stock identifier, document the full progeny genotype, align delivery timing and motion controls, and collect biological repeats before attributing fluorescence changes to odor-evoked neural activity.",
-      "needsUpdate": [
-        "Confirm whether 5137 is a Bloomington or local stock identifier. BDSC 5137 is a UAS-mCD8::GFP reporter, not a TH-GAL4 driver or GCaMP reporter.",
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
         "Document full cross, fly age/sex, preparation, acquisition and stimulus delivery metadata, and independent biological repeats."
       ],
       "relatedLinks": [
@@ -1035,11 +977,7 @@
         "exploratory"
       ],
       "sourceSection": "Fly observation update · 20 April · TH-associated light-sheet work",
-<<<<<<< HEAD
       "sourceNote": "Reporter identity was corrected by the team to “5137;TH” (TH-GFP), superseding the earlier UAS-GCaMP6f annotation for this recording. FlyBase lists BDSC 5137 as UAS-mCD8::GFP. The 20 April date is unchanged. Completed refers to image acquisition, not neural-response validation."
-=======
-      "sourceNote": "Date, TH (5137) preparation label and UAS-GCaMP6f reporter confirmed by the team on 10 October 2026. Year follows the existing 2026 notebook context. Completed refers to image acquisition, not neural-response validation."
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     }),
     event({
       "id": "wet-pn-preparation-20260504",
@@ -2119,7 +2057,6 @@
       ]
     }),
     event({
-<<<<<<< HEAD
   "id": "hw-enclosure-assembly-test",
   "startDate": "2026-10-09",
   "endDate": "2026-10-16",
@@ -2166,33 +2103,6 @@
   "sourceSection": "Team notebook update · 2026-10-09 – 2026-10-16 · Hardware assembly, trial use and revisions",
   "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October. The supplied hardware records specify dates but no times of day. This replaces the earlier 9 October start with an unconfirmed end (10/?) while retaining the original event ID."
 }),
-=======
-      "id": "hw-enclosure-assembly-test",
-      "startDate": "2026-10-09",
-      "endDate": null,
-      "openEnd": true,
-      "datePrecision": "range",
-      "stream": "drylab",
-      "substream": "hardware",
-      "category": "reported-phase",
-      "status": "planned",
-      "title": "Enclosure Assembly and Testing (Planned)",
-      "shortSummary": "Assembly testing is planned to start on 9 October. The supplied note gives the end as “10/?”; no completion date or test outcome is available.",
-      "work": "Assembly testing is planned to start on 9 October. The supplied note gives the end as “10/?”; no completion date or test outcome is available.",
-      "sourceNote": "Team-supplied timeline screenshot, incorporated on 8 October 2026. These are reported work periods; a dated phase does not establish instrument performance or completed validation.",
-      "sourceSection": "Hardware timeline update · Enclosure Assembly and Testing (Planned)",
-      "tags": [
-        "team-timeline",
-        "hardware-phase"
-      ],
-      "relatedLinks": [
-        {
-          "label": "Hardware evidence and design files",
-          "href": "hardware.html"
-        }
-      ]
-    }),
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     event({
       "id": "hp-game-ideas-rules",
       "startDate": "2026-07-13",
@@ -2311,7 +2221,6 @@
     })
   ];
 
-<<<<<<< HEAD
   // Dated team log: latest supplied chronology, interpreted as of 12 October 2026.
   var TEAM_LOG_V14_EVENTS = [
     event({
@@ -3012,9 +2921,6 @@
     if (COMPLETION_SUMMARIES_V25[ev.id]) ev.shortSummary = COMPLETION_SUMMARIES_V25[ev.id];
     ev.tags = ev.tags.filter(function (tag) { return tag !== "planned"; });
   });
-=======
-  var EVENTS = HARDWARE_EVENTS.concat(WETLAB_EVENTS, DRYLAB_EVENTS, HP_EVENTS, TIMELINE_UPDATE_EVENTS);
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 
   /**
    * Turning points — curated only from documented decisions in notebook_content.md.
@@ -3115,10 +3021,7 @@
 
   /* -------- Coverage map: every unique source section → event id -------- */
   var SOURCE_COVERAGE = [
-<<<<<<< HEAD
     {"section": "Plate P2 instrument exports, runs 904–935, and team confirmation on 11 October 2026", "eventId": "wet-p2-kinetics-20261010"},
-=======
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     {"section":"Fly observation update · 20 April · TH-associated light-sheet work","eventId":"wet-th-lightsheet-20260420"},
     {"section":"Fly observation update · 4 May · PN/GH146 preparation, imaging pending","eventId":"wet-pn-preparation-20260504"},
     { section: "Hardware · April 1–21 · Project Ideation and Team Formation", eventId: "hw-ideation" },
@@ -3159,13 +3062,10 @@
     SOURCE_COVERAGE.push({ section: ev.sourceSection, eventId: ev.id });
   });
 
-<<<<<<< HEAD
   TEAM_LOG_V14_EVENTS.forEach(function (ev) {
     SOURCE_COVERAGE.push({ section: ev.sourceSection, eventId: ev.id });
   });
 
-=======
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
   function byId(id) {
     for (var i = 0; i < EVENTS.length; i += 1) {
       if (EVENTS[i].id === id) return EVENTS[i];
@@ -4025,11 +3925,7 @@
     'ref-aso-output':'Mushroom-body output neurons and their role in valence and memory-guided behavior.',
     'ref-th-driver':'TH regulatory sequences used to target gene expression in dopaminergic cells; the driver is not a complete identity check for every labeled cell.',
     'ref-mao-davis':'Anatomical and physiological diversity of dopaminergic inputs to the mushroom body.',
-<<<<<<< HEAD
     'ref-bdsc-5137':'BDSC 5137 is a UAS-mCD8::GFP reporter stock, consistent with the team’s clarified 5137;TH (TH-GFP) recording. The full experimental cross remains to be documented.',
-=======
-    'ref-bdsc-5137':'BDSC 5137 is a UAS-mCD8::GFP catalogue entry. It flags a stock-number discrepancy, not a replacement for the team-confirmed UAS-GCaMP6f reporter.',
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     'ref-liu-apl':'The APL neuron contributes inhibitory feedback in the mushroom body and is relevant to interpreting GH146 expression.',
     'ref-dapi-guidance':'Manufacturer guidance for DAPI nuclear labeling; staining conditions affect how the nuclear signal can be interpreted.',
     'ref-microscopy-reporting':'Reporting guidance for reproducible fluorescence microscopy, including acquisition and image-analysis methods.',
@@ -4093,7 +3989,6 @@
       if (!cites.length) {
         var urls = sourceLinks.map(function(a){return a.href;});
         cites = qsa('main a[href], .page-article a[href]').filter(function(a){return !a.closest(listSelector) && !a.closest('.page-toc') && urls.indexOf(a.href) !== -1;});
-<<<<<<< HEAD
       }
       if (!cites.length) {
         var contextSelector = item.dataset.referenceContext || contextMap[refId];
@@ -4160,50 +4055,6 @@
       cites.forEach(function(cite,index){
         if(cite.getAttribute('href')!=='#'+refId)return;
         cite.addEventListener('click',function(event){selected=index;back.href='#'+cite.id;if(cite.closest('dialog')){event.preventDefault();item.setAttribute('tabindex','-1');item.focus({preventScroll:true});item.scrollIntoView({block:'center',behavior:reduceMotion?'auto':'smooth'});}item.classList.add('is-citation-highlight');window.setTimeout(function(){item.classList.remove('is-citation-highlight');},5000);});
-=======
-      }
-      if (!cites.length) {
-        var contextSelector = item.dataset.referenceContext || contextMap[refId];
-        var context = contextSelector && qs(contextSelector);
-        if (!context) context = qs('main .page-article > section:not(.references), main .page-article, main article, main');
-        if (!context) return;
-        var reading = qs(':scope > .reference-reading-note', context);
-        if (!reading) {reading=doc.createElement('p');reading.className='reference-reading-note';reading.appendChild(doc.createTextNode('Further reading: '));context.appendChild(reading);}
-        else reading.appendChild(doc.createTextNode(' · '));
-        var marker=doc.createElement('a');marker.href='#'+refId;marker.className='cite cite--background';
-        marker.textContent=item.hasAttribute('value') ? '['+item.getAttribute('value')+']' : (sourceLinks[0] ? sourceLinks[0].textContent.replace(/\s+/g,' ').trim().slice(0,76) : originalText.slice(0,70));
-        marker.setAttribute('aria-label','Further reading: '+originalText.slice(0,140));reading.appendChild(marker);cites=[marker];
-      }
-      cites.forEach(function(cite,index){if(!cite.id)cite.id='cite-auto-'+refId+'-'+(index+1);});
-      if (!qs('.ref-highlights',item)) {
-        var details=doc.createElement('details');details.className='ref-highlights';
-        var summary=doc.createElement('summary');summary.textContent='Source highlights';details.appendChild(summary);
-        var body=doc.createElement('div');body.className='ref-highlights__body';
-        var sourceId=item.dataset.referenceSource || refId;
-        var points=REF_HIGHLIGHTS[sourceId] || (NEW_REFERENCE_HIGHLIGHTS[sourceId] ? [NEW_REFERENCE_HIGHLIGHTS[sourceId]] : null);
-        if (!points) {
-          var isDatasheet=/datasheet/i.test(originalText);
-          points=isDatasheet ? ['Component specifications and operating limits from the manufacturer. Used for design or safety context; not a measurement of the assembled AeroSense device.'] : ['Reading context: '+sectionLabelFor(cites[0])+'.',originalText.replace(/Back to (first )?citation/g,'').trim()];
-        }
-        var ul=doc.createElement('ul');points.forEach(function(point){var li=doc.createElement('li');li.textContent=point;ul.appendChild(li);});body.appendChild(ul);details.appendChild(body);item.appendChild(details);
-      }
-      qsa('.ref-return-tools, .ref-backlink, .ref-backlink-group',item).forEach(function(el){el.remove();});
-      var group=doc.createElement('div');group.className='ref-return-tools';
-      var back=doc.createElement('a');back.className='ref-backlink';back.href='#'+cites[0].id;back.textContent='Back to citation';group.appendChild(back);
-      var selected=0;
-      if(cites.length>1){
-        var label=doc.createElement('label');label.className='ref-citation-picker';
-        var caption=doc.createElement('span');caption.className='visually-hidden';caption.textContent='Choose a cited passage for '+refId;label.appendChild(caption);
-        var select=doc.createElement('select');select.setAttribute('aria-label','Choose a cited passage for '+refId);
-        cites.forEach(function(cite,index){var option=doc.createElement('option');option.value=String(index);option.textContent=(index+1)+' / '+cites.length+' · '+sectionLabelFor(cite);select.appendChild(option);});
-        select.addEventListener('change',function(){selected=Number(select.value);back.href='#'+cites[selected].id;});label.appendChild(select);group.appendChild(label);
-      }
-      back.addEventListener('click',function(event){event.preventDefault();if(!back.closest('dialog'))history.replaceState(null,'','#'+cites[selected].id);revealCitation(cites[selected]);});
-      item.appendChild(group);
-      cites.forEach(function(cite,index){
-        if(cite.getAttribute('href')!=='#'+refId)return;
-        cite.addEventListener('click',function(event){selected=index;var select=qs('select',group);if(select)select.value=String(index);back.href='#'+cite.id;if(cite.closest('dialog')){event.preventDefault();item.setAttribute('tabindex','-1');item.focus({preventScroll:true});item.scrollIntoView({block:'center',behavior:reduceMotion?'auto':'smooth'});}item.classList.add('is-citation-highlight');window.setTimeout(function(){item.classList.remove('is-citation-highlight');},5000);});
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       });
     });
   }
@@ -4939,11 +4790,7 @@
         term.setAttribute('data-term',entry.key); term.setAttribute('data-glossary-auto',''); term.textContent=match[0];
         fragment.appendChild(term);previous=match.index+match[0].length;used.add(entry.key);changed=true;
       }
-<<<<<<< HEAD
       if(changed){fragment.appendChild(document.createTextNode(value.slice(previous)));window.AeroSenseI18n?.registerGlossaryFragment(item.node,fragment);item.node.parentNode.replaceChild(fragment,item.node);}
-=======
-      if(changed){fragment.appendChild(document.createTextNode(value.slice(previous)));item.node.parentNode.replaceChild(fragment,item.node);}
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     });
   }
 
@@ -5722,7 +5569,6 @@
    * Do not index nav/footer boilerplate, emails, or reference lists as primary hits.
    */
   var SEARCH_INDEX = [
-<<<<<<< HEAD
     /* Receptor engineering: integrated computational evidence in Model. */
     {"pageTitle": "Model · Receptor engineering", "section": "Molecular features in sequence-based response prediction", "excerpt": "Molecular weight is already in the baseline. Compare matched chemical-group and receptor holdouts for measured IR, quantum modes and OpenPOM.", "keywords": "Dry Lab 序列反應模型中的分子特徵 molecular weight IR EVA PCA POM 振動 頻譜 分子量 LORAX", "url": "model.html", "anchor": "receptor-molecular-features"},
     {"pageTitle": "Model · Receptor engineering", "section": "Measured IR and molecular-weight ablation", "excerpt": "82 odorants; measured spectra did not improve chemical-group prediction. Weight and size ablation effects depend on model and split.", "keywords": "Dry Lab 實測紅外線頻譜與分子量消融 molecular weight IR EVA PCA POM 振動 頻譜 分子量 LORAX", "url": "model.html", "anchor": "receptor-measured-ir"},
@@ -5751,11 +5597,6 @@
     { pageTitle: "Measurement", section: "Endpoint microscopy measurement", excerpt: "Measurand, controls, excluded dense regions, threshold sensitivity, and limits of a one-batch study.", keywords: "measurement DAPI uncertainty Fisher Holm blank density", url: "measurement.html", anchor: "main" },
     { pageTitle: "Website credits", section: "Responsible AI", excerpt: "AI-assisted code, editing and conceptual artwork; retained raw data and scientific limits.", keywords: "AI disclosure authors contributions responsibility", url: "credits.html", anchor: "responsible-ai" },
     { pageTitle: "Model", section: "Explore the odor circuit", excerpt: "Step through odor encoding, sparse Kenyon-cell activity and a scripted learning example. A conceptual guide to the decoding model.", keywords: "neural circuit PN KC MBON train test interactive fly brain", url: "model.html", anchor: "neural-circuit-demo" },
-=======
-    { pageTitle: "Alternative Platform", section: "HEK293 host rationale and evidence", excerpt: "Why a mammalian host was selected, what endpoint expression supports, and the validation still required.", keywords: "HEK293 alternative platform host receptor OR Orco", url: "alternative-platform.html", anchor: "main" },
-    { pageTitle: "Measurement", section: "Endpoint microscopy measurement", excerpt: "Measurand, controls, excluded dense regions, threshold sensitivity, and limits of a one-batch study.", keywords: "measurement DAPI uncertainty Fisher Holm blank density", url: "measurement.html", anchor: "main" },
-    { pageTitle: "Attributions", section: "Responsible AI", excerpt: "AI-assisted code, editing and conceptual artwork; retained raw data and scientific limits.", keywords: "AI disclosure authors contributions responsibility", url: "attributions.html", anchor: "responsible-ai" },
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     { pageTitle: "Contribution", section: "Released analysis package", excerpt: "Reproduce the endpoint fluorescence analysis and its exploratory control comparison.", keywords: "download microscopy Python CSV controls package", url: "contribution.html", anchor: "released-contribution" },
 
     /* Home */
@@ -6461,11 +6302,7 @@
     {
       pageTitle: "Attributions",
       section: "Official Project Attributions Form",
-<<<<<<< HEAD
       excerpt: "NTHU Team 6460’s official Project Attributions Form, embedded with team contributions, AI tool use, partner offers, external contributions, and timeline.",
-=======
-      excerpt: "NTHU Team 6460’s official iGEM contribution record, displayed directly from iGEM. Use the form’s own category menu to read who did what.",
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       keywords: "attributions official form 6460 iGEM credits team contributions external support timeline",
       url: "attributions.html",
       anchor: "official-form",
@@ -6681,26 +6518,16 @@
     {
       pageTitle: "Description",
       section: "TH, GH146 and the fly olfactory circuit",
-<<<<<<< HEAD
       excerpt: "The 5137;TH recording uses TH-GFP, a membrane label rather than a calcium reporter. The separate GH146 preparation uses UAS-GCaMP6f; PN imaging remains pending. Projection neurons relay olfactory input, while dopamine modulates the circuit.",
       keywords: "TH 5137 TH-GFP mCD8 GFP membrane label GH146 PN UAS-GCaMP6f projection neuron dopamine mushroom body MBON antennal lobe light-sheet",
-=======
-      excerpt: "TH and GH146 preparations both use team-confirmed UAS-GCaMP6f. Projection neurons relay antennal-lobe input toward the mushroom body and lateral horn; dopamine modulates the circuit. TH (5137) stock numbering still needs checking, and PN imaging remains pending.",
-      keywords: "TH 5137 GH146 PN UAS-GCaMP6f calcium reporter projection neuron dopamine mushroom body MBON antennal lobe light-sheet",
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       url: "description.html",
       anchor: "fly-neural-circuit",
     },
     {
       pageTitle: "Notebook",
       section: "20 April · TH light-sheet record",
-<<<<<<< HEAD
       excerpt: "The 20 April light-sheet recording used 5137;TH (TH-GFP). mCD8::GFP labels membranes; normalized fluorescence does not establish a calcium response. The full cross, acquisition controls and biological repeats remain to be documented.",
       keywords: "April 20 4/20 TH 5137 TH-GFP mCD8 GFP membrane reporter fly brain light-sheet notebook",
-=======
-      excerpt: "TH × UAS-GCaMP6f light-sheet record: the reporter is confirmed by the team. The driver stock identifier and full progeny genotype still need checking; odor-evoked neural responses require acquisition controls and biological repeats.",
-      keywords: "April 20 4/20 TH 5137 UAS-GCaMP6f confirmed reporter fly brain light-sheet notebook",
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       url: "notebook.html",
       anchor: "wet-th-lightsheet-20260420",
     },
@@ -8160,11 +7987,7 @@
       'team': [
         ['Why does this wiki look so incredible? Is someone dreaming of Best Wiki?', 'Pin-Che: Haha, thank you! We put a lot of care into making the science easy to explore. Peek at Engineering’s Wiki Design section for the thinking behind the details.', 'engineering.html#wiki-design'],
         ['Does everyone work on just one layer?', 'Members introduces the people. Their project contributions are recorded in the official Attributions form.', 'members.html#student-team'],
-<<<<<<< HEAD
         ['How are outside contributions credited?', 'The official Attributions form records the team’s contributions and external support.', 'attributions.html#official-form']
-=======
-        ['How are outside contributions credited?', 'The official Attributions form records the team’s contributions and external support.', 'attributions.html#student-work']
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       ],
       'journey': [
         ['Why does this wiki look so incredible? Is someone dreaming of Best Wiki?', 'Pin-Che: Haha, thank you! We put a lot of care into making the science easy to explore. Peek at Engineering’s Wiki Design section for the thinking behind the details.', 'engineering.html#wiki-design'],
@@ -8734,11 +8557,7 @@
     'members.html': {
       '*': [
         ['What will I find in a personal profile?', 'Open a card to read that person’s introduction, role and contact links. Project contributions are recorded in the official Attributions form.', 'members.html#student-team'],
-<<<<<<< HEAD
         ['How do profiles differ from formal attribution?', 'Profiles introduce the people. Attributions records the work and support associated with the project.', 'attributions.html#official-form'],
-=======
-        ['How do profiles differ from formal attribution?', 'Profiles introduce the people. Attributions records the work and support associated with the project.', 'attributions.html#student-work'],
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
         ['What do the album photographs document?', 'They are team memories. They are not presented as evidence of a specific experiment, interview, or device pilot.', 'members.html#team-memories']
       ],
       'team-memories': [
@@ -8747,11 +8566,7 @@
       ],
       'team-index': [
         ['Why does the index separate students, advisors, and PIs?', 'Those groups have different project roles. The index keeps student work and supporting roles easy to distinguish.'],
-<<<<<<< HEAD
         ['How can I identify responsibility for a particular layer?', 'Read the official Attributions form for each person’s project contributions.', 'attributions.html#official-form']
-=======
-        ['How can I identify responsibility for a particular layer?', 'Read the official Attributions form for each person’s project contributions.', 'attributions.html#student-work']
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       ],
       'student-team': [
         ['How do I open a personal introduction?', 'Select a member’s card to open the profile, then use Close or Escape to return to the team.'],
@@ -8938,13 +8753,8 @@
     },
     'attributions.html': {
       '*': [
-<<<<<<< HEAD
         ['Where can I read who did what?', 'The official iGEM form is embedded in Attributions, including NTHU Team 6460’s recorded contributions.', 'attributions.html#official-form'],
         ['How do I find a category?', 'Use the form’s Jump to buttons to browse contributions, AI tool use, partner offers, external support, and timeline.', 'attributions.html#official-form']
-=======
-        ['Where can I read who did what?', 'The form on this page is served directly by iGEM for NTHU, team 6460. Use its own category menu to explore the contributions.', 'attributions.html#official-form'],
-        ['Can I open the form on its own?', 'Yes. The link above the form opens the same official record in a separate tab.', 'attributions.html#official-form']
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       ]
     },
     'glossary.html': {
@@ -10128,37 +9938,22 @@
     var on = mode !== 'off';
     [useBtn].forEach(function (b) { b.setAttribute('aria-pressed', String(on)); });
     if (isTouch()) {
-<<<<<<< HEAD
       useLabel.textContent = on ? 'Close reader ×' : 'Open reader →';
-=======
-      useLabel.textContent = on ? 'Close the reader and return to visual view' : 'Open the reader and reveal AeroSense view';
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       revealBtn.hidden = true;
       hint.hidden = false;
       hint.textContent = on ? 'AeroSense view' : 'Or hold & drag to sense';
     } else {
-<<<<<<< HEAD
       useLabel.textContent = on ? 'Close reader ×' : 'Open reader →';
-=======
-      useLabel.textContent = on ? 'Close the reader and return to visual view' : 'Open the reader and reveal AeroSense view';
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       revealBtn.hidden = !on;
       revealBtn.textContent = mode === 'full' ? 'Return to visual view' : 'Reveal all';
       revealBtn.setAttribute('aria-pressed', String(mode === 'full'));
       hint.hidden = mode !== 'lens';
       hint.textContent = 'Move to sense · hold to widen';
     }
-<<<<<<< HEAD
     useBtn.setAttribute('aria-label', on ? 'Close the reader and return to visual view' : 'Open the reader and reveal AeroSense view');
     ctaNote.querySelector('[data-asc-note-copy]').innerHTML = on
       ? 'AeroSense view is on.'
       : 'Reveal the hidden odor view.';
-=======
-    useBtn.setAttribute('aria-label', useLabel.textContent);
-    ctaNote.querySelector('[data-asc-note-copy]').innerHTML = on
-      ? 'Reader open.<br>AeroSense view is on.'
-      : (isTouch() ? 'Tap to open the reader.<br>See what sight misses.' : 'Open the reader.<br>See what sight misses.');
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     // Revealing a control or changing its label can move the dock without
     // resizing the outer toolbar. Refresh its target before the next frame.
     cacheGeometry();
@@ -10339,11 +10134,7 @@
 
   /* ---------- go */
   if (isTouch()) {
-<<<<<<< HEAD
     ctaNote.querySelector('[data-asc-note-copy]').textContent = 'Reveal the hidden odor view.';
-=======
-    ctaNote.querySelector('[data-asc-note-copy]').textContent = 'Tap to open the reader. See what sight misses.';
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
   }
   setMode('off', 'init');
   live.textContent = '';
@@ -11122,7 +10913,6 @@
 (() => {
   const main = document.querySelector('main');
   if (!main || document.body.classList.contains('page-home') || document.querySelector('[data-learn-root]')) return;
-<<<<<<< HEAD
   // Reuse the native first-paint menu instead of moving the article after load.
   const existing = document.querySelector('.audit-mobile-jump');
   if (existing) {
@@ -11131,8 +10921,6 @@
     });
     return;
   }
-=======
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
   const headers = [...main.querySelectorAll('h2')].filter(h => h.id || h.closest('section[id]'));
   if (headers.length < 5) return;
   const menu = document.createElement('details');
@@ -11147,11 +10935,7 @@
     if (seen.has(id)) return;
     seen.add(id);
     const a = document.createElement('a');
-<<<<<<< HEAD
     a.href = '#' + id; a.textContent = (window.AeroSenseI18n?.sourceText(h) || h.textContent).trim();
-=======
-    a.href = '#' + id; a.textContent = h.textContent.trim();
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     a.addEventListener('click', () => {menu.open = false;});
     nav.append(a);
   });
@@ -11160,7 +10944,6 @@
   if (header) header.after(menu);
 })();
 
-<<<<<<< HEAD
 
 ;
 /* Source: js/i18n-common-v19.js */
@@ -11451,6 +11234,4 @@
   else init();
 })();
 
-=======
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 ;

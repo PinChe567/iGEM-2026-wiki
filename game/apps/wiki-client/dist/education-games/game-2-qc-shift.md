@@ -1,7 +1,5 @@
 # Game 2 — AeroSense QC Shift
 
-> **Archived activity design.** These notes describe the earlier QC Shift screening-decision game. The current build at `../games/labyrinth/index.html` is **Odor Maze / Scentbound Labyrinth**, a maze with scans, scent guidance and secret passages. The route and behavioral descriptions below are historical, not instructions for the current game. Its G2 items are not a matched assessment of the current maze. No playtest outcome is supplied for either version.
-
 **Route:** `games/labyrinth/index.html` (URL kept for the Wiki; the maze is not the public activity)  
 **Hub purpose:** Read an early-warning signal, manage uncertainty, and decide when a food batch needs retesting or confirmation.  
 **Approximate duration (planned, not measured):** 8–12 minutes.  

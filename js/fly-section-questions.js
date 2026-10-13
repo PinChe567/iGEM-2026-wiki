@@ -41,11 +41,7 @@
       'team': [
         ['Why does this wiki look so incredible? Is someone dreaming of Best Wiki?', 'Pin-Che: Haha, thank you! We put a lot of care into making the science easy to explore. Peek at Engineering’s Wiki Design section for the thinking behind the details.', 'engineering.html#wiki-design'],
         ['Does everyone work on just one layer?', 'Members introduces the people. Their project contributions are recorded in the official Attributions form.', 'members.html#student-team'],
-<<<<<<< HEAD
         ['How are outside contributions credited?', 'The official Attributions form records the team’s contributions and external support.', 'attributions.html#official-form']
-=======
-        ['How are outside contributions credited?', 'The official Attributions form records the team’s contributions and external support.', 'attributions.html#student-work']
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       ],
       'journey': [
         ['Why does this wiki look so incredible? Is someone dreaming of Best Wiki?', 'Pin-Che: Haha, thank you! We put a lot of care into making the science easy to explore. Peek at Engineering’s Wiki Design section for the thinking behind the details.', 'engineering.html#wiki-design'],
@@ -615,11 +611,7 @@
     'members.html': {
       '*': [
         ['What will I find in a personal profile?', 'Open a card to read that person’s introduction, role and contact links. Project contributions are recorded in the official Attributions form.', 'members.html#student-team'],
-<<<<<<< HEAD
         ['How do profiles differ from formal attribution?', 'Profiles introduce the people. Attributions records the work and support associated with the project.', 'attributions.html#official-form'],
-=======
-        ['How do profiles differ from formal attribution?', 'Profiles introduce the people. Attributions records the work and support associated with the project.', 'attributions.html#student-work'],
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
         ['What do the album photographs document?', 'They are team memories. They are not presented as evidence of a specific experiment, interview, or device pilot.', 'members.html#team-memories']
       ],
       'team-memories': [
@@ -628,11 +620,7 @@
       ],
       'team-index': [
         ['Why does the index separate students, advisors, and PIs?', 'Those groups have different project roles. The index keeps student work and supporting roles easy to distinguish.'],
-<<<<<<< HEAD
         ['How can I identify responsibility for a particular layer?', 'Read the official Attributions form for each person’s project contributions.', 'attributions.html#official-form']
-=======
-        ['How can I identify responsibility for a particular layer?', 'Read the official Attributions form for each person’s project contributions.', 'attributions.html#student-work']
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       ],
       'student-team': [
         ['How do I open a personal introduction?', 'Select a member’s card to open the profile, then use Close or Escape to return to the team.'],
@@ -819,13 +807,8 @@
     },
     'attributions.html': {
       '*': [
-<<<<<<< HEAD
         ['Where can I read who did what?', 'The official iGEM form is embedded in Attributions, including NTHU Team 6460’s recorded contributions.', 'attributions.html#official-form'],
         ['How do I find a category?', 'Use the form’s Jump to buttons to browse contributions, AI tool use, partner offers, external support, and timeline.', 'attributions.html#official-form']
-=======
-        ['Where can I read who did what?', 'The form on this page is served directly by iGEM for NTHU, team 6460. Use its own category menu to explore the contributions.', 'attributions.html#official-form'],
-        ['Can I open the form on its own?', 'Yes. The link above the form opens the same official record in a separate tab.', 'attributions.html#official-form']
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       ]
     },
     'glossary.html': {

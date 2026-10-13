@@ -10,7 +10,6 @@
    * Do not index nav/footer boilerplate, emails, or reference lists as primary hits.
    */
   var SEARCH_INDEX = [
-<<<<<<< HEAD
     /* Receptor engineering: integrated computational evidence in Model. */
     {"pageTitle": "Model · Receptor engineering", "section": "Molecular features in sequence-based response prediction", "excerpt": "Molecular weight is already in the baseline. Compare matched chemical-group and receptor holdouts for measured IR, quantum modes and OpenPOM.", "keywords": "Dry Lab 序列反應模型中的分子特徵 molecular weight IR EVA PCA POM 振動 頻譜 分子量 LORAX", "url": "model.html", "anchor": "receptor-molecular-features"},
     {"pageTitle": "Model · Receptor engineering", "section": "Measured IR and molecular-weight ablation", "excerpt": "82 odorants; measured spectra did not improve chemical-group prediction. Weight and size ablation effects depend on model and split.", "keywords": "Dry Lab 實測紅外線頻譜與分子量消融 molecular weight IR EVA PCA POM 振動 頻譜 分子量 LORAX", "url": "model.html", "anchor": "receptor-measured-ir"},
@@ -39,11 +38,6 @@
     { pageTitle: "Measurement", section: "Endpoint microscopy measurement", excerpt: "Measurand, controls, excluded dense regions, threshold sensitivity, and limits of a one-batch study.", keywords: "measurement DAPI uncertainty Fisher Holm blank density", url: "measurement.html", anchor: "main" },
     { pageTitle: "Website credits", section: "Responsible AI", excerpt: "AI-assisted code, editing and conceptual artwork; retained raw data and scientific limits.", keywords: "AI disclosure authors contributions responsibility", url: "credits.html", anchor: "responsible-ai" },
     { pageTitle: "Model", section: "Explore the odor circuit", excerpt: "Step through odor encoding, sparse Kenyon-cell activity and a scripted learning example. A conceptual guide to the decoding model.", keywords: "neural circuit PN KC MBON train test interactive fly brain", url: "model.html", anchor: "neural-circuit-demo" },
-=======
-    { pageTitle: "Alternative Platform", section: "HEK293 host rationale and evidence", excerpt: "Why a mammalian host was selected, what endpoint expression supports, and the validation still required.", keywords: "HEK293 alternative platform host receptor OR Orco", url: "alternative-platform.html", anchor: "main" },
-    { pageTitle: "Measurement", section: "Endpoint microscopy measurement", excerpt: "Measurand, controls, excluded dense regions, threshold sensitivity, and limits of a one-batch study.", keywords: "measurement DAPI uncertainty Fisher Holm blank density", url: "measurement.html", anchor: "main" },
-    { pageTitle: "Attributions", section: "Responsible AI", excerpt: "AI-assisted code, editing and conceptual artwork; retained raw data and scientific limits.", keywords: "AI disclosure authors contributions responsibility", url: "attributions.html", anchor: "responsible-ai" },
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     { pageTitle: "Contribution", section: "Released analysis package", excerpt: "Reproduce the endpoint fluorescence analysis and its exploratory control comparison.", keywords: "download microscopy Python CSV controls package", url: "contribution.html", anchor: "released-contribution" },
 
     /* Home */
@@ -749,11 +743,7 @@
     {
       pageTitle: "Attributions",
       section: "Official Project Attributions Form",
-<<<<<<< HEAD
       excerpt: "NTHU Team 6460’s official Project Attributions Form, embedded with team contributions, AI tool use, partner offers, external contributions, and timeline.",
-=======
-      excerpt: "NTHU Team 6460’s official iGEM contribution record, displayed directly from iGEM. Use the form’s own category menu to read who did what.",
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       keywords: "attributions official form 6460 iGEM credits team contributions external support timeline",
       url: "attributions.html",
       anchor: "official-form",
@@ -969,26 +959,16 @@
     {
       pageTitle: "Description",
       section: "TH, GH146 and the fly olfactory circuit",
-<<<<<<< HEAD
       excerpt: "The 5137;TH recording uses TH-GFP, a membrane label rather than a calcium reporter. The separate GH146 preparation uses UAS-GCaMP6f; PN imaging remains pending. Projection neurons relay olfactory input, while dopamine modulates the circuit.",
       keywords: "TH 5137 TH-GFP mCD8 GFP membrane label GH146 PN UAS-GCaMP6f projection neuron dopamine mushroom body MBON antennal lobe light-sheet",
-=======
-      excerpt: "TH and GH146 preparations both use team-confirmed UAS-GCaMP6f. Projection neurons relay antennal-lobe input toward the mushroom body and lateral horn; dopamine modulates the circuit. TH (5137) stock numbering still needs checking, and PN imaging remains pending.",
-      keywords: "TH 5137 GH146 PN UAS-GCaMP6f calcium reporter projection neuron dopamine mushroom body MBON antennal lobe light-sheet",
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       url: "description.html",
       anchor: "fly-neural-circuit",
     },
     {
       pageTitle: "Notebook",
       section: "20 April · TH light-sheet record",
-<<<<<<< HEAD
       excerpt: "The 20 April light-sheet recording used 5137;TH (TH-GFP). mCD8::GFP labels membranes; normalized fluorescence does not establish a calcium response. The full cross, acquisition controls and biological repeats remain to be documented.",
       keywords: "April 20 4/20 TH 5137 TH-GFP mCD8 GFP membrane reporter fly brain light-sheet notebook",
-=======
-      excerpt: "TH × UAS-GCaMP6f light-sheet record: the reporter is confirmed by the team. The driver stock identifier and full progeny genotype still need checking; odor-evoked neural responses require acquisition controls and biological repeats.",
-      keywords: "April 20 4/20 TH 5137 UAS-GCaMP6f confirmed reporter fly brain light-sheet notebook",
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       url: "notebook.html",
       anchor: "wet-th-lightsheet-20260420",
     },

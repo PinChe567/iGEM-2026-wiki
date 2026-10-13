@@ -10,11 +10,8 @@ Snapshot: the 10 October 2026 publication record, preserved locally from `report
 
 The local relative page links below point to this website. Source files and numerical results retain their original provenance; no new fit, measurement or replication was added.
 
-<<<<<<< HEAD
 **11 October source reorganization.** The current [Model page](../../model.html#detector-interference) supersedes the optical-interference interpretation below with a four-filter spectral comparison. This archive retains the original numbers and claims. Links to identically named moved data/media have been repaired. Removed historical reports or figures are identified by filename; any adjacent link to a current guide or viewer is explicitly a newer resource, not a replacement copy of the old artifact.
 
-=======
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 ---
 
 # AeroSense — Model
@@ -49,11 +46,7 @@ Collected power is scored as **LED power × absorbed fraction × quantum yield �
 
 Optical paths and modulated detector tracesOriginal simulation · 20 s · 0.49 MBThe movie loads only when you press Play.
 
-<<<<<<< HEAD
 **100× slow motion:** 0.2 s of modulation is shown over 20 s. Panel A displays saved **NE sample trajectories only**; the four LED indicators and ideal, conditional received and residual traces share one clock. Paths switch with LED state: they are not simulated photon flight times. Traces use green-equivalent nW. No calcium response, measured PCB timing or fabricated paths for the other wells are included. [Original MP4 ↗](../../hardware%20information/AeroSense%20v2/02_simulation/optics/videos/optical_slow_motion.mp4) · [Source timing and scope](../../hardware%20information/AeroSense%20v2/02_simulation/optics/code/data/video_metadata.json).
-=======
-**100× slow motion:** 0.2 s of modulation is shown over 20 s. Panel A displays saved **NE sample trajectories only**; the four LED indicators and ideal, conditional received and residual traces share one clock. Paths switch with LED state: they are not simulated photon flight times. Traces use green-equivalent nW. No calcium response, measured PCB timing or fabricated paths for the other wells are included. [Original MP4 ↗](../../hardware%20information/AeroSense%20v2/02_simulation/optics/optical_slow_motion.mp4) · [Source timing and scope](../../hardware%20information/AeroSense%20v2/02_simulation/optics/results/video_metadata.json).
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 
 | Calculation | Sampling | Interpretation |
 | --- | --- | --- |
@@ -94,11 +87,7 @@ The main sweep contains 6,048,000 packets. Reported uncertainty is the three-see
 
 Analytic solid-angle, normal-incidence Fresnel, total-internal-reflection, scattering and material-location checks accompany the implementation. Maximum energy-ledger discrepancy is 2.9 × 10−15. At the 2,500-event limit, up to 0.0117% of paths remain unfinished; the worst conservative unresolved green-power bound is approximately 0.121 nW in an individual run. Extra NE runs compare 2,500 and 10,000 events; they do not establish global convergence of every geometry.
 
-<<<<<<< HEAD
 Validation record (historical file `validation.json` is no longer in the current delivery; [current companion resource](../../hardware%20information/AeroSense%20v2/02_simulation/optics/code/data/benchmarks.json)) · Publication checks (historical file `publication_validation.json` is no longer in the current delivery; [current companion resource](../hardware-en/02_simulation/optics/README.html)) · Complete numerical interpretation (historical file `Analysis_EN.md` is no longer in the current delivery; [current companion resource](../hardware-en/02_simulation/optics/README.html))
-=======
-[Validation record](../../hardware%20information/AeroSense%20v2/02_simulation/optics/results/validation.json) · [Publication checks](../../hardware%20information/AeroSense%20v2/02_simulation/optics/results/publication_validation.json) · [Complete numerical interpretation](../../hardware%20information/AeroSense%20v2/02_simulation/optics/Analysis_EN.md)
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 
 #### Why a fluorescence standard uses a different model
 
@@ -112,15 +101,9 @@ A uniform sodium-fluorescein solution emits throughout the well volume, whereas 
 
 Separate uniform-volume model for the planned cell-free standard experiment.
 
-<<<<<<< HEAD
 [Standard and later cell-comparison guide](../hardware-en/07_validation/Fluorescence_and_Cell_Test_EN.md)
 
 Complete methods and assumptions (historical file `Analysis_EN.md` is no longer in the current delivery; [current companion resource](../hardware-en/02_simulation/optics/README.html)) · [Primary numerical summary](../../hardware%20information/AeroSense%20v2/02_simulation/optics/code/data/summary.json) · Figure-by-figure notes (historical file `Figure_Guide_EN.md` is no longer in the current delivery; [current companion resource](../hardware-en/02_simulation/optics/README.html)) · [Hardware decision →](../../hardware.html#well-floor-results)
-=======
-[Standard and later cell-comparison guide](../../hardware%20information/AeroSense%20v2/07_validation/Fluorescence_and_Cell_Test_EN.md)
-
-[Complete methods and assumptions](../../hardware%20information/AeroSense%20v2/02_simulation/optics/Analysis_EN.md) · [Primary numerical summary](../../hardware%20information/AeroSense%20v2/02_simulation/optics/results/summary.json) · [Figure-by-figure notes](../../hardware%20information/AeroSense%20v2/02_simulation/optics/Figure_Guide_EN.md) · [Hardware decision →](../../hardware.html#well-floor-results)
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 
 ## Frequency separation does not remove every background
 
@@ -138,29 +121,17 @@ The default scenario gives **2.63–3.52%** amplitude bias after joint four-freq
 
 ### Sensitivity across assumed backgrounds
 
-<<<<<<< HEAD
 
 
 ![Conditional interference metrics by LED channel (archived filename: `09_interference_metrics.png`; this historical artifact is not supplied in the current delivery. See the [current Model interpretation](../../model.html#detector-interference).)
-=======
-[
-
-![Conditional interference metrics by LED channel](../../hardware%20information/AeroSense%20v2/02_simulation/optics/figures/09_interference_metrics.png)
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 
 ](../../hardware%20information/AeroSense%20v2/02_simulation/optics/figures/09_interference_metrics.png)
 
 Channel bias and waveform metrics under declared detector assumptions.
 
-<<<<<<< HEAD
 
 
 ![Synthetic detector rejection and noise sensitivity sweep (archived filename: `10_interference_sweep.png`; this historical artifact is not supplied in the current delivery. See the [current Model interpretation](../../model.html#detector-interference).)
-=======
-[
-
-![Synthetic detector rejection and noise sensitivity sweep](../../hardware%20information/AeroSense%20v2/02_simulation/optics/figures/10_interference_sweep.png)
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 
 ](../../hardware%20information/AeroSense%20v2/02_simulation/optics/figures/10_interference_sweep.png)
 
@@ -170,11 +141,7 @@ The 144 conditions vary spectral rejection, ambient behavior, electronic noise a
 
 Spectral filtering and a separately measured blank address different terms. Subtract the illuminated blank once in complex I/Q, preserve raw values and retain the signed phase reference. Fixed subtraction cannot remove random noise or changing interference, and it cannot repair ADC clipping. [The hardware correction workflow](../../hardware.html#electronics-bridge) implements this boundary without automatically applying a simulated unmixing matrix.
 
-<<<<<<< HEAD
 Reproduce the detector analysis (historical file `README_EN.md` is no longer in the current delivery; [current companion resource](../hardware-en/02_simulation/optics/README.html)) · Signal units and parameter assumptions (historical file `Analysis_EN.md` is no longer in the current delivery; [current companion resource](../hardware-en/02_simulation/optics/README.html))
-=======
-[Reproduce the detector analysis](../../hardware%20information/AeroSense%20v2/02_simulation/optics/README_EN.md) · [Signal units and parameter assumptions](../../hardware%20information/AeroSense%20v2/02_simulation/optics/Analysis_EN.md)
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 
 ### A conditional target for the next measurement
 
@@ -200,11 +167,7 @@ The momentum proxy is evaluated 1 mm below the well rim; gas-speed P95 is sample
 
 Open plenum, perforated plate and integral shelfOriginal simulation · 20 s · 2.81 MBThe movie loads only when you press Play.
 
-<<<<<<< HEAD
 **60 physical seconds in 20 seconds of playback.** Panels A–C advect saved velocity markers in the open, 12-hole and selected-shelf gas geometries at the **1 mL/min baseline**. Marker density is not concentration. Panel D independently plots finite-volume gas concentration for the shelf with Dgas = 10 mm²/s. The liquid remains a stationary boundary; no liquid mixing or cell motion is simulated. This is not a movie of the later 3 mL/min candidate. [Original MP4 ↗](../../hardware%20information/AeroSense%20v2/02_simulation/airflow/videos/airflow_comparison.mp4) · [Source timing and scope](../../hardware%20information/AeroSense%20v2/02_simulation/airflow/code/data/video_metadata.json).
-=======
-**60 physical seconds in 20 seconds of playback.** Panels A–C advect saved velocity markers in the open, 12-hole and selected-shelf gas geometries at the **1 mL/min baseline**. Marker density is not concentration. Panel D independently plots finite-volume gas concentration for the shelf with Dgas = 10 mm²/s. The liquid remains a stationary boundary; no liquid mixing or cell motion is simulated. This is not a movie of the later 3 mL/min candidate. [Original MP4 ↗](../../hardware%20information/AeroSense%20v2/02_simulation/airflow/airflow_comparison.mp4) · [Source timing and scope](../../hardware%20information/AeroSense%20v2/02_simulation/airflow/video_metadata.json).
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 
 ### The shelf improves one metric, with a tradeoff
 
@@ -251,25 +214,15 @@ Fixed-CAD flow/diffusivity study. Gas diffusivities 5/10/20 mm²/s are uncertain
 | Chamber pressure drop | 0.02737 Pa | Excludes external filters and tubing |
 | Nearby 2.5 mL/min point | Worst t90 ≈60.04 s | Numerically borderline; not proven physically inadequate |
 
-<<<<<<< HEAD
 The ledger includes 28 original velocity solves (18 geometries), 18 hole conditions plus 2 refinements, 9 baseline scalar conditions plus an analytic benchmark, and 21 operating points plus 6 scalar checks and 1 direct velocity confirmation. Solver counts are not experimental replicates. [The supplemental ledger](../../hardware%20information/AeroSense%20v2/02_simulation/airflow/code/data/supplemental_summary.json) and [operating-point record](../../hardware%20information/AeroSense%20v2/02_simulation/airflow/code/data/operating_sweep_summary.json) give the exact accounting.
 
 Use one regulated downstream pump and verify actual assembled-path flow; the UI cannot sense or control it. Controlled delivery and time/batch records are motivated by Vergara et al. (2012) (historical file `Gas_Delivery_Reference_EN.md` is no longer in the current delivery; [current companion resource](../hardware-en/delivery-reference.html)), whose metal-oxide drift study does not validate our gas setting or cell safety. [Hardware implementation →](../../hardware.html#gas-path-results) · Operating method and assumptions (historical file `Flow_Operation_EN.md` is no longer in the current delivery; [current companion resource](../hardware-en/02_simulation/airflow/README.html))
-=======
-The ledger includes 28 original velocity solves (18 geometries), 18 hole conditions plus 2 refinements, 9 baseline scalar conditions plus an analytic benchmark, and 21 operating points plus 6 scalar checks and 1 direct velocity confirmation. Solver counts are not experimental replicates. [The supplemental ledger](../../hardware%20information/AeroSense%20v2/02_simulation/airflow/supplemental_summary.json) and [operating-point record](../../hardware%20information/AeroSense%20v2/02_simulation/airflow/operating_sweep_summary.json) give the exact accounting.
-
-Use one regulated downstream pump and verify actual assembled-path flow; the UI cannot sense or control it. Controlled delivery and time/batch records are motivated by [Vergara et al. (2012)](../../hardware%20information/AeroSense%20v2/08_reference/Gas_Delivery_Reference_EN.md), whose metal-oxide drift study does not validate our gas setting or cell safety. [Hardware implementation →](../../hardware.html#gas-path-results) · [Operating method and assumptions](../../hardware%20information/AeroSense%20v2/02_simulation/airflow/Flow_Operation_EN.md)
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 
 #### Explore the 21 computed operating points
 
 Rotate the saved flow-rate/diffusivity study and inspect its values. Gas diffusivity is an uncertain material assumption, not an operator control. The speed cap is an engineering comparison value, not a cell-injury threshold.
 
-<<<<<<< HEAD
 Open document in a new tab ↗ (historical file `operating_sweep_3d.html` is no longer in the current delivery; [current companion resource](../hardware-en/operating-sweep-3d.html)) 
-=======
-[Open document in a new tab ↗](../../hardware%20information/AeroSense%20v2/02_simulation/airflow/operating_sweep_3d.html) 
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 
 #### Geometry sweeps and numerical verification
 
@@ -285,11 +238,7 @@ Exploratory six-hole sweep. This is a comparison set, not an alternate selected 
 
 The C# and NumPy velocity implementations differ by a relative L2 norm of 3.09 × 10−12; the Hagen–Poiseuille benchmark errors are 2.54% at τ = 0.8 and −1.13% at τ = 0.55. For scalar transport, the mass-ledger discrepancy is 8.65 × 10−12 and the one-dimensional analytic mean-concentration error is 0.000246. Baseline gas t90 changes by about +1.7% with grid refinement and −0.2% with a halved time step. These verify numerical implementation, not the actual apparatus.
 
-<<<<<<< HEAD
 Full solver methods (historical file `Airflow_Analysis_EN.md` is no longer in the current delivery; [current companion resource](../hardware-en/02_simulation/airflow/README.html)) · Explore the saved hole sweep ↗ (historical file `hole_sweep_3d.html` is no longer in the current delivery; [current companion resource](../hardware-en/hole-sweep-3d.html))
-=======
-[Full solver methods](../../hardware%20information/AeroSense%20v2/02_simulation/airflow/Airflow_Analysis_EN.md) · [Explore the saved hole sweep ↗](../../hardware%20information/AeroSense%20v2/02_simulation/airflow/hole_sweep_3d.html)
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 
 ## The liquid path remains the unresolved step
 
@@ -349,11 +298,7 @@ The standalone 128-cell membrane check reproduces the analytical time lag within
 
 Before selecting a film or claiming rapid sensing, define a target molecule, measure no-film delivery and recovery, then compare a characterized film using an independent concentration assay. GCaMP alone cannot separate transport from receptor sensitivity or optical artifacts.
 
-<<<<<<< HEAD
 Full transport methods and limits (historical file `Analysis_EN.md` is no longer in the current delivery; [current companion resource](../hardware-en/02_simulation/membrane/README.html)) · [Parameter and result summary](../../hardware%20information/AeroSense%20v2/02_simulation/membrane/code/data/summary.json) · [Back to the build decision →](../../hardware.html#gas-path-results)
-=======
-[Full transport methods and limits](../../hardware%20information/AeroSense%20v2/02_simulation/membrane/Analysis_EN.md) · [Parameter and result summary](../../hardware%20information/AeroSense%20v2/02_simulation/membrane/results/summary.json) · [Back to the build decision →](../../hardware.html#gas-path-results)
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 
 ## What the models changed
 
@@ -370,11 +315,7 @@ Full transport methods and limits (historical file `Analysis_EN.md` is no longer
 
 ## Capture proteins and docking remain exploratory
 
-<<<<<<< HEAD
 The supplied package does not identify a unique capture protein, sequence/accession, structure or reproducible project docking inputs, poses and run logs. The documented local/repository search scope is recorded in the docking / OBP evidence note (historical file `Docking_OBP_Evidence_EN.md` is no longer in the current delivery; [current companion resource](../hardware-en/06_wiki/Model_EN.html#molecular-hypotheses)); it does not prove that no work exists elsewhere.
-=======
-The supplied package does not identify a unique capture protein, sequence/accession, structure or reproducible project docking inputs, poses and run logs. The documented local/repository search scope is recorded in [the docking / OBP evidence note](../../hardware%20information/AeroSense%20v2/06_wiki/content_plan/Docking_OBP_Evidence_EN.md); it does not prove that no work exists elsewhere.
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 
 Docking can propose poses or rank candidates within one scoring model. A score is not measured Kd, an absorption rate, receptor activation or proof that liquid-delivery limits have been resolved. Keep this mechanism separate from the installed apparatus until its identity, assumptions and independent tests are available.
 
@@ -782,11 +723,7 @@ All figures open at their supplied full resolution. The analysis source is the t
 
 The [UCI-270 dataset](https://archive.ics.uci.edu/dataset/270/gas+sensor+array+drift+dataset+at+different+concentrations) includes concentration and batch metadata. [[21]](../../model.html#ref-uci-270) KT is identified as a doctoral-thesis dataset, but its full citation and redistribution permission are not supplied; no raw KT download is offered. Decoder code, fitted preprocessing, fold tables, new-run seeds and machine-readable predictions are not included.
 
-<<<<<<< HEAD
 The independent physical calculations retain their source and figure index (historical file `handoff_EN.md` is no longer in the current delivery; [current companion resource](../hardware-en/index.html)) and [reproducibility and assembly packages](../../hardware.html#build-package). Their 100 µL simulation fill remains unchanged; the provisional 80 µL physical volume has not been resimulated.
-=======
-The independent physical calculations retain their [source and figure index](../../hardware%20information/AeroSense%20v2/handoff_EN.md) and [reproducibility and assembly packages](../../hardware.html#build-package). Their 100 µL simulation fill remains unchanged; the provisional 80 µL physical volume has not been resimulated.
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 
         
 

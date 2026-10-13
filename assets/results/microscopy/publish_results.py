@@ -115,11 +115,7 @@ sensitivity_table = f'<div class="table-scroll"><table class="goal-table"><capti
 
 gallery_options = ''.join(f'<option value="{escape(c["condition"])}">{escape(c["condition"])} · {c["fields"]} field{"s" if c["fields"] != 1 else ""}</option>' for c in conditions)
 fallback = ''.join(f'<li>{escape(c["condition"])}: '+', '.join(f'<a href="{PREFIX}{slug(c["condition"])}/field-{f["field"]:02d}-panel.webp">Field {f["field"]}</a>' for f in fields if f['condition']==c['condition'])+'</li>' for c in conditions)
-<<<<<<< HEAD
 source_links = ''.join(f'<li><strong>{escape(c["condition"])}</strong><ul>'+''.join(f'<li>Field {f["field"]}: '+ ' · '.join(f'<a href="wetlab%20results/transfection_effeciency/{quote(c["condition"])}/{channel}_{f["field"]}.tif" download>{label}</a>' for channel,label in [('BRIGHTFIELD','Brightfield'),('BLUE','DAPI'),('GREEN','Green'),('RED','Red')])+'</li>' for f in fields if f['condition']==c['condition'])+'</ul></li>' for c in conditions)
-=======
-source_links = ''.join(f'<li><strong>{escape(c["condition"])}</strong><ul>'+''.join(f'<li>Field {f["field"]}: '+ ' · '.join(f'<a href="wetlab%20results/transfection%20effeciency/{quote(c["condition"])}/{channel}_{f["field"]}.tif" download>{label}</a>' for channel,label in [('BRIGHTFIELD','Brightfield'),('BLUE','DAPI'),('GREEN','Green'),('RED','Red')])+'</li>' for f in fields if f['condition']==c['condition'])+'</ul></li>' for c in conditions)
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 gallery = f'''<div class="microscopy-explorer" data-microscopy-explorer>
 <p class="microscopy-coverage" data-micro-coverage>blank (no transfect) · 3 fields acquired · technical observations</p>
 <div class="microscopy-controls"><label>Condition<select data-micro-condition>{gallery_options}</select></label><label>Field<select data-micro-field><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></label><label>View<select data-micro-view><option value="panel">Four channels · common display settings</option><option value="merge-export">RGB merge · exported levels</option><option value="merge-display">RGB merge · common linear display</option><option value="object-overlay">Object inclusion and reporter calls</option><option value="brightfield-export">Brightfield · exported levels</option><option value="blue-export">DAPI · exported levels</option><option value="green-export">GREEN · exported levels</option><option value="red-export">RED · exported levels</option></select></label></div>
@@ -223,11 +219,7 @@ article = f'''
 <tr><td>Source manifest</td><td>Original filenames, bit depth, TIFF tags and SHA-256 hashes</td><td><a href="{PREFIX}source-manifest.json" download>JSON</a></td></tr>
 <tr><td>Analysis report</td><td>Methods, tables, threshold sensitivity and interpretation in a standalone appendix</td><td><a href="{PREFIX}analysis-report.html">Read report</a></td></tr>
 <tr><td>Cloning photographs</td><td>Three unchanged source photographs; filenames and SHA-256 hashes</td><td><a href="assets/results/cloning/source-manifest.json" download>JSON</a></td></tr>
-<<<<<<< HEAD
 <tr><td>Source workbook</td><td>Original plate-layout and reagent-calculation records; not proof of execution or assay outcomes</td><td><a href="wetlab%20results/transfection_effeciency/transfect.xlsx" download>XLSX</a></td></tr>
-=======
-<tr><td>Source workbook</td><td>Original plate-layout and reagent-calculation records; not proof of execution or assay outcomes</td><td><a href="wetlab%20results/transfection%20effeciency/transfect.xlsx" download>XLSX</a></td></tr>
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 </tbody></table></div></section>
 <section class="section-block" id="references" data-reveal><h2>References</h2>{references}</section>
 <nav class="proj-ev proj-ev--footer" aria-label="Other project evidence"><p class="proj-ev__label">Other project evidence</p><ul class="proj-ev__list"><li><a href="hardware.html">Hardware</a></li><li><a href="model.html">Model</a></li></ul></nav>

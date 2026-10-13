@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # AeroSense Wiki · October 12 watercolor, learning and evidence update
 
 目前本機預覽：[AeroSense](http://127.0.0.1:8011/index.html)。可在此資料夾執行 `node scripts/preview-server.mjs 8011` 啟動；另有下方 PowerShell 預覽方式。
@@ -10,13 +9,6 @@
 v14 歷史：讓每頁的標題、控制項與淡底依該頁 Claude 插圖配色：Project 鼠尾草綠、Team 赭金、Wet Lab 淡紫、Hardware／Model 藍、HP 陶土紅，Learning 按各自圖案細節配色。同一閱讀欄位內的標題文字、正文、主要圖片及圖說共用左右邊界，章節圖案底保留，文內引用編號恢復正常行內間距。Notebook 已整合 24 筆 Wet Lab 與 5 筆 Hardware 工作，保留精確時間、失敗紀錄與未來預定狀態；合併重複事件後共 87 筆。完整範圍與檢查見 [v14 更新報告](../reports/2026-10-12-palette-notebook-v14.md)。
 
 v13 歷史：使用原圖封面裁圖、章節圖案底、正文左右切齊與獨立 References 編號欄。首頁有深色銀河、淡出天空與五章書本；Model 包含 Receptor engineering，Engineering 有相應循環和小型 Expand all；Sustainability 依指定 Notion 整理。見 [v13 更新報告](../reports/2026-10-12-illustrated-v13.md)。
-=======
-# AeroSense Wiki · October 10 editorial update
-
-目前本機預覽：[AeroSense](http://127.0.0.1:8010/index.html)。可在此資料夾執行 `node scripts/preview-server.mjs 8010` 啟動；另有下方 PowerShell 預覽方式。
-
-**要上傳 iGEM 的圖片全部集中在本資料夾的 [igem-upload](igem-upload/README.md)：486 張圖片依頁面整理，附各頁清單與官方網址對照表。**
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 
 Reference 最新修正見[引用排序與圖片位置](../reports/2026-10-10-v6-reference-order.md)：14 頁的 123 筆來源依正文首次引用排列，內文與文末連續對應。
 

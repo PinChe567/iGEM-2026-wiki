@@ -15,11 +15,8 @@
  *   needs-update — source is too incomplete or internally contradictory to treat as settled
  *
  * datePrecision: day | range | month
-<<<<<<< HEAD
  * startTime/endTime: supplied HH:mm local session time; null when unspecified.
  * timeZone: Asia/Taipei for the 12 October 2026 team update.
-=======
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
  * stream: wetlab | drylab | hp | team | igem
  * substream: hardware | model | null
  *   Technical workstreams: Wet Lab | Dry Lab.
@@ -655,7 +652,6 @@
    * ========================================================================= */
   var WETLAB_EVENTS = [
     event({
-<<<<<<< HEAD
   "id": "wet-p2-kinetics-20261010",
   "startDate": "2026-10-10",
   "endDate": "2026-10-10",
@@ -722,8 +718,6 @@
   "timeZone": "Asia/Taipei"
 }),
     event({
-=======
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
   "id": "wet-microscopy-transfection",
   "title": "WL-MIC-01 · HEK293 transfection evidence",
   "status": "completed",
@@ -842,7 +836,6 @@
 }),
     event({
   "id": "wet-g418-followup",
-<<<<<<< HEAD
   "startDate": "2026-10-11",
   "endDate": "2026-10-11",
   "openEnd": false,
@@ -896,44 +889,6 @@
   "startTime": "22:00",
   "endTime": "23:00",
   "timeZone": "Asia/Taipei"
-=======
-  "title": "WL-G418-01 · Separate selection batch",
-  "status": "ongoing",
-  "shortSummary": "The team reported a G418 selection batch in progress; it is separate from WL-MIC-01.",
-  "work": "G418 selection was reported as ongoing. No dated dosing trajectory or selected-cell endpoint accompanies the archived images.",
-  "result": "No selection improvement or stable function is claimed from the pre-selection images.",
-  "needsUpdate": [
-    "Start date, operator, doses, kill-curve control, survival/growth trajectory, reporter-retention and functional endpoints."
-  ],
-  "startDate": null,
-  "endDate": null,
-  "datePrecision": "range",
-  "stream": "wetlab",
-  "category": "archived-evidence",
-  "responsible": [],
-  "contributors": [],
-  "tags": [
-    "undated",
-    "source-linked",
-    "wetlab"
-  ],
-  "sourceSection": "Team-supplied images and preparation confirmations, archived 2026-10-10; experimental dates unresolved",
-  "sourceNote": "Retrospective provenance entry, not a contemporaneous dated bench record. The 2026-10-10 confirmation/archive date is NOT used as the experiment date.",
-  "relatedLinks": [
-    {
-      "label": "Results · WL-MIC-01",
-      "href": "results.html#wet-lab"
-    },
-    {
-      "label": "Experimental methods",
-      "href": "experiments.html#microscopy-analysis"
-    },
-    {
-      "label": "Microscopy source manifest",
-      "href": "assets/results/microscopy/source-manifest.json"
-    }
-  ]
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 }),
     event({
   "id": "wet-cloning-plates",
@@ -983,30 +938,17 @@
       "stream": "wetlab",
       "category": "exploratory-fly-imaging",
       "status": "completed",
-<<<<<<< HEAD
       "title": "TH-GFP light-sheet observation",
       "shortSummary": "The 20 April recording uses the team-identified “5137;TH” (TH-GFP) preparation. A movie and regional GFP-fluorescence traces are available; they do not measure neural calcium activity.",
       "work": "Observed GFP fluorescence in the team-identified “5137;TH” preparation during presentations of isopentyl acetate, 3-octanol and 4-methylcyclohexanol. The team identifies this as TH-driven mCD8::GFP membrane labeling. The full parental cross, progeny genotype and original acquisition timestamps remain to be documented.",
-=======
-      "title": "TH-associated Light-Sheet Observation",
-      "shortSummary": "The team dates the TH × UAS-GCaMP6f exploratory light-sheet work to 20 April. A movie and regional traces are available; an odor-evoked response remains to be validated with acquisition controls and repeat measurements.",
-      "work": "Observed fluorescence in the team-labeled TH (5137) preparation crossed to UAS-GCaMP6f, during presentations of isopentyl acetate, 3-octanol and 4-methylcyclohexanol. The reporter and day are team-confirmed; the full progeny genotype and original acquisition timestamps remain to be matched to the record.",
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       "output": [
         "Team-supplied TH-labeled movie",
         "Exploratory regional intensity and normalized-intensity plots"
       ],
-<<<<<<< HEAD
       "interpretation": "mCD8::GFP is a membrane label, not a calcium indicator. Regional intensity and local-baseline ΔF/F₀ describe normalized GFP fluorescence. Motion, bleaching, baseline drift and delivery artifacts remain possible contributors; these traces do not establish odor-evoked neural or calcium activity.",
       "nextStep": "Document the full parental cross and progeny genotype, align delivery timing, assess motion and background, and collect independent animals before interpreting a reproducible odor-associated GFP-fluorescence change.",
       "needsUpdate": [
         "Document the parental cross and full progeny genotype for the team-identified “5137;TH” preparation; BDSC 5137 identifies the UAS-mCD8::GFP reporter stock, not the TH driver.",
-=======
-      "interpretation": "UAS-GCaMP6f is a calcium-sensitive reporter confirmed by the team. These exploratory regional traces do not yet separate calcium-dependent changes from motion, bleaching, baseline drift or delivery artifacts, or identify every labeled neuron.",
-      "nextStep": "Resolve the driver stock identifier, document the full progeny genotype, align delivery timing and motion controls, and collect biological repeats before attributing fluorescence changes to odor-evoked neural activity.",
-      "needsUpdate": [
-        "Confirm whether 5137 is a Bloomington or local stock identifier. BDSC 5137 is a UAS-mCD8::GFP reporter, not a TH-GAL4 driver or GCaMP reporter.",
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
         "Document full cross, fly age/sex, preparation, acquisition and stimulus delivery metadata, and independent biological repeats."
       ],
       "relatedLinks": [
@@ -1032,11 +974,7 @@
         "exploratory"
       ],
       "sourceSection": "Fly observation update · 20 April · TH-associated light-sheet work",
-<<<<<<< HEAD
       "sourceNote": "Reporter identity was corrected by the team to “5137;TH” (TH-GFP), superseding the earlier UAS-GCaMP6f annotation for this recording. FlyBase lists BDSC 5137 as UAS-mCD8::GFP. The 20 April date is unchanged. Completed refers to image acquisition, not neural-response validation."
-=======
-      "sourceNote": "Date, TH (5137) preparation label and UAS-GCaMP6f reporter confirmed by the team on 10 October 2026. Year follows the existing 2026 notebook context. Completed refers to image acquisition, not neural-response validation."
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     }),
     event({
       "id": "wet-pn-preparation-20260504",
@@ -2116,7 +2054,6 @@
       ]
     }),
     event({
-<<<<<<< HEAD
   "id": "hw-enclosure-assembly-test",
   "startDate": "2026-10-09",
   "endDate": "2026-10-16",
@@ -2163,33 +2100,6 @@
   "sourceSection": "Team notebook update · 2026-10-09 – 2026-10-16 · Hardware assembly, trial use and revisions",
   "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October. The supplied hardware records specify dates but no times of day. This replaces the earlier 9 October start with an unconfirmed end (10/?) while retaining the original event ID."
 }),
-=======
-      "id": "hw-enclosure-assembly-test",
-      "startDate": "2026-10-09",
-      "endDate": null,
-      "openEnd": true,
-      "datePrecision": "range",
-      "stream": "drylab",
-      "substream": "hardware",
-      "category": "reported-phase",
-      "status": "planned",
-      "title": "Enclosure Assembly and Testing (Planned)",
-      "shortSummary": "Assembly testing is planned to start on 9 October. The supplied note gives the end as “10/?”; no completion date or test outcome is available.",
-      "work": "Assembly testing is planned to start on 9 October. The supplied note gives the end as “10/?”; no completion date or test outcome is available.",
-      "sourceNote": "Team-supplied timeline screenshot, incorporated on 8 October 2026. These are reported work periods; a dated phase does not establish instrument performance or completed validation.",
-      "sourceSection": "Hardware timeline update · Enclosure Assembly and Testing (Planned)",
-      "tags": [
-        "team-timeline",
-        "hardware-phase"
-      ],
-      "relatedLinks": [
-        {
-          "label": "Hardware evidence and design files",
-          "href": "hardware.html"
-        }
-      ]
-    }),
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     event({
       "id": "hp-game-ideas-rules",
       "startDate": "2026-07-13",
@@ -2308,7 +2218,6 @@
     })
   ];
 
-<<<<<<< HEAD
   // Dated team log: latest supplied chronology, interpreted as of 12 October 2026.
   var TEAM_LOG_V14_EVENTS = [
     event({
@@ -3009,9 +2918,6 @@
     if (COMPLETION_SUMMARIES_V25[ev.id]) ev.shortSummary = COMPLETION_SUMMARIES_V25[ev.id];
     ev.tags = ev.tags.filter(function (tag) { return tag !== "planned"; });
   });
-=======
-  var EVENTS = HARDWARE_EVENTS.concat(WETLAB_EVENTS, DRYLAB_EVENTS, HP_EVENTS, TIMELINE_UPDATE_EVENTS);
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 
   /**
    * Turning points — curated only from documented decisions in notebook_content.md.
@@ -3112,10 +3018,7 @@
 
   /* -------- Coverage map: every unique source section → event id -------- */
   var SOURCE_COVERAGE = [
-<<<<<<< HEAD
     {"section": "Plate P2 instrument exports, runs 904–935, and team confirmation on 11 October 2026", "eventId": "wet-p2-kinetics-20261010"},
-=======
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     {"section":"Fly observation update · 20 April · TH-associated light-sheet work","eventId":"wet-th-lightsheet-20260420"},
     {"section":"Fly observation update · 4 May · PN/GH146 preparation, imaging pending","eventId":"wet-pn-preparation-20260504"},
     { section: "Hardware · April 1–21 · Project Ideation and Team Formation", eventId: "hw-ideation" },
@@ -3156,13 +3059,10 @@
     SOURCE_COVERAGE.push({ section: ev.sourceSection, eventId: ev.id });
   });
 
-<<<<<<< HEAD
   TEAM_LOG_V14_EVENTS.forEach(function (ev) {
     SOURCE_COVERAGE.push({ section: ev.sourceSection, eventId: ev.id });
   });
 
-=======
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
   function byId(id) {
     for (var i = 0; i < EVENTS.length; i += 1) {
       if (EVENTS[i].id === id) return EVENTS[i];

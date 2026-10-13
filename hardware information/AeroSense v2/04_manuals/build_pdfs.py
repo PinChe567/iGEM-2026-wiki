@@ -2,11 +2,7 @@
 Uses ReportLab and Pillow; output PDFs remain in the user-facing folders.
 """
 from pathlib import Path
-<<<<<<< HEAD
 import re,html,json,argparse,sys
-=======
-import re,html,json,argparse
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 from reportlab.platypus import SimpleDocTemplate,Paragraph,Spacer,Image,Table,TableStyle,PageBreak,KeepTogether
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib import colors
@@ -29,14 +25,11 @@ ST={
 }
 def inline(s):
  s=s.replace('CO₂','CO2')
-<<<<<<< HEAD
  # Microsoft JhengHei lacks several scientific superscript/comparison glyphs.
  # Preserve their meaning as ASCII instead of rendering empty squares.
  s=s.replace('≤','<=').replace('≥','>=').replace('≠','!=').replace('≈','~').replace('∂','partial ')
  supers=str.maketrans('⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺','0123456789-+')
  s=re.sub(r'[⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺]+',lambda m:'^'+m[0].translate(supers),s)
-=======
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
  s=html.escape(s.replace('\u2011','-').replace('\u2013','-').replace('\u2014','-').replace('\u2212','-'))
  s=re.sub(r'\*\*(.*?)\*\*',r'<b>\1</b>',s)
  s=re.sub(r'`([^`]+)`',r'<font color="#174e66">\1</font>',s)
@@ -73,25 +66,17 @@ def parse(path):
    if n==2:widths=[155,345]
    if n==5 and path.stem.startswith('User_Feedback'):widths=[180,50,80,55,135]
    if n==7 and path.stem.startswith('User_Feedback'):widths=[275,36,36,36,36,36,45]
-<<<<<<< HEAD
    row_heights=None
    if path.stem.startswith('User_Feedback'):
     row_heights=[None if any(x.strip() for x in row.strip('|').split('|')) else 30 for row in table]
    t=Table(cells,colWidths=widths,rowHeights=row_heights,repeatRows=1,hAlign='LEFT')
-=======
-   t=Table(cells,colWidths=widths,repeatRows=1,hAlign='LEFT')
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
    t.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),colors.HexColor('#dce8ee')),('VALIGN',(0,0),(-1,-1),'TOP'),('LINEBELOW',(0,0),(-1,0),.7,colors.HexColor('#879aaa')),('LINEBELOW',(0,1),(-1,-1),.25,colors.HexColor('#d7dfe5')),('TOPPADDING',(0,0),(-1,-1),6),('BOTTOMPADDING',(0,0),(-1,-1),6)]));out+=[t,Spacer(1,10)];continue
   if s in ['---','***']:out.append(Spacer(1,8));continue
   if s.startswith('>'):s=s.lstrip('> ')
   out.append(Paragraph(inline(s),ST['body']))
  return out
 def footer(c,d):
-<<<<<<< HEAD
  c.saveState();c.setStrokeColor(colors.HexColor('#c8d3dd'));c.line(47,39,548,39);c.setFont('J',8);c.setFillColor(colors.HexColor('#526779'));c.drawString(47,25,'AeroSense | 2026-10-11 | Engineering prototype');c.drawRightString(548,25,str(d.page));c.restoreState()
-=======
- c.saveState();c.setStrokeColor(colors.HexColor('#c8d3dd'));c.line(47,39,548,39);c.setFont('J',8);c.setFillColor(colors.HexColor('#526779'));c.drawString(47,25,'AeroSense | 2026-10-08 | Engineering prototype');c.drawRightString(548,25,str(d.page));c.restoreState()
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 
 class BookmarkedDocument(SimpleDocTemplate):
  def afterFlowable(self, flowable):
@@ -103,20 +88,14 @@ def build(target,sources):
  for key in ['body','h2','h3']:
   if key=='body':
    ST[key].fontSize=9.5 if '_EN' in target.stem else 10
-<<<<<<< HEAD
    ST[key].leading=14.4 if '_EN' in target.stem else 16
    ST[key].spaceAfter=6 if '_EN' in target.stem else 8
-=======
-   ST[key].leading=14.4 if '_EN' in target.stem else (15 if target.stem=='Assembly_Manual_ZH' else 16)
-   ST[key].spaceAfter=6 if '_EN' in target.stem else (7 if target.stem=='Assembly_Manual_ZH' else 8)
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
   elif key=='h2':
    ST[key].spaceBefore=13 if '_EN' in target.stem else 17
  story=[]
  for i,src in enumerate(sources):
   if i:story.append(PageBreak())
   story+=parse(src)
-<<<<<<< HEAD
  BookmarkedDocument(str(target),pagesize=A4,leftMargin=47,rightMargin=48,topMargin=42,bottomMargin=53,title=target.stem,author='AeroSense project documentation').build(story,onFirstPage=footer,onLaterPages=footer)
  print(target.relative_to(R),flush=True)
 p=argparse.ArgumentParser(description=__doc__)
@@ -138,51 +117,3 @@ for lang in a.language:
  if not a.roles:
   for stem in ['Fluorescence_and_Cell_Test','Validation_Plan','User_Feedback']:
    src=R/'07_validation'/f'{stem}_{lang}.md';build(src.with_suffix('.pdf'),[src])
-=======
-  if target.stem.startswith('Simulation_Analysis') and src.parent.name in ['optics','airflow','membrane'] and src.stem.startswith(('Analysis_','Airflow_Analysis_')):
-   lang='ZH' if '_ZH' in target.stem else 'EN'
-   captions={}
-   for line in src.read_text(encoding='utf8').splitlines():
-    if line.startswith('|') and '.png' in line:
-     cells=line.strip('|').split('|')
-     if len(cells)>1:captions[cells[0].strip()]=cells[1].strip()
-   explicit_caps_path=src.parent/'captions.json'
-   explicit_caps=json.loads(explicit_caps_path.read_text(encoding='utf8')) if explicit_caps_path.exists() else {}
-   extra={
-    'design_comparison.png':('18組氣流設計比較；同一流量歸一化，不能把局部速度改善當成細胞存活證明。','Comparison of 18 designs at matched normalized flow; local velocity reduction is not evidence of cell survival.'),
-    'velocity_sections.png':('入口與井上方速度剖面；流場為穩態，液面固定。','Inlet and well velocity sections; steady gas flow with fixed liquid surfaces.'),
-    'mesh_and_tradeoff.png':('三種網格的敏感度與取捨；方向一致但局部數值尚未網格獨立。','Three-grid sensitivity and trade-offs; directional agreement does not establish grid-independent local magnitudes.')}
-   for fp in sorted((src.parent/'figures').glob('*.png')):
-    row=explicit_caps.get(fp.name,explicit_caps.get('figures',{}).get(fp.name,{}))
-    explicit=row.get(lang,row.get('caption_'+lang,'')) if isinstance(row,dict) else row
-    if isinstance(explicit,dict):explicit=explicit.get('caption','')
-    cap=explicit or captions.get(fp.name,extra.get(fp.name,('模擬圖；完整方法、座標與圖例見同資料夾Figure Guide。','Simulation figure; methods, axes and legends are in the accompanying Figure Guide.'))[0 if lang=='ZH' else 1])
-    if fp.stem.startswith('airflow_movie_') and not explicit:
-     seconds=int(fp.stem.rsplit('_',1)[1])*60/239
-     cap=(f'穩態速度場示蹤於物理時間{seconds:.1f}秒；顏色表示速度，粒子不是細胞或氣味濃度。' if lang=='ZH' else f'Steady-field tracers at {seconds:.1f} physical seconds. Colour encodes speed; markers are not cells or odor concentration.')
-    group_titles={'optics':('光學模擬圖','Optical figure'),'airflow':('氣流與氣相傳輸','Airflow and gas transport'),'membrane':('PDMS與液體傳輸','PDMS and liquid transport')}
-    title=group_titles[src.parent.name][0 if lang=='ZH' else 1]
-    story+=[PageBreak(),Paragraph(inline(title+' / '+fp.stem),ST['h2'])]
-    cap_paragraph=Paragraph(inline(cap),ST['body']);_,cap_height=cap_paragraph.wrap(500,700)
-    w,h=PI.open(fp).size;factor=min(500/w,max(180,min(520,640-cap_height))/h)
-    story+=[Image(str(fp),width=w*factor,height=h*factor),Spacer(1,12),cap_paragraph,Paragraph(inline(str(fp.relative_to(R))),ST['small'])]
- BookmarkedDocument(str(target),pagesize=A4,leftMargin=47,rightMargin=48,topMargin=42,bottomMargin=53,title=target.stem,author='AeroSense project documentation').build(story,onFirstPage=footer,onLaterPages=footer)
- print(target.relative_to(R),flush=True)
-p=argparse.ArgumentParser();p.add_argument('--analysis',action='store_true');p.add_argument('--assembly-only',action='store_true');p.add_argument('--operations-only',action='store_true');p.add_argument('--validation-only',action='store_true');a=p.parse_args()
-for lang in ['ZH','EN']:
- if a.analysis:
-  sources=[R/'04_manuals'/f'Design_Analysis_{lang}.md',R/'02_simulation/optics'/f'Analysis_{lang}.md',R/'02_simulation/airflow'/f'Flow_Operation_{lang}.md',R/'02_simulation/airflow'/f'Airflow_Analysis_{lang}.md']
-  membrane=R/'02_simulation/membrane'/f'Analysis_{lang}.md'
-  if membrane.exists():sources.append(membrane)
-  build(R/'04_manuals'/f'Simulation_Analysis_{lang}.pdf',sources)
- else:
-  if a.validation_only:
-   build(R/'07_validation'/f'Validation_Plan_{lang}.pdf',[R/'07_validation'/f'Validation_Plan_{lang}.md']);continue
-  if not a.operations_only:build(R/'04_manuals'/f'Assembly_Manual_{lang}.pdf',[R/'04_manuals'/f'Assembly_Manual_{lang}.md'])
-  if a.assembly_only:continue
-  op=R/'03_software/guides'/('操作與設定_ZH.md' if lang=='ZH' else 'Operation_and_Setup_EN.md')
-  build(R/'04_manuals'/f'Operation_and_Setup_{lang}.pdf',[op,R/'03_software/guides'/f'Measured_Correction_{lang}.md'])
-  if a.operations_only:continue
-  for stem in ['Validation_Plan','User_Feedback']:
-   build(R/'07_validation'/f'{stem}_{lang}.pdf',[R/'07_validation'/f'{stem}_{lang}.md'])
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0

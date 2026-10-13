@@ -84,17 +84,11 @@
     }
     function measure(reader) {
       reader.top=anchor(reader);
-<<<<<<< HEAD
       reader.track.style.setProperty('--eng-cycle-top',(headerHeight()+8)+'px');
       const availableHeight=innerHeight-reader.top-bottomInset(reader);
       // Pin the reader when enough space is available. Short viewports and
       // reduced-motion users retain the complete, manually selected text.
       reader.enabled=!document.documentElement.classList.contains('eng-reading-plain')&&reader.track.dataset.readingMode!=='manual'&&!reduced.matches&&availableHeight>=374;
-=======
-      // Pin the reader when enough space is available. Short viewports and
-      // reduced-motion users retain the complete, manually selected text.
-      reader.enabled=!document.documentElement.classList.contains('eng-reading-plain')&&reader.track.dataset.readingMode!=='manual'&&!reduced.matches&&innerHeight-reader.top>=390;
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       reader.track.classList.toggle('has-guide-layout',reader.enabled);
       reader.track.classList.toggle('has-scroll-story',reader.enabled);
       reader.track.classList.remove('is-guided');
@@ -113,7 +107,6 @@
     function measureTimeline(reader,height) {
       const body=bodyOf(current(reader)),note=noteOf(current(reader));
       if(!body||!note)return;
-<<<<<<< HEAD
       const rect=body.getBoundingClientRect();
       if(!rect.width||!rect.height)return;
       const overflows=[];
@@ -138,20 +131,6 @@
             overflows.push(Math.ceil(Math.max(0,measured.scrollHeight-measured.clientHeight)));
           });
         } finally {copy.remove();}
-=======
-      const rect=note.getBoundingClientRect();
-      if(!rect.width||!rect.height)return;
-      const overflows=[];
-      reader.panels.forEach(panel=>{
-        panel.querySelectorAll('[data-eng-stage]').forEach(original=>{
-          const copy=original.cloneNode(true);
-          copy.removeAttribute('id');copy.querySelectorAll('[id]').forEach(el=>el.removeAttribute('id'));
-          copy.hidden=false;
-          Object.assign(copy.style,{position:'absolute',visibility:'hidden',pointerEvents:'none',width:rect.width+'px',height:rect.height+'px',minHeight:'0',maxHeight:'none',overflow:'hidden',top:'0',left:'0',boxSizing:'border-box'});
-          copy.style.setProperty('display','block','important');
-          body.append(copy);overflows.push(Math.ceil(Math.max(0,copy.scrollHeight-copy.clientHeight)));copy.remove();
-        });
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       });
       reader.timeline=logic.timeline(overflows,Math.max(180,Math.min(240,Math.round(height*.35))),200);
       reader.travel=reader.timeline.at(-1).end;
@@ -164,11 +143,7 @@
         const width=context.getBoundingClientRect().width;
         reader.panels.forEach(panel=>{
           const original=panel.querySelector('.eng-cycle-context');if(!original)return;
-<<<<<<< HEAD
           const copy=window.AeroSenseI18n?.cloneSource(original)||original.cloneNode(true);
-=======
-          const copy=original.cloneNode(true);
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
           Object.assign(copy.style,{position:'absolute',visibility:'hidden',width:width+'px',height:'auto',minHeight:'0'});
           current(reader).append(copy);maximum=Math.max(maximum,copy.getBoundingClientRect().height);copy.remove();
         });
@@ -187,12 +162,6 @@
       controls.querySelector('[data-guide-status]').textContent=`${label} · Cycle ${cycle+1} / ${reader.panels.length} · ${stages[stage][0].toUpperCase()+stages[stage].slice(1)}`;
       controls.querySelector('[data-guide-prev]').disabled=cycle===0&&stage===0;
       controls.querySelector('[data-guide-next]').textContent=stage<4?'Next step →':cycle<reader.panels.length-1?'Next cycle →':'Continue reading ↓';
-<<<<<<< HEAD
-=======
-      controls.querySelector('[data-guide-hint]').textContent=reader.enabled
-        ?'Scroll to read this stage, then continue through the gears. Scroll up to revisit.'
-        :'Choose a gear, or use Previous and Next to explore the cycles.';
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     }
     function render(reader,index) {
       const old=current(reader),oldIndex=indexOf(reader);
@@ -338,10 +307,7 @@
       readers.forEach(reader=>{
         const active=current(reader);
         reader.manualExit=false;
-<<<<<<< HEAD
         reader.lastDistance=undefined;
-=======
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
         reader.panels.forEach(panel=>{
           panel.hidden=!plain&&panel!==active;
           panel.querySelectorAll('[data-eng-stage]').forEach(note=>{
@@ -352,17 +318,11 @@
         measure(reader);
       });
       readingToggle?.setAttribute('aria-pressed',String(plain));
-<<<<<<< HEAD
       if(readingToggle){
         readingToggle.textContent=plain?'Guided view':'Expand all';
         readingToggle.setAttribute('aria-label',plain?'Return to guided engineering reading':'Expand all engineering cycles and stages');
       }
       document.querySelectorAll('[data-eng-receptor-record]').forEach(detail=>{detail.open=plain;});
-=======
-      if(readingToggle)readingToggle.textContent=plain?'Resume guided DBTLR reading':'Expand all · exit pinned reading';
-      const description=document.querySelector('[data-eng-reading-description]');
-      if(description)description.textContent=plain?'Every cycle and every stage is expanded. Scroll normally or choose a chapter.':'Guided reading keeps the DBTLR stages in view. Expand all for ordinary scrolling through every stage.';
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       if(persist){try{localStorage.setItem('aerosense-engineering-reading',plain?'plain':'guided');}catch(_){} }
       if(focused===readingToggle)readingToggle.focus({preventScroll:true});
       schedule();

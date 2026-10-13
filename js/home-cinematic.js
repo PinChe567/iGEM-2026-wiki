@@ -811,37 +811,22 @@
     var on = mode !== 'off';
     [useBtn].forEach(function (b) { b.setAttribute('aria-pressed', String(on)); });
     if (isTouch()) {
-<<<<<<< HEAD
       useLabel.textContent = on ? 'Close reader ×' : 'Open reader →';
-=======
-      useLabel.textContent = on ? 'Close the reader and return to visual view' : 'Open the reader and reveal AeroSense view';
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       revealBtn.hidden = true;
       hint.hidden = false;
       hint.textContent = on ? 'AeroSense view' : 'Or hold & drag to sense';
     } else {
-<<<<<<< HEAD
       useLabel.textContent = on ? 'Close reader ×' : 'Open reader →';
-=======
-      useLabel.textContent = on ? 'Close the reader and return to visual view' : 'Open the reader and reveal AeroSense view';
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       revealBtn.hidden = !on;
       revealBtn.textContent = mode === 'full' ? 'Return to visual view' : 'Reveal all';
       revealBtn.setAttribute('aria-pressed', String(mode === 'full'));
       hint.hidden = mode !== 'lens';
       hint.textContent = 'Move to sense · hold to widen';
     }
-<<<<<<< HEAD
     useBtn.setAttribute('aria-label', on ? 'Close the reader and return to visual view' : 'Open the reader and reveal AeroSense view');
     ctaNote.querySelector('[data-asc-note-copy]').innerHTML = on
       ? 'AeroSense view is on.'
       : 'Reveal the hidden odor view.';
-=======
-    useBtn.setAttribute('aria-label', useLabel.textContent);
-    ctaNote.querySelector('[data-asc-note-copy]').innerHTML = on
-      ? 'Reader open.<br>AeroSense view is on.'
-      : (isTouch() ? 'Tap to open the reader.<br>See what sight misses.' : 'Open the reader.<br>See what sight misses.');
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     // Revealing a control or changing its label can move the dock without
     // resizing the outer toolbar. Refresh its target before the next frame.
     cacheGeometry();
@@ -1022,11 +1007,7 @@
 
   /* ---------- go */
   if (isTouch()) {
-<<<<<<< HEAD
     ctaNote.querySelector('[data-asc-note-copy]').textContent = 'Reveal the hidden odor view.';
-=======
-    ctaNote.querySelector('[data-asc-note-copy]').textContent = 'Tap to open the reader. See what sight misses.';
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
   }
   setMode('off', 'init');
   live.textContent = '';

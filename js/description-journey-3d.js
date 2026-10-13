@@ -2124,13 +2124,8 @@ function loadGltf(url) {
   }
 
   function buildRenderer() {
-<<<<<<< HEAD
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: "high-performance" });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-=======
-    renderer = new THREE.WebGLRenderer({ antialias: !mobile, alpha: false, powerPreference: "high-performance" });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1 : 1.25));
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.1;
@@ -2300,11 +2295,7 @@ function loadGltf(url) {
     // The wider vertical field preserves a useful horizontal view of exhibits.
     camera.fov = THREE.MathUtils.radToDeg(2 * Math.atan(Math.tan(THREE.MathUtils.degToRad(24)) * Math.max(1, .88 / camera.aspect)));
     camera.updateProjectionMatrix();
-<<<<<<< HEAD
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-=======
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1 : 1.25));
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     renderer.setSize(w, h, false);
     fitFlyScale();
     if (giantFly && fly) giantFly.scale.copy(fly.root.scale).multiplyScalar(8);

@@ -3,11 +3,8 @@ import * as THREE from './vendor/three.module.js';
 export async function createPartsViewer(host, api) {
   const canvas=host.querySelector('canvas'), fallback=host.querySelector('[data-parts-3d-fallback]');
   const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:!matchMedia('(pointer:coarse)').matches,powerPreference:'low-power'});
-<<<<<<< HEAD
   // Keep the page's CSS paper visible without changing any scientific material.
   renderer.setClearColor(0x000000,0);
-=======
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
   renderer.setPixelRatio(Math.min(devicePixelRatio||1,matchMedia('(pointer:coarse)').matches?1.25:1.5));
   renderer.outputColorSpace=THREE.SRGBColorSpace;
   renderer.toneMapping=THREE.ACESFilmicToneMapping;
@@ -102,13 +99,8 @@ export async function createPartsViewer(host, api) {
   const tooltip=document.createElement('div');tooltip.className='protein-hover';tooltip.hidden=true;host.append(tooltip);
   function highlight(){
     const focus=hovered||selected;
-<<<<<<< HEAD
     pickables.forEach(o=>{const on=o.userData.feature===focus;o.material.emissive.copy(o.userData.baseEmissive);o.material.emissiveIntensity=on?.32:o.userData.baseIntensity;o.material.color.setHex(({or:0x42a980,orco:0x56a9d7,gcamp:0x83e74d,mcherry:0xff6b91,linker:0xf8bf5e})[o.userData.feature]);if(focus&&!on)o.material.color.multiplyScalar(.75);});
     Object.entries(glows).forEach(([feature,sprite])=>{sprite.material.opacity=focus===feature?.3:focus?.08:.18;});
-=======
-    pickables.forEach(o=>{const on=o.userData.feature===focus;o.material.emissive.copy(o.userData.baseEmissive);o.material.emissiveIntensity=on?1.5:o.userData.baseIntensity;o.material.color.setHex(({or:0x42a980,orco:0x56a9d7,gcamp:0x83e74d,mcherry:0xff6b91,linker:0xf8bf5e})[o.userData.feature]);if(focus&&!on)o.material.color.multiplyScalar(.65);});
-    Object.entries(glows).forEach(([feature,sprite])=>{sprite.material.opacity=focus&&focus!==feature?.36:.82;});
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     request();
   }
   api.focus=feature=>{selected=feature;highlight();};

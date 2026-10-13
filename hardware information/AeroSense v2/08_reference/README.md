@@ -9,7 +9,6 @@ No source file has been modified. The locked board archive was not decrypted and
 原件未修改。鎖定版圖未解鎖，不當成可編輯製造來源。含完整高度的STEP、完整採購料號與製造資料仍需供應商提供。原始文件保留原權利，不把論文／廠商資料套用新的統一授權。
 
 
-<<<<<<< HEAD
 
 
 # Gas delivery and drift reference
@@ -56,6 +55,3 @@ Alexander Vergara, Shankar Vembu, Tuba Ayhan, Margaret A. Ryan, Margie L. Homer,
 「受控供氣與跨批次資料紀錄是化學感測可重現性的重要條件。Vergara 等人使用長期氣體感測資料研究漂移補償，提醒我們保留流量、切換時序與批次資訊。我們的氣室操作值另由固定幾何的傳輸模型提出，並仍需實際量測；該文獻並非細胞系統的流量安全驗證。」
 
 這段放 Model 的氣體模型方法與 Hardware 的供氣／資料紀錄段落，各引用同一篇文獻即可。DLIA 實測複數空白校正有自己的方法來源，不應誤標成 Vergara 分類器方法。
-=======
-Gas-delivery reference: [中文](Gas_Delivery_Reference_ZH.md) / [English](Gas_Delivery_Reference_EN.md) / [BibTeX](references.bib). These new citation notes can be published; they do not redistribute the paper or vendor originals.
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0

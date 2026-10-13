@@ -77,35 +77,10 @@
 
   var DAY_MS = 86400000;
 
-<<<<<<< HEAD
   var GANTT_WINDOWS = [
     { id: "jan-apr", label: "January–April", shortLabel: "Jan–Apr", start: Date.UTC(YEAR, 0, 1), end: Date.UTC(YEAR, 3, 30) },
     { id: "may-aug", label: "May–August", shortLabel: "May–Aug", start: Date.UTC(YEAR, 4, 1), end: Date.UTC(YEAR, 7, 31) },
     { id: "sep-dec", label: "September–December", shortLabel: "Sep–Dec", start: Date.UTC(YEAR, 8, 1), end: Date.UTC(YEAR, 11, 31) }
-=======
-  var GANTT_PERIODS = [
-    {
-      id: "discover",
-      label: "DISCOVER & DESIGN",
-      shortLabel: "MAR–JUN",
-      start: Date.UTC(YEAR, 2, 1),
-      end: Date.UTC(YEAR, 5, 30),
-    },
-    {
-      id: "build",
-      label: "BUILD & ITERATE",
-      shortLabel: "JUL–SEP",
-      start: Date.UTC(YEAR, 6, 1),
-      end: Date.UTC(YEAR, 8, 30),
-    },
-    {
-      id: "validate",
-      label: "VALIDATE & INTEGRATE",
-      shortLabel: "OCT–NOV",
-      start: Date.UTC(YEAR, 9, 1),
-      end: Date.UTC(YEAR, 10, 30),
-    },
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
   ];
 
   function inclusiveEndMs(ms) {
@@ -725,17 +700,12 @@
   }
 
   function formatRange(ev) {
-<<<<<<< HEAD
     var hours = ev.startTime
       ? " · " + ev.startTime + (ev.endTime ? "–" + ev.endTime : "") +
         (ev.timeZone === "Asia/Taipei" ? " (Taipei, UTC+08:00)" : "")
       : "";
     if (ev.openEnd && ev.startDate) {
       return "From " + formatDateLabel(ev.startDate) + " · end date unconfirmed" + hours;
-=======
-    if (ev.openEnd && ev.startDate) {
-      return "From " + formatDateLabel(ev.startDate) + " · end date unconfirmed";
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     }
     if (!ev.startDate && !ev.endDate) return "Date needs update";
     if (!ev.endDate || ev.startDate === ev.endDate) {
@@ -2329,13 +2299,8 @@
           if (span.end <= axis.start || span.start >= axis.end) {
             return;
           }
-<<<<<<< HEAD
           var start = Math.max(span.start, axis.start);
           var end = Math.min(span.end, axis.end);
-=======
-          var start = Math.max(span.start, GANTT_AXIS.start);
-          var end = Math.min(span.end, GANTT_AXIS.end);
->>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
           if (lane.stream === "igem" || ev.isOfficial || ev.openEnd) {
             markers.push({ ev: ev, start: start, end: end });
             return;
