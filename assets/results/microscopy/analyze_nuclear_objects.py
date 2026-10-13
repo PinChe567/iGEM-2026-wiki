@@ -16,6 +16,7 @@ import analyze_microscopy as q
 HERE = Path(__file__).resolve().parent
 SOURCE = q.SOURCE
 PARAMS = {
+    'analysis_date': q.DATE,
     'status': 'Exploratory reporter-positive fractions in resolvable DAPI objects; NOT transfection efficiency',
     'confirmed_by_team_2026_10_10': {'blue': 'DAPI', 'paired_fields': True,
                                    'same_exposure_per_fluorescence_channel_across_groups': True,

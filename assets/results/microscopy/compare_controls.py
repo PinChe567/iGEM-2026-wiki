@@ -1,4 +1,4 @@
-"""Reproduce the 2026-10-11 exploratory microscopy control comparison.
+"""Reproduce the 2026-10-13 exploratory microscopy control comparison.
 
 Run: python compare_controls.py
 Inputs are the existing immutable CSV exports beside this script. No TIFF,
@@ -167,7 +167,11 @@ def main():
         stat = next(r for r in correlation if r['channel']==channel and r['n']==12)
         ax.set(title=f'{channel}: Spearman rho = {stat["spearman_rho"]:.2f}',
                xlabel='Median field area above pixel threshold (%)', ylabel='Pooled eligible objects above local threshold (%)')
-        ax.set_xlim(-3 if channel=='GREEN' else -.4, 112 if channel=='GREEN' else 10)
+        # Corrected condition pools can exceed the old fixed RED display range.
+        # Keep every measured condition visible without changing any statistic.
+        x_max = max(112 if channel=='GREEN' else 10,
+                    max(r['median_pixel_area_percent'] for r in rr) * 1.12 + 1)
+        ax.set_xlim(-3 if channel=='GREEN' else -.4, x_max)
         ax.set_ylim(-.7,19 if channel=='RED' else 9)
         ax.grid(alpha=.15)
     fig.suptitle('Area and object scores answer different questions\n12 conditions · one batch · descriptive comparison', fontsize=14)
@@ -177,7 +181,7 @@ def main():
         OUTPUTS.append(name)
     plt.close(fig)
 
-    summary = dict(analysis_date='2026-10-11', python=platform.python_version(), numpy=np.__version__,
+    summary = dict(analysis_date='2026-10-13', python=platform.python_version(), numpy=np.__version__,
                    scipy=scipy.__version__, matplotlib=matplotlib.__version__,
                    primary_data_unchanged=True, verification='12 conditions, 25 fields, 2624 objects and all72 threshold cells reproduced',
                    red_nominal_receptor_comparisons_below_0_05=sum(r['nominal_holm_below_0_05'] is True and r['condition']!='ORCO only' for r in rows if r['channel']=='RED'),

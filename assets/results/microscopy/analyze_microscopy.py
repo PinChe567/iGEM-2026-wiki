@@ -28,7 +28,7 @@ SOURCE = SITE / 'wetlab results' / 'transfection_effeciency'
 CHANNELS = ('BRIGHTFIELD', 'BLUE', 'GREEN', 'RED')
 INDEX = {'RED': 0, 'GREEN': 1, 'BLUE': 2}
 DISPLAY = {'BLUE': (0, 255), 'GREEN': (0, 120), 'RED': (0, 180), 'BRIGHTFIELD': (0, 255)}
-DATE = '2026-10-10'
+DATE = '2026-10-13'
 
 
 def slug(name):

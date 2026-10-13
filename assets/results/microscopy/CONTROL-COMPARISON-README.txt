@@ -1,9 +1,12 @@
-AeroSense microscopy control comparison | analysis 2026-10-11
+AeroSense microscopy control comparison | rerun 2026-10-13
 
 Run python compare_controls.py in this folder or from any working directory.
 Python 3; numpy, scipy, matplotlib. Exact run versions and SHA-256 input hashes
 are in control-comparison-summary.json. All six input files are included.
 No original image, primary score, segmentation or threshold is overwritten.
+The primary CSVs were regenerated after the team's 2026-10-13 condition/field
+reassignment. Image bytes are unchanged; condition-pooled counts and comparisons
+have been recomputed. See source-revision-2026-10-13.json in the main package.
 
 control-comparison.csv: one-sided Fisher exact test (greater) versus the blank,
 Holm adjustment over 11 nonblank comparisons SEPARATELY within each channel;

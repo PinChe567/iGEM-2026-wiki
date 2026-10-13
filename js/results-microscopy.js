@@ -12,6 +12,8 @@
   const coverage = root.querySelector('[data-micro-coverage]');
   const legend = root.querySelector('.microscopy-legend');
   const base = 'assets/results/microscopy/';
+  const dataRevision = '09a5a031265b47fc';
+  const currentAsset = path => path + '?v=' + dataRevision;
   const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   let records;
   function render(changeCondition = false) {
@@ -30,13 +32,13 @@
     coverage.textContent = condition.value + ' · ' + group.length + (group.length === 1 ? ' field acquired' : ' fields acquired') + ' · technical observations';
     legend.hidden = view.value !== 'object-overlay';
     const stem = base + slug(condition.value) + '/field-' + String(row.field).padStart(2, '0');
-    const url = stem + '-' + view.value + '.webp';
+    const url = currentAsset(stem + '-' + view.value + '.webp');
     image.src = url;
     const viewLabel=view.selectedOptions[0];
     image.alt = condition.value + ', field ' + row.field + ': ' + (window.AeroSenseI18n?.sourceText(viewLabel)||viewLabel.textContent);
     image.width = view.value === 'panel' ? 1440 : 1296;
     image.height = view.value === 'panel' ? 1160 : 972;
-    open.href = view.value === 'object-overlay' ? stem + '-object-overlay.png' : url;
+    open.href = view.value === 'object-overlay' ? currentAsset(stem + '-object-overlay.png') : url;
     const description = view.value === 'panel' || view.value === 'merge-display'
       ? 'Common linear display windows: DAPI 0–255, GREEN 0–120, RED 0–180. These display adjustments are not used in quantification.'
       : view.value === 'object-overlay'
@@ -47,7 +49,7 @@
     if (numberLabel) caption.prepend(numberLabel);
     status.textContent = row.eligible_objects + ' eligible DAPI objects; RED+ ' + row.red_positive_objects_p99 + ' (' + row.red_positive_fraction_percent_p99.toFixed(1) + '%), GREEN+ ' + row.green_positive_objects_p99 + ' (' + row.green_positive_fraction_percent_p99.toFixed(1) + '%). Eligible objects retain ' + row.eligible_blue_foreground_percent.toFixed(1) + '% of segmented DAPI foreground. These fractions are not transfection efficiency.';
   }
-  fetch(base + 'nuclear-object-summary.json').then(r => {
+  fetch(currentAsset(base + 'nuclear-object-summary.json')).then(r => {
     if (!r.ok) throw new Error('Unavailable microscopy data');
     return r.json();
   }).then(data => {
