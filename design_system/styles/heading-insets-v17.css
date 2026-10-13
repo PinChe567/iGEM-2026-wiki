@@ -1,0 +1,24 @@
+/* Painted chapter ribbons need breathing room, while the text retains the
+   article baseline. This applies only to the existing decorated headings. */
+body.signal-atlas{--content-title-bleed:24px;--chapter-title-block-inset:20px}
+/* The reading column is a layout wrapper, not a crop surface. The legacy Parts
+   overflow-x:clip cut both ribbon gutters off at the prose baseline. Let the
+   painted headings use the shell's existing side gutters; wide tables, maps
+   and selector strips retain their own local scrolling/cropping containers. */
+body.signal-atlas:not(.page-home) .shell--with-toc>.page-main-column{
+ overflow:visible;
+}
+body.signal-atlas:not(.page-home) :is(.page-article,.model-track-panel)>:is(section,.section-block)>h2,
+body.signal-atlas:not(.page-home) .references>h2,
+body.signal-atlas.page-learning :is(.learn-section,.lm-section)>:is(h2,.learn-section__title),
+body.signal-atlas.page-members .members-section__title,
+body.signal-atlas :is(.exp-track__header,.exp-proto__head,.nb-section-head,.nb-view-panel__head,.parts-builder__intro,.editorial-spread__intro)>h2,
+body.signal-atlas.page-model :is(.re-introduction,.re-highlights,.re-structure-key,.re-research-detail,.re-cycle,.re-next,.re-refs)>h2{
+ box-sizing:border-box;width:calc(100% + 2 * var(--content-title-bleed))!important;
+ max-width:none!important;margin-inline:calc(-1 * var(--content-title-bleed))!important;
+ padding:var(--chapter-title-block-inset) var(--content-title-bleed)!important;
+ border-inline-width:0!important;text-indent:0!important;
+}
+@media(max-width:760px){
+ body.signal-atlas{--content-title-bleed:16px;--chapter-title-block-inset:16px}
+}

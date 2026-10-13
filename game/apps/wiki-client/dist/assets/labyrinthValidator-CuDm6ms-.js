@@ -1,0 +1,1 @@
+import"./index-CXh1DE2f.js";import"./map-BOkkzxqQ.js";import"./rng-BTVd-NHf.js";{document.title="Not available";const t=document.querySelector("#app");t&&(t.innerHTML='<main style="padding:2rem;font-family:system-ui"><p>Labyrinth map validator is dev-only.</p><p><a href="../../index.html">Back to hub</a></p></main>')}

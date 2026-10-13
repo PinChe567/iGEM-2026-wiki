@@ -1,0 +1,94 @@
+/* v14: one content baseline per authored column. A title's painted field may
+   bleed outside that column; text, figure captions and tables do not acquire
+   a second inset. Deliberate grids, callouts and interactive stages retain
+   their own geometry. This layer does not set image/canvas heights. */
+body.signal-atlas{--content-title-bleed:16px}
+
+/* Use each existing chapter or grid-column width instead of several competing
+   character measures. Do not alter the enclosing article, TOC or sticky track. */
+body.signal-atlas:not(.page-home) :is(.page-article,.model-track-panel) > :is(section,.section-block) > :is(p,ul,ol):not(.ref-list):not(.references-list),
+body.signal-atlas:not(.page-home) .page-article .section-block > p,
+body.signal-atlas.page-human-practices main > .hp-section > p,
+body.signal-atlas.page-human-practices .notion-event > p,
+body.signal-atlas.page-education :is(.notion-editorial-block,.audit-v7) > p,
+body.signal-atlas.page-model :is(.model-v2-method,.model-v2-divider) > p,
+body.signal-atlas.page-model .model-track-panel :is(div,section,article,details):has(> h3) > p,
+body.signal-atlas.page-model .receptor-page p,
+body.signal-atlas:not(.page-home) :is(.exp-track__header,.exp-proto__head,.nb-section-head,.nb-view-panel__head,.parts-builder__intro,.editorial-spread__intro) > p,
+body.signal-atlas.page-model :is(.re-introduction,.re-highlights,.re-structure-key,.re-research-detail,.re-cycle,.re-next,.re-refs) > p,
+body.signal-atlas.page-learning :is(.learn-section,.lm-section,.lp-section,.audit-static-lesson) > p,
+body.signal-atlas.page-members :is(.members-section,.audit-section) > p{
+ max-width:none!important;margin-inline:0!important;
+}
+body.signal-atlas:not(.page-home) .page-article :is(section,article,details) > :is(h3,h4),
+body.signal-atlas.page-model :is(.model-v2-method,.model-v2-divider) > :is(h2,h3),
+body.signal-atlas.page-model .model-track-panel :is(div,section,article,details) > h3{max-width:none!important}
+
+/* Move only the decorative ribbon outward. Its text content box exactly
+   matches the surrounding prose, including the right edge on wrapped titles. */
+body.signal-atlas:not(.page-home) :is(.page-article,.model-track-panel) > :is(section,.section-block) > h2,
+body.signal-atlas:not(.page-home) .references > h2,
+body.signal-atlas.page-learning :is(.learn-section,.lm-section) > :is(h2,.learn-section__title),
+body.signal-atlas.page-members .members-section__title,
+body.signal-atlas :is(.exp-track__header,.exp-proto__head,.nb-section-head,.nb-view-panel__head,.parts-builder__intro,.editorial-spread__intro) > h2,
+body.signal-atlas.page-model :is(.re-introduction,.re-highlights,.re-structure-key,.re-research-detail,.re-cycle,.re-next,.re-refs) > h2{
+ box-sizing:border-box;width:calc(100% + 2 * var(--content-title-bleed))!important;
+ max-width:none!important;margin-inline:calc(-1 * var(--content-title-bleed))!important;
+ padding-inline:var(--content-title-bleed)!important;border-inline-width:0!important;
+}
+
+/* Main static figures share the chapter bounds. Any two-column gallery keeps
+   its grid; only redundant figure/caption insets are removed within each cell. */
+body.signal-atlas:not(.page-home) :is(.page-article,.model-track-panel) > :is(section,.section-block) > figure:not(.framework):not(.eng-cycle-figure),
+body.signal-atlas:not(.page-home) .page-article > figure.revision-visual{
+ box-sizing:border-box;width:100%!important;max-width:none!important;
+ margin-inline:0!important;padding-inline:0!important;border-inline-width:0!important;
+}
+body.signal-atlas:not(.page-home) :is(.page-article,.model-track-panel) > :is(section,.section-block) > .wiki-figure > .wiki-figure__media{
+ padding-inline:0!important;border-inline-width:0!important;
+}
+body.signal-atlas:not(.page-home) :is(.page-article,.model-track-panel,.learn-section,.lm-section,.lp-section,.audit-static-lesson) :is(figcaption,.figure-caption,.table-caption){
+ box-sizing:border-box;width:100%;max-width:none!important;
+ margin-inline:0!important;padding-inline:0!important;
+}
+body.signal-atlas:not(.page-home) :is(.page-article,.model-track-panel) > :is(section,.section-block) > :is(.table-scroll,.table-wrap){
+ box-sizing:border-box;width:100%;max-width:100%;margin-inline:0!important;
+}
+
+/* A bibliography keeps its dedicated 56px marker column. Inline citations
+   instead participate in the sentence, with normal punctuation and wrapping. */
+body.signal-atlas:not(.page-home) :is(.page-article,.model-track-panel,.learn-section,.lm-section) :is(p,li,dd,figcaption) .cite{
+ display:inline!important;min-width:0!important;min-height:0!important;
+ width:auto!important;height:auto!important;padding:0!important;
+ line-height:inherit;vertical-align:baseline;
+}
+body.signal-atlas:not(.page-home) :is(.page-article,.model-track-panel,.learn-section,.lm-section) :is(p,li,dd,figcaption) .cite-wrap{
+ display:inline-block;white-space:nowrap;vertical-align:baseline;
+}
+body.signal-atlas:not(.page-home) .cite-wrap .cite-preview{white-space:normal;text-align:start}
+
+/* Local layouts whose headings are not chapter ribbons. Keep glossary's
+   conversation surfaces and two-column index, but align the words in each. */
+body.signal-atlas.page-glossary .glossary-entry > h2{
+ display:block;width:100%;box-sizing:border-box;margin-inline:0!important;padding-inline:0!important;
+}
+body.signal-atlas.page-glossary .glossary-entry > p{padding-inline:0!important}
+body.signal-atlas.page-members .members-index__title{
+ width:100%;max-width:none;margin-inline:0!important;padding-inline:0!important;
+}
+body.signal-atlas.page-learning .lp-section > h2{padding-inline:0!important}
+body.signal-atlas.page-members main > .audit-section > h2,
+body.signal-atlas.page-education .page-article .edu-section > h2,
+body.signal-atlas.page-human-practices main > .hp-section > h2{
+ width:100%;max-width:none!important;
+}
+
+/* Homepage copy aligns within its intentionally split cinematic columns;
+   short kickers, labels, controls, and the opening illustration remain authored. */
+body.signal-atlas.page-home :is(.home-research__heading,.home-identity__head,.home-watch__heading,.home-notebook__heading) > p,
+body.signal-atlas.page-home .home-research__heading > div > p,
+body.signal-atlas.page-home .research-stop__copy > p,
+body.signal-atlas.page-home .home-opening__copy > p:not([class*="kicker"]):not([class*="label"]){
+ max-width:none!important;margin-inline:0!important;
+}
+@media(max-width:760px){body.signal-atlas{--content-title-bleed:8px}}

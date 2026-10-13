@@ -1,0 +1,56 @@
+/* Six-stage evidence navigation, scoped to the two wet-lab research pages. */
+:is(.page-results,.page-experiments) .wetlab-stage-kicker{margin:0 0 .65rem;color:#087987;font:600 .78rem/1.5 var(--font-mono,monospace);letter-spacing:.06em;text-transform:uppercase}
+:is(.page-results,.page-experiments) .wetlab-stage-status{padding:.75rem 0;margin:.8rem 0 1.2rem;border-top:1px solid #bcd6d7;border-bottom:1px solid #bcd6d7;font-size:.94rem;line-height:1.65}
+:is(.page-results,.page-experiments) .wetlab-progress{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));list-style:none;padding:0;margin:1.3rem 0 1.6rem;gap:0 1.7rem;counter-reset:none;max-width:none}
+:is(.page-results,.page-experiments) .wetlab-progress>li{margin:0;padding:0;min-width:0;border-bottom:1px solid #bfd6d8;list-style:none}
+:is(.page-results,.page-experiments) .wetlab-progress>li::before{content:none}
+:is(.page-results,.page-experiments) .wetlab-progress a{display:grid;grid-template-columns:2.2rem 1fr;gap:.7rem;align-items:start;padding:1.05rem 0;color:inherit;text-decoration:none}
+:is(.page-results,.page-experiments) .wetlab-progress a:hover strong{text-decoration:underline;text-underline-offset:.2em}
+:is(.page-results,.page-experiments) .wetlab-progress a:focus-visible{outline:2px solid #087987;outline-offset:4px}
+:is(.page-results,.page-experiments) .wetlab-progress__number{font:500 1.6rem/1.2 var(--font-mono,monospace);color:#087987}
+:is(.page-results,.page-experiments) .wetlab-progress strong{display:block;font-size:1rem;line-height:1.4}
+:is(.page-results,.page-experiments) .wetlab-progress small{display:block;margin-top:.35rem;color:#476267;font-size:.82rem;line-height:1.5}
+@media(max-width:650px){:is(.page-results,.page-experiments) .wetlab-progress{grid-template-columns:1fr}:is(.page-results,.page-experiments) .wetlab-progress a{padding:.85rem 0}}
+.page-experiments .exp-proto__head{gap:.75rem}
+
+/* v25: three separate scientific paths, expressed with the wet-lab palette.
+   Step labels and order stay in semantic HTML; no measured media are recolored. */
+body.signal-atlas.page-experiments #fig-workflow{display:grid;gap:1.25rem;margin:1.8rem 0;border:0;max-width:none}
+body.signal-atlas.page-experiments #fig-workflow .exp-track-map__row{--track-paint:#d9baf6;--track-paper:#f5ecff;--track-ink:#482879;display:grid;grid-template-columns:minmax(145px,.72fr) minmax(0,2fr);gap:0;align-items:stretch;padding:0;border:0;background:var(--track-paper);box-shadow:4px 4px 0 color-mix(in srgb,var(--track-ink) 20%,transparent);min-width:0}
+body.signal-atlas.page-experiments #fig-workflow .exp-track-map__row:nth-child(2){--track-paint:#c4cdfa;--track-paper:#eef1ff;--track-ink:#3e4781}
+body.signal-atlas.page-experiments #fig-workflow .exp-track-map__row:nth-child(3){--track-paint:#ffdda8;--track-paper:#fff5e4;--track-ink:#785218}
+body.signal-atlas.page-experiments #fig-workflow .exp-track-map__heading{position:relative;display:grid;grid-template-columns:1fr;align-content:start;gap:.55rem;padding:1.4rem 1.2rem;background:var(--track-paint);color:var(--track-ink);text-decoration:none;min-width:0;border:0;border-radius:0}
+body.signal-atlas.page-experiments #fig-workflow .exp-track-map__heading::after{content:"";position:absolute;right:0;bottom:0;width:24px;height:24px;background:var(--track-paper);clip-path:polygon(66% 0,100% 0,100% 100%,0 100%,0 66%,33% 66%,33% 33%,66% 33%);pointer-events:none}
+body.signal-atlas.page-experiments #fig-workflow .exp-track-map__heading>span{grid-row:auto;font:700 2rem/1 var(--font-mono,monospace);color:var(--track-ink)}
+body.signal-atlas.page-experiments #fig-workflow .exp-track-map__heading strong{font-size:1.12rem;line-height:1.3;color:var(--track-ink)}
+body.signal-atlas.page-experiments #fig-workflow .exp-track-map__heading small{margin:0;font-size:.82rem;line-height:1.45;color:var(--track-ink)}
+body.signal-atlas.page-experiments #fig-workflow ol{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem 1.25rem;align-content:center;align-items:stretch;padding:1.2rem;margin:0;max-width:none;list-style:none}
+body.signal-atlas.page-experiments #fig-workflow li{display:flex;min-width:0;margin:0;padding:0;font-size:.87rem;line-height:1.5;list-style:none;text-align:start!important}
+body.signal-atlas.page-experiments #fig-workflow li+li::before{left:-1.1rem;top:calc(50% - .65em);color:var(--track-ink);font-weight:700}
+body.signal-atlas.page-experiments #fig-workflow li:nth-child(3n+1)::before{display:none}
+body.signal-atlas.page-experiments #fig-workflow li a{display:flex;align-items:center;width:100%;padding:.65rem .25rem;min-height:54px;color:var(--track-ink);border-top:3px solid color-mix(in srgb,var(--track-paint) 85%,var(--track-ink));text-decoration:none;font-weight:600}
+body.signal-atlas.page-experiments #fig-workflow a:hover{text-decoration:underline;text-underline-offset:.2em}
+body.signal-atlas.page-experiments #fig-workflow a:focus-visible{outline:3px solid var(--track-ink);outline-offset:3px;z-index:1}
+body.signal-atlas.page-experiments :is(.exp-execution,.exp-box--controls){border-color:var(--v-rule);border-left:4px solid var(--v-accent);background:var(--v-soft);color:var(--v-ink)}
+body.signal-atlas.page-experiments :is(.exp-execution,.exp-box) :is(strong,a,.exp-box__label){color:var(--v-dark)}
+body.signal-atlas.page-experiments .exp-box{--exp-rule:var(--v-rule);--exp-wash:var(--v-tint);background:var(--v-tint);color:var(--v-ink)}
+body.signal-atlas.page-experiments .exp-track__header{border-color:var(--v-rule);border-top-color:var(--v-accent)}
+body.signal-atlas.page-experiments .exp-track__header>p{color:var(--v-accent)}
+body.signal-atlas.page-experiments .exp-preparation-flow{background:var(--v-rule);border-color:var(--v-rule)}
+body.signal-atlas.page-experiments .exp-preparation-flow li{background:var(--v-tint)}
+body.signal-atlas.page-experiments .exp-preparation-flow a{color:var(--v-ink)}
+body.signal-atlas.page-experiments .exp-preparation-flow a:hover{background:var(--v-soft)}
+body.signal-atlas.page-experiments .exp-preparation-flow :is(span,small){color:var(--v-muted)}
+body.signal-atlas:is(.page-results,.page-experiments) :is(.wetlab-stage-kicker,.wetlab-progress__number){color:var(--v-accent)}
+body.signal-atlas:is(.page-results,.page-experiments) :is(.wetlab-stage-status,.wetlab-progress>li){border-color:var(--v-rule)}
+body.signal-atlas:is(.page-results,.page-experiments) .wetlab-progress small{color:var(--v-muted)}
+body.signal-atlas:is(.page-results,.page-experiments) .wetlab-progress a:focus-visible{outline-color:var(--v-accent)}
+@media(max-width:700px){
+ body.signal-atlas.page-experiments #fig-workflow .exp-track-map__row{grid-template-columns:1fr}
+ body.signal-atlas.page-experiments #fig-workflow .exp-track-map__heading{grid-template-columns:2rem 1fr;padding:1.2rem;gap:.4rem .8rem}
+ body.signal-atlas.page-experiments #fig-workflow .exp-track-map__heading>span{grid-row:1/3}
+ body.signal-atlas.page-experiments #fig-workflow ol{grid-template-columns:1fr;gap:.7rem;padding:1rem 1.2rem 1.2rem 2.7rem}
+ body.signal-atlas.page-experiments #fig-workflow li+li::before,body.signal-atlas.page-experiments #fig-workflow li:nth-child(3n+1)::before{display:block;content:"↓";left:-1.35rem;top:.9rem}
+ body.signal-atlas.page-experiments #fig-workflow li:first-child::before{display:none}
+ body.signal-atlas.page-experiments #fig-workflow li a{padding:.7rem .2rem;min-height:48px}
+}

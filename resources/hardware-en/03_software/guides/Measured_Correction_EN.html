@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>Measured background correction and display averaging — AeroSense</title><style>body{font:17px/1.6 system-ui,sans-serif;color:#233a33;background:#fbfbf6;margin:0}main{max-width:1080px;margin:auto;padding:36px 24px}h1,h2,h3{line-height:1.15}h1{font-size:2.4rem}h2{margin-top:2.4em}a{color:#08694b}img{max-width:100%;height:auto}table{border-collapse:collapse;width:100%;font-size:.9rem}th,td{border:1px solid #cdd8cb;padding:8px;text-align:left;vertical-align:top}thead{background:#e4eddc}pre{padding:16px;background:#e9eee5;overflow:auto}nav{display:flex;gap:20px;flex-wrap:wrap}figure{margin:20px 0}.table-scroll{overflow:auto}button,input,select{font:inherit}canvas{width:100%;height:480px;touch-action:none;background:#f4f7ef;border:1px solid #ccd7c8}.controls{display:flex;gap:24px;flex-wrap:wrap}.source-note{background:#e8eddf;padding:15px;border-left:4px solid #57745b}</style></head><body><main><h1 id="measured-background-correction-and-display-averaging">Measured background correction and display averaging</h1>
+<p>The new path subtracts a <strong>measured illuminated blank in I/Q space</strong>. It does not add an arbitrary counter-waveform or promise to remove unknown same-frequency interference. ESP32 firmware still exports untouched raw I, Q and magnitude; the browser performs correction and retains both corrected and original records. Nothing has been flashed or validated on a physical board by these software tests.</p>
+<h2 id="what-the-three-controls-mean">What the three controls mean</h2>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Control</th>
+<th>Preparation and purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Illuminated blank</td>
+<td>Nonfluorescent, cell-free blank at the same fill, wells, filter, duty and optical assembly. All four LEDs run. Measures repeatable electronic plus optical background. It already contains dark background.</td>
+</tr>
+<tr>
+<td>Fluorescence phase reference</td>
+<td>A stable fluorescence standard under the same acquisition/optical conditions. Its blank-subtracted mean defines each channel's reference direction. It does not calibrate concentration or establish GCaMP sensitivity.</td>
+</tr>
+<tr>
+<td>Living-cell F0</td>
+<td>Unstimulated cells under the intended experiment conditions. Collected separately after optical calibration, for ΔF/F0. Do not subtract this as unwanted background.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Dark-only blocks remain useful for first-board ADC/timing checks. The new correction path subtracts the illuminated blank <strong>once</strong>, without subtracting dark again. The older dark-only normalization remains available while measured correction is off.</p>
+<h2 id="short-operating-sequence">Short operating sequence</h2>
+<ol>
+<li>Complete the power, ADC, and timing checks in the operation manual.</li>
+<li>Connect the phone UI.</li>
+<li>Enter a Condition ID for the board, wells, fill, filter, and duty.</li>
+<li>Install a cell-free nonfluorescent blank with the intended fill volume.</li>
+<li>Set Current sample label to B_CAL.</li>
+<li>Press 1. Collect illuminated blank.</li>
+<li>Keep the page open until five valid blank blocks are collected.</li>
+<li>Install a stable fluorescence standard.</li>
+<li>Set Current sample label to PHASE_REF.</li>
+<li>Press 2. Collect fluorescence phase reference.</li>
+<li>Wait for five valid reference blocks.</li>
+<li>Check the channel reference status.</li>
+<li>Select 3. Enable measured blank subtraction.</li>
+<li>Set Display smoothing τ to 0 for the initial comparison.</li>
+<li>Install the test sample.</li>
+<li>Set its Current sample label.</li>
+<li>Record the sample with unchanged acquisition settings.</li>
+<li>Export JSON.</li>
+<li>Export CSV.</li>
+</ol>
+<p>Check: The collector requires matching device acknowledgment and valid records. A button click is not a completed calibration. Weak references cannot define a phase projection. Corrected magnitude can remain available. For biological normalization, collect five unstimulated-cell baseline blocks after optical calibration. Collect a qualified reference stimulus separately. New blank or phase calibration invalidates earlier F0 and Reference. Do not subtract dark again. DEMO data do not change when a physical sample is replaced.</p>
+<p>Sample labels and notes are snapshotted when a new block is first received. Editing the label later does not relabel an earlier block. Existing raw-history capacity is 1,000 observed blocks; export promptly. Successful normalization identifies its exact F0/reference record IDs, and JSON retains those reference snapshots separately within the session. Calibration is browser-local, so another phone does not automatically inherit it. A reload reinitializes the display smoother and observed-session history; export before reloading. Corrected feature values are blocked from the existing research classifier: that model requires retraining/validation with a matching preprocessing definition.</p>
+<h2 id="calculation-and-what-it-cannot-fix">Calculation and what it cannot fix</h2>
+<p>For each frequency, let <code>C = I + iQ</code>. The firmware uses <code>I=2 mean(v cos θ)</code> and <code>Q=2 mean(v sin θ)</code> and reports peak Fourier-component volts. This Q convention is the conjugate of some phasor conventions; all correction terms use the same exported convention.</p>
+<p>The measured blank mean is <code>B = mean(C_blank)</code>. Correction is <code>C_corrected = C_sample − B</code>, not <code>|C_sample| − |B|</code>. Let <code>u = (mean(C_reference) − B) / |mean(C_reference) − B|</code>. The signed projection is <code>P = Re(C_corrected × conjugate(u))</code>; the orthogonal component and corrected magnitude are retained. A phase change can reduce P even when magnitude stays constant; the display flags a provisional 15° phase deviation when signal is sufficiently above the blank variability. This warning is an engineering diagnostic, not an established biological rejection threshold.</p>
+<p>F0 and sample values use the <strong>unsmoothed signed projection</strong> when the new mode is enabled. F0 must exceed a conservative internal guard of five times the larger of measured block variability and one nominal ADC code expressed in volts. The optional standard-stimulus denominator also includes reference-block variability in its guard. Duplicate F0/reference record IDs are rejected. Phase-reference confidence uses the measured means' standard errors with the same ADC-code floor. These guards prevent unstable divisions; they are not a measured LOD, and averaging can in principle resolve below one raw ADC code.</p>
+<p>Blank subtraction removes an estimated stable complex mean. It does not remove photon shot noise or random electronic noise, and uncertainty in the blank mean persists in all corrected observations. For independent sample and blank estimates, variances add; averaging the subsequent samples does not eliminate their shared blank uncertainty. If the contaminating same-frequency vector changes after calibration, it remains in the output. There is no mathematical separation of two unknown contributions at the same frequency from one complex measurement.</p>
+<p>The lock-in X/Y vector and narrow-band averaging principles follow <a href="https://www.thinksrs.com/downloads/pdfs/applicationnotes/AboutLIAs.pdf">SRS, About Lock-In Amplifiers</a> and <a href="https://blogs.zhinst.com/en/resources/principles-of-lock-in-detection/">Zurich Instruments, Principles of Lock-in Detection</a>. Complex blank subtraction and projection here are linear operations on the measured vector, not a claim that those instruments validate AeroSense. We do not apply the simulated optical mixing matrix automatically.</p>
+<h2 id="display-time-constant">Display time constant</h2>
+<p>The optional first-order EMA averages corrected I/Q between valid blocks:</p>
+<p><code>alpha = 1 − exp(−Δt/τ)</code>; <code>Y_new = (1−alpha)Y_old + alpha C_corrected</code>.</p>
+<p>Δt comes from firmware monotonic acquisition-midpoint timestamps, not phone polling or network arrival time. Default τ is 2 s; 0 disables averaging, and the UI accepts 0–120 s. The first valid block initializes the state. Duplicate polling does not average a block again. Invalid data, a changed calibration/configuration, reboot, changed τ or page reload resets the state; nonincreasing device time is rejected.</p>
+<p>For an ideal sustained step with a previously initialized state, the continuous first-order response reaches 90% after about 2.303τ and 95% after about 3τ; the actual sparse block updates follow the displayed formula. With a 2 s block plus a 3 s idle interval, Δt is roughly 5 s and τ=2 s provides little averaging. A longer τ trades lower independent variation for slower response. This is additional averaging after the existing 2 s rectangular I/Q calculation, not a new ADC filter or a verified analog bandwidth. Do not use smoothed blocks as independent replicates or hide brief responses, clipping or drift. The general time-constant/filter-order distinction is described in the <a href="https://docs.zhinst.com/hf2_user_manual/functional_description/lock_in.html">Zurich HF2 lock-in documentation</a>.</p>
+<h2 id="reproducible-checks-and-release-boundary">Reproducible checks and release boundary</h2>
+<p>Run <code>node test_correction.cjs</code>, <code>node test_ui.cjs</code>, <code>node test_calibration.cjs</code> and <code>python test_software.py</code> from <code>03_software</code>. The tests cover stable complex background, unknown added synchronous interference, phase shifts, weak/zero references, repeated IDs, metadata/configuration invalidation, raw-data preservation, label/export provenance and irregular-time EMA. <code>test_ui.cjs</code> is a DOM/API harness, not visual browser verification. Their synthetic signals are not PCB or biological measurements. Compile firmware and LittleFS using the existing guide; keep private credentials out of published sources. Software compilation and browser tests do not establish ADC headroom, phase stability, optical blank stability or cellular detection performance.</p></main></body></html>

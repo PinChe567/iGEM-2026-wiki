@@ -346,14 +346,14 @@
     function showNode(id, fromKeyboard) {
       var source = root.querySelector('[data-chain-source="' + id + '"]');
       if (!source || !panel) return;
-      var clone = source.cloneNode(true);
+      var clone = window.AeroSenseI18n?.cloneSource(source)||source.cloneNode(true);
       clone.removeAttribute("id");
       clone.removeAttribute("data-chain-source");
       var heading = clone.querySelector("h4");
       if (heading) {
         var title = document.createElement("h3");
         title.id = "edu-chain-panel-title";
-        title.textContent = heading.textContent;
+        title.textContent = window.AeroSenseI18n?.sourceText(heading)||heading.textContent;
         heading.parentNode.replaceChild(title, heading);
       }
       while (panel.firstChild) panel.removeChild(panel.firstChild);

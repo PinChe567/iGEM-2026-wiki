@@ -3,6 +3,8 @@ import { t } from '../i18n/messages';
 import {
   readStoredLocale,
   storeLocale,
+  LOCALE_STORAGE_KEY,
+  WIKI_LOCALE_STORAGE_KEY,
   type Locale,
 } from '../i18n/locale';
 import { legalDialogMarkup, wireLegalDialog } from '../legal/content';
@@ -153,6 +155,7 @@ export function mountShell(
   const applyLocale = () => {
     const copy = t(locale);
     document.documentElement.lang = locale;
+    root.querySelector('.top-actions')?.setAttribute('aria-label', copy.shell.navAria);
     brandHost.innerHTML = brandMarkup({
       title: copy.shell.brandTitle,
       subtitle: copy.shell.brandSubtitle,
@@ -177,6 +180,12 @@ export function mountShell(
     const skip = root.querySelector('.skip-link');
     if (skip) skip.textContent = copy.shell.skipToMain;
 
+    root.querySelectorAll('[data-close-legal], [data-close-a11y]').forEach((button) => {
+      button.setAttribute('aria-label', copy.gameUi.close);
+    });
+    if (legalDialog.open) paintLegal();
+    if (a11yDialog.open) paintA11y();
+
     langHost.querySelectorAll<HTMLButtonElement>('[data-locale]').forEach((button) => {
       button.addEventListener('click', () => {
         const next = button.dataset.locale as Locale;
@@ -185,9 +194,37 @@ export function mountShell(
         storeLocale(next);
         applyLocale();
         options.onLocaleChange?.(locale, t(locale));
+        refreshDialogLabels();
       });
     });
   };
+
+  const refreshDialogLabels = () => {
+    const copy = t(locale);
+    for (const [id, label] of [
+      ['guideDialog', copy.gameUi.howToPlay],
+      ['scienceDialog', copy.gameUi.science],
+      ['creditDialog', copy.pixel.assetCredit],
+    ]) {
+      const dialog = root.querySelector(`#${id}`);
+      const heading = dialog?.querySelector('.section-label');
+      if (heading) heading.textContent = label;
+      dialog?.querySelectorAll<HTMLButtonElement>('[data-close]').forEach((button) => {
+        button.setAttribute('aria-label', copy.gameUi.close);
+        if (!button.classList.contains('close-button')) button.textContent = copy.gameUi.close;
+      });
+    }
+  };
+
+  window.addEventListener('storage', (event) => {
+    if (event.key !== WIKI_LOCALE_STORAGE_KEY && event.key !== LOCALE_STORAGE_KEY) return;
+    const next = readStoredLocale();
+    if (next === locale) return;
+    locale = next;
+    applyLocale();
+    options.onLocaleChange?.(locale, t(locale));
+    refreshDialogLabels();
+  });
 
   root.querySelector('[data-shell-legal]')?.addEventListener('click', () => {
     paintLegal();

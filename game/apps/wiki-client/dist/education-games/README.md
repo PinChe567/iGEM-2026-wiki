@@ -28,7 +28,11 @@ They do **not** validate AeroSense sensor hardware, measure real gas concentrati
 
 | Resource | File |
 |----------|------|
+<<<<<<< HEAD
+| Study-mode instructions | [./education-study-protocol.md](./education-study-protocol.md) (copied next to this pack on Wiki build as `education-study-protocol.md`) |
+=======
 | Study-mode instructions | [education-study-protocol.md](./education-study-protocol.md) (included next to this pack in the Wiki build) |
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 | Question bank (stable item IDs) | [question-bank.md](./question-bank.md) |
 | Playtest protocol | [playtest-protocol.md](./playtest-protocol.md) |
 | Anonymous data schema | [data-dictionary.md](./data-dictionary.md) |

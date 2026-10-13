@@ -22,18 +22,29 @@
 
   var PROTOCOL_IDS = [
     "molecular-cloning",
+    "dna-gel",
     "cell-culture",
     "transfection",
-    "stable-selection",
     "expression-validation",
     "microscopy-analysis",
+<<<<<<< HEAD
+    "exp-p2-kinetics",
+    "stable-selection",
+    "post-selection-odor-tests",
+=======
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     "calcium-imaging",
     "data-analysis",
     "fly-lightsheet"
   ];
   var TRACKS = {
+<<<<<<< HEAD
+    cloning: ["molecular-cloning", "dna-gel"],
+    "cell-odor": ["cell-culture", "transfection", "expression-validation", "microscopy-analysis", "p2-kinetics", "exp-p2-kinetics", "stable-selection", "post-selection-odor-tests", "calcium-imaging", "data-analysis"],
+=======
     cloning: ["molecular-cloning"],
     "cell-odor": ["cell-culture", "transfection", "stable-selection", "expression-validation", "microscopy-analysis", "calcium-imaging", "data-analysis"],
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     "fly-imaging": ["fly-lightsheet"]
   };
   function trackForProtocol(id) {
@@ -85,6 +96,7 @@
   }
 
   function markNav(id) {
+    if (id === "p2-kinetics") id = "exp-p2-kinetics";
     navLinks.forEach(function (link) {
       var href = link.getAttribute("href");
       if (href === "#" + id && PROTOCOL_IDS.indexOf(id) !== -1) {

@@ -58,7 +58,6 @@
 .journey-launch__kicker,
 .journey-launch__meta,
 .journey-launch__start,
-.journey-launch__skip,
 .journey__fallback summary,
 .journey__fallback-kicker,
 .flight__stage,
@@ -91,14 +90,6 @@
  color: var(--color-signal-text);
 }
 
-.journey-launch__title {
- margin: 0 0 var(--space-3);
- font-family: var(--font-display);
- font-size: clamp(1.35rem, 2.6vw, 1.85rem);
- font-weight: 400;
- line-height: var(--leading-tight);
- text-wrap: balance;
-}
 
 .journey-launch__lede {
  margin: 0 0 var(--space-5);
@@ -116,7 +107,6 @@
 }
 
 .journey-launch__start,
-.journey-launch__skip,
 .flight__exit,
 .flight__finale-link,
 .flight__finale-exit,
@@ -142,7 +132,6 @@
 }
 
 .journey-launch__start:hover,
-.journey-launch__skip:hover,
 .flight__exit:hover,
 .flight__finale-link:hover,
 .flight__finale-exit:hover,
@@ -153,7 +142,6 @@
 }
 
 .journey-launch__start:focus-visible,
-.journey-launch__skip:focus-visible,
 .flight__exit:focus-visible,
 .flight__finale-link:focus-visible,
 .flight__finale-exit:focus-visible,
@@ -192,22 +180,6 @@
  }
 }
 
-.journey__skipped {
- display: none;
- margin: 0 0 var(--space-5);
- padding: var(--space-4);
- border-left: 2px solid var(--color-signal);
- background: var(--color-paper-soft);
-}
-
-.journey.is-skipped .journey-launch,
-.journey.is-skipped .journey-static {
- display: none;
-}
-
-.journey.is-skipped .journey__skipped {
- display: block;
-}
 
 .journey-static {
  display: none;
@@ -964,15 +936,6 @@
  color: color-mix(in srgb, #6ef0a0 78%, #f5f5f1);
  text-shadow: 0 1px 10px rgba(10, 10, 10, 0.5);
  transition: color 0.15s ease, opacity 0.15s ease;
-}
-
-.flight__score::before {
- content: "GAME SCORE";
- display: block;
- font-size: 0.48em;
- letter-spacing: 0.16em;
- margin-bottom: 0.22em;
- opacity: 0.72;
 }
 
 .flight__score.is-off {
@@ -2043,12 +2006,6 @@
   white-space: nowrap;
   overflow-wrap: normal;
  }
- .flight .flight__score::before {
-  display: inline-block;
-  margin: 0 .6em 0 0;
-  font-size: .55em;
-  vertical-align: middle;
- }
  .flight .flight__score-mode {
   width: auto;
   min-width: 0;
@@ -2078,4 +2035,144 @@
 
 @media (prefers-reduced-motion: reduce) {
  .flight__joystick { display: none; }
+}
+
+/* v15 · a paper-lit model gallery. These scoped rules also reconcile the older
+   global dark-flight themes without changing their unrelated page components. */
+body.page-description .journey-static__image{display:block;width:100%;max-width:100%;height:auto;object-fit:contain;margin:0 0 1rem}
+body.page-description .journey-launch__back{background-image:url('../models/previews_v15/journey-1.webp')!important}
+body.page-description .journey-launch__veil{background:linear-gradient(90deg,#f8f5eafa 0%,#f8f5eade 48%,#eef3e829 100%)!important}
+body.page-description .journey-launch :is(h3,p,.journey-launch__kicker,.journey-launch__meta,.journey-launch__disclaimer){color:#314d40!important;text-shadow:none!important}
+body.page-description .flight-dialog,
+body.page-description .flight,
+body.page-description .flight__world{background:#f4f2e9;color:#314d40}
+body.page-description .flight__gl canvas{image-rendering:auto;filter:none}
+body.page-description .flight::after{background:radial-gradient(ellipse at 38% 20%,#fffaf017,transparent 68%);box-shadow:inset 0 0 120px #8ca6a212}
+body.page-description .flight :is(.flight__veil,.flight__card-veil){background:none!important;box-shadow:none!important;display:none!important}
+body.page-description .flight :is(.flight__intro,.flight__intro-kicker,.flight__intro-line,.flight__hint,.flight__disclaimer,.flight__scan-status,.flight__callout,.flight__score,.flight__score-mode,.flight__score-mode span,.flight__score-note,.flight__score-tick){color:#314d40!important;text-shadow:none!important}
+body.page-description .flight :is(.flight__score,.flight__score-mode)::before{color:#667a6f!important;text-shadow:none}
+body.page-description .flight .flight__hud-top{background:linear-gradient(150deg,#fffdf6f2,#eef2ead9)!important;border:1px solid #aebfb063!important;border-radius:12px!important;box-shadow:0 5px 22px #4d6a5710;backdrop-filter:blur(10px)!important}
+body.page-description .flight-dialog .flight__entity{color:#314d40!important;text-shadow:none!important;background:#fffdf4d9;border:1px solid #bccbb899;padding:.45rem .75rem;border-radius:6px}
+body.page-description .flight :is(.flight__progress,.flight__hint,.flight__quest-map,.flight__quest-label){background:#fffdf3e8!important;color:#3d5b48!important;border:1px solid #becab8;box-shadow:0 3px 16px #3b59430d;text-shadow:none!important}
+body.page-description .flight .flight__progress li{color:#607266;opacity:.8;text-shadow:none}
+body.page-description .flight .flight__progress li.is-on{color:#365b42!important;opacity:1}
+body.page-description .flight .flight__progress li.is-done{color:#61805a}
+body.page-description .flight :is(.flight__icon-btn,.flight__scan,.flight__exit,.flight__static-nav button,.flight__finale a,.flight__finale-exit){background:#fffdf6ed!important;color:#355940!important;border-color:#99b09a!important;border-radius:7px!important;box-shadow:none;min-height:44px!important}
+body.page-description .flight :is(.flight__icon-btn,.flight__scan)[aria-pressed=true]{background:#466b4e!important;color:#fffdf3!important;border-color:#466b4e!important}
+body.page-description .flight :is(button,a):focus-visible{outline:3px solid #8a632c!important;outline-offset:3px}
+body.page-description .flight .flight__card{background:#fffdf3e8!important;color:#314d40!important;border:1px solid #bdc9b7!important;border-radius:8px!important;padding:1.15rem!important;text-shadow:none!important;box-shadow:0 8px 32px #38564012!important;backdrop-filter:blur(10px)!important}
+body.page-description .flight .flight__card :is(h3,p,.flight__card-heading,.flight__card-chain,.flight__card-kicker,.flight__card-text){color:#314d40!important;text-shadow:none!important}
+body.page-description .flight .flight__card-kicker{border-color:#bdc9b7}
+body.page-description .flight :is(.flight__quest,.flight__checkpoint,.flight__finale){background:#fffdf4f5!important;color:#314d40!important;border:1px solid #b5c5b2!important;border-radius:10px!important;box-shadow:0 12px 42px #4d675326!important;text-shadow:none!important;backdrop-filter:blur(12px)}
+body.page-description .flight :is(.flight__quest,.flight__checkpoint,.flight__finale) :is(h3,h4,p){color:#314d40!important;text-shadow:none!important}
+body.page-description .flight .flight__quest button{background:#42684b;color:#fffdf3;border-color:#42684b;border-radius:6px}
+body.page-description .flight .flight__quest button:hover{background:#314f39}
+body.page-description .flight .flight__quest-map span{background:#b5c5b1;box-shadow:none}
+body.page-description .flight .flight__quest-map span.is-complete{background:#658f66}
+body.page-description .flight .flight__quest-map span.is-current{background:#b48a3d;box-shadow:0 0 0 2px #e8d6aa}
+body.page-description .flight .flight__quest-label.is-approach{border-color:#b8964f;background:#fff5d9!important;color:#6a5327!important}
+body.page-description .flight .flight__load{background:#fffdf4f2;border:1px solid #bdc9b7;border-radius:8px;color:#355940}
+body.page-description .flight .flight__load-mark{border-color:#567c5b;border-right-color:transparent}
+body.page-description .flight .flight__joystick-ring{border-color:#8eac98;background:radial-gradient(circle,#d8e7d6c9 0 32%,#fffdf2e6 33% 100%);box-shadow:0 4px 24px #5673651f,inset 0 0 0 7px #a8bea317}
+body.page-description .flight :is(.flight__joystick,.flight__joystick-ring)::before,
+body.page-description .flight :is(.flight__joystick,.flight__joystick-ring)::after{color:#4b6d53}
+body.page-description .flight .flight__joystick-knob{border-color:#54795b;background:#86a684;box-shadow:0 3px 10px #45664b30}
+body.page-description .flight .flight__joystick.is-active .flight__joystick-knob{background:#567d5d}
+body.page-description .flight .flight__joystick-label{color:#47604b;text-shadow:none}
+body.page-description .flight[data-flight-mode="static"] .flight__preview{z-index:-1}
+body.page-description .flight[data-flight-mode="static"] .flight__preview img{object-fit:contain;background:#f4f2e9}
+body.page-description .flight[data-flight-mode="static"] :is(.flight__hud-meta,.flight__quest-map,.flight__quest-label){display:none}
+body.page-description .flight .flight__hud-actions > [hidden]{display:none!important}
+@media(max-width:899px),(pointer:coarse){
+ body.page-description .flight .flight__card{padding:.8rem!important;width:min(18.5rem,calc(100vw - 2.2rem))!important;max-width:calc(100vw - 2.2rem)!important}
+ body.page-description .flight .flight__hud-top{background:#fffdf5eb!important}
+}
+
+/* v21: one translated score label, with statuses and controls in their own rows. */
+body.page-description .flight .flight__hud-top {
+ width: 14.5rem;
+ max-width: calc(100% - 1.4rem);
+ padding: .75rem;
+ align-items: stretch;
+ gap: .6rem;
+}
+body.page-description .flight .flight__hud-meta {
+ width: 100%;
+ min-width: 0;
+ align-items: stretch;
+}
+body.page-description .flight .flight__score-block {
+ display: grid;
+ width: 100%;
+ grid-template-columns: minmax(0, 1fr) auto;
+ align-items: center;
+ gap: .3rem .5rem;
+}
+body.page-description .flight .flight__score-block > p {
+ width: auto;
+ min-width: 0;
+ margin: 0;
+ line-height: 1.4;
+ text-align: right;
+ text-indent: 0;
+}
+body.page-description .flight .flight__score-note {
+ display: block;
+ font-size: .65rem;
+ letter-spacing: .05em;
+ text-align: left;
+}
+body.page-description .flight .flight__score {
+ font-size: 1.2rem;
+ line-height: 1.2;
+ white-space: nowrap;
+ transform-origin: right center;
+}
+body.page-description .flight .flight__score-mode {
+ grid-column: 1 / -1;
+ display: flex;
+ flex-wrap: wrap;
+ justify-content: space-between;
+ gap: .2rem .65rem;
+ font-size: .65rem;
+ letter-spacing: .04em;
+}
+body.page-description .flight .flight__score-mode span {
+ margin: 0;
+ line-height: 1.5;
+ white-space: normal;
+}
+/* Checkpoint feedback is a separate toast, never an absolute overlay on status. */
+body.page-description .flight .flight__score-tick {
+ top: calc(4.5rem + env(safe-area-inset-top, 0px));
+ right: 0;
+ left: 0;
+ bottom: auto;
+ width: fit-content;
+ max-width: calc(100% - 2rem);
+ margin-inline: auto;
+ padding: .4rem .7rem;
+ border: 1px solid #bdc9b7;
+ border-radius: 6px;
+ background: #fffdf3f2;
+ font-size: .75rem;
+ line-height: 1.4;
+ text-align: center;
+}
+@media(max-width:899px),(pointer:coarse) {
+ body.page-description .flight .flight__hud-top {
+  width: auto;
+  max-width: none;
+  padding: .45rem;
+  gap: .4rem;
+ }
+ body.page-description .flight .flight__score-note { font-size: .6rem; }
+ body.page-description .flight .flight__score { font-size: 1rem; }
+ body.page-description .flight .flight__score-mode { font-size: .6rem; }
+ body.page-description .flight-dialog .flight__entity { top: calc(8rem + env(safe-area-inset-top, 0px)); }
+ body.page-description .flight .flight__card { top: calc(10.5rem + env(safe-area-inset-top, 0px)) !important; }
+ body.page-description .flight .flight__score-tick {
+  top: auto;
+  bottom: calc(10.5rem + env(safe-area-inset-bottom, 0px));
+ }
 }

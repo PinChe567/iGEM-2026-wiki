@@ -24,7 +24,8 @@
   // Prefer the innermost mapped section crossing the reading line.
   candidates.sort((a,b)=>{const ac=a.rect.top<=line,bc=b.rect.top<=line;if(ac!==bc)return ac?-1:1;return ac?b.rect.top-a.rect.top:a.rect.top-b.rect.top;});
   const chosen=candidates[0];
-  const title=chosen?($('h2,h3,h4',chosen.el)?.textContent||chosen.el.getAttribute('aria-label')||chosen.id):($('h1',main)?.textContent||document.title.split('·')[0]);
+  const heading=chosen?$('h2,h3,h4',chosen.el):$('h1',main);
+  const title=heading?(window.AeroSenseI18n?.sourceText(heading)||heading.textContent):(chosen?.id||slug.replace(/\.html$/,''));
   return {rows:(chosen?data[chosen.id]:data['*'])||fallback,title:title.trim().replace(/\s+/g,' '),id:chosen?.id||'*'};
  }
  function open(){

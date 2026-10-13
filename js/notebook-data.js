@@ -1,7 +1,7 @@
 /**
  * AeroSense Notebook — structured event dataset.
  *
- * Scientific source (canonical): ../../notebook_content.md
+ * Sources: ../../notebook_content.md and dated team-supplied updates recorded below.
  * This file is a maintainable projection for Calendar / Timeline / Gantt UIs.
  * Do not invent dates, people, measurements, or conclusions beyond the source.
  *
@@ -15,6 +15,11 @@
  *   needs-update — source is too incomplete or internally contradictory to treat as settled
  *
  * datePrecision: day | range | month
+<<<<<<< HEAD
+ * startTime/endTime: supplied HH:mm local session time; null when unspecified.
+ * timeZone: Asia/Taipei for the 12 October 2026 team update.
+=======
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
  * stream: wetlab | drylab | hp | team | igem
  * substream: hardware | model | null
  *   Technical workstreams: Wet Lab | Dry Lab.
@@ -32,6 +37,9 @@
   var META = {
     sourceFile: "notebook_content.md",
     yearContext: 2026,
+    lastTeamUpdate: "2026-10-12",
+    timeZone: "Asia/Taipei",
+    latestRecordSource: "Team-supplied 12 October update: 24 wet-lab sessions and five hardware windows. Future work remains planned; source time overlaps are preserved.",
     note:
       "Dates without an explicit year in the source are recorded as 2026 to match the AeroSense iGEM 2026 notebook context. Month-only and range precision are preserved; no day dates were invented.",
     duplicateRemoved:
@@ -110,6 +118,9 @@
       endDate: partial.openEnd ? null : (partial.endDate == null ? partial.startDate : partial.endDate),
       openEnd: Boolean(partial.openEnd),
       datePrecision: partial.datePrecision,
+      startTime: partial.startTime || null,
+      endTime: partial.endTime || null,
+      timeZone: partial.timeZone || null,
       stream: partial.stream,
       substream: partial.substream == null ? null : partial.substream,
       category: partial.category || "",
@@ -346,7 +357,7 @@
       relatedLinks: [
         {
           label: "Attributions · iST Group",
-          href: "attributions.html#attr-ist-group",
+          href: "attributions.html#official-form",
         },
         {
           label: "Engineering · Professional review",
@@ -644,6 +655,75 @@
    * ========================================================================= */
   var WETLAB_EVENTS = [
     event({
+<<<<<<< HEAD
+  "id": "wet-p2-kinetics-20261010",
+  "startDate": "2026-10-10",
+  "endDate": "2026-10-10",
+  "openEnd": false,
+  "datePrecision": "day",
+  "stream": "wetlab",
+  "substream": null,
+  "category": "odor-testing",
+  "status": "completed",
+  "title": "P2 kinetic fluorescence pilot — before G418 selection",
+  "shortSummary": "Acquired 32 instrument runs and 3,840 fluorescence readings across one 96-well HEK293 plate, approximately 72 h after transfection and before G418 selection.",
+  "objective": null,
+  "work": "Ten OR + ORCO conditions, ORCO alone and untransfected cells were measured across VUAA1, six aqueous VOC preparations diluted in assay buffer, and buffer alone. VUAA1 used DMSO; final VOC doses and DMSO fraction remain unknown.",
+  "observation": null,
+  "result": "A11 had an 11.86% test excursion above its paired baseline; a buffer-only Or35a + ORCO well had a larger 35.25% excursion. Source-reported gain mismatch excludes 24 corrected metrics. These single-well observations motivate a controlled repeat and do not establish receptor specificity or membrane localization.",
+  "output": null,
+  "decision": null,
+  "learning": null,
+  "hypothesis": null,
+  "interpretation": null,
+  "problem": null,
+  "nextQuestion": null,
+  "nextStep": "Repeat with documented gain and doses, matched vehicle and reporter controls, and independent plates.",
+  "responsible": [],
+  "contributors": [],
+  "evidence": [],
+  "evidenceImages": [],
+  "relatedLinks": [
+    {
+      "label": "Results · acquired P2 pilot",
+      "href": "results.html#kinetic-pilot"
+    },
+    {
+      "label": "Executed 96-well method",
+      "href": "experiments.html#exp-p2-kinetics"
+    },
+    {
+      "label": "Raw data and reproducibility package",
+      "href": "assets/results/final-test/aerosense-p2-reproducibility.zip"
+    },
+    {
+      "label": "Confirmation metadata",
+      "href": "assets/results/final-test/experiment-metadata.json"
+    }
+  ],
+  "references": [],
+  "tags": [
+    "P2",
+    "kinetics",
+    "source-linked",
+    "single-plate",
+    "team-log-v14",
+    "odor-testing"
+  ],
+  "needsUpdate": [
+    "Numeric gain records, VOC doses, final DMSO fraction and matched vehicle controls, independent experimental repeats."
+  ],
+  "contradictions": [],
+  "pendingOutputs": [],
+  "sourceSection": "Team notebook update · 2026-10-10 20:00–23:00 · P2 kinetic fluorescence pilot — before G418 selection",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October. The team now specifies 10 October, 20:00–23:00, before G418 selection. This local session time takes precedence for calendar placement. Instrument-export headers span 10–11 October and contain no timezone; that original metadata is retained, not silently converted. One plate was confirmed; one well per condition × stimulus follows from the plate map. This remains separate from the proposed 384-well assay and undated endpoint-microscopy evidence.",
+  "startTime": "20:00",
+  "endTime": "23:00",
+  "timeZone": "Asia/Taipei"
+}),
+    event({
+=======
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
   "id": "wet-microscopy-transfection",
   "title": "WL-MIC-01 · HEK293 transfection evidence",
   "status": "completed",
@@ -762,6 +842,61 @@
 }),
     event({
   "id": "wet-g418-followup",
+<<<<<<< HEAD
+  "startDate": "2026-10-11",
+  "endDate": "2026-10-11",
+  "openEnd": false,
+  "datePrecision": "day",
+  "stream": "wetlab",
+  "substream": null,
+  "category": "selection",
+  "status": "ongoing",
+  "title": "Start G418 selection",
+  "shortSummary": "G418 selection was initiated. Selection remains in progress as of 12 October; no selected-cell endpoint is recorded.",
+  "objective": null,
+  "work": "G418 selection was initiated. Selection remains in progress as of 12 October; no selected-cell endpoint is recorded.",
+  "observation": null,
+  "result": "No selection improvement or stable function is claimed from the pre-selection images.",
+  "output": null,
+  "decision": null,
+  "learning": null,
+  "hypothesis": null,
+  "interpretation": null,
+  "problem": null,
+  "nextQuestion": null,
+  "nextStep": null,
+  "responsible": [],
+  "contributors": [],
+  "evidence": [],
+  "evidenceImages": [],
+  "relatedLinks": [
+    {
+      "label": "Results · G418 selection evidence status",
+      "href": "results.html#g418-results"
+    },
+    {
+      "label": "Planned post-selection odor test",
+      "href": "notebook.html#wet-odor-after-g418-20261019"
+    }
+  ],
+  "references": [],
+  "tags": [
+    "source-linked",
+    "wetlab",
+    "team-log-v14",
+    "selection"
+  ],
+  "needsUpdate": [
+    "Operator, G418 doses, kill-curve control, survival/growth trajectory, reporter retention and functional endpoints."
+  ],
+  "contradictions": [],
+  "pendingOutputs": [],
+  "sourceSection": "Team notebook update · 2026-10-11 22:00–23:00 · Start G418 selection",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October. The new chronology supplies the initiation date/time that was missing from the earlier undated G418 provenance record. The entry describes selection initiation; it does not establish a stable cell line or selection improvement.",
+  "startTime": "22:00",
+  "endTime": "23:00",
+  "timeZone": "Asia/Taipei"
+=======
   "title": "WL-G418-01 · Separate selection batch",
   "status": "ongoing",
   "shortSummary": "The team reported a G418 selection batch in progress; it is separate from WL-MIC-01.",
@@ -798,6 +933,7 @@
       "href": "assets/results/microscopy/source-manifest.json"
     }
   ]
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 }),
     event({
   "id": "wet-cloning-plates",
@@ -847,17 +983,30 @@
       "stream": "wetlab",
       "category": "exploratory-fly-imaging",
       "status": "completed",
+<<<<<<< HEAD
+      "title": "TH-GFP light-sheet observation",
+      "shortSummary": "The 20 April recording uses the team-identified “5137;TH” (TH-GFP) preparation. A movie and regional GFP-fluorescence traces are available; they do not measure neural calcium activity.",
+      "work": "Observed GFP fluorescence in the team-identified “5137;TH” preparation during presentations of isopentyl acetate, 3-octanol and 4-methylcyclohexanol. The team identifies this as TH-driven mCD8::GFP membrane labeling. The full parental cross, progeny genotype and original acquisition timestamps remain to be documented.",
+=======
       "title": "TH-associated Light-Sheet Observation",
       "shortSummary": "The team dates the TH × UAS-GCaMP6f exploratory light-sheet work to 20 April. A movie and regional traces are available; an odor-evoked response remains to be validated with acquisition controls and repeat measurements.",
       "work": "Observed fluorescence in the team-labeled TH (5137) preparation crossed to UAS-GCaMP6f, during presentations of isopentyl acetate, 3-octanol and 4-methylcyclohexanol. The reporter and day are team-confirmed; the full progeny genotype and original acquisition timestamps remain to be matched to the record.",
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       "output": [
         "Team-supplied TH-labeled movie",
         "Exploratory regional intensity and normalized-intensity plots"
       ],
+<<<<<<< HEAD
+      "interpretation": "mCD8::GFP is a membrane label, not a calcium indicator. Regional intensity and local-baseline ΔF/F₀ describe normalized GFP fluorescence. Motion, bleaching, baseline drift and delivery artifacts remain possible contributors; these traces do not establish odor-evoked neural or calcium activity.",
+      "nextStep": "Document the full parental cross and progeny genotype, align delivery timing, assess motion and background, and collect independent animals before interpreting a reproducible odor-associated GFP-fluorescence change.",
+      "needsUpdate": [
+        "Document the parental cross and full progeny genotype for the team-identified “5137;TH” preparation; BDSC 5137 identifies the UAS-mCD8::GFP reporter stock, not the TH driver.",
+=======
       "interpretation": "UAS-GCaMP6f is a calcium-sensitive reporter confirmed by the team. These exploratory regional traces do not yet separate calcium-dependent changes from motion, bleaching, baseline drift or delivery artifacts, or identify every labeled neuron.",
       "nextStep": "Resolve the driver stock identifier, document the full progeny genotype, align delivery timing and motion controls, and collect biological repeats before attributing fluorescence changes to odor-evoked neural activity.",
       "needsUpdate": [
         "Confirm whether 5137 is a Bloomington or local stock identifier. BDSC 5137 is a UAS-mCD8::GFP reporter, not a TH-GAL4 driver or GCaMP reporter.",
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
         "Document full cross, fly age/sex, preparation, acquisition and stimulus delivery metadata, and independent biological repeats."
       ],
       "relatedLinks": [
@@ -883,7 +1032,11 @@
         "exploratory"
       ],
       "sourceSection": "Fly observation update · 20 April · TH-associated light-sheet work",
+<<<<<<< HEAD
+      "sourceNote": "Reporter identity was corrected by the team to “5137;TH” (TH-GFP), superseding the earlier UAS-GCaMP6f annotation for this recording. FlyBase lists BDSC 5137 as UAS-mCD8::GFP. The 20 April date is unchanged. Completed refers to image acquisition, not neural-response validation."
+=======
       "sourceNote": "Date, TH (5137) preparation label and UAS-GCaMP6f reporter confirmed by the team on 10 October 2026. Year follows the existing 2026 notebook context. Completed refers to image acquisition, not neural-response validation."
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     }),
     event({
       "id": "wet-pn-preparation-20260504",
@@ -1165,125 +1318,240 @@
     }),
 
     event({
-      id: "wet-maxiprep",
-      startDate: "2026-09",
-      endDate: "2026-09",
-      datePrecision: "month",
-      stream: "wetlab",
-      category: "molecular-cloning",
-      status: "needs-update",
-      title: "Bacterial Transformation and Plasmid Preparation",
-      shortSummary:
-        "September transformation/maxiprep/Sanger checklist is labeled 'Planned / completed' in the source — execution status unresolved; QC outputs pending.",
-      work:
-        "Listed steps: transformation into E. coli DH5α, ampicillin selection; colony picking and overnight culture; endotoxin-free maxiprep; Sanger verification across both junctions (T7 forward, BGH reverse, plus internal primers; one read across the linker region of the Orco construct). Note: avoid PstI for diagnostic digests — most coding sequences contain internal PstI sites.",
-      pendingOutputs: [
-        "Plasmid yields and A260/A280, A260/A230",
-        "Sequencing chromatograms",
-      ],
-      needsUpdate: [
-        "Resolve whether listed steps were completed or remain planned (source heading 'Planned / completed work').",
-        "Replace 🟥 September with exact dates when known.",
-        "Attach yields and chromatograms when available.",
-      ],
-      contradictions: [
-        "Source section title uses 'Planned / completed work' without stating which bullets were actually performed. Status set to needs-update rather than completed or planned.",
-      ],
-      tags: ["maxiprep", "sanger", "needs-update"],
-      relatedLinks: [
-        { label: "Experiments · EXP-AS-01", href: "experiments.html#exp-as-01" },
-        { label: "Notebook slot nb-EXP-AS-01", href: "notebook.html#fallback-wet-maxiprep" },
-      ],
-      sourceSection:
-        "Wet lab · 🟥 September · Bacterial transformation and plasmid preparation",
-    }),
+  "id": "wet-maxiprep",
+  "startDate": "2026-09",
+  "endDate": "2026-09",
+  "openEnd": false,
+  "datePrecision": "month",
+  "stream": "wetlab",
+  "substream": null,
+  "category": "molecular-cloning",
+  "status": "needs-update",
+  "title": "Bacterial Transformation and Plasmid Preparation",
+  "shortSummary": "September transformation/maxiprep/Sanger checklist is labeled 'Planned / completed' in the source — execution status unresolved; QC outputs pending.",
+  "objective": null,
+  "work": "Listed steps: transformation into E. coli DH5α, ampicillin selection; colony picking and overnight culture; endotoxin-free maxiprep; Sanger verification across both junctions (T7 forward, BGH reverse, plus internal primers; one read across the linker region of the Orco construct). Note: avoid PstI for diagnostic digests — most coding sequences contain internal PstI sites.",
+  "observation": null,
+  "result": null,
+  "output": null,
+  "decision": null,
+  "learning": null,
+  "hypothesis": null,
+  "interpretation": null,
+  "problem": null,
+  "nextQuestion": null,
+  "nextStep": null,
+  "responsible": [],
+  "contributors": [],
+  "evidence": [],
+  "evidenceImages": [],
+  "relatedLinks": [
+    {
+      "label": "Experiments · EXP-AS-01",
+      "href": "experiments.html#exp-as-01"
+    },
+    {
+      "label": "Notebook slot nb-EXP-AS-01",
+      "href": "notebook.html#fallback-wet-maxiprep"
+    }
+  ],
+  "references": [],
+  "tags": [
+    "maxiprep",
+    "sanger",
+    "needs-update"
+  ],
+  "needsUpdate": [
+    "Resolve whether listed steps were completed or remain planned (source heading 'Planned / completed work').",
+    "Replace 🟥 September with exact dates when known.",
+    "Attach yields and chromatograms when available."
+  ],
+  "contradictions": [
+    "Source section title uses 'Planned / completed work' without stating which bullets were actually performed. Status set to needs-update rather than completed or planned."
+  ],
+  "pendingOutputs": [
+    "Plasmid yields and A260/A280, A260/A230",
+    "Sequencing chromatograms"
+  ],
+  "sourceSection": "Wet lab · 🟥 September · Bacterial transformation and plasmid preparation",
+  "sourceNote": "Original broad protocol/planning record retained. The 12 October team update adds dated execution sessions separately; those sessions do not confirm every reagent, dose, method or validation step in this older proposal."
+}),
 
     event({
-      id: "wet-transfection-planned",
-      startDate: "2026-09",
-      endDate: "2026-10",
-      datePrecision: "range",
-      stream: "wetlab",
-      category: "cell-engineering",
-      status: "planned",
-      title: "Transfection and Stable Line Generation (Planned)",
-      shortSummary:
-        "Planned G418 kill curve, OR:Orco co-transfection by electroporation, and stable-pool selection.",
-      work:
-        "Planned work: kill curve on untransfected HEK293 (0–800 µg/mL G418); co-transfection by electroporation, ~5 µg DNA at 2:1 OR : Orco per reaction; G418 selection from 24–48 h post-transfection: 100 µg/mL for two weeks, then 150 µg/mL for one week; untransfected control well at the same dose. Expected timeline noted in source: no visible effect for 1–2 days, bulk cell death at days 3–5, discrete resistant colonies by days 10–14.",
-      pendingOutputs: [
-        "Kill-curve table",
-        "Transfection efficiency (mCherry-positive fraction)",
-        "Stable pools for each of the nine receptors",
-      ],
-      needsUpdate: [
-        "Replace 🟥 September–October with actual execution dates when work occurs.",
-      ],
-      tags: ["transfection", "g418", "planned", "pending-output"],
-      relatedLinks: [
-        { label: "Experiments · EXP-AS-02", href: "experiments.html#exp-as-02" },
-        { label: "Notebook slot nb-EXP-AS-02", href: "notebook.html#fallback-wet-transfection-planned" },
-      ],
-      sourceSection:
-        "Wet lab · 🟥 September–October · Transfection and stable line generation",
-    }),
+  "id": "wet-transfection-planned",
+  "startDate": "2026-09",
+  "endDate": "2026-10",
+  "openEnd": false,
+  "datePrecision": "range",
+  "stream": "wetlab",
+  "substream": null,
+  "category": "cell-engineering",
+  "status": "planned",
+  "title": "Transfection and Stable Line Generation (Planned)",
+  "shortSummary": "Planned G418 kill curve, OR:Orco co-transfection by electroporation, and stable-pool selection.",
+  "objective": null,
+  "work": "Planned work: kill curve on untransfected HEK293 (0–800 µg/mL G418); co-transfection by electroporation, ~5 µg DNA at 2:1 OR : Orco per reaction; G418 selection from 24–48 h post-transfection: 100 µg/mL for two weeks, then 150 µg/mL for one week; untransfected control well at the same dose. Expected timeline noted in source: no visible effect for 1–2 days, bulk cell death at days 3–5, discrete resistant colonies by days 10–14.",
+  "observation": null,
+  "result": null,
+  "output": null,
+  "decision": null,
+  "learning": null,
+  "hypothesis": null,
+  "interpretation": null,
+  "problem": null,
+  "nextQuestion": null,
+  "nextStep": null,
+  "responsible": [],
+  "contributors": [],
+  "evidence": [],
+  "evidenceImages": [],
+  "relatedLinks": [
+    {
+      "label": "Experiments · EXP-AS-02",
+      "href": "experiments.html#exp-as-02"
+    },
+    {
+      "label": "Notebook slot nb-EXP-AS-02",
+      "href": "notebook.html#fallback-wet-transfection-planned"
+    }
+  ],
+  "references": [],
+  "tags": [
+    "transfection",
+    "g418",
+    "planned",
+    "pending-output"
+  ],
+  "needsUpdate": [
+    "Replace 🟥 September–October with actual execution dates when work occurs."
+  ],
+  "contradictions": [],
+  "pendingOutputs": [
+    "Kill-curve table",
+    "Transfection efficiency (mCherry-positive fraction)",
+    "Stable pools for each of the nine receptors"
+  ],
+  "sourceSection": "Wet lab · 🟥 September–October · Transfection and stable line generation",
+  "sourceNote": "Original broad protocol/planning record retained. The 12 October team update adds dated execution sessions separately; those sessions do not confirm every reagent, dose, method or validation step in this older proposal."
+}),
 
     event({
-      id: "wet-expression-validation-planned",
-      startDate: "2026-10",
-      endDate: "2026-10",
-      datePrecision: "month",
-      stream: "wetlab",
-      category: "assay",
-      status: "planned",
-      title: "Expression Validation (Planned)",
-      shortSummary:
-        "Planned microscopy, anti-His blot, ionomycin, and 50 µM VUAA1 chain tests, including IRES vs fusion comparison.",
-      work:
-        "Planned tests: (1) Fluorescence microscopy — mCherry and GCaMP6f baseline; (2) Anti-His western blot — full-length Orco–GCaMP6f fusion at ≈ 105 kDa; (3) Ionomycin — isolates the reporter; (4) VUAA1, 50 µM — tests the whole chain. Acceptance criterion defined in advance: a VUAA1-evoked ΔF/F₀ large enough to quantify on the plate reader, clearly separated from vehicle, and abolished in Ca²⁺-free buffer.",
-      pendingOutputs: [
-        "VUAA1-evoked ΔF/F₀ for Orco–IRES–GCaMP6 versus GCaMP6f–(GGGGS)₃–Orco on the same plate under identical conditions",
-      ],
-      needsUpdate: [
-        "Replace 🟥 October with actual assay dates when performed.",
-      ],
-      tags: ["expression", "vuaa1", "planned", "pending-output"],
-      relatedLinks: [
-        { label: "Experiments · EXP-AS-03", href: "experiments.html#exp-as-03" },
-        { label: "Experiments · EXP-AS-04", href: "experiments.html#exp-as-04" },
-        { label: "Notebook slot nb-EXP-AS-04", href: "notebook.html#fallback-wet-orco-ires-weak-signal" },
-      ],
-      sourceSection: "Wet lab · 🟥 October · Expression validation",
-    }),
+  "id": "wet-expression-validation-planned",
+  "startDate": "2026-10",
+  "endDate": "2026-10",
+  "openEnd": false,
+  "datePrecision": "month",
+  "stream": "wetlab",
+  "substream": null,
+  "category": "assay",
+  "status": "planned",
+  "title": "Expression Validation (Planned)",
+  "shortSummary": "Planned microscopy, anti-His blot, ionomycin, and 50 µM VUAA1 chain tests, including IRES vs fusion comparison.",
+  "objective": null,
+  "work": "Planned tests: (1) Fluorescence microscopy — mCherry and GCaMP6f baseline; (2) Anti-His western blot — full-length Orco–GCaMP6f fusion at ≈ 105 kDa; (3) Ionomycin — isolates the reporter; (4) VUAA1, 50 µM — tests the whole chain. Acceptance criterion defined in advance: a VUAA1-evoked ΔF/F₀ large enough to quantify on the plate reader, clearly separated from vehicle, and abolished in Ca²⁺-free buffer.",
+  "observation": null,
+  "result": null,
+  "output": null,
+  "decision": null,
+  "learning": null,
+  "hypothesis": null,
+  "interpretation": null,
+  "problem": null,
+  "nextQuestion": null,
+  "nextStep": null,
+  "responsible": [],
+  "contributors": [],
+  "evidence": [],
+  "evidenceImages": [],
+  "relatedLinks": [
+    {
+      "label": "Experiments · EXP-AS-03",
+      "href": "experiments.html#exp-as-03"
+    },
+    {
+      "label": "Experiments · EXP-AS-04",
+      "href": "experiments.html#exp-as-04"
+    },
+    {
+      "label": "Notebook slot nb-EXP-AS-04",
+      "href": "notebook.html#fallback-wet-orco-ires-weak-signal"
+    }
+  ],
+  "references": [],
+  "tags": [
+    "expression",
+    "vuaa1",
+    "planned",
+    "pending-output"
+  ],
+  "needsUpdate": [
+    "Replace 🟥 October with actual assay dates when performed."
+  ],
+  "contradictions": [],
+  "pendingOutputs": [
+    "VUAA1-evoked ΔF/F₀ for Orco–IRES–GCaMP6 versus GCaMP6f–(GGGGS)₃–Orco on the same plate under identical conditions"
+  ],
+  "sourceSection": "Wet lab · 🟥 October · Expression validation",
+  "sourceNote": "Original broad protocol/planning record retained. The 12 October team update adds dated execution sessions separately; those sessions do not confirm every reagent, dose, method or validation step in this older proposal."
+}),
 
     event({
-      id: "wet-voc-imaging-planned",
-      startDate: "2026-10",
-      endDate: "2026-10",
-      datePrecision: "month",
-      stream: "wetlab",
-      category: "assay",
-      status: "planned",
-      title: "Calcium Imaging — VOC Panel (Planned)",
-      shortSummary:
-        "Planned 384-well VOC panel with VUAA1 normalisation across nine receptors.",
-      work:
-        "Planned work: 384-well plates, 12,000–18,000 cells/well seeded 48–72 h ahead; two-round injection (7 µL vehicle, then 9 µL of 4× VOC); ex 485 / em 535 nm; VOCs at 1, 10 and 100 µM; 50 µM VUAA1 on every plate for normalisation; each VOC–OR pair measured on at least three separate days.",
-      pendingOutputs: [
-        "Dose–response curves",
-        "Response matrix: nine receptors × VOC panel",
-        "Ca²⁺-free specificity control",
-      ],
-      needsUpdate: [
-        "Replace 🟥 October with actual imaging dates when performed.",
-      ],
-      tags: ["voc", "calcium-imaging", "planned", "pending-output"],
-      relatedLinks: [
-        { label: "Experiments · EXP-AS-05", href: "experiments.html#exp-as-05" },
-        { label: "Results · res-EXP-AS-05", href: "results.html#res-EXP-AS-05" },
-      ],
-      sourceSection: "Wet lab · 🟥 October · Calcium imaging — VOC panel",
-    }),
+  "id": "wet-voc-imaging-planned",
+  "startDate": "2026-10",
+  "endDate": "2026-10",
+  "openEnd": false,
+  "datePrecision": "month",
+  "stream": "wetlab",
+  "substream": null,
+  "category": "assay",
+  "status": "planned",
+  "title": "Calcium Imaging — VOC Panel (Planned)",
+  "shortSummary": "Planned 384-well VOC panel with VUAA1 normalisation across nine receptors.",
+  "objective": null,
+  "work": "Planned work: 384-well plates, 12,000–18,000 cells/well seeded 48–72 h ahead; two-round injection (7 µL vehicle, then 9 µL of 4× VOC); ex 485 / em 535 nm; VOCs at 1, 10 and 100 µM; 50 µM VUAA1 on every plate for normalisation; each VOC–OR pair measured on at least three separate days.",
+  "observation": null,
+  "result": null,
+  "output": null,
+  "decision": null,
+  "learning": null,
+  "hypothesis": null,
+  "interpretation": null,
+  "problem": null,
+  "nextQuestion": null,
+  "nextStep": null,
+  "responsible": [],
+  "contributors": [],
+  "evidence": [],
+  "evidenceImages": [],
+  "relatedLinks": [
+    {
+      "label": "Experiments · EXP-AS-05",
+      "href": "experiments.html#exp-as-05"
+    },
+    {
+      "label": "Results · res-EXP-AS-05",
+      "href": "results.html#res-EXP-AS-05"
+    }
+  ],
+  "references": [],
+  "tags": [
+    "voc",
+    "calcium-imaging",
+    "planned",
+    "pending-output"
+  ],
+  "needsUpdate": [
+    "Replace 🟥 October with actual imaging dates when performed."
+  ],
+  "contradictions": [],
+  "pendingOutputs": [
+    "Dose–response curves",
+    "Response matrix: nine receptors × VOC panel",
+    "Ca²⁺-free specificity control"
+  ],
+  "sourceSection": "Wet lab · 🟥 October · Calcium imaging — VOC panel",
+  "sourceNote": "Original broad protocol/planning record retained. The 12 October team update adds dated execution sessions separately; those sessions do not confirm every reagent, dose, method or validation step in this older proposal."
+}),
   ];
 
   /* =========================================================================
@@ -1848,6 +2116,54 @@
       ]
     }),
     event({
+<<<<<<< HEAD
+  "id": "hw-enclosure-assembly-test",
+  "startDate": "2026-10-09",
+  "endDate": "2026-10-16",
+  "openEnd": false,
+  "datePrecision": "range",
+  "stream": "drylab",
+  "substream": "hardware",
+  "category": "hardware-session",
+  "status": "ongoing",
+  "title": "Hardware assembly, trial use and revisions",
+  "shortSummary": "Assembly, trial use and revisions based on suggestions run from 9–16 October. This window is ongoing as of 12 October; 16 October is the scheduled end, not a completed test result.",
+  "objective": null,
+  "work": "Assembly, trial use and revisions based on suggestions run from 9–16 October. This window is ongoing as of 12 October; 16 October is the scheduled end, not a completed test result.",
+  "observation": null,
+  "result": null,
+  "output": null,
+  "decision": null,
+  "learning": null,
+  "hypothesis": null,
+  "interpretation": null,
+  "problem": null,
+  "nextQuestion": null,
+  "nextStep": null,
+  "responsible": [],
+  "contributors": [],
+  "evidence": [],
+  "evidenceImages": [],
+  "relatedLinks": [
+    {
+      "label": "Hardware · current design and evidence",
+      "href": "hardware.html"
+    }
+  ],
+  "references": [],
+  "tags": [
+    "team-timeline",
+    "hardware-phase",
+    "team-log-v14",
+    "hardware-session"
+  ],
+  "needsUpdate": [],
+  "contradictions": [],
+  "pendingOutputs": [],
+  "sourceSection": "Team notebook update · 2026-10-09 – 2026-10-16 · Hardware assembly, trial use and revisions",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October. The supplied hardware records specify dates but no times of day. This replaces the earlier 9 October start with an unconfirmed end (10/?) while retaining the original event ID."
+}),
+=======
       "id": "hw-enclosure-assembly-test",
       "startDate": "2026-10-09",
       "endDate": null,
@@ -1873,6 +2189,7 @@
         }
       ]
     }),
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     event({
       "id": "hp-game-ideas-rules",
       "startDate": "2026-07-13",
@@ -1991,7 +2308,710 @@
     })
   ];
 
+<<<<<<< HEAD
+  // Dated team log: latest supplied chronology, interpreted as of 12 October 2026.
+  var TEAM_LOG_V14_EVENTS = [
+    event({
+  "id": "wet-transform-20260908",
+  "startDate": "2026-09-08",
+  "endDate": "2026-09-08",
+  "openEnd": false,
+  "datePrecision": "day",
+  "startTime": "16:30",
+  "endTime": "19:30",
+  "timeZone": "Asia/Taipei",
+  "stream": "wetlab",
+  "substream": null,
+  "category": "transformation",
+  "status": "completed",
+  "title": "Transformation",
+  "shortSummary": "Transformation was performed.",
+  "work": "Transformation was performed.",
+  "tags": [
+    "team-log-v14",
+    "transformation"
+  ],
+  "sourceSection": "Team notebook update · 2026-09-08 16:30–19:30 · Transformation",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October."
+}),
+    event({
+  "id": "wet-colony-picking-20260909",
+  "startDate": "2026-09-09",
+  "endDate": "2026-09-09",
+  "openEnd": false,
+  "datePrecision": "day",
+  "startTime": "09:00",
+  "endTime": "10:00",
+  "timeZone": "Asia/Taipei",
+  "stream": "wetlab",
+  "substream": null,
+  "category": "colony-picking",
+  "status": "completed",
+  "title": "Colony picking",
+  "shortSummary": "Colonies were picked.",
+  "work": "Colonies were picked.",
+  "tags": [
+    "team-log-v14",
+    "colony-picking"
+  ],
+  "sourceSection": "Team notebook update · 2026-09-09 09:00–10:00 · Colony picking",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October."
+}),
+    event({
+  "id": "wet-culture-tubes-20260910",
+  "startDate": "2026-09-10",
+  "endDate": "2026-09-10",
+  "openEnd": false,
+  "datePrecision": "day",
+  "startTime": "09:00",
+  "endTime": "10:00",
+  "timeZone": "Asia/Taipei",
+  "stream": "wetlab",
+  "substream": null,
+  "category": "bacterial-culture",
+  "status": "completed",
+  "title": "Bacterial culture tube change",
+  "shortSummary": "Bacterial culture tubes were changed.",
+  "work": "Bacterial culture tubes were changed.",
+  "tags": [
+    "team-log-v14",
+    "bacterial-culture"
+  ],
+  "sourceSection": "Team notebook update · 2026-09-10 09:00–10:00 · Bacterial culture tube change",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October."
+}),
+    event({
+  "id": "wet-colony-picking-20260911",
+  "startDate": "2026-09-11",
+  "endDate": "2026-09-11",
+  "openEnd": false,
+  "datePrecision": "day",
+  "startTime": "10:00",
+  "endTime": "11:00",
+  "timeZone": "Asia/Taipei",
+  "stream": "wetlab",
+  "substream": null,
+  "category": "colony-picking",
+  "status": "completed",
+  "title": "Colony picking",
+  "shortSummary": "Colonies were picked.",
+  "work": "Colonies were picked.",
+  "tags": [
+    "team-log-v14",
+    "colony-picking"
+  ],
+  "sourceSection": "Team notebook update · 2026-09-11 10:00–11:00 · Colony picking",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October."
+}),
+    event({
+  "id": "wet-cell-thawing-20260929",
+  "startDate": "2026-09-29",
+  "endDate": "2026-09-29",
+  "openEnd": false,
+  "datePrecision": "day",
+  "startTime": "14:00",
+  "endTime": "15:00",
+  "timeZone": "Asia/Taipei",
+  "stream": "wetlab",
+  "substream": null,
+  "category": "cell-culture",
+  "status": "completed",
+  "title": "Cell thawing",
+  "shortSummary": "Cells were thawed.",
+  "work": "Cells were thawed.",
+  "tags": [
+    "team-log-v14",
+    "cell-culture"
+  ],
+  "sourceSection": "Team notebook update · 2026-09-29 14:00–15:00 · Cell thawing",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October."
+}),
+    event({
+  "id": "wet-transform-20260929",
+  "startDate": "2026-09-29",
+  "endDate": "2026-09-29",
+  "openEnd": false,
+  "datePrecision": "day",
+  "startTime": "15:00",
+  "endTime": "17:00",
+  "timeZone": "Asia/Taipei",
+  "stream": "wetlab",
+  "substream": null,
+  "category": "transformation",
+  "status": "completed",
+  "title": "Transformation",
+  "shortSummary": "Transformation was performed.",
+  "work": "Transformation was performed.",
+  "tags": [
+    "team-log-v14",
+    "transformation"
+  ],
+  "sourceSection": "Team notebook update · 2026-09-29 15:00–17:00 · Transformation",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October."
+}),
+    event({
+  "id": "wet-colony-picking-20260930",
+  "startDate": "2026-09-30",
+  "endDate": "2026-09-30",
+  "openEnd": false,
+  "datePrecision": "day",
+  "startTime": "15:00",
+  "endTime": "15:30",
+  "timeZone": "Asia/Taipei",
+  "stream": "wetlab",
+  "substream": null,
+  "category": "colony-picking",
+  "status": "completed",
+  "title": "Colony picking",
+  "shortSummary": "Colonies were picked.",
+  "work": "Colonies were picked.",
+  "tags": [
+    "team-log-v14",
+    "colony-picking"
+  ],
+  "sourceSection": "Team notebook update · 2026-09-30 15:00–15:30 · Colony picking",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October."
+}),
+    event({
+  "id": "wet-cell-culture-20260930",
+  "startDate": "2026-09-30",
+  "endDate": "2026-09-30",
+  "openEnd": false,
+  "datePrecision": "day",
+  "startTime": "15:30",
+  "endTime": "16:30",
+  "timeZone": "Asia/Taipei",
+  "stream": "wetlab",
+  "substream": null,
+  "category": "cell-culture",
+  "status": "completed",
+  "title": "Cell culture",
+  "shortSummary": "Cell culture work was performed.",
+  "work": "Cell culture work was performed.",
+  "tags": [
+    "team-log-v14",
+    "cell-culture"
+  ],
+  "sourceSection": "Team notebook update · 2026-09-30 15:30–16:30 · Cell culture",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October."
+}),
+    event({
+  "id": "wet-freeze-culture-tubes-20261001",
+  "startDate": "2026-10-01",
+  "endDate": "2026-10-01",
+  "openEnd": false,
+  "datePrecision": "day",
+  "startTime": "12:00",
+  "endTime": "13:00",
+  "timeZone": "Asia/Taipei",
+  "stream": "wetlab",
+  "substream": null,
+  "category": "bacterial-culture",
+  "status": "completed",
+  "title": "Freeze and change bacterial culture tubes",
+  "shortSummary": "Bacterial culture tubes were frozen and changed.",
+  "work": "Bacterial culture tubes were frozen and changed.",
+  "tags": [
+    "team-log-v14",
+    "bacterial-culture"
+  ],
+  "sourceSection": "Team notebook update · 2026-10-01 12:00–13:00 · Freeze and change bacterial culture tubes",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October."
+}),
+    event({
+  "id": "wet-cell-culture-20261001",
+  "startDate": "2026-10-01",
+  "endDate": "2026-10-01",
+  "openEnd": false,
+  "datePrecision": "day",
+  "startTime": "14:00",
+  "endTime": "15:00",
+  "timeZone": "Asia/Taipei",
+  "stream": "wetlab",
+  "substream": null,
+  "category": "cell-culture",
+  "status": "completed",
+  "title": "Cell culture",
+  "shortSummary": "Cell culture work was performed.",
+  "work": "Cell culture work was performed.",
+  "tags": [
+    "team-log-v14",
+    "cell-culture"
+  ],
+  "sourceSection": "Team notebook update · 2026-10-01 14:00–15:00 · Cell culture",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October."
+}),
+    event({
+  "id": "wet-miniprep-gel-20261001",
+  "startDate": "2026-10-01",
+  "endDate": "2026-10-01",
+  "openEnd": false,
+  "datePrecision": "day",
+  "startTime": "14:00",
+  "endTime": "17:00",
+  "timeZone": "Asia/Taipei",
+  "stream": "wetlab",
+  "substream": null,
+  "category": "plasmid-preparation",
+  "status": "completed",
+  "title": "Plasmid miniprep and DNA electrophoresis",
+  "shortSummary": "Plasmid miniprep and DNA electrophoresis were performed. Gel results and lane assignments were not supplied with this record.",
+  "work": "Plasmid miniprep and DNA electrophoresis were performed. Gel results and lane assignments were not supplied with this record.",
+  "tags": [
+    "team-log-v14",
+    "plasmid-preparation"
+  ],
+  "sourceSection": "Team notebook update · 2026-10-01 14:00–17:00 · Plasmid miniprep and DNA electrophoresis",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October.",
+  "relatedLinks": [
+    {
+      "label": "Results · electrophoresis evidence status",
+      "href": "results.html#gel-results"
+    }
+  ]
+}),
+    event({
+  "id": "wet-cell-thawing-miniprep-20261002",
+  "startDate": "2026-10-02",
+  "endDate": "2026-10-02",
+  "openEnd": false,
+  "datePrecision": "day",
+  "startTime": "14:00",
+  "endTime": "16:00",
+  "timeZone": "Asia/Taipei",
+  "stream": "wetlab",
+  "substream": null,
+  "category": "cell-culture",
+  "status": "completed",
+  "title": "Cell thawing and plasmid miniprep",
+  "shortSummary": "Cells were thawed and plasmid miniprep was performed.",
+  "work": "Cells were thawed and plasmid miniprep was performed.",
+  "tags": [
+    "team-log-v14",
+    "cell-culture"
+  ],
+  "sourceSection": "Team notebook update · 2026-10-02 14:00–16:00 · Cell thawing and plasmid miniprep",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October."
+}),
+    event({
+  "id": "wet-cell-culture-20261004",
+  "startDate": "2026-10-04",
+  "endDate": "2026-10-04",
+  "openEnd": false,
+  "datePrecision": "day",
+  "startTime": "19:00",
+  "endTime": "20:00",
+  "timeZone": "Asia/Taipei",
+  "stream": "wetlab",
+  "substream": null,
+  "category": "cell-culture",
+  "status": "completed",
+  "title": "Cell culture",
+  "shortSummary": "Cell culture work was performed.",
+  "work": "Cell culture work was performed.",
+  "tags": [
+    "team-log-v14",
+    "cell-culture"
+  ],
+  "sourceSection": "Team notebook update · 2026-10-04 19:00–20:00 · Cell culture",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October."
+}),
+    event({
+  "id": "wet-cotransfection-failed-20261004",
+  "startDate": "2026-10-04",
+  "endDate": "2026-10-04",
+  "openEnd": false,
+  "datePrecision": "day",
+  "startTime": "20:00",
+  "endTime": "22:00",
+  "timeZone": "Asia/Taipei",
+  "stream": "wetlab",
+  "substream": null,
+  "category": "transfection",
+  "status": "completed",
+  "title": "Co-transfection attempt — unsuccessful",
+  "shortSummary": "Co-transfection was attempted.",
+  "work": "Co-transfection was attempted.",
+  "tags": [
+    "team-log-v14",
+    "transfection"
+  ],
+  "sourceSection": "Team notebook update · 2026-10-04 20:00–22:00 · Co-transfection attempt — unsuccessful",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October.",
+  "result": "Unsuccessful: the cells were too dense and grew poorly, as reported by the team."
+}),
+    event({
+  "id": "wet-cell-seeding-20261006",
+  "startDate": "2026-10-06",
+  "endDate": "2026-10-06",
+  "openEnd": false,
+  "datePrecision": "day",
+  "startTime": "20:00",
+  "endTime": "21:00",
+  "timeZone": "Asia/Taipei",
+  "stream": "wetlab",
+  "substream": null,
+  "category": "cell-culture",
+  "status": "completed",
+  "title": "Cell seeding",
+  "shortSummary": "Cells were seeded.",
+  "work": "Cells were seeded.",
+  "tags": [
+    "team-log-v14",
+    "cell-culture"
+  ],
+  "sourceSection": "Team notebook update · 2026-10-06 20:00–21:00 · Cell seeding",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October."
+}),
+    event({
+  "id": "wet-cotransfection-20261007",
+  "startDate": "2026-10-07",
+  "endDate": "2026-10-07",
+  "openEnd": false,
+  "datePrecision": "day",
+  "startTime": "20:00",
+  "endTime": "21:00",
+  "timeZone": "Asia/Taipei",
+  "stream": "wetlab",
+  "substream": null,
+  "category": "transfection",
+  "status": "completed",
+  "title": "Co-transfection",
+  "shortSummary": "Co-transfection was performed. No efficiency or functional result was supplied with this session record.",
+  "work": "Co-transfection was performed. No efficiency or functional result was supplied with this session record.",
+  "tags": [
+    "team-log-v14",
+    "transfection"
+  ],
+  "sourceSection": "Team notebook update · 2026-10-07 20:00–21:00 · Co-transfection",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October."
+}),
+    event({
+  "id": "wet-cell-culture-20261009",
+  "startDate": "2026-10-09",
+  "endDate": "2026-10-09",
+  "openEnd": false,
+  "datePrecision": "day",
+  "startTime": "18:00",
+  "endTime": "19:00",
+  "timeZone": "Asia/Taipei",
+  "stream": "wetlab",
+  "substream": null,
+  "category": "cell-culture",
+  "status": "completed",
+  "title": "Cell culture",
+  "shortSummary": "Cell culture work was performed.",
+  "work": "Cell culture work was performed.",
+  "tags": [
+    "team-log-v14",
+    "cell-culture"
+  ],
+  "sourceSection": "Team notebook update · 2026-10-09 18:00–19:00 · Cell culture",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October."
+}),
+    event({
+  "id": "wet-dapi-fluorescence-20261009",
+  "startDate": "2026-10-09",
+  "endDate": "2026-10-09",
+  "openEnd": false,
+  "datePrecision": "day",
+  "startTime": "19:00",
+  "endTime": "22:00",
+  "timeZone": "Asia/Taipei",
+  "stream": "wetlab",
+  "substream": null,
+  "category": "microscopy",
+  "status": "completed",
+  "title": "DAPI fluorescence session",
+  "shortSummary": "DAPI fluorescence work was performed. The supplied chronology does not identify individual image files or acquisition settings.",
+  "work": "DAPI fluorescence work was performed. The supplied chronology does not identify individual image files or acquisition settings.",
+  "tags": [
+    "team-log-v14",
+    "microscopy"
+  ],
+  "sourceSection": "Team notebook update · 2026-10-09 19:00–22:00 · DAPI fluorescence session",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October. This dated activity is kept distinct from the undated WL-MIC-01 evidence records because the update does not explicitly map the session to the archived fields.",
+  "relatedLinks": [
+    {
+      "label": "Archived microscopy provenance (date unresolved)",
+      "href": "notebook.html#wet-microscopy-acquisition"
+    }
+  ]
+}),
+    event({
+  "id": "wet-g418-medium-20261013",
+  "startDate": "2026-10-13",
+  "endDate": "2026-10-13",
+  "openEnd": false,
+  "datePrecision": "day",
+  "startTime": "19:00",
+  "endTime": "20:00",
+  "timeZone": "Asia/Taipei",
+  "stream": "wetlab",
+  "substream": null,
+  "category": "selection",
+  "status": "planned",
+  "title": "Medium change with G418 — planned",
+  "shortSummary": "A medium change with G418 is scheduled.",
+  "work": "A medium change with G418 is scheduled.",
+  "tags": [
+    "team-log-v14",
+    "selection"
+  ],
+  "sourceSection": "Team notebook update · 2026-10-13 19:00–20:00 · Medium change with G418 — planned",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October.",
+  "pendingOutputs": [
+    "Execution and outcome have not yet been recorded."
+  ]
+}),
+    event({
+  "id": "wet-g418-medium-20261015",
+  "startDate": "2026-10-15",
+  "endDate": "2026-10-15",
+  "openEnd": false,
+  "datePrecision": "day",
+  "startTime": "19:00",
+  "endTime": "20:00",
+  "timeZone": "Asia/Taipei",
+  "stream": "wetlab",
+  "substream": null,
+  "category": "selection",
+  "status": "planned",
+  "title": "Medium change with G418 — planned",
+  "shortSummary": "A medium change with G418 is scheduled.",
+  "work": "A medium change with G418 is scheduled.",
+  "tags": [
+    "team-log-v14",
+    "selection"
+  ],
+  "sourceSection": "Team notebook update · 2026-10-15 19:00–20:00 · Medium change with G418 — planned",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October.",
+  "pendingOutputs": [
+    "Execution and outcome have not yet been recorded."
+  ]
+}),
+    event({
+  "id": "wet-96well-culture-20261017",
+  "startDate": "2026-10-17",
+  "endDate": "2026-10-17",
+  "openEnd": false,
+  "datePrecision": "day",
+  "startTime": "19:00",
+  "endTime": "20:00",
+  "timeZone": "Asia/Taipei",
+  "stream": "wetlab",
+  "substream": null,
+  "category": "cell-culture",
+  "status": "planned",
+  "title": "Transfer culture to a 96-well plate — planned",
+  "shortSummary": "Culture in a 96-well plate is scheduled. No cell count or plating density is specified.",
+  "work": "Culture in a 96-well plate is scheduled. No cell count or plating density is specified.",
+  "tags": [
+    "team-log-v14",
+    "cell-culture"
+  ],
+  "sourceSection": "Team notebook update · 2026-10-17 19:00–20:00 · Transfer culture to a 96-well plate — planned",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October.",
+  "pendingOutputs": [
+    "Execution and outcome have not yet been recorded."
+  ]
+}),
+    event({
+  "id": "wet-odor-after-g418-20261019",
+  "startDate": "2026-10-19",
+  "endDate": "2026-10-19",
+  "openEnd": false,
+  "datePrecision": "day",
+  "startTime": "15:00",
+  "endTime": "17:00",
+  "timeZone": "Asia/Taipei",
+  "stream": "wetlab",
+  "substream": null,
+  "category": "odor-testing",
+  "status": "planned",
+  "title": "Odor test after G418 selection — planned",
+  "shortSummary": "Odor testing of G418-selected cells is scheduled. Selection success and the odor-test outcome have not been established.",
+  "work": "Odor testing of G418-selected cells is scheduled. Selection success and the odor-test outcome have not been established.",
+  "tags": [
+    "team-log-v14",
+    "odor-testing"
+  ],
+  "sourceSection": "Team notebook update · 2026-10-19 15:00–17:00 · Odor test after G418 selection — planned",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October.",
+  "pendingOutputs": [
+    "Execution and outcome have not yet been recorded."
+  ],
+  "relatedLinks": [
+    {
+      "label": "Results · post-selection odor testing status",
+      "href": "results.html#post-selection-odor-results"
+    }
+  ]
+}),
+    event({
+  "id": "hw-ui-review-20261012",
+  "startDate": "2026-10-12",
+  "endDate": "2026-10-14",
+  "openEnd": false,
+  "datePrecision": "range",
+  "stream": "drylab",
+  "substream": "hardware",
+  "category": "hardware-session",
+  "status": "planned",
+  "title": "User-interface review and adjustment — scheduled",
+  "shortSummary": "UI review and adjustment are scheduled for 12–14 October. The window begins on the update date; no completed review or resulting change is yet reported.",
+  "work": "UI review and adjustment are scheduled for 12–14 October. The window begins on the update date; no completed review or resulting change is yet reported.",
+  "sourceSection": "Team notebook update · 2026-10-12 – 2026-10-14 · User-interface review and adjustment — scheduled",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October. The supplied hardware records specify dates but no times of day.",
+  "tags": [
+    "team-log-v14",
+    "hardware-session"
+  ],
+  "relatedLinks": [
+    {
+      "label": "Hardware · current design and evidence",
+      "href": "hardware.html"
+    }
+  ],
+  "pendingOutputs": [
+    "Execution details and results await the scheduled activity."
+  ]
+}),
+    event({
+  "id": "hw-fluorescein-test-20261015",
+  "startDate": "2026-10-15",
+  "endDate": "2026-10-16",
+  "openEnd": false,
+  "datePrecision": "range",
+  "stream": "drylab",
+  "substream": "hardware",
+  "category": "hardware-session",
+  "status": "planned",
+  "title": "Sodium fluorescein performance testing — planned",
+  "shortSummary": "Performance testing with sodium fluorescein is scheduled for 15–16 October. No concentration, measurement or performance result is supplied.",
+  "work": "Performance testing with sodium fluorescein is scheduled for 15–16 October. No concentration, measurement or performance result is supplied.",
+  "sourceSection": "Team notebook update · 2026-10-15 – 2026-10-16 · Sodium fluorescein performance testing — planned",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October. The supplied hardware records specify dates but no times of day.",
+  "tags": [
+    "team-log-v14",
+    "hardware-session"
+  ],
+  "relatedLinks": [
+    {
+      "label": "Hardware · current design and evidence",
+      "href": "hardware.html"
+    }
+  ],
+  "pendingOutputs": [
+    "Execution details and results await the scheduled activity."
+  ]
+}),
+    event({
+  "id": "hw-hek293-preparation-20261017",
+  "startDate": "2026-10-17",
+  "endDate": "2026-10-17",
+  "openEnd": false,
+  "datePrecision": "day",
+  "stream": "drylab",
+  "substream": "hardware",
+  "category": "hardware-session",
+  "status": "planned",
+  "title": "Prepare co-transfected HEK293 cells — planned",
+  "shortSummary": "Preparation of co-transfected HEK293 cells for hardware testing is scheduled for 17 October.",
+  "work": "Preparation of co-transfected HEK293 cells for hardware testing is scheduled for 17 October.",
+  "sourceSection": "Team notebook update · 2026-10-17 · Prepare co-transfected HEK293 cells — planned",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October. The supplied hardware records specify dates but no times of day.",
+  "tags": [
+    "team-log-v14",
+    "hardware-session"
+  ],
+  "relatedLinks": [
+    {
+      "label": "Hardware · current design and evidence",
+      "href": "hardware.html"
+    }
+  ],
+  "pendingOutputs": [
+    "Execution details and results await the scheduled activity."
+  ]
+}),
+    event({
+  "id": "hw-cell-testing-20261018",
+  "startDate": "2026-10-18",
+  "endDate": "2026-10-18",
+  "openEnd": false,
+  "datePrecision": "day",
+  "stream": "drylab",
+  "substream": "hardware",
+  "category": "hardware-session",
+  "status": "planned",
+  "title": "Hardware testing with cells — planned",
+  "shortSummary": "Hardware testing with cells is scheduled for 18 October. No test outcome is recorded.",
+  "work": "Hardware testing with cells is scheduled for 18 October. No test outcome is recorded.",
+  "sourceSection": "Team notebook update · 2026-10-18 · Hardware testing with cells — planned",
+  "sourceNote": "Team-supplied 12 October 2026 update; local time is Asia/Taipei (UTC+08:00). Status assessed as of 12 October. The supplied hardware records specify dates but no times of day.",
+  "tags": [
+    "team-log-v14",
+    "hardware-session"
+  ],
+  "relatedLinks": [
+    {
+      "label": "Hardware · current design and evidence",
+      "href": "hardware.html"
+    }
+  ],
+  "pendingOutputs": [
+    "Execution details and results await the scheduled activity."
+  ]
+})
+  ];
+
+  var EVENTS = HARDWARE_EVENTS.concat(WETLAB_EVENTS, DRYLAB_EVENTS, HP_EVENTS, TIMELINE_UPDATE_EVENTS, TEAM_LOG_V14_EVENTS);
+
+  // Team-confirmed v25 status update. Month precision closes at the last day of
+  // that month; open/undated ranges and official competition events are excluded.
+  // Completion records an activity, never a successful scientific outcome.
+  META.completionConfirmedThrough = "2026-10-21";
+  META.latestRecordSource = "The team confirmed completion of project records ending on or before 21 October 2026. Original dates, failed observations and missing evidence are retained.";
+  var COMPLETION_SUMMARIES_V25 = {
+    "hw-v2-simplification": "The ESP32-standalone power/I/O redesign was completed. This status does not establish measured board performance.",
+    "hw-enclosure-planned": "The enclosure activity in the September record is confirmed complete. Optical calibration and measured performance remain separate evidence requirements.",
+    "hw-fabrication-planned": "The September fabrication and assembly activity is confirmed complete. The original vendor estimate is retained; inspection records and actual delivery details are not added by this status update.",
+    "wet-g418-followup": "G418 selection was initiated on 11 October. This completed initiation record does not establish selection success or a stable-cell endpoint.",
+    "wet-pn-preparation-20260504": "The PN/GH146 preparation checkpoint on 4 May is confirmed complete. No PN image, trace or odor-response outcome is supplied by this confirmation.",
+    "wet-maxiprep": "The September bacterial transformation and plasmid-preparation activity is confirmed complete. QC outputs and linked verification results remain pending.",
+    "dry-pipeline-cleanup": "The September pipeline-cleanup activity is confirmed complete. The documented reference remains F1=0.868; no new k-fold validation or pilot results are supplied.",
+    "team-wiki-building": "Wiki development from 7 September to 20 October is confirmed complete. The source form records 6 calendar weeks and 4 weeks of actual time worked.",
+    "hw-enclosure-v2-window": "The 26 September–8 October enclosure-development window is confirmed complete. Assembly-test measurements are not supplied by this status update.",
+    "hw-pcb-soldering-ui": "PCB soldering and UI design from 7–10 October are confirmed complete. No electrical or usability performance outcome is inferred.",
+    "hw-enclosure-assembly-test": "Hardware assembly, trial use and revisions from 9–16 October are confirmed complete. Detailed test results remain to be archived.",
+    "wet-g418-medium-20261013": "The 13 October medium change with G418 is confirmed complete. No selection outcome is inferred.",
+    "wet-g418-medium-20261015": "The 15 October medium change with G418 is confirmed complete. No selection outcome is inferred.",
+    "wet-96well-culture-20261017": "Transfer to a 96-well culture plate on 17 October is confirmed complete. No cell count or plating density is specified.",
+    "wet-odor-after-g418-20261019": "Odor testing after G418 selection on 19 October is confirmed complete. Selection success, response measurements and test outcomes are not supplied.",
+    "hw-ui-review-20261012": "UI review and adjustment from 12–14 October are confirmed complete. Specific review findings and resulting changes remain to be documented.",
+    "hw-fluorescein-test-20261015": "Sodium fluorescein performance testing on 15–16 October is confirmed complete. No concentration, measurement or performance result is supplied.",
+    "hw-hek293-preparation-20261017": "Preparation of co-transfected HEK293 cells for hardware testing on 17 October is confirmed complete.",
+    "hw-cell-testing-20261018": "Hardware testing with cells on 18 October is confirmed complete. No test outcome is recorded."
+  };
+  EVENTS.forEach(function (ev) {
+    if (ev.status === "completed" || ev.openEnd || !ev.endDate || ev.isOfficial || ev.stream === "igem") return;
+    var end = ev.endDate;
+    if (/^\d{4}-\d{2}$/.test(end)) {
+      end += "-" + new Date(Date.UTC(Number(end.slice(0, 4)), Number(end.slice(5)), 0)).getUTCDate();
+    }
+    if (end > META.completionConfirmedThrough) return;
+    ev.previousStatus = ev.status;
+    ev.status = "completed";
+    ev.completionConfirmed = true;
+    ev.completionNote = "The team confirms completion of this recorded activity by 21 October 2026. Completion does not establish experimental success or supply missing measurements. Earlier work descriptions and evidence gaps are retained as source context.";
+    ev.title = ev.title.replace(/\s+— (planned|scheduled)$/i, "").replace(/\s+\((Planned|In Progress)\)$/i, "");
+    if (COMPLETION_SUMMARIES_V25[ev.id]) ev.shortSummary = COMPLETION_SUMMARIES_V25[ev.id];
+    ev.tags = ev.tags.filter(function (tag) { return tag !== "planned"; });
+  });
+=======
   var EVENTS = HARDWARE_EVENTS.concat(WETLAB_EVENTS, DRYLAB_EVENTS, HP_EVENTS, TIMELINE_UPDATE_EVENTS);
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 
   /**
    * Turning points — curated only from documented decisions in notebook_content.md.
@@ -2092,6 +3112,10 @@
 
   /* -------- Coverage map: every unique source section → event id -------- */
   var SOURCE_COVERAGE = [
+<<<<<<< HEAD
+    {"section": "Plate P2 instrument exports, runs 904–935, and team confirmation on 11 October 2026", "eventId": "wet-p2-kinetics-20261010"},
+=======
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     {"section":"Fly observation update · 20 April · TH-associated light-sheet work","eventId":"wet-th-lightsheet-20260420"},
     {"section":"Fly observation update · 4 May · PN/GH146 preparation, imaging pending","eventId":"wet-pn-preparation-20260504"},
     { section: "Hardware · April 1–21 · Project Ideation and Team Formation", eventId: "hw-ideation" },
@@ -2132,6 +3156,13 @@
     SOURCE_COVERAGE.push({ section: ev.sourceSection, eventId: ev.id });
   });
 
+<<<<<<< HEAD
+  TEAM_LOG_V14_EVENTS.forEach(function (ev) {
+    SOURCE_COVERAGE.push({ section: ev.sourceSection, eventId: ev.id });
+  });
+
+=======
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
   function byId(id) {
     for (var i = 0; i < EVENTS.length; i += 1) {
       if (EVENTS[i].id === id) return EVENTS[i];

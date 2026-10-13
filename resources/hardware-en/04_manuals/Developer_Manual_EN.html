@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>AeroSense Developer Manual — AeroSense</title><style>body{font:17px/1.6 system-ui,sans-serif;color:#233a33;background:#fbfbf6;margin:0}main{max-width:1080px;margin:auto;padding:36px 24px}h1,h2,h3{line-height:1.15}h1{font-size:2.4rem}h2{margin-top:2.4em}a{color:#08694b}img{max-width:100%;height:auto}table{border-collapse:collapse;width:100%;font-size:.9rem}th,td{border:1px solid #cdd8cb;padding:8px;text-align:left;vertical-align:top}thead{background:#e4eddc}pre{padding:16px;background:#e9eee5;overflow:auto}nav{display:flex;gap:20px;flex-wrap:wrap}figure{margin:20px 0}.table-scroll{overflow:auto}button,input,select{font:inherit}canvas{width:100%;height:480px;touch-action:none;background:#f4f7ef;border:1px solid #ccd7c8}.controls{display:flex;gap:24px;flex-wrap:wrap}.source-note{background:#e8eddf;padding:15px;border-left:4px solid #57745b}</style></head><body><main><h1 id="aerosense-developer-manual">AeroSense Developer Manual</h1>
+<p>Revision: 2026-10-11. Use this manual to assemble, program, and verify the reader. Physical and biological validation results are not yet available.</p>
+<p>The procedures use ASD-STE100 Issue 9 writing principles. They use short sentences, stable terms, conditions before actions, and one instruction per step. Full vocabulary and rule compliance has not been audited. This document does not claim formal ASD-STE100 compliance. <a href="https://www.asd-ste100.org/assets/files/ASD-STE100_ISSUE9.pdf">Writing reference</a>.</p>
+<p>Use the <a href="../../../hardware%20information/AeroSense%20v2/04_manuals/User_Manual_EN.pdf">User Manual</a> for routine controls. Keep the <a href="../BOM_EN.xlsx">USD BOM</a> and <a href="../../../hardware%20information/AeroSense%20v2/07_validation/User_Feedback_EN.pdf">feedback form</a> separate. The eight selected STL files and firmware are unchanged.</p>
+<h2 id="1-prepare-the-parts">1 Prepare the parts</h2>
+<p>Preparation: Use a dry tray, calipers, tweezers, and a 2.5 mm hex key. Use the current parts in 01_print. Follow the laboratory resin-handling procedure.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Part</th>
+<th style="text-align: right;">Quantity</th>
+<th>Specification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01 base; 02 light shield; 03 gas lid; 08 compression plate</td>
+<td style="text-align: right;">One each</td>
+<td>Specified PC/GF-like Black resin</td>
+</tr>
+<tr>
+<td>04 NE; 05 NW; 06 SW; 07 SE wells</td>
+<td style="text-align: right;">One each</td>
+<td>Aqua Clear Plus</td>
+</tr>
+<tr>
+<td>PCB screws</td>
+<td style="text-align: right;">4</td>
+<td>M3 × 8 mm socket-head cap screws</td>
+</tr>
+<tr>
+<td>Fan screws</td>
+<td style="text-align: right;">2</td>
+<td>M3 × 16 mm socket-head cap screws</td>
+</tr>
+<tr>
+<td>Lid screws</td>
+<td style="text-align: right;">2</td>
+<td>M3 × 35 mm socket-head cap screws</td>
+</tr>
+<tr>
+<td>Nuts</td>
+<td style="text-align: right;">8</td>
+<td>M3 × 0.5; 5.5 mm across flats; 2.4 mm thick</td>
+</tr>
+<tr>
+<td>Flat washers</td>
+<td style="text-align: right;">6</td>
+<td>3.2 mm inside diameter; 7 mm outside diameter; 0.5 mm thick</td>
+</tr>
+<tr>
+<td>Fan</td>
+<td style="text-align: right;">1</td>
+<td>40 × 40 × 10 mm; 32 mm mounting pitch</td>
+</tr>
+<tr>
+<td>Seal sheet</td>
+<td style="text-align: right;">As required</td>
+<td>0.8 mm opaque silicone</td>
+</tr>
+</tbody>
+</table></div>
+<p>Screw lengths exclude the head. Countersunk screws are unsuitable. The gas shelf is integral to lid 03. No separate deflector, fan bracket, or hinge is required.</p>
+<p>Steps:</p>
+<ol>
+<li>Set SW1 to OFF.</li>
+<li>Disconnect external PCB power.</li>
+<li>Remove the battery.</li>
+<li>Put the parts on the tray in ID order.</li>
+<li>Separate the screws by length.</li>
+</ol>
+<p>Check: All eight current parts are present. Development tools can be borrowed. Future BOM items are outside this assembly.</p>
+<p>Failure action: If a specification is uncertain, record it in Section 15. Resolve it before assembly.</p>
+<p><img alt="Assembly positions" src="../../../hardware%20information/AeroSense%20v2/09_engineering_sources/CAD/drawings/assembly_exploded.png"/></p>
+<h2 id="2-measure-the-board-and-prints">2 Measure the board and prints</h2>
+<p>Preparation: Keep the board unpowered. Put the optical face upward. USB-C is at the front, or −Y. SW1 is on +X. A BOTTOM drawing can be mirrored.</p>
+<p>Steps:</p>
+<ol>
+<li>Measure the PCB outline.</li>
+<li>Measure the mounting-hole center distances.</li>
+<li>Measure PCB thickness.</li>
+<li>Measure solder projections below the PCB.</li>
+<li>Measure the battery-holder height with its battery installed.</li>
+<li>Measure the LED, PD, C21, R27, and U8 heights.</li>
+<li>Measure the ESP32 overhang, width, and underside height.</li>
+<li>Record the measurements in <a href="../../../hardware%20information/AeroSense%20v2/07_validation/templates/fit_checks.csv">fit_checks.csv</a>.</li>
+<li>Inspect prints for cracks and distortion.</li>
+<li>Complete washing with the resin supplier's procedure.</li>
+<li>Complete post-curing with that procedure.</li>
+<li>Remove support remains from mating surfaces.</li>
+<li>Check that the tube bores are clear.</li>
+<li>Measure the wells, slots, and sealing surfaces.</li>
+</ol>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Interface</th>
+<th>Nominal CAD value</th>
+<th>Check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Body</td>
+<td>108 × 108 × 66 mm</td>
+<td>Excludes tubes and external filters</td>
+</tr>
+<tr>
+<td>PCB</td>
+<td>100 × 90 mm; hole centers (±45, ±40) mm</td>
+<td>Compare with actual board</td>
+</tr>
+<tr>
+<td>PCB underside</td>
+<td>Z38 mm; assumed thickness 1.6 mm</td>
+<td>Four posts support the PCB</td>
+</tr>
+<tr>
+<td>Lower clearance</td>
+<td>General 32 mm; fan 22 mm; screw heads about 18.5 mm</td>
+<td>Check actual components and wires</td>
+</tr>
+<tr>
+<td>Outer well floor</td>
+<td>Z42.5 mm</td>
+<td>No component contact</td>
+</tr>
+<tr>
+<td>USB-C opening</td>
+<td>X31.5 center; 20 mm width; Z28.5–40.5 mm</td>
+<td>Actual cable inserts fully</td>
+</tr>
+<tr>
+<td>SW1 opening</td>
+<td>Y7 center; 23 mm width; Z27.5–40.5 mm</td>
+<td>Full switch travel</td>
+</tr>
+<tr>
+<td>Antenna opening</td>
+<td>23 mm width; Z27–39.6 mm</td>
+<td>Check insertion path</td>
+</tr>
+<tr>
+<td>Well interior</td>
+<td>4 × 2.8 × 12.5 mm; 0.5 mm floor</td>
+<td>Measure print and working fill</td>
+</tr>
+</tbody>
+</table></div>
+<p>Check: The narrow insertion path permits about 7.2 mm antenna overhang. The drawing suggests about 6.54 mm. The 0.66 mm margin is nominal. It is not a certified clearance. A provisional 0.5 mm component-clearance target also requires location-specific assessment.</p>
+<p>Failure action: If the antenna contacts the upper tongue, lift the PCB. Do not bend components or force the antenna. Do not change global print scale to correct one fit. Do not thin an optical floor.</p>
+<p>Use mm and 100% scale when printing. Keep supports off optical and sealing surfaces. Resin color and completed curing do not establish sterility, opacity, or cell compatibility. Do not assume autoclave compatibility.</p>
+<p><img alt="Interfaces and orientation" src="../../../hardware%20information/AeroSense%20v2/09_engineering_sources/CAD/drawings/port_plan.png"/></p>
+<p><img alt="Eight printed parts" src="../../../hardware%20information/AeroSense%20v2/09_engineering_sources/CAD/drawings/parts.png"/></p>
+<h2 id="3-install-the-fan-and-pcb">3 Install the fan and PCB</h2>
+<p>Preparation: Use the hardware from Section 1. Obtain the vendor-confirmed fan supply connection. The fan does not supply sample gas.</p>
+<p>Steps:</p>
+<ol>
+<li>Put two nuts in the diagonal pockets under the base.</li>
+<li>Put the fan in its support.</li>
+<li>Point the fan airflow arrow toward the PCB.</li>
+<li>Put one washer on each M3 × 16 mm screw.</li>
+<li>Install the two fan screws.</li>
+<li>Tighten the screws alternately until the fan is secure.</li>
+<li>Secure the wires along the enclosure edge.</li>
+<li>Put four nuts in the PCB-post pockets.</li>
+<li>Put two nuts in the lid-post pockets.</li>
+<li>Align the antenna with the front opening.</li>
+<li>Lower the PCB slowly.</li>
+<li>Put one washer on each M3 × 8 mm screw.</li>
+<li>Engage the four PCB screws loosely.</li>
+<li>Tighten the screws gradually in a diagonal sequence.</li>
+<li>Insert the actual USB-C plug fully.</li>
+<li>Move SW1 through its full travel.</li>
+<li>Photograph the supports and connectors.</li>
+</ol>
+<p>Check: The fan frame is flat. Blades turn freely. Screw tips stay above the feet. Washers do not touch conductors. The PCB stays flat. The antenna is unloaded. J3, SW2, and SW3 remain accessible.</p>
+<p>Failure action: If a part interferes, stop assembly. Do not remove interference with screw force. Do not power the fan from an ESP32 GPIO.</p>
+<p>After electrical checks, compare communication with the enclosure open and closed. Use the same phone, distance, and orientation for about two minutes each. Record start, stop, and missing blocks. This is a working-distance check, not RF certification.</p>
+<p><img alt="Fan support and openings" src="../../../hardware%20information/AeroSense%20v2/09_engineering_sources/CAD/drawings/base_fan_ports.png"/></p>
+<h2 id="4-select-and-install-the-receiver-filter">4 Select and install the receiver filter</h2>
+<p>Preparation: Keep the PCB unpowered. Use clean tools. The nominal filter seat is 5.2 × 4.2 × 1.0 mm. Measure the actual seat first.</p>
+<p>Start the practical trial with one LEE 101 layer. Use these four configurations for the main comparison:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Configuration</th>
+<th>Purpose</th>
+<th>Installation check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No filter</td>
+<td>Measure unfiltered leakage</td>
+<td>Low-duty engineering test; stop for clipping</td>
+</tr>
+<tr>
+<td>LEE 101, one layer</td>
+<td>First practical trial</td>
+<td>Cut size, thickness, and edge seal</td>
+</tr>
+<tr>
+<td>LEE 101, two layers</td>
+<td>Test additional rejection</td>
+<td>Same checks for the stack</td>
+</tr>
+<tr>
+<td>500 nm 12.5 mm Ultra-Thin OD4 Longpass, one layer</td>
+<td>Compare another filter technology</td>
+<td>Mechanical fit is unresolved</td>
+</tr>
+</tbody>
+</table></div>
+<p>The OD4 candidate is Edmund Optics #29-190, an Everix flexible polymer/dye filter. It is not glass. Its nominal thickness is 0.30 mm. Its diameter is 12.45 ± 0.15 mm. The disc does not fit the existing rectangular seat.</p>
+<p>Before using OD4, obtain an approved mounting or cutting method. Confirm whether the supplier permits cutting this product. Confirm the usable aperture, edge sealing, damage limits, and angular spectrum. Flexibility does not establish safe cutting or preserved performance. Do not force the disc into the seat. The current STL remains unchanged. <a href="https://www.edmundoptics.com/p/500nm-125mm-ultra-thin-od4-longpass-filter/53064/">Product specification</a>.</p>
+<p>Steps:</p>
+<ol>
+<li>Record the filter name, batch, and configuration.</li>
+<li>Measure the total filter thickness.</li>
+<li>Invert light shield 02 on a clean tray.</li>
+<li>Put the compatible filter flat in the receiver seat.</li>
+<li>Check the receiver aperture for obstruction.</li>
+<li>Check that all four LED excitation paths remain open.</li>
+<li>Block edge light paths with the qualified seal arrangement.</li>
+<li>Photograph the filter position.</li>
+</ol>
+<p>Check: The filter covers the PD collection aperture. Adhesive stays outside the useful optical area. The filter is flat and unloaded. Extra layers cannot stop light that bypasses their edges.</p>
+<p>Failure action: If the filter cannot seat without force, do not install it. Resolve its mounting separately. If edge leakage remains, correct the seal before adding layers.</p>
+<p>The <a href="../02_simulation/optics/README.html">filter report</a> gives spectral assumptions and limits. The older Monte Carlo already included blue leakage. Its abstract OD filter did not represent LEE 101. GCaMP6f emits green fluorescence after excitation.</p>
+<p><img alt="Optical alignment and PD offset; historical 100 µL model. Use the verified working fill." src="../../../hardware%20information/AeroSense%20v2/09_engineering_sources/CAD/drawings/optical_registration.png"/></p>
+<h2 id="5-install-the-pd-seal-and-wells">5 Install the PD seal and wells</h2>
+<p>Preparation: Use the <a href="../../../hardware%20information/AeroSense%20v2/09_engineering_sources/CAD/drawings/gasket_cut_template_1to1.svg">full-size seal template</a>. Measure a printed dimension before cutting. Resized document figures are not cutting templates.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Seal or part</th>
+<th>Nominal dimensions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PD seal</td>
+<td>4 × 4 mm outside; 3 × 3.4 mm inside</td>
+</tr>
+<tr>
+<td>Lower seal</td>
+<td>20 × 18 mm outside; four 4 × 2.8 mm openings</td>
+</tr>
+<tr>
+<td>Opening centers</td>
+<td>(±3.3, ±2.65) mm</td>
+</tr>
+<tr>
+<td>Upper seal</td>
+<td>18.4 × 15.6 mm outside; 14.8 × 12 mm inside</td>
+</tr>
+<tr>
+<td>Seal thickness</td>
+<td>0.8 mm; nominally compressed to 0.6 mm</td>
+</tr>
+<tr>
+<td>Compression plate 08</td>
+<td>1.2 mm thick</td>
+</tr>
+</tbody>
+</table></div>
+<p>Steps:</p>
+<ol>
+<li>Cut the PD seal with the verified template.</li>
+<li>Align the seal with the actual PD window.</li>
+<li>Lower light shield 02 onto the PCB.</li>
+<li>Check clearance around the LEDs, PD, C21, R27, and U8.</li>
+<li>Insert wells 04–07 in their marked positions.</li>
+<li>Point each well flange outward.</li>
+<li>Check that all well floors face downward.</li>
+<li>Check that the four flange tops are level.</li>
+<li>Install the lower four-hole seal.</li>
+<li>Align its holes with the well openings.</li>
+<li>Put plate 08 in the guides.</li>
+<li>Install the upper ring seal.</li>
+<li>Inspect all seal faces for debris and wrinkles.</li>
+</ol>
+<p>Check: The modeled PD center is (0, −0.4) mm. Confirm its direction from the actual package. The narrowest PD-seal edge is 0.3 mm. Incorrect cutting can obstruct the sensitive area. Wells rest on their flanges. Their floors do not press on components. Each well lifts with light tweezer force.</p>
+<p>Failure action: If flange heights differ, stop assembly. Check the wells and guides. Do not omit plate 08. It distributes force across the well rims. Do not force closure with longer screws.</p>
+<p><img alt="Wells and seal stack; historical 100 µL model. Use the verified working fill." src="../../../hardware%20information/AeroSense%20v2/09_engineering_sources/CAD/drawings/stack_section.png"/></p>
+<h2 id="6-connect-gas-tubes-and-verify-working-fill">6 Connect gas tubes and verify working fill</h2>
+<p>Preparation: Use flexible couplers, tubing, two suitable gas filters, and two M3 × 35 mm screws. Support printed tails during connection.</p>
+<p>The nominal tail diameter is 3.4 mm. The retention ring is 4.0 mm. The bore is 2.4 mm. Usable engagement is about 4.8 mm. Side openings are about 7 × 7 mm. Confirm actual coupler dimensions and material.</p>
+<p>Steps:</p>
+<ol>
+<li>Identify IN from the shelf inside lid 03.</li>
+<li>Mark IN and OUT on the lid.</li>
+<li>Support the root of the first tube tail.</li>
+<li>Fit its flexible coupler gently.</li>
+<li>Fit the second coupler in the same way.</li>
+<li>Route the tubes through the side openings.</li>
+<li>Connect the inlet filter and sample tube.</li>
+<li>Connect the outlet filter to one controlled downstream suction unit.</li>
+<li>Stop suction.</li>
+<li>Keep the outlet open to gas flow.</li>
+<li>Lower the lid slowly.</li>
+<li>Install both M3 × 35 mm screws.</li>
+<li>Tighten the screws alternately to the designed stops.</li>
+<li>Check the tubes for pinching.</li>
+</ol>
+<p>Gas path: sample → inlet filter → IN → chamber → OUT → outlet filter → controlled suction → approved exhaust. CAD identifies IN as −X and OUT as +X. Rotation changes apparent left and right.</p>
+<p>Check: The lid gap is even. Ports are clear. Tubes have enough slack for opening. Do not force rigid PTFE tubing over printed tails. A priced 0.22 µm filter does not automatically satisfy the specified 0.2 µm gas-filter function. Confirm fittings, pressure drop, intended use, and VOC recovery.</p>
+<p>Working-fill steps:</p>
+<ol>
+<li>Remove the wells from the unpowered device.</li>
+<li>Add 80 µL water to each well as a provisional test fill.</li>
+<li>Dry each well exterior.</li>
+<li>Check for leakage away from the PCB.</li>
+<li>Test lid closure away from the PCB.</li>
+<li>Inspect for wet seals, spills, and transfer between wells.</li>
+<li>If liquid escapes, reduce the fill for a new test.</li>
+<li>Record the verified working fill.</li>
+<li>Dry the assembly before electrical tests.</li>
+</ol>
+<p>The reported physical brim capacity is approximately 100 µL. The CAD estimate of 140 µL is not an operating limit. Historical simulations retain 100 µL. They do not validate 80 µL operation.</p>
+<p>Failure action: If leakage persists, correct or replace the defective part. Do not put leaking wells above a powered PCB. Stop gas tests for wet filters, rising liquid, or unstable flow.</p>
+<p>The 3 mL/min candidate comes from the historical model. Measure flow through all installed tubes and filters. The reader does not regulate flow, temperature, CO2, or humidity. <a href="../02_simulation/airflow/README.html">Gas-operation reference</a>.</p>
+<p><img alt="Gas shelf and tube tails" src="../../../hardware%20information/AeroSense%20v2/09_engineering_sources/CAD/drawings/lid_gas_shelf.png"/></p>
+<h2 id="7-connect-the-programming-interface">7 Connect the programming interface</h2>
+<p>Preparation: Use a USB data cable and USB–UART with verified 3.3 V TX logic. J2 USB-C supplies power and charging. Programming uses J3.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>J3 pin</th>
+<th>Signal</th>
+<th>Adapter connection</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>3V3_DIG</td>
+<td>Leave disconnected</td>
+</tr>
+<tr>
+<td>2</td>
+<td>TXD0, GPIO1</td>
+<td>RX</td>
+</tr>
+<tr>
+<td>3</td>
+<td>RXD0, GPIO3</td>
+<td>TX</td>
+</tr>
+<tr>
+<td>4</td>
+<td>GND</td>
+<td>GND</td>
+</tr>
+</tbody>
+</table></div>
+<p>Steps:</p>
+<ol>
+<li>Switch off PCB power.</li>
+<li>Disconnect the adapter USB cable.</li>
+<li>Identify J3 pin 1 from the board markings.</li>
+<li>Confirm the adapter TX logic level.</li>
+<li>Connect J3 pin 2 to adapter RX.</li>
+<li>Connect J3 pin 3 to adapter TX.</li>
+<li>Connect J3 pin 4 to adapter GND.</li>
+<li>Check that J3 pin 1 is disconnected.</li>
+<li>Connect the adapter to the computer.</li>
+<li>Apply PCB power through its vendor-confirmed input.</li>
+</ol>
+<p>Check: TX and RX cross. Grounds connect. Adapter VCC stays disconnected. A jumper can change VCC without changing TX voltage. RS-232 and 5 V TX are unsuitable.</p>
+<p>Failure action: If the signal level or pin order is uncertain, disconnect power. Confirm the connection before continuing. See the <a href="../../../hardware%20information/AeroSense%20v2/03_software/evidence/uart_schematic_crop.png">J3 schematic detail</a>.</p>
+<h2 id="8-configure-and-build">8 Configure and build</h2>
+<p>Preparation: Install the official PlatformIO IDE extension in VS Code. SW1 is power. SW2 is EN / Reset. SW3 is BOOT.</p>
+<p>Steps:</p>
+<ol>
+<li>Open 03_software/firmware in PlatformIO.</li>
+<li>If private configuration is absent, copy src/config.example.h to src/aerosense_config.h.</li>
+<li>Set AP_PASSWORD to at least eight ASCII characters.</li>
+<li>Set API_KEY to a separate private random value.</li>
+<li>Keep WIFI_SSID empty for initial direct control.</li>
+<li>Keep CLOUD_URL empty.</li>
+<li>Keep BOARD_VALIDATED=false.</li>
+<li>Save the configuration.</li>
+<li>Open the PlatformIO terminal.</li>
+<li>Run the firmware build command.</li>
+</ol>
+<pre><code class="language-text">pio run -e esp32dev
+</code></pre>
+<ol>
+<li>After SUCCESS, run the filesystem build command.</li>
+</ol>
+<pre><code class="language-text">pio run -e esp32dev -t buildfs
+</code></pre>
+<p>Check: Both builds show SUCCESS. Firmware and LittleFS are separate outputs. AP_PASSWORD controls Wi-Fi access. API_KEY authorizes webpage commands. Preserve existing private settings.</p>
+<p>Failure action: If either build fails, save its first error. Correct that error before upload. Do not publish src/aerosense_config.h or private keys.</p>
+<h2 id="9-upload-firmware-and-the-webpage">9 Upload firmware and the webpage</h2>
+<p>Preparation: Find the adapter COM port in Device Manager. COM7 below is an example. Close the serial monitor before upload.</p>
+<p>Firmware steps:</p>
+<ol>
+<li>Type this command without pressing Enter.</li>
+</ol>
+<pre><code class="language-text">pio run -e esp32dev -t upload --upload-port COM7
+</code></pre>
+<ol>
+<li>Hold SW3.</li>
+<li>Press and release SW2.</li>
+<li>Keep SW3 held.</li>
+<li>Press Enter in the terminal.</li>
+<li>After ESP32 detection or Writing starts, release SW3.</li>
+<li>Wait for SUCCESS.</li>
+</ol>
+<p>Filesystem steps:</p>
+<ol>
+<li>Type this command without pressing Enter.</li>
+</ol>
+<pre><code class="language-text">pio run -e esp32dev -t uploadfs --upload-port COM7
+</code></pre>
+<ol>
+<li>Hold SW3.</li>
+<li>Press and release SW2.</li>
+<li>Keep SW3 held.</li>
+<li>Press Enter in the terminal.</li>
+<li>After ESP32 detection or Writing starts, release SW3.</li>
+<li>Wait for SUCCESS.</li>
+<li>Check that SW3 is released.</li>
+<li>Press and release SW2.</li>
+</ol>
+<p>Check: Both uploads succeed. Firmware upload alone does not install the webpage. Use this command when boot output is required:</p>
+<pre><code class="language-text">pio device monitor --port COM7 --baud 115200
+</code></pre>
+<p>The fixed boot reminder says “upload filesystem before opening UI.” This message can appear after successful upload. It does not prove a filesystem fault. Press Ctrl+C before the next upload.</p>
+<p>Failure action: If Connecting persists, check COM, ground, TX/RX, logic level, and BOOT timing. If the webpage shows 404, check buildfs and uploadfs.</p>
+<h2 id="10-verify-electronics-and-release-the-led-lock">10 Verify electronics and release the LED lock</h2>
+<p>Preparation: Use the schematic and suitable instruments. An electronics collaborator must approve the measurements. Use cell-free samples.</p>
+<p>Steps:</p>
+<ol>
+<li>Measure the supply rails.</li>
+<li>Measure the 3.3 V rail.</li>
+<li>Measure the 2.5 V reference.</li>
+<li>Measure the ADC operating point.</li>
+<li>Record instruments and readings.</li>
+<li>Connect the phone to AeroSense Wi-Fi.</li>
+<li>Open http://192.168.4.1/.</li>
+<li>Enter API_KEY.</li>
+<li>Press Connect.</li>
+<li>Confirm HARDWARE mode.</li>
+<li>Select Dark / all off.</li>
+<li>Set Blocks to 1.</li>
+<li>Set Interval to 3 seconds.</li>
+<li>Press Start session.</li>
+<li>Save the latest raw ADC block.</li>
+<li>Check sample count, rail limits, and timing.</li>
+</ol>
+<p>Check: One block contains nominally 8,000 samples at 4 ksample/s over two seconds. The sample interval is nominally 250 µs. The UI defaults to four LEDs and 25% duty. These are not initial-test settings.</p>
+<p>Failure action: If clipping, timing failure, or heating occurs, stop testing. Correct the fault before calibration. Background subtraction cannot repair clipping.</p>
+<p>LED-release steps:</p>
+<ol>
+<li>After documented electrical checks pass, set BOARD_VALIDATED=true.</li>
+<li>Rebuild firmware.</li>
+<li>Upload firmware.</li>
+<li>Select one LED.</li>
+<li>Set PWM duty to 5%.</li>
+<li>Record one block.</li>
+<li>Check saturation and timing.</li>
+<li>Record the observed LED direction.</li>
+<li>Repeat the test for the other LEDs.</li>
+<li>Test Stop / LEDs off.</li>
+<li>Enter measured directions in <a href="../../../hardware%20information/AeroSense%20v2/07_validation/templates/led_mapping.csv">led_mapping.csv</a>.</li>
+<li>After individual tests pass, test all four LEDs.</li>
+</ol>
+<p>BOARD_VALIDATED is an operator setting. It is not validation evidence. D1–D4 frequencies are 41, 67, 89, and 113 Hz. Blue leakage at these frequencies remains in their channels.</p>
+<h2 id="11-compare-filters-with-measured-data">11 Compare filters with measured data</h2>
+<p>Preparation: Use the same board, well set, working fill, duty, and room lighting. Start with one LEE 101 layer. Compare the four configurations in Section 4.</p>
+<p>Steps:</p>
+<ol>
+<li>Assign a Condition ID to the configuration.</li>
+<li>Record LED-off dark data.</li>
+<li>Record the illuminated blank.</li>
+<li>Record an independent blank check.</li>
+<li>Record the fluorescence standard.</li>
+<li>Save raw ADC headroom and channel means.</li>
+<li>Save block SDs and corrected standard signals.</li>
+<li>Repeat the checks after reassembly.</li>
+<li>For another filter, start a new calibration and complete series.</li>
+</ol>
+<p>Check: Compare clipping, signal size, noise, and repeatability separately. Use measured SNR and the smallest detectable change. A corrected blank near zero does not prove absent interference.</p>
+<p>Failure action: If unfiltered light clips the ADC, stop that exposure. Resolve leakage or reduce duty in a separate pilot. If settings change, restart the comparison series. Different settings do not give a filter-only comparison.</p>
+<p>Extra layers reduce green signal. Their benefit depends on the noise source. Edge leakage and the LED spectral tail can limit rejection. OD4 testing remains pending until its mounting is resolved.</p>
+<h2 id="12-complete-the-cell-free-acceptance-series">12 Complete the cell-free acceptance series</h2>
+<p>Preparation: Follow the <a href="../../../hardware%20information/AeroSense%20v2/07_validation/Validation_Plan_EN.pdf">validation plan</a>. Prepare 0, 50, and 100 nM fluorescein with the <a href="../../../hardware%20information/AeroSense%20v2/07_validation/Fluorescence_and_Cell_Test_EN.pdf">sample guide</a>. Use the verified working fill.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Tag</th>
+<th>Contents</th>
+<th>Record</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DARK</td>
+<td>Four blanks; LEDs off</td>
+<td>Separate dark QC</td>
+</tr>
+<tr>
+<td>B_CAL</td>
+<td>Four blanks; LEDs on</td>
+<td>Five valid calibration blocks</td>
+</tr>
+<tr>
+<td>B_CHECK</td>
+<td>Four blanks</td>
+<td>Five new valid blocks</td>
+</tr>
+<tr>
+<td>NE_C, NW_C, SW_C, SE_C</td>
+<td>C in named well; blank elsewhere</td>
+<td>Five valid blocks per tag</td>
+</tr>
+<tr>
+<td>ALL_HALF</td>
+<td>0.5C in all wells</td>
+<td>Five valid blocks</td>
+</tr>
+<tr>
+<td>ALL_C</td>
+<td>C in all wells</td>
+<td>Five valid blocks; offline phase reference</td>
+</tr>
+<tr>
+<td>ALL_HALF_REPEAT</td>
+<td>Fresh 0.5C in all wells</td>
+<td>Five valid blocks</td>
+</tr>
+</tbody>
+</table></div>
+<p>The formal illuminated series has 45 valid blocks. DARK is separate. Optional PHASE_REF records do not count toward these 45 blocks.</p>
+<p>Steps:</p>
+<ol>
+<li>Establish spill-free solution exchange before the series.</li>
+<li>Keep one boot and optical configuration during the series.</li>
+<li>Before solution exchange, stop the schedule.</li>
+<li>Confirm that LEDs are off.</li>
+<li>Stop external gas flow.</li>
+<li>Exchange solution with the established method.</li>
+<li>Close the light shield.</li>
+<li>Set the next sample tag.</li>
+<li>Acquire the required blocks.</li>
+<li>Immediately after B_CAL, download its latest raw ADC block.</li>
+<li>Immediately after ALL_C, download its latest raw ADC block.</li>
+<li>At the end, export the complete session JSON.</li>
+<li>Check exported tags and block identifiers.</li>
+</ol>
+<p>Check: B_CHECK stays independent of calibration. Retain invalid records and exclusion reasons. The device keeps only its latest raw waveform. The browser keeps at most 1,000 observed blocks.</p>
+<p>Failure action: If safe exchange requires reboot or optical disassembly, stop the series. Improve the method before a new complete series. Do not combine partial series from different boots.</p>
+<p>Run analysis from 07_validation:</p>
+<pre><code class="language-text">python -m pip install -r requirements.txt
+python quick_check.py --input my_session.json --mapping SW,SE,NE,NW
+</code></pre>
+<p>Replace the example mapping with measured D1–D4 directions. Analysis rejects DEMO, duplicate records, mixed settings, and insufficient blocks. It also checks clipping, timing, and phase-reference strength.</p>
+<p>Report each provisional engineering target separately:</p>
+<ul>
+<li>All formal blocks pass clipping and timing QC.</li>
+<li>The half-concentration detection margin exceeds five times the independent blank SD in every channel.</li>
+<li>Mean response increases from blank to 0.5C to C.</li>
+<li>The half/full ratio is 0.35–0.65.</li>
+<li>Technical CV is at most 10% at both fluorescent levels.</li>
+<li>Repeated-half mean drift is at most 10%.</li>
+<li>Each expected well gives its LED's largest response.</li>
+<li>Each row-normalized diagonal exceeds 0.60.</li>
+</ul>
+<p>Use the validation plan for exact calculations. These criteria are not biological detection limits. Near-zero CV is unstable. Preserve absolute SDs. Five blocks are technical repeats.</p>
+<h2 id="13-hand-over-and-maintain-the-reader">13 Hand over and maintain the reader</h2>
+<p>Preparation: Complete the acceptance record. Identify unresolved limitations.</p>
+<p>Steps:</p>
+<ol>
+<li>Record board and firmware identifiers.</li>
+<li>Attach electrical checks and LED-release evidence.</li>
+<li>Record the well set and working fill.</li>
+<li>Record filter identity, layers, batch, and mounting.</li>
+<li>Record duty and measured LED directions.</li>
+<li>Attach JSON and both required raw ADC exports.</li>
+<li>Record calibration dates and stop procedures.</li>
+<li>Give the operator the User Manual.</li>
+</ol>
+<p>Check: Without passed culture-compatibility checks, handover permits only cell-free standards. The current samples are GCaMP6f-expressing HEK293. Their Gibco DMEM preparation follows the updated sample guide. This reader does not maintain a culture environment.</p>
+<p>Failure action: If evidence is missing, restrict use to completed checks. Do not mark an unperformed task complete.</p>
+<p>For well replacement, stop acquisition and gas flow first. Equalize pressure through the open outlet. Disconnect power before disassembly. Remove the lid, upper seal, plate, and lower seal in that order. Lift wells by their flanges. Repeat calibration after reassembly.</p>
+<h2 id="14-use-optional-modes-and-correct-faults">14 Use optional modes and correct faults</h2>
+<p>Preparation: Complete direct phone control first. Demo is synthetic practice. A private LAN server needs separate phone and device keys.</p>
+<p>For Demo, run this command from 03_software:</p>
+<pre><code class="language-text">python server/server.py --demo
+</code></pre>
+<p>Open http://127.0.0.1:8765/ on that computer. Confirm DEMO DATA. Use Ctrl+C to stop the server.</p>
+<p>For private LAN operation, follow the <a href="../03_software/guides/Operation_and_Setup_EN.html">detailed setup guide</a>. Use one PCB per server instance. Separate instances need separate ports, databases, and keys. Do not use 127.0.0.1 as the ESP32 server address. Public deployment is not supplied.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Action</th>
+<th>Required result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>J2 gives no programming COM</td>
+<td>Use J3 with USB–UART</td>
+<td>Adapter appears in Device Manager</td>
+</tr>
+<tr>
+<td>Connecting persists</td>
+<td>Check wiring and BOOT sequence</td>
+<td>Upload SUCCESS</td>
+</tr>
+<tr>
+<td>Webpage 404</td>
+<td>Check LittleFS build and upload</td>
+<td>Homepage opens</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Enter the current API key</td>
+<td>Connection succeeds</td>
+</tr>
+<tr>
+<td>board_not_validated</td>
+<td>Complete electrical checks</td>
+<td>Approval before LED release</td>
+</tr>
+<tr>
+<td>ADC_rail or timing error</td>
+<td>Stop acquisition</td>
+<td>Fault corrected before calibration</td>
+</tr>
+<tr>
+<td>Wet wells, filters, or PCB</td>
+<td>Disconnect power and stop gas flow</td>
+<td>Cleanup and repeat checks</td>
+</tr>
+<tr>
+<td>Weak reference</td>
+<td>Check standard and optical path</td>
+<td>Adequate measured reference</td>
+</tr>
+<tr>
+<td>upload_queue_full</td>
+<td>Restore server connection</td>
+<td>Queue clears before more acquisition</td>
+</tr>
+<tr>
+<td>no_trained_model_installed</td>
+<td>Use acquisition and export</td>
+<td>No fabricated classification</td>
+</tr>
+</tbody>
+</table></div>
+<p>Markdown is the editable source. PDF is the reading edition. This manual includes the assembly illustrations and supplier checklist.</p>
+<p>Keep English BOM costs in USD. Keep source currency and conversion data as provenance. After changes, synchronize languages, rebuild PDFs, verify links, and refresh hashes. Keep simulation, software, physical, cell, and questionnaire evidence separate.</p>
+<h2 id="15-confirm-supplier-interfaces-and-measurement-range">15 Confirm supplier interfaces and measurement range</h2>
+<p>Use this checklist with the supplier or electronics lead. It is prepared material, not a message sent externally.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Interface</th>
+<th>Current assumption</th>
+<th>Required confirmation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Optical orientation</td>
+<td>BOTTOM drawing; USB front; SW1 right</td>
+<td>Mirroring, physical D1–D4 positions, and PD-offset direction</td>
+</tr>
+<tr>
+<td>Mechanical source</td>
+<td>Board 100 × 90 × 1.6 mm; hole pitch 90 × 80 mm</td>
+<td>Populated STEP, hole diameter, thickness, and tolerances</td>
+</tr>
+<tr>
+<td>Tall components</td>
+<td>PCB underside Z38; floor Z6; fan top Z16</td>
+<td>Battery holder with battery, inductors, J3, and solder envelopes</td>
+</tr>
+<tr>
+<td>Optical region</td>
+<td>Well floor Z42.5; local C21 filter-seat relief</td>
+<td>Actual LED, PD, C21, R27, and U8 heights and XY tolerances</td>
+</tr>
+<tr>
+<td>Power and fan</td>
+<td>Candidate 5 V, 40 × 40 × 10 mm fan</td>
+<td>Supply connection, available current, battery, and charging specifications</td>
+</tr>
+<tr>
+<td>UART</td>
+<td>J3: 1=3V3, 2=TX, 3=RX, 4=GND</td>
+<td>Pin-1 marking, 3.3 V adapter compatibility, and SW2/SW3 sequence</td>
+</tr>
+<tr>
+<td>Dark ADC range</td>
+<td>Single-supply TIA; ADC AINN grounded</td>
+<td>Photocurrent polarity, dark-output margin, and maximum-light headroom</td>
+</tr>
+<tr>
+<td>LED modulation</td>
+<td>GPIO25/26/27/32; 41/67/89/113 Hz</td>
+<td>Driver polarity, resistors, current, optical power, and thermal limits</td>
+</tr>
+<tr>
+<td>High-impedance front end</td>
+<td>Nominal 100 MΩ feedback</td>
+<td>Guarding, cleanliness, feedback capacitance, ADC drive, and stability</td>
+</tr>
+<tr>
+<td>Reproducible manufacture</td>
+<td>C1–C11, R1–R14, L1, U3, and connectors lack complete source specifications</td>
+<td>Values, full part numbers, packages, tolerances, ratings, heights, and unpopulated parts</td>
+</tr>
+<tr>
+<td>Power circuit and release files</td>
+<td>Settings and publication scope require confirmation</td>
+<td>Boost setting, charge/current limits, USB-C CC circuit, Gerbers, and permission to publish</td>
+</tr>
+</tbody>
+</table></div>
+<p>Compilation does not replace analog verification. A low dark output can approach an ADC limit. Physical behavior requires measurement or circuit review. Do not declare a failed circuit from that possibility alone. If circuit changes are required, update the schematic, BOM, and models before fabrication.</p>
+<h2 id="16-design-basis-and-limits">16 Design basis and limits</h2>
+<p>The eight-part enclosure measures nominally 108 × 108 × 66 mm. Tubes, cables, and external filters are excluded. Its bounding volume is 31.9% below the earlier 114 × 109 × 91 mm envelope. This comparison does not establish measured mass or battery endurance.</p>
+<p>Four black structures support four separate clear wells. Integrated sleeves provide a minimum 1.2 mm shared wall. The open optical band is Z42.5–44.2 mm. The sleeve slot is nominally 5.3 × 4.1 mm. Sliding clearance is 0.15 mm per side. It is not a printer-accuracy specification.</p>
+<p>The fan support has nominal clearance of 0.3 mm per side. The well-flange top is Z55.5. The gas chamber plan is 14.8 × 12 mm. Its vertical range is Z57.3–62.5. The selected shelf measures 7.2 × 8 × 1.2 mm. The C21 relief assumes a 1.2 mm component envelope with 0.5 mm nominal vertical clearance. Confirm actual components.</p>
+<p>The current SW1 opening bottom is 5.5 mm below the earlier design. Its center is 3 mm lower. Each side wall moved inward by 3 mm. These differences do not prove physical fit.</p>
+<p>The compression plate distributes force to all well rims. The accessible shelf replaces a separate deflector. A hinge, separate fan bracket, four-valve system, and status LED are not part of the selected design. Phone status does not add missing physical sensors.</p>
+<p>The seal target is 25% nominal compression, from 0.8 to 0.6 mm. It is not a pressure rating. Hardness, warping, tolerances, and screw forces determine contact. No tightening torque is validated. Do not clamp both gas ports while closing the lid.</p>
+<p>For an early fit check, print shield 02 and well 04 first. Use the specified materials and current files. Measure their fit before printing the other six parts. No measured shrinkage correction is supplied.</p>
+<p>All eight selected STLs passed closed-mesh, connected-body, and positive-volume checks. Specified component proxies had no positive-volume interference. These checks do not represent every populated component. See <a href="../../../hardware%20information/AeroSense%20v2/09_engineering_sources/CAD/checks">CAD checks</a>. Resin strength, fatigue, barb durability, and drop performance remain untested.</p>
+<p>The historical gas model selected 3 mL/min against a provisional 60-second t90 target. Nominal worst gas t90 was 50.00 seconds. The finer-grid result was 50.98 seconds. The half-timestep result was 49.85 seconds. These are simulated gas results, not a known biological threshold. See the <a href="../02_simulation/airflow/README.html">airflow model</a>.</p>
+<p>Historical transport assumes 100 µL and an approximately 8.93 mm liquid column. Current provisional 80 µL operation requires physical verification. It has not replaced the historical model volume. With stagnant liquid and assumed diffusivity of 10^-9 m²/s, modeled bottom t90 was approximately 22.83 hours. That estimate assumes an immediately fixed surface concentration. It is a conditional transport warning, not measured cell response.</p>
+<p>PDMS is not part of the selected assembly. Hydrophobicity does not establish a water-vapor barrier. Target-specific membrane properties and protein-assisted capture remain unvalidated. Gas arrival at the well mouth does not establish exposure at bottom cells. See the <a href="../02_simulation/membrane/README.html">membrane model</a>.</p>
+<p>The chamber model excludes fan cooling, heat generation, battery temperature, and 37°C regulation. The simulated internal pressure drop of approximately 0.009 Pa excludes external filters. External resistance can dominate. Seals do not establish sterile separation of the shared gas path.</p>
+<p>Optical models omit some material tint, autofluorescence, roughness, and manufacturing variation. Polishing cannot remove intrinsic absorption. Measure actual hood transmission and seam leakage. See the <a href="../02_simulation/optics/README.html">optical model</a>.</p>
+<p>Keep costs in the current BOM. Its quote provenance, allocations, and currency conversion remain part of the workbook. Do not add PCB component costs again to an assembled-board quote. Required missing evidence includes actual board geometry, blank leakage, fluorescence response, and repeatable reassembly.</p></main></body></html>

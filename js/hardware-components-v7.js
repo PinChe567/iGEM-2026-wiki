@@ -36,7 +36,7 @@
  const schematicBlocks={U1:'Sheet 1 · TPS61023 boost stage beside SW1 and L1',U2:'Sheet 1 · BQ24074 battery charger / power path',U4:'Sheet 2 · ESP32 / UART block',U6:'Sheet 2 · 3V3 LDO, analog supply output',U7:'Sheet 2 · 2V5_REF block',U8:'Sheet 2 · TIA block, between PD_SUM and ADC_AINP',U9:'Sheet 2 · ADC 3-Wire CS Mode block',D1:'Sheet 2 · LEDs, LED1_GATE / Q1 branch',D2:'Sheet 2 · LEDs, LED2_GATE / Q2 branch',D3:'Sheet 2 · LEDs, LED3_GATE / Q3 branch',D4:'Sheet 2 · LEDs, LED4_GATE / Q4 branch',D5:'Sheet 2 · Photo Diod block, feeding PD_SUM'};
  function para(label,text){const p=document.createElement('p'),b=document.createElement('strong');b.textContent=label+' ';p.append(b,document.createTextNode(text));return p;}
  function link(url,label){const a=document.createElement('a');a.href=url;a.textContent=label;a.target='_blank';a.rel='noopener';return a;}
- function show(ref){
+ function show(ref,{scroll=false}={}){
   const p=parts[ref];if(!p)return;
   activeRef=ref;
   const location=pins.find(pin=>pin.ref===ref);
@@ -48,6 +48,10 @@
   detail.append(h,para('BOM reference:',ref),para('Function and specification:',p[2]),para('Board position:',(location.side?'Back':'Front')+' face · provisional drawing location; verify physical labels, orientation and LED mapping before use'),para('Schematic location:',schematicBlocks[ref]));
   const sources=document.createElement('p'),citation=document.createElement('a'),source=sourcesByPart[ref],number=document.getElementById('ref-'+source)?.getAttribute('value');citation.href='#ref-'+source;citation.textContent=number?'Reference ['+number+']':'Manufacturer reference';citation.setAttribute('aria-label','Read manufacturer reference'+(number?' '+number:'')+' for '+p[1]);sources.append(citation,document.createTextNode(' · '),link(p[3],'Manufacturer datasheet ↗'),document.createTextNode(' · '),link(boardRoot+'NTHU_TEST_BOARD_Schematic.pdf#page='+(['U1','U2'].includes(ref)?1:2),'Open corresponding schematic sheet ↗'));detail.append(sources);
   window.AeroSenseGlossary?.enhance(detail);
+  if(scroll){
+   detail.focus({preventScroll:true});
+   detail.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});
+  }
  }
  function flip(){
   const filename=`PCB_${side?'BTM':'TOP'}${etch?'_Etch':''}.png`;
@@ -62,7 +66,7 @@
   pins.filter(p=>p.side===side).forEach(p=>{
    const line=document.createElementNS(ns,'line');for(const [k,v] of Object.entries({x1:p.x,y1:p.y,x2:p.lx,y2:p.ly,stroke:'#9de9ff','stroke-width':.2}))line.setAttribute(k,v);line.dataset.markerRef=p.ref;line.classList.toggle('is-active',p.ref===activeRef);
    const dot=document.createElementNS(ns,'circle');for(const [k,v] of Object.entries({cx:p.x,cy:p.y,r:.45,fill:'#ffdb60'}))dot.setAttribute(k,v);dot.dataset.markerRef=p.ref;dot.classList.toggle('is-active',p.ref===activeRef);svg.append(line,dot);
-   const b=document.createElement('button');b.type='button';b.className='hw-pcb-map__pin';b.textContent=p.label;b.dataset.ref=p.ref;b.style.left=p.lx+'%';b.style.top=p.ly+'%';b.setAttribute('aria-label','Inspect '+p.ref+' · '+parts[p.ref][0]);b.setAttribute('aria-pressed',String(p.ref===activeRef));b.classList.toggle('is-active',p.ref===activeRef);b.addEventListener('click',()=>show(p.ref));plate.append(b);
+   const b=document.createElement('button');b.type='button';b.className='hw-pcb-map__pin';b.textContent=p.label;b.dataset.ref=p.ref;b.style.left=p.lx+'%';b.style.top=p.ly+'%';b.setAttribute('aria-label','Inspect '+p.ref+' · '+parts[p.ref][0]);b.setAttribute('aria-pressed',String(p.ref===activeRef));b.classList.toggle('is-active',p.ref===activeRef);b.setAttribute('aria-controls','hw-component-detail');b.addEventListener('click',()=>show(p.ref,{scroll:true}));plate.append(b);
   });plate.prepend(svg);
  }
  map.querySelector('[data-board-flip]').addEventListener('click',()=>{side=1-side;flip();if(pins.find(p=>p.ref===activeRef)?.side!==side)show(pins.find(p=>p.side===side).ref);if(!matchMedia('(prefers-reduced-motion:reduce)').matches)plate.animate([{opacity:.35,transform:'rotateY(-8deg)'},{opacity:1,transform:'rotateY(0deg)'}],{duration:350});});

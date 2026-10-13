@@ -1,0 +1,155 @@
+/* Illustrated editorial frame. Scientific and sticky canvases keep their own geometry. */
+html{scroll-padding-top:6rem}
+body.signal-atlas:not(.page-home){background:#fcfcf8!important;background-image:none;color:var(--v-ink);font-family:var(--ds-font);font-size:17px;line-height:1.75}
+body.signal-atlas:not(.page-home) :is(.shell,.page-main-column,.page-article){min-width:0}
+body.signal-atlas:not(.page-home) .shell--with-toc{max-width:1360px;gap:clamp(2rem,4vw,4rem);padding-inline:clamp(1.25rem,3vw,3rem);padding-top:1.5rem}
+body.signal-atlas:not(.page-home) .page-article{--content-reading:var(--ds-reading);--measure:var(--ds-reading);--reading-max:var(--ds-reading)}
+body.signal-atlas:not(.page-home) :is(.page-article,.lm-article,.audit-static-lesson,.learn-section,.lm-section,.members-section,.glossary-entry) :is(p,li,dd){text-align:justify!important;text-align-last:start;hyphens:auto;word-spacing:normal;overflow-wrap:break-word;line-height:1.75}
+body.signal-atlas:not(.page-home) .page-article > :is(section,.section-block) > p,
+body.signal-atlas:not(.page-home) .page-article > :is(section,.section-block) > :is(ul,ol):not([class]){max-width:var(--ds-reading)}
+body.signal-atlas:not(.page-home) .page-article :is(h2,h3,h4){font-family:var(--ds-font);color:var(--v-ink);text-wrap:pretty}
+body.signal-atlas:not(.page-home) .page-article h3{font-size:clamp(1.15rem,1.7vw,1.4rem);font-weight:600;letter-spacing:-.02em;line-height:1.3;margin-top:2rem}
+body.signal-atlas:not(.page-home) .page-article p{font-size:17px}
+/* Chapters read as a continuous field notebook. Rules and space carry hierarchy;
+   only actual controls, datasets and short callouts need an enclosing surface. */
+body.signal-atlas:not(.page-home) :is(.page-article,.model-track-panel) > :is(.section-block,section):not(.eng-cycles):not(.references){
+ position:relative;min-width:0;margin:0 0 clamp(2.5rem,5vw,4.5rem)!important;padding:clamp(1.8rem,3.5vw,3rem) 0 0!important;
+ background:transparent!important;background-image:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;overflow:visible;
+}
+body.signal-atlas:not(.page-home) :is(.page-article,.model-track-panel) > :is(.section-block,section):not(.eng-cycles):not(.references):nth-of-type(even){background:transparent!important}
+/* Do not frame or resize the enclosing DBTLR sticky track. */
+body.signal-atlas.page-engineering .page-article > .eng-cycles{padding:clamp(1.5rem,3vw,2.5rem) 0 0!important;margin:0 0 clamp(3rem,5vw,5rem)!important;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;overflow:visible}
+/* Retire legacy tape/giant chapter glyphs; borders and authored artwork now define the frame. */
+body.signal-atlas:not(.page-home) :is(.page-article,.model-track-panel) > :is(.section-block,section)::before,
+body.signal-atlas:not(.page-home) :is(.page-article,.model-track-panel) > :is(.section-block,section)::after{display:none}
+body.signal-atlas:not(.page-home) :is(.page-article,.model-track-panel) > :is(section,.section-block) > h2,
+body.signal-atlas:not(.page-home) .references > h2{font-family:var(--ds-font)!important;font-size:clamp(1.75rem,2.7vw,2.65rem)!important;line-height:1.16!important;font-weight:600!important;letter-spacing:-.04em!important;color:var(--v-ink)!important;max-width:32ch!important;margin:.3rem 0 1.5rem!important;padding:0!important}
+body.signal-atlas:not(.page-home) .page-article > :is(section,.section-block) > h2::before,
+body.signal-atlas:not(.page-home) .page-article > :is(section,.section-block) > h2::after{display:none!important}
+body.signal-atlas:not(.page-home) :is(.section-eyebrow,.section-kicker,.eyebrow,.tech-label){color:var(--v-accent);font-family:var(--ds-mono);font-size:.7rem;letter-spacing:.06em}
+body.signal-atlas .ed-section-index{display:none}
+body.signal-atlas:not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero){
+ position:relative;isolation:isolate;min-height:310px!important;background:var(--v-dark)!important;background-image:none!important;color:var(--v-cover-text)!important;
+ border:0!important;border-radius:4px 4px 26px 4px!important;box-shadow:none;
+ margin:0 0 2.5rem!important;padding:clamp(2rem,4.2vw,4rem)!important;
+}
+body.signal-atlas:not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero)::before,
+body.signal-atlas:not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero)::after{display:none!important}
+body.signal-atlas:not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero) h1{
+ color:var(--v-cover-text)!important;font-family:var(--ds-story)!important;font-size:clamp(2.8rem,5.3vw,5.4rem)!important;font-weight:400!important;
+ line-height:1.08!important;letter-spacing:-.035em!important;max-width:20ch!important;text-transform:none!important;text-wrap:balance;overflow-wrap:break-word;
+ margin:.8rem 0 1.2rem!important;padding:0!important;
+}
+body.signal-atlas:not(.page-home) .page-hero :is(h1,.hero-tagline,.page-purpose,.page-lede)::before{display:none!important}
+body.signal-atlas:not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero) :is(.hero-tagline,.page-purpose,.page-lede,.learn-hero__intro,.lm-hero__lede){
+ color:var(--v-cover-muted)!important;font:400 clamp(1.06rem,1.6vw,1.25rem)/1.55 var(--ds-font)!important;letter-spacing:0!important;
+ max-width:57ch!important;margin:0!important;padding:0!important;border:0!important;
+}
+body.signal-atlas:not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero) :is(.breadcrumb,.breadcrumb a,.breadcrumb li){color:var(--v-pigment)!important;font:500 .7rem/1.6 var(--ds-mono);letter-spacing:.03em;text-transform:uppercase}
+body.signal-atlas:not(.page-home) .page-hero > nav[aria-label=Breadcrumb]{margin:0 0 1.5rem!important;padding:0}
+body.signal-atlas:not(.page-home) .page-hero > :is(.page-kicker,.contrib-hero__eyebrow){display:none!important}
+/* Old injected generic line drawings stay retired. Explicit subject artwork uses .ds-hero-art. */
+body.signal-atlas .ed-vignette{display:none!important}
+/* One organic edge gives the cover a recognizable silhouette without decorative diagrams. */
+body.signal-atlas:not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero)::after{content:"";display:block!important;position:absolute;left:clamp(2rem,4.2vw,4rem);bottom:0;width:72px;height:6px!important;background:var(--v-pigment)!important;border-radius:70% 35% 0 0;pointer-events:none}
+body.signal-atlas:not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero) a:focus-visible{outline-color:var(--v-pigment)}
+/* Root supplies an explicit figure/img. This slot never manufactures page art or recolors it. */
+body.signal-atlas:not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero):has(>.ds-hero-art){display:grid!important;grid-template-columns:minmax(0,1fr) minmax(220px,.72fr);column-gap:clamp(1.5rem,3vw,3rem);align-items:center;min-height:360px!important}
+body.signal-atlas:not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero):has(>.ds-hero-art)>:not(.ds-hero-art){grid-column:1;min-width:0;position:relative;z-index:1}
+body.signal-atlas:not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero)>.ds-hero-art{grid-column:2;grid-row:1 / span 5;align-self:center;display:grid;place-items:center;position:relative;width:100%;max-width:430px;min-height:220px;aspect-ratio:4/3;margin:0;padding:.5rem;background:#fffaf0;border:0;border-radius:44% 56% 48% 52% / 52% 42% 58% 48%;box-shadow:none;overflow:visible;transform:none}
+body.signal-atlas .ds-hero-art>img{display:block;width:100%;height:100%;max-height:330px;object-fit:contain;mix-blend-mode:multiply;mask-image:radial-gradient(ellipse at center,#000 44%,#000 62%,transparent 77%);filter:none}
+body.signal-atlas .ds-hero-art[data-transparent=true]{background:transparent;border-radius:0}
+body.signal-atlas .ds-hero-art[data-transparent=true]>img{mix-blend-mode:normal;mask-image:none}
+/* Page-specific native vector drawings, with no repeated circular badge. */
+body.signal-atlas:not(.page-home) :is(.page-hero,.members-intro)>.ds-hero-art[data-transparent=true]{
+ display:grid!important;background:transparent;border-radius:0;
+ aspect-ratio:1.2;max-width:350px;padding:0;justify-self:center;
+}
+body.signal-atlas .ds-hero-art__note{position:absolute;left:50%;bottom:-1.65rem;transform:translateX(-50%);width:max-content;max-width:110%;color:var(--v-cover-muted);font:.6rem/1.4 var(--ds-mono);text-align:center;letter-spacing:.02em}
+body.signal-atlas:not(.page-home) :is(.page-hero,.members-intro):has(>.ds-hero-art) h1{font-size:clamp(2.75rem,4.5vw,4.3rem)!important}
+body.signal-atlas .ds-hero-art>figcaption{position:absolute;left:50%;bottom:-.8rem;transform:translateX(-50%);width:max-content;max-width:100%;margin:0;color:var(--v-cover-muted);font:.65rem/1.5 var(--ds-mono);text-align:center}
+/* Use the user's supplied illustrations without altering the source pixels. */
+body.signal-atlas:not(.page-home) :is(.page-hero,.members-intro)>.ds-hero-art[data-art-style=claude-source]{
+ display:block!important;position:relative;width:100%;max-width:320px;min-height:0;aspect-ratio:264/212;padding:0;margin:0;overflow:hidden;
+ border-radius:28px 10px 32px 12px;mask-image:none;transform:rotate(-3deg);clip-path:polygon(2% 4%,95% 0,100% 94%,5% 100%,0 44%);
+}
+body.signal-atlas .ds-hero-art[data-art-style=claude-source]>img{
+ position:absolute;left:var(--art-left);top:var(--art-top);width:621.21212%!important;max-width:none!important;height:auto!important;max-height:none!important;
+ object-fit:fill;mask-image:none;mix-blend-mode:normal;filter:none;
+}
+/* A shaped, illustrated title ribbon carries the section boundary; prose stays open. */
+body.signal-atlas:not(.page-home) :is(.page-article,.model-track-panel) > :is(section,.section-block) > h2,
+body.signal-atlas:not(.page-home) .references > h2,
+body.signal-atlas.page-learning :is(.learn-section,.lm-section) > :is(h2,.learn-section__title),
+body.signal-atlas.page-members .members-section__title,
+body.signal-atlas :is(.exp-track__header,.exp-proto__head,.nb-section-head,.nb-view-panel__head,.parts-builder__intro,.editorial-spread__intro) > h2,
+body.signal-atlas.page-model :is(.re-introduction,.re-highlights,.re-structure-key,.re-research-detail,.re-cycle,.re-next,.re-refs) > h2{
+ position:relative;isolation:isolate;overflow:hidden;box-sizing:border-box;width:100%;max-width:none!important;
+ padding:1.1rem 1.5rem!important;margin:.3rem 0 1.75rem!important;border:0!important;border-left:3px solid var(--v-accent)!important;
+ border-radius:6px 34px 7px 16px!important;background:linear-gradient(105deg,var(--v-soft),var(--v-tint))!important;
+ box-shadow:none!important;color:var(--v-ink)!important;
+}
+body.signal-atlas:not(.page-home) :is(.page-article,.model-track-panel) > :is(section,.section-block) > h2::after,
+body.signal-atlas:not(.page-home) .references > h2::after,
+body.signal-atlas.page-learning :is(.learn-section,.lm-section) > :is(h2,.learn-section__title)::after,
+body.signal-atlas.page-members .members-section__title::after,
+body.signal-atlas :is(.exp-track__header,.exp-proto__head,.nb-section-head,.nb-view-panel__head,.parts-builder__intro,.editorial-spread__intro) > h2::after,
+body.signal-atlas.page-model :is(.re-introduction,.re-highlights,.re-structure-key,.re-research-detail,.re-cycle,.re-next,.re-refs) > h2::after{
+ content:""!important;display:block!important;position:absolute;z-index:-1;pointer-events:none;right:-.5rem;top:50%;left:auto!important;bottom:auto!important;width:264px!important;height:212px!important;border:0!important;border-radius:0!important;
+ transform:translateY(-50%) rotate(-8deg);background-color:transparent!important;background-image:var(--chapter-art-atlas,url('../assets/editorial/watercolor-v15/hero-watercolor-atlas.png'))!important;
+ background-size:621.21212% 576.88679%!important;background-position:var(--chapter-sprite-position,0.58140% 0.79130%)!important;
+ opacity:.17;mix-blend-mode:multiply;mask-image:linear-gradient(90deg,transparent,#000 45%);
+}
+body.signal-atlas :is(.page-hero,.members-intro,.learn-hero,.lm-hero) :is(p,li),
+body.signal-atlas :is(.page-toc,.breadcrumb,.references,.ref-return-tools,.model-study-tabs,.eng-cycle-nav) :is(p,li,dd){text-align:start!important;hyphens:manual}
+body.signal-atlas .ds-page-brief{background:transparent;border:0;border-bottom:1px solid var(--ds-card-border);border-radius:0;margin:0 0 2.5rem;padding:.6rem 0 1rem;color:var(--v-ink);font-size:.95rem}
+body.signal-atlas .ds-page-brief>summary{display:list-item;cursor:pointer;font-weight:600;color:var(--v-accent);padding:.25rem 0;min-height:32px;list-style:disclosure-closed}
+body.signal-atlas .ds-page-brief[open]>summary{list-style:disclosure-open;margin-bottom:1rem}
+body.signal-atlas .ds-page-brief :is(.page-lede,.page-purpose,.desc-thesis,.desc-bound,.edu-hero__intro,.hp-hero__journey,.parts-motto,.parts-find,.sust-hero__intro,.page-glance,.ent-facts,.parts-metrics,.model-hero__grid){display:block!important;color:var(--v-ink)!important;background:transparent!important;border:0!important;box-shadow:none!important;transform:none!important;position:static!important;font:inherit!important;max-width:var(--ds-reading)!important;margin:1rem 0!important;padding:0!important}
+body.signal-atlas .ds-page-brief :is(.page-glance__grid,.ent-facts,.parts-metrics){display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.25rem;list-style:none}
+body.signal-atlas .ds-page-brief :is(h2,h3,dt){font:600 1rem/1.4 var(--ds-font)!important;color:var(--v-accent)!important}
+body.signal-atlas .ds-page-brief :is(p,dd){font-size:.95rem!important;line-height:1.65!important;max-width:var(--ds-reading);color:var(--v-ink)!important;text-align:start}
+body.signal-atlas .ds-page-brief .page-glance__grid>div{padding:.5rem 0;background:transparent;border:0;border-radius:0}
+body.signal-atlas .ds-page-brief .parts-metrics{grid-template-columns:repeat(4,minmax(0,1fr))}
+body.signal-atlas .ds-page-brief .parts-metrics li{padding:.5rem 0;color:var(--v-ink)}
+body.signal-atlas .ds-page-brief .parts-metrics strong{font-size:1.4rem;color:var(--v-accent)}
+body.signal-atlas:not(.page-home) .page-article a:not(.btn){text-underline-offset:.18em;text-decoration-thickness:1px}
+body.signal-atlas :focus-visible{outline:2px solid var(--v-accent);outline-offset:4px}
+body.signal-atlas:not(.page-home) .page-toc{border:0;border-left:1px solid var(--ds-card-border);border-radius:0;background:transparent;padding:1.25rem}
+body.signal-atlas:not(.page-home) .page-toc a{color:var(--v-muted)!important;background:transparent;border:0!important;border-left:2px solid transparent!important;border-radius:0!important;margin-block:2px;line-height:1.45;font-size:.78rem}
+body.signal-atlas:not(.page-home) .page-toc a:is([aria-current=true],[aria-current=location],:hover){color:var(--v-accent)!important;background:var(--v-soft)!important;border-left-color:var(--v-accent)!important;box-shadow:none!important}
+body.signal-atlas:not(.page-home) .page-toc :is(.tech-label,.toc__label){color:var(--v-accent)!important}
+/* All chapter contents occupy the left reading rail. Keep the existing column
+   widths and cover offset; smaller screens retain their collapsible contents. */
+@media(min-width:1100px){
+ body.signal-atlas:not(.page-home) .shell--with-toc{grid-template-columns:var(--toc-width) minmax(0,var(--page-main-max))}
+ body.signal-atlas:not(.page-home) .shell--with-toc>.page-main-column{grid-column:2;grid-row:1}
+ body.signal-atlas:not(.page-home) .shell--with-toc>.page-toc-slot{grid-column:1;grid-row:1;padding-left:0!important;padding-right:1.2rem!important}
+ body.signal-atlas:not(.page-home) .page-toc{border-left:0!important;border-right:1px solid var(--ds-card-border)!important;padding-left:0!important;padding-right:.7rem!important}
+}
+body.signal-atlas .signal-thread{display:none}
+body.signal-atlas :is(.audit-scope,.audit-resource-links a,.notice){border-color:var(--v-rule);border-left-color:var(--v-accent);background:var(--v-soft);color:var(--v-ink)}
+body.signal-atlas .audit-mobile-jump{background:#fff;border-color:var(--v-rule)}
+body.signal-atlas .audit-mobile-jump a{color:var(--v-accent)}
+@media(max-width:760px){
+ body.signal-atlas:not(.page-home) :is(.page-article,.model-track-panel) > :is(.section-block,section):not(.eng-cycles):not(.references){padding:1.6rem 0 0!important;border-radius:0!important}
+ body.signal-atlas:not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero):has(>.ds-hero-art){grid-template-columns:1fr;min-height:0!important;row-gap:.5rem}
+ body.signal-atlas:not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero)>.ds-hero-art{grid-column:1;grid-row:auto;justify-self:center;width:min(100%,285px);min-height:0;margin-top:1rem}
+ body.signal-atlas .ds-hero-art>img{max-height:225px}
+ body.signal-atlas:not(.page-home) :is(.page-hero,.members-intro)>.ds-hero-art[data-transparent=true]{max-width:230px;margin-bottom:1.25rem}
+ body.signal-atlas:not(.page-home) :is(.page-hero,.members-intro)>.ds-hero-art[data-art-style=claude-source]{max-width:260px;margin-top:1rem;margin-bottom:.5rem}
+ body.signal-atlas:not(.page-home) :is(.page-article,.model-track-panel) > :is(section,.section-block) > h2,
+ body.signal-atlas:not(.page-home) .references > h2,
+ body.signal-atlas.page-learning :is(.learn-section,.lm-section) > :is(h2,.learn-section__title),
+ body.signal-atlas.page-members .members-section__title,
+body.signal-atlas :is(.exp-track__header,.exp-proto__head,.nb-section-head,.nb-view-panel__head,.parts-builder__intro,.editorial-spread__intro) > h2,
+body.signal-atlas.page-model :is(.re-introduction,.re-highlights,.re-structure-key,.re-research-detail,.re-cycle,.re-next,.re-refs) > h2{padding:.9rem 1rem!important;border-radius:5px 25px 5px 12px!important}
+ body.signal-atlas:not(.page-home) :is(.page-hero,.members-intro):has(>.ds-hero-art) h1{font-size:clamp(2rem,9vw,3.1rem)!important}
+
+ body.signal-atlas:not(.page-home),body.signal-atlas:not(.page-home) .page-article p{font-size:16px}
+ body.signal-atlas:not(.page-home) .shell--with-toc{padding-inline:1.25rem}
+ body.signal-atlas:not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero){padding:1.6rem!important;margin-bottom:2rem!important;min-height:240px!important}
+ body.signal-atlas:not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero) h1{font-size:clamp(2rem,9vw,3.1rem)!important;letter-spacing:-.035em!important;max-width:100%!important}
+ body.signal-atlas .ds-page-brief :is(.page-glance__grid,.ent-facts,.parts-metrics){grid-template-columns:1fr!important}
+ body.signal-atlas .ds-page-brief{padding:.6rem 0 1rem;margin-bottom:2.5rem}
+}

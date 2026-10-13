@@ -77,6 +77,12 @@
 
   var DAY_MS = 86400000;
 
+<<<<<<< HEAD
+  var GANTT_WINDOWS = [
+    { id: "jan-apr", label: "January–April", shortLabel: "Jan–Apr", start: Date.UTC(YEAR, 0, 1), end: Date.UTC(YEAR, 3, 30) },
+    { id: "may-aug", label: "May–August", shortLabel: "May–Aug", start: Date.UTC(YEAR, 4, 1), end: Date.UTC(YEAR, 7, 31) },
+    { id: "sep-dec", label: "September–December", shortLabel: "Sep–Dec", start: Date.UTC(YEAR, 8, 1), end: Date.UTC(YEAR, 11, 31) }
+=======
   var GANTT_PERIODS = [
     {
       id: "discover",
@@ -99,12 +105,8 @@
       start: Date.UTC(YEAR, 9, 1),
       end: Date.UTC(YEAR, 10, 30),
     },
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
   ];
-
-  var GANTT_AXIS = {
-    start: GANTT_PERIODS[0].start,
-    end: inclusiveEndMs(GANTT_PERIODS[GANTT_PERIODS.length - 1].end),
-  };
 
   function inclusiveEndMs(ms) {
     return ms + DAY_MS;
@@ -723,14 +725,23 @@
   }
 
   function formatRange(ev) {
+<<<<<<< HEAD
+    var hours = ev.startTime
+      ? " · " + ev.startTime + (ev.endTime ? "–" + ev.endTime : "") +
+        (ev.timeZone === "Asia/Taipei" ? " (Taipei, UTC+08:00)" : "")
+      : "";
+    if (ev.openEnd && ev.startDate) {
+      return "From " + formatDateLabel(ev.startDate) + " · end date unconfirmed" + hours;
+=======
     if (ev.openEnd && ev.startDate) {
       return "From " + formatDateLabel(ev.startDate) + " · end date unconfirmed";
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     }
     if (!ev.startDate && !ev.endDate) return "Date needs update";
     if (!ev.endDate || ev.startDate === ev.endDate) {
-      return formatDateLabel(ev.startDate);
+      return formatDateLabel(ev.startDate) + hours;
     }
-    return formatDateLabel(ev.startDate) + " – " + formatDateLabel(ev.endDate);
+    return formatDateLabel(ev.startDate) + " – " + formatDateLabel(ev.endDate) + hours;
   }
 
   function parseMonthParts(d) {
@@ -1132,11 +1143,13 @@
 
       bodyEl.appendChild(header);
 
+      appendSection(bodyEl, "Completion confirmation", makeTextBlock(ev.completionNote));
+
       if (st === "needs-update" || (ev.needsUpdate && ev.needsUpdate.length)) {
         var warn = makeEl(
           "p",
           "nb-event-drawer__warning",
-          "Record incomplete — exact date/evidence still needs to be added before wiki freeze."
+          "This record has outstanding metadata or evidence details, listed below."
         );
         warn.setAttribute("role", "status");
         bodyEl.appendChild(warn);
@@ -1153,12 +1166,12 @@
       appendSection(bodyEl, "Source / date context", makeTextBlock(ev.sourceNote));
 
       if (planned) {
-        appendSection(bodyEl, "Planned work", makeTextBlock(ev.work));
+        if (ev.work !== ev.shortSummary) appendSection(bodyEl, "Planned work", makeTextBlock(ev.work));
         var expected =
           makeTextBlock(ev.pendingOutputs) || makeTextBlock(ev.output);
         appendSection(bodyEl, "Expected output", expected);
       } else {
-        appendSection(bodyEl, "Work", makeTextBlock(ev.work));
+        if (ev.work !== ev.shortSummary) appendSection(bodyEl, ev.completionConfirmed ? "Original work description" : "Work", makeTextBlock(ev.work));
         appendSection(bodyEl, "Observation", makeTextBlock(ev.observation));
         appendSection(bodyEl, "Result", makeTextBlock(ev.result));
         if (!ev.result && hasText(ev.output)) {
@@ -1783,8 +1796,10 @@
         .slice()
         .sort(function (a, b) {
           return (
+            (a.datePrecision === "day" ? 0 : 1) - (b.datePrecision === "day" ? 0 : 1) ||
             dateSortKey(a.startDate || a.endDate) -
-            dateSortKey(b.startDate || b.endDate)
+            dateSortKey(b.startDate || b.endDate) ||
+            String(a.startTime || "").localeCompare(String(b.startTime || ""))
           );
         });
 
@@ -1846,6 +1861,11 @@
 
         card.appendChild(status);
         card.appendChild(stream);
+        if (ev.startTime) {
+          var sessionTime = makeEl("p", "nb-day-agenda__time",
+            ev.startTime + (ev.endTime ? "–" + ev.endTime : "") + " · Taipei (UTC+08:00)");
+          card.appendChild(sessionTime);
+        }
         card.appendChild(title);
         card.appendChild(summary);
         card.appendChild(openBtn);
@@ -1991,6 +2011,8 @@
           var kb = b.startDate ? String(b.startDate) : "9999";
           if (ka < kb) return -1;
           if (ka > kb) return 1;
+          var timeOrder = String(a.startTime || "").localeCompare(String(b.startTime || ""));
+          if (timeOrder) return timeOrder;
           return String(a.title).localeCompare(String(b.title));
         });
 
@@ -2114,6 +2136,38 @@
     var chartEl = qs("[data-gantt-chart]", gRoot);
     var phasesEl = qs("[data-gantt-phases]", gRoot);
     var today = todayInfo();
+    var activeWindow = today.isChronicleYear ? Math.floor(today.monthIndex / 4) : 2;
+    var axis = {};
+    var lastMonthFilter = null;
+    var windowButtons = qsa("[data-gantt-window]", gRoot);
+
+    function selectAxis() {
+      var selected = GANTT_WINDOWS[activeWindow];
+      axis = { start: selected.start, end: inclusiveEndMs(selected.end) };
+      windowButtons.forEach(function (button, index) {
+        button.setAttribute("aria-pressed", String(index === activeWindow));
+      });
+    }
+
+    function monthPeriods() {
+      var first = activeWindow * 4;
+      return [0, 1, 2, 3].map(function (offset) {
+        var month = first + offset;
+        return { id: offset % 2 ? "build" : "discover", label: MONTH_FULL[month], shortLabel: String(YEAR), start: Date.UTC(YEAR, month, 1), end: Date.UTC(YEAR, month + 1, 0) };
+      });
+    }
+
+    function inWindow(ev) {
+      var span = eventSpanMs(ev);
+      return !span || (span.end > axis.start && span.start < axis.end);
+    }
+
+    windowButtons.forEach(function (button, index) {
+      button.addEventListener("click", function () {
+        activeWindow = index;
+        render();
+      });
+    });
 
     function periodFlex(period) {
       return inclusiveEndMs(period.end) - period.start;
@@ -2126,7 +2180,7 @@
 
     function todayOnAxis() {
       var t = todayMs();
-      return t != null && t >= GANTT_AXIS.start && t < GANTT_AXIS.end;
+      return t != null && t >= axis.start && t < axis.end;
     }
 
     function laneDisplayLabel(lane) {
@@ -2182,15 +2236,15 @@
     }
 
     function appendPhaseGuides(track) {
-      GANTT_PERIODS.forEach(function (period, index) {
+      monthPeriods().forEach(function (period, index) {
         var guide = document.createElement("span");
         guide.className =
           "nb-gantt-chart__guide nb-gantt-chart__guide--" + period.id;
         if (index === 0) guide.classList.add("is-first");
-        guide.style.left = axisPercent(period.start, GANTT_AXIS) + "%";
+        guide.style.left = axisPercent(period.start, axis) + "%";
         guide.style.width =
-          axisPercent(inclusiveEndMs(period.end), GANTT_AXIS) -
-          axisPercent(period.start, GANTT_AXIS) +
+          axisPercent(inclusiveEndMs(period.end), axis) -
+          axisPercent(period.start, axis) +
           "%";
         guide.setAttribute("aria-hidden", "true");
         track.appendChild(guide);
@@ -2198,7 +2252,7 @@
       if (todayOnAxis()) {
         var line = document.createElement("span");
         line.className = "nb-gantt-chart__today";
-        line.style.left = axisPercent(todayMs(), GANTT_AXIS) + "%";
+        line.style.left = axisPercent(todayMs(), axis) + "%";
         line.setAttribute("aria-hidden", "true");
         track.appendChild(line);
       }
@@ -2215,10 +2269,10 @@
       head.appendChild(document.createElement("span")).className =
         "nb-gantt-chart__corner";
 
-      var axis = document.createElement("div");
-      axis.className = "nb-gantt-chart__axis";
-      axis.setAttribute("aria-hidden", "true");
-      GANTT_PERIODS.forEach(function (period) {
+      var axisEl = document.createElement("div");
+      axisEl.className = "nb-gantt-chart__axis";
+      axisEl.setAttribute("aria-hidden", "true");
+      monthPeriods().forEach(function (period) {
         var cell = document.createElement("span");
         cell.className =
           "nb-gantt-chart__period nb-gantt-chart__period--" + period.id;
@@ -2230,15 +2284,15 @@
           '</span><span class="nb-gantt-chart__period-name">' +
           period.label +
           "</span>";
-        axis.appendChild(cell);
+        axisEl.appendChild(cell);
       });
       if (todayOnAxis()) {
         var todayMark = document.createElement("span");
         todayMark.className = "nb-gantt-chart__today";
-        todayMark.style.left = axisPercent(todayMs(), GANTT_AXIS) + "%";
-        axis.appendChild(todayMark);
+        todayMark.style.left = axisPercent(todayMs(), axis) + "%";
+        axisEl.appendChild(todayMark);
       }
-      head.appendChild(axis);
+      head.appendChild(axisEl);
       chartEl.appendChild(head);
 
       function renderGroupRow(item) {
@@ -2272,11 +2326,16 @@
             markers.push({ ev: ev, undated: true });
             return;
           }
-          if (span.end <= GANTT_AXIS.start || span.start >= GANTT_AXIS.end) {
+          if (span.end <= axis.start || span.start >= axis.end) {
             return;
           }
+<<<<<<< HEAD
+          var start = Math.max(span.start, axis.start);
+          var end = Math.min(span.end, axis.end);
+=======
           var start = Math.max(span.start, GANTT_AXIS.start);
           var end = Math.min(span.end, GANTT_AXIS.end);
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
           if (lane.stream === "igem" || ev.isOfficial || ev.openEnd) {
             markers.push({ ev: ev, start: start, end: end });
             return;
@@ -2323,8 +2382,8 @@
         placed.forEach(function (placedItem) {
           var st = statusClass(placedItem.ev);
           var visual = visualStreamKey(placedItem.ev);
-          var left = axisPercent(placedItem.start, GANTT_AXIS);
-          var right = axisPercent(placedItem.end, GANTT_AXIS);
+          var left = axisPercent(placedItem.start, axis);
+          var right = axisPercent(placedItem.end, axis);
           var width = Math.max(right - left, 0.8);
           var btn = document.createElement("button");
           btn.type = "button";
@@ -2377,7 +2436,7 @@
               : " nb-gantt-marker--undated");
           btn.style.left = markerItem.undated
             ? "0%"
-            : axisPercent(markerItem.start, GANTT_AXIS) + "%";
+            : axisPercent(markerItem.start, axis) + "%";
           btn.setAttribute("data-event-id", ev.id);
           btn.title = ev.title + (markerItem.undated ? "" : " · " + formatRange(ev));
           btn.setAttribute(
@@ -2467,16 +2526,16 @@
       var filters = getFilters();
       var heading = document.createElement("h3");
       heading.className = "nb-gantt-phases__heading";
-      heading.textContent = "By project phase";
+      heading.textContent = "Records in this window";
       phasesEl.appendChild(heading);
       var lede = document.createElement("p");
       lede.className = "nb-gantt-phases__lede";
       lede.textContent =
-        "Stacked by Discover, Build, and Validate. Duration and status are on the card; exact dates open in the record.";
+        "Records are grouped by workstream. Open a record for its full date range and evidence.";
       phasesEl.appendChild(lede);
 
       var rowItems = ganttRowItems(filters);
-      GANTT_PERIODS.forEach(function (period) {
+      [GANTT_WINDOWS[activeWindow]].forEach(function (period) {
         var periodBlock = document.createElement("section");
         periodBlock.className =
           "nb-gantt-phases__period nb-gantt-phases__period--" + period.id;
@@ -2526,7 +2585,7 @@
         if (!hasAny) {
           var empty = document.createElement("p");
           empty.className = "nb-gantt-phases__empty";
-          empty.textContent = "No matching records in this phase.";
+          empty.textContent = "No matching records in this window.";
           periodBlock.appendChild(empty);
         }
         phasesEl.appendChild(periodBlock);
@@ -2554,8 +2613,17 @@
     }
 
     function render() {
-      var events = filterEvents(teamEvents, getFilters(), officialEvents);
-      updateViewCounts(root, events.length);
+      var filters = getFilters();
+      if (filters.month !== lastMonthFilter) {
+        if (filters.month !== "all") activeWindow = Math.floor((Number(filters.month.slice(5, 7)) - 1) / 4);
+        lastMonthFilter = filters.month;
+      }
+      selectAxis();
+      var allEvents = filterEvents(teamEvents, filters, officialEvents);
+      var events = allEvents.filter(inWindow);
+      updateViewCounts(root, allEvents.length);
+      var windowCount = qs("[data-gantt-window-count]", gRoot);
+      if (windowCount) windowCount.textContent = String(events.length);
       renderChart(events);
       renderPhases(events);
     }

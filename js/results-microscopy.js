@@ -32,7 +32,12 @@
     const stem = base + slug(condition.value) + '/field-' + String(row.field).padStart(2, '0');
     const url = stem + '-' + view.value + '.webp';
     image.src = url;
+<<<<<<< HEAD
+    const viewLabel=view.selectedOptions[0];
+    image.alt = condition.value + ', field ' + row.field + ': ' + (window.AeroSenseI18n?.sourceText(viewLabel)||viewLabel.textContent);
+=======
     image.alt = condition.value + ', field ' + row.field + ': ' + view.selectedOptions[0].textContent;
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     image.width = view.value === 'panel' ? 1440 : 1296;
     image.height = view.value === 'panel' ? 1160 : 972;
     open.href = view.value === 'object-overlay' ? stem + '-object-overlay.png' : url;
@@ -41,7 +46,13 @@
       : view.value === 'object-overlay'
         ? 'Object classifications and exclusions. The merge background is dimmed for legibility. Click for the full-resolution overlay; object numbers match the CSV.'
         : 'Acquired intensity levels; the same channel exposure was used across conditions.';
+<<<<<<< HEAD
+    const numberLabel = caption.querySelector(':scope > .media-caption__label, :scope > .wiki-figure__num');
     caption.textContent = condition.value + ' · Field ' + row.field + ' of ' + group.length + '. ' + description + ' Technical field, not a biological replicate. Original scale bars are retained; numeric exposure/gain and objective metadata are unavailable.';
+    if (numberLabel) caption.prepend(numberLabel);
+=======
+    caption.textContent = condition.value + ' · Field ' + row.field + ' of ' + group.length + '. ' + description + ' Technical field, not a biological replicate. Original scale bars are retained; numeric exposure/gain and objective metadata are unavailable.';
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     status.textContent = row.eligible_objects + ' eligible DAPI objects; RED+ ' + row.red_positive_objects_p99 + ' (' + row.red_positive_fraction_percent_p99.toFixed(1) + '%), GREEN+ ' + row.green_positive_objects_p99 + ' (' + row.green_positive_fraction_percent_p99.toFixed(1) + '%). Eligible objects retain ' + row.eligible_blue_foreground_percent.toFixed(1) + '% of segmented DAPI foreground. These fractions are not transfection efficiency.';
   }
   fetch(base + 'nuclear-object-summary.json').then(r => {

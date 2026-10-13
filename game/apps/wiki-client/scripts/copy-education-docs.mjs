@@ -28,5 +28,11 @@ if (!existsSync(src)) {
 copyTree(src, dest);
 if (existsSync(protocol)) {
   writeFileSync(path.join(dest, 'education-study-protocol.md'), readFileSync(protocol));
+  // The published pack places the protocol beside README, unlike the source
+  // docs tree. Keep its relative link correct after every Vite rebuild.
+  const readme = path.join(dest, 'README.md');
+  if (existsSync(readme)) {
+    writeFileSync(readme, readFileSync(readme, 'utf8').replaceAll('../education-study-protocol.md', './education-study-protocol.md'));
+  }
 }
 console.log('copy-education-docs OK:', dest);

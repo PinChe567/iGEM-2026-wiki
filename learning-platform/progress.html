@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Your learning dashboard · Learning Lab · AeroSense · NTHU iGEM 2026</title>
   <meta name="description" content="Personal AeroSense Learning Lab dashboard: this browser’s module status, pre/post scores, knowledge gain in percentage points, and reflections. No class averages.">
-  <link rel="stylesheet" href="../css/styles.css?v=20260913p">
-  <link rel="stylesheet" href="../css/learning-platform.css?v=20260913p">
-  <link rel="stylesheet" href="../css/learning-progress.css?v=20260913p">
+  <link rel="stylesheet" href="../css/styles.css?v=1d93c827067775cf">
+  <link rel="stylesheet" href="../css/learning-platform.css?v=ff41836175861e41">
+  <link rel="stylesheet" href="../css/learning-progress.css?v=b3bd89fb480ea404">
   <style>
     html.html-learn-progress,
     html.html-learn-progress body.page-learn-progress {
@@ -94,6 +94,18 @@
       }
     }
   </style>
+<<<<<<< HEAD
+  <script src="../js/main.js?v=137bcee41168c7db" defer></script>
+  <script src="../js/glossary.js?v=6b8a5393ef26f087" defer></script>
+  <script src="../js/microinteractions.js?v=620ec3e557f63b70" defer></script>
+  <script src="../js/search.js?v=6f9449a620a77d8a" defer></script>
+  <script src="../js/learning-data.js?v=ca675286a6146ae8" defer></script>
+  <script src="../js/learning-storage.js?v=f611f3ee26234db3" defer></script>
+  <script src="../js/learning-progress.js?v=7821c57a483e65e0" defer></script>
+  <script src="../js/learning-platform.js?v=00239276b6d12e44" defer></script>
+  <link rel="stylesheet" href="../css/experience.css?v=4532fc1280deffee">
+  <script src="../js/experience.js?v=5fee4e9c9d2b2e08" defer></script>
+=======
   <script src="../js/main.js?v=20261010-v6" defer></script>
   <script src="../js/glossary.js?v=20261010-v5" defer></script>
   <script src="../js/microinteractions.js" defer></script>
@@ -104,14 +116,78 @@
   <script src="../js/learning-platform.js?v=20260913p" defer></script>
   <link rel="stylesheet" href="../css/experience.css?v=3">
   <script src="../js/experience.js?v=6.3" defer></script>
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
   <link rel="icon" type="image/x-icon" href="../logo/favicon.ico">
   <link rel="icon" type="image/png" sizes="96x96" href="../logo/favicon-96.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../logo/favicon-180.png">
-  <meta name="theme-color" content="#173e2b">
+  <meta name="theme-color" content="#ffffff">
   <meta name="robots" content="max-image-preview:large">
   <meta property="og:image" content="../logo/favicon-512.png">
   <meta property="og:image:alt" content="NTHU FLY team logo">
   <meta name="twitter:image" content="../logo/favicon-512.png">
+<<<<<<< HEAD
+<link rel="stylesheet" href="../css/refinement.css?v=cddff0d91d316d12">
+<link rel="stylesheet" href="../css/story-atlas.css?v=23471a68dfb4b952">
+<script src="../js/story-atlas.js?v=c5c2104b446d9bcd" defer></script>
+  <link rel="stylesheet" href="../css/art-direction.css?v=5a38b0c6339b5f7c">
+<link rel="stylesheet" href="../css/design-system.css?v=671cb2cf9e57e9da"><link rel="stylesheet" href="../css/navigation-type.css?v=f38f5144af88d259"><link rel="stylesheet" href="../css/definition-message.css?v=710ac682727c5d2f"><script src="../js/navigation-type.js?v=1c13f29e0cb46690" defer></script><link rel="stylesheet" href="../css/learning-wiki-v12.css?v=715df8346c278a0a">
+
+<!-- local-language-v19 -->
+<link rel="stylesheet" href="../css/language-v19.css?v=2f736c0f497dfb3d">
+<script src="../js/i18n-common-v19.js?v=58021ce1da0fe423" defer></script>
+<script src="../js/i18n-progress-v19.js?v=3cc130a6879642b2" defer></script>
+<script src="../js/language-v19.js?v=c097525df9c19c94" defer></script>
+<!-- /local-language-v19 -->
+<script data-hero-first-paint="v18">
+/* Inlined in each chapter head by install_hero_first_paint_v18.py. It has no
+   network dependency and runs before the parser can paint a narrow cover. */
+(() => {
+ 'use strict';
+ if(window.AeroSenseHeroFirstPaint)return;
+ const root=document.documentElement;
+ const selector='.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero';
+ const covers=new Set();
+ const put=(element,name,value)=>{if(element.style.getPropertyValue(name)!==value)element.style.setProperty(name,value)};
+ const sync=()=>{
+  if(!document.body?.matches('.signal-atlas:not(.page-home)'))return;
+  const width=root.clientWidth;
+  covers.forEach(cover=>{
+   if(!cover.isConnected||!cover.getClientRects().length)return;
+   const parent=cover.parentElement,box=parent.getBoundingClientRect(),style=getComputedStyle(parent);
+   const inset=box.left+(parseFloat(style.borderLeftWidth)||0)+(parseFloat(style.paddingLeft)||0);
+   put(cover,'--hero-v17-width',width+'px');
+   put(cover,'--hero-v17-outset',inset+'px');
+   const shell=cover.closest('.shell--with-toc,.learn-app');
+   if(shell){
+    shell.setAttribute('data-hero-layout-v17','');
+    const gap=parseFloat(getComputedStyle(cover).marginBottom)||0;
+    const start=shell.getBoundingClientRect().top+(parseFloat(getComputedStyle(shell).paddingTop)||0);
+    put(shell,'--hero-v17-toc-offset',Math.max(0,cover.getBoundingClientRect().bottom+gap-start)+'px');
+   }
+  });
+ };
+ const resize='ResizeObserver' in window?new ResizeObserver(sync):null;
+ const discover=()=>{
+  if(!document.body?.matches('.signal-atlas:not(.page-home)'))return;
+  document.querySelectorAll(selector).forEach(cover=>{
+   if(!covers.has(cover)){covers.add(cover);resize?.observe(cover)}
+   resize?.observe(cover.parentElement);
+  });
+  if(covers.size){
+   if(!root.classList.contains('hero-layout-v17'))root.classList.add('hero-layout-v17');
+   sync();
+  }
+ };
+ // Child additions include the progressively parsed title/art and dynamic lessons.
+ const mutations=new MutationObserver(discover);
+ mutations.observe(root,{childList:true,subtree:true});
+ window.addEventListener('resize',sync,{passive:true});
+ document.fonts?.ready.then(sync);
+ window.AeroSenseHeroFirstPaint={stop(){mutations.disconnect();resize?.disconnect();window.removeEventListener('resize',sync);delete window.AeroSenseHeroFirstPaint}};
+ discover();
+})();
+</script>
+=======
 <link rel="stylesheet" href="../css/refinement.css?v=3">
 <link rel="stylesheet" href="../css/story-atlas.css?v=4">
 <script src="../js/story-atlas.js?v=4" defer></script>
@@ -120,47 +196,91 @@
   <link rel="stylesheet" href="../css/learning-menu.css?v=20261004-fly-contrast">
   <script src="../js/home-portal.js?v=20261004-brain-controls" defer></script>
   <link rel="stylesheet" href="../css/learning-palette.css?v=20261008-field-guide">
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 </head>
-<body class="page-learning--portal page-learning page-learn-progress" data-asset-root="../">
+<body class="page-learning page-learn-progress signal-atlas" data-asset-root="../">
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="reading-progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
-  <a class="home-menu-launch" href="#site-map" data-home-menu aria-label="Open site navigation" aria-haspopup="dialog" aria-controls="home-menu" aria-expanded="false"><img src="../assets/brand/logo-fly-cutout.png" width="49" height="49" alt=""><span aria-hidden="true">MENU</span></a>
-  <dialog class="home-menu" id="home-menu" aria-labelledby="home-menu-title">
-    <canvas class="home-menu__network" data-neural-orb aria-hidden="true"></canvas>
-    <div class="home-menu__top"><p>AEROSENSE · NTHU iGEM 2026</p><button class="home-menu__close" type="button" data-home-menu-close aria-label="Close navigation">×</button></div>
-    <div class="home-menu__body"><h2 id="home-menu-title">Follow your curiosity.</h2>
-    <nav class="home-menu__groups" aria-label="Primary"><section class="home-menu__group"><h3>Project</h3><ul>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="../index.html">
+        <img class="brand__logo" src="../logo/logo.jpg" width="44" height="44" alt="AeroSense">
+        <span class="brand__text">
+          <span class="brand__name">AeroSense</span>
+          <span class="brand__meta">NTHU · iGEM 2026</span>
+        </span>
+      </a>
+      <div class="header-tools">
+        <button class="language-toggle" type="button" data-language-toggle translate="no" lang="en" aria-label="Switch to Traditional Chinese" title="Switch to Traditional Chinese" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c5 5 5 13 0 18-5-5-5-13 0-18Z"/></svg><span data-language-label>ZH</span></button>
+        <a class="btn-search" href="../index.html#site-map" aria-haspopup="dialog" aria-controls="project-search" aria-label="Project Search" title="Project Search">
+          <svg class="header-icon" width="22" height="22" viewbox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"></circle>
+            <path d="M15.5 15.5L21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+          </svg>
+          <span class="btn-search__label">Project Search</span>
+        </a>
+        <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+          <span class="nav-toggle__icon" aria-hidden="true"><span></span><span></span><span></span></span>
+        </button>
+      </div>
+      <nav class="site-nav" id="site-nav" aria-label="Primary">
+        <ul class="nav-root">
+          <li>
+            <a href="../index.html">Home</a>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Project</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-project">Project</button>
+            <ul class="nav-submenu" id="submenu-project">
               <li><a href="../description.html">Description</a></li>
               <li><a href="../glossary.html">Glossary</a></li>
               <li><a href="../contribution.html">Contribution</a></li>
               <li><a href="../engineering.html">Engineering</a></li>
               <li><a href="../safety-and-security.html">Safety &amp; Security</a></li>
               <li><a href="../notebook.html">Notebook</a></li>
-            </ul></section><section class="home-menu__group"><h3>Team</h3><ul>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Team</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-team">Team</button>
+            <ul class="nav-submenu" id="submenu-team">
               <li><a href="../members.html">Members</a></li>
               <li><a href="../attributions.html">Attributions</a></li>
-            </ul></section><section class="home-menu__group"><h3>Wet Lab</h3><ul>
+            </ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Wet Lab</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-lab">Wet Lab</button>
+            <ul class="nav-submenu" id="submenu-lab">
               <li><a href="../parts.html">Parts</a></li>
               <li><a href="../design.html">Design</a></li>
               <li><a href="../experiments.html">Experiments</a></li>
               <li><a href="../results.html">Results</a></li>
-            </ul></section><section class="home-menu__group"><h3>Dry Lab</h3><ul>
+            <li><a href="../alternative-platform.html">Alternative Platform</a></li></ul>
+          </li>
+          <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Dry Lab</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-drylab">Dry Lab</button>
+            <ul class="nav-submenu" id="submenu-drylab">
               <li><a href="../hardware.html">Hardware</a></li>
               <li><a href="../model.html">Model</a></li>
-            </ul></section><section class="home-menu__group"><h3>Human Practices</h3><ul>
+            <li><a href="../measurement.html">Measurement</a></li></ul>
+          </li>
+                    <li class="nav-item nav-item--dropdown">
+            <span class="nav-label-static">Human Practices</span>
+            <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="submenu-hp">Human Practices</button>
+            <ul class="nav-submenu" id="submenu-hp">
               <li><a href="../human-practices.html">Integrated Human Practices</a></li>
               <li><a href="../education.html">Education</a></li>
+              <li><a href="../learning-platform.html">Learning Platform</a></li>
               <li><a href="../entrepreneurship.html">Entrepreneurship</a></li>
               <li><a href="../sustainability.html">Sustainability</a></li>
-            </ul></section></nav>
-    <div class="header-tools"><a class="btn-search" href="../index.html#site-map" aria-haspopup="dialog" aria-controls="project-search" aria-label="Project Search" title="Project Search">
-          <svg class="header-icon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
-            <path d="M15.5 15.5L21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-          <span class="btn-search__label">Project Search</span>
-        </a><a class="learning-menu__link" href="../learning-platform.html">Learning Lab</a><a class="learning-menu__link" href="../learning-platform/progress.html" aria-current="page">Learning journal</a><a class="home-menu__home" href="../index.html">Home ↗</a></div></div>
-  </dialog>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
   <dialog class="search-dialog" id="project-search" aria-labelledby="search-title">
     <div class="search-dialog__panel">
       <div class="search-dialog__header">
@@ -185,21 +305,22 @@
   <div class="shell shell--learn">
     <main id="main" class="learn">
       <header class="learn-hero lp-hero" data-reveal>
-        <nav aria-label="Breadcrumb">
+        
+        <p class="learn-kicker">Learning Lab</p>
+        <h1>Your learning dashboard</h1>
+        <p class="learn-hero__sub">Your activity in this browser: module progress, scores and reflections. These personal records are not class averages or published learning outcomes.</p>
+        <div class="learn-actions">
+          <a class="btn btn--primary" href="../learning-platform.html#learn-journey">Return to Learning Lab</a>
+          <a class="btn btn--secondary" href="../education.html">Education</a>
+        </div>
+      </header>
+        <nav class="page-breadcrumb" aria-label="Breadcrumb">
           <ol class="breadcrumb">
             <li><a href="../index.html">Home</a></li>
             <li><a href="../education.html">Education</a></li>
             <li aria-current="page">Progress</li>
           </ol>
         </nav>
-        <p class="learn-kicker">Learning Lab</p>
-        <h1>Your learning dashboard</h1>
-        <p class="learn-hero__sub">This page shows only what this browser has stored. It does not invent class averages, and it is not a published educational outcome.</p>
-        <div class="learn-actions">
-          <a class="btn btn--primary" href="../learning-platform.html#learn-journey">Return to Learning Lab</a>
-          <a class="btn btn--secondary" href="../education.html">Education</a>
-        </div>
-      </header>
       <noscript>
         <article>
           <h2>JavaScript required</h2>
@@ -227,7 +348,7 @@
         <li><a href="../learning-05-act.html" data-learn-module="05">05 Decide</a></li>
         <li><a href="progress.html" aria-current="page">My dashboard</a></li>
       </ul>
-      <p class="learn-drawer__hint">Open any module. None are locked. Progress stays in this browser.</p>
+      <p class="learn-drawer__hint">Choose any module. Progress is saved in this browser.</p>
     </div>
   </dialog>
     <a class="back-to-top" href="#main">Back to top</a>
@@ -295,10 +416,15 @@
           <li><a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer">Source on GitLab</a></li>
           <li>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer">Creative Commons Attribution 4.0 International</a></li>
           <li><a href="../attributions.html#official-form">Attributions</a></li>
+<<<<<<< HEAD
+          <li><a href="../credits.html">Website credits</a></li>
+=======
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
             </ul>
         <p class="footer-copy">© 2026 NTHU · AeroSense</p>
       </div>
     </div>
 </footer>
+<script src="../js/hero-layout-v17.js?v=27e9f9662dec3006" defer></script>
 </body>
 </html>

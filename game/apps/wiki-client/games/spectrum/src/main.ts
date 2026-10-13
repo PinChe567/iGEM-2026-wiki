@@ -43,7 +43,7 @@ const shell = mountShell(app, {
 const main = shellMain(app);
 main.innerHTML = `
   <section class="intro" aria-labelledby="sp-title">
-    <div class="eyebrow" id="introEyebrow"><span></span> GAME 03</div>
+    <div class="eyebrow" id="introEyebrow"><span></span> ${initialCopy.hub.gameLabel} 03</div>
     <h1 id="sp-title">Scent <em>Mixer</em></h1>
     <p id="introLead" data-sp-lead></p>
     <div class="intro-chips" id="introChips" aria-label="Game facts">
@@ -53,7 +53,7 @@ main.innerHTML = `
   <section class="lab" aria-label="Scent Mixer">
     <div class="level-header">
       <div>
-        <span class="section-label" data-sp-label>GAME 03</span>
+        <span class="section-label" data-sp-label>${initialCopy.hub.gameLabel} 03</span>
         <h2 data-sp-heading></h2>
       </div>
       <div class="lab-actions">

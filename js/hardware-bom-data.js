@@ -13,7 +13,7 @@ window.AEROSENSE_HW_BOM = {
       "Signal / Control"
     ],
     "releaseBom": null,
-    "releaseBomBlocked": "Draft DOCX is not release-ready. See hardware information/BOM_SOURCE_AUDIT.md.",
+    "releaseBomBlocked": "Current English USD workbook documents a development budget. Filter procurement, supplier component details and fabrication readiness remain unresolved; no verified order-ready release BOM is supplied.",
     "v1Pdf": "hardware information/pcb v1/final.pdf",
     "v2Pdf": "hardware information/pcb v2/NTHU_TEST_BOARD_Schematic.pdf",
     "missingLabel": "Not frozen in source BOM"

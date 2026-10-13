@@ -1010,7 +1010,7 @@
   function renderMobileBar(mod) {
     return (
       '<div class="lm-sticky" role="navigation" aria-label="Module stages">' +
-      '<button type="button" class="lm-sticky__modules" data-learn-dock aria-expanded="false" aria-controls="learn-modules-drawer">Modules</button>' +
+      '<a href="learning-platform.html" class="lm-sticky__modules" data-learn-dock aria-haspopup="dialog" aria-expanded="false" aria-controls="learn-modules-drawer">Modules</a>' +
       '<ol class="lm-sticky__stages">' +
       STAGES.map(function (stage, i) {
         return (
@@ -1067,15 +1067,16 @@
     } else {
       titleInner = escapeHtml(mod.heroTitle || mod.title);
     }
-    return (
-      '<header class="lm-hero" id="lm-hero">' +
-      '<nav aria-label="Breadcrumb"><ol class="breadcrumb">' +
+    var breadcrumb = '<nav class="page-breadcrumb" aria-label="Breadcrumb"><ol class="breadcrumb">' +
       '<li><a href="index.html">Home</a></li>' +
       '<li><a href="education.html">Education</a></li>' +
       '<li><a href="learning-platform.html">Learning Lab</a></li>' +
       '<li aria-current="page">' +
       escapeHtml(mod.shortTitle) +
-      "</li></ol></nav>" +
+      "</li></ol></nav>";
+    return (
+      '<header class="lm-hero" id="lm-hero">' +
+      '<div class="lm-hero__layout"><div class="lm-hero__copy">' +
       '<p class="learn-kicker">' +
       kicker +
       "</p>" +
@@ -1092,7 +1093,9 @@
       STAGES.map(function (stage) {
         return "<li>" + escapeHtml(stage.label) + "</li>";
       }).join("") +
-      "</ol></header>"
+      '</ol></div><div class="learning-claude-art" data-art-resolution="individual" aria-hidden="true">' +
+      '<img src="assets/editorial/block-color-v20/objects/' + escapeHtml(mod.href.replace(/\.html$/, '')) + '.png" alt="" width="1280" height="1280" decoding="async">' +
+      '</div></div></header>' + breadcrumb
     );
   }
 
@@ -2514,7 +2517,8 @@
       if (restore) dock.focus();
     }
 
-    dock.addEventListener("click", function () {
+    dock.addEventListener("click", function (event) {
+      event.preventDefault();
       if (drawer.open) closeDrawer();
       else openDrawer();
     });
@@ -2559,7 +2563,14 @@
     store.markInProgress(store.state, mod.id);
     var rec = store.getModule(store.state, mod.id);
 
+    // The same cover is already present in the reading edition. Preserve the
+    // decoded illustration and its first-paint geometry while activities load.
+    var existingHero = qs('.lm-hero[data-prerendered-hero]', mount);
     mount.innerHTML = renderPage(mod, store);
+    if (existingHero) {
+      var renderedHero = qs('.lm-hero', mount);
+      if (renderedHero) renderedHero.replaceWith(existingHero);
+    }
     initDrawer(document);
     initPatternMatch(mount);
     initReceptorMatrix(mount, mod);

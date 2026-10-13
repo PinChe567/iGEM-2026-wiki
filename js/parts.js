@@ -236,7 +236,7 @@
         var panel = document.getElementById(id);
         if (live && panel) {
           var heading = qs("h3", panel);
-          live.textContent = heading ? heading.textContent : panel.id;
+          live.textContent = heading ? (window.AeroSenseI18n?.sourceText(heading)||heading.textContent) : panel.id;
         }
       }
     }
@@ -990,7 +990,11 @@
       status.hidden = false;
       status.textContent = "Loading the interactive model…";
       host.setAttribute("aria-busy", "true");
+<<<<<<< HEAD
+      import("./parts-viewer.js?v=36fdae75e1c5e6af").then(function (module) {
+=======
       import("./parts-viewer.js?v=20261010-linked-selection").then(function (module) {
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
         canvas.hidden = false;
         return module.createPartsViewer(host, sensor3d);
       }).then(function () {
@@ -1147,7 +1151,8 @@
       qsa('[data-part-record][aria-expanded]',catalogRoot).forEach(function(item){item.setAttribute('aria-expanded','false');});
       var detailRow=document.createElement('tr');detailRow.className='parts-catalog__detail-row';
       var cell=document.createElement('td');cell.colSpan=row.children.length;
-      cell.append(qs('.parts-drawer__panel',dlg).cloneNode(true));detailRow.append(cell);row.after(detailRow);
+      var drawerPanel=qs('.parts-drawer__panel',dlg);
+      cell.append(window.AeroSenseI18n?.cloneSource(drawerPanel)||drawerPanel.cloneNode(true));detailRow.append(cell);row.after(detailRow);
       row.setAttribute('aria-expanded','true');
     }
 

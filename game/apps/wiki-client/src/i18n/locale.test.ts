@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { LOCALE_STORAGE_KEY, readStoredLocale, storeLocale } from './locale';
+import { LOCALE_STORAGE_KEY, WIKI_LOCALE_STORAGE_KEY, readStoredLocale, storeLocale } from './locale';
 
 afterEach(() => vi.unstubAllGlobals());
 
@@ -26,5 +26,36 @@ describe('wiki language preference', () => {
     vi.stubGlobal('localStorage', { setItem });
     storeLocale('zh-Hant');
     expect(setItem).toHaveBeenCalledWith(LOCALE_STORAGE_KEY, 'zh-Hant');
+    expect(setItem).toHaveBeenCalledWith(WIKI_LOCALE_STORAGE_KEY, 'zh-Hant');
+  });
+
+  it('prefers the main wiki choice when saved preferences conflict', () => {
+    const setItem = vi.fn();
+    vi.stubGlobal('localStorage', {
+      getItem: (key: string) => key === WIKI_LOCALE_STORAGE_KEY ? 'en' : 'zh-Hant',
+      setItem,
+    });
+    expect(readStoredLocale()).toBe('en');
+    expect(setItem).toHaveBeenCalledWith(LOCALE_STORAGE_KEY, 'en');
+  });
+
+  it.each(['zh', 'zh-TW'])('normalizes a legacy %s wiki preference', (alias) => {
+    const setItem = vi.fn();
+    vi.stubGlobal('localStorage', {
+      getItem: (key: string) => key === WIKI_LOCALE_STORAGE_KEY ? alias : 'en',
+      setItem,
+    });
+    expect(readStoredLocale()).toBe('zh-Hant');
+    expect(setItem).toHaveBeenCalledWith(WIKI_LOCALE_STORAGE_KEY, 'zh-Hant');
+  });
+
+  it('retains and migrates a standalone suite choice when no wiki choice exists', () => {
+    const setItem = vi.fn();
+    vi.stubGlobal('localStorage', {
+      getItem: (key: string) => key === LOCALE_STORAGE_KEY ? 'zh-Hant' : null,
+      setItem,
+    });
+    expect(readStoredLocale()).toBe('zh-Hant');
+    expect(setItem).toHaveBeenCalledWith(WIKI_LOCALE_STORAGE_KEY, 'zh-Hant');
   });
 });

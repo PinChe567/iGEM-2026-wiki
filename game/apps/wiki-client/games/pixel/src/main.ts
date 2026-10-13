@@ -33,29 +33,28 @@ const shell = mountShell(app, {
     } catch {
       /* The game works without browser storage. */
     }
-    needScienceCopy();
     refreshReady?.();
+    needScienceCopy();
   },
 });
 
 const main = shellMain(app);
 main.innerHTML = `
   <section class="intro">
-    <div class="eyebrow" id="introEyebrow"><span></span> GAME 01</div>
+    <div class="eyebrow" id="introEyebrow"><span></span> ${initialCopy.hub.gameLabel} 01</div>
     <h1>Odor <em>Pixel Lab</em></h1>
     <p id="introLead">Look at the light pattern. Pick the matching scent.</p>
     <div class="intro-chips" id="introChips" aria-label="Game facts"><span><b>Junior</b></span><span><b>Standard</b></span><span><b>Challenge</b></span></div>
   </section>
   <section class="lab" aria-label="Odor Pixel Lab">
-    <div class="level-header"><div><span class="section-label">GAME 1</span><h2 id="chooseRun">Choose a run</h2></div><div class="lab-actions">${textActionButtonHtml({ id: 'scienceButton', label: initialCopy.gameUi.science })}<button class="text-button" id="creditButton" type="button">${initialCopy.pixel.assetCredit}</button></div></div>
+    <div class="level-header"><div><span class="section-label" data-pixel-game-label>${initialCopy.hub.gameLabel} 01</span><h2 id="chooseRun">Choose a run</h2></div><div class="lab-actions">${textActionButtonHtml({ id: 'scienceButton', label: initialCopy.gameUi.science })}<button class="text-button" id="creditButton" type="button">${initialCopy.pixel.assetCredit}</button></div></div>
     <div class="level-tabs" id="modeTabs" role="tablist" aria-label="Game mode"></div>
     <div class="game-card"><aside class="control-panel" id="settingsPanel"></aside><section class="play-area" id="playArea" aria-live="polite"></section></div>
   </section>
   <dialog id="scienceDialog" class="modal guide-modal">
-    <div class="modal-header"><div><span class="section-label">SCIENCE NOTE</span><h2>Illustrative model, not measurements</h2></div><button class="close-button" data-close="scienceDialog" type="button" aria-label="Close">\u00d7</button></div>
+    <div class="modal-header"><div><span class="section-label">${initialCopy.gameUi.science}</span><h2 data-pixel-science-title>${initialCopy.pixel.scienceModelTitle}</h2></div><button class="close-button" data-close="scienceDialog" type="button" aria-label="Close">\u00d7</button></div>
     <p id="scienceCopy"></p>
-    <p>This activity maps five illustrative features to a small virtual receptor grid. It is designed to make pattern comparison and controlled noise visible; it does not model a biological sensory system or provide experimental evidence.</p>
-    <p lang="zh-Hant">\u9019\u500b\u6d3b\u52d5\u628a\u4e94\u500b\u793a\u610f\u7279\u5fb5\u6620\u5c04\u6210\u865b\u64ec\u53d7\u9ad4\u7db2\u683c\uff0c\u7528\u65bc\u7df4\u7fd2\u6a21\u5f0f\u6bd4\u8f03\u8207\u5e72\u64fe\u8a2d\u8a08\uff0c\u4e0d\u4ee3\u8868\u751f\u7269\u611f\u89ba\u7cfb\u7d71\u6216\u5be6\u9a57\u8b49\u64da\u3002</p>
+    <p data-pixel-science-details>${initialCopy.pixel.scienceModelDetails}</p>
     <button class="primary-button full-button" data-close="scienceDialog" type="button">Close</button>
   </dialog>
   <dialog id="guideDialog" class="modal guide-modal">
@@ -64,7 +63,7 @@ main.innerHTML = `
     <button class="primary-button full-button" data-close="guideDialog" type="button">${initialCopy.gameUi.close}</button>
   </dialog>
   <dialog id="creditDialog" class="modal guide-modal">
-    <div class="modal-header"><div><span class="section-label">ASSET CREDIT</span><h2>Odor atlas sprite sheet</h2></div><button class="close-button" data-close="creditDialog" type="button" aria-label="Close">\u00d7</button></div>
+    <div class="modal-header"><div><span class="section-label">${initialCopy.pixel.assetCredit}</span><h2 data-pixel-credit-title>${initialCopy.pixel.assetCreditTitle}</h2></div><button class="close-button" data-close="creditDialog" type="button" aria-label="Close">\u00d7</button></div>
     <p id="creditCopy"></p><button class="primary-button full-button" data-close="creditDialog" type="button">Close</button>
   </dialog>`;
 
@@ -81,11 +80,26 @@ startPixelGame({
 });
 
 function needScienceCopy(): void {
-  const science = document.querySelector('#scienceCopy');
-  const credit = document.querySelector('#creditCopy');
-  const locale = shell.getLocale();
-  if (science) science.textContent = shell.getCopy().pixel.science;
-  // content filled by game bootstrap; keep locale sync helper no-op safe
-  void credit;
-  void locale;
+  const copy = shell.getCopy();
+  const sound = app?.querySelector('#soundButton');
+  sound?.setAttribute('title', copy.pixelShell.soundToggle);
+  sound?.setAttribute('aria-label', sound.classList.contains('muted') ? copy.pixelShell.soundOn : copy.pixelShell.soundOff);
+  for (const [selector, text] of [
+    ['[data-pixel-game-label]', `${copy.hub.gameLabel} 01`],
+    ['[data-pixel-science-title]', copy.pixel.scienceModelTitle],
+    ['[data-pixel-science-details]', copy.pixel.scienceModelDetails],
+    ['[data-pixel-credit-title]', copy.pixel.assetCreditTitle],
+    ['#scienceDialog .section-label', copy.gameUi.science],
+    ['#creditDialog .section-label', copy.pixel.assetCredit],
+    ['#guideDialog .section-label', copy.gameUi.howToPlay],
+  ]) {
+    const element = app?.querySelector(selector);
+    if (element) element.textContent = text;
+  }
+  app?.querySelectorAll<HTMLButtonElement>('[data-close]').forEach((button) => {
+    button.setAttribute('aria-label', copy.gameUi.close);
+    if (!button.classList.contains('close-button')) button.textContent = copy.gameUi.close;
+  });
 }
+
+needScienceCopy();

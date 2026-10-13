@@ -1,16 +1,54 @@
 # iGEM 官方上傳圖片
 
+<<<<<<< HEAD
+**之後要找上傳圖片，請直接打開 `aerosense-wiki/igem-upload/`。** 全部 507 張圖片都集中在這裡，共 454.2 MiB；已備妥 507 張。這是目前網站實際使用圖片的整理副本，原本網站資產與科學原圖保留不動，沒有修改 Notion。
+
+## 從哪裡找
+
+- **一般網頁圖片：** [web-images](web-images/) → 按頁名找資料夾，例如 `hardware`、`human-practices`、`education`、`model`。共 482 張。
+=======
 **之後要找上傳圖片，請直接打開 `aerosense-wiki/igem-upload/`。** 全部 488 張圖片都集中在這裡，共 426.2 MiB；已備妥 488 張。這是目前網站實際使用圖片的整理副本，原本網站資產與科學原圖保留不動，沒有修改 Notion。
 
 ## 從哪裡找
 
 - **一般網頁圖片：** [web-images](web-images/) → 按頁名找資料夾，例如 `hardware`、`human-practices`、`education`、`model`。共 463 張。
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 - **較大原尺寸圖片：** [full-resolution](full-resolution/) → 按頁名整理。共 25 張，也要保留並上傳。
 - **多頁共用圖：** 放在上述資料夾中的 `shared`，避免重複存檔；各頁清單仍會列出它。
 - **不知道圖片被放在哪裡：** 打開下方該頁的 CSV，查看 `export_path` 欄位，就是相對於本資料夾的圖片位置。
 
 ## 各頁圖片清單
 
+<<<<<<< HEAD
+- [Alternative Platform](pages/alternative-platform/images.csv)：12 張
+- [Attributions](pages/attributions/images.csv)：12 張
+- [Contribution](pages/contribution/images.csv)：18 張
+- [Credits](pages/credits/images.csv)：11 張
+- [Description](pages/description/images.csv)：33 張
+- [Design](pages/design/images.csv)：12 張
+- [Education](pages/education/images.csv)：24 張
+- [Engineering](pages/engineering/images.csv)：14 張
+- [Entrepreneurship](pages/entrepreneurship/images.csv)：17 張
+- [Experiments](pages/experiments/images.csv)：12 張
+- [Glossary](pages/glossary/images.csv)：11 張
+- [Hardware](pages/hardware/images.csv)：37 張
+- [Human Practices](pages/human-practices/images.csv)：37 張
+- [Home](pages/home/images.csv)：45 張
+- [Learning 01 Smell](pages/learning-01-smell/images.csv)：12 張
+- [Learning 02 Mold](pages/learning-02-mold/images.csv)：12 張
+- [Learning 03 Synbio](pages/learning-03-synbio/images.csv)：12 張
+- [Learning 04 Decode](pages/learning-04-decode/images.csv)：12 張
+- [Learning 05 Act](pages/learning-05-act/images.csv)：12 張
+- [Learning Platform](pages/learning-platform/images.csv)：12 張
+- [Measurement](pages/measurement/images.csv)：12 張
+- [Members](pages/members/images.csv)：23 張
+- [Model](pages/model/images.csv)：104 張
+- [Notebook](pages/notebook/images.csv)：15 張
+- [Parts](pages/parts/images.csv)：22 張
+- [Results](pages/results/images.csv)：258 張
+- [Safety and Security](pages/safety-and-security/images.csv)：15 張
+- [Sustainability](pages/sustainability/images.csv)：16 張
+=======
 - [Alternative Platform](pages/alternative-platform/images.csv)：9 張
 - [Attributions](pages/attributions/images.csv)：10 張
 - [Contribution](pages/contribution/images.csv)：15 張
@@ -38,6 +76,7 @@
 - [Results](pages/results/images.csv)：242 張
 - [Safety and Security](pages/safety-and-security/images.csv)：12 張
 - [Sustainability](pages/sustainability/images.csv)：13 張
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 
 ## 上傳與網址替換
 

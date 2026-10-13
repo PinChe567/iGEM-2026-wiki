@@ -24,7 +24,11 @@ import matplotlib.pyplot as plt
 
 HERE = Path(__file__).resolve().parent
 SITE = HERE.parents[2]
+<<<<<<< HEAD
+SOURCE = SITE / 'wetlab results' / 'transfection_effeciency'
+=======
 SOURCE = SITE / 'wetlab results' / 'transfection effeciency'
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 CHANNELS = ('BRIGHTFIELD', 'BLUE', 'GREEN', 'RED')
 INDEX = {'RED': 0, 'GREEN': 1, 'BLUE': 2}
 DISPLAY = {'BLUE': (0, 255), 'GREEN': (0, 120), 'RED': (0, 180), 'BRIGHTFIELD': (0, 255)}

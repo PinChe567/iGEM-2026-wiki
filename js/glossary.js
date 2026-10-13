@@ -30,6 +30,15 @@
 (function () {
   "use strict";
 
+  // These narrative/team pages keep their copy free of dictionary markers.
+  // Exit at the shared entry point so later language changes or dynamic
+  // inspectors cannot re-inject annotations on an excluded page.
+  if (document.body.matches('.page-home,.page-members,.page-attributions')) {
+    window.AeroSenseGlossary = { enhance: function () {} };
+    return;
+  }
+
+
   var DEFINITIONS = {
     "uart": { term: "UART", def: "Universal asynchronous receiver-transmitter — a serial data interface. The AeroSense programming connection uses 3.3 V UART; it is separate from USB-C power." },
     "pdms": { term: "PDMS", def: "Polydimethylsiloxane — a silicone polymer considered in transport models. It is not part of the current AeroSense assembly or required bill of materials." },
@@ -584,6 +593,9 @@
   var annotationPattern = null;
   var annotationAliases = Object.create(null);
   function autoAnnotateTerms(root) {
+    // Never split a translated sentence into new nodes: its original English
+    // belongs to the language engine. Annotate the restored English instead.
+    if (window.AeroSenseI18n?.language === 'zh-Hant') return;
     var main = root || document.querySelector("main");
     if (!main || main.classList.contains('glossary-page')) return;
     if (!annotationPattern) {
@@ -623,7 +635,11 @@
         term.setAttribute('data-term',entry.key); term.setAttribute('data-glossary-auto',''); term.textContent=match[0];
         fragment.appendChild(term);previous=match.index+match[0].length;used.add(entry.key);changed=true;
       }
+<<<<<<< HEAD
+      if(changed){fragment.appendChild(document.createTextNode(value.slice(previous)));window.AeroSenseI18n?.registerGlossaryFragment(item.node,fragment);item.node.parentNode.replaceChild(fragment,item.node);}
+=======
       if(changed){fragment.appendChild(document.createTextNode(value.slice(previous)));item.node.parentNode.replaceChild(fragment,item.node);}
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     });
   }
 
@@ -683,7 +699,10 @@
       var query = input.value.trim().toLowerCase();
       var shown = 0;
       Array.prototype.forEach.call(list.children, function (item) {
-        var match = (topic==='all'||item.dataset.topic===topic) && (!query || item.getAttribute("data-glossary-search").indexOf(query) >= 0);
+        var translatedText = Array.from(item.querySelectorAll('h2,p')).map(function(el){
+          return window.AeroSenseI18n ? window.AeroSenseI18n.lookup(el.textContent) : el.textContent;
+        }).join(' ').toLowerCase();
+        var match = (topic==='all'||item.dataset.topic===topic) && (!query || (item.getAttribute("data-glossary-search")+' '+translatedText).indexOf(query) >= 0);
         item.hidden = !match;
         if (match) shown += 1;
       });
@@ -786,6 +805,10 @@
     autoAnnotateTerms();
     renderGlossaryIndex();
     bindTerms(document);
+
+    document.addEventListener('aerosense:languagechange', function(event) {
+      if (event.detail.language === 'en') { autoAnnotateTerms(); bindTerms(document); }
+    });
 
     document.addEventListener("keydown", function (event) {
       if (event.key === "Escape") {

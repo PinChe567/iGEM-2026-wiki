@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>AeroSense User Manual — AeroSense</title><style>body{font:17px/1.6 system-ui,sans-serif;color:#233a33;background:#fbfbf6;margin:0}main{max-width:1080px;margin:auto;padding:36px 24px}h1,h2,h3{line-height:1.15}h1{font-size:2.4rem}h2{margin-top:2.4em}a{color:#08694b}img{max-width:100%;height:auto}table{border-collapse:collapse;width:100%;font-size:.9rem}th,td{border:1px solid #cdd8cb;padding:8px;text-align:left;vertical-align:top}thead{background:#e4eddc}pre{padding:16px;background:#e9eee5;overflow:auto}nav{display:flex;gap:20px;flex-wrap:wrap}figure{margin:20px 0}.table-scroll{overflow:auto}button,input,select{font:inherit}canvas{width:100%;height:480px;touch-action:none;background:#f4f7ef;border:1px solid #ccd7c8}.controls{display:flex;gap:24px;flex-wrap:wrap}.source-note{background:#e8eddf;padding:15px;border-left:4px solid #57745b}</style></head><body><main><h1 id="aerosense-user-manual">AeroSense User Manual</h1>
+<p>Revision: 2026-10-11. Use this manual with a reader that passed developer checks. The cell procedure uses your existing GCaMP6f-expressing HEK293 and Gibco DMEM.</p>
+<p>The procedures use ASD-STE100 Issue 9 writing principles. They use short sentences, stable terms, and one instruction per step. Full vocabulary and rule compliance has not been audited. This document does not claim formal ASD-STE100 compliance. <a href="https://www.asd-ste100.org/assets/files/ASD-STE100_ISSUE9.pdf">Writing reference</a>.</p>
+<p>Use the <a href="../../../hardware%20information/AeroSense%20v2/04_manuals/Developer_Manual_EN.pdf">Developer Manual</a> for assembly and programming. The <a href="../../../hardware%20information/AeroSense%20v2/07_validation/Fluorescence_and_Cell_Test_EN.pdf">sample guide</a> gives detailed preparation and supporting sources. The <a href="../BOM_EN.xlsx">USD BOM</a> and <a href="../../../hardware%20information/AeroSense%20v2/07_validation/User_Feedback_EN.pdf">feedback form</a> are separate.</p>
+<h2 id="1-prepare-the-reader">1 Prepare the reader</h2>
+<p>Preparation: Obtain a checked reader, its Wi-Fi password, and its API key. Obtain the verified duty, working fill, filter configuration, and measured LED directions.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Working fill</td>
+<td>Measured volume that permits closure without leakage</td>
+</tr>
+<tr>
+<td>Block</td>
+<td>One two-second acquisition</td>
+</tr>
+<tr>
+<td>Illuminated blank</td>
+<td>Nonfluorescent, cell-free sample with LEDs on</td>
+</tr>
+<tr>
+<td>Phase reference</td>
+<td>Stable fluorescence standard used to establish signal phase</td>
+</tr>
+<tr>
+<td>F0</td>
+<td>Unstimulated living-cell baseline after optical correction</td>
+</tr>
+<tr>
+<td>Condition ID</td>
+<td>Common assembly and acquisition configuration</td>
+</tr>
+<tr>
+<td>Sample label</td>
+<td>Contents of the current measurement, such as B_CAL or ALL_C</td>
+</tr>
+</tbody>
+</table></div>
+<p>The four liquids share one gas space and one PD. Displayed channels correspond to LED frequencies. They are not automatically separated into independent well signals. The reader has no validated odor classifier. It does not control temperature, CO2, humidity, or gas flow.</p>
+<p>Steps:</p>
+<ol>
+<li>Inspect the reader for moisture.</li>
+<li>Check tubes for pinching.</li>
+<li>Check visible wires for looseness.</li>
+<li>Confirm that the working fill passed closure and leakage tests.</li>
+<li>Confirm the installed filter configuration.</li>
+</ol>
+<p>Check: Start filter trials with one LEE 101 layer. The reported physical wells are nearly full at 100 µL. An 80 µL working fill is provisional. Use it only after physical checks. Keep the verified fill equal across wells and controls. Historical simulations used 100 µL.</p>
+<p>Failure action: If the reader leaks or has loose wiring, do not power it. Return it to the developer. If BOARD_VALIDATED is locked, perform dark tests only.</p>
+<h2 id="2-connect-the-phone">2 Connect the phone</h2>
+<p>Preparation: Keep the assembled reader dry. Locate physical SW1 before starting. Direct phone control does not require internet access.</p>
+<p>Steps:</p>
+<ol>
+<li>Switch on the reader.</li>
+<li>Join AeroSense Wi-Fi on the phone.</li>
+<li>Enter the Wi-Fi password.</li>
+<li>If the phone reports no internet, keep the connection.</li>
+<li>Open http://192.168.4.1/ in the browser.</li>
+<li>Enter the supplied API key.</li>
+<li>Press Connect.</li>
+<li>Confirm HARDWARE at the top.</li>
+<li>Locate Stop / LEDs off.</li>
+<li>Keep the page in the foreground during acquisition.</li>
+<li>Keep the phone awake during acquisition.</li>
+</ol>
+<p>Check: The Wi-Fi password and API key have different purposes. DEMO DATA means synthetic practice data. Installing a real sample does not change DEMO into a measurement.</p>
+<p>Failure action: If network control cannot stop the reader, use SW1 to remove power. Reconnection does not recover unsaved browser data automatically.</p>
+<p>For practice, ask the developer to start Demo. Open http://127.0.0.1:8765/ on that computer. <a href="../README.html">README.md</a> is the document index. It is not the control interface.</p>
+<h2 id="3-read-the-interface">3 Read the interface</h2>
+<p>Use the upper-right language button to change language. The table follows the current interface order.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Function</th>
+<th>Check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mode and connection</td>
+<td>Device mode, API key, and connection errors</td>
+<td>HARDWARE for measurements</td>
+</tr>
+<tr>
+<td>Acquisition schedule</td>
+<td>Blocks, interval, duty, LEDs, Start, and Stop</td>
+<td>Review settings before Start</td>
+</tr>
+<tr>
+<td>Quality and sensors</td>
+<td>ADC and timing status</td>
+<td>valid covers implemented QC only</td>
+</tr>
+<tr>
+<td>Four frequency channels</td>
+<td>Raw channel amplitudes and history</td>
+<td>No blank subtraction or τ smoothing on this plot</td>
+</tr>
+<tr>
+<td>Measured background correction</td>
+<td>Blank, phase reference, subtraction, and smoothing</td>
+<td>Enable subtraction explicitly</td>
+</tr>
+<tr>
+<td>Calibration and normalization</td>
+<td>Dark, Baseline, Reference, and automatic capture</td>
+<td>Collect living-cell F0 separately</td>
+</tr>
+<tr>
+<td>Records and export</td>
+<td>Sample label, notes, JSON, CSV, and raw ADC</td>
+<td>Export before page reload</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="acquisition-controls">Acquisition controls</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Control</th>
+<th>Range or action</th>
+<th>Initial use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Blocks</td>
+<td>1–60</td>
+<td>One trial block; five distinct valid calibration blocks</td>
+</tr>
+<tr>
+<td>Interval</td>
+<td>3–300 s after each two-second block</td>
+<td>3 s gives about one record per 5 s</td>
+</tr>
+<tr>
+<td>PWM duty</td>
+<td>1–50%</td>
+<td>Developer-approved value; initial engineering test uses 5%</td>
+</tr>
+<tr>
+<td>LED selector</td>
+<td>Dark, one LED, or D1–D4</td>
+<td>Select Dark explicitly for dark checks</td>
+</tr>
+<tr>
+<td>Start session</td>
+<td>Starts a finite schedule</td>
+<td>Press after settings review</td>
+</tr>
+<tr>
+<td>Stop / LEDs off</td>
+<td>Cancels remaining blocks</td>
+<td>Incomplete block is discarded</td>
+</tr>
+<tr>
+<td>Display smoothing τ</td>
+<td>0–120 s</td>
+<td>Start at 0; larger values delay changes</td>
+</tr>
+<tr>
+<td>Condition ID</td>
+<td>Assembly and acquisition identity</td>
+<td>Change after physical or setting changes</td>
+</tr>
+<tr>
+<td>Current sample label</td>
+<td>Labels new records</td>
+<td>Does not relabel previous records</td>
+</tr>
+</tbody>
+</table></div>
+<p>D1 is 41 Hz. D2 is 67 Hz. D3 is 89 Hz. D4 is 113 Hz. Use measured directions to associate these channels with wells. Duty is not calibrated optical power.</p>
+<h3 id="calibration-controls">Calibration controls</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Control</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Collect illuminated blank</td>
+<td>Starts five blocks for the current blank</td>
+</tr>
+<tr>
+<td>2. Collect fluorescence phase reference</td>
+<td>Starts five blocks for the fluorescence standard</td>
+</tr>
+<tr>
+<td>3. Enable measured blank subtraction</td>
+<td>Applies the measured complex blank once</td>
+</tr>
+<tr>
+<td>Clear background correction</td>
+<td>Removes the measured blank and phase calibration</td>
+</tr>
+<tr>
+<td>Add dark / baseline / reference</td>
+<td>Adds the latest eligible valid block</td>
+</tr>
+<tr>
+<td>Automatic capture</td>
+<td>Adds subsequent valid blocks until the selected stage has five</td>
+</tr>
+<tr>
+<td>Clear calibration</td>
+<td>Clears the Dark, Baseline, and Reference sets</td>
+</tr>
+</tbody>
+</table></div>
+<p>Automatic capture needs the page open. Select its stage before starting acquisition. Do not add the same block repeatedly. Updating the blank or phase reference invalidates old F0 and Reference values.</p>
+<p>Dark tests check electronics with LEDs off. The illuminated blank already includes the dark background. Do not subtract dark again after measured blank subtraction.</p>
+<p>Baseline supplies F0. Reference supports a comparison with an established reference stimulus. It is not an odor classifier. The legacy Dark/Baseline/Reference workflow is separate. Use the <a href="../03_software/guides/Measured_Correction_EN.html">detailed correction guide</a> when interpreting older records.</p>
+<h3 id="quality-and-storage">Quality and storage</h3>
+<p>valid indicates implemented sample-count, rail, and timing checks. railSamples counts samples near ADC limits. maxIntervalErrorUs describes departures from the nominal 250 µs interval. These fields do not prove biological validity.</p>
+<p>Battery level, cell temperature, fan speed, and flow are not measured. The upper history plot always shows raw amplitudes. τ affects corrected displays and processed values. Raw and unsmoothed values remain available.</p>
+<h2 id="4-prepare-the-fluorescence-standards">4 Prepare the fluorescence standards</h2>
+<p>Preparation: Use sodium fluorescein, CAS 518-47-8. Use one batch of 1× PBS at approximately pH 7.4. Prepare pipettes, clean tubes, and light protection. This PBS procedure is cell-free.</p>
+<p>Use PBS for stock, dilutions, and blank. No DMSO or ethanol is needed. Do not substitute FITC, highlighter ink, or unspecified dye. Do not put fluorescein into the reporter cells.</p>
+<p>For a documented 1 mM stock, use this dilution table:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Solution</th>
+<th>Mix</th>
+<th>Final concentration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Intermediate</td>
+<td>10 µL stock + 990 µL PBS</td>
+<td>10 µM in 1.00 mL</td>
+</tr>
+<tr>
+<td>C</td>
+<td>50 µL intermediate + 4.950 mL PBS</td>
+<td>100 nM in 5.00 mL</td>
+</tr>
+<tr>
+<td>0.5C</td>
+<td>2.50 mL C + 2.50 mL PBS</td>
+<td>50 nM in 5.00 mL</td>
+</tr>
+<tr>
+<td>Blank</td>
+<td>Same PBS without dye</td>
+<td>0 nM; at least 10 mL plus rinse volume</td>
+</tr>
+</tbody>
+</table></div>
+<p>If only powder is available, use the bottle's identity and assay information. For anhydrous sodium fluorescein, 37.627 mg in a final 10.00 mL gives nominal 10 mM. The formula mass is 376.27 g/mol. Diluting 100 µL of that stock with 900 µL PBS gives 1 mM. The <a href="../../../hardware%20information/AeroSense%20v2/07_validation/Fluorescence_and_Cell_Test_EN.pdf">sample guide</a> explains purity and hydration corrections.</p>
+<p>Steps:</p>
+<ol>
+<li>Prepare the intermediate solution.</li>
+<li>Mix the intermediate gently.</li>
+<li>Prepare C from the mixed intermediate.</li>
+<li>Mix C gently.</li>
+<li>Prepare 0.5C from C.</li>
+<li>Mix 0.5C gently.</li>
+<li>Protect the tubes from unnecessary light.</li>
+<li>Dispense the same verified working fill into each well.</li>
+</ol>
+<p>Check: Concentrations, PBS, pH, temperature, and light exposure are consistent. Use fresh working dilutions for the session. Follow bottle instructions for stock storage.</p>
+<p>Failure action: If stock identity or concentration is uncertain, use a documented laboratory stock. Do not weigh the nanogram amount needed for one well. If signal is weak, inspect the optical path before changing concentration.</p>
+<h2 id="5-select-the-filter-configuration">5 Select the filter configuration</h2>
+<p>Preparation: Ask the developer to install and verify the filter. Start with one LEE 101 layer. Keep the same duty and working fill during each comparison.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Configuration</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No filter</td>
+<td>Engineering leakage comparison; stop for ADC clipping</td>
+</tr>
+<tr>
+<td>One LEE 101 layer</td>
+<td>Preferred first practical test</td>
+</tr>
+<tr>
+<td>Two LEE 101 layers</td>
+<td>Test whether extra rejection improves measured SNR</td>
+</tr>
+<tr>
+<td>One 500 nm 12.5 mm Ultra-Thin OD4 Longpass</td>
+<td>Candidate after mechanical fit is resolved</td>
+</tr>
+</tbody>
+</table></div>
+<p>LEE 101 belongs over the PD receiver. LED excitation paths stay open. Layers reduce blue leakage and green fluorescence. A lower blank alone does not establish a better measurement.</p>
+<p>The OD4 candidate is an Everix flexible polymer/dye filter, Edmund Optics #29-190. Thickness is 0.30 mm. Diameter is 12.45 ± 0.15 mm. It does not fit the existing 5.2 × 4.2 mm seat. Supplier-approved mounting or cutting and edge sealing remain unresolved. Do not force the disc into the reader. Angular transmission also needs confirmation.</p>
+<p>Check: Select a configuration with adequate signal, acceptable noise, and no clipping. Recalibrate after every filter change. The <a href="../02_simulation/optics/README.html">filter report</a> provides numerical comparisons and model limits.</p>
+<p>Failure action: If the blank clips, stop acquisition. Ask the developer to correct leakage or settings. Blank subtraction cannot remove photon noise, clipping, or changing leakage.</p>
+<h2 id="6-calibrate-the-routine-interface">6 Calibrate the routine interface</h2>
+<p>Preparation: Fix the well set, working fill, filter, duty, LEDs, and medium. Use an illuminated blank matching the sample medium. Use a separate stable fluorescence standard.</p>
+<h3 id="collect-the-illuminated-blank">Collect the illuminated blank</h3>
+<ol>
+<li>Enter a Condition ID, such as board01_wellA_80uL_LEE101x1.</li>
+<li>Load the matching cell-free blank into all four wells.</li>
+<li>Close the light shield.</li>
+<li>Set Current sample label to B_CAL.</li>
+<li>Press 1. Collect illuminated blank.</li>
+<li>Wait for five distinct valid blocks.</li>
+<li>Check that calibration status is complete.</li>
+<li>Download the latest raw ADC block before another acquisition.</li>
+</ol>
+<p>Use 80uL in the identifier only when that volume passed the physical checks.</p>
+<h3 id="collect-the-phase-reference">Collect the phase reference</h3>
+<ol>
+<li>Stop the schedule before solution exchange.</li>
+<li>Confirm that LEDs are off.</li>
+<li>Stop external gas flow.</li>
+<li>Put the same stable fluorescence standard in all four wells.</li>
+<li>Close the light shield.</li>
+<li>Set Current sample label to PHASE_REF.</li>
+<li>Press 2. Collect fluorescence phase reference.</li>
+<li>Wait for five valid blocks.</li>
+<li>Check each channel's reference status.</li>
+<li>Enable 3. Enable measured blank subtraction.</li>
+<li>Set Display smoothing τ to 0.</li>
+</ol>
+<h3 id="check-the-independent-blank">Check the independent blank</h3>
+<ol>
+<li>Stop acquisition before solution exchange.</li>
+<li>Replace the standard with matched blank.</li>
+<li>Close the light shield.</li>
+<li>Set Current sample label to B_CHECK.</li>
+<li>Set Blocks to 5.</li>
+<li>Press Start session.</li>
+<li>Inspect all five new blocks.</li>
+</ol>
+<p>Check: B_CHECK is independent. Do not add it to B_CAL. A weak reference, unstable blank, or QC error prevents reliable interpretation.</p>
+<p>Failure action: If a check fails, retain the records. Correct the cause before a new complete calibration. Do not use smoothing to hide the failure.</p>
+<p>Routine PHASE_REF calibration and the formal dye series serve different purposes. Formal quick_check.py uses ALL_C for phase. It ignores extra PHASE_REF records.</p>
+<h2 id="7-run-the-formal-dye-series">7 Run the formal dye series</h2>
+<p>Preparation: Complete the developer preflight. Establish spill-free solution exchange that preserves one boot and optical alignment. Use C = 100 nM and 0.5C = 50 nM initially.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th style="text-align: right;">Order</th>
+<th>Sample label</th>
+<th>Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">1</td>
+<td>DARK</td>
+<td>Four blanks; LEDs off</td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td>B_CAL</td>
+<td>Four blanks; LEDs on</td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td>B_CHECK</td>
+<td>Four blanks; five new blocks</td>
+</tr>
+<tr>
+<td style="text-align: right;">4–7</td>
+<td>NE_C, NW_C, SW_C, SE_C</td>
+<td>C only in the named well; blank elsewhere</td>
+</tr>
+<tr>
+<td style="text-align: right;">8</td>
+<td>ALL_HALF</td>
+<td>0.5C in all wells</td>
+</tr>
+<tr>
+<td style="text-align: right;">9</td>
+<td>ALL_C</td>
+<td>C in all wells</td>
+</tr>
+<tr>
+<td style="text-align: right;">10</td>
+<td>ALL_HALF_REPEAT</td>
+<td>Fresh 0.5C in all wells</td>
+</tr>
+</tbody>
+</table></div>
+<p>Steps:</p>
+<ol>
+<li>Set the sample label before each condition.</li>
+<li>Close the light shield before acquisition.</li>
+<li>Collect five distinct valid blocks per formal illuminated condition.</li>
+<li>Immediately after B_CAL, save its latest raw ADC block.</li>
+<li>Immediately after ALL_C, save its latest raw ADC block.</li>
+<li>Before each solution exchange, stop the schedule.</li>
+<li>Confirm that LEDs are off.</li>
+<li>Stop external flow.</li>
+<li>Use the established rinse and exchange method.</li>
+<li>After the final condition, export the complete session JSON.</li>
+</ol>
+<p>Check: The nine illuminated conditions contain 45 valid blocks. DARK is separate. Use unchanged settings throughout. Keep the Condition ID fixed for this common configuration. Change the sample label for each solution.</p>
+<p>Failure action: If residue prevents a clean blank, stop the series. If reboot or optical disassembly is necessary, start a new complete series afterward. Do not combine partial series across boots.</p>
+<p>The <a href="../../../hardware%20information/AeroSense%20v2/07_validation/Validation_Plan_EN.pdf">validation plan</a> gives analysis commands and acceptance criteria. Sodium fluorescein verifies an optical measurement. It does not establish cellular sensitivity or odor recognition.</p>
+<h2 id="8-prepare-complete-gibco-dmem">8 Prepare complete Gibco DMEM</h2>
+<p>Preparation: Use your existing GCaMP6f-expressing HEK293. Use the existing Gibco DMEM and FBS used successfully for these cells. No new reporter-expression procedure is required.</p>
+<p>Steps for 50 mL complete medium:</p>
+<ol>
+<li>Read the DMEM bottle label.</li>
+<li>Check whether the medium is basal or already complete.</li>
+<li>Check whether L-glutamine or GlutaMAX is present.</li>
+<li>If the medium is already complete, use it without adding FBS again.</li>
+<li>If it is basal DMEM, transfer 45.00 mL to a sterile container.</li>
+<li>Add 5.00 mL of the existing suitable FBS.</li>
+<li>Mix gently.</li>
+<li>Label the final 50.00 mL as DMEM with 10% FBS.</li>
+</ol>
+<p>Check: If L-glutamine or GlutaMAX is present, do not add more automatically. If absent, use the established supplement recipe and product instructions. Include added supplements within the final 50 mL. Reduce basal DMEM by their combined volume.</p>
+<p>For an established recipe requiring 2 mM added glutamine, use 0.50 mL of 200 mM stock. Combine 44.50 mL basal DMEM, 5.00 mL FBS, and that supplement. This conditional example does not prescribe extra glutamine for every Gibco product.</p>
+<p>Keep established reporter selection conditions. Do not add new antibiotics, pyruvate, or other supplements without a reason in the existing procedure. Do not heat-inactivate FBS unless that procedure requires it.</p>
+<p>Environment steps:</p>
+<ol>
+<li>Set the incubator to 37°C.</li>
+<li>Use the established CO2 setting for these cells and this DMEM.</li>
+<li>If the established setting is 5%, retain humidified 5% CO2.</li>
+<li>Check medium pH after equilibration.</li>
+</ol>
+<p>Failure action: If the bottle formulation changed, check its instructions before changing CO2 or supplements. Gibco DMEM formulations differ. Some specify 5–10% CO2. Keep the successful culture recipe for the first device comparison. EMEM is not a required purchase. See the <a href="../07_validation/Fluorescence_and_Cell_Test_EN.html">complete medium guide</a>.</p>
+<h2 id="9-seed-the-wells-and-check-readiness">9 Seed the wells and check readiness</h2>
+<p>Preparation: Use a healthy expanding culture. Prepare the removable wells away from electronics. Use a qualified aseptic process compatible with the resin. Keep a matched standard-cultureware control.</p>
+<p>The nominal well floor is 0.112 cm². Start with 3,000 viable cells per well. At 80 µL, this requires 3.75 × 10^4 viable cells/mL. This is a starting estimate, not a measured optimum.</p>
+<p>Four wells require 320 µL. Prepare at least 400 µL for handling losses. If the counted stock contains 1.00 × 10^6 viable cells/mL, use 15 µL stock plus 385 µL complete DMEM. This gives 400 µL at the target concentration. Count viable cells, not total particles.</p>
+<p>If the verified fill changes, use 3,000 × 1,000 / fill_in_µL viable cells/mL. Match control cultureware by cells/cm².</p>
+<p>Steps:</p>
+<ol>
+<li>Prepare a suspension with the laboratory's established dissociation procedure.</li>
+<li>Count viable cells.</li>
+<li>Dilute the suspension to the calculated concentration in complete DMEM.</li>
+<li>Put the removable wells level in a sterile secondary culture dish.</li>
+<li>Mix the cell suspension gently before dispensing.</li>
+<li>Dispense 80 µL slowly along each well wall.</li>
+<li>Inspect for bubbles.</li>
+<li>Cover the secondary dish with a suitable gas-exchange cover.</li>
+<li>Incubate under the conditions in Section 8.</li>
+<li>Inspect attachment at 4–6 hours.</li>
+<li>Inspect morphology and coverage at 18–24 hours.</li>
+<li>Check health and reporter response at 24–48 hours.</li>
+</ol>
+<p>Use 80 µL only when the working-fill test passed. Do not incubate the PCB or battery in a humid incubator. If starting from a frozen vial, recover it in standard cultureware first.</p>
+<p>Check: Cells are attached and healthy. There is no visible contamination or marked detachment. A provisional coverage target is 60–80%. The known positive control responds on the reference instrument. Elapsed time alone is insufficient.</p>
+<p>Aqua Clear Plus has no demonstrated culture-compatibility process in this project. Compare resin wells with standard cultureware. The sample guide proposes viability of at least 80% of the matched control. It also specifies background and attachment checks.</p>
+<p>Failure action: If plastic passes but resin fails, resolve the material or surface process first. Do not assume another fixed incubation period will correct poor attachment. Do not assume UV, alcohol, or a coating proves compatibility.</p>
+<p>Check evaporation with a matched cell-free well. More than 10% volume loss is a proposed rework threshold. At 80 µL, that is 8 µL. Do not top up blindly and treat the result as unchanged.</p>
+<h2 id="10-calibrate-and-measure-the-reporter-cells">10 Calibrate and measure the reporter cells</h2>
+<p>Preparation: Use the established assay medium when possible. Existing DMEM is the first route when its required environment can be maintained. Keep its CO2 condition and verify 37°C at the sample. The reader does not supply these controls.</p>
+<p>PBS dye solution is not cell-growth medium. HEPES does not control temperature. The alternative measurement-buffer procedure in the sample guide is optional. It is not a required purchase.</p>
+<p>Optical preparation:</p>
+<ol>
+<li>Prepare a cell-free blank with the actual assay medium.</li>
+<li>Use the final filter, duty, working fill, and optical arrangement.</li>
+<li>Collect the illuminated blank with Section 6.</li>
+<li>Collect the matched phase reference with Section 6.</li>
+<li>Check an independent blank.</li>
+<li>Install the cell sample with the established calibration-transfer procedure.</li>
+</ol>
+<p>Check: A different well insert can change resin background and alignment. Verify repeated insert exchange in the cell-free pilot. Do not conceal a changed assembly with an unchanged Condition ID. A restart needs a valid calibration-transfer procedure and new F0.</p>
+<p>Cell measurement steps:</p>
+<ol>
+<li>Confirm sample temperature and medium pH.</li>
+<li>Inspect cell attachment before measurement.</li>
+<li>Set a sample label for the unstimulated cells.</li>
+<li>Select Automatic capture Baseline.</li>
+<li>Start the unstimulated acquisition.</li>
+<li>Collect at least five distinct valid baseline blocks.</li>
+<li>Keep a stable 2–5 minute baseline record when the assay permits.</li>
+<li>Record the stimulus start time.</li>
+<li>Apply the laboratory's established stimulus procedure.</li>
+<li>Collect the response with unchanged settings.</li>
+<li>Export raw and unsmoothed corrected data.</li>
+<li>Inspect attachment after measurement.</li>
+</ol>
+<p>Check: The cells already express GCaMP6f. A known positive control still checks whether the reporter response is functional. Include matched vehicle and reference-instrument controls. Use existing non-reporter controls when available.</p>
+<p>Use a first 10–15 minute measurement as a feasibility trial. This is a planning duration, not a proven safe exposure. Keep the gas pump off for the initial optical/cell comparison. Do not add fluorescein to the cells.</p>
+<p>Failure action: If temperature, pH, attachment, or QC fails, stop interpretation. If F0 is near zero or below noise, do not force a ratio. If environmental control is unavailable, continue cell-free work first.</p>
+<p>Compute ΔF/F0 from the living-cell baseline after one independent blank subtraction. Never save living cells as the optical blank. A PBS blank cannot replace the actual-medium blank.</p>
+<p>Each block averages two seconds, followed by at least three seconds idle. Rapid GCaMP6f peaks can be missed. Compare an established sustained response over a prespecified time window. Align traces to recorded stimulus time. Do not shift curves to improve agreement.</p>
+<p>Four shared-gas wells are not four independent exposure replicates. Gas arrival above liquid does not prove cell exposure. A general calcium-positive response does not establish odor specificity.</p>
+<h2 id="11-export-data-and-finish">11 Export data and finish</h2>
+<p>Preparation: Keep the browser open until export finishes. JSON preserves the fullest session record. CSV is convenient for inspection.</p>
+<p>Steps:</p>
+<ol>
+<li>Enter sample and condition information in the notes.</li>
+<li>Press Export JSON.</li>
+<li>Press Export CSV.</li>
+<li>Check that both files were saved.</li>
+<li>If a raw waveform is required, download the latest raw ADC before another block.</li>
+<li>Press Stop / LEDs off.</li>
+<li>Confirm that the LEDs are off.</li>
+<li>Stop external gas flow.</li>
+<li>Equalize pressure through the open outlet.</li>
+<li>Switch off power before disassembly or cleaning.</li>
+</ol>
+<p>Check: Preserve calibration records, raw values, failed blocks, and exclusion reasons. Useful filenames include date, device, sample, condition, and replicate. Screenshots alone are insufficient.</p>
+<p>The device keeps only the latest raw ADC block. Its RAM upload queue holds eight summaries. Rebooting loses pending summaries. The browser retains at most 1,000 observed blocks. Export before refresh or closure.</p>
+<p>Failure action: If export is incomplete, keep the page open. Resolve the download before clearing records. Do not label recovered partial data as a complete series.</p>
+<h2 id="12-correct-problems">12 Correct problems</h2>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Webpage 404</td>
+<td>Ask the developer to check LittleFS upload</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Check the current device API key</td>
+</tr>
+<tr>
+<td>board_not_validated</td>
+<td>Keep Dark; request developer checks</td>
+</tr>
+<tr>
+<td>ADC_rail, timing, or jitter</td>
+<td>Stop; preserve raw ADC for diagnosis</td>
+</tr>
+<tr>
+<td>Large blank or clipping</td>
+<td>Check shielding, filter bypass, and duty before recalibration</td>
+</tr>
+<tr>
+<td>Weak phase reference</td>
+<td>Check standard, alignment, and blank</td>
+</tr>
+<tr>
+<td>baseline_below_noise</td>
+<td>Check F0 and reporter response; do not force ratios</td>
+</tr>
+<tr>
+<td>Network failure prevents stopping</td>
+<td>Remove power with SW1</td>
+</tr>
+<tr>
+<td>Leakage or abnormal heating</td>
+<td>Disconnect power and stop gas flow</td>
+</tr>
+<tr>
+<td>Cell detachment or pH change</td>
+<td>Stop the cell test and restore the established culture environment</td>
+</tr>
+</tbody>
+</table></div>
+<p>Use the separate feedback form for actual observations. Leave unperformed tasks blank. Keep device checks, dye results, and cell results separate.</p></main></body></html>

@@ -14,7 +14,7 @@
     if(!id||section.querySelector(':scope > .ed-section-index'))return;
     document.querySelectorAll('.page-toc a').forEach(function(link){if(link.getAttribute('href')==='#'+id)label=link.querySelector('.tech-label');});
     if(!label)return;
-    var badge=document.createElement('span');badge.className='ed-section-index';badge.setAttribute('aria-hidden','true');badge.textContent=label.textContent.trim();section.prepend(badge);
+    var badge=document.createElement('span');badge.className='ed-section-index';badge.setAttribute('aria-hidden','true');badge.textContent=(window.AeroSenseI18n?.sourceText(label)||label.textContent).trim();section.prepend(badge);
   });
   var line=function(shapes){return '<g class="ed-sketch-line">'+shapes+'</g>';};
   var soft=function(shapes){return '<g class="ed-sketch-soft">'+shapes+'</g>';};

@@ -1,0 +1,36 @@
+/* Watercolor illustrations, clean 2D science, and restrained pixel UI details.
+   Image pixels, scientific geometry and text rendering stay at full resolution. */
+body.signal-atlas{
+ --pixel-step:4px;
+ --pixel-shadow:color-mix(in srgb,var(--v-accent) 16%,transparent);
+ --pixel-corner:polygon(0 8px,4px 8px,4px 4px,8px 4px,8px 0,calc(100% - 8px) 0,calc(100% - 8px) 4px,calc(100% - 4px) 4px,calc(100% - 4px) 8px,100% 8px,100% calc(100% - 8px),calc(100% - 4px) calc(100% - 8px),calc(100% - 4px) calc(100% - 4px),calc(100% - 8px) calc(100% - 4px),calc(100% - 8px) 100%,8px 100%,8px calc(100% - 4px),4px calc(100% - 4px),4px calc(100% - 8px),0 calc(100% - 8px));
+}
+/* The paper belongs to the illustration; its watercolor wash stays visible. */
+body.signal-atlas .ds-hero-art[data-art-style=claude-source],
+body.signal-atlas.page-learning .learning-claude-art{
+ border-radius:3px!important;
+ clip-path:polygon(1% 2%,98% 0,100% 97%,3% 100%,0 46%)!important;
+ background:#f6f2e9!important;transform:rotate(-2deg)!important;
+ filter:drop-shadow(4px 5px 0 #091e2017);
+}
+/* A stepped title edge is the common pixel motif, rather than another frame
+   around every paragraph. Only these flat heading fields are clipped. */
+body.signal-atlas:not(.page-home) :is(.page-article,.model-track-panel)>:is(section,.section-block)>h2,
+body.signal-atlas:not(.page-home) .references>h2,
+body.signal-atlas.page-learning :is(.learn-section,.lm-section)>:is(h2,.learn-section__title),
+body.signal-atlas.page-members .members-section__title,
+body.signal-atlas :is(.exp-track__header,.exp-proto__head,.nb-section-head,.nb-view-panel__head,.parts-builder__intro,.editorial-spread__intro)>h2,
+body.signal-atlas.page-model :is(.re-introduction,.re-highlights,.re-structure-key,.re-research-detail,.re-cycle,.re-next,.re-refs)>h2{
+ border-radius:0!important;clip-path:var(--pixel-corner);
+}
+/* Hard-edged, quiet offset shadows identify existing cards. Do not clip a
+   control group: menus, focus outlines and scientific viewers need room. */
+body.signal-atlas :is(.audit-scope,.audit-boundary,.notice,.sust-note,.model-callout,.model-metric,.model-method,.re-highlight,.re-callout,.learn-node,.learn-card,.learn-activity,.lm-check,.lm-concept,.nb-record,.nb-drawer,.member-card,.parts-card,.parts-builder__step,.eng-glance__card,.sust-ledger-card,.contrib-rcard,.eng-evidence-card,.members-card,.eng-overview-card,.hp-eng-card,.asc-card,.design-card,.ent-ballot-card,.ent-wcard,.members-postcard,.parts-or-card){
+ border-radius:2px!important;box-shadow:3px 3px 0 var(--pixel-shadow)!important;
+}
+body.signal-atlas :is(.section-eyebrow,.section-kicker,.tech-label){font-variant-numeric:tabular-nums}
+body.signal-atlas :is(.section-eyebrow,.section-kicker)::before{
+ content:"";display:inline-block;width:5px;height:5px;margin-right:.7rem;vertical-align:.12em;
+ background:var(--v-accent);box-shadow:5px -5px 0 var(--pixel-shadow);
+}
+@media(prefers-reduced-motion:reduce){body.signal-atlas .ds-hero-art,body.signal-atlas .learning-claude-art{transition:none!important}}

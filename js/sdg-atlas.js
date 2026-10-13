@@ -1,5 +1,6 @@
 (function(){
   'use strict';
+  const sourceText=el=>el?(window.AeroSenseI18n?.sourceText(el)||el.textContent).trim():'';
   const glance=document.getElementById('at-a-glance');
   if(!glance)return;
   const anchors=[...glance.querySelectorAll('.sust-sdg[href^="#"]')];
@@ -20,10 +21,10 @@
   function select(anchor){
     anchors.forEach(a=>{const on=a===anchor;a.classList.toggle('is-selected',on);a.setAttribute('aria-current',on?'true':'false');});
     const id=anchor.getAttribute('href').slice(1);const article=document.getElementById(id);
-    const label=anchor.querySelector('.sust-sdg__name')?.textContent?.trim()||'SDG';
+    const label=sourceText(anchor.querySelector('.sust-sdg__name'))||'SDG';
     title.textContent='SDG '+anchor.dataset.sdgNumber+' · '+label;
-    text.textContent=anchor.querySelector('.sust-sdg__role')?.textContent?.trim()||'';
-    const target=article?.querySelector('.sust-slot__body p')?.textContent?.trim();
+    text.textContent=sourceText(anchor.querySelector('.sust-sdg__role'));
+    const target=sourceText(article?.querySelector('.sust-slot__body p'));
     evidence.textContent=target||'Select the full pathway for targets, evidence and limits.';
     link.href='#'+id;
   }

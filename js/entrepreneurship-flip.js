@@ -9,8 +9,10 @@
  dialog.innerHTML='<div class="framework-flip__turn"><div class="framework-flip__front" aria-hidden="true"></div><article class="framework-flip__back"><button class="framework-flip__close" type="button" aria-label="Close and return to diagram">×</button><p class="framework-flip__kicker"></p><h2 id="framework-flip-title"></h2><div class="framework-flip__copy"></div></article></div>';
  dialog.setAttribute('aria-labelledby','framework-flip-title');document.body.append(dialog);
  let origin=null,animation=null;
- const titleOf=item=>item.querySelector('summary')?.textContent||'Analysis';
- const copyInto=(target,item)=>target.replaceChildren(...[...item.querySelector('.framework-cell__body').childNodes].map(n=>n.cloneNode(true)));
+ const sourceText=el=>el?(window.AeroSenseI18n?.sourceText(el)||el.textContent):'';
+ const sourceClone=el=>window.AeroSenseI18n?.cloneSource(el)||el.cloneNode(true);
+ const titleOf=item=>sourceText(item.querySelector('summary'))||'Analysis';
+ const copyInto=(target,item)=>target.replaceChildren(...sourceClone(item.querySelector('.framework-cell__body')).childNodes);
  const expandLink=(figure,id)=>figure.querySelectorAll('[data-atlas-target]').forEach(a=>a.setAttribute('aria-expanded',String(a.getAttribute('href')==='#'+id)));
  function makeLabelTargets(figure){
   const labels=[...figure.querySelectorAll('.atlas-art [data-atlas-target] text')];
@@ -39,13 +41,13 @@
   const item=figure.querySelector('#'+CSS.escape(id));if(!item)return;
   origin=link||figure.querySelector('select.atlas-mobile');const title=titleOf(item);
   dialog.querySelector('h2').textContent=title;
-  dialog.querySelector('.framework-flip__kicker').textContent=figure.querySelector('header h3')?.textContent||'AeroSense field notes';
+  dialog.querySelector('.framework-flip__kicker').textContent=sourceText(figure.querySelector('header h3'))||'AeroSense field notes';
   copyInto(dialog.querySelector('.framework-flip__copy'),item);
   const front=dialog.querySelector('.framework-flip__front');front.replaceChildren();
   if(link?.ownerSVGElement){
    const box=link.getBBox(),svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
    svg.setAttribute('viewBox',`${box.x-8} ${box.y-8} ${box.width+16} ${box.height+16}`);
-   const clone=link.cloneNode(true);clone.removeAttribute('href');clone.removeAttribute('tabindex');svg.append(clone);front.append(svg);
+   const clone=sourceClone(link);clone.removeAttribute('href');clone.removeAttribute('tabindex');svg.append(clone);front.append(svg);
    dialog.style.setProperty('--tile-color',link.querySelector('[fill]')?.getAttribute('fill')||'#d7e7bd');
   }else front.textContent=title;
   expandLink(figure,id);
@@ -111,7 +113,7 @@
     const index=itemIds.indexOf(id),emblem=reveal.querySelector('.framework-reveal__emblem');
     emblem.textContent=mode==='paper'?['S','W','O','T'][index]:mode==='drawer'?['P','E','S','T'][index]:mode==='contact'?titleOf(item).split(/\s+/).slice(0,2).map(s=>s[0]).join(''):mode==='circle'?titleOf(item):mode==='lens'?['TAM','SAM','SOM'][index]:mode==='pair'?'↔':String(index+1).padStart(2,'0');
     reveal.querySelector('h4').textContent=titleOf(item);
-    reveal.querySelector('.framework-reveal__kicker').textContent=figure.querySelector('header h3')?.textContent||'Strategic field note';
+    reveal.querySelector('.framework-reveal__kicker').textContent=sourceText(figure.querySelector('header h3'))||'Strategic field note';
     const body=reveal.querySelector('.framework-reveal__body');
     if(mode==='pair'){
      body.replaceChildren();

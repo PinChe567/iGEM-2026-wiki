@@ -1,0 +1,75 @@
+/* v22 · measured cut-paper patterns. The reading ground stays quiet; only the
+   existing illustration field and footer edge carry a regular 64px rhythm.
+   No grain, blend filter, animation, new container or layout measurement. */
+body.signal-atlas:not(.page-home) {
+ --pattern-v22-grid: color-mix(in srgb,var(--v-accent) 17%,var(--v-soft));
+ --pattern-v22-secondary: color-mix(in srgb,var(--v-secondary) 30%,var(--v-soft));
+ --pattern-v22-footer-grid: color-mix(in srgb,var(--v-pigment) 17%,var(--v-dark));
+ --pattern-v22-footer-block: color-mix(in srgb,var(--v-secondary) 22%,var(--v-dark));
+}
+
+/* Preserve the v21 stepped clipping and v17 first-paint dimensions. In the
+   no-JS fallback, ::before still supplies the original full-bleed extension. */
+html.hero-layout-v17 body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero)::before {
+ background:
+  linear-gradient(var(--pattern-v22-secondary),var(--pattern-v22-secondary)) right 32px top 64px / 16px 16px no-repeat,
+  linear-gradient(var(--pattern-v22-secondary),var(--pattern-v22-secondary)) right 16px top 80px / 16px 16px no-repeat,
+  linear-gradient(var(--v-pigment),var(--v-pigment)) right 48px top 48px / 16px 16px no-repeat,
+  repeating-linear-gradient(0deg,transparent 0 63px,var(--pattern-v22-grid) 63px 64px),
+  repeating-linear-gradient(90deg,transparent 0 63px,var(--pattern-v22-grid) 63px 64px),
+  var(--v-soft) !important;
+ pointer-events:none;
+}
+
+/* The thin lower ribbon repeats the same modular rhythm, using a secondary
+   pigment only once per four cells; the established stepped outline stays. */
+html body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero)::after {
+ background:repeating-linear-gradient(90deg,var(--v-pigment) 0 240px,var(--pattern-v22-secondary) 240px 256px) !important;
+ pointer-events:none;
+}
+
+/* A small folded-paper field sits below footer content. The parent already
+   establishes an isolated stacking context; negative z-index keeps every link
+   and text node above the decoration without changing footer content layout. */
+body.signal-atlas:not(.page-home) .site-footer::after {
+ inset:auto 0 0 auto;
+ width:min(46%,448px);
+ height:224px;
+ z-index:-1;
+ pointer-events:none;
+ background:
+  linear-gradient(var(--pattern-v22-footer-block),var(--pattern-v22-footer-block)) right 32px bottom 32px / 32px 32px no-repeat,
+  linear-gradient(var(--pattern-v22-footer-block),var(--pattern-v22-footer-block)) right 64px bottom 64px / 32px 32px no-repeat,
+  repeating-linear-gradient(0deg,transparent 0 63px,var(--pattern-v22-footer-grid) 63px 64px),
+  repeating-linear-gradient(90deg,transparent 0 63px,var(--pattern-v22-footer-grid) 63px 64px);
+ clip-path:polygon(43% 0,100% 0,100% 100%,0 100%,0 71%,14% 71%,14% 43%,29% 43%,29% 14%,43% 14%);
+}
+
+@media(max-width:760px) {
+ /* The existing mobile clip confines this finer repeat to the illustration's
+    lower field. It never moves upward into the hero title or introduction. */
+ html.hero-layout-v17 body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero)::before {
+  background:
+   linear-gradient(var(--pattern-v22-secondary),var(--pattern-v22-secondary)) right 32px bottom 48px / 12px 12px no-repeat,
+   linear-gradient(var(--pattern-v22-secondary),var(--pattern-v22-secondary)) right 20px bottom 36px / 12px 12px no-repeat,
+   linear-gradient(var(--v-pigment),var(--v-pigment)) right 44px bottom 60px / 12px 12px no-repeat,
+   repeating-linear-gradient(0deg,transparent 0 47px,var(--pattern-v22-grid) 47px 48px),
+   repeating-linear-gradient(90deg,transparent 0 47px,var(--pattern-v22-grid) 47px 48px),
+   var(--v-soft) !important;
+ }
+ body.signal-atlas:not(.page-home) .site-footer::after {
+  width:62%;
+  height:192px;
+  background:
+   linear-gradient(var(--pattern-v22-footer-block),var(--pattern-v22-footer-block)) right 24px bottom 24px / 24px 24px no-repeat,
+   linear-gradient(var(--pattern-v22-footer-block),var(--pattern-v22-footer-block)) right 48px bottom 48px / 24px 24px no-repeat,
+   repeating-linear-gradient(0deg,transparent 0 47px,var(--pattern-v22-footer-grid) 47px 48px),
+   repeating-linear-gradient(90deg,transparent 0 47px,var(--pattern-v22-footer-grid) 47px 48px);
+ }
+}
+
+@media print {
+ html body.signal-atlas:not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero)::before,
+ html body.signal-atlas:not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero)::after,
+ body.signal-atlas:not(.page-home) .site-footer::after { display:none !important; }
+}

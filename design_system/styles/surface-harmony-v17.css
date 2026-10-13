@@ -1,0 +1,66 @@
+/* Quiet watercolor grounds with a few broad pixel steps. The cover artwork
+   stays untouched; no scattered texture or repeating speckles are added. */
+html body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero){
+ --hero-v17-ground:color-mix(in srgb,var(--v-accent) 8%,var(--v-art-paper));
+ --hero-v17-wash:color-mix(in srgb,var(--v-accent) 15%,var(--v-art-paper));
+ background:linear-gradient(110deg,var(--v-art-paper),var(--hero-v17-ground) 58%,var(--hero-v17-wash))!important;
+}
+/* Keep the no-JS full-width extension, but replace the active cover's former
+   repeated grain mask with one deliberate stepped color field beside the art. */
+html.hero-layout-v17 body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero)::before{
+ inset:0;z-index:0;opacity:1;box-shadow:none;
+ background:linear-gradient(110deg,color-mix(in srgb,var(--v-accent) 6%,transparent),color-mix(in srgb,var(--v-accent) 11%,transparent))!important;
+ mask-image:none!important;-webkit-mask-image:none!important;
+ clip-path:polygon(76% 0,100% 0,100% 100%,52% 100%,52% 75%,60% 75%,60% 50%,68% 50%,68% 25%,76% 25%);
+}
+html body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero)::after{
+ height:24px!important;background:var(--v-page-ground,var(--v-paper))!important;
+ mask-image:none!important;-webkit-mask-image:none!important;
+ clip-path:polygon(0 0,25% 0,25% 8px,50% 8px,50% 16px,75% 16px,75% 8px,100% 8px,100% 100%,0 100%);
+}
+/* Keep the watercolor fade and outer stepped silhouette, removing the small
+   punched-out squares that otherwise look like specks around the illustration. */
+html body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero) :is(.ds-hero-art[data-art-style=claude-source],.learning-claude-art){
+ mask-image:radial-gradient(ellipse 65% 66% at 50% 48%,#000 46%,#000e 63%,transparent 79%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='264' height='212' viewBox='0 0 264 212'%3E%3Cpath fill='black' d='M56 0H208V8H232V24H248V48H256V80H264V144H256V176H240V192H216V204H184V212H64V204H32V192H16V176H8V144H0V72H8V40H24V24H40V8H56Z'/%3E%3C/svg%3E")!important;
+}
+
+/* Each closing panel takes its pigment from the current chapter. Explicit
+   footer ink avoids inheriting the light-cover text tokens used by the hero. */
+body.signal-atlas:not(.page-home) .site-footer{
+ --footer-surface:var(--v-dark);
+ --footer-surface-end:color-mix(in srgb,var(--v-dark) 86%,#121310);
+ --footer-ink:#fffdf8;
+ --footer-muted:color-mix(in srgb,var(--v-pigment) 32%,#fffdf8);
+ position:relative;isolation:isolate;
+ background:linear-gradient(180deg,var(--footer-surface),var(--footer-surface-end))!important;
+ color:var(--footer-ink)!important;border-top:0!important;box-shadow:none!important;
+}
+body.signal-atlas:not(.page-home) .site-footer::before{
+ content:"";display:block;position:absolute;inset:-32px 0 auto;height:33px;
+ background:var(--footer-surface);pointer-events:none;
+ clip-path:polygon(0 24px,25% 24px,25% 16px,50% 16px,50% 8px,75% 8px,75% 0,100% 0,100% 100%,0 100%);
+}
+body.signal-atlas:not(.page-home) .site-footer::after{
+ content:"";display:block;position:absolute;inset:auto 0 0;height:20px;
+ background:color-mix(in srgb,var(--v-accent) 24%,var(--footer-surface-end));pointer-events:none;
+ clip-path:polygon(0 0,25% 0,25% 5px,50% 5px,50% 10px,75% 10px,75% 15px,100% 15px,100% 100%,0 100%);
+}
+body.signal-atlas:not(.page-home) .site-footer :is(a,.footer-col h2,.shared-footer-brand){color:var(--footer-ink)!important}
+body.signal-atlas:not(.page-home) .site-footer :is(.footer-copy,.footer-mission,.footer-sitemap-title,.footer-legal,.shared-footer-brand p){color:var(--footer-muted)!important}
+body.signal-atlas:not(.page-home) .site-footer :is(.shared-footer-brand,.footer-meta){border-color:color-mix(in srgb,var(--v-pigment) 30%,transparent)!important}
+body.signal-atlas:not(.page-home) .site-footer .footer-legal li::after{color:var(--footer-muted)}
+body.signal-atlas:not(.page-home) .site-footer a:hover{color:#fff!important;text-decoration:underline;text-underline-offset:.25em}
+body.signal-atlas:not(.page-home) .site-footer a:focus-visible{outline-color:var(--footer-ink);outline-offset:4px}
+
+@media(max-width:760px){
+ html.hero-layout-v17 body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero)::before{
+  clip-path:polygon(0 80%,25% 80%,25% 76%,50% 76%,50% 72%,75% 72%,75% 68%,100% 68%,100% 100%,0 100%);
+ }
+ html body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero)::after{
+  height:16px!important;clip-path:polygon(0 0,25% 0,25% 4px,50% 4px,50% 8px,75% 8px,75% 4px,100% 4px,100% 100%,0 100%);
+ }
+}
+@media print{
+ body.signal-atlas:not(.page-home) .site-footer::before,
+ body.signal-atlas:not(.page-home) .site-footer::after{display:none!important}
+}

@@ -1,0 +1,92 @@
+/* Safety-only evidence tables. Native table semantics and horizontal keyboard scrolling remain. */
+body.page-safety .saf-review-table-scroll {
+  max-width: 100%;
+  margin: 1.25rem 0 2rem;
+  border: 1px solid var(--v-rule, #d7c8e8);
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-gutter: stable;
+  background: var(--v-paper, #fff);
+}
+body.page-safety .saf-review-table-scroll:focus-visible {
+  outline: 3px solid var(--v-accent, #754d94);
+  outline-offset: 3px;
+}
+body.page-safety .saf-review-table {
+  width: 100%;
+  min-width: 42rem;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: .94rem;
+  line-height: 1.6;
+}
+body.page-safety .saf-review-table--chemicals { min-width: 60rem; }
+body.page-safety .saf-review-table :is(th,td) {
+  padding: 1rem;
+  border: 1px solid var(--v-rule, #d7c8e8);
+  vertical-align: top;
+  text-align: left;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+body.page-safety .saf-review-table thead th {
+  background: var(--v-tint, #f5eafa);
+  color: var(--v-ink, #352647);
+  font-weight: 700;
+}
+body.page-safety .saf-review-table tbody th {
+  background: color-mix(in srgb, var(--v-tint, #f5eafa) 55%, white);
+  font-weight: 600;
+}
+body.page-safety .saf-review-table--chemicals :is(th,td):nth-child(1) { width: 16%; }
+body.page-safety .saf-review-table--chemicals :is(th,td):nth-child(2) { width: 12%; }
+body.page-safety .saf-review-table--chemicals :is(th,td):nth-child(3) { width: 25%; }
+body.page-safety .saf-review-table--chemicals :is(th,td):nth-child(4) { width: 30%; }
+body.page-safety .saf-review-table--chemicals :is(th,td):nth-child(5) { width: 17%; }
+body.page-safety .saf-review-table--power :is(th,td):nth-child(1) { width: 27%; }
+body.page-safety .saf-review-table--power :is(th,td):nth-child(2) { width: 20%; }
+body.page-safety .saf-review-table--power :is(th,td):nth-child(3) { width: 53%; }
+body.page-safety .saf-review-table--waste :is(th,td):nth-child(1) { width: 30%; }
+body.page-safety .saf-review-table--waste :is(th,td):nth-child(2) { width: 43%; }
+body.page-safety .saf-review-table--waste :is(th,td):nth-child(3) { width: 27%; }
+body.page-safety .saf-review-table p { margin: .6rem 0; }
+body.page-safety .saf-review-table :is(p,dd,dt,summary) { text-align: left; }
+body.page-safety .saf-review-table .saf-status { white-space: normal; }
+body.page-safety .saf-review-notes {
+  margin-top: .8rem;
+  padding-top: .6rem;
+  border: 0;
+  border-top: 1px solid var(--v-rule, #d7c8e8);
+  background: transparent;
+  box-shadow: none;
+}
+body.page-safety :is(.saf-review-notes,.saf-review-detail) > summary {
+  min-height: 44px;
+  padding: .65rem 0;
+  cursor: pointer;
+  color: var(--v-ink, #352647);
+  font-weight: 600;
+}
+body.page-safety :is(.saf-review-notes,.saf-review-detail) > summary:focus-visible {
+  outline: 3px solid var(--v-accent, #754d94);
+  outline-offset: 3px;
+}
+body.page-safety .saf-review-notes dl { margin: .5rem 0; }
+body.page-safety .saf-review-notes dt { margin-top: .65rem; font-weight: 600; }
+body.page-safety .saf-review-notes dd { margin: .25rem 0 0; }
+body.page-safety .saf-open-items { padding-left: 1.3rem; }
+body.page-safety .saf-open-items > li { padding-left: .3rem; margin-block: 1.5rem; }
+body.page-safety .saf-open-items h3 { margin-block: 0 .5rem; }
+body.page-safety .saf-review-detail {
+  margin: 1rem 0;
+  padding: 0 1.5rem;
+  border: 1px solid var(--v-rule, #d7c8e8);
+  background: var(--v-tint, #f5eafa);
+}
+body.page-safety .saf-review-detail > div { padding: .5rem 0 1.5rem; }
+body.page-safety .saf-review-detail .saf-layers { grid-template-columns: 1fr; }
+body.page-safety .saf-review-detail .saf-layers__card { background: transparent; }
+@media (max-width: 640px) {
+  body.page-safety .saf-review-table :is(th,td) { padding: .75rem; }
+  body.page-safety .saf-review-detail { padding-inline: 1rem; }
+}

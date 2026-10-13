@@ -1,0 +1,76 @@
+/* Reading refinements loaded only by the six edited pages. */
+.refinement-table-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+}
+.refinement-table-wrap:focus-visible {
+  outline: 2px solid var(--color-ink, #21483f);
+  outline-offset: 3px;
+}
+.refinement-table-wrap > .refinement-table {
+  width: 100%;
+  min-width: 38rem;
+  border-collapse: collapse;
+  text-align: left;
+}
+.refinement-table caption {
+  text-align: left;
+  padding: .65rem 0;
+  font-size: .9rem;
+  line-height: 1.6;
+}
+.refinement-table th,
+.refinement-table td {
+  padding: .85rem;
+  vertical-align: top;
+  text-align: left;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+  line-height: 1.6;
+}
+.refinement-table thead th {
+  font-size: .85rem;
+  letter-spacing: .025em;
+}
+.refinement-table [hidden] { display: none !important; }
+.refinement-table-wrap > .refinement-ledger { table-layout: fixed; min-width: 43rem; }
+.refinement-ledger th:nth-child(1) { width: 10%; white-space: nowrap; }
+.refinement-ledger th:nth-child(2) { width: 48%; }
+.refinement-ledger th:nth-child(3) { width: 21%; }
+.refinement-ledger th:nth-child(4) { width: 21%; }
+.refinement-ledger .sust-ev { white-space: normal; }
+.refinement-claim { margin: 0 0 .6rem; font-weight: 600; }
+.refinement-details {
+  margin: .85rem 0 1.25rem;
+  border: 1px solid var(--color-rule, #b6c9bf);
+  background: var(--color-paper, #fffef8);
+}
+.refinement-details > summary {
+  cursor: pointer;
+  padding: .7rem .9rem;
+  font-weight: 600;
+  text-align: left;
+  line-height: 1.6;
+}
+.refinement-details > summary:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -3px;
+}
+.refinement-details[open] > summary {
+  border-bottom: 1px solid var(--color-rule, #b6c9bf);
+  margin-bottom: .75rem;
+}
+.refinement-details > :not(summary) { margin-left: .9rem; margin-right: .9rem; }
+.refinement-details > :last-child { margin-bottom: .9rem; }
+.refinement-ledger .refinement-details { margin: 0; border: 0; background: transparent; }
+.refinement-ledger .refinement-details > summary { padding: .2rem 0; font-size: .85rem; }
+.refinement-ledger .sust-ledger-card__dl { margin: .8rem 0 0; }
+.refinement-ledger .sust-ledger-card__dl > div { grid-template-columns: minmax(0, 1fr); }
+.refinement-ledger .sust-ledger-card__dl dd { overflow-wrap: anywhere; }
+.refinement-table tr[id], #market-estimate-source { scroll-margin-top: 6rem; }
+@media print {
+  .refinement-table-wrap > .refinement-table { min-width: 0; }
+  .refinement-table-wrap { overflow: visible; }
+}

@@ -16,6 +16,15 @@ export async function createViewer(host) {
   const renderer = new THREE.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:'low-power'});
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1,1.5));
   renderer.toneMapping=THREE.ACESFilmicToneMapping;
+<<<<<<< HEAD
+  renderer.toneMappingExposure=1.1;
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(38,1,.1,1500);
+  scene.add(new THREE.HemisphereLight(0xeaf0f6,0x242a32,1.8));
+  const key = new THREE.DirectionalLight(0xfff5e8,4.5);key.position.set(-100,180,180);scene.add(key);
+  const rim = new THREE.DirectionalLight(0xd6e8ff,3.4);rim.position.set(160,100,-130);scene.add(rim);
+  const fill = new THREE.DirectionalLight(0xffffff,2);fill.position.set(-150,30,-50);scene.add(fill);
+=======
   renderer.toneMappingExposure=1.25;
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(38,1,.1,1500);
@@ -23,6 +32,7 @@ export async function createViewer(host) {
   const key = new THREE.DirectionalLight(0xfff5e8,8);key.position.set(-100,180,180);scene.add(key);
   const rim = new THREE.DirectionalLight(0xd6e8ff,12);rim.position.set(160,100,-130);scene.add(rim);
   const fill = new THREE.DirectionalLight(0xffffff,3.5);fill.position.set(-150,30,-50);scene.add(fill);
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
   // Local studio light cards produce reflections once; there is no animated environment.
   const studio = new THREE.Scene();studio.background=new THREE.Color(0x4b5059);
   const cards=[];
@@ -47,11 +57,24 @@ export async function createViewer(host) {
     geometry.translate(part[1][0]-min.x,part[1][1]-min.y,part[1][2]-min.z);
     geometry.rotateX(-Math.PI/2);geometry.computeVertexNormals();
     const clear = part[0].includes('CLEAR');
+<<<<<<< HEAD
+    // Preserve every source triangle and assembly dimension. The faceted look
+    // comes from matte flat shading, never from decimating printable CAD.
+    const mesh = new THREE.Mesh(geometry,new THREE.MeshStandardMaterial({color:part[3],roughness:clear?.84:.9,metalness:0,envMapIntensity:.18,flatShading:true,transparent:clear,opacity:clear?.6:1,side:THREE.DoubleSide}));
+=======
     const mesh = new THREE.Mesh(geometry,new THREE.MeshStandardMaterial({color:part[3],roughness:clear?.2:.36,metalness:clear?0:.15,envMapIntensity:clear?1.2:1.7,transparent:clear,opacity:clear?.6:1,side:THREE.DoubleSide}));
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     mesh.userData.lift=part[2];group.add(mesh);meshes.push(mesh);
   }
   try { await Promise.all(parts.map(async part => {const response=await fetch(base+part[0]);if(!response.ok)throw new Error('Missing STL');parse(await response.arrayBuffer(),part);})); }
   catch(error){meshes.forEach(m=>{m.geometry.dispose();m.material.dispose();});environment.dispose();renderer.dispose();throw error;}
+<<<<<<< HEAD
+  host.dataset.renderStyle='faceted-matte';
+  host.dataset.geometry='source-stl-preserved';
+  host.dataset.meshCount=String(meshes.length);
+  host.dataset.triangleCount=String(meshes.reduce((total,mesh)=>total+mesh.geometry.attributes.position.count/3,0));
+=======
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
   let active=true,visible=true,frame=0,yaw=.62,pitch=.36,zoom=1,amount=0,drag;
   const slider=host.querySelector('[data-hw-v2-explode]');
   function draw(){frame=0;if(!active||!visible||document.hidden)return;const w=Math.max(1,canvas.clientWidth),h=Math.max(1,canvas.clientHeight);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();meshes.forEach(m=>m.position.y=m.userData.lift*amount);const centerY=33+amount*45;const distance=(camera.aspect<1?380:290)*zoom+amount*65;camera.position.set(Math.sin(yaw)*Math.cos(pitch)*distance,centerY+Math.sin(pitch)*distance,Math.cos(yaw)*Math.cos(pitch)*distance);camera.lookAt(0,centerY,2);renderer.render(scene,camera);}

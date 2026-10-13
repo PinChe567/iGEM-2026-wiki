@@ -14,7 +14,8 @@ export type GameHeader = {
 };
 
 export function gameHeaderKicker(gameNumber: string, mode?: string): string {
-  return mode ? `GAME ${gameNumber} \u00b7 ${mode}` : `GAME ${gameNumber}`;
+  const label = typeof document !== 'undefined' && document.documentElement.lang.startsWith('zh') ? '\u904a\u6232' : 'GAME';
+  return mode ? `${label} ${gameNumber} \u00b7 ${mode}` : `${label} ${gameNumber}`;
 }
 
 export function gameHeaderHtml(header: GameHeader): string {

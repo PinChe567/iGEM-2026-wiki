@@ -1,0 +1,125 @@
+/* Bright paper and deliberate pigment fields, matched to the existing object
+   illustrations. Only interface surfaces change: scientific images, charts,
+   semantic channel colors, portraits and the homepage railway stay intact. */
+body.signal-atlas:not(.page-home){
+ --v-accent:#16745b;--v-dark:#174f40;--v-secondary:#b37510;
+ --v-pigment:#9bdfbd;--v-soft:#e0f7e9;--v-art-paper:#f4fff6;
+ --v-page-ground:#fffefa;--v-ink:#223d32;--v-muted:#4c6256;
+ --v-paper:var(--v-page-ground);--v-sheet:#fff;
+ --v-rule:color-mix(in srgb,var(--v-accent) 28%,#fff);
+ --v-tape:color-mix(in srgb,var(--v-pigment) 64%,#fff);
+ --v-tint:color-mix(in srgb,var(--v-soft) 40%,#fff);
+ --v-cover-text:#fffefa;--v-cover-muted:#fff5df;
+ --v-cover-panel:var(--v-accent);
+ --v-sketch-soft:var(--v-accent);
+}
+body.signal-atlas:is(.page-parts,.page-design,.page-experiments,.page-results,.page-alternative-platform){
+ --v-accent:#733db4;--v-dark:#482879;--v-secondary:#b07811;
+ --v-pigment:#c8a5f2;--v-soft:#eee1ff;--v-art-paper:#fcf7ff;
+ --v-page-ground:#fffdfd;--v-ink:#39284c;--v-muted:#62536d;
+}
+body.signal-atlas:is(.page-hardware,.page-model,.page-measurement){
+ --v-accent:#116a98;--v-dark:#174d6b;--v-secondary:#ac7612;
+ --v-pigment:#97d8f0;--v-soft:#ddf3ff;--v-art-paper:#f4fcff;
+ --v-page-ground:#fcfeff;--v-ink:#1e3e50;--v-muted:#4d6370;
+}
+body.signal-atlas:is(.page-human-practices,.page-education,.page-sustainability,.page-learning,.page-entrepreneurship){
+ --v-accent:#b53d39;--v-dark:#792e2d;--v-secondary:#a86e12;
+ --v-pigment:#ffafa0;--v-soft:#ffe8df;--v-art-paper:#fff9f1;
+ --v-page-ground:#fffefa;--v-ink:#4a302c;--v-muted:#71524b;
+}
+/* Team and attribution pages share warm gold. Human Practices uses coral. */
+body.signal-atlas:is(.page-attributions,.page-members){
+ --v-accent:#906014;--v-dark:#654214;--v-secondary:#d8782a;
+ --v-pigment:#ffd775;--v-soft:#fff1c5;--v-art-paper:#fff9e9;
+ --v-page-ground:#fffefa;--v-ink:#493619;--v-muted:#6c5a3d;
+}
+/* The existing watercolor portrait crop is preserved; only its surrounding
+   paper is brighter. Module controls retain their five-color learning key. */
+body.signal-atlas.page-learning:is(.editorial-2026,.page-learn-progress){
+ --v-accent:#b53d39;--v-dark:#792e2d;--v-secondary:#a86e12;
+ --v-pigment:#ffafa0;--v-soft:#ffe8df;--v-art-paper:#fff9f1;
+ --v-page-ground:#fffefa;--v-ink:#4a302c;--v-muted:#71524b;
+ --learn-sage:#237552;--learn-sage-soft:#e0f8e7;--learn-sage-paint:#9fdfaf;
+ --learn-sky:#186b91;--learn-sky-soft:#def4ff;--learn-sky-paint:#91d5ed;
+ --learn-lavender:#743dad;--learn-lavender-soft:#f0e1ff;--learn-lavender-paint:#c5a0f0;
+ --learn-gold:#91620a;--learn-gold-soft:#fff3c4;--learn-gold-paint:#ffda70;
+ --learn-coral:#b53d39;--learn-coral-soft:#ffe6de;--learn-coral-paint:#ffa898;
+}
+
+/* A light uninterrupted reading side plus one large cut-paper field behind
+   the illustration. There is no grain, repeating texture, or grey wash. */
+html body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home):not(.page-members) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero),
+html body.signal-atlas.page-members:is(.editorial-2026,.page-learn-progress) .members-intro{
+ --hero-v17-ground:var(--v-art-paper);--hero-v17-wash:var(--v-soft);
+ background:var(--v-art-paper)!important;
+}
+html.hero-layout-v17 body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero)::before{
+ background:var(--v-soft)!important;opacity:1;
+ mask:none!important;-webkit-mask:none!important;
+ clip-path:polygon(78% 0,100% 0,100% 100%,61% 100%,61% 71%,67% 71%,67% 24%,78% 24%);
+}
+html body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero)::after{
+ height:12px!important;bottom:-1px;
+ background:var(--v-pigment)!important;
+ clip-path:polygon(0 8px,57% 8px,57% 4px,70% 4px,70% 0,100% 0,100% 100%,0 100%);
+}
+/* Native illustration holders supply a single folded-corner accent. The
+   source bitmap, transparency, dimensions and internal color remain untouched. */
+html body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home):not(.page-members) :is(.page-hero,.learn-hero,.lm-hero,.glossary-conversation-hero) :is(.ds-hero-art,.learning-claude-art)::before{
+ content:"";position:absolute;inset:16% -4% 12% 8%;z-index:-1;
+ background:var(--v-pigment);opacity:.5;
+ clip-path:polygon(0 18%,72% 0,100% 16%,100% 77%,83% 100%,9% 89%);
+ border:0;box-shadow:none;pointer-events:none;
+}
+
+/* Keep the established ribbon geometry and 24 / 16px inset. Bright pigment
+   supplies depth without mixing dark ink into a grey background. */
+body.signal-atlas:not(.page-home) :is(.page-article,.model-track-panel)>:is(section,.section-block)>h2,
+body.signal-atlas:not(.page-home) .references>h2,
+body.signal-atlas.page-learning :is(.learn-section,.lm-section)>:is(h2,.learn-section__title),
+body.signal-atlas.page-members .members-section__title,
+body.signal-atlas :is(.exp-track__header,.exp-proto__head,.nb-section-head,.nb-view-panel__head,.parts-builder__intro,.editorial-spread__intro)>h2,
+body.signal-atlas.page-model :is(.re-introduction,.re-highlights,.re-structure-key,.re-research-detail,.re-cycle,.re-next,.re-refs)>h2{
+ background:color-mix(in srgb,var(--v-pigment) 55%,var(--v-art-paper))!important;
+ color:var(--v-dark)!important;
+}
+
+/* A chapter-colored ink block closes each page. Two broad flat edge accents
+   replace the previous dark gradient; text has its own high-contrast colors. */
+body.signal-atlas:not(.page-home) .site-footer{
+ --footer-surface:var(--v-dark);--footer-surface-end:var(--v-dark);
+ --footer-ink:#fffefa;--footer-muted:#fff2dc;
+ background:var(--v-dark)!important;
+}
+body.signal-atlas:not(.page-home) .site-footer::before{
+ inset:-12px 0 auto;height:13px;background:var(--v-accent);
+ clip-path:polygon(0 8px,20% 8px,20% 0,37% 0,37% 5px,100% 5px,100% 100%,0 100%);
+}
+body.signal-atlas:not(.page-home) .site-footer::after{
+ inset:auto 0 0 auto;width:22%;height:12px;background:var(--v-pigment);
+ clip-path:polygon(0 6px,28% 6px,28% 0,100% 0,100% 100%,0 100%);
+}
+body.signal-atlas:not(.page-home) .site-footer .shared-footer-brand{
+ border-bottom-width:2px;
+ border-color:color-mix(in srgb,var(--v-pigment) 50%,transparent)!important;
+}
+
+/* Home keeps the measured sage-to-forest railway, book, photograph and solid
+   forest ending. Brighten only its standalone daylight introduction. */
+body.signal-atlas.page-home.home-edition-2026.home-atlas-edition .home-opening{background:#f5fff1!important}
+body.signal-atlas.page-home.home-edition-2026.home-atlas-edition .home-supporters__gallery>li{background:#fffef5;border-color:#b9d4ae}
+
+@media(max-width:760px){
+ html.hero-layout-v17 body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero)::before{
+  clip-path:polygon(0 86%,12% 86%,12% 76%,38% 76%,38% 71%,100% 71%,100% 100%,0 100%);
+ }
+ html body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero)::after{height:10px!important}
+ body.signal-atlas:not(.page-home) .site-footer::after{width:35%}
+}
+@media print{
+ html body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero)::before,
+ html body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero)::after,
+ body.signal-atlas:not(.page-home) .site-footer::before,
+ body.signal-atlas:not(.page-home) .site-footer::after{display:none!important}
+}

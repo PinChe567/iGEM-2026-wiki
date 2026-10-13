@@ -46,7 +46,7 @@ function boot(): void {
   main.innerHTML = `
     <div class="sb-shell" data-testid="scentbound-shell">
       <section class="intro">
-        <div class="eyebrow" id="introEyebrow"><span></span> GAME 02</div>
+        <div class="eyebrow" id="introEyebrow"><span></span> ${copy.hub.gameLabel} 02</div>
         <h1 id="introTitle"></h1>
         <p id="introLead"></p>
         <div class="intro-chips" id="introChips" aria-label="Game facts"></div>
@@ -54,7 +54,7 @@ function boot(): void {
       <section class="lab" aria-label="${copy.scentbound.title}">
         <div class="level-header">
           <div>
-            <span class="section-label">GAME 02</span>
+            <span class="section-label">${copy.hub.gameLabel} 02</span>
             <h2 id="chooseRun"></h2>
           </div>
           <div class="lab-actions">

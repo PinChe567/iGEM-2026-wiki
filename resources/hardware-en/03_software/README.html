@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>AeroSense software: from power-on to a saved measurement — AeroSense</title><style>body{font:17px/1.6 system-ui,sans-serif;color:#233a33;background:#fbfbf6;margin:0}main{max-width:1080px;margin:auto;padding:36px 24px}h1,h2,h3{line-height:1.15}h1{font-size:2.4rem}h2{margin-top:2.4em}a{color:#08694b}img{max-width:100%;height:auto}table{border-collapse:collapse;width:100%;font-size:.9rem}th,td{border:1px solid #cdd8cb;padding:8px;text-align:left;vertical-align:top}thead{background:#e4eddc}pre{padding:16px;background:#e9eee5;overflow:auto}nav{display:flex;gap:20px;flex-wrap:wrap}figure{margin:20px 0}.table-scroll{overflow:auto}button,input,select{font:inherit}canvas{width:100%;height:480px;touch-action:none;background:#f4f7ef;border:1px solid #ccd7c8}.controls{display:flex;gap:24px;flex-wrap:wrap}.source-note{background:#e8eddf;padding:15px;border-left:4px solid #57745b}</style></head><body><main><h1 id="aerosense-software-from-power-on-to-a-saved-measurement">AeroSense software: from power-on to a saved measurement</h1>
+<p>This folder contains the executable phone UI, ESP32 firmware, host server and analysis code. Start with <code>guides/Operation_and_Setup_EN.md</code>: demonstration, wiring and flashing, dark acquisition, LED checks, calibration, then measurement. A rented cloud server is not required for first use.</p>
+<p>For measured LED-on background subtraction, signed phase projection and optional display averaging, follow <a href="guides/Measured_Correction_EN.html">Measured correction</a>. This is opt-in browser processing of preserved raw I/Q. Collect a cell-free illuminated blank and a separate fluorescence phase reference; do not substitute a simulated waveform or a living-cell F0 for the blank.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Location</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>firmware/src/main.cpp</code></td>
+<td>LED timing, external ADC acquisition, DLIA, local API and result uploads</td>
+</tr>
+<tr>
+<td><code>firmware/src/config.example.h</code></td>
+<td>Copy to <code>aerosense_config.h</code> in the same folder and enter private settings</td>
+</tr>
+<tr>
+<td><code>firmware/data/</code></td>
+<td>Bilingual phone UI; upload the LittleFS filesystem as well as firmware</td>
+</tr>
+<tr>
+<td><code>firmware/data/correction.js</code></td>
+<td>Measured complex blank subtraction, reference phase projection, QC and timestamp-based display EMA</td>
+</tr>
+<tr>
+<td><code>server/server.py</code></td>
+<td>Host command queue, SQLite storage and explicitly labelled demonstration mode</td>
+</tr>
+<tr>
+<td><code>analysis/dlia.py</code></td>
+<td>Offline raw-data demodulation; not identical to the MCU rectangular I/Q estimator</td>
+</tr>
+<tr>
+<td><code>analysis/odor_model.py</code></td>
+<td>Small research neural-network pipeline; no fabricated trained odor model supplied</td>
+</tr>
+<tr>
+<td><code>guides/</code></td>
+<td>Setup, controls, calibration, operation and troubleshooting</td>
+</tr>
+<tr>
+<td><code>templates/</code></td>
+<td>Empty experiment and model-training tables</td>
+</tr>
+<tr>
+<td><code>evidence/</code></td>
+<td>Consolidated software checks, build records, and DLIA results</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="try-the-interface-without-a-pcb">Try the interface without a PCB</h2>
+<p>Open a terminal in this folder:</p>
+<pre><code class="language-powershell">python server/server.py --demo
+</code></pre>
+<p>On the same computer, open <code>http://127.0.0.1:8765/</code>, enter API key <code>local-demo-key</code>, then Connect. The banner must say DEMO DATA. These numbers are interface exercises, not experimental evidence.</p>
+<h2 id="repeat-software-checks">Repeat software checks</h2>
+<p>With Python 3.11 or later and Node.js installed:</p>
+<pre><code class="language-powershell">python -m pip install -r requirements.txt
+python test_software.py
+python test_model.py
+node test_calibration.cjs
+node test_correction.cjs
+node test_ui.cjs
+node --check firmware/data/app.js
+</code></pre>
+<p>JSON evidence is written to <code>evidence/</code>. Firmware compilation uses PlatformIO as explained in the guide. Software tests do not exercise a physical ADC or demonstrate fluorescence detection.</p>
+<h2 id="check-functions-before-filter-delivery-and-after-flashing">Check functions before filter delivery and after flashing</h2>
+<p>Updated 2026-10-11. Use a dry, cell-free device. Test the interface, power, dark acquisition, exports, and stop control before filter delivery.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Action</th>
+<th>Acceptance and evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 Demo interface</td>
+<td>Start DEMO above. Connect. Set three blocks and a three-second interval. Start, then stop.</td>
+<td>Confirm DEMO. Confirm cancellation of the remaining schedule. This does not test the PCB.</td>
+</tr>
+<tr>
+<td>2 Complete flashing</td>
+<td>Upload firmware and LittleFS with the setup guide.</td>
+<td>Require SUCCESS for both uploads. Restart and open the page. J2 supplies power; J3 carries programming signals.</td>
+</tr>
+<tr>
+<td>3 Board connection</td>
+<td>Connect the phone to AeroSense. Open http://192.168.4.1/. Enter the private API_KEY.</td>
+<td>Confirm HARDWARE. Do not report DEMO records as board measurements.</td>
+</tr>
+<tr>
+<td>4 Dark acquisition</td>
+<td>Keep BOARD_VALIDATED=false. Select Dark. Set Blocks=1 and Interval=3.</td>
+<td>Check the 8,000-sample block, valid, railSamples, and timing fields. Resolve clipping or timing failures.</td>
+</tr>
+<tr>
+<td>5 Save data</td>
+<td>Set a sample label before acquisition. Export JSON, CSV, and the latest raw ADC.</td>
+<td>Check file contents and the label. Download raw ADC before another block overwrites it.</td>
+</tr>
+<tr>
+<td>6 Stop control</td>
+<td>Start three dark blocks. After one block, select Stop.</td>
+<td>Confirm cancellation of remaining blocks. Check that SW1 removes power when network control is unavailable.</td>
+</tr>
+<tr>
+<td>7 One LED</td>
+<td>An electronics collaborator must first check power, ADC operating point, and timing. Then unlock, rebuild, and flash. Test each LED at 5% duty.</td>
+<td>Check physical well mapping, LED waveforms, ADC range, and stop control. Unfiltered signals do not establish fluorescence performance.</td>
+</tr>
+<tr>
+<td>8 Final optics</td>
+<td>Install the selected filter. Measure a cell-free blank and a known fluorescent reference.</td>
+<td>Require distinguishable fluorescence, valid timing, and no clipping. Follow the measured-correction guide before cell measurements.</td>
+</tr>
+</tbody>
+</table></div>
+<p>A displayed number does not establish hardware acceptance. Retain failed records. Do not disable QC to obtain valid=true. See the <a href="guides/Operation_and_Setup_EN.html">setup guide</a>.</p>
+<p>The current read-only rerun passed 23 host, 10 calibration, 33 measured-correction, and 12 UI DOM/API checks. All 78 checks passed. The app.js syntax check passed. Existing evidence files were preserved. These checks exclude physical flashing, browser visual inspection, ADC timing, optics, and cells.</p>
+<h2 id="gitlab-hardware-source-attachment">GitLab hardware source attachment</h2>
+<p>The target is <code>code/aerosense</code> in the team Wiki repository. It supports Hardware reproduction. It is not the dedicated Best Software submission.</p>
+<p>Include firmware, phone UI, server, analysis, tests, dependencies, blank templates, and guides. Exclude private settings, databases, model weights, build caches, working copies, and vendor drawings. Keep placeholders in the example configuration. Inspect the actual upload contents; ignore rules alone do not establish confidentiality.</p>
+<p>Preserve the Wiki root LICENSE and deployment settings. Uploading source does not update the ESP32. After firmware changes, rebuild, flash, and check the board. Record the source revision used for each experiment.</p>
+<h2 id="known-limits">Known limits</h2>
+<p>This package has no recorded physical-board acceptance. <code>BOARD_VALIDATED=false</code> permits only all-LEDs-off acquisition. Enable LEDs only after electrical power, ADC timing and single-LED waveforms pass bench checks. Physical flashing and 4 kHz acquisition with Wi-Fi remain untested.</p>
+<p>The grounded TIA noninverting input and ADC negative input can place the dark signal near the ADC lower rail. If dark data are clipped, retain the failure record and ask an electronics collaborator to inspect the operating point. Do not disable validity checks to manufacture a calibration result.</p>
+<p>Reflected excitation and LED-synchronous material background remain in the corresponding DLIA channel. Four frequencies do not automatically provide four independent wells; measure optical mixing separately.</p>
+<p>The device stores at most eight pending summaries and only the latest raw ADC block in RAM. Rebooting loses RAM. The browser keeps up to 1,000 observed summaries; export after each experiment.</p>
+<p>There are no battery-level, cell-temperature, gas-flow or fan-speed sensors, and no connected valve-control circuit. The UI does not fabricate those values. Public internet deployment is not provided; use direct connection or a private LAN for the first two-week prototype campaign.</p>
+<hr/>
+<h2 id="reproduction-attachment-and-current-browser-check">Reproduction attachment and current browser check</h2>
+<p>A separate browser check on 2026-10-11 confirmed DEMO connection, language switching, Start, Stop, and JSON/CSV export. Stop changed six pending blocks to zero. Two exported DEMO records retained the sample tag and raw I/Q fields. This was a desktop check. It did not test a physical board or all mobile layouts.</p>
+<p>To rebuild the public source archive, run from this folder:</p>
+<pre><code class="language-text">python -B package_source.py --output C:/path/outside-this-package/aerosense-source.zip
+</code></pre>
+<p>The archive contains device software, three simulation models, required numerical inputs, CSV results, and validation analysis. It excludes private settings, vendor drawings, generated media, saved numerical fields, caches, and binaries. This keeps the file below the GitLab 10 MB limit. Read the archive's root README for fresh solver commands before plotting. Full replay can be expensive. The local delivery retains all saved numerical fields for fast plotting. The internal manifest lists file hashes. Preserve the full directory structure after extraction. The upload location is <code>code/aerosense</code> in the team GitLab repository.</p></main></body></html>

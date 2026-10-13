@@ -10,9 +10,40 @@
    * Do not index nav/footer boilerplate, emails, or reference lists as primary hits.
    */
   var SEARCH_INDEX = [
+<<<<<<< HEAD
+    /* Receptor engineering: integrated computational evidence in Model. */
+    {"pageTitle": "Model · Receptor engineering", "section": "Molecular features in sequence-based response prediction", "excerpt": "Molecular weight is already in the baseline. Compare matched chemical-group and receptor holdouts for measured IR, quantum modes and OpenPOM.", "keywords": "Dry Lab 序列反應模型中的分子特徵 molecular weight IR EVA PCA POM 振動 頻譜 分子量 LORAX", "url": "model.html", "anchor": "receptor-molecular-features"},
+    {"pageTitle": "Model · Receptor engineering", "section": "Measured IR and molecular-weight ablation", "excerpt": "82 odorants; measured spectra did not improve chemical-group prediction. Weight and size ablation effects depend on model and split.", "keywords": "Dry Lab 實測紅外線頻譜與分子量消融 molecular weight IR EVA PCA POM 振動 頻譜 分子量 LORAX", "url": "model.html", "anchor": "receptor-measured-ir"},
+    {"pageTitle": "Model · Receptor engineering", "section": "Quantum vibrations, EVA and computed IR", "excerpt": "85 accepted mode sets; 67 odors overlap measured IR. Full and PCA-compressed features did not establish a stable gain.", "keywords": "Dry Lab 量子振動、EVA 與計算 IR molecular weight IR EVA PCA POM 振動 頻譜 分子量 LORAX", "url": "model.html", "anchor": "receptor-quantum-vibrations"},
+    {"pageTitle": "Model · Receptor engineering", "section": "OpenPOM AI odor features", "excerpt": "109 odors; ExtraTrees point scores increased while HGB decreased. All POM R²-gain intervals crossed zero. LORAX remains future work.", "keywords": "Dry Lab OpenPOM AI 氣味特徵 molecular weight IR EVA PCA POM 振動 頻譜 分子量 LORAX", "url": "model.html", "anchor": "receptor-ai-odor-features"},
+    {"pageTitle": "Model · Receptor engineering", "section": "What are 8V00 and 8V02?", "excerpt": "Experimental cryo-EM structures of Aedes aegypti OR10 with three Apocrypta bakeri Orco subunits: 8V00 is odorant-free; 8V02 binds o-cresol. Compare their meaning and uses, with author–year references.", "keywords": "8V00 8V02 PDB apo holo cryo-EM Orco o-cresol 結構 未結合 結合 鄰甲酚 名詞 參考文獻", "url": "model.html", "anchor": "receptor-structure-guide"},
+    {"pageTitle": "Model · Receptor engineering", "section": "Data foundation and evaluation design", "excerpt": "The main benchmark contains 24 Drosophila receptors and 110 odorants: 2,640 receptor–odorant responses in spikes/s, with no missing response or duplicate pair ID in the curated table. A response threshold of 50 spikes/s was used for some classification compari", "keywords": "Dry Lab receptor engineering 資料基礎與評估設計 ", "url": "model.html", "anchor": "receptor-data-foundation"},
+    {"pageTitle": "Model · Receptor engineering", "section": "Complete model comparisons", "excerpt": "The six feature sets use the same histogram gradient boosting settings, the same response pairs and fixed folds. L denotes ligand descriptors; S combines sequence descriptors and ESM2; P adds pocket features; D adds Vina and contact summaries; M adds multiple-", "keywords": "Dry Lab receptor engineering 完整模型比較 ", "url": "model.html", "anchor": "receptor-model-evidence"},
+    {"pageTitle": "Model · Receptor engineering", "section": "Mutation design and the odor panel", "excerpt": "We proposed 35 single-residue substitutions across Or35a, Or22a, Or85b, Or98a and Or67a and checked the original amino acid at every position. The first structural screen used 12 substitutions plus Or22a/Or35a wild types, giving 14 ColabFold models. These are ", "keywords": "Dry Lab receptor engineering 突變設計與氣味組合 ", "url": "model.html", "anchor": "receptor-mutation-design"},
+    {"pageTitle": "Model · Receptor engineering", "section": "Cross-species exploration: can function transfer?", "excerpt": "We tested whether fly-derived information can help prioritize mosquito receptors. Carey et al. provide 50 Anopheles gambiae receptors × 113 odorants, or 5,650 responses with SEM; 40 odorants overlap the fly panel. This Anopheles transfer study is separate from", "keywords": "Dry Lab receptor engineering 跨物種探索：功能資訊能否轉移？ cross-species 跨物種 Anopheles Drosophila mosquito fragment 31-aa", "url": "model.html", "anchor": "receptor-cross-species"},
+    {"pageTitle": "Model · Receptor engineering", "section": "How the membrane models were built and checked", "excerpt": "8V02 is the o-cresol-bound Aedes aegypti OR10 complex with three Apocrypta bakeri Orco subunits; 8V00 is its unbound structural reference. AlphaFold supports the missing-region hypotheses and fly-receptor features, while ColabFold supplies the mutation models.", "keywords": "Dry Lab receptor engineering 膜模型如何建立與檢查 ", "url": "model.html", "anchor": "receptor-md-methods"},
+    {"pageTitle": "Model · Receptor engineering", "section": "Bound-state MD: from 5 ns to 20 ns", "excerpt": "Matched bound-state trajectories were extended from 5 to 20 ns without positional restraints during the extension. The prespecified summary windows are 3–5 ns and 15–20 ns. All completed trajectories passed the saved-frame geometry checks without detected chir", "keywords": "Dry Lab receptor engineering 結合態 MD：從 5 ns 到 20 ns ", "url": "model.html", "anchor": "receptor-holo-validation"},
+    {"pageTitle": "Model · Receptor engineering", "section": "Two functional assays, kept separate", "excerpt": "The initial functional dataset contains seven odorants and 63 published oocyte-current observations with AaegOR10/AaegOrco. Screening concentration remains unresolved in the inspected records, and dose-response tables have normalization/labeling questions. The", "keywords": "Dry Lab receptor engineering 兩套功能 assay，分開比較 ", "url": "model.html", "anchor": "receptor-functional-panels"},
+    {"pageTitle": "Model · Receptor engineering", "section": "Molecular availability: one versus twenty odorants", "excerpt": "The concentration exploration used the same initial receptor snapshot and box for paired 1- and 20-o-cresol conditions. The first ligand position was shared and the additional molecules were placed in the external water layer with collision exclusions. Initial", "keywords": "Dry Lab receptor engineering 分子可接觸性：1 個與 20 個氣味分子 ", "url": "model.html", "anchor": "receptor-concentration-study"},
+    {"pageTitle": "Model · Receptor engineering", "section": "How the steering experiments evolved", "excerpt": "The first SMD design pulled o-cresol outward along candidate guidance lines and would reverse an accepted exit path for entry testing. All outward attempts encountered excessive target lag before satisfying exit criteria. Consequently, no accepted outward path", "keywords": "Dry Lab receptor engineering 牽引與入口引導如何逐步演進 ", "url": "model.html", "anchor": "receptor-steering-development"},
+    {"pageTitle": "Model · Receptor engineering", "section": "From empty-space probes to a whole-molecule path", "excerpt": "A widest-path graph search on saved conformations identified candidate space near S3/S6. The 47.6 ns snapshot suggested a lateral route near I132/Y285/M288; the 59 ns snapshot suggested a lower-membrane-coordinate route near L128/I184/Q292. “Lower” refers to t", "keywords": "Dry Lab receptor engineering 從空隙探針到完整分子路徑 ", "url": "model.html", "anchor": "receptor-pathway-development"},
+    {"pageTitle": "Model · Receptor engineering", "section": "What the complete evidence supports", "excerpt": "The work establishes curated data, controlled feature comparisons, mutation audits, a cross-species transfer test and a membrane-MD/pathway workflow. Sequence features improve within-species prediction, while added structural features, proposed selectivity mut", "keywords": "Dry Lab receptor engineering 完整證據支持到哪裡 ", "url": "model.html", "anchor": "receptor-evidence-limits"},
+    {"pageTitle": "Model · Receptor engineering", "section": "Turn odor-response data into design candidates", "excerpt": "Adding receptor sequence features improved prediction for held-out receptors. Or22a and Or35a showed useful target-versus-control response differences in the published data.", "keywords": "Dry Lab receptor engineering AlphaFold ColabFold docking MD OR10 Or22a Or35a pathway odor selectivity 把氣味反應資料轉為受體設計候選", "url": "model.html", "anchor": "receptor-cycle-1"},
+    {"pageTitle": "Model · Receptor engineering", "section": "Test whether a better docking score supports selectivity", "excerpt": "F34Y and E196Q lacked direct mutated-side-chain contacts in the inspected poses. Their relative preference changed with docking setup; no robust positive winner emerged.", "keywords": "Dry Lab receptor engineering AlphaFold ColabFold docking MD OR10 Or22a Or35a pathway odor selectivity 較好的 docking 分數，能否支持專一性？", "url": "model.html", "anchor": "receptor-cycle-2"},
+    {"pageTitle": "Model · Receptor engineering", "section": "Ask whether receptor motion improves odor ranking", "excerpt": "MD supplied alternative pockets, but their docking–response correlations did not exceed the static apo reference in the expanded odor panel.", "keywords": "Dry Lab receptor engineering AlphaFold ColabFold docking MD OR10 Or22a Or35a pathway odor selectivity 受體動態能否改善氣味反應排序？", "url": "model.html", "anchor": "receptor-cycle-3"},
+    {"pageTitle": "Model · Receptor engineering", "section": "Reduce the distance between an odorant and its candidate entrance", "excerpt": "Odorants contacted the membrane or receptor, but the analyzed trajectories did not meet the sustained pocket-entry criterion, including near-entrance simulations lasting 10 ns.", "keywords": "Dry Lab receptor engineering AlphaFold ColabFold docking MD OR10 Or22a Or35a pathway odor selectivity 縮短分子與候選入口的距離", "url": "model.html", "anchor": "receptor-cycle-4"},
+    {"pageTitle": "Model · Receptor engineering", "section": "Test whether opening the entrance and waiting permits release", "excerpt": "Initial outward steering encountered resistance. Guiding S3/S6 distances and extending the observation to 70 ns changed entrance geometry but produced no sustained exit.", "keywords": "Dry Lab receptor engineering AlphaFold ColabFold docking MD OR10 Or22a Or35a pathway odor selectivity 入口變寬、等待更久，分子就能離開嗎？", "url": "model.html", "anchor": "receptor-cycle-5"},
+    {"pageTitle": "Model · Receptor engineering", "section": "Move from empty space to a testable molecular pathway", "excerpt": "Two candidate directions emerged, but whole-ligand searches across 24 saved conformations found no collision-free complete route. Dynamic route-following and longer local waiting also produced no complete exit.", "keywords": "Dry Lab receptor engineering AlphaFold ColabFold docking MD OR10 Or22a Or35a pathway odor selectivity 從幾何空隙，走向可檢驗的分子路徑", "url": "model.html", "anchor": "receptor-cycle-6"},
+
+    { pageTitle: "Alternative Platform", section: "HEK293 host rationale and evidence", excerpt: "Why a mammalian host was selected, what endpoint expression supports, and the validation still required.", keywords: "HEK293 alternative platform host receptor OR Orco", url: "alternative-platform.html", anchor: "main" },
+    { pageTitle: "Measurement", section: "Endpoint microscopy measurement", excerpt: "Measurand, controls, excluded dense regions, threshold sensitivity, and limits of a one-batch study.", keywords: "measurement DAPI uncertainty Fisher Holm blank density", url: "measurement.html", anchor: "main" },
+    { pageTitle: "Website credits", section: "Responsible AI", excerpt: "AI-assisted code, editing and conceptual artwork; retained raw data and scientific limits.", keywords: "AI disclosure authors contributions responsibility", url: "credits.html", anchor: "responsible-ai" },
+    { pageTitle: "Model", section: "Explore the odor circuit", excerpt: "Step through odor encoding, sparse Kenyon-cell activity and a scripted learning example. A conceptual guide to the decoding model.", keywords: "neural circuit PN KC MBON train test interactive fly brain", url: "model.html", anchor: "neural-circuit-demo" },
+=======
     { pageTitle: "Alternative Platform", section: "HEK293 host rationale and evidence", excerpt: "Why a mammalian host was selected, what endpoint expression supports, and the validation still required.", keywords: "HEK293 alternative platform host receptor OR Orco", url: "alternative-platform.html", anchor: "main" },
     { pageTitle: "Measurement", section: "Endpoint microscopy measurement", excerpt: "Measurand, controls, excluded dense regions, threshold sensitivity, and limits of a one-batch study.", keywords: "measurement DAPI uncertainty Fisher Holm blank density", url: "measurement.html", anchor: "main" },
     { pageTitle: "Attributions", section: "Responsible AI", excerpt: "AI-assisted code, editing and conceptual artwork; retained raw data and scientific limits.", keywords: "AI disclosure authors contributions responsibility", url: "attributions.html", anchor: "responsible-ai" },
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     { pageTitle: "Contribution", section: "Released analysis package", excerpt: "Reproduce the endpoint fluorescence analysis and its exploratory control comparison.", keywords: "download microscopy Python CSV controls package", url: "contribution.html", anchor: "released-contribution" },
 
     /* Home */
@@ -718,7 +749,11 @@
     {
       pageTitle: "Attributions",
       section: "Official Project Attributions Form",
+<<<<<<< HEAD
+      excerpt: "NTHU Team 6460’s official Project Attributions Form, embedded with team contributions, AI tool use, partner offers, external contributions, and timeline.",
+=======
       excerpt: "NTHU Team 6460’s official iGEM contribution record, displayed directly from iGEM. Use the form’s own category menu to read who did what.",
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       keywords: "attributions official form 6460 iGEM credits team contributions external support timeline",
       url: "attributions.html",
       anchor: "official-form",
@@ -797,7 +832,7 @@
       excerpt: "How can insect olfactory receptors in mammalian cells, fly-inspired decoding, and portable optics form one VOC sensing platform?",
       keywords: "design question VOC receptor platform",
       url: "design.html",
-      anchor: "design-question",
+      anchor: "design-abstract",
     },
     {
       pageTitle: "Design",
@@ -934,16 +969,26 @@
     {
       pageTitle: "Description",
       section: "TH, GH146 and the fly olfactory circuit",
+<<<<<<< HEAD
+      excerpt: "The 5137;TH recording uses TH-GFP, a membrane label rather than a calcium reporter. The separate GH146 preparation uses UAS-GCaMP6f; PN imaging remains pending. Projection neurons relay olfactory input, while dopamine modulates the circuit.",
+      keywords: "TH 5137 TH-GFP mCD8 GFP membrane label GH146 PN UAS-GCaMP6f projection neuron dopamine mushroom body MBON antennal lobe light-sheet",
+=======
       excerpt: "TH and GH146 preparations both use team-confirmed UAS-GCaMP6f. Projection neurons relay antennal-lobe input toward the mushroom body and lateral horn; dopamine modulates the circuit. TH (5137) stock numbering still needs checking, and PN imaging remains pending.",
       keywords: "TH 5137 GH146 PN UAS-GCaMP6f calcium reporter projection neuron dopamine mushroom body MBON antennal lobe light-sheet",
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       url: "description.html",
       anchor: "fly-neural-circuit",
     },
     {
       pageTitle: "Notebook",
       section: "20 April · TH light-sheet record",
+<<<<<<< HEAD
+      excerpt: "The 20 April light-sheet recording used 5137;TH (TH-GFP). mCD8::GFP labels membranes; normalized fluorescence does not establish a calcium response. The full cross, acquisition controls and biological repeats remain to be documented.",
+      keywords: "April 20 4/20 TH 5137 TH-GFP mCD8 GFP membrane reporter fly brain light-sheet notebook",
+=======
       excerpt: "TH × UAS-GCaMP6f light-sheet record: the reporter is confirmed by the team. The driver stock identifier and full progeny genotype still need checking; odor-evoked neural responses require acquisition controls and biological repeats.",
       keywords: "April 20 4/20 TH 5137 UAS-GCaMP6f confirmed reporter fly brain light-sheet notebook",
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       url: "notebook.html",
       anchor: "wet-th-lightsheet-20260420",
     },
@@ -1750,7 +1795,7 @@
   function normalize(text) {
     return String(text || "")
       .toLowerCase()
-      .replace(/[^\w\u00C0-\u024F+#./-]+/g, " ")
+      .replace(/[^\p{L}\p{N}_+#./-]+/gu, " ")
       .replace(/\s+/g, " ")
       .trim();
   }
@@ -1777,6 +1822,7 @@
 
   function hasPhrase(hay, phrase) {
     if (!phrase) return false;
+    if (/[\u3400-\u9fff]/.test(phrase)) return hay.indexOf(phrase) !== -1;
     if (phrase.length <= 2) {
       return new RegExp(
         "(^|[\\s\\-/])" + phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "([\\s\\-/]|$)"
@@ -1789,17 +1835,18 @@
     var q = normalize(query);
     if (!q) return 0;
 
-    var title = normalize(entry.pageTitle);
-    var section = normalize(entry.section);
-    var excerpt = normalize(entry.excerpt);
+    var translated = function(value) { return window.AeroSenseI18n ? window.AeroSenseI18n.lookup(value) : value; };
+    var title = normalize(entry.pageTitle + ' ' + translated(entry.pageTitle));
+    var section = normalize(entry.section + ' ' + translated(entry.section));
+    var excerpt = normalize(entry.excerpt + ' ' + translated(entry.excerpt));
     var keywords = normalize(entry.keywords);
     var hay = title + " " + section + " " + excerpt + " " + keywords;
     var score = 0;
 
-    if (title === q) score += 1000;
+    if (normalize(entry.pageTitle) === q || normalize(translated(entry.pageTitle)) === q) score += 1000;
     else if (hasPhrase(title, q)) score += 700;
 
-    if (section === q) score += 900;
+    if (normalize(entry.section) === q || normalize(translated(entry.section)) === q) score += 900;
     else if (hasPhrase(section, q)) score += 600;
 
     if (hasPhrase(keywords, q)) score += 350;
@@ -1910,7 +1957,9 @@
 
       var meta = document.createElement("p");
       meta.className = "search-result__meta";
-      meta.textContent = entry.pageTitle + " · " + entry.section;
+      var pageName=document.createElement('span'), sectionName=document.createElement('span');
+      pageName.textContent=entry.pageTitle;sectionName.textContent=entry.section;
+      meta.append(pageName,document.createTextNode(' · '),sectionName);
 
       var excerpt = document.createElement("p");
       excerpt.className = "search-result__excerpt";

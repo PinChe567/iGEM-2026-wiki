@@ -393,8 +393,8 @@
           id: "what-is-smell",
           heading: "What exactly is a smell?",
           paragraphs: [
-            "A smell begins as chemistry in air. Airborne odorant molecules reach receptor proteins. Binding starts a signal. The experience of an odor is assembled later from that activity.",
-            "Many odorants that reach the nose are volatile chemicals, including volatile organic compounds. This lesson does not treat every odor molecule as a VOC. The teaching point is simpler: molecules arrive first; perception is constructed afterward.",
+            "Airborne odorant molecules bind receptor proteins and trigger signals. The brain builds the experience of smell from this activity.",
+            "Many odorants are volatile chemicals, including volatile organic compounds. Not every odorant is a VOC. Molecules arrive first; perception is constructed afterward.",
           ],
           widget: "molecule-drift",
           ideaCard: "Molecules first. Perception later.",
@@ -429,7 +429,7 @@
         type: "odor-fingerprint",
         title: "Build an odor fingerprint",
         challenge:
-          "Choose a fictional odor sample, inspect six receptor channels, add background noise, and switch among raw, contrast-enhanced, and sparse views. Then compare Odor A and Odor B.",
+          "Choose a fictional odor and inspect six receptor channels. Add noise, compare raw, contrast-enhanced and sparse views, then compare Odor A with Odor B.",
         explanation:
           "Raw rows can overlap. Contrast can sharpen differences. Sparse views keep a small active subset. None of these steps names the odor by itself; they change how separable the pattern can be.",
         disclaimer: "Conceptual simulation — not experimental AeroSense data.",
@@ -458,7 +458,7 @@
       category: "Question",
       theme: "casefile",
       eyebrow: "Food safety",
-      title: "Mold, Mycotoxins, and the Risk You Cannot See",
+      title: "Mold and hidden risk",
       shortTitle: "Mold & Mycotoxins",
       heroTitle: "If it looks fine, is it safe?",
       heroTitleLines: ["If it looks fine,", "is it safe?"],
@@ -539,7 +539,7 @@
         },
         {
           id: "two-paths",
-          heading: "Two paths that must stay separate",
+          heading: "Growth and toxin are different questions",
           paragraphs: [
             "Fungal growth can change metabolism, and a volatile profile may shift. AeroSense is being designed to screen that odor-pattern change. Mycotoxin concentration is a different question and needs a different test.",
           ],
@@ -551,7 +551,7 @@
         type: "food-investigate",
         title: "Investigate the food",
         challenge:
-          "A fictional batch of stored nuts. Inspect the exhibits, then decide what the evidence can support — without leaping to a toxin number.",
+          "Inspect the evidence for a fictional batch of stored nuts. Decide what it supports without inferring an unmeasured toxin concentration.",
         explanation:
           "Appearance and smell alone cannot establish mycotoxin status. Storage notes can change how incomplete the file is. They still do not replace confirmatory testing.",
         disclaimer: "Fictional teaching scenario — not experimental AeroSense data and not a real batch record.",
@@ -628,11 +628,11 @@
       category: "Build",
       theme: "bench",
       eyebrow: "Synthetic biology",
-      title: "Building a Living Odor Sensor",
+      title: "Build a living odor sensor",
       shortTitle: "Living Sensor",
       heroTitle: "Can a cell learn to smell?",
       heroTitleLines: ["Can a cell", "learn to smell?"],
-      hook: "We do not give a cell a nose. We give it molecular components that convert odor recognition into a measurable signal.",
+      hook: "Molecular components let a cell convert odor recognition into a measurable signal.",
       duration: "~8 min",
       ready: true,
       objectives: [
@@ -643,7 +643,7 @@
       sections: [
         {
           id: "not-a-nose",
-          heading: "Not a nose — a pathway",
+          heading: "Build a sensing pathway",
           paragraphs: [
             "AeroSense does not transplant a fly’s nose into food. The plan is heterologous: selected insect odorant receptors, with Orco, expressed in HEK293 cells, with a GCaMP-class reporter that can turn a calcium change into light.",
             "That is an engineered information pathway. Fluorescence is still not a food verdict, and this lesson does not claim a working device in hand.",
@@ -676,7 +676,7 @@
         type: "sensor-bench",
         title: "Build the sensor",
         challenge:
-          "Assemble the minimum biological sensing chain, then park the detector and the classifier in the right layers. Tap a part, then tap a zone. Drag works on a pointer too.",
+          "Assemble the biological sensing chain and place the detector and classifier in their layers. Select a part, then a zone, or drag with a pointer.",
         explanation:
           "HEK293, OR, Orco, and GCaMP belong in the cell. The photodiode belongs in readout, outside the cell. The AI classifier belongs in computation. mCherry can ride in the cell as an expression reporter; it is not required for the odor-to-fluorescence conversion.",
         disclaimer: "Conceptual assembly — not experimental AeroSense data and not a plasmid map.",
@@ -752,11 +752,11 @@
       category: "Decode",
       theme: "decode",
       eyebrow: "Neuromorphic computing",
-      title: "Decoding an Odor Fingerprint",
+      title: "Decode an odor pattern",
       shortTitle: "Decoding Odors",
       heroTitle: "An odor is a pattern",
       heroTitleLines: ["An odor", "is a pattern"],
-      hook: "When multiple receptors respond at once, the challenge changes from sensing a signal to interpreting a pattern.",
+      hook: "Read the pattern formed by multiple receptor responses.",
       duration: "~8 min",
       ready: true,
       objectives: [
@@ -794,20 +794,20 @@
         },
         {
           id: "upstream",
-          heading: "The model is not the first step",
+          heading: "Reliable input comes first",
           paragraphs: [
             "A classifier sits at the end of a chain: biology reports fluorescence, hardware turns that into a calibrated signal, a model builds a representation, and a person sees risk information. If the first steps are noisy or unvalidated, the last step still produces a label.",
           ],
           widget: "signal-path",
           deeper:
-            "Ablation — turning a processing step off — is how engineers ask whether that step contributed. A prettier sparse picture in this lesson is not a published performance result.",
+            "Ablation turns a processing step off to test its contribution. A clearer sparse picture in this lesson is not evidence of published model performance.",
         },
       ],
       interaction: {
         type: "pattern-lab",
         title: "Odor pattern lab",
         challenge:
-          "Select Sample A, Sample B, or a mixture. Watch raw, contrast-enhanced, and sparse views. Add noise and switch ablation modes. The output is a teaching resemblance, not a model score.",
+          "Compare Sample A, Sample B and a mixture in raw, contrast-enhanced and sparse views. Add noise or disable a processing step. The resemblance is a teaching output, not a model score.",
         explanation:
           "Sparse coding and contrast can make overlapping rows easier to tell apart in this sketch. Whether they help a real decoder still has to be shown with real measurements and validation.",
         disclaimer: "Conceptual simulation — not the AeroSense model and not experimental data.",
@@ -838,11 +838,11 @@
       theme: "qc",
       capstone: true,
       eyebrow: "Responsible application",
-      title: "From Signal to Responsible Decision",
+      title: "Make responsible decisions",
       shortTitle: "Responsible Decisions",
       heroTitle: "A signal is not a verdict",
       heroTitleLines: ["A signal", "is not a verdict"],
-      hook: "The hardest part of sensing is not producing a number. It is deciding what that number is allowed to mean.",
+      hook: "Decide what a signal can support and what still needs evidence.",
       duration: "~8 min",
       ready: true,
       objectives: [
@@ -855,7 +855,7 @@
           id: "screening-vs-confirm",
           heading: "Screening is not confirmation",
           paragraphs: [
-            "You are no longer only a learner. In this module you sit as a QC manager. A screening band can change what you do next. It cannot finish the chemical or legal question.",
+            "Act as a QC manager. Use a screening band to choose the next step while recognizing that chemical and legal questions remain unresolved.",
             "Low, medium, and high are action prompts. They are not mycotoxin concentrations and not a release stamp.",
           ],
           widget: "bounds-card",
@@ -878,7 +878,7 @@
         type: "qc-desk",
         title: "You are the QC manager",
         challenge:
-          "Four fictional batches. Read screening band, signal quality, confidence, history, and storage. Choose a next action. There is not one correct stamp for every file.",
+          "For each of four fictional batches, review the screening band, signal quality, confidence, history and storage. Choose a next action that fits the evidence.",
         explanation:
           "Screening should guide the next action. It should not pretend to replace confirmatory analysis, and a poor-quality signal should not be treated as a finished risk number.",
         disclaimer: "Fictional QC files — not experimental AeroSense data and not a real warehouse record.",

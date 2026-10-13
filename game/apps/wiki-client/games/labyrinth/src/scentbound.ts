@@ -186,7 +186,7 @@ export function startScentbound(options: Options): { destroy: () => void } {
           </div>`,
       })}`;
     play.innerHTML = readyCopyHtml({
-      kicker: `GAME 02 · ${difficultyLabel()}`,
+      kicker: gameHeaderKicker('02', difficultyLabel()),
       title: c.title,
       lead: c.readyLead,
       startId: 'start-adventure',
@@ -956,7 +956,7 @@ export function startScentbound(options: Options): { destroy: () => void } {
     save();
     play.innerHTML = resultLayoutHtml({
       testId: 'debrief',
-      kicker: 'GAME 02',
+      kicker: gameHeaderKicker('02'),
       title: c.cleared,
       titleTestId: 'result-title',
       metrics: [

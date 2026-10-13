@@ -8,8 +8,11 @@
   const title=dialog.querySelector('h2'),copy=dialog.querySelector('.framework-note__copy');
   function open(figure,id){
     const item=figure.querySelector(`#${CSS.escape(id)}`);if(!item)return;
-    title.textContent=`${figure.querySelector('header h3')?.textContent || 'Analysis'} · ${item.querySelector('summary')?.textContent || ''}`;
-    copy.replaceChildren(...[...item.querySelector('.framework-cell__body')?.childNodes||[]].map(node=>node.cloneNode(true)));
+    const sourceText=element=>element?(window.AeroSenseI18n?.sourceText(element)||element.textContent):'';
+    title.textContent=`${sourceText(figure.querySelector('header h3')) || 'Analysis'} · ${sourceText(item.querySelector('summary'))}`;
+    const body=item.querySelector('.framework-cell__body');
+    const original=body&&(window.AeroSenseI18n?.cloneSource(body)||body.cloneNode(true));
+    copy.replaceChildren(...(original?[...original.childNodes]:[]));
     dialog.showModal?.();
     if(!dialog.showModal)dialog.setAttribute('open','');
   }

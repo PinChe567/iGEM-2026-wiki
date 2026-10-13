@@ -62,7 +62,7 @@
       const nav = document.createElement('nav');
       nav.className = 'eng-gears';
       nav.setAttribute('aria-label', 'Engineering stages');
-      nav.innerHTML = `<svg viewBox="0 0 215 330" role="group" aria-label="Interlocking engineering stages">${gears.map((gear, i) => `<g class="eng-gears__control" role="button" tabindex="0" aria-label="${names[i]}" aria-controls="${stages[i].id}" data-gear="${i}" transform="translate(${gear.x.toFixed(3)} ${gear.y.toFixed(3)})"><g class="eng-gears__rotor"><polygon points="${outline(gear)}"/><circle r="${gear.r * .48}"/></g><text text-anchor="middle" dominant-baseline="central">${names[i][0]}</text></g>`).join('')}</svg><p class="eng-gears__current" aria-live="polite"></p><p class="eng-gears__hint">Select a gear to explore a stage.</p>`;
+      nav.innerHTML = `<svg viewBox="0 0 215 330" role="group" aria-label="Interlocking engineering stages">${gears.map((gear, i) => `<g class="eng-gears__control" role="button" tabindex="0" aria-label="${names[i]}" aria-controls="${stages[i].id}" data-gear="${i}" transform="translate(${gear.x.toFixed(3)} ${gear.y.toFixed(3)})"><g class="eng-gears__rotor"><polygon points="${outline(gear)}"/><circle r="${gear.r * .48}"/></g><text text-anchor="middle" dominant-baseline="central">${names[i][0]}</text></g>`).join('')}</svg><p class="eng-gears__current" aria-live="polite"></p>`;
       body.prepend(nav);
       body.classList.add('has-meshed-gears');
       let active = 0, angle = 0;
@@ -88,7 +88,7 @@
           else if (['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft'].includes(event.key)) {
             event.preventDefault();
             const next = (i + (['ArrowDown', 'ArrowRight'].includes(event.key) ? 1 : 4)) % 5;
-            controls[next].focus(); show(next, next - active, event.isTrusted ? 'user' : 'guide');
+            controls[next].focus({preventScroll:true}); show(next, next - active, event.isTrusted ? 'user' : 'guide');
           }
         });
       });

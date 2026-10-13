@@ -92,7 +92,7 @@
         return panel.getAttribute("data-eng-ba-panel");
       },
       labelFor: function (key, tab) {
-        var label = tab && tab.textContent ? tab.textContent.trim() : "";
+        var label = tab ? (window.AeroSenseI18n?.sourceText(tab) || tab.textContent || "").trim() : "";
         return label ? "Showing " + label : key === "after" ? "Showing After" : "Showing Before";
       },
     });
@@ -157,6 +157,8 @@
 
   function initFigureDisclosures() {
     var keepCaption = {
+      "media-caption__label": true,
+      "wiki-figure__num": true,
       "eng-cycle__figure-id": true,
       "eng-cycle__figure-title": true,
       "eng-cycle__figure-cap": true,
@@ -319,7 +321,7 @@
 
     tabs.forEach(function (tab, index) {
       tab.addEventListener("click", function (event) {
-        selectCycle(viewer, tab.getAttribute("data-cycle-tab"), { hash: "replace", scroll: "none", source: event.isTrusted ? "user" : "guide" });
+        selectCycle(viewer, tab.getAttribute("data-cycle-tab"), { hash: event.isTrusted ? "replace" : false, scroll: "none", source: event.isTrusted ? "user" : "guide" });
       });
       tab.addEventListener("keydown", function (event) {
         var next = null;
@@ -335,7 +337,7 @@
         if (!next) return;
         event.preventDefault();
         selectCycle(viewer, next.getAttribute("data-cycle-tab"), { hash: "replace", scroll: "none", source: event.isTrusted ? "user" : "guide" });
-        next.focus();
+        next.focus({ preventScroll: true });
       });
     });
   }

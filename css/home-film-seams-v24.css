@@ -1,0 +1,72 @@
+/* Solid cut-paper steps connect the cover, film and article. The seams live
+   outside the sticky track, so the full frame and its controls stay clear. */
+body.signal-atlas.page-home.home-atlas-edition #home-film {
+  --film-entry-ground:#edf4eb;
+  --film-exit-night:#d6e3cf;
+  --film-exit-forest:#a3c6a8;
+}
+body.signal-atlas.page-home.home-atlas-edition #home-film.is-cinematic:not(.is-reading) {
+  --film-entry-ground:#dbd1ba;
+  --film-exit-night:#211e18;
+  --film-exit-forest:#355b47;
+}
+body.signal-atlas.page-home.home-atlas-edition .home-film-seam {
+  position:relative;display:block;width:100%;height:112px;
+  overflow:clip;isolation:isolate;pointer-events:none;
+}
+body.signal-atlas.page-home.home-atlas-edition .home-film-seam>span {
+  position:absolute;display:block;inset:0;
+}
+/* Translating the keyboard-only skip link above the film leaves it visible on
+   the preceding paper. Clip it until focus, while keeping it in the tab order. */
+body.signal-atlas.page-home.home-atlas-edition #home-film .asc-skip:not(:focus-visible) {
+  clip-path:inset(50%);width:1px;height:1px;padding:0;overflow:hidden;white-space:nowrap;
+}
+/* The right-hand apricot field continues the opening cover's existing shape.
+   Broad mint steps introduce the film's warmer paper without a faded overlay. */
+body.signal-atlas.page-home.home-atlas-edition .home-film-seam--entry {
+  background:var(--film-entry-ground);
+}
+body.signal-atlas.page-home.home-atlas-edition .home-film-seam--entry .home-film-seam__paper {
+  background:#fffdf4;
+  clip-path:polygon(0 0,100% 0,100% 16px,88% 16px,88% 32px,72% 32px,72% 48px,58% 48px,58% 32px,43% 32px,43% 64px,26% 64px,26% 80px,12% 80px,12% 64px,0 64px);
+}
+body.signal-atlas.page-home.home-atlas-edition .home-film-seam--entry .home-film-seam__mint {
+  background:var(--home-cut-mint);
+  clip-path:polygon(0 32px,12% 32px,12% 48px,26% 48px,26% 64px,38% 64px,38% 80px,26% 80px,26% 96px,12% 96px,12% 80px,0 80px);
+}
+body.signal-atlas.page-home.home-atlas-edition .home-film-seam--entry .home-film-seam__apricot {
+  background:var(--home-cut-apricot);
+  clip-path:polygon(57% 0,100% 0,100% 64px,88% 64px,88% 80px,75% 80px,75% 64px,64% 64px,64% 32px,57% 32px);
+}
+/* Three discrete silhouettes step from the closing dark frame back to the
+   overview's paper. No opacity ramp, blur, image filter or animation is used. */
+body.signal-atlas.page-home.home-atlas-edition .home-film-seam--exit {
+  height:160px;background:#edf4eb;
+}
+body.signal-atlas.page-home.home-atlas-edition .home-film-seam--exit .home-film-seam__mint {
+  background:var(--home-cut-mint);
+  clip-path:polygon(0 0,100% 0,100% 112px,88% 112px,88% 128px,75% 128px,75% 144px,58% 144px,58% 112px,43% 112px,43% 96px,26% 96px,26% 112px,12% 112px,12% 128px,0 128px);
+}
+body.signal-atlas.page-home.home-atlas-edition .home-film-seam--exit .home-film-seam__forest {
+  background:var(--film-exit-forest);
+  clip-path:polygon(0 0,100% 0,100% 64px,88% 64px,88% 80px,75% 80px,75% 96px,58% 96px,58% 64px,43% 64px,43% 48px,26% 48px,26% 64px,12% 64px,12% 80px,0 80px);
+}
+body.signal-atlas.page-home.home-atlas-edition .home-film-seam--exit .home-film-seam__night {
+  background:var(--film-exit-night);
+  clip-path:polygon(0 0,100% 0,100% 16px,88% 16px,88% 32px,75% 32px,75% 48px,58% 48px,58% 16px,43% 16px,43% 0,26% 0,26% 16px,12% 16px,12% 32px,0 32px);
+}
+@media(max-width:759px) {
+  body.signal-atlas.page-home.home-atlas-edition .home-film-seam--entry {height:88px;}
+  body.signal-atlas.page-home.home-atlas-edition .home-film-seam--entry>span {bottom:auto;height:112px;transform:scaleY(.75);transform-origin:top;}
+  body.signal-atlas.page-home.home-atlas-edition .home-film-seam--exit {height:120px;}
+  body.signal-atlas.page-home.home-atlas-edition .home-film-seam--exit>span {bottom:auto;height:160px;transform:scaleY(.75);transform-origin:top;}
+}
+@media(max-aspect-ratio:9/10) {
+  body.signal-atlas.page-home.home-atlas-edition #home-film.is-cinematic:not(.is-reading) {
+    --film-entry-ground:#d1c6b0;--film-exit-night:#1f1c16;
+  }
+}
+@media print {
+  body.signal-atlas.page-home.home-atlas-edition .home-film-seam {display:none;}
+}

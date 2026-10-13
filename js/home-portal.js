@@ -16,8 +16,11 @@
   menu.addEventListener('close',()=>{document.documentElement.style.overflow=savedOverflow;trigger.setAttribute('aria-expanded','false');});
   // Close before Project Search opens its own dialog, preserving its focus trap.
   menu.addEventListener('click',event=>{
-    if(event.target.closest('.btn-search'))returnSearchFocusToLaunch=true;
-    if(event.target.closest('a,.fly-toggle'))close();
+    const opensSearch=event.target.closest('.btn-search');
+    if(opensSearch)returnSearchFocusToLaunch=true;
+    if(opensSearch||event.target.closest('.fly-toggle'))close();
+    // Let page navigation leave the dialog naturally; only local jumps close it.
+    else if(event.target.closest('a[href^="#"]'))setTimeout(close,0);
   },true);
   document.querySelector('#project-search')?.addEventListener('close',()=>{
     // Its original opener is now inside a closed dialog and cannot receive focus.

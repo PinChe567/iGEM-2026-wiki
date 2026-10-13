@@ -1,0 +1,410 @@
+{
+  "e22c8d9d9f73": {
+    "text": "Reader design",
+    "tag": "span"
+  },
+  "e72cf174f1ba": {
+    "text": "Computational workflow",
+    "tag": "span"
+  },
+  "50ac998fb86b": {
+    "text": "Image analysis",
+    "tag": "span"
+  },
+  "cad788be4e95": {
+    "text": "Dry Lab · Measurement",
+    "tag": "span"
+  },
+  "cc5a1c6950f8": {
+    "text": "Define what a fluorescence percentage measures",
+    "tag": "p"
+  },
+  "98d4d91f9918": {
+    "text": "Crowded HEK293 images make a fluorescence percentage hard to interpret: the denominator is unclear. We measured reporter-associated local contrast around resolvable DAPI objects and recorded every exclusion. The archive contains 25 fields, 12 condition labels and 2,624 eligible objects. Accepted objects cover only 7.1–20.9% of segmented DAPI foreground across receptor conditions. This is an exploratory expression screen, not a measure of transfection efficiency.",
+    "tag": "p"
+  },
+  "b1b625a164b4": {
+    "text": "This page specifies the reproducible pipeline, its control audit and a concrete failure mode: broad field fluorescence and local object contrast can disagree. It links the exact input CSVs, script, parameters and hashes so another team can reproduce or challenge the analysis. Quantitative findings and all acquired images remain in",
+    "tag": "p"
+  },
+  "d93546f3bc26": {
+    "text": "The numerator is the number of eligible DAPI-connected objects whose reporter score exceeds a channel-specific blank threshold. The denominator is all objects passing the same geometric and background rules. An accepted object is not guaranteed to represent exactly one cell; excluded aggregates can contain many cells. Neither fluorescent pixel area nor this selected-object fraction estimates the fraction of all live cells transfected.",
+    "tag": "p"
+  },
+  "d1355ea3c94b": {
+    "text": "GCaMP6f depends on calcium and reporter abundance, so a dim resting endpoint is not an expression-negative control. Time-resolved stimulation is a different measurement.",
+    "tag": "p"
+  },
+  "6827b3b1ad0e": {
+    "text": "We separate original acquisition, computational scoring and display adjustment following reproducible microscopy reporting principles.",
+    "tag": "p"
+  },
+  "fad84531f389": {
+    "text": "HEK293 cells were imaged 44–48 h after transfection, before G418 selection. The team confirmed 2% PFA fixation followed by DAPI, with no permeabilization; equal exposure within each fluorescence channel across groups; and blank calibration. Identically numbered channels are the same field. The source provides 1–3 fields per condition and no independent biological repeat or live/dead stain.",
+    "tag": "p"
+  },
+  "5f080a6e9aab": {
+    "text": "The experimental date, operator, delivery method, objective, numeric exposure/gain and raw camera intensity conversion are not resolved by the supplied record. The image exports are 8-bit; the available scale bars are retained rather than replaced with an inferred pixel calibration. The",
+    "tag": "p"
+  },
+  "f193475cda3a": {
+    "text": "undated provenance entry",
+    "tag": "a"
+  },
+  "8f8f58de1b43": {
+    "text": "separates the supplied evidence from absent acquisition metadata. Culture and delivery specifications are on",
+    "tag": "p"
+  },
+  "6bc2efc4b004": {
+    "text": "Pipeline parameters fixed before the added control audit.",
+    "tag": "caption"
+  },
+  "8108cded7289": {
+    "text": "Fixed rule",
+    "tag": "th"
+  },
+  "5b302094c1fd": {
+    "text": "Audit output",
+    "tag": "th"
+  },
+  "1d7873c3fa4b": {
+    "text": "Source preservation",
+    "tag": "th"
+  },
+  "2f6409041693": {
+    "text": "Read TIFF exports without overwriting them. Match fields by condition, channel and number. Exclude the annotation region using the recorded ROI.",
+    "tag": "td"
+  },
+  "ea0e0d2e12e3": {
+    "text": "SHA-256 source manifest;100 channel records.",
+    "tag": "td"
+  },
+  "6e141c19dfa7": {
+    "text": "DAPI foreground",
+    "tag": "th"
+  },
+  "c185ba70dbb7": {
+    "text": "3×3 median filter; BLUE >128 DN;8-connected components.",
+    "tag": "td"
+  },
+  "1dd1ddf068bc": {
+    "text": "Foreground area and connected-object IDs.",
+    "tag": "td"
+  },
+  "badf2f5bcfce": {
+    "text": "Eligible objects",
+    "tag": "th"
+  },
+  "b771e988078b": {
+    "text": "Area 200–2,200 px; bounding-box aspect≤2.5; area/bounding-box area≥0.4; border distance≥49 px; no annotation-neighborhood overlap. No watershed.",
+    "tag": "td"
+  },
+  "0873a8a8f2cf": {
+    "text": "Every component≥200 px retained in the measurement CSV with an exclusion reason.",
+    "tag": "td"
+  },
+  "c7d414a6e931": {
+    "text": "Reporter signal",
+    "tag": "th"
+  },
+  "f02bbeea19aa": {
+    "text": "DAPI object plus up to12 px, assigned to the nearest BLUE component.",
+    "tag": "td"
+  },
+  "a2903d230659": {
+    "text": "90th-percentile signal intensity.",
+    "tag": "td"
+  },
+  "ec6d5225a1a0": {
+    "text": "Local background",
+    "tag": "th"
+  },
+  "de8b690de367": {
+    "text": "Ring 24–48 px from the object, excluding all BLUE foreground, with at least 100 background pixels.",
+    "tag": "td"
+  },
+  "b7f8bf9277ab": {
+    "text": "Median local-background intensity subtracted from signal.",
+    "tag": "td"
+  },
+  "beb9def78ab8": {
+    "text": "Primary positivity",
+    "tag": "th"
+  },
+  "2d271da5f0f1": {
+    "text": "RED score>16.60 DN; GREEN score>11.95 DN. Each is the maximum of three blank-field 99th score percentiles.",
+    "tag": "td"
+  },
+  "a49d1573b168": {
+    "text": "Strict greater-than calls; sensitivity at blank-field P 95 andP 99.5.",
+    "tag": "td"
+  },
+  "749cfaf9af6c": {
+    "text": "Aggregation",
+    "tag": "th"
+  },
+  "4dca05f3b1ab": {
+    "text": "Sum positive objects / sum eligible objects; retain per-field counts.",
+    "tag": "td"
+  },
+  "b873f310b736": {
+    "text": "25-field and 12-condition CSVs; technical fields are not independent cultures.",
+    "tag": "td"
+  },
+  "81ffd4aa667b": {
+    "text": "The signal score is",
+    "tag": "p"
+  },
+  "8036fc05b76b": {
+    "text": ". Units are exported digital numbers (DN), not calibrated photons or calcium concentration. Primary segmentation and thresholds remain unchanged in the added analysis. The",
+    "tag": "p"
+  },
+  "8d1682615af0": {
+    "text": "segmentation source",
+    "tag": "a"
+  },
+  "e9fff4bb6508": {
+    "text": "parameter file",
+    "tag": "a"
+  },
+  "49dfbd1e3abc": {
+    "text": "define the implementation exactly.",
+    "tag": "p"
+  },
+  "ae6df8005a64": {
+    "text": "The untransfected blank estimates image background for threshold setting. The Orco-only condition contains the green reporter module without the mCherry sensing cassette; it is a channel-specific negative control for RED. Neither is a viability control. The original blank was used both to fit and inspect the primary threshold, so its 1/170 positive-object fraction cannot establish specificity.",
+    "tag": "p"
+  },
+  "74b2a1a80e5a": {
+    "text": "We therefore added a post-hoc leave-one-blank-field-out calculation: calibrate from the other two fields and evaluate the held field. All three splits are shown; no favorable split was selected. This checks within-batch field sensitivity, not independent-day assay specificity.",
+    "tag": "p"
+  },
+  "250481f14708": {
+    "text": "Blank holdout results: thresholds use only the other two blank fields.",
+    "tag": "caption"
+  },
+  "943621e609de": {
+    "text": "Held field",
+    "tag": "th"
+  },
+  "6c7e8dd90bb5": {
+    "text": "Calibration fields",
+    "tag": "th"
+  },
+  "d156e6ae2f7d": {
+    "text": "RED threshold (DN)",
+    "tag": "th"
+  },
+  "c69c1e13d7a0": {
+    "text": "GREEN threshold (DN)",
+    "tag": "th"
+  },
+  "78ddcdd60f79": {
+    "text": "RED+ / n",
+    "tag": "th"
+  },
+  "5218ed8f0870": {
+    "text": "GREEN+ / n",
+    "tag": "th"
+  },
+  "4f379651072d": {
+    "text": "2 and 3",
+    "tag": "td"
+  },
+  "54ab71d71649": {
+    "text": "1 and 3",
+    "tag": "td"
+  },
+  "c761a01453b0": {
+    "text": "1 and 2",
+    "tag": "td"
+  },
+  "e6b2820393bf": {
+    "text": "The asymmetry identifies field 1 as influential in calibration. It also shows why the original fitted-blank fraction is not an independent error rate. A separately prepared blank on another day remains necessary.",
+    "tag": "p"
+  },
+  "a0cc3d79ad0d": {
+    "text": "Download every holdout",
+    "tag": "a"
+  },
+  "6f2929d54884": {
+    "text": "For each of the 11 nonblank conditions and each channel, construct the 2×2 table",
+    "tag": "p"
+  },
+  "486c8cc0114f": {
+    "text": ". We compute one-sided Fisher exact values for the “greater” direction using SciPy.",
+    "tag": "p"
+  },
+  "32dad878729f": {
+    "text": "Holm adjustment is performed separately over the 11 RED and 11 GREEN comparisons: sort raw values, multiply by the number of remaining hypotheses, take the cumulative maximum and cap at1. Absolute effect size is the condition fraction minus the blank fraction in percentage points.",
+    "tag": "p"
+  },
+  "0f5ec959fc6d": {
+    "text": "These are conditional numerical diagnostics under an independent-object model. Objects from the same field share exposure, local density and preparation; multiple fields from one culture are pseudoreplicates for a biological treatment comparison. Moreover, the primary blank helped set the threshold. The nominal p values therefore do not establish biological significance, and the absence of a small p value is not evidence of equivalence. No number of object-level tests replaces an independent transfection.",
+    "tag": "p"
+  },
+  "f850bcd18a9f": {
+    "text": "The downloadable CSV also reports nominal 95% Wilson binomial intervals. For",
+    "tag": "p"
+  },
+  "e85c4c027a2c": {
+    "text": "=1.959964, the center is",
+    "tag": "p"
+  },
+  "0d26ae47b6ff": {
+    "text": "and half-width is",
+    "tag": "p"
+  },
+  "bea5848b0675": {
+    "text": ". This describes counting uncertainty under the same independence assumption; it omits biological variation, segmentation error, threshold estimation and clustering. These intervals must not be relabeled as culture-level efficiency intervals.",
+    "tag": "p"
+  },
+  "25d457005d74": {
+    "text": "The object CSV reproduces all 12 condition counts and 72 threshold-sensitivity cells. Under the specified nominal model, eight of ten receptor-labelled RED comparisons fall below Holm 0.05; Or22a and Or98a do not. GREEN has two such comparisons, Orco-only and Or35a. The complete counts, effect sizes and numeric values are in",
+    "tag": "p"
+  },
+  "f2213e480c5b": {
+    "text": ", with no claim of a repeatable biological effect.",
+    "tag": "p"
+  },
+  "af3649975d3a": {
+    "text": "Pixel area and object positivity show no detectable monotonic agreement across the 12 labels: REDρ=0.19 and GREENρ=−0.09. The pixel-area statistic is a field median above a global threshold; the object statistic pools counts above local-background-subtracted thresholds. Neither can validate the other merely because both are percentages.",
+    "tag": "p"
+  },
+  "4b03da0bd7fe": {
+    "text": "Or98a is the diagnostic case: 99.10% median GREEN area but 0.50% GREEN-positive objects. Its GREEN export clipping is only 0.0002%, with median intensity 39–45 DN. Thus broad elevation above blank, not demonstrated reporter saturation, is the supported observation. A bright background ring can reduce local contrast; testing that explanation requires inspection of signal and ring distributions, raw acquisition and reacquisition at lower density. DAPI clipping and unresolved aggregates are separate, documented problems.",
+    "tag": "p"
+  },
+  "fb51ce021fe0": {
+    "text": "Inspect the disagreement plot",
+    "tag": "a"
+  },
+  "5956e2180046": {
+    "text": "Comparison CSV",
+    "tag": "a"
+  },
+  "de1458a7db5e": {
+    "text": "Or98a export diagnostics",
+    "tag": "a"
+  },
+  "02b24465a0c9": {
+    "text": "The acquired P2 pilot adds a different measurement to the endpoint images: one 96-well HEK293 plate recorded about 72 h after transfection, without G418 selection. Each condition × stimulus has one well. Fifteen repeated readings of a well describe its time course; they do not provide fifteen independent samples.",
+    "tag": "p"
+  },
+  "85edbc3d061b": {
+    "text": "Each test excursion uses the maximum contiguous three-reading mean, divided by the same well’s five-reading F",
+    "tag": "p"
+  },
+  "6c863c5be303": {
+    "text": ", minus one. The corrected metric then subtracts the earlier buffer excursion, which uses a different baseline. Consequently A11’s 11.86% test excursion and 21.48 percentage-point corrected difference answer different questions. H03 illustrates the importance of this distinction: subtracting a −30.08% earlier buffer excursion turns a 1.42% test excursion into a 31.50 percentage-point corrected difference.",
+    "tag": "p"
+  },
+  "290cbde8041b": {
+    "text": "All 32 original exports and 3,840 readings are preserved. The 24 corrected metrics in rows B/C are excluded following the source-reported gain mismatch; numeric gain itself remains unknown. The other 72 values are retained conditionally. Unknown VOC doses, incomplete DMSO vehicle matching, buffer-control excursions and the absence of independent repeats prevent a calibrated detection limit or receptor-specific response classification.",
+    "tag": "p"
+  },
+  "300623c465e3": {
+    "text": "Time courses and interpretation",
+    "tag": "a"
+  },
+  "9a107453e711": {
+    "text": "All-condition comparison",
+    "tag": "a"
+  },
+  "966bc6d1c200": {
+    "text": "Executed method",
+    "tag": "a"
+  },
+  "0ec7693aec90": {
+    "text": "Reproduction package",
+    "tag": "a"
+  },
+  "4093d465f1ba": {
+    "text": "The dominant uncertainty is selection: eligible objects retain only 7.1–20.9% of segmented DAPI foreground in receptor conditions. That is a fraction of fluorescent area, not a fraction of cells. Dense regions remain visible in overlays; they cannot be assigned a reliable cell count from these two-dimensional exports. Segmentation has been visually inspected but has not been benchmarked against independently annotated nuclei.",
+    "tag": "p"
+  },
+  "567f96f533bd": {
+    "text": "The next validation set should contain an independently prepared blank, Orco-only and one OR condition; systematic fields spanning sparse and dense areas; raw camera data at documented exposures; and a suitable independent nucleus/viability measure. Blind annotation of sparse, dense and blank fields would permit precision/recall and merge/split-error assessment. A second transfection would begin to test reproducibility; extra images from the existing culture cannot do that.",
+    "tag": "p"
+  },
+  "7b0e5271da46": {
+    "text": "The P2 pilot has now recorded baseline, buffer and nominal VUAA1 traces. The next functional measurement needs a matched vehicle, a reporter control such as ionomycin, recorded gains and independent repeats before interpreting VOC specificity. The",
+    "tag": "p"
+  },
+  "df572b0c7501": {
+    "text": "time-course specification",
+    "tag": "a"
+  },
+  "3264c7ca81de": {
+    "text": "platform diagnostic matrix",
+    "tag": "a"
+  },
+  "41c337a1e03e": {
+    "text": "explain which failure each control addresses.",
+    "tag": "p"
+  },
+  "ef19d63c9f4f": {
+    "text": "The analysis provides an explicit denominator, reproducible calculations and inspectable failure modes. It measures reporter-associated contrast in a selected subset, reveals calibration sensitivity and separates bright field area from local fluorescence. It does not estimate transfection efficiency, biological reproducibility or receptor response.",
+    "tag": "p"
+  },
+  "bcfe2b3f9b20": {
+    "text": "Download the complete control-audit package",
+    "tag": "a"
+  },
+  "b4aaa7b29d4b": {
+    "text": "The package contains six exact input files, the Python source, all output CSVs, PNG/SVG figures, a README, runtime versions and SHA-256 input hashes. Unzip, install NumPy, SciPy and Matplotlib in Python 3, then run",
+    "tag": "p"
+  },
+  "44e17a180631": {
+    "text": ". Paths resolve relative to the script, so the analysis does not require the wiki server or an online account.",
+    "tag": "p"
+  },
+  "7f83ed93aafc": {
+    "text": "Image segmentation can be reproduced separately from the",
+    "tag": "p"
+  },
+  "b773c5e1220b": {
+    "text": "primary analysis package",
+    "tag": "a"
+  },
+  "44359e21492d": {
+    "text": "and the",
+    "tag": "p"
+  },
+  "c007ecbe9a5c": {
+    "text": "unchanged TIFFs and source manifest",
+    "tag": "a"
+  },
+  "6244d9cc31d6": {
+    "text": ". Run",
+    "tag": "p"
+  },
+  "0139b47c512c": {
+    "text": "followed by",
+    "tag": "p"
+  },
+  "9cbd93f9e4f2": {
+    "text": "with the documented repository layout. The added control script verifies the exported counts before computing comparisons and never overwrites source images or primary tables.",
+    "tag": "p"
+  },
+  "25c681c2aa7f": {
+    "text": "Standalone protocol record",
+    "tag": "a"
+  },
+  "5bec1038bd89": {
+    "text": "Audit README",
+    "tag": "a"
+  },
+  "ee0b492f8020": {
+    "text": "Checksums and run record",
+    "tag": "a"
+  },
+  "d9f391570747": {
+    "text": "Dry Lab path",
+    "tag": "aria-label"
+  },
+  "63d566154e19": {
+    "text": "Measurement · AeroSense · NTHU iGEM 2026",
+    "tag": "title"
+  }
+}

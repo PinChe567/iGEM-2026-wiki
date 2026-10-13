@@ -152,10 +152,28 @@ body:not(.page-home)[data-nav-mode="menu"] .site-header .nav-submenu a {padding:
 /* A disabled JavaScript environment can still follow every navigation link.
    Slow scripts do not match this query, so they cannot expose all submenus. */
 @media (scripting: none) {
+<<<<<<< HEAD
+  /* The expanded link directory must scroll with the page. A sticky header
+     containing every submenu can otherwise cover the entire mobile viewport. */
+  body:not(.page-home) .site-header { position:static; top:auto; }
+  body:not(.page-home) .site-header .header-tools { display:none!important; }
+=======
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
   body:not(.page-home) .site-header .nav-toggle,
   body:not(.page-home) .site-header .nav-trigger { display:none!important; }
   body:not(.page-home) .site-header .nav-label-static { display:flex; }
   body:not(.page-home) .site-header .site-nav { display:block!important; position:static; max-height:none; width:100%; }
   body:not(.page-home) .site-header__inner { flex-wrap:wrap; }
+<<<<<<< HEAD
+  body:not(.page-home) .site-header .nav-root {
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(min(13rem,100%),1fr));
+    gap:1rem;white-space:normal;width:100%;
+  }
+  body:not(.page-home) .site-header .nav-root > li { width:100%;min-width:0; }
+  body:not(.page-home) .site-header .nav-submenu {
+    display:block;position:static;min-width:0;width:100%;margin:0;box-shadow:none;
+  }
+=======
   body:not(.page-home) .site-header .nav-submenu { display:block; position:static; }
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
 }

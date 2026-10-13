@@ -32,7 +32,11 @@ document.querySelectorAll('[data-hw-v2-assembly]').forEach((host) => {
     const status = host.querySelector('[data-hw-v2-status]');
     status.textContent = 'Loading the eight current CAD parts…';
     try {
+<<<<<<< HEAD
+      const module = await import('./hardware-v2-viewer.js?v=20261011-low-poly');
+=======
       const module = await import('./hardware-v2-viewer.js?v=20261008-studio');
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       viewer = await module.createViewer(host);
       host.classList.add('is-ready');
       status.textContent = 'Drag to rotate · arrow keys rotate · + / − zoom · separate parts with the slider.';

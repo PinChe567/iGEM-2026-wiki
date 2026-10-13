@@ -653,7 +653,7 @@
       citeEl.closest("p, li, td, dd, dt, figcaption, .notice, .home-lead, .page-lede") ||
       citeEl.parentElement;
     if (!host) return "";
-    var text = (host.textContent || "").replace(/\s+/g, " ").trim();
+    var text = (window.AeroSenseI18n?.sourceText(host) || host.textContent || "").replace(/\s+/g, " ").trim();
     if (text.length > 220) text = text.slice(0, 217).trim() + "…";
     return text;
   }
@@ -662,7 +662,7 @@
     var section = el.closest("section[id], article[id]");
     if (!section) return "This page";
     var heading = qs("h2, h3", section);
-    if (heading && heading.textContent) return heading.textContent.trim();
+    if (heading && heading.textContent) return (window.AeroSenseI18n?.sourceText(heading) || heading.textContent).trim();
     return section.id || "This page";
   }
 
@@ -768,7 +768,11 @@
     'ref-aso-output':'Mushroom-body output neurons and their role in valence and memory-guided behavior.',
     'ref-th-driver':'TH regulatory sequences used to target gene expression in dopaminergic cells; the driver is not a complete identity check for every labeled cell.',
     'ref-mao-davis':'Anatomical and physiological diversity of dopaminergic inputs to the mushroom body.',
+<<<<<<< HEAD
+    'ref-bdsc-5137':'BDSC 5137 is a UAS-mCD8::GFP reporter stock, consistent with the team’s clarified 5137;TH (TH-GFP) recording. The full experimental cross remains to be documented.',
+=======
     'ref-bdsc-5137':'BDSC 5137 is a UAS-mCD8::GFP catalogue entry. It flags a stock-number discrepancy, not a replacement for the team-confirmed UAS-GCaMP6f reporter.',
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     'ref-liu-apl':'The APL neuron contributes inhibitory feedback in the mushroom body and is relevant to interpreting GH146 expression.',
     'ref-dapi-guidance':'Manufacturer guidance for DAPI nuclear labeling; staining conditions affect how the nuclear signal can be interpreted.',
     'ref-microscopy-reporting':'Reporting guidance for reproducible fluorescence microscopy, including acquisition and image-analysis methods.',
@@ -832,6 +836,74 @@
       if (!cites.length) {
         var urls = sourceLinks.map(function(a){return a.href;});
         cites = qsa('main a[href], .page-article a[href]').filter(function(a){return !a.closest(listSelector) && !a.closest('.page-toc') && urls.indexOf(a.href) !== -1;});
+<<<<<<< HEAD
+      }
+      if (!cites.length) {
+        var contextSelector = item.dataset.referenceContext || contextMap[refId];
+        var context = contextSelector && qs(contextSelector);
+        if (!context) context = qs('main .page-article > section:not(.references), main .page-article, main article, main');
+        if (!context) return;
+        var reading = qs(':scope > .reference-reading-note', context);
+        if (!reading) {reading=doc.createElement('p');reading.className='reference-reading-note';reading.appendChild(doc.createTextNode('Further reading: '));context.appendChild(reading);}
+        else reading.appendChild(doc.createTextNode(' · '));
+        var marker=doc.createElement('a');marker.href='#'+refId;marker.className='cite cite--background';
+        marker.textContent=item.hasAttribute('value') ? '['+item.getAttribute('value')+']' : (sourceLinks[0] ? sourceLinks[0].textContent.replace(/\s+/g,' ').trim().slice(0,76) : originalText.slice(0,70));
+        marker.setAttribute('aria-label','Further reading: '+originalText.slice(0,140));reading.appendChild(marker);cites=[marker];
+      }
+      cites.forEach(function(cite,index){if(!cite.id)cite.id='cite-auto-'+refId+'-'+(index+1);});
+      if (!qs('.ref-highlights',item)) {
+        var details=doc.createElement('details');details.className='ref-highlights';
+        var summary=doc.createElement('summary');summary.textContent='Source highlights';details.appendChild(summary);
+        var body=doc.createElement('div');body.className='ref-highlights__body';
+        var sourceId=item.dataset.referenceSource || refId;
+        var points=REF_HIGHLIGHTS[sourceId] || (NEW_REFERENCE_HIGHLIGHTS[sourceId] ? [NEW_REFERENCE_HIGHLIGHTS[sourceId]] : null);
+        if (!points) {
+          var isDatasheet=/datasheet/i.test(originalText);
+          points=isDatasheet ? ['Component specifications and operating limits from the manufacturer. Used for design or safety context; not a measurement of the assembled AeroSense device.'] : ['Reading context: '+sectionLabelFor(cites[0])+'.',originalText.replace(/Back to (first )?citation/g,'').trim()];
+        }
+        var ul=doc.createElement('ul');points.forEach(function(point){var li=doc.createElement('li');li.textContent=point;ul.appendChild(li);});body.appendChild(ul);details.appendChild(body);item.appendChild(details);
+      }
+      qsa('.ref-return-tools, .ref-backlink, .ref-backlink-group',item).forEach(function(el){el.remove();});
+      var group=doc.createElement('div');group.className='ref-return-tools';
+      var back=doc.createElement('a');back.className='ref-backlink';back.href='#'+cites[0].id;back.textContent='Back to citation';group.appendChild(back);
+      var selected=0,openPicker;
+      if(cites.length>1){
+        var panel=doc.createElement('div');panel.className='ref-citation-popover';panel.id='return-'+refId;panel.hidden=true;
+        var caption=doc.createElement('p');caption.className='ref-citation-popover__title';caption.textContent='Cited passages';panel.appendChild(caption);
+        var passages=doc.createElement('ol');panel.appendChild(passages);
+        var closeTimer;
+        function closePicker(){panel.hidden=true;back.setAttribute('aria-expanded','false');}
+        openPicker=function(){
+          window.clearTimeout(closeTimer);panel.hidden=false;back.setAttribute('aria-expanded','true');
+          var box=back.getBoundingClientRect();
+          panel.style.width=Math.min(380,window.innerWidth-32)+'px';
+          panel.style.left=Math.max(16,Math.min(box.left,window.innerWidth-panel.offsetWidth-16))+'px';
+          var height=panel.offsetHeight;
+          panel.style.top=(box.bottom+height+12<window.innerHeight ? box.bottom+8 : Math.max(12,box.top-height-8))+'px';
+        };
+        back.setAttribute('aria-expanded','false');back.setAttribute('aria-controls',panel.id);
+        cites.forEach(function(cite,index){
+          var row=doc.createElement('li');var link=doc.createElement('a');
+          link.href='#'+cite.id;link.textContent=sectionLabelFor(cite);link.dataset.citationIndex=String(index);
+          link.addEventListener('click',function(event){event.preventDefault();selected=index;back.href=link.href;closePicker();history.replaceState(null,'','#'+cite.id);revealCitation(cite);});
+          row.appendChild(link);passages.appendChild(row);
+        });
+        group.appendChild(panel);
+        group.addEventListener('pointerenter',function(event){if(event.pointerType!=='touch')openPicker();});
+        group.addEventListener('pointerleave',function(){closeTimer=window.setTimeout(closePicker,180);});
+        group.addEventListener('focusin',openPicker);
+        group.addEventListener('focusout',function(event){if(!group.contains(event.relatedTarget))closePicker();});
+        group.addEventListener('keydown',function(event){if(event.key==='Escape'){back.focus({preventScroll:true});closePicker();event.preventDefault();}if(event.key==='ArrowDown'&&event.target===back){openPicker();passages.querySelector('a').focus({preventScroll:true});event.preventDefault();}});
+        doc.addEventListener('pointerdown',function(event){if(!group.contains(event.target))closePicker();});
+        window.addEventListener('resize',closePicker);
+        doc.addEventListener('scroll',function(event){if(!panel.contains(event.target))closePicker();},true);
+      }
+      back.addEventListener('click',function(event){event.preventDefault();if(cites.length>1){openPicker();passages.querySelectorAll('a')[selected].focus({preventScroll:true});return;}if(!back.closest('dialog'))history.replaceState(null,'','#'+cites[selected].id);revealCitation(cites[selected]);});
+      item.appendChild(group);
+      cites.forEach(function(cite,index){
+        if(cite.getAttribute('href')!=='#'+refId)return;
+        cite.addEventListener('click',function(event){selected=index;back.href='#'+cite.id;if(cite.closest('dialog')){event.preventDefault();item.setAttribute('tabindex','-1');item.focus({preventScroll:true});item.scrollIntoView({block:'center',behavior:reduceMotion?'auto':'smooth'});}item.classList.add('is-citation-highlight');window.setTimeout(function(){item.classList.remove('is-citation-highlight');},5000);});
+=======
       }
       if (!cites.length) {
         var contextSelector = item.dataset.referenceContext || contextMap[refId];
@@ -874,6 +946,7 @@
       cites.forEach(function(cite,index){
         if(cite.getAttribute('href')!=='#'+refId)return;
         cite.addEventListener('click',function(event){selected=index;var select=qs('select',group);if(select)select.value=String(index);back.href='#'+cite.id;if(cite.closest('dialog')){event.preventDefault();item.setAttribute('tabindex','-1');item.focus({preventScroll:true});item.scrollIntoView({block:'center',behavior:reduceMotion?'auto':'smooth'});}item.classList.add('is-citation-highlight');window.setTimeout(function(){item.classList.remove('is-citation-highlight');},5000);});
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       });
     });
   }

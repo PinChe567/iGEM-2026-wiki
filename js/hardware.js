@@ -44,7 +44,7 @@
     tabs.forEach(function (tab, i) {
       var opt = document.createElement("option");
       opt.value = tab.getAttribute("data-hw-stage");
-      opt.textContent = (i + 1) + ". " + (tab.getAttribute("data-hw-label") || tab.textContent.trim());
+      opt.textContent = (i + 1) + ". " + (tab.getAttribute("data-hw-label") || (window.AeroSenseI18n?.sourceText(tab) || tab.textContent).trim());
       stageSelect.appendChild(opt);
     });
     selectWrap.appendChild(selectLab);
@@ -62,7 +62,7 @@
 
     function select(tab, moveFocus) {
       var id = tab.getAttribute("data-hw-stage");
-      var label = tab.getAttribute("data-hw-label") || tab.textContent.trim();
+      var label = tab.getAttribute("data-hw-label") || (window.AeroSenseI18n?.sourceText(tab) || tab.textContent).trim();
 
       tabs.forEach(function (btn) {
         var on = btn === tab;
@@ -263,7 +263,7 @@
         panel.classList.toggle("is-active", on);
       });
       if (live) {
-        live.textContent = "Showing engineering diff: " + selected.nextElementSibling.textContent.trim() + ".";
+        live.textContent = "Showing engineering diff: " + (window.AeroSenseI18n?.sourceText(selected.nextElementSibling) || selected.nextElementSibling.textContent).trim() + ".";
       }
     }
 
@@ -374,7 +374,7 @@
         panel.classList.toggle("is-active", on);
       });
       if (live) {
-        live.textContent = "Showing " + (tab.textContent || id).trim() + " schematic.";
+        live.textContent = "Showing " + (window.AeroSenseI18n?.sourceText(tab) || tab.textContent || id).trim() + " schematic.";
       }
     }
 

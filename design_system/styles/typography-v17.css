@@ -1,0 +1,27 @@
+/* Regular serif outlines replace the hooked Fraunces f/j letterforms.
+   Keep the editorial hierarchy; this is a font choice, not a motion override. */
+body.signal-atlas{
+ --ds-story:Georgia,'Times New Roman',serif;
+ font-variant-ligatures:none;
+ font-feature-settings:"liga" 0,"clig" 0,"dlig" 0;
+ font-synthesis:none;
+}
+body.signal-atlas .aerosense-cinematic{--asc-serif:Georgia,'Times New Roman',serif}
+/* Chapter covers use a stronger, larger sans-serif headline. Editorial serif
+   accents elsewhere keep conventional outlines and retain their hierarchy. */
+html body.signal-atlas:is(.editorial-2026,.page-learning):not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero,.attr-form-heading) h1{
+ font-family:var(--ds-font)!important;font-weight:700!important;
+ font-size:clamp(3rem,6.2vw,6rem)!important;line-height:1.06!important;
+ letter-spacing:-.045em!important;max-width:100%!important;
+}
+@media(max-width:760px){
+ html body.signal-atlas:is(.editorial-2026,.page-learning):not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero,.attr-form-heading) h1{
+  font-size:clamp(2.5rem,11vw,3.5rem)!important;line-height:1.08!important;letter-spacing:-.04em!important;
+ }
+}
+/* Keep the long, single-word chapter title inside its text column. */
+@media(min-width:761px){
+ html body.signal-atlas.editorial-2026.page-entrepreneurship .page-hero h1{
+  font-size:clamp(3rem,5.8vw,5.25rem)!important;
+ }
+}

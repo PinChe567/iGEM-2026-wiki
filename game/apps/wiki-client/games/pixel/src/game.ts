@@ -167,7 +167,7 @@ export function startPixelGame(options: Options): void {
         <button class="text-button" id="clear" type="button">${c.clearData}</button>`,
       })}`;
     playArea.innerHTML = readyCopyHtml({
-      kicker: `GAME 1 · ${selectedMode === 'daily' ? c.daily : c.practice} · ${levelLabel(selectedLevel)}`,
+      kicker: gameHeaderKicker('01', `${selectedMode === 'daily' ? c.daily : c.practice} · ${levelLabel(selectedLevel)}`),
       title: c.title,
       lead: c.lead,
       extraHtml: isStudyMode() ? studyBannerHtml(options.getCopy().study) + studyExportBarHtml(options.getCopy().study) : '',

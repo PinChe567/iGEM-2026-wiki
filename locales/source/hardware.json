@@ -1,0 +1,2814 @@
+{
+  "ec00a83f358a": {
+    "text": "Building a reader around light, airflow and living samples",
+    "tag": "p"
+  },
+  "e061a81d7960": {
+    "text": "The first PCB review found 73 DRC violations and four unconnected items, so we halted fabrication and revised the circuit. The resulting design combines the revised PCB, one LEE 101 filter layer, an integral gas-lid shelf, eight operating CAD parts, an itemized development budget and compiled acquisition software.",
+    "tag": "p"
+  },
+  "cdebe33d6f1a": {
+    "text": "Model retains the full simulations, alternatives and parameter sweeps.",
+    "tag": "a"
+  },
+  "6565ee6e4a68": {
+    "text": "No PCB has been fabricated and no complete reader has been assembled.",
+    "tag": "strong"
+  },
+  "c4762dde975a": {
+    "text": "Reported physical well-fill observations therefore do not establish an assembled instrument. The simulations identify calibration and delivery constraints; instrument sensitivity and biological response await measurement.",
+    "tag": "p"
+  },
+  "06ec558b4419": {
+    "text": "Need & design requirements",
+    "tag": "span"
+  },
+  "750df4cff85e": {
+    "text": "We designed a compact reader to compare four cell-sensor samples exposed to a shared gas stream. A shared photodiode reduces detector count, while four frequency-tagged LEDs create separate excitation channels. The resulting cost is a development budget, not a low-cost performance claim:",
+    "tag": "p"
+  },
+  "5ccd327d1654": {
+    "text": "for the required device, including NTD 65,625 allocated PCB development cost and an unquoted NTD 12,000 thin-filter allowance. No like-for-like commercial quotation is archived, so a savings percentage would be unsupported.",
+    "tag": "p"
+  },
+  "1e841584427a": {
+    "text": "Budget boundary:",
+    "tag": "strong"
+  },
+  "7f4687ce755a": {
+    "text": "this published total retains the earlier filter allowance; it has not been repriced for the selected single LEE 101 layer.",
+    "tag": "p"
+  },
+  "e9c5753a7850": {
+    "text": "Five declared reader requirements with their design basis and outstanding acceptance measurements. Listed optical, acquisition and operating parameters describe the intended device; the final column identifies the evidence needed to establish performance.",
+    "tag": "caption"
+  },
+  "f5f5690b0ecc": {
+    "text": "Requirement",
+    "tag": "th"
+  },
+  "d1c5a61954d7": {
+    "text": "Design basis",
+    "tag": "th"
+  },
+  "50ffd8425b77": {
+    "text": "What must be established",
+    "tag": "th"
+  },
+  "2d542bc7f0a2": {
+    "text": "R1 · Four samples",
+    "tag": "th"
+  },
+  "0ca0b4343295": {
+    "text": "Four separate liquid wells; one shared gas space",
+    "tag": "td"
+  },
+  "f5bd54234347": {
+    "text": "Measured well capacity and delivery at the cell plane",
+    "tag": "td"
+  },
+  "87f17d4f00fe": {
+    "text": "R2 · Optical readout",
+    "tag": "th"
+  },
+  "7c854a294e21": {
+    "text": "Approximately 470 nm excitation / 520 nm emission; shared photodiode",
+    "tag": "td"
+  },
+  "b8b8962c422f": {
+    "text": "Filter fit and spectrum, concentration response, blank and detection limit",
+    "tag": "td"
+  },
+  "be322fc2c1b5": {
+    "text": "R3 · Acquisition",
+    "tag": "th"
+  },
+  "ef697595d599": {
+    "text": "4 kHz timebase; 2 s I/Q blocks; 41/67/89/113 Hz LED tags",
+    "tag": "td"
+  },
+  "19ada6c00395": {
+    "text": "Board timing, clipping margin, signal recovery and crosstalk",
+    "tag": "td"
+  },
+  "83251c52d5f5": {
+    "text": "R4 · Repeatable operation",
+    "tag": "th"
+  },
+  "366efcb249e5": {
+    "text": "Replaceable wells and local data export",
+    "tag": "td"
+  },
+  "96b99c43a30d": {
+    "text": "Leak checks, independent assembly and user-task results",
+    "tag": "td"
+  },
+  "4f2ac21394e3": {
+    "text": "R5 · Cost",
+    "tag": "th"
+  },
+  "7507b2432ea6": {
+    "text": "Required-device development budget above",
+    "tag": "td"
+  },
+  "286acc279529": {
+    "text": "Order-ready filter specification; no verified production cost or fixed cost ceiling",
+    "tag": "td"
+  },
+  "85917f5657ab": {
+    "text": "Inspect every budget line and exclusion →",
+    "tag": "a"
+  },
+  "c932ca713b49": {
+    "text": "Download the available design and source files →",
+    "tag": "a"
+  },
+  "27ae91b0eddc": {
+    "text": "Read the measurement gates →",
+    "tag": "a"
+  },
+  "e0689668d630": {
+    "text": "01 / PCB design",
+    "tag": "span"
+  },
+  "e089acf89fbd": {
+    "text": "Four independently driven LEDs and one shared photodiode reduce the number of detector channels while preserving a route to frequency-resolved readout. This choice places the burden on stable acquisition and measured optical calibration.",
+    "tag": "p"
+  },
+  "a4fb2c01084f": {
+    "text": "The circuit is designed to excite four wells, convert photodiode current to voltage through a TIA, digitize it and retain four demodulated channels on the ESP32. Templates for raw measurements and calibration records are published;",
+    "tag": "p"
+  },
+  "efc136b640a4": {
+    "text": "no measured records exist yet",
+    "tag": "strong"
+  },
+  "f1c001891ab3": {
+    "text": "The proposed acquisition uses a",
+    "tag": "p"
+  },
+  "3a1c27d9fdfb": {
+    "text": "4 kHz timebase",
+    "tag": "strong"
+  },
+  "4a9efa49e963": {
+    "text": "two-second I/Q blocks",
+    "tag": "strong"
+  },
+  "0b36d5554e2b": {
+    "text": ", with 41/67/89/113 Hz LED channels. Physical board mapping, timing and headroom still require verification; the firmware retains",
+    "tag": "p"
+  },
+  "2d2713ecd6ee": {
+    "text": "Phase-sensitive detection motivates retaining the in-phase and quadrature components of each excitation frequency. Scofield’s frequency-domain treatment provides the lock-in principle; it does not establish the noise rejection or accuracy of the unbuilt reader.",
+    "tag": "p"
+  },
+  "7b0a56af6388": {
+    "text": "Front · component layout",
+    "tag": "strong"
+  },
+  "eca5f6e16165": {
+    "text": "Turn board over ↻",
+    "tag": "button"
+  },
+  "943c12d3d3ac": {
+    "text": "Show copper traces",
+    "tag": "button"
+  },
+  "5b283961a9c7": {
+    "text": "Reader PCB, component layout and copper routing. Switch sides to follow power, excitation and signal acquisition.",
+    "tag": "figcaption"
+  },
+  "4b5827667c0c": {
+    "text": "Open full-resolution source ↗",
+    "tag": "a"
+  },
+  "8798ea41eff6": {
+    "text": "Inspect the main sensing, conversion and control components",
+    "tag": "label"
+  },
+  "b6fd6289b0c6": {
+    "text": "Circuit details · component functions, pins and schematic",
+    "tag": "h3"
+  },
+  "b06833c44ebc": {
+    "text": "The power path uses TPS61023 boost conversion",
+    "tag": "p"
+  },
+  "9032e4ae0314": {
+    "text": "and BQ24074 charging",
+    "tag": "p"
+  },
+  "69fa5ecaf1d7": {
+    "text": ". ESP32-WROOM-32E coordinates acquisition",
+    "tag": "p"
+  },
+  "d10e084282bf": {
+    "text": ". LP5907 and LTC6655 provide regulation and a 2.5 V reference",
+    "tag": "p"
+  },
+  "0a90453d2ef3": {
+    "text": "; an LMP7721 TIA and ADS8866 16-bit SAR ADC form the analog readout",
+    "tag": "p"
+  },
+  "12d7ed2f6db9": {
+    "text": ". Four Würth blue LEDs and a VEMD5060X01 photodiode provide the optical path",
+    "tag": "p"
+  },
+  "e267a1fd0efa": {
+    "text": "Firmware assigns LED gates to GPIO 25/26/27/32 and ADC CONVST/SCLK/DOUT to 33/18/19. The proposed 4 kHz timebase produces 8,000 samples per two-second I/Q block, using 41/67/89/113 Hz LED channels. Actual mapping, timing and ADC headroom must be verified on the physical board. The firmware retains",
+    "tag": "p"
+  },
+  "9106bdc79cbf": {
+    "text": "01 · Power & charging",
+    "tag": "button"
+  },
+  "c8d65c44c3fa": {
+    "text": "02 · Sensing & control",
+    "tag": "button"
+  },
+  "6ac4096af3ee": {
+    "text": "Reader schematic. Select a sheet; open the drawing to inspect component values in the original PDF.",
+    "tag": "figcaption"
+  },
+  "af3c372bed73": {
+    "text": "Complete schematic PDF",
+    "tag": "a"
+  },
+  "7cb4cb4fcca8": {
+    "text": "Read the current PCB BOM below",
+    "tag": "a"
+  },
+  "14d13b33cc67": {
+    "text": "What the first board changed",
+    "tag": "h3"
+  },
+  "a8c039286661": {
+    "text": "The first PCB combined the LED drivers, detector front end, ADC, reference, ESP32 and a Raspberry Pi interface. Its archived 2 August design audit recorded",
+    "tag": "p"
+  },
+  "cf83de5f100b": {
+    "text": "73 DRC violations, four unconnected items, seven ERC errors and eleven ERC warnings",
+    "tag": "strong"
+  },
+  "0da7e0592e65": {
+    "text": ". Clearance and solder-mask issues, incomplete connections and library inconsistencies made the board unsuitable for fabrication. We used that audit to define a professional schematic and layout review before proceeding to V2.",
+    "tag": "p"
+  },
+  "99b88dc513a4": {
+    "text": "The revised layout was completed on 11 September. Its design changes included a shorter guarded high-impedance path, a corrected ADS8866 symbol and interface, separate analog and digital supply requirements, and removal of the Raspberry Pi interface. These are documented design changes; they do not substitute for an as-built electrical test. The detailed iteration history is recorded on",
+    "tag": "p"
+  },
+  "79b8a79a9c9f": {
+    "text": "Design rationale · gain, layout, digitization and standalone control",
+    "tag": "summary"
+  },
+  "f1c3d48d8664": {
+    "text": "Gain must be chosen with headroom and noise",
+    "tag": "h3"
+  },
+  "1044b931dd62": {
+    "text": "The photodiode current is converted to voltage through the LMP7721 feedback network. The current BOM specifies a 100 MΩ feedback resistor and 2.2 pF compensation capacitor. For a 2.5 V, 16-bit converter, the ideal code interval is 2.5 / 2¹⁶ = 38.15 µV; dividing by 100 MΩ gives 0.381 pA per code. That is a quantization calculation, not an experimental detection limit. Leakage, dark current, drift, noise and optical background must be measured before choosing a useful gain range.",
+    "tag": "p"
+  },
+  "32721faa7d64": {
+    "text": "Gain alternatives considered during design — ideal converter limits only",
+    "tag": "caption"
+  },
+  "0a3a15d5ab38": {
+    "text": "Feedback resistance",
+    "tag": "th"
+  },
+  "1c41c74797b7": {
+    "text": "Ideal current per code",
+    "tag": "th"
+  },
+  "1bf2e5c4613a": {
+    "text": "Ideal 2.5 V full-scale current",
+    "tag": "th"
+  },
+  "d628f365776c": {
+    "text": "Design role",
+    "tag": "th"
+  },
+  "eea7ab30e5fb": {
+    "text": "3.81 pA",
+    "tag": "td"
+  },
+  "38343be4e1bf": {
+    "text": "250 nA",
+    "tag": "td"
+  },
+  "e719ac1ba459": {
+    "text": "Strong-signal debugging alternative",
+    "tag": "td"
+  },
+  "a644bd1353d0": {
+    "text": "0.381 pA",
+    "tag": "td"
+  },
+  "409dc9d9d868": {
+    "text": "25 nA",
+    "tag": "td"
+  },
+  "fba2b5f1f72a": {
+    "text": "Current nominal feedback resistance",
+    "tag": "td"
+  },
+  "7e993d781b10": {
+    "text": "0.116 pA",
+    "tag": "td"
+  },
+  "501615e97ffd": {
+    "text": "7.58 nA",
+    "tag": "td"
+  },
+  "3ceac9f312a1": {
+    "text": "Weak-signal evaluation alternative",
+    "tag": "td"
+  },
+  "ce46353cc178": {
+    "text": "0.038 pA",
+    "tag": "td"
+  },
+  "cb0ed43334bf": {
+    "text": "2.5 nA",
+    "tag": "td"
+  },
+  "1a17623049da": {
+    "text": "Reserved, especially leakage-sensitive alternative",
+    "tag": "td"
+  },
+  "47006556dc63": {
+    "text": "The 100 MΩ / 2.2 pF parallel feedback network has a simple RC pole near 723 Hz. This is an estimate of that network, not a complete amplifier-stability calculation. Photodiode and input capacitance, board parasitics and amplifier response also contribute; settling, noise and frequency response remain bench tests.",
+    "tag": "p"
+  },
+  "3cc4a8a16850": {
+    "text": "Layout is part of the measurement",
+    "tag": "h3"
+  },
+  "2f539bc9c094": {
+    "text": "V2 places the photodiode, amplifier input and feedback network close together, with a short inverting-input path and a guard around the sensitive region. The guard and optical opening must coexist: a low-leakage electrical layout is useful only if components also preserve the side-view excitation and collection geometry. Inspection must include cleanliness, soldering and the assembled optical path.",
+    "tag": "p"
+  },
+  "84287d3c2e45": {
+    "text": "Check the package and pinout before committing the board",
+    "tag": "h3"
+  },
+  "06268a4ce3b3": {
+    "text": "The review found that the original ADS8866 symbol did not faithfully represent the manufacturer’s pinout. V2 rewired the device for its supported three-wire CS mode, with DIN held high, and added 47 Ω series damping on SCLK and CONVST. The TIA-to-ADC 100 Ω / 1 nF network has a first-order pole near 1.59 MHz; it addresses the SAR interface rather than setting the biological response bandwidth. Package pin numbers, land pattern, orientation and mechanical clearance are checked against the component documentation before manufacturing.",
+    "tag": "p"
+  },
+  "c8382187b6d1": {
+    "text": "Use one embedded controller, preserve external analysis",
+    "tag": "h3"
+  },
+  "f07e3892a309": {
+    "text": "The ESP32 already supplies the communication and acquisition functions needed inside the reader, while heavier analysis can run externally. Removing the Raspberry Pi interface simplified the intended power and enclosure requirements. The current design combines USB-C power and single-cell charging with a boost stage, a separate digital regulator and the low-noise analog supply; battery operation and power consumption still require measurement.",
+    "tag": "p"
+  },
+  "31e25d48c1c1": {
+    "text": "The PCB fixes where light is generated and measured. The three decisions below carry the simulation results into the build: one filter layer, an integral gas-lid shelf and a no-film baseline.",
+    "tag": "p"
+  },
+  "8ee142ba7603": {
+    "text": "Open the full modeling work →",
+    "tag": "a"
+  },
+  "dc02100cb7fe": {
+    "text": "02A / Optical decision",
+    "tag": "span"
+  },
+  "e92d57e798ad": {
+    "text": "The selected build uses",
+    "tag": "p"
+  },
+  "217ef5f1e884": {
+    "text": "a single LEE 101 layer",
+    "tag": "strong"
+  },
+  "fadc56be7808": {
+    "text": "across the photodiode collection aperture. Keep the LED-to-sample path open. The aim is to reduce excitation leakage before the current reaches the receiver, while preserving useful green fluorescence.",
+    "tag": "p"
+  },
+  "1802fd816f97": {
+    "text": "Against the same unfiltered modeled input, the selected layer retains",
+    "tag": "p"
+  },
+  "bfac4026a784": {
+    "text": "2.987% of LED-derived current",
+    "tag": "strong"
+  },
+  "ec47fae6e32c": {
+    "text": "70.43% of proxy-green current",
+    "tag": "strong"
+  },
+  "b2100a9bdf46": {
+    "text": ". The raw peak falls from 104.36 to 4.09 nA in this synthetic record.",
+    "tag": "p"
+  },
+  "f060cf72e5ca": {
+    "text": "Figure 3",
+    "tag": "a"
+  },
+  "9e25c9183144": {
+    "text": "shows the two conditions used for this design decision.",
+    "tag": "p"
+  },
+  "3c8efb9a8469": {
+    "text": "Simulation · selected detector filter.",
+    "tag": "strong"
+  },
+  "9ade0ac06621": {
+    "text": "Values use the same saved optical geometry and assumed source spectra, with published LEE transmission. Fixed Monte Carlo mean powers are used; geometry and material uncertainty are not propagated and no error interval is plotted. Raw peak belongs to one synthetic record, with no analog transfer or ADC clipping model. These are neither measured filter transmission nor an instrument sensitivity result.",
+    "tag": "figcaption"
+  },
+  "fcc7a8a7e456": {
+    "text": "Two-condition values",
+    "tag": "a"
+  },
+  "5ce4497bb15e": {
+    "text": "Derivation record",
+    "tag": "a"
+  },
+  "afc368d9069f": {
+    "text": "Full model and comparisons",
+    "tag": "a"
+  },
+  "2031288c2832": {
+    "text": "Fix the optical alignment",
+    "tag": "h3"
+  },
+  "c2ea1e969ee4": {
+    "text": "Locate the single layer at the collection aperture and retain the registered wells and photodiode orientation. Check actual film thickness, aperture coverage, clamping and light seals before assembly. A selected material is not a verified fit.",
+    "tag": "p"
+  },
+  "aa0c8f8314bb": {
+    "text": "Calibrate the four wells separately",
+    "tag": "h3"
+  },
+  "6d65ab38f3bd": {
+    "text": "The geometry model predicts unequal collection and nonzero well mixing. Retain raw complex I/Q, use an independent illuminated blank, and measure each fluorescent source well separately. Frequency tags alone do not unmix the wells.",
+    "tag": "p"
+  },
+  "0f0b6b3ca59e": {
+    "text": "Published LEE transmission informs the calculation",
+    "tag": "p"
+  },
+  "1312c196db9f": {
+    "text": "[LEE]",
+    "tag": "a"
+  },
+  "c8ae1aa98a3d": {
+    "text": "; spatial photometry motivates fixed registration",
+    "tag": "p"
+  },
+  "2c109f06f0ae": {
+    "text": "[Burton]",
+    "tag": "a"
+  },
+  "6e2a3c400fb9": {
+    "text": ". Real blank stability, ADC headroom, resin optics and standard response still need measurement. Digital correction cannot recover a clipped raw record.",
+    "tag": "p"
+  },
+  "16b88a3f4cbf": {
+    "text": "Geometry, illumination maps and well mixing →",
+    "tag": "a"
+  },
+  "3af52c3490e1": {
+    "text": "Spectra, alternative filters and noise analysis →",
+    "tag": "a"
+  },
+  "f4b910a6d70c": {
+    "text": "02B / Gas-path decision",
+    "tag": "span"
+  },
+  "2739a9fc18e6": {
+    "text": "The chosen gas lid contains an",
+    "tag": "p"
+  },
+  "e6935cac1fab": {
+    "text": "integral shelf",
+    "tag": "strong"
+  },
+  "9503cf4e53de": {
+    "text": ", retaining the eight-part enclosure. The shelf redirects the incoming gas before it reaches the shared well space; it requires no additional printed component.",
+    "tag": "p"
+  },
+  "a1fb8a8ba709": {
+    "text": "Against the open lid, the selected shelf reduces the modeled downward-momentum proxy by",
+    "tag": "p"
+  },
+  "239bfacad5a7": {
+    "text": "and near-liquid P95 gas speed by",
+    "tag": "p"
+  },
+  "560fe04072ad": {
+    "text": "at the finest tested grid.",
+    "tag": "p"
+  },
+  "0fb418bc6b22": {
+    "text": "Figure 4",
+    "tag": "a"
+  },
+  "5ab7a9e53aee": {
+    "text": "shows this final two-condition comparison. The reduction is not grid independent, and gas-circulation flux becomes less even across wells. This supports a design to test, not a cell-safety claim.",
+    "tag": "p"
+  },
+  "c20f9ff39abb": {
+    "text": "Simulation · selected shelf versus open lid.",
+    "tag": "strong"
+  },
+  "2be9a5d0b3de": {
+    "text": "Both conditions use the nominal 1 mL/min gas flow, 100 µL fill and finest tested 0.2 mm grid. The shelf lowers these two gas-motion metrics but makes circulation flux less even across wells; flux CV is not an odor-concentration CV. These are deterministic design cases, with no statistical error bars. Grid independence and physical headspace remain unverified; no cell-safety result is implied.",
+    "tag": "figcaption"
+  },
+  "be7f1fdb65eb": {
+    "text": "Selected CAD drawing",
+    "tag": "a"
+  },
+  "23647398f95a": {
+    "text": "All geometries and numerical checks",
+    "tag": "a"
+  },
+  "c5ecda4195a9": {
+    "text": "The selected geometry is paired with",
+    "tag": "p"
+  },
+  "8ef2d4207650": {
+    "text": "3 mL/min as a provisional test setting",
+    "tag": "strong"
+  },
+  "c6eb5d3a7090": {
+    "text": ". Its nominal model predicts a worst near-liquid gas t90 of about 50 seconds. Use a regulated downstream pump and measure flow through the complete tubing and filter path; the cooling fan and phone UI do not regulate sample gas.",
+    "tag": "p"
+  },
+  "5dab7fc38a9f": {
+    "text": "Verify the headspace before adopting that setting.",
+    "tag": "strong"
+  },
+  "788e145ffe3a": {
+    "text": "The model assumes 100 µL within a nominal 140 µL well, whereas the team reports that about 100 µL fills a physical well. The provisional 80 µL handling volume has not been simulated. The actual gas gap must be measured and the verified geometry rerun; the 50-second result is neither a full-system turnaround time nor delivery to the cells.",
+    "tag": "p"
+  },
+  "7ff7cbac11e7": {
+    "text": "Flow methods, alternatives, operating sweep and numerical checks →",
+    "tag": "a"
+  },
+  "c5b08e4aa03b": {
+    "text": "02C / Liquid-delivery decision",
+    "tag": "span"
+  },
+  "4a52966da2af": {
+    "text": "No PDMS film is required in the selected enclosure or required-parts list.",
+    "tag": "strong"
+  },
+  "11d7a4138b57": {
+    "text": "The useful design result is that gas arrival and delivery through the liquid are separate steps. Adding a film before establishing the no-film baseline would add another unknown delay.",
+    "tag": "p"
+  },
+  "1df9b6e3f9d2": {
+    "text": "The liquid path can dominate",
+    "tag": "h3"
+  },
+  "8c7121a22c8d": {
+    "text": "For the model’s nominal 8.929 mm stagnant liquid layer and assumed diffusivity of 10",
+    "tag": "p"
+  },
+  "9b793e6dbd6f": {
+    "text": "m²/s, ideal surface-step delivery gives a bottom t90 of 22.83 hours. This conditional transport example is not a receptor-response time or a prediction for the provisional 80 µL fill.",
+    "tag": "p"
+  },
+  "3dc8210309d0": {
+    "text": "Measure at the cell plane",
+    "tag": "h3"
+  },
+  "b1a1140e829e": {
+    "text": "Measure no-film arrival and recovery with a defined target molecule and the verified geometry. Only then assess whether a characterized membrane improves selectivity without unacceptable delay, loss or carryover.",
+    "tag": "p"
+  },
+  "e817b0d6ac2f": {
+    "text": "Keep the removable gas lid and wells accessible for those measurements. The present screening does not establish a universal film thickness, measured VOC permeability or culture viability over the modeled times.",
+    "tag": "p"
+  },
+  "1e233c35a726": {
+    "text": "Transport equations, membrane sweep and sensitivity limits →",
+    "tag": "a"
+  },
+  "e60137d6fd1b": {
+    "text": "03 / Enclosure design",
+    "tag": "span"
+  },
+  "37d50484b761": {
+    "text": "The circuit fixes the excitation and detector positions. The optical results motivate repeatable well registration and shielding, while the gas results retain an integral shelf and an externally regulated sample flow. These constraints are combined in the current eight-part carrier below.",
+    "tag": "p"
+  },
+  "2851b0abac9f": {
+    "text": "Four wells.",
+    "tag": "strong"
+  },
+  "f3fc357aa1d5": {
+    "text": "One shared readout.",
+    "tag": "strong"
+  },
+  "da6d903ed591": {
+    "text": "Current CAD design · eight printed parts",
+    "tag": "small"
+  },
+  "cf5396a223c0": {
+    "text": "Assembled",
+    "tag": "label"
+  },
+  "a87c684d160b": {
+    "text": "Exploded",
+    "tag": "label"
+  },
+  "daee7606b339": {
+    "text": "Reset",
+    "tag": "button"
+  },
+  "44c36f386605": {
+    "text": "The assembly loads automatically as it comes into view.",
+    "tag": "p"
+  },
+  "cc64d34529c7": {
+    "text": "Black base, hood, gas lid and compression plate; four clear removable wells. This is the supplied CAD, with illustrative lighting and exploded spacing. Physical assembly photographs will be added after the build is documented. PCB, fan, seals and tubing are omitted from the 3D geometry; fit and resin properties are not established by the rendering.",
+    "tag": "p"
+  },
+  "4c3731750832": {
+    "text": "mm nominal body",
+    "tag": "span"
+  },
+  "8cbeb70cc4f2": {
+    "text": "4 separate wells",
+    "tag": "strong"
+  },
+  "c6198109be18": {
+    "text": "one shared gas space",
+    "tag": "span"
+  },
+  "6e4c0a3f33c1": {
+    "text": "8 printed parts",
+    "tag": "strong"
+  },
+  "0dd3c0d43d75": {
+    "text": "replaceable well vessels",
+    "tag": "span"
+  },
+  "b52c14db63a2": {
+    "text": "Four liquid-separated wells share the same gas sample and one photodiode. Proposed OR/Orco–GCaMP cells would convert receptor-associated calcium changes into green fluorescence. Four modulated LEDs, an emission filter, a transimpedance amplifier (TIA), a 16-bit ADC and ESP32 form the intended acquisition path. Frequency tags identify excitations; they do not automatically identify the biological origin of every detected photon.",
+    "tag": "p"
+  },
+  "933a122cffee": {
+    "text": "Filtered sample gas",
+    "tag": "span"
+  },
+  "23c2a7505a0c": {
+    "text": "Liquid / cells",
+    "tag": "span"
+  },
+  "1749ba7fa16d": {
+    "text": "470 nm excitation / 520 nm emission",
+    "tag": "span"
+  },
+  "e8857841e57b": {
+    "text": "Shared photodiode",
+    "tag": "span"
+  },
+  "57645175de5c": {
+    "text": "TIA · ADC · ESP32",
+    "tag": "span"
+  },
+  "e4b237ab7758": {
+    "text": "Heterologous insect receptor assays and GCaMP6 calcium indicators provide the biological rationale for the proposed optical readout.",
+    "tag": "p"
+  },
+  "b2e3e57f0555": {
+    "text": "These publications do not demonstrate odor recognition by our constructs or hardware; that coupling remains a future controlled measurement.",
+    "tag": "p"
+  },
+  "f03ffa5a923d": {
+    "text": "The nominal body is",
+    "tag": "p"
+  },
+  "7d20253400a2": {
+    "text": "108 × 108 × 66 mm",
+    "tag": "strong"
+  },
+  "b1f35959a929": {
+    "text": ", around an approximately 100 × 90 mm PCB, with a 40 × 40 × 10 mm fan below it. The base, hood, gas lid and compression plate use PC/GF-like Black; four separate replaceable wells use Aqua Clear Plus. Black opacity, clear-resin transmission/autofluorescence and cell compatibility remain unmeasured. No hinge kit, service tray, extra lid or PDMS film belongs to this current eight-part build.",
+    "tag": "p"
+  },
+  "9befd88bc71c": {
+    "text": "Working fill and model fill are different.",
+    "tag": "strong"
+  },
+  "6208f5df7a40": {
+    "text": "The team reports that approximately 100 µL already fills the physical well. The updated manual therefore uses",
+    "tag": "div"
+  },
+  "1530fe049ebb": {
+    "text": "80 µL only as a provisional working volume",
+    "tag": "strong"
+  },
+  "fee580b5a825": {
+    "text": ", subject to a leak/handling check. The CAD estimates 140 µL brim capacity; the published simulations used",
+    "tag": "div"
+  },
+  "4e68624b4ab1": {
+    "text": "100 µL and have not been rerun at 80 µL",
+    "tag": "strong"
+  },
+  "67596ab24a96": {
+    "text": ". Physical observations take precedence over the nominal capacity.",
+    "tag": "div"
+  },
+  "d15ffd9f7662": {
+    "text": "The capacity discrepancy also affects the existence and depth of the simulated gas gap.",
+    "tag": "p"
+  },
+  "b480304eddb5": {
+    "text": "Read the headspace qualification before using the gas-side operating candidate.",
+    "tag": "a"
+  },
+  "dba1522a0b9c": {
+    "text": "Printed parts · eight operating STLs",
+    "tag": "summary"
+  },
+  "f0f3d95c003b": {
+    "text": "Current print inventory — one of each part",
+    "tag": "caption"
+  },
+  "8570a2e1669f": {
+    "text": "Part",
+    "tag": "th"
+  },
+  "68e248968a92": {
+    "text": "Material / function",
+    "tag": "th"
+  },
+  "5db12696b27d": {
+    "text": "Print file",
+    "tag": "th"
+  },
+  "8663365eb08d": {
+    "text": "01 · Integral base",
+    "tag": "th"
+  },
+  "c0ced966bff9": {
+    "text": "Rigid PC/GF-like Black",
+    "tag": "td"
+  },
+  "488422bdcc37": {
+    "text": "Support PCB, fan, captive nuts and device. AssemblyZ0–43.3.",
+    "tag": "small"
+  },
+  "5dbddbb64c5f": {
+    "text": "Download STL",
+    "tag": "a"
+  },
+  "ebd6dec7c756": {
+    "text": "02 · Black hood with integral well carrier",
+    "tag": "th"
+  },
+  "1f627edcd685": {
+    "text": "Enclose well sides, register wells and support filter. AssemblyZ40.8–64; carrierZ44.2–55.5; lower optical band open.",
+    "tag": "small"
+  },
+  "1c3566db1479": {
+    "text": "03 · Gas-path lid",
+    "tag": "th"
+  },
+  "d2c8be8889f6": {
+    "text": "Open for well replacement, deflect inlet and form shared gas path. AssemblyZ57.9–66; inlet-X/outlet+X, axisZ60.8.",
+    "tag": "small"
+  },
+  "7f642d1630d7": {
+    "text": "04 · Clear well NE",
+    "tag": "th"
+  },
+  "4db5c175c153": {
+    "text": "Aqua Clear Plus",
+    "tag": "td"
+  },
+  "6e7ffae741c9": {
+    "text": "Individually removable liquid vessel; gas phase shared. Center(3.3, 2.65); outer floorZ42.5, inner floorZ43, topZ55.5; flange outward.",
+    "tag": "small"
+  },
+  "ed2ae930e634": {
+    "text": "05 · Clear well NW",
+    "tag": "th"
+  },
+  "929ee5e0ccd7": {
+    "text": "Individually removable liquid vessel; gas phase shared. Center(-3.3, 2.65); outer floorZ42.5, inner floorZ43, topZ55.5; flange outward.",
+    "tag": "small"
+  },
+  "2b140fb375a4": {
+    "text": "06 · Clear well SW",
+    "tag": "th"
+  },
+  "c00d74f3e0cb": {
+    "text": "Individually removable liquid vessel; gas phase shared. Center(-3.3, -2.65); outer floorZ42.5, inner floorZ43, topZ55.5; flange outward.",
+    "tag": "small"
+  },
+  "17849e98724c": {
+    "text": "07 · Clear well SE",
+    "tag": "th"
+  },
+  "e737290c6389": {
+    "text": "Individually removable liquid vessel; gas phase shared. Center(3.3, -2.65); outer floorZ42.5, inner floorZ43, topZ55.5; flange outward.",
+    "tag": "small"
+  },
+  "7ac4010f6d53": {
+    "text": "08 · Four-hole compression plate",
+    "tag": "th"
+  },
+  "ffff95f2c84e": {
+    "text": "Distribute cap load onto four well-mouth gaskets. Above lower four-hole gasket/below upper ring, assemblyZ56.1–57.3.",
+    "tag": "small"
+  },
+  "2f0fdf446ef6": {
+    "text": "Technical drawings · exploded assembly, fan and ports",
+    "tag": "summary"
+  },
+  "a0b21908528e": {
+    "text": "Current eight-part CAD assembly, with an integral fan seat and gas-lid shelf. This is a design drawing, not a fabricated-device photograph.",
+    "tag": "figcaption"
+  },
+  "3cc05e6df444": {
+    "text": "Assembly manual",
+    "tag": "a"
+  },
+  "1814b02f0910": {
+    "text": "Fan and ports are part of the current base design. Confirm populated component heights, connector bodies, solder and wiring before applying power.",
+    "tag": "figcaption"
+  },
+  "e92a6e99d8b9": {
+    "text": "Service access and orientation. Check the actual board against mirrored bottom-view drawings; use J2 USB-C for power and J3 for 3.3 V UART.",
+    "tag": "figcaption"
+  },
+  "a208d11eba40": {
+    "text": "Assembly checkpoints",
+    "tag": "h3"
+  },
+  "98d609fb0e05": {
+    "text": "The assembly order protects the electronics while making the well vessels replaceable. These checks define how the CAD will be compared with the as-built device.",
+    "tag": "p"
+  },
+  "a40f32799e97": {
+    "text": "With power disconnected, inspect all eight prints and measure PCB, mounting holes, component heights and antenna insertion clearance.",
+    "tag": "li"
+  },
+  "cb03238176d9": {
+    "text": "Fit the fan, captive nuts and PCB using the specified M3 screws and washers; never force a tight part into place with screws.",
+    "tag": "li"
+  },
+  "13d03b1b3129": {
+    "text": "Install the filter and optical seals, locate the four wells by their flanges, then fit the well seals and removable compression plate.",
+    "tag": "li"
+  },
+  "56bfea1cf02c": {
+    "text": "Connect gas tubes to the gas lid and route them through the side openings; close the lid without displacing or pinching seals.",
+    "tag": "li"
+  },
+  "79f4f350711c": {
+    "text": "Perform an off-board cell-free liquid leak check, then verify electrical rails, raw ADC headroom, stop control and actual LED orientation before acquisition.",
+    "tag": "li"
+  },
+  "d9390f4626fd": {
+    "text": "The antenna aperture is already present, but the insertion path has only about",
+    "tag": "p"
+  },
+  "8d9feda9d268": {
+    "text": "0.66 mm nominal clearance",
+    "tag": "strong"
+  },
+  "aed8152229c8": {
+    "text": "against the supplied drawing. This does not certify physical fit or radio performance.",
+    "tag": "p"
+  },
+  "5ec0207fa9b9": {
+    "text": "The antenna audit",
+    "tag": "a"
+  },
+  "20bc7f956f1f": {
+    "text": "vendor checklist",
+    "tag": "a"
+  },
+  "06b7ff26a3e4": {
+    "text": "retain the unresolved dimensions.",
+    "tag": "p"
+  },
+  "4e52593e540b": {
+    "text": "04 / Bill of materials",
+    "tag": "span"
+  },
+  "8dbc6fb23717": {
+    "text": "USD 2,511.36 is the current development-device budget.",
+    "tag": "strong"
+  },
+  "add27b4dbc0e": {
+    "text": "It includes the allocated PCB development quote and an unresolved custom-filter allowance. It is not an invoice, verified order-ready total or production unit cost. The 11 October English workbook separates required device materials, shared developer equipment and future options; its six worksheets retain formulas and source-price notes.",
+    "tag": "p"
+  },
+  "7c23f153a62b": {
+    "text": "The selected filter is one LEE 101 layer; the archived budget has not yet been repriced for it.",
+    "tag": "strong"
+  },
+  "8a6dbc1f17fd": {
+    "text": "The workbook retains a NTD 12,000 custom-filter allowance and the older Edmund 67-016 price reference. Neither is a quotation for the selected film. Keep the published total as an auditable budget snapshot until a documented LEE purchase price and mounting specification replace that line. Film thickness, aperture coverage and seal fit still require physical checks.",
+    "tag": "p"
+  },
+  "cd4df4c50bc6": {
+    "text": "English BOM workbook",
+    "tag": "a"
+  },
+  "195f6db00c4b": {
+    "text": "Full price sources and calculation basis",
+    "tag": "a"
+  },
+  "331e60a10d6d": {
+    "text": "How the budget changes commercial planning →",
+    "tag": "a"
+  },
+  "d2db5181bcb4": {
+    "text": "Full cost calculation · budget, exchange rate and category boundaries",
+    "tag": "summary"
+  },
+  "67aa4c97d21d": {
+    "text": "Current USD budget — English workbook revision 11 October 2026; independently rounded",
+    "tag": "caption"
+  },
+  "292c06f0045a": {
+    "text": "Category",
+    "tag": "th"
+  },
+  "17718ed615bb": {
+    "text": "Basis / boundary",
+    "tag": "th"
+  },
+  "086ffaf13f8b": {
+    "text": "Required printing",
+    "tag": "th"
+  },
+  "5a02fe1b808d": {
+    "text": "Three print batches; source resin and machine-time formulas",
+    "tag": "td"
+  },
+  "d09e28d8a975": {
+    "text": "Required purchases at used quantity",
+    "tag": "th"
+  },
+  "03b0a91ff0be": {
+    "text": "13 required purchase lines at used quantity, including the custom-filter allowance",
+    "tag": "td"
+  },
+  "db2f7deed9a2": {
+    "text": "Required budget excluding PCB",
+    "tag": "th"
+  },
+  "3ff401d67278": {
+    "text": "Required printing + used purchase quantities",
+    "tag": "td"
+  },
+  "1044b2921381": {
+    "text": "PCB allocation from this quote",
+    "tag": "th"
+  },
+  "5d3062783be7": {
+    "text": "Two-board development quote divided by two; design and setup included",
+    "tag": "td"
+  },
+  "e49c04db6ce1": {
+    "text": "Required device budget",
+    "tag": "th"
+  },
+  "757823dc5241": {
+    "text": "Device development budget; excluded costs remain below",
+    "tag": "td"
+  },
+  "cbda46b36949": {
+    "text": "Required purchases in whole packs",
+    "tag": "th"
+  },
+  "d32049c4c13a": {
+    "text": "Whole-pack cash outlay for purchases only, before printing and PCB",
+    "tag": "td"
+  },
+  "e45414e57aad": {
+    "text": "Developer equipment budget",
+    "tag": "th"
+  },
+  "bf70fd29c14c": {
+    "text": "10 shared development / gas / measurement lines; may be borrowed",
+    "tag": "td"
+  },
+  "b301d7905401": {
+    "text": "Future allowance",
+    "tag": "th"
+  },
+  "30b7bb4c0280": {
+    "text": "PDMS, valve development and environmental sensing; excluded",
+    "tag": "td"
+  },
+  "15ade886d22c": {
+    "text": "The workbook uses fixed USD inputs. Its retained",
+    "tag": "p"
+  },
+  "6f8a3f2edf9c": {
+    "text": "conversion snapshot is dated 5 October 2026, 15:13; changing that label does not reprice the budget. The source quotation was NTD 131,250 for two boards. Shipping, extra taxes, unlisted labor, reprints, cell-culture consumables and replacement of existing facilities remain excluded. Priced PCB materials (USD 61.44) are not added again to the PCBA quote; one PCB material-price row remains unresolved.",
+    "tag": "p"
+  },
+  "2904d7686896": {
+    "text": "Complete purchase and PCB inventories",
+    "tag": "summary"
+  },
+  "08a800430415": {
+    "text": "Required purchases · 13 lines",
+    "tag": "summary"
+  },
+  "d4e310f8c286": {
+    "text": "Required purchase inventory — current English USD workbook",
+    "tag": "caption"
+  },
+  "fb5c069688bf": {
+    "text": "Item / quantity",
+    "tag": "th"
+  },
+  "209c74c6982d": {
+    "text": "Used budget (USD)",
+    "tag": "th"
+  },
+  "7f3bbac0a0cd": {
+    "text": "Specification / purpose",
+    "tag": "th"
+  },
+  "54fd4ae68709": {
+    "text": "Price basis / unresolved compatibility",
+    "tag": "th"
+  },
+  "b2188fade789": {
+    "text": "F01 · 5 V DC axial fan",
+    "tag": "th"
+  },
+  "9fa8592e21ed": {
+    "text": "1 pc",
+    "tag": "th"
+  },
+  "13355c6d3ad2": {
+    "text": "40×40×10 mm; mounting pitch 32×32 mm. Existing candidate Sunon MF40100V1-1000U-A99:5 V, rated136 mA/0.68 W; purchase approval pending.",
+    "tag": "td"
+  },
+  "874782b6e076": {
+    "text": "Cool the electronics; does not regulate sample gas. Base01 at(-27, -5), bottomZ6/topZ16; airflow from underside toward PCB, two diagonal fixings.",
+    "tag": "td"
+  },
+  "78797afdac99": {
+    "text": "Listed",
+    "tag": "td"
+  },
+  "c8b8eca46772": {
+    "text": "Cradle opening40.6 mm; candidate frame40±0.5 leaves only0.05 mm/side at maximum size before print error. Measure frame/pitch/thickness/wires. Vendor must approve5 V connection and startup-current margin; battery-mode5 V capability is unverified. Never use GPIO or an arbitrary3.3 V rail.",
+    "tag": "td"
+  },
+  "cfa659e54181": {
+    "text": "H01 · M3×8 screw",
+    "tag": "th"
+  },
+  "57bc7b3bf7a4": {
+    "text": "4 pc",
+    "tag": "th"
+  },
+  "c356f15393bd": {
+    "text": "M3 coarse thread, pitch 0.5 mm; under-head length8 mm. Proposed common head: hex-socket cylindrical, ISO4762/DIN912 type, nominal diameter 5.5/height 3/hex key2.5 mm. Flat bearing face; no countersunk or self-tapping screw. Head choice is a procurement proposal, not a tested fit.",
+    "tag": "td"
+  },
+  "c3e048521713": {
+    "text": "Retain PCB Four PCB corners(±45, ±40), inserted from optical side.",
+    "tag": "td"
+  },
+  "2b99b4d70435": {
+    "text": "Allowance",
+    "tag": "td"
+  },
+  "8ccef0388fa2": {
+    "text": "With0.5 mm washer, nominal under-headZ40.1/tipZ32.1; nut pocketZ33.5–36.2. Verify actual PCB hole, copper keep-out and head clearance. No validated tightening torque for the resin; screw material/finish remain to be specified.",
+    "tag": "td"
+  },
+  "e890d592ebf7": {
+    "text": "H02 · M3×16 screw",
+    "tag": "th"
+  },
+  "12450f325aea": {
+    "text": "2 pc",
+    "tag": "th"
+  },
+  "b43dd81164e8": {
+    "text": "M3 coarse thread, pitch 0.5 mm; under-head length16 mm. Proposed common head: hex-socket cylindrical, ISO4762/DIN912 type, nominal diameter 5.5/height 3/hex key2.5 mm. Flat bearing face; no countersunk or self-tapping screw. Head choice is a procurement proposal, not a tested fit.",
+    "tag": "td"
+  },
+  "e6f7c6c2e3cb": {
+    "text": "Retain fan From fan top at diagonal(-43, -21), (-11, 11).",
+    "tag": "td"
+  },
+  "963db0df3d0c": {
+    "text": "For nominal10 mm fan plus0.5 mm washer, under-headZ16.5/tipZ0.5; nut pocketZ0.3–3. Confirm real tolerances: tip must remain above foot planeZ0 and engage the nut. No validated tightening torque for the resin; screw material/finish remain to be specified.",
+    "tag": "td"
+  },
+  "d4db518a1090": {
+    "text": "H03 · M3×35 screw",
+    "tag": "th"
+  },
+  "9802f2b91456": {
+    "text": "M3 coarse thread, pitch 0.5 mm; under-head length35 mm. Proposed common head: hex-socket cylindrical, ISO4762/DIN912 type, nominal diameter 5.5/height 3/hex key2.5 mm. Flat bearing face; no countersunk or self-tapping screw. Head choice is a procurement proposal, not a tested fit.",
+    "tag": "td"
+  },
+  "2b53c11aa107": {
+    "text": "Clamp base, hood and removable lid Down through lid at(-30, -51.8), (30, 47.8) into base nuts.",
+    "tag": "td"
+  },
+  "60edc1129ce1": {
+    "text": "Existing stack without extra washer: under-headZ66/tipZ31; nut pocketZ33.2–35.9. Head projects beyond66-mm body height. Verify supplier thread length and physical stop; do not over-tighten to force sealing. No validated tightening torque for the resin; screw material/finish remain to be specified.",
+    "tag": "td"
+  },
+  "912423e5b857": {
+    "text": "H04 · M3 hex nut",
+    "tag": "th"
+  },
+  "5b80cedc9697": {
+    "text": "8 pc",
+    "tag": "th"
+  },
+  "7b8838aa4e8c": {
+    "text": "M3×0.5; regular hex nut, 5.5 mm across flats, 2.4 mm high, DIN934/~ISO4032 dimensions; not a tall locknut.",
+    "tag": "td"
+  },
+  "abe011e2571c": {
+    "text": "Mate with the three screw lengths:4 PCB+2 fan+2 enclosure. Integral base pockets; PCB/enclosure nuts enter side slots, fan nuts from underside.",
+    "tag": "td"
+  },
+  "d627bef1dbbc": {
+    "text": "CAD hex circumradius3.3 gives5.716 mm across flats; pocket height 2.7. Relative to5.5×2.4 nut, total width allowance0.216 and height 0.3 mm; test printed pockets. Match material/finish to screws; do not force or substitute self-tapping.",
+    "tag": "td"
+  },
+  "847ceeb378a1": {
+    "text": "H05 · M3 flat washer",
+    "tag": "th"
+  },
+  "5e3292bd47e1": {
+    "text": "6 pc",
+    "tag": "th"
+  },
+  "ed021dcba892": {
+    "text": "Nominal ID3.2, OD7.0, thickness 0.5 mm; flat form, 6 pieces. M3 does not mean an exact3.0-mm bore.",
+    "tag": "td"
+  },
+  "c541b41357fd": {
+    "text": "Spread head bearing load; 4 PCB+2 fan. Under each M3×8 and M3×16 head; none additionally counted for M3×35.",
+    "tag": "td"
+  },
+  "5b217c9d7be8": {
+    "text": "OD7 mm is a procurement reference; PCB copper keep-out remains unverified. Metal must not touch exposed copper. Conductive versus insulating material requires vendor approval; insulating washers also need creep/thickness checks. A thicker substitute changes the screw stack.",
+    "tag": "td"
+  },
+  "9f39b65cc5a2": {
+    "text": "E01 · Wire, insulating sleeve and retention supplies",
+    "tag": "th"
+  },
+  "225812967092": {
+    "text": "1 set",
+    "tag": "th"
+  },
+  "8b9e7e3147c3": {
+    "text": "One set:5 V/GND wiring, joint insulation and wire retention; cut length to routing. Wire gauge, connector, insulation rating and retention method require supplier approval; no fan socket is verified.",
+    "tag": "td"
+  },
+  "42da9dae1198": {
+    "text": "Supply fan and prevent strain, shorts and blade contact. Along base perimeter, clear of fan rotor, PCB pillars and ESP32 antenna.",
+    "tag": "td"
+  },
+  "390dff7882b0": {
+    "text": "Use only vendor-approved5 V/GND. A TPS61023 boost architecture is drawn, but missing passives/current margin prevent a battery-mode5 V claim. Do not connect to GPIO/arbitrary3.3 V. No added boost module is specified.",
+    "tag": "td"
+  },
+  "d2a81bfe6298": {
+    "text": "S01 · 0.8 mm opaque silicone sheet",
+    "tag": "th"
+  },
+  "432158bf380f": {
+    "text": "1 sheet",
+    "tag": "th"
+  },
+  "94eae8ac3a2e": {
+    "text": "One sheet for3 pieces: lower20×18 with four4×2.8 openings at(±3.3, ±2.65); upper ring18.4×15.6 outside/14.8×12 inside; PD ring4×4 outside/3×3.4 inside. Stock0.8 compressed nominally to0.6 mm(25%); sheet area must include all cuts plus trimming allowance.",
+    "tag": "td"
+  },
+  "d092f5c799ab": {
+    "text": "Seal well mouths and cap; block light around PD. LowerZ55.5–56.1; upperZ57.3–57.9; PD ringZ40.5–41.1 after nominal compression.",
+    "tag": "td"
+  },
+  "9233ab397c11": {
+    "text": "Hardness, compression set, thickness tolerance, VOC sorption/permeation, cleaning and cell-environment compatibility remain unqualified. PD ring minimum wall 0.3 mm and tiny aperture alignment margin require the100% SVG and real PD window. Black appearance does not prove opacity or gas sealing.",
+    "tag": "td"
+  },
+  "921a2d7b31a9": {
+    "text": "E02 · USB-C external supply",
+    "tag": "th"
+  },
+  "0e5c196a5ec7": {
+    "text": "Vendor-confirmed USB-C approximately 5 V input; price proxy is 5.1 V 3 A with cable. Battery excluded.",
+    "tag": "td"
+  },
+  "c17c5cf2880c": {
+    "text": "Power PCB; battery operation first requires approved charging/protection settings. USB-C to J2; battery to J1 Battery_Case according to physical holder/polarity.",
+    "tag": "td"
+  },
+  "a68ee4167406": {
+    "text": "Proxy",
+    "tag": "td"
+  },
+  "b21ab8071842": {
+    "text": "J1 connects BAT/GND, but holder dimensions/polarity and charge-setting R1–R3/TS R9 values are missing. Do not specify18650 chemistry/protection from photographs. TPS61023 output is labeled5 V but R6/R8 and other values are absent; vendor must confirm power and fan capability in both modes.",
+    "tag": "td"
+  },
+  "f100219fad2f": {
+    "text": "G01 · 0.2 µm hydrophobic gas filter",
+    "tag": "th"
+  },
+  "0dd6b4f6d76b": {
+    "text": "Two, one inlet and one outlet; gas-rated hydrophobic medium, 0.2 µm pore size. Membrane, area, housing, fittings and MPN undecided; a liquid syringe-filter label does not establish gas suitability.",
+    "tag": "td"
+  },
+  "f518f0f2787c": {
+    "text": "Reduce inlet/outlet particulate transport; not whole-device sterility certification. Inlet filter between sample and inlet; outlet filter between outlet and downstream pump.",
+    "tag": "td"
+  },
+  "984362393185": {
+    "text": "Obtain air pressure drop near3 mL/min, direction, pressure limits, wetting behavior, fittings and cleaning/sterilization information; measure target-VOC recovery/lag. Pore size does not prove zero VOC sorption or absolute containment. Price proxy ANP1322 is 0.22 um and nonsterile; it is not a qualified replacement for the specified 0.2 um gas filter.",
+    "tag": "td"
+  },
+  "d2509ca16b45": {
+    "text": "G02 · PTFE gas tubing",
+    "tag": "th"
+  },
+  "f26465a4233e": {
+    "text": "Candidate ID2.0/OD3.0 mm; procurement basis1 m. Cut shortest practical lengths and connect through G03.",
+    "tag": "td"
+  },
+  "b006a58a0de2": {
+    "text": "Connect sample, filters and device while limiting unnecessary dead volume. External gas path near side slots; do not force directly onto printed tails.",
+    "tag": "td"
+  },
+  "c5a7f576202d": {
+    "text": "Verify wall/bend radius, tolerances and VOC recovery.1 m of ID2-mm tubing holds about3.14 mL; at3 mL/min nominal residence alone is about63 s. Chamber ~50-s t90 is not complete-system response time.",
+    "tag": "td"
+  },
+  "12093855a602": {
+    "text": "G03 · Soft-tube couplings and fitting adapters",
+    "tag": "th"
+  },
+  "a8ca3399ca07": {
+    "text": "One set covering at least two printed-tail joints and required filter/PTFE adapters. Printed tail OD3.4, ridge4.0, bore2.4 mm; PTFE OD3.0. Final soft-tube ID/OD, material, length and fittings await filter selection and off-board fit tests; no claimed matched MPN.",
+    "tag": "td"
+  },
+  "4bda3c7ec99b": {
+    "text": "Make removable joints between rigid PTFE/filters and fragile printed tails. Lid-X inlet/+X outlet, Y0/Z60.8, routed through hood side slots.",
+    "tag": "td"
+  },
+  "20fd7c5e10a8": {
+    "text": "Coupling must pass4-mm ridge without splitting nominal0.5-mm printed wall. Tip-to-rib insertion length is about4.8 mm, not the full10-mm tail. Side slot height 7 mm also limits OD/bend. Off-board test retention, leaks, VOC sorption and unrestricted outlet.",
+    "tag": "td"
+  },
+  "530c804768ea": {
+    "text": "O01 · Fluorescence emission filter",
+    "tag": "th"
+  },
+  "879d27faf0c3": {
+    "text": "One piece, mechanical maximum5.2×4.2×1.0 mm; pocket5.4×4.4, clear aperture4.8×3.8 mm. Cover optical path without edge bypass. Supplier brief:LED peak~468/model470 nm and target GCaMP/fluorescein green~520 nm; request spectral transmission/blocking and angle curves.",
+    "tag": "td"
+  },
+  "4865a7b109a8": {
+    "text": "Reject synchronous excitation leakage while passing green fluorescence. Central filter seat in hood02, bottomZ41.1, above PD.",
+    "tag": "td"
+  },
+  "e07eebd15a93": {
+    "text": "Custom allowance",
+    "tag": "td"
+  },
+  "8d8208855391": {
+    "text": "No selected MPN. Model OD3/4/5 at470/520 nm and0.9 normal green transmission are design-study assumptions, not verified purchased performance. Collection includes large angles; obtain0–65° and higher-angle data/limits. Interference-filter spectral shift is not represented by the absorptive proxy. Verify edge coating, orientation, flatness, thickness and PD-seal fit.",
+    "tag": "td"
+  },
+  "bb6f48efb994": {
+    "text": "Developer purchases · 10 lines",
+    "tag": "summary"
+  },
+  "3b3266060640": {
+    "text": "Developer purchase inventory — current English USD workbook",
+    "tag": "caption"
+  },
+  "e04a141d6a9d": {
+    "text": "P01 · 3.3 V logic USB–UART adapter",
+    "tag": "th"
+  },
+  "447eb9155d29": {
+    "text": "One shared adapter; TX/RX/GND with3.3 V logic, not RS-232. Computer driver/upload-rate support required; MPN and J3-compatible cable terminals undecided.",
+    "tag": "td"
+  },
+  "15189d9c8ee8": {
+    "text": "Program ESP32 and read serial diagnostics. Connect to J3; adapterTX to boardRX, RX to TX, common ground; normal board power through J2.",
+    "tag": "td"
+  },
+  "e3a5d2203d3d": {
+    "text": "Confirm physical J3 pin1 and terminal pitch. Leave adapterVCC disconnected with normal board power. J2 has no USB–UART bridge; never apply5 V UART signalling to ESP32.",
+    "tag": "td"
+  },
+  "83319492e791": {
+    "text": "L01 · Suction,flow and pressure equipment",
+    "tag": "th"
+  },
+  "650cbff08f52": {
+    "text": "One shared/borrowed set:one controllable downstream suction source, gas flowmeter resolving~3 mL/min, pressure monitoring and independent limiting. Range, resolution, calibration, MPN and pressure limit remain undecided; no second independently set push pump.",
+    "tag": "td"
+  },
+  "1dc1af0fa462": {
+    "text": "Provide measured shared sample flow. Suction downstream of outlet filter, with lab-approved exhaust.",
+    "tag": "td"
+  },
+  "68c99bd35591": {
+    "text": "3 mL/min is a conditional fixed-CAD candidate, not a cell-safety limit. Measure assembled system; steady inlet/outlet volume rates match at common temperature/pressure. Chamber CFD excludes filters/tubing. Do not expose wells directly to pump maximum suction; baffle is not pressure regulation.",
+    "tag": "td"
+  },
+  "9129f83b4e46": {
+    "text": "L02 · Measurement and assembly hand tools",
+    "tag": "th"
+  },
+  "6a428bc4065d": {
+    "text": "Calipers, 2.5 mm hex key, tweezers and craft knife; one set, borrow first.",
+    "tag": "td"
+  },
+  "5a4f3a3178a1": {
+    "text": "Postprocess, measure and assemble. Workbench; supplies/tools are not product-installed parts.",
+    "tag": "td"
+  },
+  "3bcd99f43c3d": {
+    "text": "Use resin-validated settings, no universal exposure/torque claim. Must measure/clean0.8-mm gaskets, 0.5-mm well floors and small bores. Existing equipment is declared as owned/borrowed rather than free.",
+    "tag": "td"
+  },
+  "584ed389d95d": {
+    "text": "L03 · Sodium fluorescein",
+    "tag": "th"
+  },
+  "d4d0bc1959b7": {
+    "text": "46970, market price per 100 g bottle. Prefer a documented stock aliquot for small tests. No electrical meter included.",
+    "tag": "td"
+  },
+  "1f6e36c46f18": {
+    "text": "Run cell-free optical, mixing, concentration and electrical checks before cell work. Validation bench/existing laboratory.",
+    "tag": "td"
+  },
+  "e79c4689bec2": {
+    "text": "Record stock concentration, solvent/pH and lot per validation guide. Instrument bandwidth/calibration/probe points require confirmation. A fluorescence standard does not establish GCaMP sensitivity, gas t90 or odor recognition.",
+    "tag": "td"
+  },
+  "fc53cdd96026": {
+    "text": "P02 · USB data cable and UART leads",
+    "tag": "th"
+  },
+  "88f74150fdaf": {
+    "text": "One adapter-compatible data cable and three J3-compatible signal leads.",
+    "tag": "td"
+  },
+  "ede3b81029e5": {
+    "text": "Connect computer to P01 and J3. External shared equipment",
+    "tag": "td"
+  },
+  "d8d56d14aa6b": {
+    "text": "Budget is not a confirmed compatible-part quotation. Borrow first; confirm model before purchase.",
+    "tag": "td"
+  },
+  "9d5ebf30a262": {
+    "text": "L04 · Low-flow gas meter",
+    "tag": "th"
+  },
+  "5630a28e5d66": {
+    "text": "Calibrated measurement near 3 mL/min; a 10 mL/min lower range is unsuitable.",
+    "tag": "td"
+  },
+  "be93cd4bcd90": {
+    "text": "Measure complete-path flow; excluded from L01. External shared equipment",
+    "tag": "td"
+  },
+  "5af62635166f": {
+    "text": "L05 · Digital multimeter",
+    "tag": "th"
+  },
+  "13baac6ca756": {
+    "text": "DC voltage, resistance and continuity; insulated probes for low-voltage PCB work.",
+    "tag": "td"
+  },
+  "ba5068eccc93": {
+    "text": "Check rails and connections. External shared equipment",
+    "tag": "td"
+  },
+  "e5c8809c1668": {
+    "text": "L06 · Oscilloscope",
+    "tag": "th"
+  },
+  "865fb54408cf": {
+    "text": "At least two channels with probes compatible with 3.3 V logic; borrow lab equipment.",
+    "tag": "td"
+  },
+  "d5296ff401f0": {
+    "text": "Check LED PWM, CONVST and timing. External shared equipment",
+    "tag": "td"
+  },
+  "5a9c7465c0ef": {
+    "text": "L07 · Micropipette and tips",
+    "tag": "th"
+  },
+  "f14e0536a0fb": {
+    "text": "Calibrated range covering 80 uL, with one box of compatible tips.",
+    "tag": "td"
+  },
+  "62a5f81c99da": {
+    "text": "Control well fill volume. External shared equipment",
+    "tag": "td"
+  },
+  "39be35d40de9": {
+    "text": "L08 · Cleaning and post-cure consumables",
+    "tag": "th"
+  },
+  "063ddeeaa722": {
+    "text": "Small supplies of resin-approved cleaner, gloves and lint-free wipes; existing printer and cure equipment reused.",
+    "tag": "td"
+  },
+  "adb47be19a12": {
+    "text": "Print finishing; cell-culture consumables excluded. External shared equipment",
+    "tag": "td"
+  },
+  "27a0198d39f8": {
+    "text": "Future purchases · 3 lines",
+    "tag": "summary"
+  },
+  "8b0b40c313c9": {
+    "text": "Future purchase inventory — current English USD workbook",
+    "tag": "caption"
+  },
+  "741487256da7": {
+    "text": "FUT01 · PDMS membrane research materials",
+    "tag": "th"
+  },
+  "aface1c71f45": {
+    "text": "SYLGARD 184 0.5 kg kit and basic casting supplies; thickness and ratio require experiments.",
+    "tag": "td"
+  },
+  "8a5c00d98017": {
+    "text": "Future VOC transport and selectivity research; not current assembly. Not integrated",
+    "tag": "td"
+  },
+  "3ce6b38d01be": {
+    "text": "FUT02 · Gas valve and driver materials",
+    "tag": "th"
+  },
+  "c7c70f49818f": {
+    "text": "6 V FA0520E price reference; allowance includes driver, flyback diode, supply and adapters.",
+    "tag": "td"
+  },
+  "75ebc2f915c5": {
+    "text": "Future gas switching; current UI and PCB do not support it. Not integrated",
+    "tag": "td"
+  },
+  "905534ae3129": {
+    "text": "FUT03 · Environment sensing development materials",
+    "tag": "th"
+  },
+  "271dead90aca": {
+    "text": "Temperature/humidity module and wiring allowance; excludes heater, CO2 control and incubator.",
+    "tag": "td"
+  },
+  "89282891e9af": {
+    "text": "Future environmental monitoring; not cell-environment control. Not integrated",
+    "tag": "td"
+  },
+  "8f68575641de": {
+    "text": "PCB component inventory · all 61 vendor rows",
+    "tag": "summary"
+  },
+  "8cd2e5e4de2b": {
+    "text": "The supplier references and quantities are preserved. Unspecified values, packages and ratings remain explicit. U3 is unpriced. Generic component allowances are not purchasing specifications and are",
+    "tag": "p"
+  },
+  "7d146df0d1cb": {
+    "text": "not added",
+    "tag": "strong"
+  },
+  "85ebaa7088d8": {
+    "text": "to the two-board design/setup quote.",
+    "tag": "p"
+  },
+  "e56bd428eefe": {
+    "text": "PCB inventory — 61 source rows; material subtotals must not be added to the PCBA quote",
+    "tag": "caption"
+  },
+  "71bf90935fc2": {
+    "text": "Reference",
+    "tag": "th"
+  },
+  "822bab8d41bc": {
+    "text": "Quantity",
+    "tag": "th"
+  },
+  "673b3169342b": {
+    "text": "Vendor value / specification",
+    "tag": "th"
+  },
+  "d362c5a75063": {
+    "text": "Unresolved details",
+    "tag": "th"
+  },
+  "4c97abc8313a": {
+    "text": "Capacitor (value not supplied)",
+    "tag": "td"
+  },
+  "66d513f97e51": {
+    "text": "No capacitance is given in the vendor BOM or schematic.",
+    "tag": "td"
+  },
+  "3048d9820f12": {
+    "text": "Confirm MPN,case/height,voltage,tolerance,dielectric and ESR",
+    "tag": "td"
+  },
+  "a5c018b20041": {
+    "text": "47 µF capacitor",
+    "tag": "td"
+  },
+  "9e72f69d804d": {
+    "text": "47uF",
+    "tag": "td"
+  },
+  "013b7f6cfa2d": {
+    "text": "Vendor nominal capacitance: 47uF.",
+    "tag": "td"
+  },
+  "30ccd147199e": {
+    "text": "22 µF capacitor",
+    "tag": "td"
+  },
+  "a791ef5a3235": {
+    "text": "22uF",
+    "tag": "td"
+  },
+  "34bedfdd72fa": {
+    "text": "Vendor nominal capacitance: 22uF.",
+    "tag": "td"
+  },
+  "4ac7f80e0d46": {
+    "text": "0.1 µF capacitor",
+    "tag": "td"
+  },
+  "2e21e0c75595": {
+    "text": "0.1uF",
+    "tag": "td"
+  },
+  "8728d0cb9da8": {
+    "text": "Vendor nominal capacitance: 0.1uF.",
+    "tag": "td"
+  },
+  "be6b786942bd": {
+    "text": "10 µF capacitor",
+    "tag": "td"
+  },
+  "0c02c82add6f": {
+    "text": "10uF",
+    "tag": "td"
+  },
+  "128fde9b282a": {
+    "text": "Vendor nominal capacitance: 10uF.",
+    "tag": "td"
+  },
+  "e2cf030b6221": {
+    "text": "1 µF capacitor",
+    "tag": "td"
+  },
+  "736a8a06008a": {
+    "text": "1uF",
+    "tag": "td"
+  },
+  "791a28960fab": {
+    "text": "Vendor nominal capacitance: 1uF.",
+    "tag": "td"
+  },
+  "7729f2c3f776": {
+    "text": "2.2 pF capacitor",
+    "tag": "td"
+  },
+  "f6342f6c455b": {
+    "text": "2.2pF",
+    "tag": "td"
+  },
+  "1470575580bf": {
+    "text": "Vendor nominal capacitance: 2.2pF.",
+    "tag": "td"
+  },
+  "eb184cc320b0": {
+    "text": "Confirm MPN/package,dielectric/leakage and parasitic capacitance",
+    "tag": "td"
+  },
+  "bb8a96e45129": {
+    "text": "1000 pF capacitor",
+    "tag": "td"
+  },
+  "c0234dec6309": {
+    "text": "1000pF",
+    "tag": "td"
+  },
+  "6c322fcf5c14": {
+    "text": "Vendor nominal capacitance: 1000pF.",
+    "tag": "td"
+  },
+  "abfdfe8339f2": {
+    "text": "100 µF capacitor",
+    "tag": "td"
+  },
+  "23488f60c23c": {
+    "text": "100uF",
+    "tag": "td"
+  },
+  "fd3ba3d6cff9": {
+    "text": "Vendor nominal capacitance: 100uF.",
+    "tag": "td"
+  },
+  "511da0d0085d": {
+    "text": "Status indicator LED",
+    "tag": "td"
+  },
+  "cb39a715f3d6": {
+    "text": "Two LEDs; color/model unspecified",
+    "tag": "td"
+  },
+  "6ca8cdcfc710": {
+    "text": "Confirm MPN,color,package/height,current and brightness",
+    "tag": "td"
+  },
+  "b643ea21f966": {
+    "text": "Side-view blue LED",
+    "tag": "td"
+  },
+  "a974c84e80bf": {
+    "text": "155124BS73200; 1204 side-view; at 20mA, typical peak468nm/dominant470nm",
+    "tag": "td"
+  },
+  "b1e4cebc69d8": {
+    "text": "Verify orientation/height,optical axis,actual current and optical power",
+    "tag": "td"
+  },
+  "5988292e8507": {
+    "text": "Silicon PIN photodiode",
+    "tag": "td"
+  },
+  "0f37309c260b": {
+    "text": "VEMD5060X01; top-view SMD5×4×0.9mm; active area7.5mm²",
+    "tag": "td"
+  },
+  "5699d6b19544": {
+    "text": "Verify offset active area,assembled height and filter obscuration",
+    "tag": "td"
+  },
+  "3f8d31d0cada": {
+    "text": "SMT fiducials (PCB features)",
+    "tag": "td"
+  },
+  "915b6cfa980e": {
+    "text": "FD_040 (SMT optical fiducial)",
+    "tag": "td"
+  },
+  "6b6e54426635": {
+    "text": "FD_040; eight PCB fiducials",
+    "tag": "td"
+  },
+  "460e6f52b251": {
+    "text": "Geometry/mask opening from fabrication data;not separately purchased",
+    "tag": "td"
+  },
+  "5dd6ddfb32fd": {
+    "text": "PCB mounting holes",
+    "tag": "td"
+  },
+  "37981447e714": {
+    "text": "CON (standoff hole)",
+    "tag": "td"
+  },
+  "8dcda882e975": {
+    "text": "H1–H4; vendor-designated standoff holes",
+    "tag": "td"
+  },
+  "ccc13279fd2c": {
+    "text": "Confirm hole/plating/copper keepout;do not double-count screws",
+    "tag": "td"
+  },
+  "7eb53e974554": {
+    "text": "Battery holder / two-terminal battery connection",
+    "tag": "td"
+  },
+  "f63c67070725": {
+    "text": "Battery_Case",
+    "tag": "td"
+  },
+  "04a7679110c1": {
+    "text": "Battery_Case; pin1=BAT, pin2=GND; physical model unspecified",
+    "tag": "td"
+  },
+  "fcca6a6221be": {
+    "text": "Confirm MPN,cell size/protection,polarity/height and charger settings",
+    "tag": "td"
+  },
+  "a2f414da5054": {
+    "text": "USB Type-C receptacle",
+    "tag": "td"
+  },
+  "9c1eb89609e3": {
+    "text": "Type-C receptacle; VBUS=5V_USB; D+/D− unconnected",
+    "tag": "td"
+  },
+  "aa9159859596": {
+    "text": "Confirm MPN,opening/height/ratings and CC resistors",
+    "tag": "td"
+  },
+  "488118e5e2d3": {
+    "text": "Four-pin UART header",
+    "tag": "td"
+  },
+  "aa159502ef13": {
+    "text": "CON4 (4-pin header)",
+    "tag": "td"
+  },
+  "0c707862e525": {
+    "text": "4pins:1=3V3_DIG, 2=TXD0, 3=RXD0, 4=GND",
+    "tag": "td"
+  },
+  "50bd1e9e0ff1": {
+    "text": "Confirm MPN,pitch/height/orientation and mating cable",
+    "tag": "td"
+  },
+  "26cfea35daa0": {
+    "text": "Boost power inductor",
+    "tag": "td"
+  },
+  "b82e1e18a391": {
+    "text": "L1; inductance and model unspecified",
+    "tag": "td"
+  },
+  "245fcdbce04a": {
+    "text": "Confirm inductance,current,DCR,package/height and MPN",
+    "tag": "td"
+  },
+  "74941659df34": {
+    "text": "N-channel power MOSFET",
+    "tag": "td"
+  },
+  "6a3b2348b8ce": {
+    "text": "Verify package pinout,actual current and temperature rise",
+    "tag": "td"
+  },
+  "4ad525bff421": {
+    "text": "Resistor (value not supplied)",
+    "tag": "td"
+  },
+  "cce43b1cbe06": {
+    "text": "No resistance is given in the vendor BOM or schematic.",
+    "tag": "td"
+  },
+  "6f4b746b6c7b": {
+    "text": "Confirm MPN,case/height,power,tolerance,TCR and voltage rating",
+    "tag": "td"
+  },
+  "b4931fd4e9f1": {
+    "text": "10 kΩ resistor",
+    "tag": "td"
+  },
+  "c56e0523abc6": {
+    "text": "Vendor nominal resistance: 10k.",
+    "tag": "td"
+  },
+  "0a00d6fdc735": {
+    "text": "100 Ω resistor",
+    "tag": "td"
+  },
+  "712c0addb941": {
+    "text": "Vendor nominal resistance: 100R.",
+    "tag": "td"
+  },
+  "e7af385506b4": {
+    "text": "220 Ω resistor",
+    "tag": "td"
+  },
+  "9758b3788e83": {
+    "text": "Vendor nominal resistance: 220R.",
+    "tag": "td"
+  },
+  "0c53598f1424": {
+    "text": "100 kΩ resistor",
+    "tag": "td"
+  },
+  "f46f9a488a3d": {
+    "text": "Vendor nominal resistance: 100k.",
+    "tag": "td"
+  },
+  "a403db5d9b6b": {
+    "text": "100 MΩ resistor",
+    "tag": "td"
+  },
+  "0e21d51714b1": {
+    "text": "Vendor nominal resistance: 100M.",
+    "tag": "td"
+  },
+  "d9b64b912f4a": {
+    "text": "Confirm MPN/package,ratings/tolerance,leakage and noise",
+    "tag": "td"
+  },
+  "d56b3a1e3fa3": {
+    "text": "0.1 Ω resistor",
+    "tag": "td"
+  },
+  "fd3bea87bd5a": {
+    "text": "Vendor nominal resistance: 0.1R.",
+    "tag": "td"
+  },
+  "2f392224b73c": {
+    "text": "47 Ω resistor",
+    "tag": "td"
+  },
+  "55b43b1abcd0": {
+    "text": "Vendor nominal resistance: 47R.",
+    "tag": "td"
+  },
+  "1d6bfecfa714": {
+    "text": "Power-enable selector switch",
+    "tag": "td"
+  },
+  "acab51116191": {
+    "text": "COMM/B/A contacts; A unconnected; physical model unspecified",
+    "tag": "td"
+  },
+  "de7605e27b7e": {
+    "text": "Confirm MPN,type,actuator/travel,ratings and opening",
+    "tag": "td"
+  },
+  "cca910dbd8fb": {
+    "text": "Tactile pushbutton",
+    "tag": "td"
+  },
+  "3c2456020a52": {
+    "text": "Tactile_Switch",
+    "tag": "td"
+  },
+  "1307a9f150f2": {
+    "text": "SW2/SW3 tactile buttons; ground signal when pressed",
+    "tag": "td"
+  },
+  "ec9e0b6ff2e5": {
+    "text": "Confirm MPN,package/height,actuation force and contact ratings",
+    "tag": "td"
+  },
+  "d7aa2d47b1f5": {
+    "text": "Synchronous boost converter",
+    "tag": "td"
+  },
+  "20555870e82c": {
+    "text": "TPS61023; synchronous boost; 6-pin SOT-563(DRL)",
+    "tag": "td"
+  },
+  "37568f3f976d": {
+    "text": "Confirm ordering suffix/external values;5V/fan margin unverified",
+    "tag": "td"
+  },
+  "c0756cd36d0b": {
+    "text": "Single-cell lithium charger / power-path IC",
+    "tag": "td"
+  },
+  "8ed0132bad74": {
+    "text": "BQ24074; single-cell Li-ion/Li-poly, 4.2V charging; 16-pin VQFN(RGT)",
+    "tag": "td"
+  },
+  "0baae41330de": {
+    "text": "Confirm suffix,R1–R3/R9 and battery/thermal configuration",
+    "tag": "td"
+  },
+  "5683f93af380": {
+    "text": "Unidentified six-pin IC",
+    "tag": "td"
+  },
+  "78c696efe280": {
+    "text": "U3 only labelsP1–P6; model, pin functions, package unknown",
+    "tag": "td"
+  },
+  "8548a0e5d157": {
+    "text": "Vendor must identify model,function,package and external values",
+    "tag": "td"
+  },
+  "3669d967017d": {
+    "text": "Wi-Fi / Bluetooth microcontroller module",
+    "tag": "td"
+  },
+  "da0d4c3d2514": {
+    "text": "ESP32-WROOM-32E; 2.4GHz wireless; 3.3V system; onboard antenna",
+    "tag": "td"
+  },
+  "5f9ed67c0a8a": {
+    "text": "Confirm memory variant,antenna keepout and assembled height",
+    "tag": "td"
+  },
+  "64a1be8b2448": {
+    "text": "3.3 V digital-supply LDO",
+    "tag": "td"
+  },
+  "10b682901658": {
+    "text": "EC50117KBG; fixed3.3V LDO; SOT-223",
+    "tag": "td"
+  },
+  "3a14a4f607f1": {
+    "text": "Verify C17/C18,thermal design and available current",
+    "tag": "td"
+  },
+  "f8dd39d5c08f": {
+    "text": "3.3 V low-noise analog-supply LDO",
+    "tag": "td"
+  },
+  "a19b1393b8a1": {
+    "text": "LP5907MFX-3.3/NOPB; 3.3V/250mA LDO; SOT-23-5",
+    "tag": "td"
+  },
+  "7d26c260e297": {
+    "text": "Verify C19/C20 effective capacitance,stability and thermal load",
+    "tag": "td"
+  },
+  "fbc9a50f00d6": {
+    "text": "2.5 V precision voltage reference",
+    "tag": "td"
+  },
+  "dd1a6c9c798f": {
+    "text": "LTC6655BHMS8-2.5#PBF",
+    "tag": "td"
+  },
+  "c81c28daa5bc": {
+    "text": "LTC6655BHMS8-2.5#PBF; 2.5V reference; MSOP-8",
+    "tag": "td"
+  },
+  "afdb6120ed0e": {
+    "text": "Verify C22/C23,layout and measured reference voltage",
+    "tag": "td"
+  },
+  "1e5d9aaee6d7": {
+    "text": "Low-input-bias operational amplifier",
+    "tag": "td"
+  },
+  "e9c03ae4d451": {
+    "text": "LMP7721; low-bias amplifier; SOIC-8; 1.8–5.5V",
+    "tag": "td"
+  },
+  "eeade3b892a2": {
+    "text": "Confirm suffix,leakage/stability and output range",
+    "tag": "td"
+  },
+  "38ce23e9e2d6": {
+    "text": "16-bit SAR analog-to-digital converter",
+    "tag": "td"
+  },
+  "521a22c11fdd": {
+    "text": "ADS8866IDGS; 16-bit SAR, 100kSPS device limit; VSSOP-10",
+    "tag": "td"
+  },
+  "094cbaebc09c": {
+    "text": "Verify sampling timing,input settling,decoupling and measured noise",
+    "tag": "td"
+  },
+  "9dd1659a9789": {
+    "text": "Download the complete PCB CSV",
+    "tag": "a"
+  },
+  "af400200cb46": {
+    "text": "05 / Interface and operation",
+    "tag": "span"
+  },
+  "f9f537c10a60": {
+    "text": "The source implements a local interface for setup, signal inspection and export, with device-direct, private-LAN and demonstration modes. The English interface below was captured from the current local DEMO server on 11 October 2026. A flashed physical-board session and mobile-device validation remain unestablished.",
+    "tag": "p"
+  },
+  "d83895851ad4": {
+    "text": "Current English interface · DEMO DATA.",
+    "tag": "strong"
+  },
+  "0d50082378c3": {
+    "text": "This actual local preview uses synthetic input. It demonstrates the connection and acquisition controls, not physical-board performance. The underlying interface also retains its language switch.",
+    "tag": "figcaption"
+  },
+  "4530ead80303": {
+    "text": "Connect and identify the data source",
+    "tag": "h3"
+  },
+  "bd03fef44b2b": {
+    "text": "Choose the appropriate connection and confirm whether the session is a demonstration or device acquisition. Local operation does not require a public cloud service.",
+    "tag": "p"
+  },
+  "7909ea37c23f": {
+    "text": "Set a repeatable schedule",
+    "tag": "h3"
+  },
+  "d6c907f8d939": {
+    "text": "Choose the number of blocks, interval, LED duty and active LED condition. Each acquisition block spans two seconds; the stop control turns the LEDs off.",
+    "tag": "p"
+  },
+  "3bbb4051d260": {
+    "text": "Inspect before correcting",
+    "tag": "h3"
+  },
+  "15379bc4db30": {
+    "text": "Check raw data and validity flags before applying an independently measured illuminated blank and fluorescence phase reference. Preserve failed records for troubleshooting.",
+    "tag": "p"
+  },
+  "96af24535800": {
+    "text": "Export the measurement context",
+    "tag": "h3"
+  },
+  "db4148d6d839": {
+    "text": "Save raw I/Q, corrected values, calibration identifiers and timestamps so that the same decisions can be checked outside the interface.",
+    "tag": "p"
+  },
+  "4cddbc37c9d7": {
+    "text": "Keep the raw signal, then correct it",
+    "tag": "h3"
+  },
+  "8233166da92a": {
+    "text": "The implemented correction routine is designed to subtract an independently acquired cell-free illuminated blank in complex I/Q space and use a separate fluorescence phase reference. Its export schema retains raw I/Q, unsmoothed corrected values, signed projection, calibration identifiers and timestamps. Host and synthetic tests exercise this path; actual blank and reference measurements have not been acquired. Living-cell F0 is a biological baseline, not a blank. Display averaging and blank subtraction cannot restore clipped samples or remove changing interference.",
+    "tag": "p"
+  },
+  "f7b1487c03dd": {
+    "text": "There is no automatic use of the simulated mixing matrix. If the TIA/ADC operating point clips at the lower rail, correct the circuit; do not disable QC or mask the fault with background subtraction. There are no sensors for battery state, cell temperature, gas flow or fan speed, and no validated odor classifier.",
+    "tag": "p"
+  },
+  "05cfbc5a1a76": {
+    "text": "Inspect software evidence and the setup guide",
+    "tag": "summary"
+  },
+  "a7a519cf082a": {
+    "text": "The supplied software evidence",
+    "tag": "a"
+  },
+  "0d2a19908b50": {
+    "text": "records firmware and LittleFS builds and 78 checks (23 host, 10 calibration, 33 measured-correction and 12 DOM/API), separately from four synthetic model checks and 48 DLIA scenarios. The source also records a desktop DEMO browser check of connection, Start/Stop and JSON/CSV export. These are software checks, not physical or biological replicates.",
+    "tag": "p"
+  },
+  "c6f0c1d0ed18": {
+    "text": "; physical flashing, actual-board acquisition and real-phone acceptance remain open.",
+    "tag": "p"
+  },
+  "99f005a17ca3": {
+    "text": "Measured-correction workflow",
+    "tag": "a"
+  },
+  "6b81260eeaff": {
+    "text": "Software source and reproduction guide",
+    "tag": "a"
+  },
+  "10530481ee0a": {
+    "text": "Why synchronous interference remains",
+    "tag": "a"
+  },
+  "16236afadb35": {
+    "text": "A working interface is one part of a working instrument. Its next test is whether measured standards, independent blanks and repeated assembly produce stable, interpretable records on the actual board.",
+    "tag": "p"
+  },
+  "2c7e241adae3": {
+    "text": "Discussion · limitations",
+    "tag": "span"
+  },
+  "6e1aa152a8c5": {
+    "text": "The archived result is a circuit redesign, computational studies and implemented software. The PCB has not been fabricated and a complete reader has not been assembled. Accordingly, simulated optical powers, ideal ADC resolution and software checks are not a measured detection limit, calibrated accuracy or functional proof of concept.",
+    "tag": "p"
+  },
+  "daee4589861a": {
+    "text": "Geometry and delivery.",
+    "tag": "strong"
+  },
+  "3ffb15cc2c29": {
+    "text": "The physical fill observation may invalidate the nominal gas domain. The 3 mL/min candidate, shelf comparison and gas wash-in times remain conditional until dimensions and repeated gravimetric fills are checked and the verified geometry is rerun.",
+    "tag": "li"
+  },
+  "738a39a6a315": {
+    "text": "Optical and electrical uncertainty.",
+    "tag": "strong"
+  },
+  "a3194bd4e62e": {
+    "text": "Monte Carlo precision does not include real resin, filter-angle response, cell distribution, detector placement, TIA/ADC transfer, saturation, jitter or assembly variation. The four wells require measured standards, blanks and a transfer matrix.",
+    "tag": "li"
+  },
+  "a8d6ce09bb2d": {
+    "text": "Biological coupling.",
+    "tag": "strong"
+  },
+  "158f669a57e0": {
+    "text": "No odor-evoked HEK293 response has been acquired on this reader. Gas-interface wash-in does not establish delivery through the liquid or reporter kinetics at the cells; fluorescent standards cannot close that gap.",
+    "tag": "li"
+  },
+  "fd7c192b8c5a": {
+    "text": "Use and replication.",
+    "tag": "strong"
+  },
+  "deb0bb240e70": {
+    "text": "The BOM contains unresolved purchasing specifications, including the price and verified mounting specification for the selected LEE 101 layer. Battery stability, leakage, independent assembly and target-user workflow have not been validated. A rendering or host test does not establish physical fit or usability.",
+    "tag": "li"
+  },
+  "5247c0202561": {
+    "text": "These boundaries determine the prioritized",
+    "tag": "p"
+  },
+  "c738196f530f": {
+    "text": "physical validation gates below",
+    "tag": "a"
+  },
+  "1f0766d069e7": {
+    "text": ", rather than being treated as successful tests.",
+    "tag": "p"
+  },
+  "43d65747de75": {
+    "text": "The next evidence is physical: board bring-up, known fluorescence standards, verified gas and liquid geometry, and independent assembly. The protocols and blank forms below define that work without standing in for results.",
+    "tag": "p"
+  },
+  "a54c9f3c0d49": {
+    "text": "Ten physical validation gates — all await measurement",
+    "tag": "caption"
+  },
+  "fa77a5252d38": {
+    "text": "Gate",
+    "tag": "th"
+  },
+  "b6587831f8a8": {
+    "text": "Evidence to collect",
+    "tag": "th"
+  },
+  "424f6992c933": {
+    "text": "1 · Electrical bring-up",
+    "tag": "th"
+  },
+  "120e9cdcc818": {
+    "text": "Rails, power sequencing, board mapping and safe ADC range",
+    "tag": "td"
+  },
+  "dddbfd78e3d8": {
+    "text": "2 · Dark noise",
+    "tag": "th"
+  },
+  "c1a22aeddfb4": {
+    "text": "LED-off recordings with acquisition settings",
+    "tag": "td"
+  },
+  "53f64e53b8e6": {
+    "text": "3 · Excitation leakage",
+    "tag": "th"
+  },
+  "14c3a1c0c934": {
+    "text": "Cell-free illuminated blanks; spectral leakage",
+    "tag": "td"
+  },
+  "37b1028f1bd7": {
+    "text": "4 · Standard calibration",
+    "tag": "th"
+  },
+  "79baadcc2793": {
+    "text": "Known fluorescein concentration response and repeatability",
+    "tag": "td"
+  },
+  "0b612d350ce4": {
+    "text": "5 · FDM recovery",
+    "tag": "th"
+  },
+  "9ac9ef78cf71": {
+    "text": "Known single-well conditions recovered at each modulation frequency",
+    "tag": "td"
+  },
+  "c4cfa093feab": {
+    "text": "6 · Crosstalk",
+    "tag": "th"
+  },
+  "9a627e0abf7d": {
+    "text": "Measured four-by-four transfer matrix",
+    "tag": "td"
+  },
+  "30de2594b59b": {
+    "text": "7 · DLIA improvement",
+    "tag": "th"
+  },
+  "a1c31c12cdf3": {
+    "text": "Matched raw / demodulated SNR under controlled interference",
+    "tag": "td"
+  },
+  "df00ab18d435": {
+    "text": "8 · Biological fluorescence",
+    "tag": "th"
+  },
+  "b1131a720cc2": {
+    "text": "Controlled cell response and a same-sample reference measurement",
+    "tag": "td"
+  },
+  "ad56ee91c9c7": {
+    "text": "9 · Battery stability",
+    "tag": "th"
+  },
+  "4fa438b84c7f": {
+    "text": "Acquisition stability over a documented discharge / power condition",
+    "tag": "td"
+  },
+  "86b8ce9df38c": {
+    "text": "10 · User workflow",
+    "tag": "th"
+  },
+  "0ed2f323dad2": {
+    "text": "Task completion, observed errors, design changes and retest",
+    "tag": "td"
+  },
+  "cfd099a705de": {
+    "text": "The nine-condition fluorescein sequence below primarily addresses gates 3–6 and checks part of the correction workflow. It does not complete biological, battery or user-workflow validation.",
+    "tag": "p"
+  },
+  "06cd1b0e71b2": {
+    "text": "Read the original engineering ladder.",
+    "tag": "a"
+  },
+  "59b11396bfe0": {
+    "text": "Validation protocol",
+    "tag": "span"
+  },
+  "ba19ca83c79c": {
+    "text": "Test the instrument before claiming a biological readout",
+    "tag": "h3"
+  },
+  "30a1994e895d": {
+    "text": "Planned · bench performance measurements have not yet been completed.",
+    "tag": "strong"
+  },
+  "26dc729e51fd": {
+    "text": "The sequence below defines the evidence to collect; it contains no measured sensitivity, detection-limit or odor-recognition result.",
+    "tag": "p"
+  },
+  "7be24179d57f": {
+    "text": "After unpowered fit and leak checks, confirm electrical rails, ADC headroom, DARK acquisition, stop control and observed D1–D4 mapping. Then use a traceable sodium-fluorescein standard: illuminated blank B_CAL → independent B_CHECK → four single-well C conditions → all wells at 0.5C → all wells at C → repeat 0.5C. These are",
+    "tag": "p"
+  },
+  "05134428ae01": {
+    "text": "nine illuminated analytical conditions",
+    "tag": "strong"
+  },
+  "d0b2b0dba8ef": {
+    "text": ", each with at least five distinct valid two-second technical blocks; DARK is saved separately.",
+    "tag": "p"
+  },
+  "0d5d59a7adbf": {
+    "text": "The provisional 50/100 nM pilot and the chosen fixed fill, medium/pH, LED duty and filter must be recorded. Approximately five-second record spacing can miss fast GCaMP6f peaks. A later cell comparison requires established wet-lab controls, the same cell batch and a common time window; it cannot be substituted by dye measurements.",
+    "tag": "p"
+  },
+  "dd74a7b16569": {
+    "text": "Optical output",
+    "tag": "strong"
+  },
+  "fdf66cfe5506": {
+    "text": "Concentration response, a 4 × 4 single-well matrix and held-out blank before/after correction. The analysis rejects DEMO, duplicate or incompatible records.",
+    "tag": "p"
+  },
+  "0f4c0ff236a1": {
+    "text": "Independent assembly",
+    "tag": "strong"
+  },
+  "15a7cc3f66b9": {
+    "text": "Ask 2–3 non-designers to use the same manual. Record completion, time, help, orientation and seal errors; fix the most important issues and retest.",
+    "tag": "p"
+  },
+  "64ee74ab527e": {
+    "text": "What remains open",
+    "tag": "strong"
+  },
+  "8279248e1e5b": {
+    "text": "Real-board function, gas-to-cell delivery, material compatibility, odor classification and target-user adoption. No participant outcomes are supplied yet.",
+    "tag": "p"
+  },
+  "0e5c5f6c8432": {
+    "text": "The familiarized standard sequence is planned for 60–120 minutes; assembly, flashing and troubleshooting are separate. Five blocks are technical repeats, not five biological experiments. Independent assembly feedback belongs here, with revisions and retests linked to",
+    "tag": "p"
+  },
+  "44a8b586aa2a": {
+    "text": ". Its commercial relevance is explained on",
+    "tag": "p"
+  },
+  "b22e9ff9d31b": {
+    "text": "; a usability trial is not automatically customer validation.",
+    "tag": "p"
+  },
+  "1769e38757d6": {
+    "text": "The current result is a documented engineering design with computational and software checks. Functional and biological claims advance only when corresponding raw measurements exist. See",
+    "tag": "p"
+  },
+  "33d00a789796": {
+    "text": "the completion plan",
+    "tag": "a"
+  },
+  "979fd4ff8307": {
+    "text": "the model-to-build decision table",
+    "tag": "a"
+  },
+  "f638be11a4ce": {
+    "text": "What would complete the engineering chain?",
+    "tag": "h3"
+  },
+  "88d11fc285fd": {
+    "text": "The current hardware package makes the intended measurement chain inspectable: sample position, illumination, collection, amplification, digitization and correction each have a defined role. Its strongest present evidence is the design record and its computational comparisons. The next step is to connect those records to the as-built reader through measured blank signals, calibrated fluorescence standards, assembled-path flow and a same-sample reference measurement. Those tests will determine which design assumptions hold and whether the device can preserve a biological response.",
+    "tag": "p"
+  },
+  "ee5a7ffa3c82": {
+    "text": "Recording templates",
+    "tag": "span"
+  },
+  "e20855481394": {
+    "text": "User testing and performance records",
+    "tag": "h3"
+  },
+  "76cd8f326185": {
+    "text": "The current performance ledger contains",
+    "tag": "p"
+  },
+  "665dd247ebd5": {
+    "text": "no experimental rows",
+    "tag": "strong"
+  },
+  "e8a09839ca30": {
+    "text": ". Electronics, LED mapping, optical standards, fit checks, reassembly, water/flow checks and manual feedback remain unfilled. Computational results are shown above; software checks are linked with the interface. Neither is counted as a completed physical performance test.",
+    "tag": "p"
+  },
+  "aaa94f437080": {
+    "text": "Measurement records prepared for the next build-and-test stage",
+    "tag": "caption"
+  },
+  "10c30c28f788": {
+    "text": "What it captures",
+    "tag": "th"
+  },
+  "2f5d50add626": {
+    "text": "Current status",
+    "tag": "th"
+  },
+  "7ae9c23d6592": {
+    "text": "Electronics",
+    "tag": "a"
+  },
+  "a348fd097d2d": {
+    "text": "LED mapping",
+    "tag": "a"
+  },
+  "4496fd7b4bf5": {
+    "text": "Electrical checks, actual channel identity and acquisition conditions",
+    "tag": "td"
+  },
+  "bc59209fb12a": {
+    "text": "No measured records",
+    "tag": "td"
+  },
+  "e796c78586ab": {
+    "text": "Optical standards",
+    "tag": "a"
+  },
+  "4f7958232b9d": {
+    "text": "Independent blanks, single-well standards, correction and repeat readings",
+    "tag": "td"
+  },
+  "b81cc0b1ac83": {
+    "text": "Fit checks",
+    "tag": "a"
+  },
+  "8d188364cf9d": {
+    "text": "Reassembly",
+    "tag": "a"
+  },
+  "b57548ff3c89": {
+    "text": "Water and flow",
+    "tag": "a"
+  },
+  "76a604e593ef": {
+    "text": "Mechanical compatibility, repeated assembly and liquid/gas-path checks",
+    "tag": "td"
+  },
+  "ce616405d9e8": {
+    "text": "Manual tasks",
+    "tag": "a"
+  },
+  "ff862693daa8": {
+    "text": "Ratings",
+    "tag": "a"
+  },
+  "da80b1d5740c": {
+    "text": "Revisions",
+    "tag": "a"
+  },
+  "2a21c48c4457": {
+    "text": "Observed assembly difficulties, participant feedback and changes to retest",
+    "tag": "td"
+  },
+  "b06e89adaeb4": {
+    "text": "No participant results",
+    "tag": "td"
+  },
+  "5d5632d831fe": {
+    "text": "Current result ledger",
+    "tag": "a"
+  },
+  "29241f45f7a2": {
+    "text": "Hardware evidence matrix",
+    "tag": "a"
+  },
+  "29286848c0e8": {
+    "text": "Preview the assembly and operation feedback form",
+    "tag": "summary"
+  },
+  "78cb636788f8": {
+    "text": "A blank task-based form. Report the participant count, observed problems, actual revisions and repeat outcomes only after the study occurs.",
+    "tag": "p"
+  },
+  "5d6e69025630": {
+    "text": "Open document in a new tab ↗",
+    "tag": "a"
+  },
+  "863c1c0bff06": {
+    "text": "Editable Markdown",
+    "tag": "a"
+  },
+  "9496c45708ad": {
+    "text": "Open full-page preview ↗",
+    "tag": "a"
+  },
+  "730f4c341f66": {
+    "text": "The document link above opens the complete preview.",
+    "tag": "p"
+  },
+  "515aee1c66bf": {
+    "text": "08 / Assembly files and supporting data",
+    "tag": "span"
+  },
+  "7c3a07ea5a45": {
+    "text": "The released files document the proposed preparation, assembly, correction and recording sequence. They make the design inspectable; a successful independent build has not yet established reproducibility. Begin with the source index and the manuals below.",
+    "tag": "p"
+  },
+  "c361bee47b1a": {
+    "text": "Files available for reproducing the reader, covering electronics, mechanical parts, cost, software, simulations and assembly. Each file category is paired with its manufacturing or validation boundary so design availability is not mistaken for verified fabrication readiness.",
+    "tag": "caption"
+  },
+  "616cb218a65b": {
+    "text": "Material",
+    "tag": "th"
+  },
+  "2e3c4d2803c9": {
+    "text": "Available file / index",
+    "tag": "th"
+  },
+  "fcf4b1a7548c": {
+    "text": "Boundary",
+    "tag": "th"
+  },
+  "4f2b8446bbe6": {
+    "text": "V1 KiCad board",
+    "tag": "a"
+  },
+  "38e2c3af2603": {
+    "text": "V2 schematic",
+    "tag": "a"
+  },
+  "aad0b5cca486": {
+    "text": "V1 failed design-rule review; V2 fabrication readiness remains unverified",
+    "tag": "td"
+  },
+  "c6838ed989fd": {
+    "text": "Manufacturing",
+    "tag": "th"
+  },
+  "79ea7f4f50df": {
+    "text": "Engineering archive index",
+    "tag": "a"
+  },
+  "813c56757ce1": {
+    "text": "No verified order-ready V2 Gerber package is promoted here",
+    "tag": "td"
+  },
+  "39bf205ed033": {
+    "text": "Mechanical",
+    "tag": "th"
+  },
+  "e4ece230917a": {
+    "text": "Eight operating STL files",
+    "tag": "a"
+  },
+  "5a4c00c5055c": {
+    "text": "Editable OpenSCAD",
+    "tag": "a"
+  },
+  "b235287d942c": {
+    "text": "Nominal geometry; fit, volume and materials need measurement",
+    "tag": "td"
+  },
+  "204a5eb2cd28": {
+    "text": "Cost",
+    "tag": "th"
+  },
+  "3eb6bfaf326c": {
+    "text": "Itemized BOM workbook",
+    "tag": "a"
+  },
+  "68d85f2c1268": {
+    "text": "Development budget; filter and supplier gaps remain",
+    "tag": "td"
+  },
+  "9b3289a385a5": {
+    "text": "Software",
+    "tag": "th"
+  },
+  "eb5abb888895": {
+    "text": "Firmware / UI reproduction guide",
+    "tag": "a"
+  },
+  "42b2caae1279": {
+    "text": "Compiled and host-tested; board not flashed",
+    "tag": "td"
+  },
+  "45314e97b0c2": {
+    "text": "Simulation",
+    "tag": "th"
+  },
+  "b3ad7440e7e5": {
+    "text": "Source, parameters and figures",
+    "tag": "a"
+  },
+  "0a33d2df9953": {
+    "text": "Conditional computation; distinct from measured validation",
+    "tag": "td"
+  },
+  "1668af18d8d3": {
+    "text": "Assembly / correction",
+    "tag": "th"
+  },
+  "e0fe74a2a57e": {
+    "text": "Assembly PDF",
+    "tag": "a"
+  },
+  "8c1177c26da5": {
+    "text": "Correction workflow",
+    "tag": "a"
+  },
+  "610ae63f7291": {
+    "text": "Instructions and schemas, not completed trials",
+    "tag": "td"
+  },
+  "296ea9c9c67b": {
+    "text": "Read the current developer manual",
+    "tag": "summary"
+  },
+  "d655e08212c6": {
+    "text": "Step-by-step preparation, assembly, checks and fault handling. The manual uses simplified technical writing principles; no formal ASD-STE100 certification is claimed.",
+    "tag": "p"
+  },
+  "4cbcb990763e": {
+    "text": "Read operation, calibration and export instructions",
+    "tag": "summary"
+  },
+  "f1cdc6588257": {
+    "text": "The local phone workflow separates demonstration data from measurements. Start with device-direct or private-LAN operation; this package does not deploy a public cloud service.",
+    "tag": "p"
+  },
+  "6f213b577d8f": {
+    "text": "Preview the complete two-sheet schematic",
+    "tag": "summary"
+  },
+  "4e463c4517f4": {
+    "text": "Power, charging, sensing and control drawings. Physical board mapping and unknown component specifications still require supplier confirmation.",
+    "tag": "p"
+  },
+  "aadcead42753": {
+    "text": "Full physical models: assumptions, comparisons, sweeps and reproduction →",
+    "tag": "a"
+  },
+  "d5c7a20b2523": {
+    "text": "[Source index]",
+    "tag": "a"
+  },
+  "cbbd19464cba": {
+    "text": "Preview the focused validation protocol",
+    "tag": "summary"
+  },
+  "fdb884e0f859": {
+    "text": "Protocol only: no completed bench measurements are claimed. Preserve failures, raw JSON, settings and physical LED mapping.",
+    "tag": "p"
+  },
+  "d679398c3ef1": {
+    "text": "Three-figure analysis source",
+    "tag": "a"
+  },
+  "68bb14a6663e": {
+    "text": "Reproduce the build and the evidence",
+    "tag": "h3"
+  },
+  "611e980c34ea": {
+    "text": "Editable CAD",
+    "tag": "a"
+  },
+  "17cab408146e": {
+    "text": "Design parameters",
+    "tag": "a"
+  },
+  "c71fd47b0568": {
+    "text": "Indexed reproducibility archives",
+    "tag": "a"
+  },
+  "4fcaa5c268a5": {
+    "text": "Simulation figures and source index",
+    "tag": "a"
+  },
+  "a90f771aac85": {
+    "text": "Firmware and local phone UI",
+    "tag": "a"
+  },
+  "aeb753abf693": {
+    "text": "The indexed publication subset groups optics, airflow, transport sensitivity and hardware/software/documents. It excludes private settings, user print-job files and vendor originals. The original models and archive are supporting evidence; the decisive results and limitations remain readable directly on these pages.",
+    "tag": "p"
+  },
+  "3163266451e1": {
+    "text": "Read, inspect and reproduce",
+    "tag": "h3"
+  },
+  "5f0d4f4339f0": {
+    "text": "Complete English source library",
+    "tag": "a"
+  },
+  "50dab582774d": {
+    "text": "English manuals, forms and BOM ZIP",
+    "tag": "a"
+  },
+  "4a3a29ff9d46": {
+    "text": "Executable source and English documentation ZIP",
+    "tag": "a"
+  },
+  "cd2834bb693a": {
+    "text": "The source archive includes firmware, software and physical-model scripts with portable inputs. Large cached field arrays, slicer jobs and vendor originals are omitted under the supplied packaging policy. Read each model reproduction guide before rerunning a solver; this is not a claim that every slow solver was rerun during the wiki update.",
+    "tag": "p"
+  },
+  "133451c8bc12": {
+    "text": "Keep protocols separate from results",
+    "tag": "h3"
+  },
+  "27912b5f4377": {
+    "text": "Fluorescence and cell-test protocol",
+    "tag": "a"
+  },
+  "3a29542f788e": {
+    "text": "English PDF",
+    "tag": "a"
+  },
+  "7f9890fad317": {
+    "text": "Completion plan",
+    "tag": "a"
+  },
+  "4001d84727cc": {
+    "text": "The standard route validates a dye before cell comparisons. The accelerated culture branch is a plan, not completed evidence: later dye validation cannot retroactively validate an earlier uncalibrated cell record. Repeated readings are not independent biological replicates.",
+    "tag": "p"
+  },
+  "ab6797b813a2": {
+    "text": "assembly document library",
+    "tag": "a"
+  },
+  "6e5173bd1141": {
+    "text": "link the published bill of materials, drawings, assembly documents and their readable previews.",
+    "tag": "p"
+  },
+  "9d54748f104a": {
+    "text": "design parameters",
+    "tag": "a"
+  },
+  "14801b44cbb3": {
+    "text": "software documentation",
+    "tag": "a"
+  },
+  "ee0080c2f6e8": {
+    "text": "reproducibility archives",
+    "tag": "a"
+  },
+  "24befeb07e85": {
+    "text": "are available as separate source records. The detailed physical methods, numerical checks and simulation outputs are on",
+    "tag": "p"
+  },
+  "b22a2eee171c": {
+    "text": ". No raw instrument calibration or integrated cellular-response dataset is supplied as a hardware-performance result here; the validation section states the measurements still required.",
+    "tag": "p"
+  },
+  "34bc4c912540": {
+    "text": "References and source package",
+    "tag": "h2"
+  },
+  "c0d7cad7dd17": {
+    "text": "Declared requirements and unresolved acceptance criteria",
+    "tag": "aria-label"
+  },
+  "67b26ae30b14": {
+    "text": "Reader PCB front component layout from the supplied board source",
+    "tag": "alt"
+  },
+  "46dda784c9e3": {
+    "text": "Schematic sheet",
+    "tag": "aria-label"
+  },
+  "5e1bae1646db": {
+    "text": "Open selected schematic sheet in the source PDF",
+    "tag": "aria-label"
+  },
+  "d84bee73805d": {
+    "text": "Reader schematic sheet 1: battery, charging, USB and boost supply",
+    "tag": "alt"
+  },
+  "05fe8e3e36be": {
+    "text": "Ideal gain alternatives considered during design",
+    "tag": "aria-label"
+  },
+  "f3ad3966140a": {
+    "text": "Simulation comparing no filter with a single LEE 101 layer: LED-derived current 100 versus 2.987 percent; proxy-green current 100 versus 70.43 percent; raw peak 104.36 versus 4.09 nanoamps.",
+    "tag": "alt"
+  },
+  "771faeaecedd": {
+    "text": "Selected integral shelf versus open lid at the finest tested grid: downward-momentum proxy 63.95% and near-liquid P95 gas speed 79.86% of open-lid values; across-well circulation-flux CV increases from 0.0098 to 0.369.",
+    "tag": "alt"
+  },
+  "9dd9baf13d73": {
+    "text": "Exploded technical drawing of the current eight-part assembly",
+    "tag": "alt"
+  },
+  "e286e06d55ed": {
+    "text": "Separate assembly parts",
+    "tag": "aria-label"
+  },
+  "0e47f09a748f": {
+    "text": "Zoom in",
+    "tag": "aria-label"
+  },
+  "bc7b631a689b": {
+    "text": "Zoom out",
+    "tag": "aria-label"
+  },
+  "c7b3dd19cb6b": {
+    "text": "Proposed signal chain",
+    "tag": "aria-label"
+  },
+  "3afde2ef21e1": {
+    "text": "Current CAD exploded view of the base, black hood, four wells, compression plate and gas lid",
+    "tag": "alt"
+  },
+  "37add9fd5f25": {
+    "text": "Current base with integral fan seat and connector access",
+    "tag": "alt"
+  },
+  "bff3a79c244b": {
+    "text": "Current PCB orientation and service-port plan",
+    "tag": "alt"
+  },
+  "d0a0f61967c7": {
+    "text": "Budget snapshot — 8 October 2026; figures are independently rounded",
+    "tag": "aria-label"
+  },
+  "a342392714de": {
+    "text": "Required purchase inventory — source workbook, 8 October 2026",
+    "tag": "aria-label"
+  },
+  "e026b4668f95": {
+    "text": "Developer purchase inventory — source workbook, 8 October 2026",
+    "tag": "aria-label"
+  },
+  "e7da89240ff4": {
+    "text": "Future purchase inventory — source workbook, 8 October 2026",
+    "tag": "aria-label"
+  },
+  "bb0d9f9e6d23": {
+    "text": "PCB source inventory — values and limitations",
+    "tag": "aria-label"
+  },
+  "1b54842c26e7": {
+    "text": "Actual phone interface screenshot with a DEMO DATA banner, connection controls and the acquisition schedule",
+    "tag": "alt"
+  },
+  "ed77af6139f7": {
+    "text": "Hardware validation records and present status",
+    "tag": "aria-label"
+  },
+  "6bbb7f3f6df2": {
+    "text": "Published files and manufacturing boundaries",
+    "tag": "aria-label"
+  },
+  "f80e187a8f94": {
+    "text": "Read the illustrated assembly manual",
+    "tag": "title"
+  },
+  "e3063484bffd": {
+    "text": "Hardware · Dry Lab · AeroSense · NTHU iGEM 2026",
+    "tag": "title"
+  }
+}

@@ -1,0 +1,221 @@
+{
+  "configuration": {
+    "scope": "Prespecified bounded gas-side operation comparison for unchanged selected-shelf STL; no biological safety or activation target.",
+    "case": "shelf_w8_e0p2",
+    "Q_mL_min": [
+      0.25,
+      0.5,
+      1,
+      2,
+      2.5,
+      3,
+      5
+    ],
+    "Dgas_mm2_s": [
+      5,
+      10,
+      20
+    ],
+    "targets": {
+      "gas_fraction": 0.9,
+      "worst_well_worst_D_t90_max_s": 60,
+      "port_Re_max": 3,
+      "near_liquid_gas_P95_speed_max_mm_s": 0.01,
+      "status": "Provisional engineering comparison targets declared before new results; not user-confirmed and not biological injury thresholds."
+    },
+    "selection_rule": "Select the smallest sampled Q satisfying all declared constraints across four wells and all three assumed Dgas values. If no Q qualifies, return no selection. Publish nondominated worst-case gas t90 versus gas P95 speed without weighted scores. Dgas is an uncertain material property, not an adjustable operating knob.",
+    "model": "Gas-only conservative FV with prescribed steady Stokes-scaled saved velocity, impermeable liquid surface. No membrane or liquid uptake.",
+    "validation_plan": "Q5/D10 dx0.3 and dt0.125 checks; Q0.25/D10 dt0.5 check; direct near5mLmin velocity solve on dx0.3/tau0.55 compared against existing near1mLmin solution, plus scalar on the direct field.",
+    "stage1_Q_mL_min": [
+      0.25,
+      0.5,
+      1,
+      2,
+      5
+    ],
+    "adaptive_refinement": {
+      "stage": 2,
+      "declared_after": "Stage-1 results bracket the provisional 60-s target: Q2 gives about 74\u201375 s while Q5 gives about 30\u201332 s.",
+      "reason": "Resolve the wide flow bracket before recommending its highest endpoint. Preserve all original cases and selection targets; do not move thresholds.",
+      "Q_mL_min": [
+        2.5,
+        3
+      ],
+      "Dgas_mm2_s": [
+        5,
+        10,
+        20
+      ],
+      "selection_rule": "Combine stages and select the smallest actually simulated Q satisfying the original worst-well/worst-D target and engineering caps. Do not interpolate an untested optimum.",
+      "maximum_additional_screening_solves": 6,
+      "classification": "Adaptive numerical parameter refinement, not an independent preregistered validation experiment."
+    }
+  },
+  "stage1_screening_solves": 15,
+  "stage2_adaptive_screening_solves": 6,
+  "screening_scalar_solves": 21,
+  "validation_scalar_solves": 6,
+  "direct_velocity_solves": 1,
+  "chosen_conditional_point": {
+    "Q_mL_min": 3,
+    "worst_t90_s": 49.99750738191719,
+    "worst_Dgas_mm2_s": 20,
+    "gas_speed_p95_mm_s": 0.0028031959645580863,
+    "port_Re": 1.7683882566,
+    "port_mean_speed_mm_s": 11.052426603603843,
+    "chamber_pressure_drop_Pa": 0.027369200404373125,
+    "meets_declared_targets": true
+  },
+  "decision_status": "Conditional operating candidate; provisional targets, numerical checks only, no physical or biological validation.",
+  "flow_aggregates": [
+    {
+      "Q_mL_min": 0.25,
+      "worst_t90_s": 549.5920566698462,
+      "worst_Dgas_mm2_s": 5,
+      "gas_speed_p95_mm_s": 0.00023359966371317385,
+      "port_Re": 0.14736568805,
+      "port_mean_speed_mm_s": 0.9210355503003202,
+      "chamber_pressure_drop_Pa": 0.002280766700364427,
+      "meets_declared_targets": false
+    },
+    {
+      "Q_mL_min": 0.5,
+      "worst_t90_s": 299.091874291212,
+      "worst_Dgas_mm2_s": 5,
+      "gas_speed_p95_mm_s": 0.0004671993274263477,
+      "port_Re": 0.2947313761,
+      "port_mean_speed_mm_s": 1.8420711006006405,
+      "chamber_pressure_drop_Pa": 0.004561533400728854,
+      "meets_declared_targets": false
+    },
+    {
+      "Q_mL_min": 1,
+      "worst_t90_s": 149.545937145606,
+      "worst_Dgas_mm2_s": 10,
+      "gas_speed_p95_mm_s": 0.0009343986548526954,
+      "port_Re": 0.5894627522,
+      "port_mean_speed_mm_s": 3.684142201201281,
+      "chamber_pressure_drop_Pa": 0.009123066801457708,
+      "meets_declared_targets": false
+    },
+    {
+      "Q_mL_min": 2,
+      "worst_t90_s": 75.07231106973207,
+      "worst_Dgas_mm2_s": 20,
+      "gas_speed_p95_mm_s": 0.0018687973097053908,
+      "port_Re": 1.1789255044,
+      "port_mean_speed_mm_s": 7.368284402402562,
+      "chamber_pressure_drop_Pa": 0.018246133602915417,
+      "meets_declared_targets": false
+    },
+    {
+      "Q_mL_min": 2.5,
+      "worst_t90_s": 60.0357641544526,
+      "worst_Dgas_mm2_s": 20,
+      "gas_speed_p95_mm_s": 0.0023359966371317383,
+      "port_Re": 1.4736568805,
+      "port_mean_speed_mm_s": 9.210355503003202,
+      "chamber_pressure_drop_Pa": 0.02280766700364427,
+      "meets_declared_targets": false
+    },
+    {
+      "Q_mL_min": 3,
+      "worst_t90_s": 49.99750738191719,
+      "worst_Dgas_mm2_s": 20,
+      "gas_speed_p95_mm_s": 0.0028031959645580863,
+      "port_Re": 1.7683882566,
+      "port_mean_speed_mm_s": 11.052426603603843,
+      "chamber_pressure_drop_Pa": 0.027369200404373125,
+      "meets_declared_targets": true
+    },
+    {
+      "Q_mL_min": 5,
+      "worst_t90_s": 31.9526053024578,
+      "worst_Dgas_mm2_s": 5,
+      "gas_speed_p95_mm_s": 0.004671993274263477,
+      "port_Re": 2.947313761,
+      "port_mean_speed_mm_s": 18.420711006006403,
+      "chamber_pressure_drop_Pa": 0.04561533400728854,
+      "meets_declared_targets": true
+    }
+  ],
+  "pareto_Q_mL_min": [
+    0.25,
+    0.5,
+    1,
+    2,
+    2.5,
+    3,
+    5
+  ],
+  "numerical_checks": {
+    "upper_flow_grid": {
+      "raw_json": "operating_results/Q5_D10_dx0.3_dt0.25.json",
+      "worst_t90_s": 30.450830762299645,
+      "relative_change_t90": 0.020700624381785326,
+      "gas_speed_p95_mm_s": 0.00522003716147762,
+      "relative_change_gas_speed": 0.11730408308443896
+    },
+    "upper_flow_timestep": {
+      "raw_json": "operating_results/Q5_D10_dx0.4_dt0.125.json",
+      "worst_t90_s": 29.66705508046916,
+      "relative_change_t90": -0.005571247609638119,
+      "gas_speed_p95_mm_s": 0.004671993274263477,
+      "relative_change_gas_speed": 0.0
+    },
+    "lower_flow_timestep": {
+      "raw_json": "operating_results/Q0.25_D10_dx0.4_dt0.5.json",
+      "worst_t90_s": 423.39816856620035,
+      "relative_change_t90": -0.0013777458091865924,
+      "gas_speed_p95_mm_s": 0.00023359966371317385,
+      "relative_change_gas_speed": 0.0
+    },
+    "upper_flow_direct_field": {
+      "raw_json": "operating_results/Q5_D10_dx0.3_dt0.25_direct5.json",
+      "worst_t90_s": 30.476369122920687,
+      "relative_change_t90": 0.0008386753327156438,
+      "gas_speed_p95_mm_s": 0.004882060806789549,
+      "relative_change_gas_speed": -0.06474596717093117
+    },
+    "selected_point_grid": {
+      "raw_json": "operating_results/Q3_D20_dx0.3_dt0.25.json",
+      "worst_t90_s": 50.98126163745693,
+      "relative_change_t90": 0.019676066009153503,
+      "gas_speed_p95_mm_s": 0.0031320222968865717,
+      "relative_change_gas_speed": 0.11730408308443874
+    },
+    "selected_point_timestep": {
+      "raw_json": "operating_results/Q3_D20_dx0.4_dt0.125.json",
+      "worst_t90_s": 49.84543636405178,
+      "relative_change_t90": -0.0030415719868548408,
+      "gas_speed_p95_mm_s": 0.0028031959645580863,
+      "relative_change_gas_speed": 0.0
+    }
+  },
+  "direct_flow_check": {
+    "reference_flow_mL_min": 0.9401341250563697,
+    "high_flow_mL_min": 4.970770459099881,
+    "same_grid_mm": 0.3,
+    "same_tau": 0.55,
+    "normalized_velocity_relative_L2": 0.016504978076196847,
+    "normalized_pressure_drop_relative_change": 0.005880283779068796,
+    "normalized_near_liquid_P95_relative_change": 0.0029405494949377164,
+    "max_Mach": 0.02140386038416431,
+    "relative_density_range": 0.012356317501397495,
+    "converged": true,
+    "scope": "Same grid and relaxation parameter comparison, flow amplitude differs. Finite-inertia and boundary effects remain; not a continuum grid-independence proof."
+  },
+  "max_relative_global_mass_residual": 9.123742482820745e-12,
+  "max_uniform_operator_residual": 6.033535966163707e-15,
+  "concentration_bounds": [
+    0.0,
+    1.0000000000000004
+  ],
+  "old_raw_files_modified": false,
+  "CAD_changed": false,
+  "scope": "Conditional lowest-flow choice from seven sampled Q levels for fixed geometry, robust only over the three assumed gas diffusivities. Gas concentration, not cell exposure or safety. No weighted objective or global optimum is claimed.",
+  "source_config_sha256": "d0f5c26df9d8958fb9800620bb39ed788f863eb6250dd97a0210b562edfadfae",
+  "refinement_config_sha256": "d2948f8c9f7bebf2688cd84edf9142f9798afcb93cee7d3bafe7fd91d83c9c61",
+  "selected_check_config_sha256": "60431b6be987fe769de8b68deaf95a65efc0e552e69944139787e32ef4ced7db",
+  "repeated_Q1_baseline_max_abs_t90_difference_s": 0.0
+}

@@ -1,0 +1,53 @@
+/* Figure/table outer bounds stay aligned with the article. Captions are
+   inset inside their own panel, so a label never touches the frame edge. */
+body.signal-atlas{--caption-inset:clamp(1rem,2vw,1.5rem)}
+body.signal-atlas:not(.page-home) main :is(figure,.page-article,.model-track-panel,.learn-section,.lm-section) :is(figcaption,.figure-caption,.table-caption){
+ box-sizing:border-box;width:100%;max-width:none!important;
+ padding:1rem var(--caption-inset) 1.15rem!important;margin-inline:0!important;
+ color:var(--v-ink);background:color-mix(in srgb,var(--v-soft) 35%,#fff);
+ border-top:1px solid var(--v-rule);border-radius:0!important;
+ font:400 .87rem/1.7 var(--ds-font)!important;text-align:start!important;
+}
+body.signal-atlas:not(.page-home) main figcaption :is(.wiki-figure__title,.media-caption__title){
+ font:600 1rem/1.5 var(--ds-font)!important;letter-spacing:normal;color:var(--v-ink);
+}
+body.signal-atlas:not(.page-home) main :is(figcaption,.figure-caption,.table-caption)>:is(p,ul,ol){
+ max-width:none!important;margin-inline:0!important;
+}
+body.signal-atlas:not(.page-home) main :is(figcaption,caption) .media-caption__label{
+ display:inline;font:600 .83rem/1.6 var(--ds-mono);margin-right:.45em;color:var(--v-accent);
+}
+body.signal-atlas:not(.page-home) main table>caption{
+ position:static!important;display:table-caption!important;float:none!important;
+ width:auto!important;height:auto!important;max-height:none!important;
+ margin:0!important;padding:1rem var(--caption-inset)!important;
+ overflow:visible!important;clip:auto!important;clip-path:none!important;white-space:normal!important;
+ border:1px solid var(--v-rule)!important;caption-side:top;
+ color:var(--v-ink)!important;background:var(--v-soft)!important;
+ font:400 .87rem/1.7 var(--ds-font)!important;text-align:start!important;
+}
+/* A wide data grid can scroll, while its native caption stays readable within
+   the visible wrapper. All authored tables use a direct div wrapper, including
+   the receptor study's .re-evidence-table and contribution-specific wrappers.
+   Inline containment supplies the actual local width, even inside details. */
+body.signal-atlas:not(.page-home) main div:has(>table>caption){
+ container-type:inline-size;
+}
+body.signal-atlas:not(.page-home) main div:has(>table>caption)>table>caption{
+ box-sizing:border-box;width:100cqw!important;max-width:100cqw!important;
+ position:sticky!important;inset-inline-start:0;
+}
+/* Sidebar hero art and sponsor names are editorial, not evidence captions. */
+body.signal-atlas .ds-hero-art>figcaption{padding:0!important;background:transparent!important;border:0!important}
+body.signal-atlas .eng-evidence-note__detail{padding:1rem var(--caption-inset);border-top:1px solid var(--v-rule);background:var(--v-tint)}
+body.signal-atlas .eng-evidence-note__detail .eng-cycle__figure-id{font:500 .7rem/1.5 var(--ds-mono);color:var(--v-accent)}
+body.signal-atlas .eng-doc-preview{display:block;width:100%;margin:1rem 0}
+body.signal-atlas .eng-doc-preview img{display:block;width:100%;height:auto;max-height:none;object-fit:contain}
+@media(max-width:760px){body.signal-atlas{--caption-inset:1rem}}
+/* Evidence photographs and the two entrepreneurship PCB views show the complete
+   source image. This does not alter editorial heroes, member portraits or files. */
+body.signal-atlas:is(.page-education,.page-human-practices) main .notion-photo-pair figure img,
+body.signal-atlas.page-entrepreneurship main :is(#figure-11,#figure-12,#figure-13,#figure-14) img{
+ display:block;width:100%;height:auto!important;max-height:none!important;
+ aspect-ratio:auto!important;object-fit:contain!important;
+}

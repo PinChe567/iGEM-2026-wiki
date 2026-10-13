@@ -51,7 +51,7 @@
   var openCiteWrap = null;
 
   function textOf(el) {
-    return el ? (el.textContent || "").replace(/\s+/g, " ").trim() : "";
+    return el ? (window.AeroSenseI18n?.sourceText(el)||el.textContent||"").replace(/\s+/g, " ").trim() : "";
   }
 
   function doiText(el) {

@@ -73,10 +73,10 @@ const CHECKPOINTS = [
   { id: "sparse", stage: 4, bonus: 100, label: "+100 CHECKPOINT", names: ["KC_ACTIVE"] },
   { id: "final", stage: 5, bonus: 150, label: "+150 SOURCE", names: ["RETURN_TARGET_GLOW", "FINAL_ODOR"] }
 ];
-const FOG_DAY = 0x23453d;
-const FOG_SCAN = 0x9aa8a0;
-const CLEAR_DAY = 0x23453d;
-const CLEAR_SCAN = 0xa8b2aa;
+const FOG_DAY = 0xe7ede8;
+const FOG_SCAN = 0xdde9ed;
+const CLEAR_DAY = 0xf4f2e9;
+const CLEAR_SCAN = 0xe5eef0;
 
 const STAGES = [
   {
@@ -84,7 +84,7 @@ const STAGES = [
     num: "01",
     key: "AIR",
     url: "models/showcase_v3/aerosense_01_warehouse_v3.glb",
-    preview: "models/previews_v3/01_warehouse_v3.png",
+    preview: "models/previews_v15/journey-1.webp",
     kicker: "01 / AIR",
     heading: "FOLLOW THE SCENT.",
     chain: "",
@@ -103,7 +103,7 @@ const STAGES = [
     num: "02",
     key: "FLY",
     url: "models/showcase_v4/aerosense_02_olfaction_v4.glb",
-    preview: "models/previews_v4/02_olfaction_v4.png",
+    preview: "models/previews_v15/journey-2.webp",
     kicker: "02 / OLFACTION",
     heading: "AT THE\nRECEPTOR.",
     chain: "",
@@ -122,7 +122,7 @@ const STAGES = [
     num: "03",
     key: "CELL",
     url: "models/showcase_v4/aerosense_03_cell_v4.glb",
-    preview: "models/previews_v4/03_cell_v4.png",
+    preview: "models/previews_v15/journey-3.webp",
     kicker: "03 / SENSE",
     heading: "WE BORROWED\nTHE RECEPTOR.",
     chain: "OR + Orco → Ca²⁺ → GCaMP6f",
@@ -141,7 +141,7 @@ const STAGES = [
     num: "04",
     key: "READ",
     url: "models/showcase_v4/aerosense_04_hardware_v4.glb",
-    preview: "models/previews_v4/04_hardware_v4.png",
+    preview: "models/previews_v15/journey-4.webp",
     kicker: "04 / READ",
     heading: "A GLOW BECOMES\nA SIGNAL.",
     chain: "LIGHT → PHOTODIODE → TIA → ADC",
@@ -161,7 +161,7 @@ const STAGES = [
     num: "05",
     key: "DECODE",
     url: "models/showcase_v4/aerosense_05_decoder_v4.glb",
-    preview: "models/previews_v4/05_decoder_v4.png",
+    preview: "models/previews_v15/journey-5.webp",
     kicker: "05 / DECODE",
     heading: "SEPARATE\nWHAT OVERLAPS.",
     chain: "INPUT → CONTRAST → SPARSE CODE",
@@ -180,7 +180,7 @@ const STAGES = [
     num: "06",
     key: "ACT",
     url: "models/showcase_v4/aerosense_06_return_v4.glb",
-    preview: "models/previews_v4/06_return_v4.png",
+    preview: "models/previews_v15/journey-6.webp",
     kicker: "06 / ACT",
     heading: "FROM SIGNAL\nTO A REASON\nTO LOOK CLOSER.",
     chain: "",
@@ -197,12 +197,12 @@ const STAGES = [
 ];
 
 const STAGE_LIGHTS = [
-  { hemiSky: 0xf4ead8, hemiGround: 0x5a4638, key: 0xffe6c4, keyI: 1.08, fill: 0xd4c4a8 },
-  { hemiSky: 0xe8eee8, hemiGround: 0x4a5248, key: 0xe8f0e4, keyI: 0.92, fill: 0xc5d0c4 },
-  { hemiSky: 0xdce8e4, hemiGround: 0x3a4844, key: 0xd8ece4, keyI: 0.86, fill: 0xb7c8c0 },
-  { hemiSky: 0xd8dee8, hemiGround: 0x2c3238, key: 0xd0d8e4, keyI: 0.9, fill: 0xb0b8c4 },
-  { hemiSky: 0xc8d0d4, hemiGround: 0x1c2224, key: 0xc4d0cc, keyI: 0.78, fill: 0x9aa4a8 },
-  { hemiSky: 0xf0e6d4, hemiGround: 0x4a4034, key: 0xffe2c0, keyI: 1.0, fill: 0xd4c4a8 }
+  { hemiSky: 0xfff5e4, hemiGround: 0x7e8b78, key: 0xffe4bf, keyI: 2.3, fill: 0xb9d6e5 },
+  { hemiSky: 0xf7f5e9, hemiGround: 0x7e958b, key: 0xffecd4, keyI: 2.1, fill: 0xbad9e9 },
+  { hemiSky: 0xf3f6ef, hemiGround: 0x819a91, key: 0xffebce, keyI: 2.2, fill: 0xb6d5e5 },
+  { hemiSky: 0xf4f5f2, hemiGround: 0x899ca6, key: 0xffedd7, keyI: 2.25, fill: 0xadcde3 },
+  { hemiSky: 0xf1f5f4, hemiGround: 0x81959a, key: 0xffebcd, keyI: 2.2, fill: 0xb4d4e6 },
+  { hemiSky: 0xfff5e4, hemiGround: 0x929378, key: 0xffdfb6, keyI: 2.3, fill: 0xb8d6e6 }
 ];
 
 function clamp(v, a, b) {
@@ -631,7 +631,7 @@ function makeFallbackWorld(spec, index) {
     pallet.name = "VOC_PALLET";
     pallet.position.set(end.x, 0.12, end.z);
     group.add(pallet);
-    const sack = new THREE.Mesh(new THREE.SphereGeometry(0.38, 14, 10), sackMat);
+    const sack = new THREE.Mesh(new THREE.SphereGeometry(0.38, 8, 6), sackMat);
     sack.scale.set(1.15, 1.35, 0.95);
     sack.position.set(end.x, 0.55, end.z);
     sack.name = index === 0 ? "VOC_SOURCE_A" : "RETURN_TARGET_GLOW";
@@ -649,7 +649,7 @@ function makeFallbackWorld(spec, index) {
         box.name = "ObstacleCrate_" + i;
         box.position.set(p[0], 0.32, p[1]);
         group.add(box);
-        const bag = new THREE.Mesh(new THREE.SphereGeometry(0.28, 10, 8), bagMat);
+        const bag = new THREE.Mesh(new THREE.SphereGeometry(0.28, 8, 6), bagMat);
         bag.name = "ObstacleBag_" + i;
         bag.scale.set(1, 1.35, 0.85);
         bag.position.set(p[0], 0.78, p[1]);
@@ -705,7 +705,7 @@ function makeFallbackWorld(spec, index) {
     tipMat.userData._asTagged = true;
     for (let i = 0; i < 8; i++) {
       const side = i < 4 ? -1 : 1;
-      const tip = new THREE.Mesh(new THREE.SphereGeometry(0.07, 10, 8), tipMat);
+      const tip = new THREE.Mesh(new THREE.SphereGeometry(0.07, 8, 6), tipMat);
       tip.name = "ReceptorTip_" + i;
       tip.position.set(side * (0.9 + (i % 4) * 0.35), 1.15 + (i % 3) * 0.12, -2 + (i % 4) * 1.1);
       group.add(tip);
@@ -734,9 +734,9 @@ function makeFallbackWorld(spec, index) {
     gMat.userData.scanEmissive = 1.4;
     gMat.userData._asTagged = true;
     for (let i = 0; i < 4; i++) {
-      const cell = new THREE.Mesh(new THREE.SphereGeometry(0.42, 16, 12), cellMat);
+      const cell = new THREE.Mesh(new THREE.SphereGeometry(0.42, 8, 6), cellMat);
       cell.position.set(-1.2 + i * 0.8, 0.7, -0.4 + (i % 2) * 0.5);
-      const g = new THREE.Mesh(new THREE.SphereGeometry(0.1, 10, 8), gMat);
+      const g = new THREE.Mesh(new THREE.SphereGeometry(0.1, 8, 6), gMat);
       g.name = "GCaMP_" + i;
       g.position.copy(cell.position);
       group.add(cell, g);
@@ -776,7 +776,7 @@ function makeFallbackWorld(spec, index) {
     nodeMat.userData._asTagged = true;
     for (let i = 0; i < 7; i++) {
       const active = i % 2 === 0;
-      const node = new THREE.Mesh(new THREE.SphereGeometry(0.1, 12, 10), active ? actMat : nodeMat);
+      const node = new THREE.Mesh(new THREE.SphereGeometry(0.1, 8, 6), active ? actMat : nodeMat);
       node.name = active && i === 0 ? "KC_ACTIVE" : "Node_2_" + i;
       node.position.set((i - 3) * 0.42, 0.62, -0.6 + (i % 3) * 0.35);
       group.add(node);
@@ -814,15 +814,15 @@ function makeProceduralFly() {
     side: THREE.DoubleSide,
     depthWrite: false
   });
-  const thorax = new THREE.Mesh(new THREE.SphereGeometry(1, 14, 10), thoraxMat);
+  const thorax = new THREE.Mesh(new THREE.SphereGeometry(1, 8, 6), thoraxMat);
   thorax.scale.set(0.16, 0.14, 0.2);
-  const head = new THREE.Mesh(new THREE.SphereGeometry(1, 12, 10), chitin);
+  const head = new THREE.Mesh(new THREE.SphereGeometry(1, 8, 6), chitin);
   head.scale.set(0.12, 0.11, 0.13);
   head.position.set(0, 0.02, -0.28);
-  const abdomen = new THREE.Mesh(new THREE.SphereGeometry(1, 12, 10), chitin);
+  const abdomen = new THREE.Mesh(new THREE.SphereGeometry(1, 8, 6), chitin);
   abdomen.scale.set(0.12, 0.1, 0.22);
   abdomen.position.set(0, 0.01, 0.26);
-  const eyeL = new THREE.Mesh(new THREE.SphereGeometry(0.08, 10, 8), eyeMat);
+  const eyeL = new THREE.Mesh(new THREE.SphereGeometry(0.08, 8, 6), eyeMat);
   eyeL.position.set(-0.08, 0.03, -0.3);
   const eyeR = eyeL.clone();
   eyeR.position.x = 0.08;
@@ -876,10 +876,10 @@ function makeSignalOrb() {
     opacity: 0,
     depthWrite: false
   });
-  const core = new THREE.Mesh(new THREE.SphereGeometry(0.1, 16, 12), mat);
+  const core = new THREE.Mesh(new THREE.SphereGeometry(0.1, 8, 6), mat);
   // A deliberately abstract molecular token; no chemical identity is implied.
   for (const [x,y,z] of [[-.15,.06,0],[.12,.12,.035],[.05,-.13,-.03]]) {
-    const bead = new THREE.Mesh(new THREE.SphereGeometry(.055,16,10),mat);
+    const bead = new THREE.Mesh(new THREE.SphereGeometry(.055, 8, 6),mat);
     bead.position.set(x,y,z);group.add(bead);
     const v = bead.position.clone();
     const bond = new THREE.Mesh(new THREE.CylinderGeometry(.018,.018,v.length(),8),mat);
@@ -887,7 +887,7 @@ function makeSignalOrb() {
   }
   const haloMat = mat.clone();
   haloMat.emissiveIntensity = 0.28;
-  const halo = new THREE.Mesh(new THREE.SphereGeometry(0.18, 14, 10), haloMat);
+  const halo = new THREE.Mesh(new THREE.SphereGeometry(0.18, 8, 6), haloMat);
   group.add(core, halo);
   const streaks = [];
   const streakMat = new THREE.MeshStandardMaterial({
@@ -987,7 +987,7 @@ function packFly(root) {
   if (chaseLocal.y < 0.05) chaseLocal.y = 0.55;
 
   const shadow = new THREE.Mesh(
-    new THREE.CircleGeometry(0.22, 20),
+    new THREE.CircleGeometry(0.22, 12),
     new THREE.MeshBasicMaterial({ color: 0x1a120e, transparent: true, opacity: 0.28, depthWrite: false })
   );
   shadow.rotation.x = -Math.PI / 2;
@@ -1012,11 +1012,163 @@ function packFly(root) {
 
 const loader = new GLTFLoader();
 
+function shapeSeed(name) {
+  let h = 2166136261;
+  for (let i = 0; i < name.length; i++) h = Math.imul(h ^ name.charCodeAt(i), 16777619);
+  return (h >>> 0) / 4294967296;
+}
+
+function finishFacets(geometry, source, seed) {
+  const flat = geometry.index ? geometry.toNonIndexed() : geometry;
+  flat.computeVertexNormals();
+  const count = flat.getAttribute('position').count;
+  const colors = new Float32Array(count * 3);
+  // One restrained pigment variation per real triangle; never a screen filter.
+  for (let i = 0; i < count; i += 3) {
+    const shade = .94 + .075 * (.5 + .5 * Math.sin(i * 1.618 + seed * 31));
+    for (let j = 0; j < 3; j++) colors.set([shade, shade, shade], (i + j) * 3);
+  }
+  flat.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  flat.computeBoundingBox();
+  flat.computeBoundingSphere();
+  flat.userData.journeyFacets = {
+    sourceTriangles: (source.index ? source.index.count : source.getAttribute('position').count) / 3,
+    triangles: count / 3
+  };
+  return flat;
+}
+
+function sculptEllipsoid(source, seed, detail) {
+  source.computeBoundingBox();
+  const center = source.boundingBox.getCenter(new THREE.Vector3());
+  const size = source.boundingBox.getSize(new THREE.Vector3());
+  const geometry = new THREE.IcosahedronGeometry(1, detail);
+  const p = geometry.getAttribute('position');
+  for (let i = 0; i < p.count; i++) {
+    const x=p.getX(i), y=p.getY(i), z=p.getZ(i);
+    const r=1 + .085*Math.sin(x*4.1+y*2.8+seed*8) + .045*Math.cos(z*5.3-y*3.7+seed*11);
+    p.setXYZ(i, x*r+.045*y*z, y*r+.035*x*z, z*r+.04*x*y);
+  }
+  // Refit to the original local bounds, including off-centre exported meshes.
+  geometry.computeBoundingBox();
+  const c=geometry.boundingBox.getCenter(new THREE.Vector3());
+  const s=geometry.boundingBox.getSize(new THREE.Vector3());
+  for(let i=0;i<p.count;i++)p.setXYZ(i,
+    center.x+(p.getX(i)-c.x)*size.x/s.x,
+    center.y+(p.getY(i)-c.y)*size.y/s.y,
+    center.z+(p.getZ(i)-c.z)*size.z/s.z);
+  return finishFacets(geometry,source,seed);
+}
+
+function clusterOrganic(source, seed, divisions) {
+  source.computeBoundingBox();
+  const min=source.boundingBox.min, size=source.boundingBox.getSize(new THREE.Vector3());
+  const pos=source.getAttribute('position'), bins=new Map(), mapped=new Uint32Array(pos.count), points=[];
+  for(let i=0;i<pos.count;i++){
+    const x=(pos.getX(i)-min.x)/Math.max(size.x,1e-8);
+    const y=(pos.getY(i)-min.y)/Math.max(size.y,1e-8);
+    const z=(pos.getZ(i)-min.z)/Math.max(size.z,1e-8);
+    // A gently warped clustering lattice breaks regular latitude bands while
+    // retaining the original helix, membrane-pore and curved-fruit topology.
+    const a=Math.floor(x*divisions[0]+.32*Math.sin(y*13+z*9+seed));
+    const b=Math.floor(y*divisions[1]+.31*Math.sin(z*11+x*8+seed*3));
+    const c=Math.floor(z*divisions[2]+.29*Math.sin(x*12+y*7+seed*5));
+    const key=a+','+b+','+c;
+    let item=bins.get(key);
+    if(!item){item={index:points.length,x:0,y:0,z:0,n:0};bins.set(key,item);points.push(item);}
+    item.x+=pos.getX(i);item.y+=pos.getY(i);item.z+=pos.getZ(i);item.n++;mapped[i]=item.index;
+  }
+  const vertices=new Float32Array(points.length*3);
+  points.forEach((p,i)=>vertices.set([p.x/p.n,p.y/p.n,p.z/p.n],i*3));
+  const old=source.index, n=old?old.count:pos.count, indices=[],seen=new Set();
+  for(let i=0;i<n;i+=3){
+    const a=mapped[old?old.getX(i):i],b=mapped[old?old.getX(i+1):i+1],c=mapped[old?old.getX(i+2):i+2];
+    if(a===b||a===c||b===c)continue;
+    const key=[a,b,c].sort((x,y)=>x-y).join(',');if(seen.has(key))continue;seen.add(key);
+    indices.push(a,b,c);
+  }
+  const geometry=new THREE.BufferGeometry();
+  geometry.setAttribute('position',new THREE.BufferAttribute(vertices,3));geometry.setIndex(indices);
+  return finishFacets(geometry,source,seed);
+}
+
+function sculptJourneyMesh(obj) {
+  if(!obj.geometry||obj.geometry.userData.journeyFacets)return;
+  const name=obj.name, seed=shapeSeed(name), source=obj.geometry;
+  const ellipsoid=/^(?:CoffeeBean|CoffeeSack|ObstacleBag_|Sack_neck|VOC_SOURCE_A$|Antenna_surface|Sensillum_socket|Thorax$|Abdomen$|Head$|Eye_|Layer_[0-2]_node_|KC_ACTIVE|Banana_tip|Calcium_signal)/i;
+  if(ellipsoid.test(name))obj.geometry=sculptEllipsoid(source,seed,/Antenna_surface/.test(name)?2:1);
+  else if(/^membrane_surface/i.test(name))obj.geometry=clusterOrganic(source,seed,[100,24,48]);
+  else if(/^(?:or|orco)_surface/i.test(name))obj.geometry=clusterOrganic(source,seed,[14,24,14]);
+  else if(/^(?:gcamp|mcherry|linker)_surface/i.test(name))obj.geometry=clusterOrganic(source,seed,[16,18,16]);
+  else if(/^Banana\d*$/.test(name))obj.geometry=clusterOrganic(source,seed,[19,12,5]);
+}
+
+function makePaperSky() {
+  const canvas=document.createElement('canvas');canvas.width=1024;canvas.height=1024;
+  const ctx=canvas.getContext('2d');
+  const grad=ctx.createLinearGradient(0,0,0,1024);
+  grad.addColorStop(0,'#e4eeef');grad.addColorStop(.44,'#f8f4e9');grad.addColorStop(1,'#e0e9e6');
+  ctx.fillStyle=grad;ctx.fillRect(0,0,1024,1024);
+  const glow=ctx.createRadialGradient(260,180,20,260,180,820);
+  glow.addColorStop(0,'#fffdf18c');glow.addColorStop(1,'#fffdf100');ctx.fillStyle=glow;ctx.fillRect(0,0,1024,1024);
+  const data=ctx.getImageData(0,0,1024,1024);
+  for(let i=0;i<data.data.length;i+=4){const n=((Math.imul(i+173,1597334677)>>>16)%7-3)*.45;for(let j=0;j<3;j++)data.data[i+j]+=n;}
+  ctx.putImageData(data,0,0);
+  const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;
+  return texture;
+}
+
+function applyFacetedMaterials(root, cloneMaterials = false) {
+  let meshes=0;
+  root.traverse(function (obj) {
+    if(!obj.isMesh||!obj.material)return;
+    meshes++;
+    sculptJourneyMesh(obj);
+    if(obj.userData.journeyMaterial)return;
+    obj.userData.journeyMaterial=true;
+    // Imported materials need per-object roles. Procedural signal materials
+    // stay shared with their animation controllers (orb/trail/fly fades).
+    if(cloneMaterials)obj.material=Array.isArray(obj.material)?obj.material.map(m=>m.clone()):obj.material.clone();
+    const materials=Array.isArray(obj.material)?obj.material:[obj.material];
+    materials.forEach(function (material) {
+      const name=obj.name, role=material.name||'';
+      if('flatShading' in material)material.flatShading=true;
+      if('roughness' in material)material.roughness=.84;
+      if('metalness' in material)material.metalness=.02;
+      if('clearcoat' in material)material.clearcoat=0;
+      if(obj.geometry.userData.journeyFacets)material.vertexColors=true;
+      const label=/(?:_heading|_subheading|_label|_meaning|_note|_role|_boundary|Extracellular|Intracellular|Natural_sensilla)/i.test(name);
+      if(label){material.color.setHex(0x3f5b51);if(material.emissive)material.emissive.setHex(0);material.roughness=1;}
+      else if(/OR_jade/.test(role)){material.color.setHex(0x81a891);material.roughness=.7;}
+      else if(/Orco_teal/.test(role)){material.color.setHex(0x78a8b7);material.roughness=.66;}
+      else if(/Optical_glass/.test(role)){material.color.setHex(0xabbfb8);material.roughness=.5;material.opacity=.24;}
+      else if(/Deep_jade|M_floor/.test(role)||/^(?:Reader_deck|Neural_exhibit_base|Return_floor|Cell_exhibit_base)$/.test(name))material.color.setHex(0xd4ded6);
+      else if(/M_wall|M_roof/.test(role))material.color.setHex(0xc9d5ca);
+      else if(/gold|brass/i.test(role)){material.color.setHex(0xc49b54);material.roughness=.5;material.metalness=.32;}
+      else if(/steel/i.test(role)){material.color.setHex(0x526b70);material.roughness=.62;material.metalness=.2;}
+      else if(/wood/i.test(role)){material.color.setHex(0xa58760);material.roughness=.94;}
+      else if(/sack/i.test(role)){material.color.setHex(0xd4be91);material.roughness=.96;}
+      else if(/Banana_peel/.test(role)){material.color.setHex(0xd9b550);material.roughness=.79;}
+      else if(/wing/i.test(role)){material.color.setHex(0xc4d9d9);material.roughness=.42;material.opacity=.68;}
+      else if(/eye/i.test(role)){material.roughness=.48;}
+      material.userData.renderStyle='sculpted-matte';
+      material.needsUpdate=true;
+    });
+    const transparent=materials.some(m=>m.opacity<.6);
+    obj.castShadow=!transparent&&!/PATH|ANCHOR|heading|label|meaning|note|role|ODOR|HALO/i.test(obj.name);
+    obj.receiveShadow=!transparent;
+  });
+  return meshes;
+}
+
 function loadGltf(url) {
   return new Promise(function (resolve, reject) {
     loader.load(
       url,
       function (gltf) {
+        // Sculpt only conceptual organic surfaces. Names, transforms, flight
+        // paths, anchors, labels and electronic component geometry stay intact.
+        applyFacetedMaterials(gltf.scene,true);
         resolve(gltf);
       },
       undefined,
@@ -1034,8 +1186,6 @@ function loadGltf(url) {
   const els = {
     journey: qs("[data-journey]", root),
     start: qs("[data-flight-start]", root),
-    skip: qsa("[data-journey-skip]", root),
-    skipped: qs("[data-journey-skipped]", root),
     unavailable: qs("[data-flight-unavailable]", root),
     dialog: qs("#follow-the-signal-flight", root),
     world: qs("[data-flight-world]", root),
@@ -1122,6 +1272,28 @@ function loadGltf(url) {
   const failed = {};
   const packs = new Array(STAGES.length);
   const prefetch = {};
+  // These meshes contain ordinary English lettering, baked into the GLBs.
+  // The translated HTML narration carries their meaning in Chinese. Scientific
+  // labels (OR, Orco, GCaMP6f, mCherry, PD/TIA/ADC) remain visible in both languages.
+  const englishExhibitLabels = new Set([
+    "Food_label", "Natural_heading", "Natural_subheading", "Natural_sensilla",
+    "Cell_heading", "Extracellular", "Intracellular", "Reader_heading",
+    "CARTRIDGE_label", "CARTRIDGE_meaning", "PD_meaning", "TIA_meaning", "ADC_meaning",
+    "Decoder_note", "Layer_0_label", "Layer_1_label", "Layer_2_label",
+    "Act_heading", "Act_note", "Act_boundary", "Batch_label"
+  ]);
+  const exhibitLabelVisibility = new WeakMap();
+
+  function applyExhibitLanguage(group) {
+    const chinese = document.documentElement.lang === "zh-Hant";
+    group.traverse(function (obj) {
+      // GLTFLoader can remove the dot from Blender's duplicate-name suffix.
+      const name = /^Batch_label(?:\.?\d+)?$/.test(obj.name) ? "Batch_label" : obj.name;
+      if (!obj.isMesh || !englishExhibitLabels.has(name)) return;
+      if (!exhibitLabelVisibility.has(obj)) exhibitLabelVisibility.set(obj, obj.visible);
+      obj.visible = chinese ? false : exhibitLabelVisibility.get(obj);
+    });
+  }
 
   const state = {
     open: false,
@@ -1543,7 +1715,7 @@ function loadGltf(url) {
     }
     geo.setIndex(index);
     const trailMat = new THREE.MeshBasicMaterial({
-      color: 0x6ee8a8,
+      color: 0x528f74,
       transparent: true,
       opacity: 0.3,
       depthWrite: false,
@@ -1554,9 +1726,9 @@ function loadGltf(url) {
     trail.frustumCulled = false;
     group.add(trail);
 
-    const puffGeo = new THREE.SphereGeometry(0.075, 10, 8);
+    const puffGeo = new THREE.SphereGeometry(0.075, 8, 6);
     const puffMat = new THREE.MeshBasicMaterial({
-      color: 0x9affc8,
+      color: 0x77ab83,
       transparent: true,
       opacity: 0.22,
       depthWrite: false
@@ -1570,10 +1742,10 @@ function loadGltf(url) {
     }
     const beacons = waypointTexts.map((waypoint, i) => {
       const marker = new THREE.Group();
-      const ring = new THREE.Mesh(new THREE.TorusGeometry(.58,.055,10,48),new THREE.MeshBasicMaterial({color:0xbaffb3,transparent:true,opacity:.92,depthWrite:false}));
+      const ring = new THREE.Mesh(new THREE.TorusGeometry(.58,.055,6,24),new THREE.MeshBasicMaterial({color:0x8b7144,transparent:true,opacity:.92,depthWrite:false}));
       ring.rotation.x=Math.PI/2;
-      const core = new THREE.Mesh(new THREE.SphereGeometry(.18,16,12),new THREE.MeshBasicMaterial({color:0xd8ff9b,transparent:true,opacity:.95,depthWrite:false}));
-      const halo = new THREE.Mesh(new THREE.SphereGeometry(.43,16,12),new THREE.MeshBasicMaterial({color:0x5bff95,transparent:true,opacity:.17,depthWrite:false}));
+      const core = new THREE.Mesh(new THREE.IcosahedronGeometry(.18,1),new THREE.MeshBasicMaterial({color:0xcaa552,transparent:true,opacity:.95,depthWrite:false}));
+      const halo = new THREE.Mesh(new THREE.IcosahedronGeometry(.43,1),new THREE.MeshBasicMaterial({color:0x6daa80,transparent:true,opacity:.12,depthWrite:false}));
       marker.add(ring,core,halo);
       odorWorldAt(waypoint.at/totalDuration(),0,marker.position,_odorTan,_odorRight);
       marker.userData={ring,halo,index:i};
@@ -1782,7 +1954,7 @@ function loadGltf(url) {
     mat.userData.baseEmissive = 0.08;
     mat.userData.scanEmissive = 1.7;
     mat.userData._asTagged = true;
-    const halo = new THREE.Mesh(new THREE.SphereGeometry(0.42, 16, 12), mat);
+    const halo = new THREE.Mesh(new THREE.SphereGeometry(0.42, 8, 6), mat);
     halo.name = "SOURCE_HALO";
     const p = worldPos(src);
     pack.group.worldToLocal(p);
@@ -1818,7 +1990,7 @@ function loadGltf(url) {
         box.name = "ObstacleCrate_" + i;
         box.position.set(p[0], 0.32, p[1]);
         g.add(box);
-        const bag = new THREE.Mesh(new THREE.SphereGeometry(0.28, 10, 8), sackMat);
+        const bag = new THREE.Mesh(new THREE.SphereGeometry(0.28, 8, 6), sackMat);
         bag.name = "ObstacleBag_" + i;
         bag.scale.set(1, 1.35, 0.85);
         bag.position.set(p[0], 0.78, p[1]);
@@ -1837,7 +2009,7 @@ function loadGltf(url) {
           plank.name = "ShelfPlank";
           plank.position.set(side * 2.55, 0.55 + k * 0.7, 0.2);
           g.add(plank);
-          const sack = new THREE.Mesh(new THREE.SphereGeometry(0.22, 10, 8), sackMat);
+          const sack = new THREE.Mesh(new THREE.SphereGeometry(0.22, 8, 6), sackMat);
           sack.name = "CoffeeSack";
           sack.scale.set(1.1, 0.85, 0.9);
           sack.position.set(side * 2.55, 0.82 + k * 0.7, -0.35 + (k % 2) * 0.7);
@@ -1879,6 +2051,8 @@ function loadGltf(url) {
     const src = gltf.scene || gltf;
     hideConstruction(src);
     group.add(src);
+    // Read the current language when each model resolves, including late loads.
+    applyExhibitLanguage(group);
     const exhibitLabels=[];
     group.traverse(obj=>{
       if(!obj.isMesh||!/(?:_heading|_subheading|_label|_meaning|_note|_role|Extracellular|Intracellular|Natural_sensilla)/i.test(obj.name))return;
@@ -1950,26 +2124,37 @@ function loadGltf(url) {
   }
 
   function buildRenderer() {
+<<<<<<< HEAD
+    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: "high-performance" });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+=======
     renderer = new THREE.WebGLRenderer({ antialias: !mobile, alpha: false, powerPreference: "high-performance" });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1 : 1.25));
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.08;
+    renderer.toneMappingExposure = 1.1;
     renderer.setClearColor(CLEAR_DAY, 1);
-    renderer.shadowMap.enabled = false;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(CLEAR_DAY);
-    scene.fog = new THREE.Fog(FOG_DAY, 6, 28);
+    scene.background = makePaperSky();
+    scene.fog = new THREE.Fog(FOG_DAY, 11, 34);
     camera = new THREE.PerspectiveCamera(48, 1, 0.08, 80);
-    hemi = new THREE.HemisphereLight(0xf2fff1, 0x23433c, 1.35);
+    hemi = new THREE.HemisphereLight(0xfff5e4, 0x81958a, .72);
     scene.add(hemi);
     keyLight = new THREE.DirectionalLight(0xffedce, 2.1);
-    keyLight.position.set(5, 10, 4);
+    keyLight.position.set(-5, 10, -4);
+    keyLight.castShadow=true;
+    keyLight.shadow.mapSize.set(1024,1024);
+    Object.assign(keyLight.shadow.camera,{left:-9,right:9,top:9,bottom:-9,near:.5,far:32});
+    keyLight.shadow.bias=-.00035;keyLight.shadow.normalBias=.025;keyLight.shadow.radius=3;
     scene.add(keyLight);
-    fill = new THREE.DirectionalLight(0x98dccc, 0.9);
-    fill.position.set(-6, 3, -4);
+    scene.add(keyLight.target);
+    fill = new THREE.DirectionalLight(0xb9d6e5, .7);
+    fill.position.set(6, 4, -2);
     scene.add(fill);
-    rim = new THREE.DirectionalLight(0xb8d8ff, 1.2);
+    rim = new THREE.DirectionalLight(0xd6e7ee, .6);
     rim.position.set(-2, 5, -7);
     scene.add(rim);
     if (els.gl) els.gl.appendChild(renderer.domElement);
@@ -2056,6 +2241,15 @@ function loadGltf(url) {
         setLoading(true, 'Preparing light and materials…');
         orb.mesh.visible = true;
         giantFly.visible = true;
+        // Include the procedural fly fallback, props and signal objects too.
+        const styledMeshes=applyFacetedMaterials(scene);
+        els.flightRoot.dataset.renderStyle='irregular-low-poly';
+        els.flightRoot.dataset.styledMeshes=String(styledMeshes);
+        let sculpted=0,sourceTriangles=0,renderTriangles=0;
+        scene.traverse(obj=>{const facets=obj.geometry?.userData.journeyFacets;if(facets){sculpted++;sourceTriangles+=facets.sourceTriangles;renderTriangles+=facets.triangles;}});
+        els.flightRoot.dataset.sculptedMeshes=String(sculpted);
+        els.flightRoot.dataset.sourceOrganicTriangles=String(sourceTriangles);
+        els.flightRoot.dataset.renderOrganicTriangles=String(renderTriangles);
         scene.updateMatrixWorld(true);
         const compiled = renderer.compileAsync ? renderer.compileAsync(scene, camera) : Promise.resolve(renderer.compile(scene, camera));
         return compiled.then(function () {
@@ -2102,8 +2296,15 @@ function loadGltf(url) {
     viewW = w;
     viewH = h;
     camera.aspect = w / h;
+    // Keep the model readable in portrait without lowering pixel resolution.
+    // The wider vertical field preserves a useful horizontal view of exhibits.
+    camera.fov = THREE.MathUtils.radToDeg(2 * Math.atan(Math.tan(THREE.MathUtils.degToRad(24)) * Math.max(1, .88 / camera.aspect)));
     camera.updateProjectionMatrix();
+<<<<<<< HEAD
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+=======
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1 : 1.25));
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     renderer.setSize(w, h, false);
     fitFlyScale();
     if (giantFly && fly) giantFly.scale.copy(fly.root.scale).multiplyScalar(8);
@@ -2667,25 +2868,27 @@ function loadGltf(url) {
     const Lt = STAGE_LIGHTS[diveNow.to] || Lf;
     const mix = diveNow.active ? diveNow.blend : 1;
     _sky.setHex(Lf.hemiSky).lerp(_col.setHex(Lt.hemiSky), mix);
-    _sky.lerp(_col.setHex(0xc5d4d0), s * 0.35);
+    _sky.lerp(_col.setHex(0xddeaf0), s * 0.25);
     _gnd.setHex(Lf.hemiGround).lerp(_col.setHex(Lt.hemiGround), mix);
-    _gnd.lerp(_col.setHex(0x3a4a46), s * 0.4);
+    _gnd.lerp(_col.setHex(0x839a9d), s * 0.25);
     hemi.color.copy(_sky);
     hemi.groundColor.copy(_gnd);
     keyLight.color.setHex(Lf.key).lerp(_col.setHex(Lt.key), mix);
-    keyLight.color.lerp(_col.setHex(0xc8ddd4), s * 0.4);
+    keyLight.color.lerp(_col.setHex(0xe0eef3), s * 0.25);
     keyLight.intensity = lerp(lerp(Lf.keyI, Lt.keyI, mix), lerp(Lf.keyI, Lt.keyI, mix) * 0.82, s);
+    keyLight.target.position.set(camera.position.x,0,camera.position.z+6);
+    keyLight.position.set(camera.position.x-5,10,camera.position.z+2);
+    keyLight.target.updateMatrixWorld();
     fill.color.setHex(Lf.fill).lerp(_col.setHex(Lt.fill), mix);
-    if (rim) rim.intensity = lerp(0.24, 0.12, s);
-    scene.background.setHex(CLEAR_DAY).lerp(_col.setHex(CLEAR_SCAN), s);
+    if (rim) rim.intensity = lerp(.6,.45,s);
     scene.fog.color.setHex(FOG_DAY).lerp(_col.setHex(FOG_SCAN), s);
-    scene.fog.near = lerp(6, 5, s);
-    scene.fog.far = lerp(28, 22, s);
-    renderer.setClearColor(scene.background.getHex(), 1);
+    scene.fog.near = lerp(11,9,s);
+    scene.fog.far = lerp(34,29,s);
+    renderer.setClearColor(CLEAR_DAY,1);
     if (course) {
       const cardDim = 1;
-      if (course.trailMat) course.trailMat.opacity = lerp(0.07, 0.18, s) * cardDim;
-      if (course.puffMat) course.puffMat.opacity = lerp(0.18, 0.42, s) * cardDim;
+      if (course.trailMat) course.trailMat.opacity = lerp(.15,.28,s) * cardDim;
+      if (course.puffMat) course.puffMat.opacity = lerp(.34,.54,s) * cardDim;
     }
     applyDiveLayers();
     packs.forEach(function (pack, i) {
@@ -3033,13 +3236,6 @@ function loadGltf(url) {
       });
   }
 
-  function skipJourney() {
-    if (els.journey) els.journey.classList.add("is-skipped");
-    const fallback = qs("#follow-the-signal-text", root);
-    if (fallback) fallback.setAttribute("open", "");
-    if (els.skipped) els.skipped.focus();
-    if (state.open) closeFlight();
-  }
 
   function keySteer(key, down) {
     let v = 0;
@@ -3164,9 +3360,6 @@ function loadGltf(url) {
       openFlight();
     });
   }
-  els.skip.forEach(function (btn) {
-    btn.addEventListener("click", skipJourney);
-  });
   els.exitBtns.forEach(function (btn) {
     btn.addEventListener("click", function (event) {
       event.preventDefault();
@@ -3239,6 +3432,13 @@ function loadGltf(url) {
   }
   document.addEventListener("keydown", onKeyDown, true);
   document.addEventListener("keyup", onKeyUp, true);
+  document.addEventListener("aerosense:languagechange", function () {
+    packs.forEach(function (pack) {
+      if (pack) applyExhibitLanguage(pack.group);
+    });
+    // A paused journey must repaint without advancing its physics or score.
+    if (renderer && scene && camera && state.open) renderer.render(scene, camera);
+  });
   window.addEventListener("resize", function () {
     clearManualInput();
     if (state.open && renderer) resize();

@@ -1,0 +1,52 @@
+{
+  "scenarios": 144,
+  "noise_replicates": 32,
+  "records": 18432,
+  "aggregate_records": 576,
+  "OD": [
+    "ideal",
+    3,
+    4,
+    5
+  ],
+  "ambient": {
+    "none": {
+      "dc": 0.0,
+      "amplitude": 0.0,
+      "frequency": 0.0,
+      "phase": 0.4
+    },
+    "DC": {
+      "dc": 0.15,
+      "amplitude": 0.0,
+      "frequency": 0.0,
+      "phase": 0.4
+    },
+    "100p3_Hz": {
+      "dc": 0.15,
+      "amplitude": 0.05,
+      "frequency": 100.3,
+      "phase": 0.4
+    },
+    "67_Hz": {
+      "dc": 0.15,
+      "amplitude": 0.05,
+      "frequency": 67.0,
+      "phase": 0.4
+    }
+  },
+  "noise_sigma_nW": [
+    0,
+    0.005,
+    0.02
+  ],
+  "assumed_responsivity_ratios": [
+    0.6,
+    0.8,
+    1.0
+  ],
+  "common_electronic_normal_draws": true,
+  "shot_noise": "Poisson, R520=0.3 A/W assumed, independent 250 us bins with point-sampled, held gate state; fixed seeds per replicate, rate changes by scenario.",
+  "metrics": "SINR includes systematic complex error plus noise. Noise-only SNR uses shot + electronic replicate fluctuations around each deterministic contaminated signal; it does not include bias. Null dB means +infinity for zero denominator.",
+  "MC_uncertainty": "Not propagated; gains are fixed MC means. Replicates vary synthetic photoelectron counts and electronic noise."
+}

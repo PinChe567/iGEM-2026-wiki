@@ -1,0 +1,1936 @@
+[
+  {
+    "id": "data-foundation",
+    "mount": "before-cycles",
+    "title": {
+      "en": "Data foundation and evaluation design",
+      "zh": "資料基礎與評估設計"
+    },
+    "blocks": [
+      {
+        "title": {
+          "en": "What was measured, and what did we compute?",
+          "zh": "哪些是公開測量，哪些由我們計算？"
+        },
+        "paragraphs": [
+          {
+            "en": "The main benchmark contains 24 Drosophila receptors and 110 odorants: 2,640 receptor–odorant responses in spikes/s, with no missing response or duplicate pair ID in the curated table. A response threshold of 50 spikes/s was used for some classification comparisons; it is a project convention, not a universal activation threshold. [1]",
+            "zh": "主要基準包含 24 個果蠅受體與 110 種氣味，共 2,640 組受體–氣味反應，保留 spikes/s 單位；整理表沒有缺失反應或重複配對 ID。部分分類比較使用 50 spikes/s 門檻，這是專案定義，不是通用活化界線。[1]"
+          },
+          {
+            "en": "All chemical names were mapped to PubChem. Eleven original names leave stereochemistry unspecified. The full docking screen excluded multicomponent ammonium hydroxide and therefore contains 24 × 109 = 2,616 pairs; the main predictive benchmark retains all 2,640 responses. These are different analysis populations.",
+            "zh": "全部化學名稱皆完成 PubChem 對應，其中 11 個原始名稱未指定立體化學。全量 docking 排除多成分的 ammonium hydroxide，因此為 24 × 109＝2,616 組；主要預測基準仍保留 2,640 組反應，兩者分析母體不同。"
+          },
+          {
+            "en": "The sequence resource includes 60 OR-family genes, including Orco, and 65 protein isoforms (different protein versions produced by a gene). One representative per gene and 60 monomer models from AlphaFold DB support feature extraction. A predicted monomer is not the complete functional OR/Orco complex. [4, 24]",
+            "zh": "序列資源包含 60 個 OR 家族基因（含 Orco）及 65 個蛋白 isoforms（同一基因產生的不同蛋白版本）；每個基因選取一條代表序列，並整理 AlphaFold DB 的 60 個單體模型供特徵擷取。預測單體不等於完整、有功能的 OR／Orco 複合體。[4, 24]"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [
+          "response-matrix"
+        ],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "Generalization is tested at more than one level",
+          "zh": "以不同留出方式檢驗泛化"
+        },
+        "paragraphs": [
+          {
+            "en": "Five fixed split definitions were prepared. The main integrated-model comparisons emphasize random pairs, unseen chemical clusters and unseen receptors; defining a split does not mean every model was tested on it.",
+            "zh": "已建立五種固定切分。主要整合模型比較集中於隨機配對、未見化學群集與未見受體；建立切分不代表每個模型都完成該項測試。"
+          }
+        ],
+        "headers": [
+          {
+            "en": "Split",
+            "zh": "切分"
+          },
+          {
+            "en": "Question",
+            "zh": "回答的問題"
+          }
+        ],
+        "rows": [
+          [
+            "Random-pair",
+            {
+              "en": "Predict a held-out combination within known receptor and odorant sets.",
+              "zh": "在已知受體及氣味集合內，預測留出的配對。"
+            }
+          ],
+          [
+            "Odorant-cold",
+            {
+              "en": "Predict an odorant excluded from training.",
+              "zh": "預測訓練時未見的氣味。"
+            }
+          ],
+          [
+            "Chemical-cluster-cold",
+            {
+              "en": "Predict an excluded cluster of chemically similar odorants.",
+              "zh": "預測未見的化學相似氣味群集。"
+            }
+          ],
+          [
+            "Receptor-cold",
+            {
+              "en": "Predict a receptor excluded from training.",
+              "zh": "預測訓練時完全未見的受體。"
+            }
+          ],
+          [
+            "Receptor-cluster-cold",
+            {
+              "en": "Predict an excluded sequence-related receptor group.",
+              "zh": "預測未見的序列相近受體群。"
+            }
+          ]
+        ],
+        "figures": [],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "DoOR checks data consistency",
+          "zh": "DoOR 用於資料一致性比對"
+        },
+        "paragraphs": [
+          {
+            "en": "The DoOR comparison covers 107 shared odorants and 2,568 pairs. The sequence + ESM model has a median within-receptor Spearman correlation of 0.938. DoOR includes Hallem measurements, and overlapping Hallem pairs were used for training. This is a consistency check with shared sources, not independent external validation or 93.8% accuracy. [6]",
+            "zh": "DoOR 比對包含 107 種共同氣味、2,568 組配對；sequence＋ESM 模型的每受體 Spearman 中位數為 0.938。DoOR 包含 Hallem 測量，模型訓練也用了重疊的 Hallem 配對，因此這是有共同來源的資料一致性檢查，不能視為獨立外部驗證或 93.8% 準確率。[6]"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [],
+        "downloads": []
+      }
+    ]
+  },
+  {
+    "id": "model-evidence",
+    "mount": "cycle-1",
+    "title": {
+      "en": "Complete model comparisons",
+      "zh": "完整模型比較"
+    },
+    "blocks": [
+      {
+        "title": {
+          "en": "Matched feature ablation",
+          "zh": "控制條件一致的特徵消融"
+        },
+        "paragraphs": [
+          {
+            "en": "The six feature sets use the same histogram gradient boosting settings, the same response pairs and fixed folds. L denotes ligand descriptors; S combines sequence descriptors and ESM2; P adds pocket features; D adds Vina and contact summaries; M adds multiple-pose features. PubChem identifiers, response-derived labels and split columns were excluded from the feature list; missing docking descriptors follow the existing zero-fill convention.",
+            "zh": "六種特徵組合使用相同的 histogram gradient boosting 設定、反應配對與固定切分。L 為配體描述；S 為序列描述與 ESM2；P 為口袋特徵；D 為 Vina 與接觸摘要；M 為多姿態特徵。特徵清單排除 PubChem 編號、反應衍生標籤及切分欄位；缺失 docking 描述依既有流程補零。"
+          },
+          {
+            "en": "Sequence information supplies the clearest gain in both evaluation settings. On unseen receptors, the full model adds only ΔR² = 0.0031 over LS, with a receptor-grouped 95% bootstrap interval of −0.0316 to 0.0344. This does not establish an additional structural-feature gain; it does not show that all structure-based methods are ineffective.",
+            "zh": "兩種評估中，序列資訊提供最清楚的增益。對未見受體，完整模型相對 LS 僅增加 ΔR²＝0.0031，受體分組 bootstrap 95% 區間為 −0.0316 至 0.0344。這尚未建立結構特徵的額外增益，也不代表所有結構方法都無效。"
+          }
+        ],
+        "headers": [
+          {
+            "en": "Features",
+            "zh": "特徵"
+          },
+          "Chemical-cluster-cold R²",
+          "Receptor-cold R²"
+        ],
+        "rows": [
+          [
+            "L",
+            "0.1307",
+            "0.1125"
+          ],
+          [
+            "LS",
+            "0.3855",
+            "0.2325"
+          ],
+          [
+            "LSP",
+            "0.3840",
+            "0.2221"
+          ],
+          [
+            "LSD",
+            "0.3781",
+            "0.2131"
+          ],
+          [
+            "LSPD",
+            "0.3837",
+            "0.2154"
+          ],
+          [
+            "LSPDM",
+            "0.3779",
+            "0.2356"
+          ]
+        ],
+        "figures": [
+          "full-ablation"
+        ],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "How the earlier models informed redesign",
+          "zh": "早期模型如何促成方法修正"
+        },
+        "paragraphs": [
+          {
+            "en": "These historical results use different representative models and feature versions. They are retained as method-development evidence and must not be combined into one model’s performance. For the matched historical HGB comparison, ΔR² ≈ 0.0175 had an interval of −0.0015 to 0.0419. Bootstrap intervals use fixed out-of-fold predictions; they omit retraining and model-selection uncertainty.",
+            "zh": "下列歷史結果使用不同代表模型與特徵版本，保留作為方法演進證據，不能合併成同一模型的成績。歷史同一 HGB 比較的 ΔR² 約 0.0175，區間為 −0.0015 至 0.0419。Bootstrap 使用固定折外預測，未包含重新訓練與模型選擇的不確定度。"
+          }
+        ],
+        "headers": [
+          {
+            "en": "Evaluation / model",
+            "zh": "評估／模型"
+          },
+          "R²",
+          "Spearman ρ"
+        ],
+        "rows": [
+          [
+            "Random-pair / stacked tree",
+            "0.569",
+            "0.739"
+          ],
+          [
+            "Chemical-cluster-cold / global blend",
+            "0.420",
+            "0.659"
+          ],
+          [
+            {
+              "en": "Receptor-cold / original HGB",
+              "zh": "Receptor-cold／原始 HGB"
+            },
+            "0.229",
+            "0.463"
+          ],
+          [
+            {
+              "en": "Receptor-cold / HGB with multiple poses",
+              "zh": "Receptor-cold／加入多姿態 HGB"
+            },
+            "0.246",
+            "0.472"
+          ]
+        ],
+        "figures": [],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "Docking features did not transfer uniformly",
+          "zh": "Docking 特徵並未一致改善泛化"
+        },
+        "paragraphs": [
+          {
+            "en": "In an earlier ExtraTrees analysis on 2,616 pairs, adding Vina/contact features raised chemical-cluster-cold R² from 0.066 to 0.220, while receptor-cold R² fell from 0.117 to 0.006. An eight-receptor pocket-redocking study and a small restrained implicit-solvent OpenMM study also failed to establish a stable unseen-receptor improvement. These results motivated better pocket placement, pose checks and membrane-based conformational sampling.",
+            "zh": "早期 2,616 組 ExtraTrees 分析中，加入 Vina／接觸特徵使 chemical-cluster-cold R² 從 0.066 升至 0.220，但 receptor-cold 從 0.117 降至 0.006。八受體口袋重對接及小型受限制隱式溶劑 OpenMM 研究，也未建立穩定的未見受體增益。因此後續工作轉向改善口袋定位、姿態核對與膜環境構型取樣。"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [],
+        "downloads": []
+      }
+    ]
+  },
+  {
+    "id": "molecular-features",
+    "mount": "after-cycle-1",
+    "title": {
+      "en": "Can richer odorant features improve sequence-based prediction?",
+      "zh": "更完整的氣味特徵，能否改善序列反應預測？"
+    },
+    "blocks": [
+      {
+        "title": {
+          "en": "Purpose · connect both sides of a receptor–odorant pair",
+          "zh": "目的｜同時描述受體與氣味分子"
+        },
+        "paragraphs": [
+          {
+            "en": "A receptor sequence describes the protein, while molecular weight, spectra and learned chemical features describe the odorant. They can enter the same response predictor before docking or MD. Our baseline already combines 540 sequence descriptors, 320 ESM2 features, 12 physicochemical descriptors including molecular weight, and a 2,048-bit Morgan fingerprint: 2,920 inputs in total. A Morgan fingerprint encodes local molecular connectivity; it is not a 3D structure. [1, 12]",
+            "zh": "受體序列描述蛋白，分子量、頻譜與 AI 化學特徵描述氣味分子；兩者可以在 docking 或 MD 之前，一起輸入反應模型。原基準已包含 540 維序列描述、320 維 ESM2 特徵、12 個理化特徵（含分子量）及 2,048 維 Morgan 指紋，共 2,920 維。Morgan 指紋編碼局部化學連接關係，並非三維結構。[1, 12]"
+          },
+          {
+            "en": "We asked three successive questions: does measured IR add information; do complete harmonic modes and EVA recover information outside that IR window; and can a pretrained odor-perception model supply a useful molecular representation? These are completed prediction experiments, separate from the OR10 entry/exit simulations.",
+            "zh": "依序測試三個問題：實測 IR 是否增加資訊；完整諧振模式與 EVA 能否補足 IR 視窗外的資訊；預訓練嗅覺 AI 能否提供有用的分子表示。這些反應預測比較已完成，與 OR10 分子進出模擬分開評估。"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "Method · compare the same eligible pairs within each experiment",
+          "zh": "方法｜每項實驗都比較同一批可用配對"
+        },
+        "paragraphs": [
+          {
+            "en": "HGB and ExtraTrees are two tree-based regression methods. We kept their settings fixed and used the existing five-fold chemical-group and receptor holdouts. Chemical-group holdout tests responses to excluded chemical groups; receptor holdout tests excluded receptors with known odors. Neither is a simultaneous unseen-receptor-and-odor test. Random features of matched dimensionality provide a control.",
+            "zh": "HGB（梯度提升樹）與 ExtraTrees（極端隨機樹）是兩種樹狀回歸方法。本輪固定模型設定，沿用五折化學類群留出與受體留出。前者測試未見化學類群的反應，後者測試未見受體對已知氣味的反應；尚未同時留出新受體與新氣味。另加入相同維度的隨機特徵作對照。"
+          },
+          {
+            "en": "Each eligible subset gets its own retrained baseline. Scores from the 82-, 85-, 67- and 109-odorant subsets are not directly interchangeable. R² measures prediction error relative to a constant-mean reference; it is not a correlation coefficient or a percentage accuracy. Spearman ρ measures ranking, and MAE measures absolute response error in spikes/s.",
+            "zh": "每個可用子集都重新訓練自己的基準；82、85、67、109 種氣味的絕對分數不能直接比較增減。R² 衡量相對常數平均值基準的預測誤差，不是相關係數或百分比準確率。Spearman ρ 衡量排序，MAE 則是以 spikes/s 表示的平均絕對反應誤差。"
+          }
+        ],
+        "headers": [
+          {
+            "en": "Experiment",
+            "zh": "實驗"
+          },
+          {
+            "en": "Odorants",
+            "zh": "氣味數"
+          },
+          {
+            "en": "Response pairs",
+            "zh": "反應配對"
+          },
+          {
+            "en": "Chemical groups",
+            "zh": "化學類群"
+          }
+        ],
+        "rows": [
+          [
+            {
+              "en": "Measured IR / size ablation",
+              "zh": "實測 IR／尺寸消融"
+            },
+            "82",
+            "1,968",
+            "53"
+          ],
+          [
+            {
+              "en": "Quantum modes",
+              "zh": "量子振動模式"
+            },
+            "85",
+            "2,040",
+            "56"
+          ],
+          [
+            {
+              "en": "Measured–computed overlap",
+              "zh": "實測／計算共同子集"
+            },
+            "67",
+            "1,608",
+            "45"
+          ],
+          [
+            "OpenPOM",
+            "109",
+            "2,616",
+            "69"
+          ]
+        ],
+        "figures": [],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "Interpretation · exploratory comparisons with grouped uncertainty",
+          "zh": "解讀｜以分組不確定區間評估探索性結果"
+        },
+        "paragraphs": [
+          {
+            "en": "Paired 95% intervals resample chemical groups or receptors using fixed out-of-fold predictions. They account for those grouped observations, but omit retraining, model-selection and assay uncertainty. A zero-crossing interval does not establish a reliable gain. These data and splits have been used in earlier work; this is exploratory evaluation, with no multiplicity adjustment for secondary comparisons.",
+            "zh": "配對 95% 區間以固定折外預測，依化學類群或受體重抽樣，考慮同組觀測的關聯；未涵蓋重新訓練、選模與實驗量測的不確定度。區間跨零代表尚未建立可靠增益。這些資料與切分已用於先前研究，因此屬探索性評估；次要比較未做多重比較校正。"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [],
+        "downloads": []
+      }
+    ]
+  },
+  {
+    "id": "measured-ir",
+    "mount": "after-cycle-1",
+    "title": {
+      "en": "Experiment A · molecular weight and measured IR",
+      "zh": "實驗 A｜分子量與實測 IR"
+    },
+    "blocks": [
+      {
+        "title": {
+          "en": "Purpose · test added information, not a vibration mechanism",
+          "zh": "目的｜檢查額外資訊，並非直接驗證振動機制"
+        },
+        "paragraphs": [
+          {
+            "en": "Prior work relates receptor responses to molecular volume and uses physicochemical properties to predict odor perception. Molecular weight and volume are related but distinct quantities. We therefore tested removing weight alone and removing a size-related group, alongside adding measured infrared absorption spectra. [34, 35]",
+            "zh": "過去研究分析分子體積與受體反應的關係，也使用理化特徵預測嗅覺感受；分子量與體積相關，但不是同一物理量。因此本輪分別移除分子量、移除尺寸相關特徵組，並測試加入實測紅外線吸收頻譜。[34, 35]"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "Method · 82 matched gas-phase spectra",
+          "zh": "方法｜82 種身分相符的氣相頻譜"
+        },
+        "paragraphs": [
+          {
+            "en": "Of 110 odorants, 82 passed full chemical-identifier, gas-phase source and spectral-coverage checks in the NIST Chemistry WebBook. Missing spectra were excluded from all compared models, not zero-filled. We subtracted the first-percentile background, clipped negative absorbance, normalized total area over 650–3,800 cm⁻¹ and integrated 63 bands of 50 cm⁻¹. The 4 cm⁻¹ source sampling interval is not an instrument-resolution claim. [27]",
+            "zh": "110 種氣味中，82 種通過 NIST Chemistry WebBook 的完整化學識別碼、氣相來源與波數範圍核對。缺譜氣味從所有比較版本排除，沒有補零。以第一百分位扣除背景、裁切負吸光度，再對 650–3,800 cm⁻¹ 總面積標準化，積分成 63 個各 50 cm⁻¹ 的頻段。來源的 4 cm⁻¹ 取樣間隔不等於儀器解析度。[27]"
+          },
+          {
+            "en": "All six variants retain the same receptor sequence features. “Sequence + IR only” replaces the entire chemical block with IR. The size group is molecular weight, heavy-atom count and molar refractivity (a property related to polarizability and size). These removals test incremental predictive value in this model, not a causal biological effect.",
+            "zh": "六個版本保留相同的受體序列特徵。「僅序列＋IR」以 IR 取代全部化學特徵。尺寸特徵組包含分子量、重原子數及摩爾折射率（與極化性及尺寸相關的性質）。移除特徵是在測試對目前模型的額外預測價值，不能解讀成生物因果作用。"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [
+          "ir-spectra"
+        ],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "Results · measured IR did not improve new-chemical prediction",
+          "zh": "結果｜實測 IR 未改善新化學類群預測"
+        },
+        "paragraphs": [
+          {
+            "en": "On unseen chemical groups, adding IR changed HGB R² from 0.3930 to 0.3278 (Δ −0.0653; 95% interval −0.1127 to −0.0078) and ExtraTrees from 0.3746 to 0.3458 (Δ −0.0288; −0.0564 to −0.0003). Receptor-holdout point gains were small: +0.0028 and +0.0102, with both intervals crossing zero.",
+            "zh": "未見化學類群中，加入 IR 後 HGB R² 從 0.3930 降至 0.3278（Δ −0.0653；95% 區間 −0.1127 至 −0.0078），ExtraTrees 從 0.3746 降至 0.3458（Δ −0.0288；−0.0564 至 −0.0003）。受體留出的點估計增益僅 +0.0028 與 +0.0102，兩個區間均跨零。"
+          },
+          {
+            "en": "Weight alone had model-dependent effects: retaining it changed chemical-holdout R² by −0.0121 in HGB but +0.0188 in ExtraTrees. Retaining the full size group improved point scores in both models (+0.0292 / +0.0751), although the HGB interval crossed zero. Weight was already available to the early response model; adding it is not an untested missing step.",
+            "zh": "分子量單獨的效果依模型而變：保留它使化學類群留出的 HGB R² 改變 −0.0121、ExtraTrees 改變 +0.0188。保留整組尺寸特徵則讓兩模型的點估計上升（+0.0292／+0.0751），但 HGB 區間跨零。分子量本來就能進入前段反應模型，並不是尚未放入的缺失資訊。"
+          },
+          {
+            "en": "The table reports R². The next experiment expands beyond the measured window using complete harmonic mode sets. A failed IR feature test does not disprove vibrational sensing.",
+            "zh": "下表列出 R²。下一步以完整諧振模式擴展實測視窗外的資訊；IR 特徵未改善預測，不能據此否定振動感測機制。"
+          }
+        ],
+        "headers": [
+          {
+            "en": "Inputs",
+            "zh": "輸入特徵"
+          },
+          {
+            "en": "Chemical · HGB",
+            "zh": "化學類群 · HGB"
+          },
+          {
+            "en": "Chemical · ExtraTrees",
+            "zh": "化學類群 · ExtraTrees"
+          },
+          {
+            "en": "Receptor · HGB",
+            "zh": "受體 · HGB"
+          },
+          {
+            "en": "Receptor · ExtraTrees",
+            "zh": "受體 · ExtraTrees"
+          }
+        ],
+        "rows": [
+          [
+            {
+              "en": "Baseline",
+              "zh": "原模型"
+            },
+            "0.3930",
+            "0.3746",
+            "0.2080",
+            "0.1000"
+          ],
+          [
+            {
+              "en": "+ IR 63",
+              "zh": "＋IR 63 維"
+            },
+            "0.3278",
+            "0.3458",
+            "0.2108",
+            "0.1103"
+          ],
+          [
+            {
+              "en": "Sequence + IR only",
+              "zh": "僅序列＋IR"
+            },
+            "0.2135",
+            "0.3209",
+            "0.1679",
+            "0.1103"
+          ],
+          [
+            {
+              "en": "Remove weight",
+              "zh": "移除分子量"
+            },
+            "0.4052",
+            "0.3557",
+            "0.1792",
+            "0.1096"
+          ],
+          [
+            {
+              "en": "Remove size group",
+              "zh": "移除尺寸特徵組"
+            },
+            "0.3638",
+            "0.2995",
+            "0.2053",
+            "0.0949"
+          ],
+          [
+            {
+              "en": "+ Random 63",
+              "zh": "＋隨機 63 維"
+            },
+            "0.3194",
+            "0.3241",
+            "0.2132",
+            "0.1078"
+          ]
+        ],
+        "figures": [
+          "ir-comparison"
+        ],
+        "downloads": [
+          "molecular-features/ir/metrics.csv",
+          "molecular-features/ir/paired_uncertainty.csv",
+          "molecular-features/ir/coverage.csv"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "quantum-vibrations",
+    "mount": "after-cycle-1",
+    "title": {
+      "en": "Experiment B · complete harmonic modes, EVA and computed IR",
+      "zh": "實驗 B｜完整諧振模式、EVA 與計算 IR"
+    },
+    "blocks": [
+      {
+        "title": {
+          "en": "Purpose and acquisition · recover modes missed by the IR window",
+          "zh": "目的與取得｜補足 IR 視窗外的振動模式"
+        },
+        "paragraphs": [
+          {
+            "en": "We reused published Gaussian quantum-chemistry outputs from Harada et al., a 2025 preprint, rather than claiming new quantum calculations. The method was gas-phase B3LYP/6-31G(d), a density-functional theory approximation and basis set. After checking calculation completion, mode counts, molecular connectivity and specified stereochemistry, 85 odorants were accepted: 4,767 harmonic modes, including 1,082 below 650 cm⁻¹. [29]",
+            "zh": "本研究取得 Harada 等人的公開 Gaussian 量子化學輸出；來源為 2025 年預印本，不是本團隊重新完成的量子計算。來源使用氣相 B3LYP/6-31G(d)（密度泛函理論近似與基底組）。核對計算完成、模式數、化學連接及已指定的立體化學後，納入 85 種氣味、4,767 個諧振模式，其中 1,082 個低於 650 cm⁻¹。[29]"
+          },
+          {
+            "en": "Each molecule provides one source conformer’s complete harmonic normal modes: coordinated atom-displacement patterns near an optimized geometry, with frequencies, IR intensities, reduced masses and force constants. This does not cover all conformers, anharmonic motion, receptor-bound vibrations or full quantum dynamics. Twenty-two odorants lacked exact-match source files; two had imaginary frequencies; trans-caryophyllene required stereochemical review and was excluded.",
+            "zh": "每個分子提供一個來源構型的完整諧振正常模式：最佳化幾何附近的協同原子位移模式，以及頻率、IR 強度、約化質量與力常數。這不等於所有構型、非諧振運動、受體內振動或完整量子動力學。22 種氣味缺少完全相符的來源檔；2 種有虛頻；trans-caryophyllene 的立體化學仍需複核，均未納入。"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "Method · encode the same modes in two ways",
+          "zh": "方法｜將相同振動模式編成兩種特徵"
+        },
+        "paragraphs": [
+          {
+            "en": "EVA gives every mode equal weight, smooths its frequency with a Gaussian of σ = 10 cm⁻¹, and samples 1–3,996 cm⁻¹ every 5 cm⁻¹ to form 800 features. Computed IR uses the same modes and grid but weights each mode by its calculated IR intensity. Neither applies area normalization or frequency scaling. This classical EVA formulation is not a reproduction of the 27-dimensional EVA used by Gabler et al. [28, 30]",
+            "zh": "EVA 讓各模式等權重，以 σ＝10 cm⁻¹ 的 Gaussian 平滑頻率，再於 1–3,996 cm⁻¹ 每 5 cm⁻¹ 取樣，得到 800 維特徵。計算 IR 使用相同模式與網格，但依計算出的 IR 強度加權；兩者皆未做面積標準化或頻率縮放。此經典 EVA 編碼不是 Gabler 等人所用 27 維 EVA 的重現。[28, 30]"
+          },
+          {
+            "en": "Alongside full 800-feature inputs, we tested PCA compression to 16 components and random 800/16-feature controls. PCA was fitted only on distinct training odors within each fold. Its variance retention is not evidence that response information was retained.",
+            "zh": "除完整 800 維外，也測試 PCA（主成分分析）降至 16 維及隨機 800／16 維對照。PCA 只在每折的不同訓練氣味上擬合；保留頻譜變異，不代表一定保留反應資訊。"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [
+          "quantum-encoding"
+        ],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "Results · full and compressed features, 85 odorants",
+          "zh": "結果｜85 種氣味的完整與降維特徵比較"
+        },
+        "paragraphs": [
+          {
+            "en": "The prespecified primary comparison was HGB with added EVA under chemical-group holdout: R² 0.3810 → 0.3421, Δ −0.0389 (95% interval −0.0800 to +0.0022). The point estimate fell, but this interval crosses zero; it supports neither a reliable gain nor a confirmed decline. ExtraTrees also fell, from 0.4225 to 0.3772. Compressed features came closer to the baseline without exceeding its chemical-holdout point score.",
+            "zh": "事先指定的主要比較為 HGB 加入 EVA 的化學類群留出：R² 0.3810 → 0.3421，Δ −0.0389（95% 區間 −0.0800 至 +0.0022）。點估計下降，但區間跨零，既不能聲稱可靠增益，也不能確認下降。ExtraTrees 亦由 0.4225 降至 0.3772。降維版本較接近基準，仍未超過其化學類群留出點估計。"
+          },
+          {
+            "en": "For unseen receptors, HGB rose slightly with full EVA or computed IR, but both intervals crossed zero and random features showed similar point gains. Thus no stable improvement across models and holdouts was established. All table values are R².",
+            "zh": "未見受體中，HGB 加完整 EVA 或計算 IR 有小幅上升，但區間均跨零，隨機特徵也呈現類似點估計增益。因此尚未建立跨模型、跨留出方式的穩定改善；下表均為 R²。"
+          }
+        ],
+        "headers": [
+          {
+            "en": "Inputs",
+            "zh": "輸入特徵"
+          },
+          {
+            "en": "Chemical · HGB",
+            "zh": "化學類群 · HGB"
+          },
+          {
+            "en": "Chemical · ExtraTrees",
+            "zh": "化學類群 · ExtraTrees"
+          },
+          {
+            "en": "Receptor · HGB",
+            "zh": "受體 · HGB"
+          },
+          {
+            "en": "Receptor · ExtraTrees",
+            "zh": "受體 · ExtraTrees"
+          }
+        ],
+        "rows": [
+          [
+            {
+              "en": "Baseline",
+              "zh": "原模型"
+            },
+            "0.3810",
+            "0.4225",
+            "0.2217",
+            "0.1435"
+          ],
+          [
+            "＋EVA 800",
+            "0.3421",
+            "0.3772",
+            "0.2315",
+            "0.1175"
+          ],
+          [
+            {
+              "en": "+ Computed IR 800",
+              "zh": "＋計算 IR 800"
+            },
+            "0.3177",
+            "0.3755",
+            "0.2372",
+            "0.1014"
+          ],
+          [
+            "＋EVA PCA 16",
+            "0.3683",
+            "0.4186",
+            "0.2186",
+            "0.1320"
+          ],
+          [
+            {
+              "en": "+ Computed IR PCA 16",
+              "zh": "＋計算 IR PCA 16"
+            },
+            "0.3635",
+            "0.4164",
+            "0.2298",
+            "0.1272"
+          ],
+          [
+            {
+              "en": "+ Random 800",
+              "zh": "＋隨機 800"
+            },
+            "0.2265",
+            "0.2812",
+            "0.2338",
+            "0.1037"
+          ],
+          [
+            {
+              "en": "+ Random 16",
+              "zh": "＋隨機 16"
+            },
+            "0.3241",
+            "0.3987",
+            "0.2323",
+            "0.1287"
+          ]
+        ],
+        "figures": [
+          "quantum-comparison"
+        ],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "Matched comparison · 67 odorants with both data sources",
+          "zh": "共同子集｜67 種同時有兩類來源的氣味"
+        },
+        "paragraphs": [
+          {
+            "en": "The measured-IR and quantum datasets overlap for 67 odorants. We retrained all baselines on these same 1,608 pairs. None of the spectral additions exceeded the chemical-holdout baseline in either model. Measured IR uses a different range, dimension and normalization, so this is not an isolated test of experimental versus quantum spectral accuracy.",
+            "zh": "實測 IR 與量子資料共有 67 種氣味；全部基準在同一批 1,608 組配對重新訓練。兩模型的化學類群留出中，各種頻譜均未超過基準。實測 IR 的範圍、維度及標準化方式不同，不能將差異單獨歸因於實測或量子計算的頻譜準確度。"
+          }
+        ],
+        "headers": [
+          {
+            "en": "Inputs",
+            "zh": "輸入特徵"
+          },
+          {
+            "en": "Chemical · HGB",
+            "zh": "化學類群 · HGB"
+          },
+          {
+            "en": "Chemical · ExtraTrees",
+            "zh": "化學類群 · ExtraTrees"
+          },
+          {
+            "en": "Receptor · HGB",
+            "zh": "受體 · HGB"
+          },
+          {
+            "en": "Receptor · ExtraTrees",
+            "zh": "受體 · ExtraTrees"
+          }
+        ],
+        "rows": [
+          [
+            {
+              "en": "Baseline",
+              "zh": "原模型"
+            },
+            "0.3744",
+            "0.4003",
+            "0.2075",
+            "0.1094"
+          ],
+          [
+            "＋EVA 800",
+            "0.2847",
+            "0.3488",
+            "0.2076",
+            "0.0910"
+          ],
+          [
+            {
+              "en": "+ Computed IR 800",
+              "zh": "＋計算 IR 800"
+            },
+            "0.2391",
+            "0.3643",
+            "0.2047",
+            "0.0968"
+          ],
+          [
+            {
+              "en": "+ Measured IR 63",
+              "zh": "＋實測 IR 63"
+            },
+            "0.3360",
+            "0.3809",
+            "0.2127",
+            "0.1121"
+          ]
+        ],
+        "figures": [
+          "quantum-common"
+        ],
+        "downloads": [
+          "molecular-features/quantum/metrics.csv",
+          "molecular-features/quantum/paired_uncertainty.csv",
+          "molecular-features/quantum/audited_coverage.csv",
+          "molecular-features/quantum/normal_modes.csv"
+        ]
+      },
+      {
+        "title": {
+          "en": "What this says about vibrational theories",
+          "zh": "這對振動嗅覺假說代表什麼"
+        },
+        "paragraphs": [
+          {
+            "en": "Vibrational explanations of smell remain disputed: isotope-related fly behavior has supported further investigation, while receptor experiments and an OR51E2/propionate computational study provide counterevidence in their tested systems. Predictive usefulness of a spectrum would not by itself demonstrate electron tunneling, and our negative feature results do not exclude every vibrational mechanism. Classical MD here does not simulate electron tunneling. [36, 37, 38]",
+            "zh": "振動嗅覺解釋仍有爭議：果蠅同位素行為研究提供繼續研究的依據；受體實驗及 OR51E2／丙酸計算研究，則在各自系統中提出反證。頻譜具有預測力也不直接證明電子穿隧，本輪特徵未改善也不能排除所有振動機制。目前的古典 MD 並未模擬電子穿隧。[36, 37, 38]"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [],
+        "downloads": []
+      }
+    ]
+  },
+  {
+    "id": "ai-odor-features",
+    "mount": "after-cycle-1",
+    "title": {
+      "en": "Experiment C · transfer frozen OpenPOM molecular features",
+      "zh": "實驗 C｜轉用固定 OpenPOM 分子特徵"
+    },
+    "blocks": [
+      {
+        "title": {
+          "en": "Purpose · from human odor perception to insect receptor responses",
+          "zh": "目的｜從人類嗅覺表示，轉用到昆蟲受體反應"
+        },
+        "paragraphs": [
+          {
+            "en": "The Principal Odor Map learns molecular representations from human odor descriptions. OpenPOM is an open-source reproduction, not the original POM model weights. We tested whether its learned chemical representation helps a sequence–odorant response predictor; a “floral” or “mushroom” label cannot replace a measured insect-receptor response. [31, 32]",
+            "zh": "Principal Odor Map 從人類氣味描述學習分子表示；OpenPOM 是開源重現版，並非原始 POM 模型權重。我們測試其化學表示能否幫助「序列＋氣味」反應模型；AI 的「花香」或「蘑菇味」標籤，不能取代昆蟲受體的實測反應。[31, 32]"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "Method · fixed 256-dimensional features, retained molecular weight",
+          "zh": "方法｜固定 256 維表示，持續保留分子量"
+        },
+        "paragraphs": [
+          {
+            "en": "We extracted the official 256-dimensional penultimate linear representation from a prespecified public checkpoint in inference mode, without response-label fine-tuning. A second fixed checkpoint was tested separately as a sensitivity comparison. The variants either add POM to the baseline (3,176 total features) or replace only the Morgan fingerprint (1,128 total); all retain physicochemical descriptors including weight and both sequence blocks.",
+            "zh": "以預先指定的公開權重，在推論模式擷取官方 256 維倒數第二層線性表示，未以反應標籤微調。另一組固定權重分開作敏感度比較。兩種做法為在原模型額外加入 POM（共 3,176 維），或只替換 Morgan 指紋（共 1,128 維）；皆保留分子量等理化描述及兩組序列特徵。"
+          },
+          {
+            "en": "All variants use 109 odorants × 24 receptors. Ammonium hydroxide was excluded because its two isolated ions have no covalent bonds for this graph-model workflow; it was not replaced with ammonia. The upstream model does not encode stereochemistry: 109 odorants map to 106 distinct graphs, including three indistinguishable stereoisomer pairs. Identical graphs receive identical features.",
+            "zh": "所有版本使用 109 種氣味 × 24 個受體。氫氧化銨因為是兩個沒有共價鍵的獨立離子，不適用本輪圖模型流程而排除，沒有改成氨。上游模型不編碼立體化學：109 種氣味對應 106 個不同分子圖，其中三組異構物無法區分；相同圖使用相同特徵。"
+          },
+          {
+            "en": "A provenance audit found 108 of 109 non-stereochemical structures in the public 4,983-molecule candidate pretraining pool. Exact checkpoint training/test membership is unavailable. Chemical-group holdout therefore means unseen downstream Hallem responses, not a guarantee that the entire AI system has never encountered those molecular structures or human odor labels.",
+            "zh": "來源查核發現，109 種非立體化學結構中，有 108 種出現在公開的 4,983 分子候選預訓練集合；精確權重的訓練／測試歸屬未提供。因此化學類群留出代表下游未見該組 Hallem 反應，不能保證整個 AI 系統從未看過相關結構或人類氣味標籤。"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "Results · the direction depends on the response model",
+          "zh": "結果｜改善方向取決於下游反應模型"
+        },
+        "paragraphs": [
+          {
+            "en": "The prespecified primary comparison, HGB plus POM on unseen response chemical groups, changed R² from 0.3892 to 0.3232: Δ −0.0661 (95% interval −0.1327 to +0.0189). ExtraTrees instead rose from 0.3572 to 0.3967: Δ +0.0395 (−0.0490 to +0.1334). Replacing the fingerprint and using the second checkpoint showed the same model-dependent direction; every POM R²-difference interval crossed zero.",
+            "zh": "事先指定的主要比較是 HGB 加入 POM、預測未見反應資料的化學類群：R² 從 0.3892 降至 0.3232，Δ −0.0661（95% 區間 −0.1327 至 +0.0189）。ExtraTrees 則從 0.3572 升至 0.3967，Δ +0.0395（−0.0490 至 +0.1334）。替換指紋及使用另一組權重，也呈現相同的模型間方向差異；所有 POM 的 R² 差值區間均跨零。"
+          },
+          {
+            "en": "ExtraTrees’ chemical-holdout R² gain did not improve ranking or absolute error: Spearman ρ changed 0.6465 → 0.6459 and MAE 25.2021 → 25.6071 spikes/s. On unseen receptors, adding POM gave small R² increases (HGB 0.2108 → 0.2332; ExtraTrees 0.1210 → 0.1321), but random features achieved 0.2312 / 0.1323. These results do not establish a POM-specific, stable gain. Table values are R².",
+            "zh": "ExtraTrees 的化學類群留出 R² 上升，並未同時改善排序或絕對誤差：Spearman ρ 為 0.6465 → 0.6459，MAE 為 25.2021 → 25.6071 spikes/s。未見受體中，加入 POM 的 R² 小幅增加（HGB 0.2108 → 0.2332；ExtraTrees 0.1210 → 0.1321），但隨機特徵也達 0.2312／0.1323。尚不能建立 POM 特有且穩定的增益；下表列出 R²。"
+          }
+        ],
+        "headers": [
+          {
+            "en": "Inputs",
+            "zh": "輸入特徵"
+          },
+          {
+            "en": "Chemical · HGB",
+            "zh": "化學類群 · HGB"
+          },
+          {
+            "en": "Chemical · ExtraTrees",
+            "zh": "化學類群 · ExtraTrees"
+          },
+          {
+            "en": "Receptor · HGB",
+            "zh": "受體 · HGB"
+          },
+          {
+            "en": "Receptor · ExtraTrees",
+            "zh": "受體 · ExtraTrees"
+          }
+        ],
+        "rows": [
+          [
+            {
+              "en": "Baseline",
+              "zh": "原模型"
+            },
+            "0.3892",
+            "0.3572",
+            "0.2108",
+            "0.1210"
+          ],
+          [
+            {
+              "en": "POM replaces fingerprint",
+              "zh": "POM 替換指紋"
+            },
+            "0.3251",
+            "0.4004",
+            "0.2267",
+            "0.1320"
+          ],
+          [
+            {
+              "en": "+ POM",
+              "zh": "＋POM"
+            },
+            "0.3232",
+            "0.3967",
+            "0.2332",
+            "0.1321"
+          ],
+          [
+            {
+              "en": "+ Random 256",
+              "zh": "＋隨機 256"
+            },
+            "0.2821",
+            "0.2727",
+            "0.2312",
+            "0.1323"
+          ],
+          [
+            {
+              "en": "Replace: second weights",
+              "zh": "替換：另一組權重"
+            },
+            "0.3515",
+            "0.4075",
+            "0.2057",
+            "0.1256"
+          ],
+          [
+            {
+              "en": "Add: second weights",
+              "zh": "加入：另一組權重"
+            },
+            "0.3565",
+            "0.4103",
+            "0.2185",
+            "0.1351"
+          ]
+        ],
+        "figures": [
+          "pom-comparison",
+          "pom-predictions"
+        ],
+        "downloads": [
+          "molecular-features/pom/metrics.csv",
+          "molecular-features/pom/paired_uncertainty.csv",
+          "molecular-features/pom/coverage.csv"
+        ]
+      },
+      {
+        "title": {
+          "en": "Learning and redesign · retain the baseline; validate adaptation next",
+          "zh": "學習與再設計｜保留基準，再檢驗任務微調"
+        },
+        "paragraphs": [
+          {
+            "en": "The project now has verified measured spectra, harmonic-mode descriptors and reproducible frozen AI features. None has yet established a stable general improvement over the matched baseline. POM with ExtraTrees remains a candidate for independent validation, not a validated replacement. These feature tests do not validate mutation effects, cross-species transfer, affinity, EC50 or detection limits.",
+            "zh": "目前已建立可核對的實測頻譜、諧振模式描述與可重現的固定 AI 特徵，但尚未有一項建立相對基準的穩定全面改善。POM＋ExtraTrees 保留為獨立驗證候選，尚未成為已驗證的替代方案；本輪也沒有驗證突變效果、跨物種轉移、親和力、EC50 或偵測極限。"
+          },
+          {
+            "en": "LORAX studies low-rank task adaptation of chemical foundation models and motivates the next comparison, but we have not run it. Because its published work also uses Hallem data, future adaptation and model selection must occur within our training folds, followed by independent validation; weights exposed to held-out responses cannot provide an uncontaminated test. Additional 3D size descriptors and unresolved quantum structures are also future work. [33]",
+            "zh": "LORAX 研究化學基礎模型的低秩任務微調，提供下一輪比較的依據，但本專案尚未執行。其文獻也使用 Hallem 資料，因此後續微調與選模須限於我們的訓練折內，再做獨立驗證；看過測試反應的權重不能提供無洩漏的測試。新增三維尺寸描述，以及未通過核對的量子構型，也仍屬後續工作。[33]"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [
+          "feature-gains"
+        ],
+        "downloads": [
+          "molecular-features/benchmark-data.zip",
+          "molecular-features/provenance.json"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mutation-design",
+    "mount": "cycle-2",
+    "title": {
+      "en": "Mutation design and the odor panel",
+      "zh": "突變設計與氣味組合"
+    },
+    "blocks": [
+      {
+        "title": {
+          "en": "Priority receptors and improved mutants are separate decisions",
+          "zh": "優先受體與突變增益，是兩個不同的判斷"
+        },
+        "paragraphs": [
+          {
+            "en": "Our comparison of published responses found higher mean responses to the selected mold-related panel than to the control panel for unmodified Or22a and Or35a. This supports prioritizing these receptors for functional testing; their selection does not depend on a proposed mutation succeeding. The selected-panel comparison does not establish mold specificity or a detection limit. [1]",
+            "zh": "我們比較公開反應資料後發現，未加入設計突變的 Or22a、Or35a，對選定霉味相關組的平均反應高於對照組，因此列為優先功能實驗候選。選擇這兩個受體，不需要先假定某個突變有效；這項組合比較也尚未證明霉菌專一性或偵測極限。[1]"
+          },
+          {
+            "en": "Mutation screening asks a further question: does changing an amino acid improve preference relative to the original receptor? F34Y and E196Q showed small favorable shifts in the initial screen, but subsequent checks found that the direction and ranking depended on the calculation setup. Thus receptor candidates have been identified, while the proposed mutation benefits remain uncertain even before wet-lab validation.",
+            "zh": "突變篩選回答的是下一個問題：改變胺基酸後，是否比原有受體更偏好目標氣味？F34Y、E196Q 初篩曾有小幅正向位移，但後續檢查發現，方向與排名依計算設定而變。因此，我們已有受體候選，而突變帶來的增益在計算階段仍有不確定性，並非僅缺 wet lab 驗證。"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "Computational constructs",
+          "zh": "計算建構"
+        },
+        "paragraphs": [
+          {
+            "en": "We proposed 35 single-residue substitutions across Or35a, Or22a, Or85b, Or98a and Or67a and checked the original amino acid at every position. The first structural screen used 12 substitutions plus Or22a/Or35a wild types, giving 14 ColabFold models. These are sequence and structure designs; they do not represent completed cloning or functional expression.",
+            "zh": "對 Or35a、Or22a、Or85b、Or98a、Or67a 提出 35 個單點突變，並核對每個位置的原始胺基酸。首輪結構篩選包含 12 個突變與 Or22a／Or35a 野生型，共 14 個 ColabFold 模型。這些是序列與結構設計，不代表已完成 cloning 或功能表達。"
+          },
+          {
+            "en": "Mean pLDDT was about 91.6–92.2 for Or22a and 84.0–86.0 for Or35a. Local Cα RMSD within five residues on each side of the substitution was about 0.06–0.25 Å. Similar predicted backbones do not establish protein stability or receptor function.",
+            "zh": "Or22a 平均 pLDDT 約 91.6–92.2，Or35a 約 84.0–86.0；突變前後各五個殘基的局部 Cα RMSD 約 0.06–0.25 Å。預測骨架相近，不能證明蛋白穩定性或受體功能。"
+          }
+        ],
+        "headers": [
+          {
+            "en": "Receptor",
+            "zh": "受體"
+          },
+          {
+            "en": "Substitutions in the first structural screen",
+            "zh": "首輪結構篩選突變"
+          }
+        ],
+        "rows": [
+          [
+            "Or22a",
+            "E196Q, E196A, E196K, S33A, S33T, F34A, F34Y"
+          ],
+          [
+            "Or35a",
+            "I87A, I87V, I87F, W305F, W305Y"
+          ]
+        ],
+        "figures": [],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "What “mold-related preference” means here",
+          "zh": "此處的「霉味相關偏好」如何定義"
+        },
+        "paragraphs": [
+          {
+            "en": "The 14 structures were docked against 16 odorants. ΔVina = score(mutant) − score(WT); panel-preference shift = mean(ΔVina_control) − mean(ΔVina_mold-related). A positive shift favors this selected panel in the score comparison. It is not a receptor activation, EC50 or detection-limit estimate.",
+            "zh": "14 個結構分別對接 16 種氣味。ΔVina＝score(mutant)−score(WT)；組合偏好位移＝mean(ΔVina_control)−mean(ΔVina_mold-related)。正值代表分數變化較偏向這個選定組合，不能換算成活化、EC50 或偵測極限。"
+          }
+        ],
+        "headers": [
+          {
+            "en": "Group",
+            "zh": "分組"
+          },
+          {
+            "en": "Odorants",
+            "zh": "氣味"
+          }
+        ],
+        "rows": [
+          [
+            {
+              "en": "Mold-related",
+              "zh": "霉味相關"
+            },
+            "1-octen-3-ol; 2-heptanone; 1-octanol; 1-butanol; 3-methylbutanol; 4-ethyl guaiacol; methyl octanoate; ethyl octanoate"
+          ],
+          [
+            {
+              "en": "Controls",
+              "zh": "對照"
+            },
+            "acetophenone; benzaldehyde; ethyl acetate; ethyl butyrate; geranyl acetate; linalool; linalool oxide; methyl acetate"
+          ]
+        ],
+        "figures": [],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "Why the first ranking was revised",
+          "zh": "為何修正首輪排名"
+        },
+        "paragraphs": [
+          {
+            "en": "Initial shifts were +0.0581 for F34Y and +0.0543 for E196Q. Later common-box means were −0.0234 and +0.0142, with search ranges crossing zero. Both mutations lacked direct side-chain contacts in the inspected original and recalculated poses. For 1-octen-3-ol, the historical closest side-chain distances were about 10.6 and 10.4 Å.",
+            "zh": "首輪 F34Y、E196Q 位移分別為 +0.0581、+0.0543；後續共同搜尋框平均為 −0.0234、+0.0142，搜尋範圍皆跨零。檢查的原始與重算姿態中，兩者皆缺少直接側鏈接觸；以 1-octen-3-ol 為例，歷史最近側鏈距離約 10.6、10.4 Å。"
+          },
+          {
+            "en": "The audit aligned mutant and WT Cα atoms, inspected all saved docking modes, and compared a common 26 Å cubic search box with a template-informed alternative center. The 8V02 footprint was transferred using US-align only as a heterologous spatial hypothesis: some original poses lay about 24 Å from that center. It is not an experimentally mapped Drosophila pocket.",
+            "zh": "驗證先對齊突變與 WT Cα、檢查全部保存的 docking 姿態，再比較共用 26 Å 立方搜尋框與模板引導的替代中心。8V02 footprint 以 US-align 轉移後僅作異源空間假說；部分原始姿態距該中心約 24 Å，這不是實驗確認的果蠅口袋。"
+          },
+          {
+            "en": "Leave-one-odorant-out and within-panel resampling also left F34Y/E196Q uncertainty spanning zero. Input preparation retained aromatic-bond perception warnings, and historical and revised docking settings were analyzed separately. F34Y loses priority as a selectivity candidate; E196Q remains a low-confidence comparison; I87V is useful as a contact-positive case with a negative relative preference. No first-round mutation is a validated positive winner.",
+            "zh": "逐一移除氣味及組內重抽樣後，F34Y／E196Q 的不確定範圍仍跨零。輸入準備保留芳香鍵辨識警告；歷史與修正版 docking 設定分開分析。F34Y 不再列為優先專一性候選；E196Q 保留作低信心比較；I87V 則是有接觸但相對偏好為負的比較案例。首輪尚無已驗證的正向勝出者。"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [],
+        "downloads": []
+      }
+    ]
+  },
+  {
+    "id": "cross-species",
+    "mount": "after-cycle-2",
+    "title": {
+      "en": "Cross-species exploration: can function transfer?",
+      "zh": "跨物種探索：功能資訊能否轉移？"
+    },
+    "blocks": [
+      {
+        "title": {
+          "en": "Design · distinguish response prediction from analogue matching",
+          "zh": "目的｜區分反應預測與功能相似受體搜尋"
+        },
+        "paragraphs": [
+          {
+            "en": "We tested whether fly-derived information can help prioritize mosquito receptors. Carey et al. provide 50 Anopheles gambiae receptors × 113 odorants, or 5,650 responses with SEM; 40 odorants overlap the fly panel. This Anopheles transfer study is separate from the Aedes OR10 molecular-dynamics reference system. [7]",
+            "zh": "我們測試果蠅資訊能否協助挑選蚊子受體。Carey 等人提供 50 個 Anopheles gambiae 受體 × 113 種氣味，共 5,650 組反應與 SEM，其中 40 種氣味與果蠅組合重疊。此 Anopheles 跨物種研究與 Aedes OR10 的 MD 參考系統是不同研究。[7]"
+          },
+          {
+            "en": "All 50 historical receptor names have candidate sequences: 46 grade A, two grade B and two grade C. Naming or duplicate-gene ambiguity affects AgOr12 and AgOr67. The main fragment analysis therefore uses 48 receptors with A/B evidence against 24 fly receptors, giving 1,152 receptor–receptor pairs. The initial direct-transfer baseline used all 50 mosquito receptors.",
+            "zh": "50 個歷史名稱皆找到候選序列：46 個 A 級、2 個 B 級、2 個 C 級。AgOr12、AgOr67 有命名或重複基因疑義，因此主要片段分析使用 A／B 級的 48 個受體，與 24 個果蠅受體比較，共 1,152 組受體–受體配對。最初直接轉移基準則使用全部 50 個蚊子受體。"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "Test 1 · transfer the fly-trained response model",
+          "zh": "測試一｜直接轉移果蠅反應模型"
+        },
+        "paragraphs": [
+          {
+            "en": "On the 2,000 mosquito receptor–odorant pairs sharing chemical identities with the fly benchmark, the ExtraTrees transfer baseline produced R² = −0.288 and Spearman ρ = −0.060. Negative R² means its squared prediction error exceeded the constant-mean reference on this evaluation set. This baseline does not support reliable species transfer.",
+            "zh": "在與果蠅基準具有相同化學身分的 2,000 組蚊子受體–氣味配對上，ExtraTrees 轉移基準得到 R²＝−0.288、Spearman ρ＝−0.060。負 R² 表示此評估集合的平方預測誤差大於固定平均值基準，尚不支持可靠的物種轉移。"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [
+          "cross-transfer"
+        ],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "Test 2 · match local sequence fragments",
+          "zh": "測試二｜比對局部序列片段"
+        },
+        "paragraphs": [
+          {
+            "en": "The alternative question is whether two receptors respond similarly across the shared 40-odorant panel. We compared full-length identity and ESM embeddings with local 21-, 31- and 41-amino-acid windows. Variants down-weight shared sequence framework and species signatures, subtract within-species embedding backgrounds, or require compatible relative position and hydropathy. These are sequence-based topology proxies, not a 3D pocket mapping.",
+            "zh": "另一問題是：兩個受體在共同 40 種氣味上的反應輪廓是否相似？我們比較全長 identity、ESM embedding 與 21、31、41 個胺基酸的局部片段。不同版本降低共同序列骨架與物種 signature 的權重、扣除物種內 embedding 背景，或要求相對位置及疏水性相容。這些是序列層級的拓撲代理，並非三維口袋對應。"
+          },
+          {
+            "en": "Reciprocal matching asks whether each fragment selects its partner as the best match in both directions. Activity labels were not used to learn fragment weights. However, methods were compared and selected on the same response matrix, so the selected result still requires receptor-held-out confirmation.",
+            "zh": "雙向配對檢查兩個片段是否互相選對方為最佳對象。反應標籤未參與片段權重學習；但方法是在同一反應矩陣上比較與選出，因此最佳結果仍需以受體留出方式確認。"
+          },
+          {
+            "en": "Full-length identity gave ρ = 0.017. The 31-aa mutual-best fraction reached ρ = 0.141 with a receptor-bootstrap interval of 0.035–0.250. The unadjusted block-permutation p was 0.033, but BH correction across the tested methods gave q = 0.259. The weak exploratory signal did not meet the corrected 0.05 threshold; these correlations concern profile similarity, not individual ligand activation.",
+            "zh": "全長 identity 的 ρ＝0.017；31-aa 雙向最佳配對比例達 ρ＝0.141，受體 bootstrap 區間為 0.035–0.250。未校正的區塊置換 p＝0.033，但對測試方法做 BH 校正後 q＝0.259，未通過校正後 0.05 門檻。這是反應輪廓相似性的弱探索訊號，不是個別配體活化預測。"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [
+          "cross-fragments"
+        ],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "Learn and redesign · validate when a local match is useful",
+          "zh": "學習與再設計｜確認局部配對何時有用"
+        },
+        "paragraphs": [
+          {
+            "en": "The effect is receptor-dependent: examples in the broader sensitivity analysis improve for AgOr4/AgOr56 and deteriorate for AgOr63/AgOr41. Removing a species mean alone did not solve transfer. Next steps are genuine 3D pocket neighborhoods, receptor-held-out nested selection and matched external assays. Spodoptera littoralis sequences and literature have been inventoried, but a usable numerical response matrix and further sequence checks are still needed; third-species validation is not complete.",
+            "zh": "效果依受體而異：較廣的敏感度分析中，AgOr4／AgOr56 是改善例，AgOr63／AgOr41 則退步。單純扣除物種平均並未解決轉移問題。下一步需要真正的三維口袋鄰域、受體留出的巢狀方法選擇，以及條件可比的外部 assay。第三物種 Spodoptera littoralis 已整理序列與文獻，但仍缺可用的數值反應矩陣及進一步序列核對，尚未完成第三物種驗證。"
+          },
+          {
+            "en": "For the third-species inventory, the functional literature is de Fouchier et al.’s moth-receptor study, and candidate amino-acid sequences were recovered from the supplementary material of Jacquin-Joly et al. These sources support the inventory, not a completed transfer-validation result. [25, 26]",
+            "zh": "第三物種盤點的功能文獻為 de Fouchier 等人的蛾類受體研究；候選胺基酸序列則由 Jacquin-Joly 等人的補充資料整理而來。這些文獻支持資料盤點，不代表已完成跨物種預測驗證。[25, 26]"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [],
+        "downloads": []
+      }
+    ]
+  },
+  {
+    "id": "md-methods",
+    "mount": "cycle-3-before",
+    "title": {
+      "en": "How the membrane models were built and checked",
+      "zh": "膜模型如何建立與檢查"
+    },
+    "blocks": [
+      {
+        "title": {
+          "en": "Experimental coordinates, AlphaFold and missing regions",
+          "zh": "實驗座標、AlphaFold 與缺失區域"
+        },
+        "paragraphs": [
+          {
+            "en": "8V02 is the o-cresol-bound Aedes aegypti OR10 complex with three Apocrypta bakeri Orco subunits; 8V00 is its unbound structural reference. AlphaFold supports the missing-region hypotheses and fly-receptor features, while ColabFold supplies the mutation models. The resolved OR10/Orco coordinates used for MD originate from cryo-EM, not a de novo AlphaFold complex prediction. [2, 4, 5]",
+            "zh": "8V02 是結合 o-cresol 的 Aedes aegypti OR10 加三個 Apocrypta bakeri Orco 次單元；8V00 提供未結合態參考。AlphaFold 支持缺失區域假說與果蠅受體特徵，ColabFold 用於突變模型；MD 採用的已解析 OR10／Orco 座標來自冷凍電顯，並非從零預測的 AlphaFold 複合體。[2, 4, 5]"
+          }
+        ],
+        "headers": [
+          {
+            "en": "Reference",
+            "zh": "參考"
+          },
+          {
+            "en": "Unresolved Orco segments per subunit",
+            "zh": "每個 Orco 次單元未解析區段"
+          },
+          {
+            "en": "Rebuilt residues across the complex",
+            "zh": "複合體補建殘基總數"
+          }
+        ],
+        "rows": [
+          [
+            "8V02",
+            "1–6, 160–167, 244–312",
+            "249"
+          ],
+          [
+            "8V00",
+            "1–3, 160–167, 244–312",
+            "240"
+          ]
+        ],
+        "figures": [],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "A complete sequence is not a validated loop conformation",
+          "zh": "序列補齊不等於迴圈構型已驗證"
+        },
+        "paragraphs": [
+          {
+            "en": "The complete complex has 1,797 protein residues. The Orco 244–312 loop has mean pLDDT 37.68 and mean loop-to-core PAE 28.88 Å in the AlphaFold reference. Core alignment and local rebuilding produce testable hypotheses, not observed loop positions. Geometrically rejected candidate structures were excluded from MD, and accepted apo hypotheses retain common modeling ancestry.",
+            "zh": "完整複合體共有 1,797 個蛋白殘基。AlphaFold 參考中，Orco 244–312 長迴圈平均 pLDDT 為 37.68，迴圈對核心平均 PAE 為 28.88 Å。核心對齊與局部補建產生可測假說，並非觀察到的迴圈位置。幾何不合格候選未納入 MD；合格 apo 假說仍有共同的建模來源。"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [
+          "loop-confidence"
+        ],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "Physical model and engineering corrections",
+          "zh": "物理模型與工程修正"
+        },
+        "paragraphs": [
+          {
+            "en": "OpenMM integrates classical atomic motion in a POPC membrane with TIP3P water and ions, using ff14SB/Lipid17 and GAFF 2.2.20 with AM1-BCC ligand charges. Preparation uses pH 7 protonation, not constant-pH dynamics. The baseline is 300 K and 1 bar with PME and a 1 nm short-range cutoff; bonds to hydrogen are constrained, with no hydrogen-mass repartitioning. Steering studies use the documented 300 K NVT setup. [9]",
+            "zh": "OpenMM 以經典力場積分原子運動；環境為 POPC 膜、TIP3P 水與離子，使用 ff14SB／Lipid17，配體採 GAFF 2.2.20 與 AM1-BCC 電荷。pH 7 用於起始加氫，並非 constant-pH 動力學。基線為 300 K、1 bar、PME 與 1 nm 短程截斷；含氫鍵長受限，沒有氫質量重分配。牽引研究使用其設定中的 300 K NVT 系統。[9]"
+          },
+          {
+            "en": "A restrained 200 ps pilot checked system preparation. Full-sequence 5 ns diagnostics exposed a minimum protein periodic-image separation of 0.877 nm, below the short-range cutoff. Increasing minimum water padding to 2.5 nm produced a 658,984-atom system with 1,066 POPC molecules and 162,148 waters. In the corrected 5 ns runs, checked minimum image separations were 3.227–4.113 nm; this fixes the observed short-range issue without excluding long-range finite-size effects.",
+            "zh": "帶位置限制的 200 ps 試跑用於檢查系統準備。完整序列 5 ns 診斷發現蛋白最短週期影像距離為 0.877 nm，低於短程截斷。最小水層 padding 增至 2.5 nm 後，系統為 658,984 個原子、1,066 個 POPC 與 162,148 個水分子；修正後 5 ns 軌跡的受檢最短影像距離為 3.227–4.113 nm，解除了已觀察到的短程問題，但未排除長程有限尺寸效應。"
+          },
+          {
+            "en": "The first 1 ns includes 20 ps heating and 980 ps staged restraint release; the remaining 4 ns are unrestrained. Integration uses 1 fs during heating and 2 fs thereafter, distinct from saved-frame spacing. Frame-level checks cover 1,944 protein stereocentres, heavy-atom bonds and periodic images. Geometry passing is necessary for interpretation but is not evidence of equilibrium. [10]",
+            "zh": "前 1 ns 包含 20 ps 升溫與 980 ps 分階段解除限制，後 4 ns 無位置限制。升溫以 1 fs、之後以 2 fs 積分，與保存影格間距不同。逐格檢查包含 1,944 個蛋白立體中心、重原子鍵長與週期影像。幾何通過是解讀的必要條件，不能當作已達平衡的證據。[10]"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [],
+        "downloads": []
+      }
+    ]
+  },
+  {
+    "id": "holo-validation",
+    "mount": "cycle-3-before",
+    "title": {
+      "en": "Bound-state MD: from 5 ns to 20 ns",
+      "zh": "結合態 MD：從 5 ns 到 20 ns"
+    },
+    "blocks": [
+      {
+        "title": {
+          "en": "What remained stable, and what kept changing?",
+          "zh": "哪些指標穩定，哪些仍在改變？"
+        },
+        "paragraphs": [
+          {
+            "en": "Matched bound-state trajectories were extended from 5 to 20 ns without positional restraints during the extension. The prespecified summary windows are 3–5 ns and 15–20 ns. All completed trajectories passed the saved-frame geometry checks without detected chiral inversion; one rebuilt-region RMSD changed by 0.2591 nm between the 10–15 and 15–20 ns windows, exceeding the provisional 0.1 nm drift threshold.",
+            "zh": "相配的結合態軌跡由 5 延伸至 20 ns，延長階段沒有位置限制；預先指定的摘要窗口為 3–5 ns 與 15–20 ns。完成軌跡皆通過保存影格的幾何檢查，未見手性反轉；其中一條補建區域 RMSD 在 10–15 與 15–20 ns 窗口間改變 0.2591 nm，高於暫定 0.1 nm 漂移門檻。"
+          },
+          {
+            "en": "Each summary first averages within a trajectory. Variation across those averages describes sampling conditional on the same starting model; correlated frames are not independent experiments. Rebuilt-region RMSD measures relaxation from a modeled starting hypothesis, not error against a known native loop.",
+            "zh": "摘要先計算各軌跡內平均，再描述軌跡平均之間的變異；這是同一起始模型下的條件式取樣，相關影格不是獨立實驗。補建區域 RMSD 描述相對建模起點的鬆弛，不是相對已知原生迴圈的誤差。"
+          }
+        ],
+        "headers": [
+          {
+            "en": "Readout",
+            "zh": "指標"
+          },
+          {
+            "en": "3–5 ns · mean ± SD",
+            "zh": "3–5 ns｜平均 ± SD"
+          },
+          {
+            "en": "15–20 ns · mean ± SD",
+            "zh": "15–20 ns｜平均 ± SD"
+          }
+        ],
+        "rows": [
+          [
+            {
+              "en": "Temperature (K)",
+              "zh": "溫度（K）"
+            },
+            "300.2847 ± 0.0416",
+            "300.2873 ± 0.0363"
+          ],
+          [
+            {
+              "en": "Box volume (nm³)",
+              "zh": "盒體積（nm³）"
+            },
+            "6464.2306 ± 0.5542",
+            "6463.5634 ± 0.5781"
+          ],
+          [
+            {
+              "en": "Lateral area (nm²)",
+              "zh": "側向面積（nm²）"
+            },
+            "384.2783 ± 0.5193",
+            "378.9845 ± 1.8196"
+          ],
+          [
+            {
+              "en": "Membrane phosphate thickness (nm)",
+              "zh": "膜磷酸頭基厚度（nm）"
+            },
+            "3.8239 ± 0.0094",
+            "3.8575 ± 0.0128"
+          ],
+          [
+            {
+              "en": "Resolved-core Cα RMSD (nm)",
+              "zh": "已解析核心 Cα RMSD（nm）"
+            },
+            "0.2189 ± 0.0051",
+            "0.2500 ± 0.0212"
+          ],
+          [
+            {
+              "en": "OR10 Cα RMSD (nm)",
+              "zh": "OR10 Cα RMSD（nm）"
+            },
+            "0.1269 ± 0.0149",
+            "0.1432 ± 0.0180"
+          ],
+          [
+            {
+              "en": "Rebuilt-region Cα RMSD (nm)",
+              "zh": "補建區域 Cα RMSD（nm）"
+            },
+            "1.0383 ± 0.0445",
+            "1.5917 ± 0.1706"
+          ],
+          [
+            {
+              "en": "Ligand RMSD after OR10 fit (nm)",
+              "zh": "OR10 對齊後配體 RMSD（nm）"
+            },
+            "0.0758 ± 0.0039",
+            "0.1142 ± 0.0434"
+          ],
+          [
+            {
+              "en": "Ser133 H-bond geometry fraction",
+              "zh": "Ser133 氫鍵幾何比例"
+            },
+            "0.9567 ± 0.0252",
+            "0.7613 ± 0.1792"
+          ]
+        ],
+        "figures": [
+          "holo-baseline"
+        ],
+        "downloads": [
+          "holo-window-statistics.csv"
+        ]
+      },
+      {
+        "title": {
+          "en": "Ligand contacts are structural readouts",
+          "zh": "配體接觸是結構指標"
+        },
+        "paragraphs": [
+          {
+            "en": "The Ser133 hydrogen-bond geometry requires O···O <0.35 nm and donor–hydrogen–acceptor angle >135°, checking both donor directions. Its mean fraction changes from 0.9567 in the early comparison window to 0.7613 in the later window. These geometric fractions do not measure affinity, residence time or activation. Together with continued loop drift, the results support local structural diagnostics rather than a claim of equilibrium.",
+            "zh": "Ser133 氫鍵幾何要求 O···O <0.35 nm 且供體–氫–受體角度 >135°，檢查兩個供受體方向；平均比例由早期比較窗口的 0.9567 變為後期的 0.7613。幾何比例不能量測親和力、停留時間或活化。配合仍存在的迴圈漂移，結果支持局部結構診斷，尚不足以宣稱平衡。"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [],
+        "downloads": []
+      }
+    ]
+  },
+  {
+    "id": "functional-panels",
+    "mount": "cycle-3",
+    "title": {
+      "en": "Two functional assays, kept separate",
+      "zh": "兩套功能 assay，分開比較"
+    },
+    "blocks": [
+      {
+        "title": {
+          "en": "The initial seven-odorant reference",
+          "zh": "最初的七種氣味參考"
+        },
+        "paragraphs": [
+          {
+            "en": "The initial functional dataset contains seven odorants and 63 published oocyte-current observations with AaegOR10/AaegOrco. Screening concentration remains unresolved in the inspected records, and dose-response tables have normalization/labeling questions. The structures instead contain AbOrco. These differences prevent treating the comparison as a calibrated sensitivity or EC50 model. [8]",
+            "zh": "最初功能資料包含七種氣味、63 筆公開卵母細胞電流觀測，受體為 AaegOR10／AaegOrco。已檢查紀錄中的篩選濃度仍待核實，濃度反應表另有正規化與標示疑點；結構參考使用的則是 AbOrco。這些差異使比較無法直接成為可校準的敏感度或 EC50 模型。[8]"
+          },
+          {
+            "en": "Static 8V00 and ligand-removed 8V02 docking gave rank correlations of 0.072 and 0.595. The 8V02 o-cresol pose control reproduced the native pose with symmetry-corrected heavy-atom RMSD of 1.17–1.22 Å; o-cresol had no functional label in this seven-odorant set and was excluded from the response correlation. After apo sampling and pocket clustering, the two MD ensembles gave 0.432 and 0.072. These small retrospective comparisons do not establish generalization.",
+            "zh": "靜態 8V00 與移除配體的 8V02 對接排序相關性分別為 0.072、0.595。8V02 的 o-cresol 姿態對照，對原位姿態的對稱校正重原子 RMSD 為 1.17–1.22 Å；在七種氣味資料中它沒有功能標籤，因此不納入反應相關性。Apo 取樣與口袋分群後，兩個 MD 集合為 0.432、0.072；小型回溯比較尚未建立泛化能力。"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [
+          "functional-seven"
+        ],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "Why the expanded panel answers a different question",
+          "zh": "擴充氣味組合為何不能直接合併"
+        },
+        "paragraphs": [
+          {
+            "en": "Bohbot et al. provide a separate 30-odorant screen using HEK293 calcium signaling with AgOrco. We matched identities to Supplemental Table I and digitized AaOR10 mean responses in Figure 2; these are not original replicate measurements. Excluding ammonium hydroxide leaves 29 dockable odorants. They do not overlap the initial seven labeled odorants, yielding 36 distinct dockable odorants across two assays, not one pooled response scale. [3]",
+            "zh": "Bohbot 等人提供另一套 30 種氣味篩選，使用 HEK293 鈣訊號及 AgOrco。我們以 Supplemental Table I 核對身分，從圖 2 讀取 AaOR10 反應平均，並非取得原始重複觀測。排除 ammonium hydroxide 後有 29 種可對接氣味，與最初七種有標籤氣味無重疊，因此合計為兩個 assay 的 36 種不同可對接氣味，不能合併成同一反應尺度。[3]"
+          },
+          {
+            "en": "Four organic acids were evaluated in charged and neutral forms, and two stereochemically unspecified odorants were expanded into alternative isomers. The primary analysis uses rounded digitized means; low bars are not definitive inactive labels. MD pocket representatives are actual 3–5 ns medoid frames, and equal weighting is descriptive rather than thermodynamic.",
+            "zh": "四種有機酸分別評估帶電與中性形式，兩種未指定立體化學的氣味展開替代異構物。主分析使用取整數的圖讀均值，低柱不代表確定不活化。MD 口袋代表為 3–5 ns 分群取得的實際 medoid 影格；等權平均是描述性做法，不是熱力學權重。"
+          },
+          {
+            "en": "For the 29-odorant panel, MD A/B correlations of 0.407/0.338 were below the static apo value of 0.450. Ligand-only controls gave 0.081 for heavy-atom count and −0.012 for neutral cLogP. The later aromatic-ring-count comparison reached 0.790. Chemical composition and post-selection optimism therefore remain plausible explanations; the exploratory intervals omit experimental error and chemical dependence.",
+            "zh": "29 種氣味中，MD A／B 的 0.407／0.338 均低於靜態 apo 的 0.450。僅配體控制中，重原子數為 0.081，中性 cLogP 為 −0.012；後加的芳香環數量比較達 0.790。因此化學組成與事後選擇偏差仍可能影響結果，探索性區間也未納入實驗誤差及化學相依性。"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [],
+        "downloads": []
+      }
+    ]
+  },
+  {
+    "id": "concentration-study",
+    "mount": "cycle-4",
+    "title": {
+      "en": "Molecular availability: one versus twenty odorants",
+      "zh": "分子可接觸性：1 個與 20 個氣味分子"
+    },
+    "blocks": [
+      {
+        "title": {
+          "en": "Controlled placement and concentration meaning",
+          "zh": "控制起始配置與濃度的意義"
+        },
+        "paragraphs": [
+          {
+            "en": "The concentration exploration used the same initial receptor snapshot and box for paired 1- and 20-o-cresol conditions. The first ligand position was shared and the additional molecules were placed in the external water layer with collision exclusions. Initial boxes were about 19 × 20 × 17 nm, corresponding to nominal whole-box concentrations of about 0.26 and 5.2 mM. These are not effective water-phase concentrations or airborne ppm; the periodic box does not maintain separate concentration reservoirs.",
+            "zh": "濃度探索以相同起始受體快照與盒子，比較 1 個及 20 個 o-cresol。第一個分子位置共用，其餘分子在外側水層依排除碰撞規則放置。起始盒子約 19 × 20 × 17 nm，整盒名目濃度約 0.26、5.2 mM；它們不是水相有效濃度或空氣 ppm，週期盒也沒有維持分離的濃度庫。"
+          },
+          {
+            "en": "The available completed 2 ns observations form an incomplete, unbalanced exploratory comparison. Greater molecular availability produced some surface contacts but no sustained pocket entry. The table reports mean per-molecule protein-contact time fractions from completed, checked trajectories only; unfinished observations are excluded. Surface contact includes the protein beyond the OR10 pocket.",
+            "zh": "已有完整 2 ns 觀察構成不完整、未平衡的探索性比較。較多分子產生部分表面接觸，但未見持續進入口袋。下表僅採完成並受檢軌跡，列每分子蛋白接觸時間比例的平均；未完成觀察不納入。蛋白表面接觸也包含 OR10 口袋以外區域。"
+          }
+        ],
+        "headers": [
+          {
+            "en": "Starting model",
+            "zh": "起始模型"
+          },
+          {
+            "en": "1 odorant",
+            "zh": "1 個分子"
+          },
+          {
+            "en": "20 odorants",
+            "zh": "20 個分子"
+          }
+        ],
+        "rows": [
+          [
+            "A",
+            "0.000",
+            "0.036"
+          ],
+          [
+            "B",
+            "0.000",
+            "0.021"
+          ]
+        ],
+        "figures": [],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "What the comparison can establish",
+          "zh": "這個比較能回答什麼"
+        },
+        "paragraphs": [
+          {
+            "en": "Molecules sharing one receptor are not independent experiments. The nearest of twenty molecules will tend to be closer than a single molecule even without stronger binding. Entry requires the same molecule to satisfy distance, residue-contact and duration criteria; contacts from different molecules cannot be joined into one event. These observations do not establish a concentration–response curve or a physical association rate.",
+            "zh": "共享同一受體的多個分子不是獨立實驗。即使沒有更強結合，20 個分子中最近的一個通常也會比單一分子更近。進入必須由同一分子符合距離、殘基接觸及持續時間，不能拼接不同分子的接觸。這些觀察尚未建立濃度–反應曲線或物理結合速率。"
+          },
+          {
+            "en": "The near-entrance study then shortened the initial distance directly and extended unrestrained observation to 10 ns. It remained distinct from the external-water concentration comparison. No sustained entry was seen, motivating outward path exploration from the known bound pose.",
+            "zh": "入口附近研究接著直接縮短起始距離，將無位置限制觀察延長至 10 ns；它與外部水相濃度比較是不同配置。仍未見持續進入，因此改由已知結合姿態探索向外路徑。"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [],
+        "downloads": []
+      }
+    ]
+  },
+  {
+    "id": "steering-development",
+    "mount": "cycle-5",
+    "title": {
+      "en": "How the steering experiments evolved",
+      "zh": "牽引與入口引導如何逐步演進"
+    },
+    "blocks": [
+      {
+        "title": {
+          "en": "Outward exploration before reverse entry",
+          "zh": "先探索向外，再決定是否反向驗證"
+        },
+        "paragraphs": [
+          {
+            "en": "The first SMD design pulled o-cresol outward along candidate guidance lines and would reverse an accepted exit path for entry testing. All outward attempts encountered excessive target lag before satisfying exit criteria. Consequently, no accepted outward path was available and the planned reverse-entry test was not performed. A bound starting baseline is not a new entry event.",
+            "zh": "最初 SMD 設計沿候選引導線將 o-cresol 向外拉，計畫在取得合格出口後反向測試進入。向外嘗試都在滿足出口條件前出現過大的目標落後量，因此沒有合格出口可反向驗證，未執行原定反向進入測試。由結合態起始的基線佔據也不算新進入事件。"
+          },
+          {
+            "en": "SMD uses a spring between ligand coordinates and a moving target, with transverse guidance around the route. Work associated with target motion and changing the bias is tracked separately. Neither non-equilibrium work nor transient retention measures PMF, binding free energy, sensitivity or natural entry kinetics.",
+            "zh": "SMD 在分子座標與移動目標之間施加彈簧，並限制偏離路線的橫向運動；目標移動作功與偏置改變作功分開追蹤。非平衡作功及短暫保留，都不能直接當作 PMF、結合自由能、敏感度或自然進入動力學。"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "Guide the receptor instead of pulling the ligand",
+          "zh": "引導受體入口的實驗"
+        },
+        "paragraphs": [
+          {
+            "en": "Receptor guidance controls nine distances between three S3 Cα segments (123–127, 130–134, 136–140) and three S6 segments (289–293, 282–286, 277–281), moving them toward experimental apo reference distances. Each distance uses a spring constant of 3000/9 kJ mol⁻¹ nm⁻². These collective distances are not tunnel radii. Short guided-opening tests did not meet the prespecified distance and directional-progress requirements for subsequent ligand pulling.",
+            "zh": "受體引導控制 S3 三段 Cα（123–127、130–134、136–140）與 S6 三段（289–293、282–286、277–281）之間的九組距離，使其朝實驗 apo 參考值變化。每組彈簧常數為 3000／9 kJ mol⁻¹ nm⁻²；這些集體距離不是通道半徑。短程入口引導未達預設距離及方向進度條件，因此該引導組未接續拉配體。"
+          }
+        ],
+        "headers": [
+          {
+            "en": "Stage",
+            "zh": "階段"
+          },
+          {
+            "en": "Short protocol",
+            "zh": "短程流程"
+          },
+          {
+            "en": "Extended protocol",
+            "zh": "延長流程"
+          },
+          {
+            "en": "70 ns protocol",
+            "zh": "70 ns 流程"
+          }
+        ],
+        "rows": [
+          [
+            {
+              "en": "Baseline",
+              "zh": "基線"
+            },
+            "0.1 ns",
+            "0.1 ns",
+            "0.1 ns"
+          ],
+          [
+            {
+              "en": "Change the target",
+              "zh": "漸變目標"
+            },
+            "1 ns",
+            "5 ns",
+            "5 ns"
+          ],
+          [
+            {
+              "en": "Hold the target",
+              "zh": "固定目標"
+            },
+            "0.5 ns",
+            "2.5 ns",
+            "63.9 ns"
+          ],
+          [
+            {
+              "en": "After bias removal",
+              "zh": "撤除偏壓後"
+            },
+            "1 ns",
+            "1 ns",
+            "1 ns"
+          ],
+          [
+            {
+              "en": "Total trajectory time",
+              "zh": "軌跡總長"
+            },
+            "2.6 ns",
+            "8.6 ns",
+            "70 ns"
+          ]
+        ],
+        "figures": [],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "Compare opening geometry with matched controls",
+          "zh": "以配對對照判讀入口幾何"
+        },
+        "paragraphs": [
+          {
+            "en": "Slower target changes and longer holding reduced entrance-distance error more for starting conformation A than B in the short-to-extended comparison. The paired duration contrasts were −0.0663 and −0.0187 nm, respectively. Timing changes affected both ramp speed and hold duration, so those effects cannot be separated. Guided and unsteered 70 ns trajectories still showed no sustained exit.",
+            "zh": "短程至延長比較中，較慢調整與較長固定時間對起始構型 A 的入口距離誤差改善，比 B 更明顯；配對時間差分別為 −0.0663、−0.0187 nm。此設計同時改變目標速度及固定時間，無法分離兩者效果。引導與無新增偏壓的 70 ns 軌跡仍未見持續移出。"
+          },
+          {
+            "en": "An exit candidate must be at least 1.5 nm from the pocket reference, have zero designated pocket-residue contacts and persist for at least 100 ps within one stage. Bias status must accompany any event. Reaching an apo-like distance or briefly satisfying a force threshold is not equivalent to molecular passage.",
+            "zh": "出口候選須距口袋參考至少 1.5 nm、指定口袋殘基接觸數為零，且在同一階段持續至少 100 ps；事件須同時標明偏壓狀態。接近 apo 距離或短暫符合施力門檻，都不等於分子已通過。"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [
+          "gate-schedules"
+        ],
+        "downloads": []
+      }
+    ]
+  },
+  {
+    "id": "pathway-development",
+    "mount": "cycle-6-before",
+    "title": {
+      "en": "From empty-space probes to a whole-molecule path",
+      "zh": "從空隙探針到完整分子路徑"
+    },
+    "blocks": [
+      {
+        "title": {
+          "en": "Search candidate geometry in saved structures",
+          "zh": "在保存構型中搜尋候選幾何"
+        },
+        "paragraphs": [
+          {
+            "en": "A widest-path graph search on saved conformations identified candidate space near S3/S6. The 47.6 ns snapshot suggested a lateral route near I132/Y285/M288; the 59 ns snapshot suggested a lower-membrane-coordinate route near L128/I184/Q292. “Lower” refers to the chosen coordinate system, not a demonstrated intracellular or extracellular exit. The lateral structural channel was already described in the experimental work. [2]",
+            "zh": "對保存構型進行最寬路徑圖搜尋，在 S3／S6 附近找到候選空隙。47.6 ns 快照提示 I132／Y285／M288 附近的側向路線；59 ns 則提示 L128／I184／Q292 附近、較低膜座標方向的路線。「較低」指所用座標系，不代表已確認胞內或胞外出口；實驗研究早已描述側面結構通道。[2]"
+          },
+          {
+            "en": "At 0.05 nm grid spacing, candidate spherical-probe radius lower bounds were 0.089, 0.102 and 0.119 nm at 7.6, 47.6 and 59 ns using protein obstacles. Adding lipids and reselecting from the common candidate pool gave 0.089, 0.077 and 0.086 nm. The selected routes can differ between obstacle models. These are radii of particular candidate centerlines, not ligand dimensions or upper bounds on every possible route.",
+            "zh": "使用 0.05 nm 網格、只納入蛋白障礙時，7.6、47.6、59 ns 的候選球形探針半徑下界為 0.089、0.102、0.119 nm。加入脂質並由共同候選集中重新選路後，為 0.089、0.077、0.086 nm；不同障礙模型可能選到不同路線。這些是特定中心線的半徑下界，不是氣味分子尺寸或所有可能通道的上限。"
+          },
+          {
+            "en": "Grid spacing changes the result: the 59 ns protein candidate changes from 0.091 nm on the coarse grid to 0.119 nm on the fine grid. Alternative direction-cone searches and a larger search extent tested sensitivity. Multiple endpoint directions may share a bottleneck and do not establish separate channels.",
+            "zh": "網格間距會改變結果：59 ns 蛋白候選由粗網格的 0.091 nm 變為細網格的 0.119 nm。另以方向錐與較大搜尋範圍測試敏感度；不同終點方向可能共享瓶頸，不能認定為不同通道。"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [
+          "tunnel-clearance"
+        ],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "Why a point-probe route was insufficient",
+          "zh": "為何點探針路線仍不足以證明可通行"
+        },
+        "paragraphs": [
+          {
+            "en": "Placing full o-cresol at candidate positions with multiple orientations exposed atom overlaps beyond the pocket. In one 47.6 ns candidate, the most congested position beyond 0.35 nm from the start retained about 0.16 nm hard-sphere overlap even at its best tested orientation, versus about 0.05 nm at the starting pose. Native poses also overlap under a hard-sphere model, so zero overlap is not by itself a physical pass/fail criterion.",
+            "zh": "將完整 o-cresol 以不同朝向放到候選位置後，可見口袋之外的原子重疊。某條 47.6 ns 候選路徑在離起點 0.35 nm 以外，最擁擠位置即使採受測最佳朝向，仍有約 0.16 nm 硬球重疊；起點約為 0.05 nm。原位姿態在硬球模型也可能重疊，因此不能單憑零重疊作物理通行判定。"
+          },
+          {
+            "en": "The next static search used the full ligand’s translation and orientation in a 63.2 ns structure, explicitly checking consecutive poses and both protein-only and protein-plus-lipid repulsion. Flexible route-following SMD then tested the candidates at 0.2 and 0.5 nm/ns. Target progress stalled relative to actual ligand movement, and extending fixed-target waiting to 2 ns did not establish sustained exit.",
+            "zh": "下一輪在 63.2 ns 結構中搜尋完整配體的位置與朝向，檢查相鄰姿態連續性，以及僅蛋白、蛋白加脂質的排斥；再以 0.2、0.5 nm/ns 的可動受體沿路 SMD 測試候選。目標與配體實際運動未能同步，將固定目標等待延長至 2 ns，也沒有建立持續移出。"
+          },
+          {
+            "en": "The ensemble analysis then evaluated 24 saved conformations across both starting structures and guided/control conditions, two corridors and both obstacle objectives. No evaluated selected route established a low-clash passage. The least severe combined peak was still about 3.34 × 10⁴ kJ/mol versus about 23 kJ/mol for its native pose. Positive Lennard–Jones repulsion is only a clash diagnostic. Paths from different conformations cannot be spliced into an observed continuous trajectory.",
+            "zh": "構型集合分析接著評估兩個起始結構、引導／對照條件的 24 個保存構型，以及兩條走廊、兩種障礙目標。已評估選定路線仍未建立低碰撞通道；最低合併排斥峰約 3.34 × 10⁴ kJ/mol，而原位參考約 23 kJ/mol。Lennard–Jones 正值排斥僅為碰撞診斷，不能把不同構型各自的路徑片段拼成一條已觀察的連續軌跡。"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "The initial 63.2 ns whole-ligand search",
+          "zh": "最初 63.2 ns 完整配體路徑搜尋"
+        },
+        "paragraphs": [
+          {
+            "en": "This fixed-structure search expanded the corridor radius from 0.30 to 0.50 nm and extended candidates to 2.0 nm from the initial ligand center. Intermediate poses limited each atom’s inter-sample movement arc to 0.02 nm. Internal ligand torsions were fixed. The following values describe this particular snapshot, separately from the later ensemble analysis.",
+            "zh": "此固定結構搜尋將走廊半徑從 0.30 擴至 0.50 nm，並把候選延伸至距起始配體中心 2.0 nm。插入中間姿態，使各原子相鄰取樣間的移動弧長不超過 0.02 nm；配體內部扭轉暫時固定。下表僅描述這個快照，與後來的構型集合分析分開呈現。"
+          },
+          {
+            "en": "The native pose scored about 15.8 kJ/mol under the same positive-repulsion diagnostic. Protein bottlenecks involved L128/S291/Q292 or L128/M288/I132; POPC dominated the combined maximum. These scores omit attraction, electrostatics, water and entropy. They are neither free-energy barriers nor the work needed for passage, and the search covers only two finite corridors.",
+            "zh": "相同正值排斥診斷下，原位姿態約為 15.8 kJ/mol。蛋白瓶頸涉及 L128／S291／Q292 或 L128／M288／I132；合併障礙的最大值主要來自 POPC。此分數未含吸引項、靜電、水與熵，不能解讀為自由能障或穿越所需的功；搜尋也只涵蓋兩條有限走廊。"
+          }
+        ],
+        "headers": [
+          {
+            "en": "Corridor",
+            "zh": "走廊"
+          },
+          {
+            "en": "Centerline arc (nm)",
+            "zh": "中心線弧長（nm）"
+          },
+          {
+            "en": "Protein peak (kJ/mol)",
+            "zh": "蛋白排斥峰（kJ/mol）"
+          },
+          {
+            "en": "Protein + lipid peak (kJ/mol)",
+            "zh": "蛋白＋脂質排斥峰（kJ/mol）"
+          }
+        ],
+        "rows": [
+          [
+            {
+              "en": "Lower membrane coordinate",
+              "zh": "較低膜座標方向"
+            },
+            "3.27",
+            "12,005",
+            "555,394"
+          ],
+          [
+            {
+              "en": "S3/S6 lateral",
+              "zh": "S3／S6 側向"
+            },
+            "4.03",
+            "29,838",
+            "103,961"
+          ]
+        ],
+        "figures": [],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "Flexible pulling: target motion versus ligand motion",
+          "zh": "可動構型牽引：目標移動與配體移動的差別"
+        },
+        "paragraphs": [
+          {
+            "en": "Route-following SMD moved the ligand center while allowing rotation and receptor, lipid and water motion; it did not impose the rigid search’s full orientation sequence. Target advancement was held when lag reached 0.40 nm or force reached 180 kJ mol⁻¹ nm⁻¹. Advancement could resume only below 0.20 nm lag and 100 kJ mol⁻¹ nm⁻¹ force. Holding the target leaves MD and the spring force active.",
+            "zh": "沿路 SMD 牽引配體中心，允許配體旋轉及受體、脂質、水移動，並未強制沿用固定搜尋的全部朝向。落後目標達 0.40 nm 或力達 180 kJ mol⁻¹ nm⁻¹ 時，停止目標推進；須同時降至 0.20 nm 與 100 kJ mol⁻¹ nm⁻¹ 以下才可恢復。固定目標期間，MD 與彈簧作用力仍持續。"
+          },
+          {
+            "en": "Across the tested pulling conditions, the ligand’s maximum pocket distance was only 0.139–0.190 nm, with at least eight pocket residues still in contact. Targets traversed 0.469–0.947 nm along the curved routes, and peak forces were about 274–304 pN. Target arc length is not ligand displacement or an exit percentage. A 2 ns unsteered control reached 0.126 nm; unequal observation durations make these descriptive extrema, not a matched rate comparison.",
+            "zh": "受測牽引條件中，配體距口袋最遠僅 0.139–0.190 nm，始終至少接觸八個口袋殘基；目標沿彎曲路線走過 0.469–0.947 nm，峰值力約 274–304 pN。目標弧長不是配體位移或離開百分比。2 ns 無牽引對照最遠為 0.126 nm；各觀察時長不同，這些極值僅供描述，不能當成相配的速率比較。"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [],
+        "downloads": []
+      }
+    ]
+  },
+  {
+    "id": "evidence-limits",
+    "mount": "before-next",
+    "title": {
+      "en": "What the complete evidence supports",
+      "zh": "完整證據支持到哪裡"
+    },
+    "blocks": [
+      {
+        "title": {
+          "en": "Results and the tests still needed",
+          "zh": "目前結果與仍需完成的驗證"
+        },
+        "paragraphs": [
+          {
+            "en": "The work establishes curated data, controlled feature comparisons, mutation audits, a cross-species transfer test and a membrane-MD/pathway workflow. Sequence features improve within-species prediction. Completed molecular-weight ablation, measured IR, quantum-mode and OpenPOM comparisons show model-dependent effects without a stable general gain from spectra or frozen odor AI. Added structural features, proposed selectivity mutations and direct cross-species transfer remain unvalidated. Reference MD constrains candidate access routes without establishing ligand-induced opening or complete passage.",
+            "zh": "目前建立了可追溯資料、控制特徵比較、突變查核、跨物種轉移測試，以及膜 MD／路徑研究流程。序列改善物種內預測；已完成分子量消融、實測 IR、量子振動與 OpenPOM 比較，顯示效果依模型而變，頻譜或固定嗅覺 AI 尚未帶來穩定全面增益。額外結構特徵、專一性突變及直接跨物種轉移仍未驗證。參考 MD 揭露候選進出路線的限制，尚未證明分子誘發開口或完整穿越。"
+          }
+        ],
+        "headers": [
+          {
+            "en": "Next test",
+            "zh": "下一項驗證"
+          },
+          {
+            "en": "Question it can answer",
+            "zh": "完成後能回答的問題"
+          }
+        ],
+        "rows": [
+          [
+            {
+              "en": "Fold-contained AI adaptation, 3D odorant descriptors and independent data",
+              "zh": "訓練折內 AI 微調、三維氣味描述及獨立資料"
+            },
+            {
+              "en": "Can richer features improve responses beyond the retained baseline?",
+              "zh": "更完整的特徵能否改善相對原基準的反應預測？"
+            }
+          ],
+          [
+            {
+              "en": "Alternative loop hypotheses and local drift analysis",
+              "zh": "替代迴圈假說與局部漂移分析"
+            },
+            {
+              "en": "How dependent are the conclusions on uncertain starting regions?",
+              "zh": "結論多大程度依賴不確定的起始區域？"
+            }
+          ],
+          [
+            {
+              "en": "Target Drosophila WT/mutant OR–Orco complexes",
+              "zh": "果蠅目標 WT／突變 OR–Orco 複合體"
+            },
+            {
+              "en": "Do candidate-specific dynamic differences reproduce?",
+              "zh": "與候選相關的動態差異能否重現？"
+            }
+          ],
+          [
+            {
+              "en": "Independent functional data and nested species-transfer evaluation",
+              "zh": "無來源重疊的功能資料與巢狀跨物種評估"
+            },
+            {
+              "en": "Does performance persist on genuinely unseen receptors and assays?",
+              "zh": "對未見受體與 assay 是否仍有效？"
+            }
+          ],
+          [
+            {
+              "en": "Matched expression and functional dose-response experiments",
+              "zh": "相配的表達與功能濃度反應實驗"
+            },
+            {
+              "en": "Do designed receptors change activity, selectivity or sensitivity?",
+              "zh": "受體設計是否改變活化、專一性或敏感度？"
+            }
+          ],
+          [
+            {
+              "en": "Continuous flexible pathways and unbiased follow-up",
+              "zh": "連續可動路徑與無偏壓後續觀察"
+            },
+            {
+              "en": "Is a guided route physically sustainable after removing the force?",
+              "zh": "撤除外力後，受引導路線是否仍有物理可行性？"
+            }
+          ]
+        ],
+        "figures": [],
+        "downloads": []
+      },
+      {
+        "title": {
+          "en": "Data and reproducibility",
+          "zh": "數據與可追溯性"
+        },
+        "paragraphs": [
+          {
+            "en": "Each result figure provides its plotted values; the downloadable evidence tables retain units and analysis windows. Source-file hashes are recorded in the provenance manifest. Model comparisons use stored out-of-fold predictions, and docking/path analyses retain pose-level outputs. Saved trajectory selections vary by study and do not imply that every water and lipid-tail coordinate was recorded continuously.",
+            "zh": "各結果圖提供繪圖數值，證據表保留單位及分析窗口；來源檔案雜湊列於 provenance。模型比較採保存的折外預測，docking／路徑分析保留姿態層級輸出。不同研究保存的軌跡原子集合有所不同，不能假定每個水與脂質尾部座標皆有連續留存。"
+          }
+        ],
+        "headers": [],
+        "rows": [],
+        "figures": [],
+        "downloads": [
+          "provenance.json",
+          "research-coverage.json"
+        ]
+      }
+    ]
+  }
+]

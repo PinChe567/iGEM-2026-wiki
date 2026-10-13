@@ -1,0 +1,123 @@
+{
+  "selected_case": "shelf_w8_e0p2",
+  "status": "selected engineering prototype candidate; not a global optimum or biologically validated design",
+  "CAD_solid_box_mm": {
+    "minimum": [
+      -7.4,
+      -4,
+      58.2
+    ],
+    "maximum": [
+      -0.2,
+      4,
+      59.4
+    ]
+  },
+  "geometry": {
+    "well_centers": [
+      [
+        3.3,
+        2.65
+      ],
+      [
+        -3.3,
+        2.65
+      ],
+      [
+        -3.3,
+        -2.65
+      ],
+      [
+        3.3,
+        -2.65
+      ]
+    ],
+    "inner_width": 4.0,
+    "inner_depth": 2.8,
+    "liquid_uL": 100.0,
+    "floor": 43.0,
+    "well_top": 55.5,
+    "plenum_bottom": 57.3,
+    "plenum_top": 62.5,
+    "plenum_half_x": 7.4,
+    "plenum_half_y": 6.0,
+    "port_z": 60.8,
+    "port_radius": 1.2,
+    "port_end": 18.0,
+    "wall_xmin": -4.8,
+    "wall_xmax": -3.6,
+    "compression_plate_bottom": 56.1,
+    "compression_plate_top": 57.3,
+    "upper_perimeter_gasket_bottom": 57.3,
+    "upper_perimeter_gasket_top": 57.9
+  },
+  "geometry_source": "geometry_and_cases.json",
+  "configuration": {
+    "kind": "shelf",
+    "width": 8,
+    "shelf_bottom": 58.2,
+    "shelf_top": 59.4,
+    "shelf_end": -0.2
+  },
+  "mesh_refinement": [
+    {
+      "dx_mm": 0.4,
+      "open_J_N": 1.0853388898317196e-17,
+      "shelf_J_N": 7.504088585628585e-18,
+      "J_ratio": 0.6914051137329175,
+      "open_P95_mm_s": 0.0011703065970656565,
+      "shelf_P95_mm_s": 0.0009343986548526954,
+      "speed_ratio": 0.7984221034005449,
+      "open_pressure_Pa": 0.0090071209312576,
+      "shelf_pressure_Pa": 0.009123066801457708,
+      "open_flux_CV": 0.016469062540823393,
+      "shelf_flux_CV": 0.05615713419970118
+    },
+    {
+      "dx_mm": 0.3,
+      "open_J_N": 1.4254536454757073e-17,
+      "shelf_J_N": 9.959060039355655e-18,
+      "J_ratio": 0.698658989786517,
+      "open_P95_mm_s": 0.0012485352160592402,
+      "shelf_P95_mm_s": 0.0010440074322955238,
+      "speed_ratio": 0.8361858110744615,
+      "open_pressure_Pa": 0.008330885349794608,
+      "shelf_pressure_Pa": 0.008416511696635553,
+      "open_flux_CV": 0.14867108389007813,
+      "shelf_flux_CV": 0.1646239053073443
+    },
+    {
+      "dx_mm": 0.2,
+      "open_J_N": 1.058138953865509e-17,
+      "shelf_J_N": 6.766665315018463e-18,
+      "J_ratio": 0.6394874028877795,
+      "open_P95_mm_s": 0.000969920476125979,
+      "shelf_P95_mm_s": 0.0007745977435548706,
+      "speed_ratio": 0.7986198483495685,
+      "open_pressure_Pa": 0.008536849417752039,
+      "shelf_pressure_Pa": 0.00860693179203184,
+      "open_flux_CV": 0.009804574152620265,
+      "shelf_flux_CV": 0.3690636140283332
+    }
+  ],
+  "operating_flow_confirmation": {
+    "open_actual_Q_mL_min": 0.9399702409310321,
+    "shelf_actual_Q_mL_min": 0.9401341250563697,
+    "shelf_Re": 0.5541740487855383,
+    "shelf_relative_density_range": 0.002335199382001068,
+    "J_ratio": 0.6414333560269013,
+    "speed_ratio": 0.8124999626727339,
+    "tau": 0.55,
+    "dx_mm": 0.3,
+    "note": "Separate near-operating-flow solves; metrics normalized by <6.5% to 1 mL/min. Changing tau also changes stair-step boundary error, so this is not a pure isolated inertia experiment."
+  },
+  "decision": "Minimize extra parts and inaccessible surfaces; reduce well-mouth downward momentum compared with open plenum without major pressure penalty. Accept worsened gas-circulation symmetry. Do not claim lowest near-liquid velocity or improved cell survival.",
+  "unsupported_claims": [
+    "turbulence",
+    "sterility",
+    "no cross-well gas communication",
+    "cell protection",
+    "odor concentration uniformity",
+    "grid-independent absolute local velocity"
+  ]
+}

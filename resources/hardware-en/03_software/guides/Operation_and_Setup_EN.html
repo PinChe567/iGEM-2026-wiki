@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>AeroSense operation and setup manual — AeroSense</title><style>body{font:17px/1.6 system-ui,sans-serif;color:#233a33;background:#fbfbf6;margin:0}main{max-width:1080px;margin:auto;padding:36px 24px}h1,h2,h3{line-height:1.15}h1{font-size:2.4rem}h2{margin-top:2.4em}a{color:#08694b}img{max-width:100%;height:auto}table{border-collapse:collapse;width:100%;font-size:.9rem}th,td{border:1px solid #cdd8cb;padding:8px;text-align:left;vertical-align:top}thead{background:#e4eddc}pre{padding:16px;background:#e9eee5;overflow:auto}nav{display:flex;gap:20px;flex-wrap:wrap}figure{margin:20px 0}.table-scroll{overflow:auto}button,input,select{font:inherit}canvas{width:100%;height:480px;touch-action:none;background:#f4f7ef;border:1px solid #ccd7c8}.controls{display:flex;gap:24px;flex-wrap:wrap}.source-note{background:#e8eddf;padding:15px;border-left:4px solid #57745b}</style></head><body><main><h1 id="aerosense-operation-and-setup-manual">AeroSense operation and setup manual</h1>
+<p>This manual explains flashing, phone connection, controls, background correction, and data export. Complete hardware checks without cells first. Displayed values do not prove GCaMP detection or odor identification. Date: 2026-10-08.</p>
+<p>The English text follows ASD-STE100 Issue 9 principles. The Chinese text gives corresponding steps. Full vocabulary and rule compliance has not been audited. Commands, API names, and button labels retain their exact spelling.</p>
+<h2 id="1-select-the-connection-mode">1 Select the connection mode</h2>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Address</th>
+<th>Data</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Demo</td>
+<td>Computer: http://127.0.0.1:8765/</td>
+<td>Synthetic practice data</td>
+</tr>
+<tr>
+<td>Direct phone</td>
+<td>AeroSense Wi-Fi, then http://192.168.4.1/</td>
+<td>Physical PCB readings</td>
+</tr>
+<tr>
+<td>Private LAN server</td>
+<td>Server LAN address on the phone</td>
+<td>Uploaded PCB summaries</td>
+</tr>
+</tbody>
+</table></div>
+<p>Start with direct phone control. It does not require internet access. It does not upload data to a cloud server automatically. GitHub Pages cannot run this Python service or store its SQLite database.</p>
+<h2 id="2-prepare-the-programming-connection">2 Prepare the programming connection</h2>
+<p>Preparation: Use a computer, VS Code, the official PlatformIO IDE extension, a USB data cable, and three signal wires. Use a USB–UART adapter with 3.3 V logic. USB-to-TTL describes this type of adapter. An existing compatible adapter is sufficient.</p>
+<p>J2 USB-C supplies power and charging. It has no USB–UART bridge. J2 does not create an ESP32 programming COM port. Connect programming signals to J3. Power the PCB through its vendor-confirmed normal input.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>J3 pin</th>
+<th>Signal</th>
+<th>Connection</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>3V3_DIG</td>
+<td>Leave disconnected</td>
+</tr>
+<tr>
+<td>2</td>
+<td>TXD0, GPIO1</td>
+<td>Adapter RX</td>
+</tr>
+<tr>
+<td>3</td>
+<td>RXD0, GPIO3</td>
+<td>Adapter TX</td>
+</tr>
+<tr>
+<td>4</td>
+<td>GND</td>
+<td>Adapter GND</td>
+</tr>
+</tbody>
+</table></div>
+<ol>
+<li>
+<p>Switch off PCB power.</p>
+</li>
+<li>
+<p>Disconnect the adapter USB cable.</p>
+</li>
+<li>
+<p>Identify J3 pin 1 from the board markings.</p>
+</li>
+<li>
+<p>Confirm that the adapter TX logic level is 3.3 V.</p>
+</li>
+<li>
+<p>Connect J3 pin 2 to adapter RX.</p>
+</li>
+<li>
+<p>Connect J3 pin 3 to adapter TX.</p>
+</li>
+<li>
+<p>Connect J3 pin 4 to adapter GND.</p>
+</li>
+<li>
+<p>Check that J3 pin 1 is disconnected.</p>
+</li>
+<li>
+<p>Connect the adapter to the computer.</p>
+</li>
+<li>
+<p>Apply PCB power through the vendor-confirmed normal input.</p>
+</li>
+</ol>
+<p>Check: TX and RX cross, with a common ground. Do not use RS-232 or 5 V TX signals. An adapter jumper can change VCC without changing TX voltage. Do not connect adapter VCC together with normal PCB power. A confirmed battery supply can power the board during flashing.</p>
+<p>See the <a href="../../../../hardware%20information/AeroSense%20v2/03_software/evidence/uart_schematic_crop.png">J3 schematic detail</a>. It identifies signals, not an assumed left-to-right physical order. SW1 controls power. SW2 is EN / Reset. SW3 is BOOT.</p>
+<h2 id="3-set-private-configuration-and-build">3 Set private configuration and build</h2>
+<ol>
+<li>
+<p>Install the official PlatformIO IDE extension in VS Code.</p>
+</li>
+<li>
+<p>Open the 03_software/firmware folder.</p>
+</li>
+<li>
+<p>Copy src/config.example.h to src/aerosense_config.h.</p>
+</li>
+<li>
+<p>Set AP_PASSWORD to a private password with at least eight ASCII characters.</p>
+</li>
+<li>
+<p>Set API_KEY to a private random string.</p>
+</li>
+<li>
+<p>Keep WIFI_SSID and CLOUD_URL empty.</p>
+</li>
+<li>
+<p>Keep BOARD_VALIDATED=false.</p>
+</li>
+<li>
+<p>Save the configuration file.</p>
+</li>
+<li>
+<p>Open New Terminal in PlatformIO.</p>
+</li>
+</ol>
+<p>If the private configuration exists, preserve its contents first. The PowerShell command below generates a 32-character string. AP_PASSWORD is the Wi-Fi password. API_KEY authorizes webpage commands.</p>
+<pre><code class="language-powershell">[guid]::NewGuid().ToString("N")
+</code></pre>
+<p>Run the first command. After SUCCESS, run the second command.</p>
+<pre><code class="language-powershell">pio run -e esp32dev
+pio run -e esp32dev -t buildfs
+</code></pre>
+<p>Check: Both commands show SUCCESS. The first builds firmware. The second builds LittleFS with five webpage files. If either fails, save the first error message. Correct the build problem before uploading. Do not publish aerosense_config.h.</p>
+<h2 id="4-upload-the-firmware">4 Upload the firmware</h2>
+<p>Preparation: Find the USB–UART COM port in Windows Device Manager. Replace COM7 below with that port. Close the serial monitor before uploading.</p>
+<ol>
+<li>
+<p>Type the command below without pressing Enter.</p>
+</li>
+<li>
+<p>Hold SW3.</p>
+</li>
+<li>
+<p>Press and release SW2.</p>
+</li>
+<li>
+<p>Continue to hold SW3.</p>
+</li>
+<li>
+<p>Press Enter in the terminal.</p>
+</li>
+<li>
+<p>Release SW3 after the tool identifies the ESP32 or starts Writing.</p>
+</li>
+<li>
+<p>Wait for SUCCESS.</p>
+</li>
+</ol>
+<pre><code class="language-powershell">pio run -e esp32dev -t upload --upload-port COM7
+</code></pre>
+<p>Check: Upload finishes; Connecting alone is insufficient. If connection fails, disconnect power. Check the COM port, crossed TX/RX, ground, and 3.3 V logic. Repeat this section. The three-wire connection has no automatic reset wiring.</p>
+<h2 id="5-upload-the-webpage-and-start">5 Upload the webpage and start</h2>
+<ol>
+<li>
+<p>Type the uploadfs command below without pressing Enter.</p>
+</li>
+<li>
+<p>Hold SW3.</p>
+</li>
+<li>
+<p>Press and release SW2.</p>
+</li>
+<li>
+<p>Continue to hold SW3.</p>
+</li>
+<li>
+<p>Press Enter in the terminal.</p>
+</li>
+<li>
+<p>Release SW3 after the tool identifies the ESP32 or starts Writing.</p>
+</li>
+<li>
+<p>Wait for SUCCESS.</p>
+</li>
+<li>
+<p>Check that SW3 is released.</p>
+</li>
+<li>
+<p>Press and release SW2.</p>
+</li>
+</ol>
+<pre><code class="language-powershell">pio run -e esp32dev -t uploadfs --upload-port COM7
+pio device monitor --port COM7 --baud 115200
+</code></pre>
+<p>The second command opens the serial monitor. If you miss startup output, press SW2 again with the monitor open. Expected message:</p>
+<pre><code class="language-text">AeroSense AP http://192.168.4.1; upload filesystem before opening UI.
+</code></pre>
+<p>This fixed reminder does not indicate a LittleFS failure. Firmware upload alone can leave the webpage unavailable. Press Ctrl+C before the next upload to release the COM port.</p>
+<h2 id="6-connect-the-phone-for-the-first-time">6 Connect the phone for the first time</h2>
+<ol>
+<li>
+<p>Select AeroSense Wi-Fi on the phone.</p>
+</li>
+<li>
+<p>Enter AP_PASSWORD.</p>
+</li>
+<li>
+<p>Keep the connection if the phone reports no internet.</p>
+</li>
+<li>
+<p>Open http://192.168.4.1/ in the browser.</p>
+</li>
+<li>
+<p>Enter API_KEY on the page.</p>
+</li>
+<li>
+<p>Press Connect.</p>
+</li>
+<li>
+<p>Check that the mode shows HARDWARE.</p>
+</li>
+<li>
+<p>Set LED selector to Dark / all off.</p>
+</li>
+<li>
+<p>Set Blocks to 1.</p>
+</li>
+<li>
+<p>Set Interval to 3 seconds.</p>
+</li>
+<li>
+<p>Press Start session.</p>
+</li>
+<li>
+<p>Read the valid and error fields.</p>
+</li>
+</ol>
+<p>Check: BOARD_VALIDATED=false prevents LED operation. This is a development lock, not a flashing failure. Explicitly select Dark; the UI can default to all LEDs. For ADC_rail or timing errors, save raw ADC data. Stop calibration.</p>
+<h2 id="7-complete-checks-before-releasing-the-development-lock">7 Complete checks before releasing the development lock</h2>
+<p>An electronics collaborator must check supply rails, the 2.5 V reference, ADC operating point, and sampling timing. A 5 V label is not a voltage measurement. Dark data at the ADC lower limit do not establish low noise.</p>
+<ol>
+<li>
+<p>Save measured voltages, raw ADC codes, and timing records.</p>
+</li>
+<li>
+<p>Confirm that the results meet the actual circuit requirements.</p>
+</li>
+<li>
+<p>Have the collaborator set BOARD_VALIDATED to true.</p>
+</li>
+<li>
+<p>Rebuild the firmware.</p>
+</li>
+<li>
+<p>Upload it with Section 4.</p>
+</li>
+<li>
+<p>Use a sample without cells.</p>
+</li>
+<li>
+<p>Select one LED.</p>
+</li>
+<li>
+<p>Set PWM duty to 5%.</p>
+</li>
+<li>
+<p>Record one block.</p>
+</li>
+<li>
+<p>Check saturation, frequency, and sampling errors.</p>
+</li>
+</ol>
+<p>The flag is an operator setting, not validation evidence. Check each LED before using all four. Do not hide failures by increasing light or reducing software rejection thresholds.</p>
+<h2 id="8-controls-and-parameters">8 Controls and parameters</h2>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Control</th>
+<th>Function</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Blocks</td>
+<td>1 to 60 acquisition blocks</td>
+<td>Start with 1; use 5 for calibration</td>
+</tr>
+<tr>
+<td>Interval</td>
+<td>3 to 300 seconds with LEDs off after each block</td>
+<td>Excludes the two-second block</td>
+</tr>
+<tr>
+<td>PWM duty</td>
+<td>1 to 50% LED on-time</td>
+<td>Start at 5%; keep fixed for comparisons</td>
+</tr>
+<tr>
+<td>LED selector</td>
+<td>All off, one LED, or four LEDs</td>
+<td>Explicitly select all off for dark</td>
+</tr>
+<tr>
+<td>Start session</td>
+<td>Starts a finite schedule</td>
+<td>Press once after settings review</td>
+</tr>
+<tr>
+<td>Stop / LEDs off</td>
+<td>Cancels remaining blocks and discards an incomplete block</td>
+<td>Use SW1 if network control fails</td>
+</tr>
+<tr>
+<td>Add dark / baseline / reference</td>
+<td>Adds the latest valid block</td>
+<td>No duplicate blocks</td>
+</tr>
+<tr>
+<td>Automatic capture</td>
+<td>Collects valid blocks until five are available</td>
+<td>Keep the page open</td>
+</tr>
+<tr>
+<td>Clear calibration</td>
+<td>Clears the three calibration sets</td>
+<td>Use after condition changes</td>
+</tr>
+<tr>
+<td>Condition ID</td>
+<td>Identifies the background-correction configuration</td>
+<td>Record board, wells, fill, and filter</td>
+</tr>
+<tr>
+<td>Current sample label</td>
+<td>Labels newly received records</td>
+<td>Does not relabel older records</td>
+</tr>
+<tr>
+<td>Display smoothing τ</td>
+<td>Averages corrected I/Q for display</td>
+<td>Set 0 to disable; keep unsmoothed data</td>
+</tr>
+<tr>
+<td>Export JSON / CSV</td>
+<td>Exports browser records</td>
+<td>Export after each experiment and before reload</td>
+</tr>
+<tr>
+<td>Download latest raw ADC</td>
+<td>Downloads the latest ESP32 raw block</td>
+<td>Direct mode, before another block</td>
+</tr>
+<tr>
+<td>Analyze with server research model</td>
+<td>Uses a separately trained research model</td>
+<td>Leave unused without a real model</td>
+</tr>
+</tbody>
+</table></div>
+<p>Fixed frequencies are D1 41 Hz, D2 67 Hz, D3 89 Hz, and D4 113 Hz. GPIOs are 25, 26, 27, and 32 respectively. Each nominal block contains 8,000 samples at 4 ksample/s over two seconds. D1 to D4 are circuit labels. Verify their physical well mapping.</p>
+<p>valid indicates only the implemented count, ADC-rail, and timing checks. railSamples counts samples near ADC limits. maxIntervalErrorUs measures maximum sample-spacing departure from 250 µs. Battery, cell temperature, fan speed, gas flow, and valve state are not measured.</p>
+<h2 id="9-select-the-calibration-procedure">9 Select the calibration procedure</h2>
+<p>Use the Measured background correction procedure later in this document. Its sequence is illuminated blank, fluorescence phase reference, then sample. For cell experiments, collect unstimulated-cell F0 separately. The blank is not F0. Do not subtract dark background twice.</p>
+<p>Use the legacy Dark/Baseline/Reference procedure only when measured blank subtraction is off. The steps below preserve reproducibility of older records.</p>
+<ol>
+<li>
+<p>Disable measured blank subtraction.</p>
+</li>
+<li>
+<p>Clear old calibration.</p>
+</li>
+<li>
+<p>Close the light shield.</p>
+</li>
+<li>
+<p>Select Dark.</p>
+</li>
+<li>
+<p>Acquire one valid block.</p>
+</li>
+<li>
+<p>Select Automatic capture Dark.</p>
+</li>
+<li>
+<p>Acquire until Dark shows 5/5.</p>
+</li>
+<li>
+<p>Install unstimulated cells from the same batch, or a cell-free standard.</p>
+</li>
+<li>
+<p>Select D1 to D4.</p>
+</li>
+<li>
+<p>Wait for baseline stability under the laboratory procedure.</p>
+</li>
+<li>
+<p>Select Automatic capture Baseline.</p>
+</li>
+<li>
+<p>Acquire five valid baseline blocks.</p>
+</li>
+<li>
+<p>Record the stimulus start time.</p>
+</li>
+<li>
+<p>Apply the sample under the established procedure.</p>
+</li>
+<li>
+<p>Measure the response.</p>
+</li>
+<li>
+<p>Export JSON.</p>
+</li>
+</ol>
+<p>The legacy method subtracts mean dark I and Q before calculating magnitude F. F0 is the mean baseline magnitude. The result is (F−F0)/F0. A laboratory-qualified reference stimulus can provide five Reference blocks for (F−F0)/(Fref−F0). This manual does not define biological stimulus concentrations.</p>
+<p>Denominators below the internal five-noise-unit guard are rejected. This is not a measured detection limit. Repeat calibration after changes to cells, fill, wells, filter, or duty. Software cannot detect unrecorded cell or liquid changes.</p>
+<h2 id="10-run-a-session-and-save-data">10 Run a session and save data</h2>
+<ol>
+<li>
+<p>Check for liquid leakage inside the enclosure.</p>
+</li>
+<li>
+<p>Record the device, sample, concentration units, batch, and operator.</p>
+</li>
+<li>
+<p>Record the actual fill volume in each well.</p>
+</li>
+<li>
+<p>Record gas identity, measured flow, and start time.</p>
+</li>
+<li>
+<p>Confirm HARDWARE mode.</p>
+</li>
+<li>
+<p>Select one calibration procedure for the session.</p>
+</li>
+<li>
+<p>Set Current sample label.</p>
+</li>
+<li>
+<p>Start a finite session.</p>
+</li>
+<li>
+<p>Check QC for each block.</p>
+</li>
+<li>
+<p>Press Export JSON.</p>
+</li>
+<li>
+<p>Press Export CSV.</p>
+</li>
+<li>
+<p>Save the files in the experiment folder.</p>
+</li>
+<li>
+<p>Press Stop / LEDs off.</p>
+</li>
+<li>
+<p>Check that the LEDs are off.</p>
+</li>
+<li>
+<p>Stop gas flow.</p>
+</li>
+</ol>
+<p>Suggested filename: date_device_sample_condition_replicate. Keep failed records and reasons. For raw ADC data, run one block and download it before the next block. The ESP32 stores only the latest raw block. Its RAM upload queue holds eight summaries. Rebooting loses pending records. The browser retains up to 1,000 observed blocks. Export before reloading.</p>
+<p>Use 80 µL only as a provisional working volume after a cell-free closure test. Existing 100 µL simulations do not validate this volume. Keep the lid closed during acquisition. Do not replace wells or move tubes during acquisition.</p>
+<h2 id="11-enable-the-private-lan-server">11 Enable the private LAN server</h2>
+<p>Preparation: Direct control works. Connect the host and PCB to the same private router. Use one PCB per server instance. Two boards require separate ports, databases, and device keys.</p>
+<p>Run these commands from 03_software. Replace both example keys with different private random values.</p>
+<pre><code class="language-powershell">$env:AEROSENSE_UI_KEY='your-private-phone-key'
+$env:AEROSENSE_DEVICE_KEY='your-private-device-key'
+python server/server.py --host 0.0.0.0 --port 8765 --db aerosense.sqlite
+</code></pre>
+<ol>
+<li>
+<p>Enter router credentials in the firmware configuration.</p>
+</li>
+<li>
+<p>Set CLOUD_URL to http://HOST_LAN_IP:8765.</p>
+</li>
+<li>
+<p>Set CLOUD_DEVICE_KEY to the server device key.</p>
+</li>
+<li>
+<p>Set ALLOW_LAN_HTTP=true only for private LAN development.</p>
+</li>
+<li>
+<p>Rebuild and upload the firmware.</p>
+</li>
+<li>
+<p>Open the same server address on the phone.</p>
+</li>
+<li>
+<p>Enter AEROSENSE_UI_KEY.</p>
+</li>
+<li>
+<p>Check the last-contact time and reported device state.</p>
+</li>
+</ol>
+<p>Replace HOST_LAN_IP with the host LAN address. Do not use 127.0.0.1; it refers to the ESP32 itself. Status updates occur between blocks and can be delayed. Public deployment requires HTTPS, access control, and the correct CLOUD_CA_PEM. This package does not deploy a public service.</p>
+<h2 id="12-correct-faults">12 Correct faults</h2>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Action</th>
+<th>Required result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No COM from J2</td>
+<td>Use J3 and USB–UART</td>
+<td>Adapter appears in Device Manager</td>
+</tr>
+<tr>
+<td>Connecting persists</td>
+<td>Check wiring and repeat BOOT with EN</td>
+<td>Upload SUCCESS</td>
+</tr>
+<tr>
+<td>Wi-Fi works but page is 404</td>
+<td>Run buildfs and uploadfs</td>
+<td>Homepage opens</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Enter the current device or server API key</td>
+<td>Connect succeeds</td>
+</tr>
+<tr>
+<td>board_not_validated</td>
+<td>Keep Dark and complete Section 7</td>
+<td>Recorded physical checks</td>
+</tr>
+<tr>
+<td>ADC_rail</td>
+<td>Save raw ADC and check bias or saturation</td>
+<td>Valid unclipped data</td>
+</tr>
+<tr>
+<td>Timing or jitter error</td>
+<td>Save failure data and inspect timing</td>
+<td>Valid acquisition</td>
+</tr>
+<tr>
+<td>baseline_below_noise</td>
+<td>Check blank, standard, and optical path</td>
+<td>Adequate reference signal</td>
+</tr>
+<tr>
+<td>upload_queue_full</td>
+<td>Restore server connection and allow retries</td>
+<td>Queue clears before more acquisition</td>
+</tr>
+<tr>
+<td>no_trained_model_installed</td>
+<td>Use acquisition and export</td>
+<td>No invented classification result</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="13-interpret-results-and-sources">13 Interpret results and sources</h2>
+<p>DLIA separates modulation frequencies. Reflected excitation, material fluorescence, and cross-well fluorescence can remain in the same LED channel. An arbitrary opposing waveform cannot remove unknown interference reliably. The next section explains measured correction and its limits.</p>
+<p>Firmware uses fixed-tick I/Q. Offline dlia.py can use actual timestamps and joint least squares. Preserve raw ADC data for comparison. Model and synthetic tests do not establish physical-board, cell, or odor-detection performance.</p>
+<p>Sources: vendor schematic pages 1 to 2; <a href="https://docs.espressif.com/projects/esptool/en/latest/esp32/advanced-topics/boot-mode-selection.html">Espressif BOOT and EN</a>; <a href="https://docs.platformio.org/en/latest/integration/ide/vscode.html">PlatformIO IDE</a>; <a href="https://www.asd-ste100.org/">ASD-STE100</a>.</p>
+<h3 id="demo-practice">Demo practice</h3>
+<p>Preparation: Install Python 3 on the computer. This mode does not connect to the PCB.</p>
+<ol>
+<li>Open a terminal in 03_software.</li>
+<li>Run this command.</li>
+</ol>
+<pre><code class="language-text">python server/server.py --demo
+</code></pre>
+<ol>
+<li>Open http://127.0.0.1:8765/ on the same computer.</li>
+<li>Check that the page shows DEMO.</li>
+</ol>
+<p>Use synthetic data only to practice controls and exports. These are not hardware or cell measurements. Press Ctrl+C in the terminal to stop.</p></main></body></html>

@@ -46,9 +46,23 @@
     const noteOf=panel=>panel?.querySelector('[data-eng-stage]:not([hidden])');
     const stageOf=panel=>Math.max(0,stages.indexOf(bodyOf(panel)?.dataset.activeStage||'design'));
     const indexOf=reader=>reader.panels.indexOf(current(reader))*5+stageOf(current(reader));
-    const headerHeight=()=>document.querySelector('.site-header')?.getBoundingClientRect().height||0;
+    const headerHeight=()=>{
+      const header=document.querySelector('.site-header')?.getBoundingClientRect().height||0;
+      const toc=innerWidth<1100?(document.querySelector('.page-toc > summary')?.getBoundingClientRect().height||0):0;
+      return header+toc;
+    };
     function anchor(reader) {
       return Math.ceil(headerHeight()+(reader.track.querySelector('.eng-cycle-tabs')?.getBoundingClientRect().height||0)+28);
+    }
+    function bottomInset(reader) {
+      const control=document.querySelector('.eng-reading-mode');
+      if(!control||getComputedStyle(control).position!=='fixed')return 16;
+      const rect=control.getBoundingClientRect(),track=reader.track.getBoundingClientRect();
+      // On narrow layouts the reading-mode control sits over the article.
+      // Keep the entire pinned note above it; desktop sidebar controls do not
+      // reduce the reading area when they sit outside the article's width.
+      if(!rect.width||!rect.height||rect.right<=track.left||rect.left>=track.right||rect.top>=innerHeight)return 16;
+      return Math.max(16,Math.ceil(innerHeight-rect.top+12));
     }
     function startOf(reader) {
       const rect=runwayOf(current(reader)).getBoundingClientRect();
@@ -61,7 +75,7 @@
       let height=0;
       reader.panels.forEach(item=>{
         const original=item.querySelector('.eng-cycle__head');if(!original)return;
-        const copy=original.cloneNode(true);
+        const copy=window.AeroSenseI18n?.cloneSource(original)||original.cloneNode(true);
         copy.removeAttribute('id');copy.querySelectorAll('[id]').forEach(el=>el.removeAttribute('id'));
         Object.assign(copy.style,{position:'absolute',visibility:'hidden',pointerEvents:'none',width:width+'px',minHeight:'0',height:'auto'});
         panel.append(copy);height=Math.max(height,copy.getBoundingClientRect().height);copy.remove();
@@ -70,16 +84,24 @@
     }
     function measure(reader) {
       reader.top=anchor(reader);
+<<<<<<< HEAD
+      reader.track.style.setProperty('--eng-cycle-top',(headerHeight()+8)+'px');
+      const availableHeight=innerHeight-reader.top-bottomInset(reader);
+      // Pin the reader when enough space is available. Short viewports and
+      // reduced-motion users retain the complete, manually selected text.
+      reader.enabled=!document.documentElement.classList.contains('eng-reading-plain')&&reader.track.dataset.readingMode!=='manual'&&!reduced.matches&&availableHeight>=374;
+=======
       // Pin the reader when enough space is available. Short viewports and
       // reduced-motion users retain the complete, manually selected text.
       reader.enabled=!document.documentElement.classList.contains('eng-reading-plain')&&reader.track.dataset.readingMode!=='manual'&&!reduced.matches&&innerHeight-reader.top>=390;
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       reader.track.classList.toggle('has-guide-layout',reader.enabled);
       reader.track.classList.toggle('has-scroll-story',reader.enabled);
       reader.track.classList.remove('is-guided');
       if(reader.enabled){
         reader.step=Math.max(360,Math.min(520,Math.round(innerHeight*.65)));
         reader.travel=reader.panels.length*5*reader.step;
-        const height=innerHeight-reader.top-16;
+        const height=availableHeight;
         reader.track.style.setProperty('--eng-guide-height',height+'px');
         reader.track.style.setProperty('--eng-sticky-top',reader.top+'px');
         reader.track.style.setProperty('--eng-runway-height',(height+reader.travel)+'px');
@@ -91,6 +113,32 @@
     function measureTimeline(reader,height) {
       const body=bodyOf(current(reader)),note=noteOf(current(reader));
       if(!body||!note)return;
+<<<<<<< HEAD
+      const rect=body.getBoundingClientRect();
+      if(!rect.width||!rect.height)return;
+      const overflows=[];
+      reader.panels.forEach((panel,cycle)=>{
+        // The control row can wrap differently for "Next step" and "Continue
+        // reading", especially on phones. Measure the complete reader grid
+        // for each stage, not every note at the current stage's fixed height.
+        const source=bodyOf(panel),copy=window.AeroSenseI18n?.cloneSource(source)||source.cloneNode(true);
+        copy.removeAttribute('id');copy.querySelectorAll('[id]').forEach(el=>el.removeAttribute('id'));
+        copy.setAttribute('aria-hidden','true');copy.inert=true;
+        Object.assign(copy.style,{visibility:'hidden',pointerEvents:'none',width:rect.width+'px',height:height+'px',minHeight:'0',top:'0',left:'0',boxSizing:'border-box'});
+        copy.style.setProperty('position','absolute','important');
+        runwayOf(current(reader)).append(copy);
+        const notes=[...copy.querySelectorAll('[data-eng-stage]')];
+        try {
+          notes.forEach((measured,stage)=>{
+            notes.forEach(item=>{item.hidden=item!==measured;});
+            copy.dataset.activeStage=stages[stage];
+            const gearLabel=copy.querySelector('.eng-gears__current');
+            if(gearLabel)gearLabel.textContent=`${stages[stage][0].toUpperCase()+stages[stage].slice(1)} · ${stage+1} / 5`;
+            writeControlLabels(reader,copy,cycle,stage);
+            overflows.push(Math.ceil(Math.max(0,measured.scrollHeight-measured.clientHeight)));
+          });
+        } finally {copy.remove();}
+=======
       const rect=note.getBoundingClientRect();
       if(!rect.width||!rect.height)return;
       const overflows=[];
@@ -103,6 +151,7 @@
           copy.style.setProperty('display','block','important');
           body.append(copy);overflows.push(Math.ceil(Math.max(0,copy.scrollHeight-copy.clientHeight)));copy.remove();
         });
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       });
       reader.timeline=logic.timeline(overflows,Math.max(180,Math.min(240,Math.round(height*.35))),200);
       reader.travel=reader.timeline.at(-1).end;
@@ -115,7 +164,11 @@
         const width=context.getBoundingClientRect().width;
         reader.panels.forEach(panel=>{
           const original=panel.querySelector('.eng-cycle-context');if(!original)return;
+<<<<<<< HEAD
+          const copy=window.AeroSenseI18n?.cloneSource(original)||original.cloneNode(true);
+=======
           const copy=original.cloneNode(true);
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
           Object.assign(copy.style,{position:'absolute',visibility:'hidden',width:width+'px',height:'auto',minHeight:'0'});
           current(reader).append(copy);maximum=Math.max(maximum,copy.getBoundingClientRect().height);copy.remove();
         });
@@ -125,15 +178,21 @@
       reader.track.dataset.readingDistances=JSON.stringify(reader.timeline);
     }
     function writeControls(reader,panel) {
-      const controls=bodyOf(panel)?.querySelector('.eng-guide-controls');if(!controls)return;
-      const cycle=reader.panels.indexOf(panel),stage=stageOf(panel);
-      const label=reader.track.querySelector('.eng-track-label')?.textContent||'Engineering';
+      writeControlLabels(reader,bodyOf(panel),reader.panels.indexOf(panel),stageOf(panel));
+    }
+    function writeControlLabels(reader,body,cycle,stage) {
+      const controls=body?.querySelector('.eng-guide-controls');if(!controls)return;
+      const labelNode=reader.track.querySelector('.eng-track-label');
+      const label=(labelNode&&(window.AeroSenseI18n?.sourceText(labelNode)||labelNode.textContent))||'Engineering';
       controls.querySelector('[data-guide-status]').textContent=`${label} · Cycle ${cycle+1} / ${reader.panels.length} · ${stages[stage][0].toUpperCase()+stages[stage].slice(1)}`;
       controls.querySelector('[data-guide-prev]').disabled=cycle===0&&stage===0;
       controls.querySelector('[data-guide-next]').textContent=stage<4?'Next step →':cycle<reader.panels.length-1?'Next cycle →':'Continue reading ↓';
+<<<<<<< HEAD
+=======
       controls.querySelector('[data-guide-hint]').textContent=reader.enabled
         ?'Scroll to read this stage, then continue through the gears. Scroll up to revisit.'
         :'Choose a gear, or use Previous and Next to explore the cycles.';
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     }
     function render(reader,index) {
       const old=current(reader),oldIndex=indexOf(reader);
@@ -178,12 +237,14 @@
     function schedule() {if(!frame)frame=requestAnimationFrame(update);}
     function moveTo(element,focus=false) {
       if(!element)return;
-      window.scrollTo({top:Math.max(0,scrollY+element.getBoundingClientRect().top-headerHeight()-24),behavior:reduced.matches?'instant':'smooth'});
+      readers.forEach(reader=>{reader.lastDistance=undefined;});
+      window.scrollTo({top:Math.max(0,scrollY+element.getBoundingClientRect().top-headerHeight()-24),behavior:'instant'});
       if(focus){if(!element.hasAttribute('tabindex'))element.setAttribute('tabindex','-1');element.focus({preventScroll:true});}
     }
     // Seeking belongs only to an explicit navigation control. Wheel, touch,
     // keyboard scrolling and re-entry follow the document's native position.
     function seek(reader,index,focusNext=false) {
+      readers.forEach(item=>{item.lastDistance=undefined;});
       reader.manualExit=false;
       render(reader,index);
       if(reader.enabled){
@@ -210,16 +271,15 @@
         const runway=document.createElement('div');runway.className='eng-reader-runway';
         body.before(runway);runway.append(body);
         const controls=document.createElement('div');controls.className='eng-guide-controls';
-        controls.innerHTML='<p class="eng-guide-controls__status" data-guide-status></p><p class="eng-guide-controls__hint" data-guide-hint></p><div class="eng-guide-controls__actions"><button type="button" data-guide-prev>← Previous</button><button type="button" data-guide-next>Next step →</button><button type="button" class="eng-guide-controls__skip" data-guide-skip>Skip cycles ↓</button></div><button type="button" class="eng-guide-controls__evidence" data-guide-evidence>Read this cycle’s decision &amp; figures ↓</button>';
+        controls.innerHTML='<p class="eng-guide-controls__status" data-guide-status></p><div class="eng-guide-controls__actions"><button type="button" data-guide-prev>← Previous</button><button type="button" data-guide-next>Next step →</button><button type="button" class="eng-guide-controls__skip" data-guide-skip>Skip cycles ↓</button></div>';
         body.prepend(controls);
-        panel.querySelectorAll('[data-eng-stage]').forEach(note=>{note.tabIndex=0;note.setAttribute('aria-label',note.querySelector('h5')?.textContent||'Engineering stage');});
+        panel.querySelectorAll('[data-eng-stage]').forEach(note=>{const heading=note.querySelector('h5');note.tabIndex=0;note.setAttribute('aria-label',(heading&&(window.AeroSenseI18n?.sourceText(heading)||heading.textContent))||'Engineering stage');});
         controls.querySelector('[data-guide-prev]').addEventListener('click',()=>advance(reader,-1));
         controls.querySelector('[data-guide-next]').addEventListener('click',()=>advance(reader,1));
         controls.querySelector('[data-guide-skip]').addEventListener('click',()=>{
           reader.manualExit=true;
           moveTo(reader.track.querySelector('.eng-summary')||reader.track.nextElementSibling||panel.querySelector('.eng-cycle__footer'),true);
         });
-        controls.querySelector('[data-guide-evidence]').addEventListener('click',()=>decision(reader));
       });
       reader.track.addEventListener('eng:cycle-change',event=>{
         const panel=current(reader);writeControls(reader,panel);
@@ -252,6 +312,22 @@
       initialPending=false;
       if(openTarget(target))event.preventDefault();
     });
+    document.querySelector('.page-toc')?.addEventListener('click',event=>{
+      const link=event.target.closest('a[href^="#"]');
+      if(!link||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+      let target;try{target=document.getElementById(decodeURIComponent(link.hash.slice(1)));}catch(_){return;}
+      if(!target||target.closest('[data-cycle-panel]'))return;
+      event.preventDefault();
+      // A chapter jump must not traverse the intermediate cycle runways: their
+      // different decision/footer heights would move the destination en route.
+      readers.forEach(reader=>{reader.lastDistance=undefined;reader.manualExit=false;});
+      if(location.hash!==link.hash)history.pushState(null,'',link.hash);
+      if(innerWidth<1100)link.closest('details')?.removeAttribute('open');
+      window.scrollTo({top:Math.max(0,scrollY+target.getBoundingClientRect().top-headerHeight()-24),behavior:'instant'});
+      if(!target.hasAttribute('tabindex'))target.setAttribute('tabindex','-1');
+      target.focus({preventScroll:true});
+      schedule();
+    });
     window.addEventListener('scroll',schedule,{passive:true});
     window.addEventListener('resize',()=>{readers.forEach(measure);schedule();});
     reduced.addEventListener('change',()=>{readers.forEach(measure);schedule();});
@@ -262,6 +338,10 @@
       readers.forEach(reader=>{
         const active=current(reader);
         reader.manualExit=false;
+<<<<<<< HEAD
+        reader.lastDistance=undefined;
+=======
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
         reader.panels.forEach(panel=>{
           panel.hidden=!plain&&panel!==active;
           panel.querySelectorAll('[data-eng-stage]').forEach(note=>{
@@ -272,9 +352,17 @@
         measure(reader);
       });
       readingToggle?.setAttribute('aria-pressed',String(plain));
+<<<<<<< HEAD
+      if(readingToggle){
+        readingToggle.textContent=plain?'Guided view':'Expand all';
+        readingToggle.setAttribute('aria-label',plain?'Return to guided engineering reading':'Expand all engineering cycles and stages');
+      }
+      document.querySelectorAll('[data-eng-receptor-record]').forEach(detail=>{detail.open=plain;});
+=======
       if(readingToggle)readingToggle.textContent=plain?'Resume guided DBTLR reading':'Expand all · exit pinned reading';
       const description=document.querySelector('[data-eng-reading-description]');
       if(description)description.textContent=plain?'Every cycle and every stage is expanded. Scroll normally or choose a chapter.':'Guided reading keeps the DBTLR stages in view. Expand all for ordinary scrolling through every stage.';
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
       if(persist){try{localStorage.setItem('aerosense-engineering-reading',plain?'plain':'guided');}catch(_){} }
       if(focused===readingToggle)readingToggle.focus({preventScroll:true});
       schedule();

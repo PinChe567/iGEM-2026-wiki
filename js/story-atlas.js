@@ -7,7 +7,7 @@
    const select=document.createElement('select');select.className='atlas-mobile';select.id=figure.id+'-select';
    const label=document.createElement('label');label.className='atlas-mobile atlas-mobile-label';label.htmlFor=select.id;label.textContent='Explore a diagram region';
    select.add(new Option('Choose a region…',''));
-   details.forEach(item=>select.add(new Option(item.querySelector('summary').textContent,item.id)));
+   details.forEach(item=>{const summary=item.querySelector('summary');select.add(new Option(window.AeroSenseI18n?.sourceText(summary)||summary.textContent,item.id));});
    figure.querySelector('.framework-board').before(label,select);
    const openItem=id=>{const item=document.getElementById(id);if(!item||!figure.contains(item))return;details.forEach(d=>{d.open=d===item;});if(item.closest('.atlas-risk-index'))item.closest('.atlas-risk-index').open=true;select.value=id;figure.classList.add('is-inspecting');};
    links.forEach(link=>{

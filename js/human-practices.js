@@ -245,8 +245,8 @@
       if (btn) btn.setAttribute("aria-expanded", "true");
 
       if (isMobileMap()) {
-        if (drawerTitle) drawerTitle.textContent = name ? name.textContent : "";
-        if (drawerBody && orgs) drawerBody.appendChild(orgs.cloneNode(true));
+        if (drawerTitle) drawerTitle.textContent = name ? (window.AeroSenseI18n?.sourceText(name)||name.textContent) : "";
+        if (drawerBody && orgs) drawerBody.appendChild((window.AeroSenseI18n?.cloneSource(orgs)||orgs.cloneNode(true)));
         if (drawer) drawer.hidden = false;
       } else if (pop) {
         pop.hidden = false;
@@ -358,7 +358,7 @@
       var portraits = doc.createElement("div");
       portraits.className = "hp-detail__portraits";
       portraitWraps.forEach(function (wrap) {
-        portraits.appendChild(wrap.cloneNode(true));
+        portraits.appendChild((window.AeroSenseI18n?.cloneSource(wrap)||wrap.cloneNode(true)));
       });
 
       var idx = ids.indexOf(id);
@@ -373,17 +373,17 @@
       var who = doc.createElement("div");
       var cat = doc.createElement("p");
       cat.className = "hp-cp__cat";
-      cat.textContent = catEl ? catEl.textContent : "";
+      cat.textContent = catEl ? (window.AeroSenseI18n?.sourceText(catEl)||catEl.textContent) : "";
       var heading = doc.createElement("h2");
       heading.id = "hp-detail-heading";
       heading.tabIndex = -1;
-      heading.textContent = nameEl ? nameEl.textContent : "";
+      heading.textContent = nameEl ? (window.AeroSenseI18n?.sourceText(nameEl)||nameEl.textContent) : "";
       var meta = doc.createElement("p");
       meta.className = "hp-detail__meta";
-      meta.textContent = dateEl ? dateEl.textContent : "";
+      meta.textContent = dateEl ? (window.AeroSenseI18n?.sourceText(dateEl)||dateEl.textContent) : "";
       var take = doc.createElement("p");
       take.className = "hp-detail__take";
-      take.textContent = decisionEl ? decisionEl.textContent : "";
+      take.textContent = decisionEl ? (window.AeroSenseI18n?.sourceText(decisionEl)||decisionEl.textContent) : "";
       who.appendChild(cat);
       who.appendChild(heading);
       who.appendChild(meta);
@@ -392,7 +392,7 @@
       content.appendChild(top);
 
       if (source) {
-        content.appendChild(source.cloneNode(true));
+        content.appendChild((window.AeroSenseI18n?.cloneSource(source)||source.cloneNode(true)));
       }
 
       var nav = doc.createElement("div");

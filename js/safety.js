@@ -94,7 +94,7 @@
 
     function select(tab, moveFocus) {
       var id = tab.getAttribute("data-saf-stage");
-      var label = tab.getAttribute("data-saf-label") || tab.textContent.trim();
+      var label = tab.getAttribute("data-saf-label") || (window.AeroSenseI18n?.sourceText(tab) || tab.textContent).trim();
       var vertical = narrowMq.matches;
 
       tabs.forEach(function (btn) {
@@ -232,7 +232,6 @@
     var statusBtns = qsa("[data-saf-status-filter]", root);
     var rows = qsa("[data-saf-row]", root);
     var live = qs("[data-saf-register-live]", root);
-    var empty = qs("[data-saf-register-empty]", root);
     if (!rows.length) return;
 
     root.classList.add("is-enhanced");
@@ -267,14 +266,12 @@
       syncButtons(domainBtns, domain, "data-saf-domain");
       syncButtons(statusBtns, status, "data-saf-status-filter");
       if (live) {
-        live.textContent =
-          "Showing " + shown + " of " + rows.length + " rows" +
+        live.textContent = shown === 0
+          ? "No matching records. Adjust the filters."
+          : "Showing " + shown + " of " + rows.length + " rows" +
           (domain === "all" && status === "all"
             ? "."
             : " for the current filters.");
-      }
-      if (empty) {
-        empty.hidden = shown !== 0;
       }
     }
 
@@ -319,7 +316,6 @@
       if (live) {
         live.textContent = "Print view shows all " + rows.length + " rows.";
       }
-      if (empty) empty.hidden = true;
     });
     window.addEventListener("afterprint", apply);
 

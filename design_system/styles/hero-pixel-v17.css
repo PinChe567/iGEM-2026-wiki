@@ -1,0 +1,80 @@
+/* Full-width watercolor chapter covers. The helper measures layout only; source
+   artwork, text metrics, scientific media and the article grid stay untouched. */
+html body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero){
+ --hero-v17-ground:color-mix(in srgb,var(--v-accent) 13%,var(--v-art-paper));
+ --hero-v17-wash:color-mix(in srgb,var(--v-accent) 22%,var(--v-art-paper));
+ position:relative;isolation:isolate;box-sizing:border-box;
+ width:var(--hero-v17-width,100%)!important;max-width:none!important;
+ margin-inline-start:calc(-1 * var(--hero-v17-outset,0px))!important;
+ margin-inline-end:0!important;margin-bottom:3rem!important;
+ padding:clamp(2.5rem,4.8vw,4.75rem) max(1.5rem,calc((var(--hero-v17-width,100vw) - 1240px)/2))!important;
+ border:0!important;border-radius:0!important;box-shadow:none!important;
+ overflow:visible;clip-path:none!important;
+ background:
+  radial-gradient(ellipse at 76% 43%,var(--v-art-paper) 0%,transparent 40%),
+  radial-gradient(ellipse at 96% 92%,var(--hero-v17-wash),transparent 62%),
+  linear-gradient(115deg,var(--hero-v17-ground),var(--v-soft) 48%,var(--hero-v17-ground))!important;
+ color:var(--v-ink)!important;
+}
+/* The no-JS cover still paints to both viewport edges, without changing the
+   reading column. Shadows do not enlarge the document's scrollable width. */
+html body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero)::before{
+ content:"";display:block!important;position:absolute;inset:0;z-index:-1;
+ width:auto;height:auto!important;border:0;border-radius:0;
+ background:var(--hero-v17-ground)!important;
+ box-shadow:0 0 0 100vmax var(--hero-v17-ground);
+ clip-path:inset(0 -100vmax);pointer-events:none;
+}
+/* Low-density native square grains retain crisp edges at normal rendering
+   resolution. The faint texture never filters or pixelates the artwork. */
+html.hero-layout-v17 body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero)::before{
+ z-index:0;box-shadow:none;clip-path:none;background:var(--v-accent)!important;opacity:.13;
+ mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='224' viewBox='0 0 256 224'%3E%3Cg fill='black'%3E%3Cpath d='M16 24h4v4h-4zM20 28h4v4h-4zM124 12h8v4h-8zM216 60h4v8h-4zM72 100h4v4h-4zM164 132h8v4h-8zM168 136h4v4h-4zM28 188h4v4h-4zM104 208h8v4h-8zM232 184h4v4h-4z'/%3E%3C/g%3E%3C/svg%3E");
+ mask-size:256px 224px;mask-repeat:repeat;
+}
+html body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero)::after{
+ content:"";display:block!important;position:absolute;left:0;right:0;bottom:-1px;
+ width:100%!important;max-width:none!important;height:24px!important;z-index:2;border:0;border-radius:0;
+ background:var(--v-page-ground,var(--v-paper))!important;pointer-events:none;
+ mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='192' height='24' viewBox='0 0 192 24'%3E%3Cpath d='M0 12H24V8H40V16H64V12H88V4H104V8H120V16H144V12H160V8H176V12H192V24H0Z' fill='black'/%3E%3C/svg%3E");
+ mask-repeat:repeat-x;mask-position:bottom;mask-size:192px 24px;
+}
+html body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero)>*{position:relative;z-index:1}
+body.signal-atlas.page-glossary .glossary-page:has(>.glossary-conversation-hero){
+ border:0!important;border-radius:0!important;background:transparent!important;padding-top:0!important;
+}
+html body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro):has(>.ds-hero-art){
+ grid-template-columns:minmax(0,1fr) minmax(280px,.8fr);column-gap:clamp(2rem,5vw,5rem);
+}
+html body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro)>.ds-hero-art[data-art-style=claude-source]{
+ max-width:400px;justify-self:center;
+}
+/* The outer wash dissolves along an irregular square mask; its fully opaque
+   middle keeps the illustration itself intact. No bitmap sampling is changed. */
+html body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero) :is(.ds-hero-art[data-art-style=claude-source],.learning-claude-art){
+ mask-image:radial-gradient(ellipse 65% 66% at 50% 48%,#000 46%,#000e 63%,transparent 79%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='264' height='212' viewBox='0 0 264 212'%3E%3Cpath fill='black' fill-rule='evenodd' d='M56 0H208V8H232V24H248V48H256V80H264V144H256V176H240V192H216V204H184V212H64V204H32V192H16V176H8V144H0V72H8V40H24V24H40V8H56ZM24 32h8v8h-8zM40 16h8v8h-8zM208 16h8v8h-8zM232 40h8v8h-8zM248 72h8v8h-8zM16 72h8v8h-8zM8 136h8v8h-8zM24 172h8v8h-8zM48 188h8v8h-8zM224 180h8v8h-8zM240 148h8v8h-8z'/%3E%3C/svg%3E")!important;
+ mask-size:100% 100%,100% 100%!important;mask-repeat:no-repeat!important;mask-position:center!important;
+ mask-composite:intersect!important;
+}
+/* Reserve the contents column below the cover. Sticky behavior is
+   inherited from the existing navigation after the reader reaches the article. */
+@media(min-width:1100px){
+ body.signal-atlas .shell--with-toc[data-hero-layout-v17]>.page-toc-slot{margin-top:var(--hero-v17-toc-offset,0px)!important}
+}
+@media(min-width:960px){
+ body.signal-atlas.page-learning .learn-app[data-hero-layout-v17]>.learn-rail{margin-top:var(--hero-v17-toc-offset,0px)!important}
+}
+@media(max-width:760px){
+ html body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero){
+  padding:2.75rem 1.5rem 2.5rem!important;margin-bottom:2rem!important;
+  background:radial-gradient(ellipse at 65% 74%,var(--v-art-paper),transparent 55%),linear-gradient(145deg,var(--hero-v17-ground),var(--hero-v17-wash))!important;
+ }
+ html body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro):has(>.ds-hero-art){grid-template-columns:1fr;row-gap:.5rem}
+ html body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro)>.ds-hero-art[data-art-style=claude-source]{width:min(100%,300px);max-width:300px}
+ body.signal-atlas.page-learning :is(.learn-hero,.lm-hero) .learning-claude-art{width:min(100%,260px)!important;max-width:260px!important;justify-self:center}
+}
+@media print{
+ html body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero){width:100%!important;margin-inline:0!important;padding:1.5rem!important;background:var(--v-soft)!important}
+ html body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero)::before,
+ html body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero)::after{display:none!important}
+}

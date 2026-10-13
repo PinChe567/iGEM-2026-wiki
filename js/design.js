@@ -18,6 +18,11 @@
     return Array.prototype.slice.call((ctx || document).querySelectorAll(sel));
   }
 
+  function copySource(target, source) {
+    var clone = window.AeroSenseI18n?.cloneSource(source) || source.cloneNode(true);
+    target.replaceChildren(...clone.childNodes);
+  }
+
   function catalogArticle(moduleId, feature) {
     return qs(
       '#design-feature-catalog [data-module="' + moduleId + '"][data-feature="' + feature + '"]'
@@ -64,13 +69,15 @@
         var empty = qs("[data-inspector-empty]", root);
         if (!panel) return;
         if (scoped && scoped !== "overview" && scoped !== String(moduleId)) {
-          if (empty) panel.innerHTML = empty.innerHTML;
+          if (empty) copySource(panel, empty);
           if (live) live.textContent = "";
           return;
         }
-        panel.innerHTML = article.innerHTML;
+        copySource(panel, article);
         if (live) {
-          live.textContent = announce ? panel.textContent.replace(/\s+/g, " ").trim() : "";
+          var heading = article.querySelector('h3');
+          var selectedName = heading ? (window.AeroSenseI18n?.sourceText(heading)||heading.textContent) : feature;
+          live.textContent = announce ? 'Selected feature: '+selectedName+'.' : '';
         }
       });
 
@@ -86,7 +93,7 @@
         var panel = qs("[data-inspector-panel]", root);
         var empty = qs("[data-inspector-empty]", root);
         var live = qs("[data-inspector-live]", root);
-        if (panel && empty) panel.innerHTML = empty.innerHTML;
+        if (panel && empty) copySource(panel, empty);
         if (live) live.textContent = "";
       });
       allHits().forEach(function (el) {
@@ -128,9 +135,12 @@
     });
 
     if (svg) {
+      svg.setAttribute("role", "group");
       qsa("g[data-feature]", svg).forEach(function (g) {
         g.setAttribute("tabindex", "0");
         g.setAttribute("role", "button");
+        g.setAttribute("aria-controls", "insp-overview");
+        g.setAttribute("aria-pressed", "false");
         g.addEventListener("click", function () {
           activate(g, true);
         });
@@ -249,7 +259,7 @@
     function show(name) {
       var card = qs('#design-or-catalog [data-or="' + name + '"]');
       if (!panel || !card) return;
-      panel.innerHTML = card.innerHTML;
+      copySource(panel, card);
       buttons.forEach(function (btn) {
         var on = btn.getAttribute("data-or") === name;
         setCurrent(btn, on);
@@ -257,16 +267,39 @@
     }
 
     function clear() {
-      if (panel && empty) panel.innerHTML = empty.innerHTML;
+      if (panel && empty) copySource(panel, empty);
       buttons.forEach(function (btn) {
         setCurrent(btn, false);
       });
     }
 
-    buttons.forEach(function (btn) {
+    buttons.forEach(function (btn, index) {
+      // Preserve the catalogue link when JavaScript is unavailable; expose the
+      // enhanced control as a button whose pressed state is separate from overlap.
+      btn.setAttribute("role", "button");
+      btn.setAttribute("aria-pressed", "false");
+      btn.removeAttribute("aria-current");
       btn.addEventListener("click", function (event) {
         if (btn.tagName === "A") event.preventDefault();
         show(btn.getAttribute("data-or"));
+      });
+      btn.addEventListener("keydown", function (event) {
+        if (event.key === " ") {
+          event.preventDefault();
+          show(btn.getAttribute("data-or"));
+          return;
+        }
+        var next = index;
+        if (event.key === "ArrowRight") next = (index + 1) % buttons.length;
+        else if (event.key === "ArrowLeft") next = (index - 1 + buttons.length) % buttons.length;
+        else if (event.key === "ArrowDown") next = (index + 3) % buttons.length;
+        else if (event.key === "ArrowUp") next = (index - 3 + buttons.length) % buttons.length;
+        else if (event.key === "Home") next = 0;
+        else if (event.key === "End") next = buttons.length - 1;
+        else return;
+        event.preventDefault();
+        buttons[next].focus();
+        show(buttons[next].getAttribute("data-or"));
       });
       btn.addEventListener("focus", function () {
         if (window.matchMedia("(hover: none)").matches) return;
@@ -274,6 +307,7 @@
       });
     });
 
+    if (buttons.length) show(buttons[0].getAttribute("data-or"));
     initReceptorGrid.show = show;
   }
 

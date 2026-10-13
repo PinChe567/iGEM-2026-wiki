@@ -3,20 +3,25 @@ import * as THREE from './vendor/three.module.js';
 export async function createPartsViewer(host, api) {
   const canvas=host.querySelector('canvas'), fallback=host.querySelector('[data-parts-3d-fallback]');
   const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:!matchMedia('(pointer:coarse)').matches,powerPreference:'low-power'});
+<<<<<<< HEAD
+  // Keep the page's CSS paper visible without changing any scientific material.
+  renderer.setClearColor(0x000000,0);
+=======
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
   renderer.setPixelRatio(Math.min(devicePixelRatio||1,matchMedia('(pointer:coarse)').matches?1.25:1.5));
   renderer.outputColorSpace=THREE.SRGBColorSpace;
   renderer.toneMapping=THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure=1.16;
+  renderer.toneMappingExposure=1.05;
   const scene=new THREE.Scene();
-  scene.add(new THREE.HemisphereLight(0xf6fff0,0x284b48,1.3));
-  for(const [color,intensity,x,y,z] of [[0xffe9c4,2.1,3,6,5],[0x8adde7,1.5,-4,2,-3]]) {
+  scene.add(new THREE.HemisphereLight(0xf6fff0,0x284b48,1.1));
+  for(const [color,intensity,x,y,z] of [[0xffe9c4,1.7,3,6,5],[0x8adde7,.7,-4,2,-3]]) {
     const l=new THREE.DirectionalLight(color,intensity);l.position.set(x,y,z);scene.add(l);
   }
   const camera=new THREE.PerspectiveCamera(38,1,.1,50), target=new THREE.Vector3(-.15,-.12,0);
   let theta=.14,phi=1.34,radius=6.4,visible=true,enabled=!host.hidden,raf=0;
   const place=()=>{const r=radius/Math.min(1,camera.aspect);camera.position.set(r*Math.sin(phi)*Math.sin(theta),target.y+r*Math.cos(phi),r*Math.sin(phi)*Math.cos(theta));camera.lookAt(target);};
   place();
-  // Illustrated topology: rounded, deliberately non-atomic forms make roles clear.
+  // Faceted conceptual topology: deliberately non-atomic forms make roles clear.
   // Geometry does not assert helix count, molecular structure, or stoichiometry.
   const model=new THREE.Group();scene.add(model);
   function part(feature,geometry,x,y,z){
@@ -27,22 +32,22 @@ export async function createPartsViewer(host, api) {
   for(const [feature,cx] of [['or',-.72],['orco',.72]]){
     for(let i=0;i<5;i++){
       const dx=(i-2)*.16, z=(i%2?-.12:.1);
-      const rod=part(feature,new THREE.CylinderGeometry(.105,.12,1.68,20),cx+dx,.68,z);
+      const rod=part(feature,new THREE.CylinderGeometry(.105,.12,1.68,8),cx+dx,.68,z);
       rod.rotation.z=.08*Math.sin(i*1.7);
-      part(feature,new THREE.SphereGeometry(.11,16,12),cx+dx,1.51,z);
-      part(feature,new THREE.SphereGeometry(.12,16,12),cx+dx,-.16,z);
+      part(feature,new THREE.IcosahedronGeometry(.11,0),cx+dx,1.51,z);
+      part(feature,new THREE.IcosahedronGeometry(.12,0),cx+dx,-.16,z);
     }
   }
   // A discrete contact between OR and Orco: visual partnership, not a protein interface prediction.
-  for(let i=0;i<3;i++)part('orco',new THREE.SphereGeometry(.065,14,10),-.02,.22+i*.34,.18);
+  for(let i=0;i<3;i++)part('orco',new THREE.IcosahedronGeometry(.065,0),-.02,.22+i*.34,.18);
   // A flexible linker connects GCaMP6f to Orco in the proposed fusion.
   const bend=new THREE.CatmullRomCurve3([new THREE.Vector3(.72,-.18,.12),new THREE.Vector3(.94,-.45,.16),new THREE.Vector3(.67,-.72,.16),new THREE.Vector3(.89,-.94,.14)]);
-  const linker=part('linker',new THREE.TubeGeometry(bend,48,.065,10,false),0,0,0);
+  const linker=part('linker',new THREE.TubeGeometry(bend,16,.065,6,false),0,0,0);
   function reporter(feature,x,r){
-    part(feature,new THREE.SphereGeometry(r,32,24),x,-1.34,.12);
+    part(feature,new THREE.IcosahedronGeometry(r,1),x,-1.34,.12);
     for(let i=0;i<6;i++){
       const a=i*Math.PI/3;
-      part(feature,new THREE.SphereGeometry(.13,16,12),x+Math.cos(a)*(r-.015),-1.34+Math.sin(a)*(r-.015),.33);
+      part(feature,new THREE.IcosahedronGeometry(.13,0),x+Math.cos(a)*(r-.015),-1.34+Math.sin(a)*(r-.015),.33);
     }
   }
   reporter('gcamp',.89,.43);reporter('mcherry',-1.35,.4);
@@ -57,9 +62,9 @@ export async function createPartsViewer(host, api) {
     obj.material=obj.material.clone();
     const colors={or:0x42a980,orco:0x56a9d7,gcamp:0x83e74d,mcherry:0xff6b91,linker:0xf8bf5e,membrane:0xabc8b6};
     if(feature==='membrane'){
-      obj.material.color.setHex(colors.membrane);obj.material.transparent=true;obj.material.opacity=.085;obj.material.depthWrite=false;obj.material.roughness=.9;
+      obj.material.color.setHex(colors.membrane);obj.material.transparent=true;obj.material.opacity=.085;obj.material.depthWrite=false;obj.material.roughness=.95;obj.material.flatShading=true;
     } else {
-      obj.material=new THREE.MeshToonMaterial({color:colors[feature]||0xf8bf5e,emissive:colors[feature]||0xf8bf5e,emissiveIntensity:feature==='gcamp'?1.2:feature==='mcherry'?1.0:.05});
+      obj.material=new THREE.MeshStandardMaterial({color:colors[feature]||0xf8bf5e,roughness:.88,metalness:0,flatShading:true,emissive:colors[feature]||0xf8bf5e,emissiveIntensity:feature==='gcamp'?.15:feature==='mcherry'?.1:.025});
     }
     obj.userData.rest=obj.position.clone();
     obj.userData.baseEmissive=obj.material.emissive.clone();
@@ -67,7 +72,10 @@ export async function createPartsViewer(host, api) {
     (groups[feature]??=[]).push(obj);
     if(feature&&feature!=='membrane')pickables.push(obj);
   });
-  // Soft illustrated glows make the two reporters legible without presenting a predicted structure.
+  canvas.dataset.renderStyle='low-poly-matte';
+  canvas.dataset.meshCount=String(Object.values(groups).flat().length);
+  canvas.dataset.triangleCount=String(Object.values(groups).flat().reduce((total,mesh)=>total+(mesh.geometry.index?.count||mesh.geometry.attributes.position.count)/3,0));
+  // A restrained reporter halo keeps the signal cue without flattening the facets.
   const glowCanvas=document.createElement('canvas');glowCanvas.width=128;glowCanvas.height=128;
   const ctx=glowCanvas.getContext('2d'),gradient=ctx.createRadialGradient(64,64,8,64,64,64);
   gradient.addColorStop(0,'rgba(255,255,255,.7)');gradient.addColorStop(.35,'rgba(255,255,255,.32)');gradient.addColorStop(1,'rgba(255,255,255,0)');ctx.fillStyle=gradient;ctx.fillRect(0,0,128,128);
@@ -76,7 +84,7 @@ export async function createPartsViewer(host, api) {
     const meshes=groups[feature]||[];if(!meshes.length)continue;
     const box=new THREE.Box3();meshes.forEach(mesh=>box.expandByObject(mesh));
     const center=box.getCenter(new THREE.Vector3()),size=box.getSize(new THREE.Vector3());
-    const sprite=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTexture,color,transparent:true,opacity:.82,depthWrite:false,depthTest:false}));
+    const sprite=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTexture,color,transparent:true,opacity:.18,depthWrite:false,depthTest:false}));
     sprite.position.copy(center);sprite.position.z-=.24;sprite.scale.set(Math.max(1.25,size.x*2.5),Math.max(1.25,size.y*2.3),1);sprite.renderOrder=2;scene.add(sprite);sprite.userData.rest=sprite.position.clone();glows[feature]=sprite;
   }
   function render() {
@@ -94,8 +102,13 @@ export async function createPartsViewer(host, api) {
   const tooltip=document.createElement('div');tooltip.className='protein-hover';tooltip.hidden=true;host.append(tooltip);
   function highlight(){
     const focus=hovered||selected;
+<<<<<<< HEAD
+    pickables.forEach(o=>{const on=o.userData.feature===focus;o.material.emissive.copy(o.userData.baseEmissive);o.material.emissiveIntensity=on?.32:o.userData.baseIntensity;o.material.color.setHex(({or:0x42a980,orco:0x56a9d7,gcamp:0x83e74d,mcherry:0xff6b91,linker:0xf8bf5e})[o.userData.feature]);if(focus&&!on)o.material.color.multiplyScalar(.75);});
+    Object.entries(glows).forEach(([feature,sprite])=>{sprite.material.opacity=focus===feature?.3:focus?.08:.18;});
+=======
     pickables.forEach(o=>{const on=o.userData.feature===focus;o.material.emissive.copy(o.userData.baseEmissive);o.material.emissiveIntensity=on?1.5:o.userData.baseIntensity;o.material.color.setHex(({or:0x42a980,orco:0x56a9d7,gcamp:0x83e74d,mcherry:0xff6b91,linker:0xf8bf5e})[o.userData.feature]);if(focus&&!on)o.material.color.multiplyScalar(.65);});
     Object.entries(glows).forEach(([feature,sprite])=>{sprite.material.opacity=focus&&focus!==feature?.36:.82;});
+>>>>>>> b034157e7bf87312c675bab82e5b976e5b227fa0
     request();
   }
   api.focus=feature=>{selected=feature;highlight();};
