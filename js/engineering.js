@@ -125,7 +125,7 @@
         return panel.getAttribute("data-eng-ladder-panel");
       },
       labelFor: function (key) {
-        return "Step " + key + " · " + (names[key] || "") + " · PLANNED";
+        return "Step " + key + " · " + (names[key] || "") + " · SPECIFICATION";
       },
     });
   }

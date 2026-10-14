@@ -669,17 +669,23 @@
   // One viewport-bound layer for reference previews. Hidden panels have no layout
   // box; open panels leave transformed/overflow-clipped article ancestors.
   var citationPanels = (function () {
-    var active=null, closeTimer=0, frame=0, restoring=false;
+    var active=null, closeTimer=0, frame=0, restoring=false, dismissedAnchor=null;
     var bridge=doc.createElement('div');bridge.className='reading-popover-bridge';bridge.hidden=true;bridge.setAttribute('aria-hidden','true');
     function cancelClose(){window.clearTimeout(closeTimer);closeTimer=0;}
     function hide(panel,restoreFocus){
       if(!active||(panel&&active.panel!==panel))return;
-      cancelClose();var previous=active;active=null;
+      cancelClose();var previous=active;active=null;restoring=true;
       previous.panel.classList.remove('is-open');previous.panel.hidden=true;bridge.hidden=true;
       if(previous.next&&previous.next.parentNode===previous.home)previous.home.insertBefore(previous.panel,previous.next);else previous.home.appendChild(previous.panel);
       previous.anchor.setAttribute('aria-expanded','false');
       if(previous.onClose)previous.onClose();
-      if(restoreFocus){restoring=true;previous.anchor.focus({preventScroll:true});restoring=false;}
+      if(restoreFocus){
+        previous.anchor.focus({preventScroll:true});dismissedAnchor=previous.anchor;
+        var clearDismissed=function(){if(dismissedAnchor===previous.anchor)dismissedAnchor=null;};
+        previous.region.addEventListener('mouseleave',clearDismissed,{once:true});
+        previous.anchor.addEventListener('blur',clearDismissed,{once:true});
+      }
+      restoring=false;
     }
     function place(){
       frame=0;if(!active)return;
@@ -703,7 +709,8 @@
     }
     function requestPlace(){if(active&&!frame)frame=requestAnimationFrame(place);}
     function show(anchor,panel,region,onClose){
-      if(restoring)return;
+      if(restoring||anchor===dismissedAnchor)return;
+      dismissedAnchor=null;
       cancelClose();
       if(active&&active.panel===panel){active.anchor.setAttribute('aria-expanded','false');active.anchor=anchor;anchor.setAttribute('aria-expanded','true');place();return;}
       hide();
@@ -716,8 +723,9 @@
         panel.addEventListener('mouseenter',cancelClose);panel.addEventListener('mouseleave',scheduleClose);
         panel.addEventListener('focusin',cancelClose);panel.addEventListener('focusout',scheduleClose);
       }
-      if(!bridge.isConnected)doc.body.appendChild(bridge);
-      doc.body.appendChild(panel);panel.hidden=false;panel.classList.add('is-open');anchor.setAttribute('aria-expanded','true');place();
+      var overlayHost=anchor.closest('dialog[open]')||doc.body;
+      overlayHost.appendChild(bridge);
+      overlayHost.appendChild(panel);panel.hidden=false;panel.classList.add('is-open');anchor.setAttribute('aria-expanded','true');place();
     }
     function scheduleClose(){
       cancelClose();closeTimer=window.setTimeout(function(){

@@ -12,6 +12,16 @@ function revealLinkedAppendix() {
 }
 window.addEventListener('hashchange',revealLinkedAppendix);
 revealLinkedAppendix();
+
+function updateOpticalSpectraLanguage() {
+  const language = document.documentElement.lang === 'zh-Hant' ? 'zh-Hant' : 'en';
+  const base = 'assets/hardware/optics-v38/spectral-alignment-' + language;
+  document.querySelectorAll('[data-optics-spectral-image]').forEach(image => { image.src = base + '.svg'; });
+  document.querySelectorAll('[data-optics-spectral-link]').forEach(link => { link.href = base + '.svg'; });
+  document.querySelectorAll('[data-optics-spectral-png]').forEach(link => { link.href = base + '.png'; });
+}
+document.addEventListener('aerosense:languagechange', updateOpticalSpectraLanguage);
+updateOpticalSpectraLanguage();
 document.querySelectorAll('details[data-hw-v2-preview]').forEach((details) => {
   details.addEventListener('toggle', () => {
     const frame = details.querySelector('iframe[data-src]');

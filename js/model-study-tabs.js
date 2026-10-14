@@ -37,8 +37,27 @@
     document.querySelectorAll('main a[href="#'+CSS.escape(ref.id)+'"]').forEach(cite=>{
       const key=directTrack(cite);if(key)tracks.add(key);
     });
-    if(!tracks.size){tracks.add('hardware');tracks.add('decoding');}
+    // Uncited records never become automatic further reading in another study.
+    // The shared reference enhancer handles genuine citations and their returns.
+    if(!tracks.size)ref.dataset.referenceEnhanced='uncited-model-source';
     referenceTracks.set(ref.id,tracks);
+  });
+  // Each panel owns a bibliography ordered by its first actual citation. The
+  // same numbering is authored in HTML, so the full no-JS page remains usable.
+  panels.forEach(panel=>{
+    const order=[];
+    panel.querySelectorAll('a[href^="#"]').forEach(cite=>{
+      const id=cite.getAttribute('href').slice(1);
+      if(!referenceTracks.has(id))return;
+      if(!order.includes(id))order.push(id);
+      const number=order.indexOf(id)+1;
+      cite.textContent='['+number+']';
+      cite.setAttribute('aria-label','Reference '+number);
+      cite.dataset.modelReference=id;
+      document.getElementById(id).value=number;
+    });
+    const list=document.querySelector('[data-model-reference-group="'+panel.dataset.modelPanel+'"] .ref-list');
+    if(list){list.start=1;order.forEach(id=>list.appendChild(document.getElementById(id)));}
   });
   function trackFor(target,preferred=active){
     const direct=directTrack(target);if(direct)return direct;

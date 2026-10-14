@@ -11,6 +11,11 @@
   const rangeText = new WeakSet();
   const skip = 'script,style,noscript,code:not([data-language-label-text]),pre,math,canvas,textarea,[contenteditable="true"],[translate="no"],.home-wordmark__type,.brand__name,.lp-note blockquote';
   const attributeNames = ['aria-label', 'aria-valuetext', 'aria-description', 'placeholder', 'title', 'alt'];
+  const attributeSelector = attributeNames.map(name => '[' + name + ']').join(',');
+  const dirtyNodes = new Set(), dirtyAttributes = new Set();
+  const fallbackCache = new Map();
+  const catalogKeys = Object.keys(catalog);
+  let fullScanRequested = false, rangeCleanupRequested = false;
   let language = 'en', observer, scheduled = false, active = false;
   const normalize = value => String(value).replace(/\s+/g, ' ').trim();
   const preservedSpace = (source, value) => (source.match(/^\s*/)?.[0] || '') + value + (source.match(/\s*$/)?.[0] || '');
@@ -18,6 +23,16 @@
   function lookup(value, depth = 0) {
     const key = normalize(value);
     if (Object.hasOwn(catalog, key)) return catalog[key];
+    if (depth === 0 && fallbackCache.has(key)) return fallbackCache.get(key);
+    const translated = lookupFallback(key, depth);
+    if (depth === 0) {
+      // Live counters may create many distinct strings during a long visit.
+      if (fallbackCache.size >= 2048) fallbackCache.clear();
+      fallbackCache.set(key, translated);
+    }
+    return translated;
+  }
+  function lookupFallback(key, depth) {
     if (depth > 4) return null;
     const part = text => lookup(text, depth + 1) || text;
     let match = /^(Figure|Table|Reference)\s+(\d+)([.:]?)$/.exec(key);
@@ -107,7 +122,7 @@
       if(translated.some((s,i)=>s!==pieces[i]))return translated.join(' ');
     }
     if(key.endsWith('…')&&key.length>24){
-      const prefix=key.slice(0,-1),matches=Object.keys(catalog).filter(s=>s.startsWith(prefix));
+      const prefix=key.slice(0,-1),matches=catalogKeys.filter(s=>s.startsWith(prefix));
       if(matches.length===1)return catalog[matches[0]];
     }
     return null;
@@ -116,7 +131,7 @@
     // Inline diagram labels use the same authored catalog. SVG geometry,
     // numeric attributes, source images and canvas pixels remain untouched.
     // Preserve bibliography records while translating their navigation controls.
-    return !!el.closest(skip) || (!!el.closest('.ref-list') && !el.closest('.ref-return-tools'));
+    return !!el.closest(skip) || (!!el.closest('.ref-list') && !el.closest('.ref-return-tools, .ref-highlights, .ref-source-control'));
   }
   function ignored(node) { return !node.parentElement || excluded(node.parentElement); }
   function translateText(node) {
@@ -156,42 +171,84 @@
   function updateButtons() {
     document.querySelectorAll('[data-language-toggle]').forEach(button => {
       const chinese = language === 'zh-Hant';
-      button.querySelector('[data-language-label]').textContent = chinese ? 'EN' : 'ZH';
-      button.setAttribute('aria-label', chinese ? '切換為英文' : 'Switch to Traditional Chinese');
-      button.setAttribute('title', chinese ? '切換為英文' : 'Switch to Traditional Chinese');
-      button.setAttribute('lang', 'en');
-      button.disabled = false;
+      const label = button.querySelector('[data-language-label]');
+      const text = chinese ? 'EN' : 'ZH';
+      const accessibleLabel = chinese ? '切換為英文' : 'Switch to Traditional Chinese';
+      if (label && label.textContent !== text) label.textContent = text;
+      if (button.getAttribute('aria-label') !== accessibleLabel) button.setAttribute('aria-label', accessibleLabel);
+      if (button.getAttribute('title') !== accessibleLabel) button.setAttribute('title', accessibleLabel);
+      if (button.getAttribute('lang') !== 'en') button.setAttribute('lang', 'en');
+      if (button.disabled) button.disabled = false;
     });
   }
   function observe() {
     observer.observe(document.body, {subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:attributeNames});
   }
-  function apply() {
+  function collect(records) {
+    records.forEach(record => {
+      if (record.type === 'attributes') dirtyAttributes.add(record.target);
+      else if (record.type === 'characterData') dirtyNodes.add(record.target);
+      else {
+        record.addedNodes.forEach(node => dirtyNodes.add(node));
+        if (record.removedNodes.length) rangeCleanupRequested = true;
+      }
+    });
+  }
+  function translateSubtree(node) {
+    if (!node.isConnected) return;
+    if (node.nodeType === Node.TEXT_NODE) { translateText(node); return; }
+    if (node.nodeType !== Node.ELEMENT_NODE || excluded(node)) return;
+    if (node.matches(attributeSelector)) translateAttributes(node);
+    const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
+    while (walker.nextNode()) translateText(walker.currentNode);
+    node.querySelectorAll(attributeSelector).forEach(translateAttributes);
+  }
+  function apply(fullScan = false) {
     scheduled = false;
     if (!active) return;
+    // Other observers can edit a component before this microtask runs. Include
+    // those records before disconnecting, rather than dropping their updates.
+    collect(observer.takeRecords());
+    fullScan = fullScan || fullScanRequested;
+    fullScanRequested = false;
+    if (!fullScan && !dirtyNodes.size && !dirtyAttributes.size && !rangeCleanupRequested) return;
     observer.disconnect();
     ranges.forEach(translateRange);
-    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-    while (walker.nextNode()) translateText(walker.currentNode);
-    document.querySelectorAll('[aria-label],[aria-valuetext],[aria-description],[placeholder],[title],[alt]').forEach(translateAttributes);
+    if (fullScan) translateSubtree(document.body);
+    else {
+      // A replaced panel can report both its container and its descendants.
+      // Visit the highest dirty subtree once; ordinary counters stay one node.
+      dirtyNodes.forEach(node => {
+        let parent = node.parentNode;
+        while (parent && !dirtyNodes.has(parent)) parent = parent.parentNode;
+        if (!parent) translateSubtree(node);
+      });
+      dirtyAttributes.forEach(el => { if (el.isConnected) translateAttributes(el); });
+    }
+    dirtyNodes.clear();
+    dirtyAttributes.clear();
+    rangeCleanupRequested = false;
     if (document.title !== titleState.rendered) titleState.original = document.title;
     titleState.rendered = language === 'zh-Hant' ? lookup(titleState.original) || titleState.original : titleState.original;
-    document.title = titleState.rendered;
-    root.lang = language;
-    root.dataset.language = language;
+    if (document.title !== titleState.rendered) document.title = titleState.rendered;
+    if (root.lang !== language) root.lang = language;
+    if (root.dataset.language !== language) root.dataset.language = language;
     updateButtons();
     observe();
   }
   const titleState = {original:document.title, rendered:document.title};
-  function schedule() {
-    if (!active || scheduled) return;
+  function schedule(records) {
+    if (!active) return;
+    if (Array.isArray(records)) collect(records);
+    else fullScanRequested = true;
+    if (scheduled) return;
     scheduled = true;
-    queueMicrotask(apply);
+    queueMicrotask(() => apply());
   }
   function setLanguage(value, persist = true) {
     language = validLanguage(value);
     if (persist) { try { localStorage.setItem(storageKey, language); } catch (_) {} }
-    apply();
+    apply(true);
     document.dispatchEvent(new CustomEvent('aerosense:languagechange', {detail:{language}}));
     window.dispatchEvent(new Event('resize'));
   }

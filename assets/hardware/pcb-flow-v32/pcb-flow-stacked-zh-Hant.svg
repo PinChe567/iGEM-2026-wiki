@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="450" height="2640" viewBox="0 0 450 2640" role="img" aria-labelledby="title desc" xml:lang="zh-Hant">
+<title id="title">V2 PCB 的訊號、控制與電源流程</title>
+<desc id="desc">依原理圖繪製：D5 光二極體經 LMP7721 跨阻放大器與 ADS8866 類比數位轉換器連至 ESP32。SW2 將 EN 拉低以重置；重置時按住 SW3，將 IO0 拉低以選擇啟動模式。J2 為 USB-C 供電，J3 為 UART。箭頭區分類比、數位、控制與電源路徑。</desc>
+<defs>
+<marker id="a-analog" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#176f7d"/></marker>
+<marker id="a-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#245d89"/></marker>
+<marker id="a-control" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#79528b"/></marker>
+<marker id="a-power" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#985d26"/></marker>
+<marker id="a-power-small" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="3" markerHeight="3" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#985d26"/></marker>
+</defs><style>text{font-family:"Segoe UI","Microsoft JhengHei",Arial,sans-serif;fill:#1c394e} .small{fill:#495f6c} text{font-variant-numeric:tabular-nums}</style>
+<rect width="450" height="2640" fill="#f4f8fb"/>
+<text x="24" y="43" font-size="27" font-weight="700" text-anchor="start">光訊號、資料與控制</text>
+<text x="24" y="73" font-size="19" font-weight="400" text-anchor="start" style="fill:#495f6c">V2 PCB · 原理圖流程示意</text>
+<path d="M24 102 H63" fill="none" stroke="#176f7d" stroke-width="3" marker-end="url(#a-analog)"/>
+<text x="76" y="108" font-size="18" font-weight="400" text-anchor="start">類比</text>
+<path d="M238 102 H277" fill="none" stroke="#245d89" stroke-width="3" marker-end="url(#a-blue)"/>
+<text x="290" y="108" font-size="18" font-weight="400" text-anchor="start">數位資料</text>
+<path d="M24 136 H63" fill="none" stroke="#79528b" stroke-width="3" marker-end="url(#a-control)" stroke-dasharray="8 5"/>
+<text x="76" y="142" font-size="18" font-weight="400" text-anchor="start">控制</text>
+<path d="M238 136 H277" fill="none" stroke="#985d26" stroke-width="4" marker-end="url(#a-power)"/>
+<text x="290" y="142" font-size="18" font-weight="400" text-anchor="start">電源</text>
+<rect x="24" y="175" width="34" height="30" fill="#1c394e"/>
+<text x="41" y="198" font-size="17" font-weight="700" text-anchor="middle" style="fill:#ffffff">01</text>
+<text x="72" y="198" font-size="23" font-weight="700" text-anchor="start">讀取訊號</text>
+<path data-box="24 224 402 126" d="M33 224 H417 V233 H426 V341 H417 V350 H33 V341 H24 V233 H33 Z" fill="#e2f1ee" stroke="#176f7d" stroke-width="1.5"/>
+<text x="43" y="253" font-size="18" font-weight="700" text-anchor="start" style="fill:#176f7d">D5</text>
+<text x="100" y="253" font-size="24" font-weight="700" text-anchor="start">光二極體</text>
+<text x="43" y="290" font-size="22" font-weight="400" text-anchor="start">VEMD5060X01</text>
+<text x="43" y="326" font-size="20" font-weight="400" text-anchor="start">光 → 電流</text>
+<path data-box="24 408 402 126" d="M33 408 H417 V417 H426 V525 H417 V534 H33 V525 H24 V417 H33 Z" fill="#e2f1ee" stroke="#176f7d" stroke-width="1.5"/>
+<text x="43" y="437" font-size="18" font-weight="700" text-anchor="start" style="fill:#176f7d">U8</text>
+<text x="100" y="437" font-size="24" font-weight="700" text-anchor="start">跨阻放大器</text>
+<text x="43" y="474" font-size="22" font-weight="400" text-anchor="start">LMP7721</text>
+<text x="43" y="510" font-size="20" font-weight="400" text-anchor="start">100 MΩ ∥ 2.2 pF</text>
+<path data-box="24 606 402 126" d="M33 606 H417 V615 H426 V723 H417 V732 H33 V723 H24 V615 H33 Z" fill="#e1edf7" stroke="#245d89" stroke-width="1.5"/>
+<text x="43" y="635" font-size="18" font-weight="700" text-anchor="start" style="fill:#245d89">U9</text>
+<text x="100" y="635" font-size="24" font-weight="700" text-anchor="start">16 位元 ADC</text>
+<text x="43" y="672" font-size="22" font-weight="400" text-anchor="start">ADS8866</text>
+<text x="43" y="708" font-size="20" font-weight="400" text-anchor="start">DIN 拉高</text>
+<path data-box="24 804 402 126" d="M33 804 H417 V813 H426 V921 H417 V930 H33 V921 H24 V813 H33 Z" fill="#e1edf7" stroke="#245d89" stroke-width="1.5"/>
+<text x="43" y="833" font-size="18" font-weight="700" text-anchor="start" style="fill:#245d89">U4</text>
+<text x="100" y="833" font-size="24" font-weight="700" text-anchor="start">ESP32</text>
+<text x="43" y="870" font-size="22" font-weight="400" text-anchor="start">ESP32-WROOM-32E</text>
+<text x="43" y="906" font-size="20" font-weight="400" text-anchor="start">以 GPIO19 讀取 ADC_DOUT</text>
+<path d="M66 358 L66 397" fill="none" stroke="#176f7d" stroke-width="3" marker-end="url(#a-analog)"/>
+<text x="93" y="386" font-size="19" font-weight="600" text-anchor="start">PD_SUM</text>
+<path d="M66 542 L66 595" fill="none" stroke="#176f7d" stroke-width="3" marker-end="url(#a-analog)"/>
+<text x="93" y="562" font-size="19" font-weight="600" text-anchor="start">R29 · 100 Ω</text>
+<text x="93" y="590" font-size="18" font-weight="400" text-anchor="start">ADC_AINP → AINP (3)</text>
+<path d="M66 740 L66 793" fill="none" stroke="#245d89" stroke-width="3" marker-end="url(#a-blue)"/>
+<text x="93" y="760" font-size="19" font-weight="600" text-anchor="start">ADC_DOUT</text>
+<text x="93" y="788" font-size="18" font-weight="400" text-anchor="start">DOUT (7) → GPIO19</text>
+<path data-box="24 953 402 229" d="M33 953 H417 V962 H426 V1173 H417 V1182 H33 V1173 H24 V962 H33 Z" fill="#eee6f3" stroke="#79528b" stroke-width="1.5"/>
+<text x="43" y="986" font-size="22" font-weight="700" text-anchor="start">ESP32 → ADC 控制</text>
+<text x="43" y="1020" font-size="20" font-weight="400" text-anchor="start">GPIO18 → ADC_SCLK</text>
+<text x="43" y="1050" font-size="20" font-weight="400" text-anchor="start">R37 47 Ω → SCLK (8)</text>
+<text x="43" y="1091" font-size="20" font-weight="400" text-anchor="start">GPIO33 → ADC_CONVST</text>
+<text x="43" y="1121" font-size="20" font-weight="400" text-anchor="start">R38 47 Ω → CONVST (6)</text>
+<text x="43" y="1161" font-size="18" font-weight="400" text-anchor="start" style="fill:#495f6c">時脈與啟動轉換訊號</text>
+<path data-box="24 1203 402 120" d="M33 1203 H417 V1212 H426 V1314 H417 V1323 H33 V1314 H24 V1212 H33 Z" fill="#eee6f3" stroke="#79528b" stroke-width="1.5"/>
+<text x="43" y="1234" font-size="22" font-weight="700" text-anchor="start">ESP32 → LED 驅動</text>
+<text x="43" y="1268" font-size="21" font-weight="400" text-anchor="start">GPIO25 / 26 / 27 / 32</text>
+<text x="43" y="1301" font-size="18" font-weight="400" text-anchor="start">LED1–4_GATE → Q1–Q4 → D1–D4</text>
+<rect x="24" y="1351" width="34" height="30" fill="#1c394e"/>
+<text x="41" y="1374" font-size="17" font-weight="700" text-anchor="middle" style="fill:#ffffff">02</text>
+<text x="72" y="1374" font-size="23" font-weight="700" text-anchor="start">重置、啟動與 UART</text>
+<path data-box="24 1400 402 126" d="M33 1400 H417 V1409 H426 V1517 H417 V1526 H33 V1517 H24 V1409 H33 Z" fill="#eee6f3" stroke="#79528b" stroke-width="1.5"/>
+<text x="43" y="1435" font-size="25" font-weight="700" text-anchor="start">SW2 · 重置</text>
+<text x="43" y="1471" font-size="22" font-weight="400" text-anchor="start">ESP_EN / U4 EN → GND</text>
+<text x="43" y="1505" font-size="20" font-weight="400" text-anchor="start">按下後將 EN 拉低。</text>
+<path data-box="24 1548 402 126" d="M33 1548 H417 V1557 H426 V1665 H417 V1674 H33 V1665 H24 V1557 H33 Z" fill="#eee6f3" stroke="#79528b" stroke-width="1.5"/>
+<text x="43" y="1583" font-size="25" font-weight="700" text-anchor="start">SW3 · 選擇啟動模式</text>
+<text x="43" y="1619" font-size="22" font-weight="400" text-anchor="start">ESP_IO0 / GPIO0 → GND</text>
+<text x="43" y="1653" font-size="20" font-weight="400" text-anchor="start">按住 SW3，再以 SW2 重置。</text>
+<path data-box="24 1696 402 151" d="M33 1696 H417 V1705 H426 V1838 H417 V1847 H33 V1838 H24 V1705 H33 Z" fill="#e1edf7" stroke="#245d89" stroke-width="1.5"/>
+<text x="43" y="1731" font-size="25" font-weight="700" text-anchor="start">J3 · 3.3 V UART</text>
+<text x="43" y="1766" font-size="21" font-weight="400" text-anchor="start">2 TXD0 / GPIO1</text>
+<text x="236" y="1766" font-size="20" font-weight="400" text-anchor="start">3 RXD0 / GPIO3</text>
+<text x="43" y="1802" font-size="21" font-weight="400" text-anchor="start">1 3V3_DIG · 4 GND</text>
+<text x="43" y="1829" font-size="18" font-weight="400" text-anchor="start">獨立於 J2 USB-C 供電。</text>
+<rect x="24" y="1875" width="34" height="30" fill="#1c394e"/>
+<text x="41" y="1898" font-size="17" font-weight="700" text-anchor="middle" style="fill:#ffffff">03</text>
+<text x="72" y="1898" font-size="23" font-weight="700" text-anchor="start">電路板供電</text>
+<path data-box="24 1924 402 118" d="M33 1924 H417 V1933 H426 V2033 H417 V2042 H33 V2033 H24 V1933 H33 Z" fill="#f8e8d5" stroke="#985d26" stroke-width="1.5"/>
+<text x="43" y="1958" font-size="25" font-weight="700" text-anchor="start">J2 · USB-C 供電</text>
+<text x="43" y="1992" font-size="22" font-weight="400" text-anchor="start">VBUS → 5V_USB</text>
+<text x="43" y="2023" font-size="20" font-weight="400" text-anchor="start">資料腳位未連接</text>
+<path d="M66 2051 L66 2080" fill="none" stroke="#985d26" stroke-width="4" marker-end="url(#a-power)"/>
+<path data-box="24 2090 402 139" d="M33 2090 H417 V2099 H426 V2220 H417 V2229 H33 V2220 H24 V2099 H33 Z" fill="#f8e8d5" stroke="#985d26" stroke-width="1.5"/>
+<text x="43" y="2124" font-size="25" font-weight="700" text-anchor="start">U2 · BQ24074</text>
+<text x="43" y="2156" font-size="21" font-weight="400" text-anchor="start">充電與電源路徑</text>
+<text x="43" y="2188" font-size="21" font-weight="400" text-anchor="start">IN 13 → OUT 10 / 11</text>
+<text x="43" y="2214" font-size="19" font-weight="400" text-anchor="start">BAT ↔ J1 電池</text>
+<path d="M66 2238 L66 2267" fill="none" stroke="#985d26" stroke-width="4" marker-end="url(#a-power)"/>
+<path data-box="24 2277 402 104" d="M33 2277 H417 V2286 H426 V2372 H417 V2381 H33 V2372 H24 V2286 H33 Z" fill="#f8e8d5" stroke="#985d26" stroke-width="1.5"/>
+<text x="43" y="2311" font-size="25" font-weight="700" text-anchor="start">U1 · TPS61023</text>
+<text x="43" y="2342" font-size="21" font-weight="400" text-anchor="start">升壓至 5 V → 5V</text>
+<text x="43" y="2368" font-size="19" font-weight="400" text-anchor="start">5V 亦供應 LED D1–D4。</text>
+<path d="M66 2390 L66 2419" fill="none" stroke="#985d26" stroke-width="4" marker-end="url(#a-power)"/>
+<path data-box="24 2429 402 145" d="M33 2429 H417 V2438 H426 V2565 H417 V2574 H33 V2565 H24 V2438 H33 Z" fill="#f8e8d5" stroke="#985d26" stroke-width="1.5"/>
+<text x="43" y="2463" font-size="22" font-weight="600" text-anchor="start">U5 → 3V3_DIG</text>
+<text x="43" y="2496" font-size="22" font-weight="600" text-anchor="start">U6 → 3V3_ANA</text>
+<text x="43" y="2529" font-size="20" font-weight="400" text-anchor="start">3V3_ANA → U7 LTC6655</text>
+<text x="43" y="2560" font-size="20" font-weight="400" text-anchor="start">VREF_2V5 → U9 REF</text>
+<text x="24" y="2608" font-size="17" font-weight="400" text-anchor="start" style="fill:#495f6c">NTHU_TEST_BOARD · 2026-09-14</text>
+<text x="24" y="2630" font-size="17" font-weight="400" text-anchor="start" style="fill:#495f6c">來源原理圖，第 1–2 頁。</text>
+</svg>

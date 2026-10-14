@@ -192,7 +192,7 @@
 
   function closeCitePeek(restoreFocus) {
     if (!openCiteWrap) return;
-    var preview = openCiteWrap.querySelector('.cite-preview') || document.querySelector('body > .cite-preview.is-open');
+    var preview = openCiteWrap.querySelector('.cite-preview') || document.querySelector('.cite-preview.reading-popover.is-open');
     openCiteWrap.classList.remove("is-cite-open");
     openCiteWrap = null;
     if (window.AeroSenseCitationPanels && preview) window.AeroSenseCitationPanels.hide(preview,!!restoreFocus);

@@ -1,0 +1,470 @@
+[
+  {
+    "key": "feedback",
+    "references": [
+      "R27",
+      "C21"
+    ],
+    "value": "100 MΩ; 2.2 pF",
+    "role_en": "TIA feedback",
+    "role_zh": "跨阻回授",
+    "calculation_en": "Zf=Rf/(1+j2πfRfCf); τ=100 MΩ×2.2 pF=220 µs; fp=723.43 Hz. Gain magnitude at 41/67/89/113 Hz: 99.84/99.57/99.25/98.80 MΩ.",
+    "calculation_zh": "Zf=Rf/(1+j2πfRfCf)；τ=100 MΩ×2.2 pF=220 µs；fp=723.43 Hz。41/67/89/113 Hz 的增益幅值為 99.84/99.57/99.25/98.80 MΩ。",
+    "basis_en": "Rf sets current-to-voltage scale; Cf limits feedback impedance at high frequency. At 300 K, Rf alone contributes √(4kT/Rf)=12.87 fA/√Hz; ideal one-pole integrated output noise is 43.39 µV RMS. This is one noise term, not detection limit.",
+    "basis_zh": "Rf 決定電流轉電壓比例，Cf 限制高頻回授阻抗。300 K 時，Rf 單獨產生 √(4kT/Rf)=12.87 fA/√Hz；以理想單極模型積分，輸出雜訊為 43.39 µV RMS。這只是其中一項雜訊，並非偵測極限。",
+    "source": "Schematic sheet 2, TIA; LMP7721 Rev. E pp. 17–19, 22–24"
+  },
+  {
+    "key": "detector-amplifier",
+    "references": [
+      "D5",
+      "U8"
+    ],
+    "value": "VEMD5060X01; LMP7721",
+    "role_en": "Photocurrent and input stability",
+    "role_zh": "光電流與輸入穩定性",
+    "calculation_en": "Cd≈80 pF at zero bias; amplifier input≈11 pF; Cin≈91 pF+layout. Noise gain NG(s)=1+sRfCin/(1+sRfCf), approaching 1+Cin/Cf≈42.4 before layout capacitance.",
+    "calculation_zh": "零偏壓 Cd≈80 pF；運算放大器輸入約 11 pF；Cin≈91 pF 加佈線寄生。雜訊增益 NG(s)=1+sRfCin/(1+sRfCf)，未計佈線時高頻值約為 1+Cin/Cf≈42.4。",
+    "basis_en": "D5 cathode connects to IN− and anode to ground, giving positive output for photocurrent leaving the summing node. LMP7721 has 3 fA typical bias at specified test conditions. Phase margin requires its open-loop response and actual parasitics; the 723 Hz feedback pole alone does not prove stability.",
+    "basis_zh": "D5 陰極接 IN−、陽極接地；光電流由加總節點流向地時，輸出為正。LMP7721 在指定測試條件下的典型偏壓電流為 3 fA。相位裕度還取決於開迴路響應與實際寄生，不能只由 723 Hz 回授極點判定。",
+    "source": "Schematic sheet 2; VEMD5060X01 Rev. 1.2 p. 2; LMP7721 Rev. E pp. 6–7, 18–19"
+  },
+  {
+    "key": "adc-input",
+    "references": [
+      "R29",
+      "R36",
+      "C24"
+    ],
+    "value": "100 Ω + 100 Ω; 1000 pF",
+    "role_en": "ADC differential input network",
+    "role_zh": "ADC 差動輸入網路",
+    "calculation_en": "Rdiff=R29+R36=200 Ω; τ=200 Ω×1 nF=0.200 µs; fp=795.8 kHz (unloaded differential model).",
+    "calculation_zh": "Rdiff=R29+R36=200 Ω；τ=200 Ω×1 nF=0.200 µs；fp=795.8 kHz（未載入的差動模型）。",
+    "basis_en": "C24 spans AINP and AINN. Both series resistances enter the differential calculation. The network isolates sampling charge; it is not a 2 kHz anti-alias filter. U8 directly drives it; no separate voltage-gain stage is shown.",
+    "basis_zh": "C24 跨接 AINP 與 AINN，差動計算需納入兩個串聯電阻。此網路隔離取樣電荷，並不是 2 kHz 抗混疊濾波器。由 U8 直接驅動，圖中沒有額外電壓增益級。",
+    "source": "Schematic sheet 2, TIA and ADC; ADS8866 Rev. C analog-input and input-driver sections"
+  },
+  {
+    "key": "adc",
+    "references": [
+      "U9"
+    ],
+    "value": "ADS8866IDGS",
+    "role_en": "Digitization",
+    "role_zh": "數位轉換",
+    "calculation_en": "LSB=2.5 V/65536=38.147 µV; DC current/code=LSB/100 MΩ=0.38147 pA; ideal span=2.5 V/100 MΩ=25 nA.",
+    "calculation_zh": "LSB=2.5 V/65536=38.147 µV；直流每碼電流=LSB/100 MΩ=0.38147 pA；理想跨度=2.5 V/100 MΩ=25 nA。",
+    "basis_en": "16-bit, 100 kSPS device; the firmware selects 4 kSPS. Actual headroom uses U8 output limits, offsets and total DC photocurrent. Resolution is not accuracy, sensitivity or usable rail-to-rail range.",
+    "basis_zh": "晶片規格為 16 位元、100 kSPS；韌體設定為 4 kSPS。實際餘裕取決於 U8 輸出限制、偏移與總直流光電流。解析度不等於準確度、靈敏度或可用的軌到軌範圍。",
+    "source": "Schematic sheet 2; ADS8866 Rev. C pp. 5–9, 18–20; firmware main.cpp"
+  },
+  {
+    "key": "led-current",
+    "references": [
+      "R16",
+      "R21",
+      "R24",
+      "R30",
+      "D1",
+      "D2",
+      "D3",
+      "D4"
+    ],
+    "value": "100 Ω each; 155124BS73200",
+    "role_en": "Excitation current",
+    "role_zh": "激發電流",
+    "calculation_en": "I≈(5−Vf−VDS)/100 Ω. Using Vf=3.4 V at the manufacturer’s 20 mA test point and neglecting VDS gives 16 mA; resistor power≈25.6 mW on, 6.4 mW at 25% duty.",
+    "calculation_zh": "I≈(5−Vf−VDS)/100 Ω。代入廠商於 20 mA 測試點的 Vf=3.4 V，忽略 VDS，估得 16 mA；電阻導通功率約 25.6 mW，25% 占空比平均約 6.4 mW。",
+    "basis_en": "This is an operating-point estimate: Vf changes with current and temperature. Datasheet Vf maximum 3.8 V is specified at 20 mA; no minimum is given, so it does not establish a complete current range. Use actual rail, LED I–V curve and resistor tolerance for limits.",
+    "basis_zh": "這是工作點估算，Vf 會隨電流與溫度變動。資料表的 3.8 V 最大值指定於 20 mA，未提供最小值，因此無法據此建立完整電流範圍。邊界需納入實際電源、LED I–V 曲線及電阻容差。",
+    "source": "Schematic sheet 2, LEDs; Würth 155124BS73200 electrical/optical table p. 2; firmware duty=25"
+  },
+  {
+    "key": "led-gate",
+    "references": [
+      "R17",
+      "R22",
+      "R25",
+      "R32",
+      "R20",
+      "R23",
+      "R26",
+      "R33",
+      "Q1",
+      "Q2",
+      "Q3",
+      "Q4"
+    ],
+    "value": "220 Ω gates; 100 kΩ pulldowns; AO3400A",
+    "role_en": "LED switching",
+    "role_zh": "LED 開關",
+    "calculation_en": "Vgate≈3.3×100000/(100000+220)=3.293 V; initial ideal gate current≤3.3/220=15 mA; pulldown current≈32.9 µA. With Ciss=630 pF, 220 Ω×Ciss≈0.139 µs is a small-signal estimate.",
+    "calculation_zh": "Vgate≈3.3×100000/(100000+220)=3.293 V；理想初始閘極電流≤3.3/220=15 mA；下拉電流約 32.9 µA。以 Ciss=630 pF 估算，220 Ω×Ciss≈0.139 µs，僅為小訊號近似。",
+    "basis_en": "220 Ω limits edge current; 100 kΩ holds the gate low when GPIO is undriven. AO3400A specifies RDS(on)≤48 mΩ at VGS=2.5 V, ID=3 A, 25°C. Threshold voltage alone is not an on-state specification; GPIO impedance and Miller charge alter switching time.",
+    "basis_zh": "220 Ω 限制邊緣電流；GPIO 未驅動時，100 kΩ 將閘極拉低。AO3400A 在 VGS=2.5 V、ID=3 A、25°C 時規定 RDS(on)≤48 mΩ。臨界電壓不能代替導通規格；GPIO 阻抗與米勒電荷會改變切換時間。",
+    "source": "Schematic sheet 2; AO3400A Rev. 3.1 p. 2"
+  },
+  {
+    "key": "led-bulk",
+    "references": [
+      "C12"
+    ],
+    "value": "47 µF",
+    "role_en": "LED supply reservoir",
+    "role_zh": "LED 電源儲能",
+    "calculation_en": "ΔV≈ΣIΔt/C. Example: four 16 mA channels for 100 µs without replenishment give 0.064×100 µs/47 µF≈0.136 V.",
+    "calculation_zh": "ΔV≈ΣIΔt/C。示例：四路各 16 mA、100 µs 內沒有電源補充時，下降約 0.064×100 µs/47 µF≈0.136 V。",
+    "basis_en": "A local transient reservoir, not storage for an entire LED pulse. Actual droop depends on the boost source, ESR and wiring.",
+    "basis_zh": "供應局部瞬變，並非儲存整段 LED 脈衝所需能量。實際壓降取決於升壓電源、ESR 與走線。",
+    "source": "Schematic sheet 2, “Place near by LEDs”; charge balance Q=CΔV"
+  },
+  {
+    "key": "tia-supply",
+    "references": [
+      "R31",
+      "C25",
+      "C26"
+    ],
+    "value": "100 Ω; 0.1 µF + 100 µF",
+    "role_en": "TIA supply filter",
+    "role_zh": "TIA 電源濾波",
+    "calculation_en": "τ=100×100.1 µF=10.01 ms; fp≈15.90 Hz. DC drop=100 Ω×IU8; 1.1 mA gives 0.11 V.",
+    "calculation_zh": "τ=100×100.1 µF=10.01 ms；fp≈15.90 Hz。直流壓降=100 Ω×IU8；1.1 mA 時為 0.11 V。",
+    "basis_en": "This pole belongs to the supply, not the photometry signal. 1.1 mA is LMP7721 typical quiescent current at 2.5 V; exact 3.3 V board drop includes load current and component variation.",
+    "basis_zh": "這是電源極點，不是光訊號頻寬。1.1 mA 是 LMP7721 在 2.5 V 下的典型靜態電流；3.3 V 板上實際壓降還需計入負載與元件變異。",
+    "source": "Schematic sheet 2, TIA; LMP7721 Rev. E p. 7, p. 25"
+  },
+  {
+    "key": "adc-decoupling",
+    "references": [
+      "C27",
+      "C29"
+    ],
+    "value": "1 µF each",
+    "role_en": "ADC rail decoupling",
+    "role_zh": "ADC 電源去耦",
+    "calculation_en": "C27: DVDD to ground; C29: AVDD to ground. Local transient relation ΔV≈IΔt/C; no numerical droop without current and impedance.",
+    "calculation_zh": "C27：DVDD 對地；C29：AVDD 對地。局部瞬變關係為 ΔV≈IΔt/C；缺少電流與阻抗時不估算壓降。",
+    "basis_en": "Separate digital and analog supplies feed their respective ADC pins. Placement and effective capacitance matter more than an invented signal cutoff.",
+    "basis_zh": "分開的數位及類比電源分別供應 ADC 腳位。應考量位置與有效電容，不應替去耦電容杜撰訊號截止頻率。",
+    "source": "Schematic sheet 2; ADS8866 Rev. C power-supply recommendations"
+  },
+  {
+    "key": "reference",
+    "references": [
+      "U7",
+      "C22",
+      "C23",
+      "R28"
+    ],
+    "value": "LTC6655BHMS8-2.5; 0.1 µF; 10 µF; 10 kΩ",
+    "role_en": "2.5 V reference",
+    "role_zh": "2.5 V 基準",
+    "calculation_en": "B-grade initial tolerance: ±0.025%×2.5 V=±625 µV; 2 ppm/°C maximum temperature coefficient. R28 pulls SHDN high. C22 input bypass; C23 output reservoir.",
+    "calculation_zh": "B 等級初始容差：±0.025%×2.5 V=±625 µV；最大溫度係數為 2 ppm/°C。R28 將 SHDN 拉高；C22 為輸入旁路，C23 為輸出儲能。",
+    "basis_en": "Manufacturer requires input≥0.1 µF and output 2.7–100 µF with low ESR. C23=10 µF is within that nominal range. Reference tolerance contributes gain error; it is not ADC code width.",
+    "basis_zh": "廠商要求輸入≥0.1 µF、輸出使用低 ESR 的 2.7–100 µF；C23=10 µF 符合標稱範圍。基準容差造成增益誤差，不等於 ADC 每碼寬度。",
+    "source": "Schematic sheet 2, 2V5_REF; LTC6655 Rev. J pp. 4–5, 12–14"
+  },
+  {
+    "key": "reference-local",
+    "references": [
+      "R34",
+      "C28"
+    ],
+    "value": "0.1 Ω; 10 µF",
+    "role_en": "ADC reference charge reservoir",
+    "role_zh": "ADC 基準儲能",
+    "calculation_en": "Zbranch=0.1 Ω+1/(j2πf×10 µF). The equality |XC|=R occurs at 159.2 kHz; this is not a REF-feed low-pass cutoff.",
+    "calculation_zh": "Zbranch=0.1 Ω+1/(j2πf×10 µF)。|XC|=R 於 159.2 kHz 發生；這不是 REF 供電路徑的低通截止頻率。",
+    "basis_en": "The schematic connects REF directly to VREF_2V5. R34 is in the capacitor-to-ground branch and adds damping/series resistance to local charge storage.",
+    "basis_zh": "電路圖將 REF 直接接至 VREF_2V5。R34 位於電容接地支路，為局部儲能加入阻尼／串聯電阻。",
+    "source": "Schematic sheet 2, ADC; ADS8866 Rev. C voltage-reference section"
+  },
+  {
+    "key": "adc-digital",
+    "references": [
+      "R35",
+      "R37",
+      "R38"
+    ],
+    "value": "10 kΩ; 47 Ω; 47 Ω",
+    "role_en": "ADC mode and digital edges",
+    "role_zh": "ADC 模式與數位邊緣",
+    "calculation_en": "R35 holds DIN high for 3-wire CS mode; 3.3 V/10 kΩ=330 µA if pulled low. For source termination, Rseries≈Zline−Rdriver; the schematic specifies 47 Ω but does not provide either impedance.",
+    "calculation_zh": "R35 將 DIN 拉高以選擇三線 CS 模式；若被拉低，3.3 V/10 kΩ=330 µA。源端終端電阻可依 Rseries≈Zline−Rdriver 選值；圖中指定 47 Ω，但未提供這兩個阻抗。",
+    "basis_en": "47 Ω provides series damping on SCLK and CONVST. The precise damping choice and edge response require line capacitance and driver impedance.",
+    "basis_zh": "47 Ω 為 SCLK 與 CONVST 提供串聯阻尼。精確的阻尼選值與邊緣響應需納入走線電容及驅動器阻抗。",
+    "source": "Schematic sheet 2; ADS8866 Rev. C 3-wire CS-mode timing; firmware main.cpp"
+  },
+  {
+    "key": "reset",
+    "references": [
+      "R15",
+      "C15",
+      "C16",
+      "SW2",
+      "SW3"
+    ],
+    "value": "10 kΩ; 0.1 µF + 10 µF; tactile switches",
+    "role_en": "Reset and boot",
+    "role_zh": "重設與啟動",
+    "calculation_en": "C15 and C16 share EN-to-ground: τ=10 kΩ×10.1 µF=101 ms. V_EN(t)=3.3(1−e^(−t/τ)) for an ideal supply step.",
+    "calculation_zh": "C15 與 C16 同接 EN 對地：τ=10 kΩ×10.1 µF=101 ms。理想電源階躍時，V_EN(t)=3.3(1−e^(−t/τ))。",
+    "basis_en": "SW2 grounds EN to reset; SW3 grounds GPIO0 to select download mode during reset. The RC time constant is not a guaranteed boot delay; rail ramp and EN thresholds also matter.",
+    "basis_zh": "SW2 將 EN 接地以重設；重設時由 SW3 將 GPIO0 接地以選擇下載模式。RC 時間常數不是保證的開機延遲，仍取決於電源上升與 EN 閾值。",
+    "source": "Schematic sheet 2; Espressif ESP32 Hardware Design Guidelines, Chip power-up and reset timing"
+  },
+  {
+    "key": "esp32-bypass",
+    "references": [
+      "C13",
+      "C14",
+      "U4"
+    ],
+    "value": "22 µF; 0.1 µF; ESP32-WROOM-32E",
+    "role_en": "Controller supply and timing",
+    "role_zh": "控制器供電與時序",
+    "calculation_en": "Local bulk+high-frequency bypass. Firmware Fs=4000 Hz, N=8000: Ts=250 µs, block=2 s, Δf=0.5 Hz; 41/67/89/113 Hz complete 82/134/178/226 cycles per block.",
+    "calculation_zh": "局部儲能搭配高頻旁路。韌體 Fs=4000 Hz、N=8000：Ts=250 µs、每區塊 2 s、Δf=0.5 Hz；41/67/89/113 Hz 每區塊分別完成 82/134/178/226 週期。",
+    "basis_en": "The timer updates four LED GPIOs and notifies the ADC task. Frequencies are fixed; default duty is 25%, accepted range 1–50%. Capacitance does not by itself prove supply transient compliance.",
+    "basis_zh": "計時器更新四個 LED GPIO 並通知 ADC 任務。頻率固定，預設占空比 25%，接受範圍 1–50%。僅有電容值不能證明電源瞬態符合要求。",
+    "source": "Schematic sheet 2; firmware main.cpp timerISR/sampleTask; Espressif power-supply guidelines"
+  },
+  {
+    "key": "digital-ldo",
+    "references": [
+      "U5",
+      "C17",
+      "C18"
+    ],
+    "value": "EC50117KBG; 10 µF; 22 µF",
+    "role_en": "Digital 3.3 V rail",
+    "role_zh": "數位 3.3 V 電源",
+    "calculation_en": "Fixed 3.3 V variant; first-order dissipation P≈(5−3.3)I=1.7I W, e.g. 0.34 W at an illustrative 0.20 A load.",
+    "calculation_zh": "固定 3.3 V 型號；一階耗散 P≈(5−3.3)I=1.7I W，例如假設負載 0.20 A 時為 0.34 W。",
+    "basis_en": "Manufacturer typical application uses 10 µF input/22 µF output. Package thermal resistance and actual load limit usable current; the 1 A family rating is not the board power budget.",
+    "basis_zh": "廠商典型電路使用輸入 10 µF、輸出 22 µF。可用電流受封裝熱阻與實際負載限制；系列的 1 A 規格不等於整板電源預算。",
+    "source": "Schematic sheet 2, 3V3 LDO; E-CMOS EC50117 Rev. F004 pp. 2–3, 5–6"
+  },
+  {
+    "key": "analog-ldo",
+    "references": [
+      "U6",
+      "C19",
+      "C20"
+    ],
+    "value": "LP5907MFX-3.3; 1 µF each",
+    "role_en": "Analog 3.3 V rail",
+    "role_zh": "類比 3.3 V 電源",
+    "calculation_en": "Fixed 3.3 V, up to 250 mA device rating. P≈1.7I W; nominal C19/C20=1 µF.",
+    "calculation_zh": "固定 3.3 V，晶片額定最高 250 mA。P≈1.7I W；C19/C20 標稱皆為 1 µF。",
+    "basis_en": "TI specifies nominal 1 µF input/output capacitors, effective capacitance >0.7 µF across operating conditions, and 5–500 mΩ ESR. Part number, bias derating and layout are needed to check the fitted capacitors.",
+    "basis_zh": "TI 指定輸入／輸出標稱 1 µF，在操作條件下有效電容需 >0.7 µF、ESR 為 5–500 mΩ。確認實際電容還需料號、偏壓降額與佈局。",
+    "source": "Schematic sheet 2; LP5907 Rev. Q pp. 6, 13–15"
+  },
+  {
+    "key": "boost-divider",
+    "references": [
+      "R6",
+      "R8",
+      "U1"
+    ],
+    "value": "R6/R8 unspecified; TPS61023",
+    "role_en": "Boost voltage",
+    "role_zh": "升壓電壓",
+    "calculation_en": "Vout=VFB(1+R6/R8). At PWM VFB,typ=0.595 V, nominal 5 V requires R6/R8=5/0.595−1=7.403. R8<300 kΩ is manufacturer guidance.",
+    "calculation_zh": "Vout=VFB(1+R6/R8)。以 PWM 典型 VFB=0.595 V 計，標稱 5 V 需 R6/R8=5/0.595−1=7.403；廠商建議 R8<300 kΩ。",
+    "basis_en": "The schematic names the output 5V but supplies neither resistor value. TPS61023 specifies 2.7 A minimum/3.7 A typical valley switch limit under stated conditions, not 3.7 A available at the 5 V output.",
+    "basis_zh": "圖中電源標為 5V，但沒有提供兩個電阻值。TPS61023 在指定條件下的谷值開關限流為最低 2.7 A／典型 3.7 A，不代表 5 V 輸出可提供 3.7 A。",
+    "source": "Schematic sheet 1; TPS61023 Rev. B p. 5, p. 13 Eq. 4"
+  },
+  {
+    "key": "boost-inductor",
+    "references": [
+      "L1"
+    ],
+    "value": "Unspecified",
+    "role_en": "Boost energy storage",
+    "role_zh": "升壓儲能",
+    "calculation_en": "IL,avg=Vout Iout/(ηVin); ΔIL=Vin D/(Lfsw); IL,pk=IL,avg+ΔIL/2; Isat>IL,pk. Manufacturer L range: 0.37–2.9 µH.",
+    "calculation_zh": "IL,avg=Vout Iout/(ηVin)；ΔIL=Vin D/(Lfsw)；IL,pk=IL,avg+ΔIL/2；Isat>IL,pk。廠商電感範圍：0.37–2.9 µH。",
+    "basis_en": "A numerical inductor check needs its value, saturation-current rating, minimum battery voltage, maximum load and efficiency. None is supplied for L1; no historical choice is inferred.",
+    "basis_zh": "數值檢核需要電感值、飽和電流、最低電池電壓、最大負載與效率。L1 資料尚未提供，不能反推未記錄的選型過程。",
+    "source": "Schematic sheet 1; TPS61023 Rev. B pp. 13–14, Eqs. 5–7"
+  },
+  {
+    "key": "boost-capacitors",
+    "references": [
+      "C2",
+      "C3",
+      "C4",
+      "C5"
+    ],
+    "value": "Unspecified",
+    "role_en": "Boost input and output storage",
+    "role_zh": "升壓輸入與輸出儲能",
+    "calculation_en": "C2=input; C3+C4+C5=output. Cout≥Iout D/(fsw ΔVpp); include ESR ripple IL,pk×ESR and bias derating.",
+    "calculation_zh": "C2 為輸入，C3+C4+C5 為輸出。Cout≥Iout D/(fsw ΔVpp)；另需納入 ESR 漣波 IL,pk×ESR 與偏壓降額。",
+    "basis_en": "TI gives 10 µF as a typical input choice and 4–1000 µF effective output range. The source provides no fitted capacitance or allowable ripple for these positions.",
+    "basis_zh": "TI 提供 10 µF 典型輸入值，以及 4–1000 µF 有效輸出範圍。來源未提供這些位置的實際電容與允許漣波。",
+    "source": "Schematic sheet 1; TPS61023 Rev. B pp. 14–15, Eqs. 8–9"
+  },
+  {
+    "key": "charger-current",
+    "references": [
+      "R1",
+      "R2",
+      "R3",
+      "U2"
+    ],
+    "value": "R1/R2/R3 unspecified; BQ24074",
+    "role_en": "Charge and input limits",
+    "role_zh": "充電與輸入限流",
+    "calculation_en": "EN2=high, EN1=low: ICHG=890 AΩ/R3; IIN,limit=KILIM/R2; ITERM=0.030 A×R1/R3. KILIM typical=1610 AΩ for 0.5–1.5 A, 1525 AΩ for 0.2–0.5 A.",
+    "calculation_zh": "EN2 高、EN1 低：ICHG=890 AΩ/R3；IIN,limit=KILIM/R2；ITERM=0.030 A×R1/R3。KILIM 典型值在 0.5–1.5 A 為 1610 AΩ，在 0.2–0.5 A 為 1525 AΩ。",
+    "basis_en": "R3 range 590 Ω–8.9 kΩ; R2 1.1–8 kΩ; R1<15 kΩ. Values are absent, so no numerical charging current follows from this BOM. Battery and USB source capabilities also constrain settings.",
+    "basis_zh": "R3 範圍 590 Ω–8.9 kΩ；R2 為 1.1–8 kΩ；R1<15 kΩ。因數值缺漏，不能由此 BOM 得出充電電流；設定亦受電池與 USB 電源能力限制。",
+    "source": "Schematic sheet 1; BQ24074 Rev. N pp. 10, 12–13, 23, 25, 27; Eqs. 1, 2, 5"
+  },
+  {
+    "key": "charger-capacitors",
+    "references": [
+      "C1",
+      "C6",
+      "C8"
+    ],
+    "value": "Unspecified",
+    "role_en": "Charger bypass",
+    "role_zh": "充電器旁路",
+    "calculation_en": "C6 bypasses IN; C1 bypasses OUT; C8 bypasses BAT. Manufacturer ranges: IN 1–10 µF; OUT/BAT 4.7–47 µF.",
+    "calculation_zh": "C6 旁路 IN、C1 旁路 OUT、C8 旁路 BAT。廠商範圍：IN 1–10 µF；OUT/BAT 4.7–47 µF。",
+    "basis_en": "These are manufacturer requirements, not fitted board values. Capacitor voltage rating and input inrush must also be checked.",
+    "basis_zh": "這些是廠商要求，並非板上已裝數值；另需檢核耐壓及輸入湧入電流。",
+    "source": "Schematic sheet 1; BQ24074 Rev. N pp. 7–8, 23, 34"
+  },
+  {
+    "key": "charger-status",
+    "references": [
+      "DPS1",
+      "DPS2",
+      "R5",
+      "R7"
+    ],
+    "value": "Generic LEDs; resistors unspecified",
+    "role_en": "Power and charge indicators",
+    "role_zh": "電源與充電指示",
+    "calculation_en": "R=(Vsource−VLED−VOL)/ILED; P=ILED²R. DPS1/PGOOD uses R5; DPS2/CHG uses R7.",
+    "calculation_zh": "R=(Vsource−VLED−VOL)/ILED；P=ILED²R。DPS1/PGOOD 使用 R5；DPS2/CHG 使用 R7。",
+    "basis_en": "Open-drain status sinks need LED voltage, intended indicator current and resistor values. The source supplies none of those selection parameters.",
+    "basis_zh": "開汲極狀態輸出需依 LED 電壓、目標指示電流與電阻值選型；來源未提供上述參數。",
+    "source": "Schematic sheet 1; BQ24074 Rev. N pp. 7–8, 28"
+  },
+  {
+    "key": "ts",
+    "references": [
+      "R9"
+    ],
+    "value": "Unspecified",
+    "role_en": "Charger TS bias",
+    "role_zh": "充電器 TS 偏壓",
+    "calculation_en": "VTS≈75 µA×R9. Nominal hot/cold thresholds 0.3/2.1 V correspond to 4/28 kΩ.",
+    "calculation_zh": "VTS≈75 µA×R9。標稱高／低溫閾值 0.3/2.1 V 對應 4/28 kΩ。",
+    "basis_en": "A fixed resistor is drawn; an NTC type or actual value is not specified. Do not interpret this as a measured battery-temperature sensor.",
+    "basis_zh": "圖中畫的是固定電阻，未指定 NTC 或數值；不應將其描述為實測電池溫度感測器。",
+    "source": "Schematic sheet 1; BQ24074 Rev. N pp. 13, 29–30"
+  },
+  {
+    "key": "boost-enable",
+    "references": [
+      "R4",
+      "R11",
+      "SW1"
+    ],
+    "value": "Unspecified; slide switch",
+    "role_en": "Power enable",
+    "role_zh": "電源啟用",
+    "calculation_en": "SW1 routes source rail through R4 to EN; R11 pulls down. With only these branches, VEN=Vsource R11/(R4+R11).",
+    "calculation_zh": "SW1 經 R4 將來源電源送至 EN；R11 下拉。僅考慮這兩支路時，VEN=Vsource R11/(R4+R11)。",
+    "basis_en": "U3 also connects to EN. Without U3 identity and resistor values, the switch threshold/timing cannot be calculated. TPS61023 requires EN≥1.2 V to enable under its specified conditions.",
+    "basis_zh": "U3 亦連至 EN。缺少 U3 型號與電阻值，無法計算開關閾值／時序；TPS61023 在指定條件下需 EN≥1.2 V 啟用。",
+    "source": "Schematic sheet 1; TPS61023 Rev. B p. 5"
+  },
+  {
+    "key": "u3",
+    "references": [
+      "U3",
+      "R10",
+      "R12",
+      "C7",
+      "C9",
+      "C10",
+      "C11"
+    ],
+    "value": "Unspecified",
+    "role_en": "Unidentified control network",
+    "role_zh": "未標型號的控制網路",
+    "calculation_en": "R10/R12 feed U3 P2; C9 shunts that node. C7 bypasses P1; C11/P4 and C10/P6 connect to ground. No function or timing is assigned without the IC pin definition.",
+    "calculation_zh": "R10/R12 接至 U3 P2，C9 旁路該節點；C7 旁路 P1，C11/P4 與 C10/P6 接地。缺少 IC 腳位定義時，不指定功能或時序。",
+    "basis_en": "The schematic uses generic P1–P6 labels and the BOM leaves U3 blank. Values and a manufacturer part number are needed to complete this calculation.",
+    "basis_zh": "電路圖僅用 P1–P6 通用標籤，BOM 的 U3 型號亦空白；完成計算需要元件值與廠商料號。",
+    "source": "Schematic sheet 1 and BOM rows 7, 9–11, 39, 41, 55"
+  },
+  {
+    "key": "usb-cc",
+    "references": [
+      "R13",
+      "R14",
+      "J2"
+    ],
+    "value": "Resistors unspecified; USB-C receptacle",
+    "role_en": "USB power input",
+    "role_zh": "USB 電源輸入",
+    "calculation_en": "R13 connects CC1 to ground and R14 connects CC2 to ground. Values and tolerance are not stated; no current-advertisement result can be calculated.",
+    "calculation_zh": "R13 將 CC1 接地、R14 將 CC2 接地。數值及容差未標示，因此不計算電流宣告結果。",
+    "basis_en": "J2 supplies 5V_USB; USB data lines are unconnected. The receptacle is a power input, not the UART flashing connection.",
+    "basis_zh": "J2 供應 5V_USB；USB 資料線未接。此插座為電源輸入，不是 UART 燒錄連接。",
+    "source": "Schematic sheet 1, USB-C"
+  },
+  {
+    "key": "connectors",
+    "references": [
+      "J1",
+      "J3"
+    ],
+    "value": "Battery_Case; CON4",
+    "role_en": "Battery and UART connections",
+    "role_zh": "電池與 UART 連接",
+    "calculation_en": "J1 connects BAT and ground. J3 pins: 1=3V3_DIG, 2=TXD0, 3=RXD0, 4=GND. No gain/current-setting equation applies.",
+    "calculation_zh": "J1 接 BAT 與地。J3 腳位：1=3V3_DIG、2=TXD0、3=RXD0、4=GND。不適用增益或限流選值公式。",
+    "basis_en": "Connector pitch, current rating, polarity and mating part must come from the selected connector, not the generic symbol.",
+    "basis_zh": "接頭間距、額定電流、極性與配對件必須依實際選用接頭確認，不能由通用符號推得。",
+    "source": "Schematic sheets 1–2; BOM rows 25, 27"
+  },
+  {
+    "key": "mechanical",
+    "references": [
+      "FD1",
+      "FD2",
+      "FD3",
+      "FD4",
+      "FD5",
+      "FD6",
+      "FD7",
+      "FD8",
+      "H1",
+      "H2",
+      "H3",
+      "H4"
+    ],
+    "value": "FD_040; CON",
+    "role_en": "Fiducials and mounting holes",
+    "role_zh": "定位標記與安裝孔",
+    "calculation_en": "Eight optical fiducials and four mounting holes; no electrical transfer or component-value calculation applies.",
+    "calculation_zh": "八個光學定位標記與四個安裝孔；不適用電氣轉換或元件值計算。",
+    "basis_en": "Their criteria are board assembly alignment and mechanical clearance.",
+    "basis_zh": "選用依據為電路板組裝對位與機構間距。",
+    "source": "Schematic sheet 1; BOM rows 23–24"
+  }
+]

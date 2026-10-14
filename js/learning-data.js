@@ -101,7 +101,7 @@
       id: "SYN_SENSE_ELEMENT",
       sources: ["learning-platform"],
       construct: "biological-sensing-element",
-      question: "What is AeroSense’s planned biological sensing element?",
+      question: "What is the biological sensing element in AeroSense’s design?",
       choices: [
         {
           id: "a",
@@ -118,7 +118,7 @@
       ],
       correctAnswer: "a",
       explanation:
-        "The planned biological element is a living cell chassis (HEK293) that expresses insect odorant receptors with Orco, plus a GCaMP-class reporter. Optics and AI sit downstream. They are not the receptor.",
+        "The design combines HEK293 cells, insect OR/Orco proteins and a GCaMP reporter. Optical readout and computation follow the biological sensing step.",
     },
     SYN_GCAMP_ROLE: {
       id: "SYN_GCAMP_ROLE",
@@ -256,7 +256,7 @@
       ],
       correctAnswer: "a",
       explanation:
-        "As planned, AeroSense would screen odor-pattern change associated with fungal risk. That can help prioritize batches. It does not certify food as legally safe and does not quantify mycotoxin by itself.",
+        "AeroSense is designed to flag odor-pattern changes for follow-up testing. Mycotoxin concentration requires a specific confirmatory assay.",
     },
     ACT_MEDIUM_TRIGGER: {
       id: "ACT_MEDIUM_TRIGGER",
@@ -615,7 +615,7 @@
         canExplain: [
           "Why mold growth is not the same claim as mycotoxin contamination.",
           "Why visual or smell-based inspection cannot establish mycotoxin status.",
-          "Why AeroSense, as planned, would screen odor-pattern change and would not quantify mycotoxins or certify food as legally safe.",
+          "Why odor-pattern screening and mycotoxin quantification answer different questions.",
         ],
         nextPrompt: "Can we engineer biology itself to sense those changes?",
       },
@@ -645,8 +645,8 @@
           id: "not-a-nose",
           heading: "Build a sensing pathway",
           paragraphs: [
-            "AeroSense does not transplant a fly’s nose into food. The plan is heterologous: selected insect odorant receptors, with Orco, expressed in HEK293 cells, with a GCaMP-class reporter that can turn a calcium change into light.",
-            "That is an engineered information pathway. Fluorescence is still not a food verdict, and this lesson does not claim a working device in hand.",
+            "AeroSense’s sensing design places insect OR/Orco proteins in HEK293 cells and uses GCaMP to report calcium changes as fluorescence.",
+            "Follow the information from molecular recognition to optical measurement.",
           ],
           widget: "method-strip",
           steps: [
@@ -658,7 +658,7 @@
           ],
           ideaCard: "Recognition happens at the receptor. Measurement happens after a reporter converts that event into a signal.",
           deeper:
-            "Proposal-level assemblies keep construct details off the main path: Construct A is an OR–IRES–mCherry style expression cassette; Construct B is a GCaMP–Orco fusion style cassette. Exact maps, restriction sites, and cloning steps belong in Parts and Experiments — not here.",
+            "Parts contains the construct maps; Experiments provides the laboratory methods.",
         },
         {
           id: "three-parts",
@@ -669,7 +669,7 @@
           ],
           widget: "",
           deeper:
-            "Published HEK insect-OR panels that combine Orco and GCaMP motivate this architecture. They are starting points, not drop-in proof that AeroSense DNA already works in the team’s hands.",
+            "Published insect-receptor studies informed the sensing architecture.",
         },
       ],
       interaction: {
@@ -737,7 +737,7 @@
       takeaway: {
         sentence: "Synthetic biology turns molecular recognition into an engineered information pathway.",
         canExplain: [
-          "What OR, Orco, and GCaMP each contribute in the planned sensing chain.",
+          "The roles of OR, Orco and GCaMP in the sensing design.",
           "What fails conceptually if OR, Orco, or GCaMP is removed.",
           "Why engineered cells should not contact the food being screened.",
         ],
@@ -880,7 +880,7 @@
         challenge:
           "For each of four fictional batches, review the screening band, signal quality, confidence, history and storage. Choose a next action that fits the evidence.",
         explanation:
-          "Screening should guide the next action. It should not pretend to replace confirmatory analysis, and a poor-quality signal should not be treated as a finished risk number.",
+          "Use signal quality and screening bands to choose a follow-up action.",
         disclaimer: "Fictional QC files — not experimental AeroSense data and not a real warehouse record.",
         actions: [
           { id: "release", label: "Release normally" },
@@ -969,7 +969,7 @@
         ITEM_BANK.ACT_REPLACE_CONFIRM,
       ],
       reflection:
-        "If missing a dangerous batch is much more costly than sending one additional sample for confirmation, should the decision threshold stay the same? Write a short policy note — not a fake accuracy number.",
+        "If missing a dangerous batch costs more than an extra confirmatory test, how should the decision threshold change? Explain your choice.",
       takeaway: {
         sentence:
           "Responsible sensing means knowing both what your system detects and what it cannot conclude.",

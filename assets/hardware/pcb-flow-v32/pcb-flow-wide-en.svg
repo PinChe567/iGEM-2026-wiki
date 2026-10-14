@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1230" viewBox="0 0 1400 1230" role="img" aria-labelledby="title desc" xml:lang="en">
+<title id="title">V2 PCB signal, control and power flow</title>
+<desc id="desc">Schematic-derived map: D5 photodiode to LMP7721 TIA, ADS8866 ADC and ESP32. SW2 resets EN, SW3 holds IO0 low for boot selection during reset. J2 supplies USB-C power; J3 carries UART. Separate arrows identify analog, digital, control and power paths.</desc>
+<defs>
+<marker id="a-analog" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#176f7d"/></marker>
+<marker id="a-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#245d89"/></marker>
+<marker id="a-control" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#79528b"/></marker>
+<marker id="a-power" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#985d26"/></marker>
+<marker id="a-power-small" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="3" markerHeight="3" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#985d26"/></marker>
+</defs><style>text{font-family:"Segoe UI","Microsoft JhengHei",Arial,sans-serif;fill:#1c394e} .small{fill:#495f6c} text{font-variant-numeric:tabular-nums}</style>
+<rect width="1400" height="1230" fill="#f4f8fb"/>
+<text x="40" y="57" font-size="42" font-weight="700" text-anchor="start">Light, data and control</text>
+<text x="40" y="94" font-size="23" font-weight="400" text-anchor="start" style="fill:#495f6c">V2 PCB · a map of the supplied schematic</text>
+<path d="M40 130 H79" fill="none" stroke="#176f7d" stroke-width="3" marker-end="url(#a-analog)"/>
+<text x="92" y="136" font-size="22" font-weight="400" text-anchor="start">Analog</text>
+<path d="M365 130 H404" fill="none" stroke="#245d89" stroke-width="3" marker-end="url(#a-blue)"/>
+<text x="417" y="136" font-size="22" font-weight="400" text-anchor="start">Digital data</text>
+<path d="M690 130 H729" fill="none" stroke="#79528b" stroke-width="3" marker-end="url(#a-control)" stroke-dasharray="8 5"/>
+<text x="742" y="136" font-size="22" font-weight="400" text-anchor="start">Control</text>
+<path d="M1015 130 H1054" fill="none" stroke="#985d26" stroke-width="4" marker-end="url(#a-power)"/>
+<text x="1067" y="136" font-size="22" font-weight="400" text-anchor="start">Power</text>
+<rect x="40" y="171" width="34" height="30" fill="#1c394e"/>
+<text x="57" y="194" font-size="17" font-weight="700" text-anchor="middle" style="fill:#ffffff">01</text>
+<text x="88" y="194" font-size="29" font-weight="700" text-anchor="start">Read the signal</text>
+<path data-box="40 222 240 161" d="M49 222 H271 V231 H280 V374 H271 V383 H49 V374 H40 V231 H49 Z" fill="#e2f1ee" stroke="#176f7d" stroke-width="1.5"/>
+<text x="59" y="248" font-size="20" font-weight="700" text-anchor="start" style="fill:#176f7d">D5</text>
+<text x="59" y="292" font-size="29" font-weight="700" text-anchor="start">Photodiode</text>
+<text x="59" y="329" font-size="22" font-weight="400" text-anchor="start">VEMD5060X01</text>
+<text x="59" y="362" font-size="21" font-weight="400" text-anchor="start">Light → current</text>
+<path data-box="355 222 280 161" d="M364 222 H626 V231 H635 V374 H626 V383 H364 V374 H355 V231 H364 Z" fill="#e2f1ee" stroke="#176f7d" stroke-width="1.5"/>
+<text x="374" y="248" font-size="20" font-weight="700" text-anchor="start" style="fill:#176f7d">U8</text>
+<text x="374" y="292" font-size="29" font-weight="700" text-anchor="start">TIA</text>
+<text x="374" y="329" font-size="22" font-weight="400" text-anchor="start">LMP7721</text>
+<text x="374" y="362" font-size="21" font-weight="400" text-anchor="start">100 MΩ ∥ 2.2 pF</text>
+<path data-box="740 222 250 161" d="M749 222 H981 V231 H990 V374 H981 V383 H749 V374 H740 V231 H749 Z" fill="#e1edf7" stroke="#245d89" stroke-width="1.5"/>
+<text x="759" y="248" font-size="20" font-weight="700" text-anchor="start" style="fill:#245d89">U9</text>
+<text x="759" y="292" font-size="29" font-weight="700" text-anchor="start">16-bit ADC</text>
+<text x="759" y="329" font-size="22" font-weight="400" text-anchor="start">ADS8866</text>
+<text x="759" y="362" font-size="21" font-weight="400" text-anchor="start">DIN held high</text>
+<path data-box="1105 222 255 161" d="M1114 222 H1351 V231 H1360 V374 H1351 V383 H1114 V374 H1105 V231 H1114 Z" fill="#e1edf7" stroke="#245d89" stroke-width="1.5"/>
+<text x="1124" y="248" font-size="20" font-weight="700" text-anchor="start" style="fill:#245d89">U4</text>
+<text x="1124" y="292" font-size="29" font-weight="700" text-anchor="start">ESP32</text>
+<text x="1124" y="329" font-size="22" font-weight="400" text-anchor="start">ESP32-WROOM-32E</text>
+<text x="1124" y="362" font-size="21" font-weight="400" text-anchor="start">Reads ADC_DOUT</text>
+<path d="M283 292 H344" fill="none" stroke="#176f7d" stroke-width="3" marker-end="url(#a-analog)"/>
+<text x="316" y="406" font-size="20" font-weight="600" text-anchor="middle">PD_SUM</text>
+<path d="M638 292 H729" fill="none" stroke="#176f7d" stroke-width="3" marker-end="url(#a-analog)"/>
+<text x="687" y="406" font-size="20" font-weight="600" text-anchor="middle">R29 · 100 Ω</text>
+<text x="687" y="440" font-size="20" font-weight="400" text-anchor="middle">ADC_AINP</text>
+<path d="M993 292 H1094" fill="none" stroke="#245d89" stroke-width="3" marker-end="url(#a-blue)"/>
+<text x="1046" y="406" font-size="20" font-weight="600" text-anchor="middle">ADC_DOUT</text>
+<text x="1046" y="440" font-size="20" font-weight="400" text-anchor="middle">GPIO19</text>
+<path data-box="40 459 1320 123" d="M49 459 H1351 V468 H1360 V573 H1351 V582 H49 V573 H40 V468 H49 Z" fill="#eee6f3" stroke="#79528b" stroke-width="1.5"/>
+<text x="61" y="492" font-size="23" font-weight="700" text-anchor="start">ESP32 → ADC</text>
+<text x="300" y="492" font-size="23" font-weight="400" text-anchor="start">GPIO18 → ADC_SCLK → R37 47 Ω → SCLK (8)</text>
+<text x="300" y="529" font-size="23" font-weight="400" text-anchor="start">GPIO33 → ADC_CONVST → R38 47 Ω → CONVST (6)</text>
+<text x="61" y="563" font-size="23" font-weight="700" text-anchor="start">LED drive</text>
+<text x="300" y="563" font-size="23" font-weight="400" text-anchor="start">GPIO25 / 26 / 27 / 32 → LED1–4_GATE → Q1–Q4 → D1–D4</text>
+<rect x="40" y="613" width="34" height="30" fill="#1c394e"/>
+<text x="57" y="636" font-size="17" font-weight="700" text-anchor="middle" style="fill:#ffffff">02</text>
+<text x="88" y="636" font-size="29" font-weight="700" text-anchor="start">Reset, boot and UART</text>
+<path data-box="40 664 420 175" d="M49 664 H451 V673 H460 V830 H451 V839 H49 V830 H40 V673 H49 Z" fill="#eee6f3" stroke="#79528b" stroke-width="1.5"/>
+<path data-box="490 664 420 175" d="M499 664 H901 V673 H910 V830 H901 V839 H499 V830 H490 V673 H499 Z" fill="#eee6f3" stroke="#79528b" stroke-width="1.5"/>
+<path data-box="940 664 420 175" d="M949 664 H1351 V673 H1360 V830 H1351 V839 H949 V830 H940 V673 H949 Z" fill="#e1edf7" stroke="#245d89" stroke-width="1.5"/>
+<text x="60" y="697" font-size="21" font-weight="700" text-anchor="start" style="fill:#79528b">SW2</text>
+<text x="60" y="735" font-size="28" font-weight="700" text-anchor="start">Reset</text>
+<text x="60" y="775" font-size="24" font-weight="400" text-anchor="start">ESP_EN / U4 EN → GND</text>
+<text x="60" y="814" font-size="21" font-weight="400" text-anchor="start">Press to pull EN low.</text>
+<text x="510" y="697" font-size="21" font-weight="700" text-anchor="start" style="fill:#79528b">SW3</text>
+<text x="510" y="735" font-size="28" font-weight="700" text-anchor="start">Boot selection</text>
+<text x="510" y="775" font-size="24" font-weight="400" text-anchor="start">ESP_IO0 / GPIO0 → GND</text>
+<text x="510" y="814" font-size="21" font-weight="400" text-anchor="start">Hold SW3 while resetting with SW2.</text>
+<text x="960" y="697" font-size="21" font-weight="700" text-anchor="start" style="fill:#245d89">J3</text>
+<text x="960" y="735" font-size="28" font-weight="700" text-anchor="start">3.3 V UART</text>
+<text x="960" y="775" font-size="20" font-weight="400" text-anchor="start">2 TXD0 / GPIO1 · 3 RXD0 / GPIO3</text>
+<text x="960" y="814" font-size="22" font-weight="400" text-anchor="start">1 3V3_DIG · 4 GND</text>
+<rect x="40" y="870" width="34" height="30" fill="#1c394e"/>
+<text x="57" y="893" font-size="17" font-weight="700" text-anchor="middle" style="fill:#ffffff">03</text>
+<text x="88" y="893" font-size="29" font-weight="700" text-anchor="start">Supply the board</text>
+<path data-box="40 921 235 149" d="M49 921 H266 V930 H275 V1061 H266 V1070 H49 V1061 H40 V930 H49 Z" fill="#f8e8d5" stroke="#985d26" stroke-width="1.5"/>
+<path data-box="355 921 280 149" d="M364 921 H626 V930 H635 V1061 H626 V1070 H364 V1061 H355 V930 H364 Z" fill="#f8e8d5" stroke="#985d26" stroke-width="1.5"/>
+<path data-box="740 921 250 149" d="M749 921 H981 V930 H990 V1061 H981 V1070 H749 V1061 H740 V930 H749 Z" fill="#f8e8d5" stroke="#985d26" stroke-width="1.5"/>
+<path data-box="1105 921 255 149" d="M1114 921 H1351 V930 H1360 V1061 H1351 V1070 H1114 V1061 H1105 V930 H1114 Z" fill="#f8e8d5" stroke="#985d26" stroke-width="1.5"/>
+<text x="59" y="951" font-size="22" font-weight="700" text-anchor="start" style="fill:#985d26">J2 · USB-C</text>
+<text x="59" y="989" font-size="27" font-weight="700" text-anchor="start">Power input</text>
+<text x="59" y="1025" font-size="22" font-weight="400" text-anchor="start">VBUS → 5V_USB</text>
+<text x="59" y="1052" font-size="19" font-weight="400" text-anchor="start">Data pins unconnected</text>
+<text x="375" y="951" font-size="22" font-weight="700" text-anchor="start" style="fill:#985d26">U2 · BQ24074</text>
+<text x="375" y="989" font-size="24" font-weight="700" text-anchor="start">Charge + power path</text>
+<text x="375" y="1025" font-size="22" font-weight="400" text-anchor="start">IN 13 → OUT 10 / 11</text>
+<text x="760" y="951" font-size="22" font-weight="700" text-anchor="start" style="fill:#985d26">U1 · TPS61023</text>
+<text x="760" y="989" font-size="27" font-weight="700" text-anchor="start">5 V boost</text>
+<text x="760" y="1025" font-size="21" font-weight="400" text-anchor="start">5V also supplies D1–D4</text>
+<text x="1125" y="951" font-size="23" font-weight="700" text-anchor="start" style="fill:#985d26">Regulated rails</text>
+<text x="1125" y="990" font-size="22" font-weight="600" text-anchor="start">U5 → 3V3_DIG</text>
+<text x="1125" y="1027" font-size="22" font-weight="600" text-anchor="start">U6 → 3V3_ANA</text>
+<path d="M279 995 H344" fill="none" stroke="#985d26" stroke-width="4" marker-end="url(#a-power)"/>
+<path d="M638 995 H729" fill="none" stroke="#985d26" stroke-width="4" marker-end="url(#a-power)"/>
+<path d="M993 995 H1094" fill="none" stroke="#985d26" stroke-width="4" marker-end="url(#a-power)"/>
+<path d="M496 1080 L496 1106" fill="none" stroke="#985d26" stroke-width="3" marker-start="url(#a-power-small)" marker-end="url(#a-power-small)"/>
+<path data-box="355 1117 280 64" d="M364 1117 H626 V1126 H635 V1172 H626 V1181 H364 V1172 H355 V1126 H364 Z" fill="#f8e8d5" stroke="#985d26" stroke-width="1.5"/>
+<text x="495" y="1157" font-size="23" font-weight="600" text-anchor="middle">J1 · Battery</text>
+<text x="710" y="1112" font-size="22" font-weight="600" text-anchor="start">3V3_ANA → U7 LTC6655</text>
+<text x="710" y="1146" font-size="22" font-weight="400" text-anchor="start">VREF_2V5 → U9 REF</text>
+<text x="40" y="1210" font-size="19" font-weight="400" text-anchor="start" style="fill:#495f6c">Source: NTHU_TEST_BOARD schematic · sheets 1–2 · 14 Sep 2026. Arrows show functional signal or supply direction.</text>
+</svg>

@@ -1562,6 +1562,15 @@ function loadGltf(url) {
     return 0;
   }
 
+  // The render loop may run while the score/mode/callout is unchanged. Keep
+  // those DOM nodes (and their translated text) stable until the source changes.
+  const uiSourceText = new WeakMap();
+  function setUiText(el, value) {
+    if (!el || uiSourceText.get(el) === value) return;
+    uiSourceText.set(el, value);
+    el.textContent = value;
+  }
+
   function showScoreTick(text) {
     if (!els.scoreTick) return;
     els.scoreTick.textContent = text;
@@ -1584,15 +1593,15 @@ function loadGltf(url) {
 
   function updateScoreUi() {
     if (els.score) {
-      els.score.textContent = padScore(state.score);
+      setUiText(els.score, padScore(state.score));
       els.score.classList.toggle("is-on", !state.auto && state.onTrail);
       els.score.classList.toggle("is-off", state.auto || !state.onTrail);
     }
     if (els.scoreMode) els.scoreMode.hidden = false;
-    if (els.modeLabel) els.modeLabel.textContent = state.auto ? 'AUTOPILOT' : 'MANUAL FLIGHT';
-    if (els.autoState) els.autoState.textContent = state.completed ? "COMPLETE" : state.userPaused ? "PAUSED" : state.cinematic ? "STORY" : state.questHold ? "READING" : state.waitLoad || state.checkpointOpen ? "WAITING" : state.auto || state.forwardInput || state.pointerForward ? "MOVING" : "READY";
+    setUiText(els.modeLabel, state.auto ? 'AUTOPILOT' : 'MANUAL FLIGHT');
+    setUiText(els.autoState, state.completed ? "COMPLETE" : state.userPaused ? "PAUSED" : state.cinematic ? "STORY" : state.questHold ? "READING" : state.waitLoad || state.checkpointOpen ? "WAITING" : state.auto || state.forwardInput || state.pointerForward ? "MOVING" : "READY");
     if (els.finaleScore && state.completed) {
-      els.finaleScore.textContent = "GAME SCORE · " + padScore(state.score);
+      setUiText(els.finaleScore, "GAME SCORE · " + padScore(state.score));
     }
   }
 
@@ -2920,8 +2929,8 @@ function loadGltf(url) {
     const show = !state.staticMode && (nearSource || lateAir);
     els.callout.hidden = !show;
     if (show) {
-      if (els.calloutKicker) els.calloutKicker.textContent = "SOURCE IN SIGHT";
-      if (els.calloutLabel) els.calloutLabel.textContent = "VOC pattern in the headspace.";
+      setUiText(els.calloutKicker, "SOURCE IN SIGHT");
+      setUiText(els.calloutLabel, "VOC pattern in the headspace.");
     }
   }
 
@@ -2939,7 +2948,7 @@ function loadGltf(url) {
     els.edge.hidden = !off;
     if (off) {
       const right = _ndc.x >= 0;
-      els.edge.textContent = right ? "SIGNAL >" : "< SIGNAL";
+      setUiText(els.edge, right ? "SIGNAL >" : "< SIGNAL");
       els.edge.classList.toggle("is-right", right);
     }
   }
