@@ -311,18 +311,23 @@
         id: official.id,
         startDate: official.startDate,
         endDate: official.endDate,
-        datePrecision: "day",
+        datePrecision: official.datePrecision || "day",
+        startTime: official.startTime || null,
+        endTime: official.endTime || null,
+        timeZone: official.timeZone || null,
+        allDay: official.allDay !== false,
+        officialTimestamp: official.timeZone === "UTC" && official.startTime ? official.startDate + "T" + official.startTime + ":00Z" : null,
         stream: "igem",
         substream: null,
         category: official.category || "",
         status: "official",
         title: official.title,
-        shortSummary: official.note || "",
+        shortSummary: (official.note || "").replace(/ Official time:.*$/, "").replace(/ Date or range only;.*$/, ""),
         isOfficial: true,
         sourceLabel: official.sourceLabel,
         sourceUrl: official.sourceUrl,
         lastChecked: official.lastChecked,
-        note: official.note || "",
+        note: (official.note || "").replace(/ Official time:.*$/, "").replace(/ Date or range only;.*$/, ""),
         tags: official.tags || [],
       };
     });
@@ -629,7 +634,9 @@
   function initViews(root) {
     var tabs = qsa("[data-nb-view]", root);
     var panels = qsa("[data-nb-panel]", root);
-    if (!tabs.length || !panels.length) return { select: function () {} };
+    if (!tabs.length || !panels.length) {
+      return { select: function () {}, revealAnchor: function () {} };
+    }
 
     function select(view, focusTab) {
       tabs.forEach(function (tab) {
@@ -671,8 +678,34 @@
       });
     });
 
+    function revealAnchor(detail) {
+      var target = detail && detail.target;
+      if (!target || target.nodeType !== 1) {
+        var id = String((detail && detail.hash) || location.hash || "").replace(/^#/, "");
+        if (!id) return;
+        try {
+          id = decodeURIComponent(id);
+        } catch (error) {
+          return;
+        }
+        target = document.getElementById(id);
+      }
+      if (!target || !root.contains(target)) return;
+      var panel = target.closest("[data-nb-panel]");
+      if (!panel || panels.indexOf(panel) === -1) return;
+      select(panel.getAttribute("data-nb-panel"), false);
+    }
+
+    // Reveal a hidden view before the shared navigator measures its target.
+    document.addEventListener("aerosense:before-anchor", function (event) {
+      revealAnchor(event.detail);
+    });
+    window.addEventListener("hashchange", function () {
+      revealAnchor({ hash: location.hash });
+    });
+
     select("calendar", false);
-    return { select: select };
+    return { select: select, revealAnchor: revealAnchor };
   }
 
   /* ========================= Calendar helpers ========================= */
@@ -699,11 +732,20 @@
     return String(d);
   }
 
+  function formatTime(ev) {
+    if (!ev.startTime) return "";
+    var value = ev.startTime + (ev.endTime ? "–" + ev.endTime : "");
+    if (ev.timeZone === "Asia/Taipei") return value + " (Taipei, UTC+08:00)";
+    if (ev.timeZone === "UTC") {
+      var instant = new Date(ev.startDate + "T" + ev.startTime + ":00Z");
+      var local = new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Taipei", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(instant);
+      return value + " UTC · " + local + " Taipei (UTC+08:00)";
+    }
+    return value + (ev.timeZone ? " " + ev.timeZone : "");
+  }
+
   function formatRange(ev) {
-    var hours = ev.startTime
-      ? " · " + ev.startTime + (ev.endTime ? "–" + ev.endTime : "") +
-        (ev.timeZone === "Asia/Taipei" ? " (Taipei, UTC+08:00)" : "")
-      : "";
+    var hours = ev.startTime ? " · " + formatTime(ev) : "";
     if (ev.openEnd && ev.startDate) {
       return "From " + formatDateLabel(ev.startDate) + " · end date unconfirmed" + hours;
     }
@@ -863,11 +905,17 @@
     return STATUS_LABEL[ev.status] ? ev.status : "needs-update";
   }
 
+  function isBirthday(ev) {
+    return Boolean(ev && ev.tags && ev.tags.indexOf("birthday") !== -1);
+  }
+
   function buildOfficialDrawerBody(bodyEl, ev) {
     bodyEl.innerHTML = "";
 
     var header = makeEl("header", "nb-event-drawer__header");
-    header.appendChild(makeEl("p", "nb-event-drawer__when", formatRange(ev)));
+    var when = makeEl("time", "nb-event-drawer__when", formatRange(ev));
+    when.dateTime = ev.officialTimestamp || ev.startDate;
+    header.appendChild(when);
     header.appendChild(
       makeEl("p", "nb-event-drawer__stream", STREAM_LABEL.igem)
     );
@@ -880,7 +928,7 @@
     );
     header.appendChild(statusWrap);
 
-    var title = makeEl("h2", "nb-event-drawer__title", ev.title);
+    var title = makeEl("h2", "nb-event-drawer__title", eventTitle(ev));
     title.id = "nb-event-drawer-title";
     header.appendChild(title);
 
@@ -942,8 +990,12 @@
     if (window.AeroSenseEnhanceReferences) window.AeroSenseEnhanceReferences();
   }
 
+  function eventTitle(ev) {
+    return String(ev.title || "").replace(/\s*\(Planned\)$/, "");
+  }
+
   function conciseTitle(ev) {
-    return truncate(ev.title, 42);
+    return truncate(eventTitle(ev), 42);
   }
 
   function todayInfo() {
@@ -1084,7 +1136,9 @@
       var planned = ev.status === "planned";
 
       var header = makeEl("header", "nb-event-drawer__header");
+      if (isBirthday(ev)) header.classList.add("nb-birthday");
       header.appendChild(makeEl("p", "nb-event-drawer__when", formatRange(ev)));
+      if (ev.allDay) header.appendChild(makeEl("p", "nb-event-drawer__when", "All day"));
       header.appendChild(
         makeEl(
           "p",
@@ -1101,7 +1155,7 @@
       );
       header.appendChild(statusWrap);
 
-      var title = makeEl("h2", "nb-event-drawer__title", ev.title);
+      var title = makeEl("h2", "nb-event-drawer__title", eventTitle(ev));
       title.id = "nb-event-drawer-title";
       header.appendChild(title);
 
@@ -1258,9 +1312,14 @@
                 li.textContent = label;
               }
               if (item.status) {
-                li.appendChild(
-                  document.createTextNode(" · " + item.status)
-                );
+                if (item.status === "Zenodo (publication pending)") {
+                  li.appendChild(document.createTextNode(" — "));
+                  li.appendChild(makeEl("span", "zenodo-pending", item.status));
+                } else {
+                  li.appendChild(
+                    document.createTextNode(" · " + item.status)
+                  );
+                }
               }
             }
             evList.appendChild(li);
@@ -1278,11 +1337,17 @@
       if (hasText(ev.relatedLinks)) {
         var linkList = makeEl("ul", "nb-event-drawer__list");
         (ev.relatedLinks || []).forEach(function (link) {
-          if (!link || !link.href) return;
+          if (!link || (!link.href && !link.publicationPending)) return;
           var li = makeEl("li");
-          var a = makeEl("a", null, link.label || link.href);
-          a.href = link.href;
-          li.appendChild(a);
+          if (link.href) {
+            var a = makeEl("a", null, link.label || link.href);
+            a.href = link.href;
+            li.appendChild(a);
+          } else {
+            li.appendChild(makeEl("span", null, link.label || "Evidence"));
+            li.appendChild(document.createTextNode(" — "));
+            li.appendChild(makeEl("span", "zenodo-pending", "Zenodo (publication pending)"));
+          }
           linkList.appendChild(li);
         });
         if (linkList.childNodes.length) {
@@ -1514,7 +1579,20 @@
     }
 
     function matchedEvents() {
-      return filterEvents(teamEvents, getFilters(), officialEvents);
+      // A period may span the confirmed completion date. Calendar filtering
+      // uses the occurrence below; Timeline and Gantt retain the source status.
+      var filters = Object.assign({}, getFilters(), { status: "all" });
+      return filterEvents(teamEvents, filters, officialEvents);
+    }
+
+    function occurrenceStatus(ev, date) {
+      var confirmed = window.AerosenseNotebook && window.AerosenseNotebook.META.completionConfirmedThrough;
+      if (!ev.isOfficial && ev.status === "planned" && confirmed && keyFromDate(date) <= confirmed) return "completed";
+      return statusClass(ev);
+    }
+
+    function calendarTitle(ev) {
+      return eventTitle(ev);
     }
 
     function daysInMonth(year, month) {
@@ -1541,7 +1619,9 @@
       return events.filter(function (ev) {
         var span = eventSpanMs(ev);
         if (!span) return false;
-        return span.start < end && span.end > start;
+        if (!(span.start < end && span.end > start)) return false;
+        var statusFilter = getFilters().status;
+        return statusFilter === "all" || (!ev.isOfficial && occurrenceStatus(ev, date) === statusFilter);
       });
     }
 
@@ -1624,6 +1704,9 @@
             pick = todayDate;
           }
         }
+        if (trigger && trigger.classList.contains("nb-day-agenda__open") && state.selectedDate) {
+          pick = state.selectedDate;
+        }
         if (pick.getFullYear() === YEAR) {
           selectDate(pick);
         }
@@ -1634,11 +1717,11 @@
     }
 
 
-    function renderEventMarks(holder, dayEvents) {
+    function renderEventMarks(holder, dayEvents, date) {
       holder.innerHTML = "";
       var shown = dayEvents.slice(0, 3);
       shown.forEach(function (ev) {
-        var st = statusClass(ev);
+        var st = occurrenceStatus(ev, date);
         var mark = document.createElement("span");
         mark.className =
           "nb-monthcal__mark nb-monthcal__mark--" +
@@ -1646,7 +1729,7 @@
           " nb-monthcal__mark--" +
           st;
         mark.setAttribute("aria-hidden", "true");
-        mark.title = ev.title || "";
+        mark.title = calendarTitle(ev);
         if (st === "needs-update") mark.textContent = "!";
         holder.appendChild(mark);
       });
@@ -1714,6 +1797,7 @@
           btn.setAttribute("aria-current", "date");
         }
         if (dayEvents.length) btn.classList.add("has-events");
+        if (dayEvents.some(isBirthday)) btn.classList.add("nb-monthcal__day--birthday");
 
         var num = document.createElement("span");
         num.className = "nb-monthcal__daynum";
@@ -1722,7 +1806,7 @@
 
         var marks = document.createElement("div");
         marks.className = "nb-monthcal__events";
-        renderEventMarks(marks, dayEvents);
+        renderEventMarks(marks, dayEvents, date);
         btn.appendChild(marks);
 
         btn.addEventListener(
@@ -1751,7 +1835,7 @@
       agendaEl.innerHTML = "";
       if (!date) return;
 
-      var heading = document.createElement("h3");
+      var heading = document.createElement("h4");
       heading.className = "nb-day-agenda__heading";
       heading.id = "nb-cal-agenda-heading";
       heading.textContent =
@@ -1773,6 +1857,9 @@
           );
         });
 
+      var countEl = qs("[data-view-count]", calRoot);
+      if (countEl) countEl.replaceChildren(makeEl("span", "", "Records on this date:"), document.createTextNode(" " + dayEvents.length));
+
       if (!dayEvents.length) {
         var empty = document.createElement("p");
         empty.className = "nb-day-agenda__empty";
@@ -1785,7 +1872,7 @@
       list.className = "nb-day-agenda__list";
 
       dayEvents.forEach(function (ev) {
-        var st = statusClass(ev);
+        var st = occurrenceStatus(ev, date);
         var card = document.createElement("article");
         card.className =
           "nb-day-agenda__item nb-day-agenda__item--" +
@@ -1794,6 +1881,7 @@
           indicatorStream(ev);
         card.setAttribute("data-event-id", ev.id);
         card.setAttribute("data-stream", visualStreamKey(ev));
+        if (isBirthday(ev)) card.classList.add("nb-birthday");
 
         var status = document.createElement("p");
         status.className = "nb-status nb-status--" + st;
@@ -1810,14 +1898,14 @@
         stream.className = "nb-day-agenda__stream";
         stream.textContent = eventWorkstreamLabel(ev);
 
-        var title = document.createElement("h4");
+        var title = document.createElement("h5");
         title.className = "nb-day-agenda__title";
-        title.textContent = ev.title;
+        title.textContent = calendarTitle(ev);
 
         var summary = document.createElement("p");
         summary.className = "nb-day-agenda__summary";
         summary.textContent = ev.shortSummary
-          ? truncate(String(ev.shortSummary), 220)
+          ? truncate(String(ev.shortSummary).replace(/^Planned\s+/i, ""), 220)
           : formatRange(ev);
 
         var openBtn = document.createElement("button");
@@ -1833,7 +1921,7 @@
         card.appendChild(stream);
         if (ev.startTime) {
           var sessionTime = makeEl("p", "nb-day-agenda__time",
-            ev.startTime + (ev.endTime ? "–" + ev.endTime : "") + " · Taipei (UTC+08:00)");
+            formatTime(ev));
           card.appendChild(sessionTime);
         }
         card.appendChild(title);
@@ -2024,7 +2112,7 @@
         section.className = "nb-timeline__month";
         section.id = "tl-" + group.key;
 
-        var heading = document.createElement("h3");
+        var heading = document.createElement("h4");
         heading.className = "nb-timeline__month-title";
         heading.textContent = monthGroupLabel(group.key);
         section.appendChild(heading);
@@ -2045,6 +2133,7 @@
           card.setAttribute("data-event-id", ev.id);
           card.setAttribute("data-stream", visual);
           card.setAttribute("data-substream", eventSubstream(ev) || "");
+          if (isBirthday(ev)) card.classList.add("nb-birthday");
 
           var keyLine = keyResultOrDecision(ev);
           card.innerHTML =
@@ -2061,9 +2150,9 @@
             (STATUS_LABEL[st] || st) +
             "</span></span>" +
             "</header>" +
-            '<h4 class="nb-tl-card__title">' +
-            ev.title +
-            "</h4>" +
+            '<h5 class="nb-tl-card__title">' +
+            eventTitle(ev) +
+            "</h5>" +
             '<p class="nb-tl-card__summary">' +
             (ev.shortSummary
               ? truncate(ev.shortSummary, 220)
@@ -2361,10 +2450,11 @@
           btn.style.width = width + "%";
           btn.style.top = "calc(0.35rem + " + placedItem.track + " * 2.55rem)";
           btn.setAttribute("data-event-id", placedItem.ev.id);
-          btn.title = placedItem.ev.title + " · " + formatRange(placedItem.ev);
+          if (isBirthday(placedItem.ev)) btn.classList.add("nb-gantt-bar--birthday");
+          btn.title = eventTitle(placedItem.ev) + " · " + formatRange(placedItem.ev);
           btn.setAttribute(
             "aria-label",
-            placedItem.ev.title +
+            eventTitle(placedItem.ev) +
               ", " +
               name +
               ", " +
@@ -2403,10 +2493,10 @@
             ? "0%"
             : axisPercent(markerItem.start, axis) + "%";
           btn.setAttribute("data-event-id", ev.id);
-          btn.title = ev.title + (markerItem.undated ? "" : " · " + formatRange(ev));
+          btn.title = eventTitle(ev) + (markerItem.undated ? "" : " · " + formatRange(ev));
           btn.setAttribute(
             "aria-label",
-            ev.title +
+            eventTitle(ev) +
               (markerItem.undated
                 ? " (undated marker)"
                 : ", " + formatRange(ev) + " (marker)")
@@ -2468,7 +2558,7 @@
             (ev.openEnd ? "Start recorded · end unconfirmed" : spanDurationLabel(span)) +
             "</span></span>" +
             "<strong>" +
-            ev.title +
+            eventTitle(ev) +
             "</strong>";
           li.appendChild(btn);
           ul.appendChild(li);
@@ -2766,7 +2856,7 @@
       };
     }
 
-    fillFilterOptions(form, teamEvents);
+    fillFilterOptions(form, teamEvents.concat(officialEvents));
     var live = qs("[data-filter-live]", form);
     var searchInput = form.elements.namedItem("q");
     syncSubstreamFilter(form);
@@ -2859,7 +2949,7 @@
     }
 
     fillStreamCards(root, teamEvents);
-    initViews(root);
+    var viewsApi = initViews(root);
     initTurningPoints(root, teamEvents);
     initFilterShell(root);
     softLazyImages(root);
@@ -2919,6 +3009,7 @@
     );
 
     refreshAll();
+    viewsApi.revealAnchor({ hash: location.hash });
     drawerApi.restoreFromHash();
   }
 

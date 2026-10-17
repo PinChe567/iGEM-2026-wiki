@@ -236,7 +236,7 @@
     'parts.html': {
       '*': [
         ['What is modular about the sensor?', 'Nine interchangeable OR sensing composites pair with one shared GCaMP6f–Orco reporting module.', 'parts.html#collection'],
-        ['Are the 3D protein drawings measured structures?', 'The viewer explains component roles. Construct maps, sequence records, and functional evidence must be interpreted separately.', 'parts.html#sensor-builder'],
+        ['What does the protein diagram show?', 'The diagram connects each genetic module to its protein and its role in the sensor.', 'parts.html#sensor-builder'],
         ['Which fluorescent protein reports calcium?', 'GCaMP6f provides the intended green calcium response. mCherry is a red expression marker.', 'parts.html#sensor-builder']
       ],
       'collection': [
@@ -251,21 +251,13 @@
         ['How many records are in the catalog?', 'The page lists 14 new basic parts, 10 new composites, and 2 reused Registry parts: 26 records.'],
         ['Why are full sequences not repeated in each row?', 'The table is the technical index. It points readers to the relevant Registry sequence records rather than maintaining duplicate sequence copies.']
       ],
-      'characterization': [
-        ['Does Registry registration mean the part has been functionally validated?', 'No. Registration, construct architecture, and functional assay evidence are separate claims.'],
-        ['How can I evaluate characterization without duplicating figures?', 'This section links to the authoritative design, methods, biological results, and engineering records.']
-      ],
-      'reuse-qc': [
-        ['What must a reusing team check besides the sequence?', 'The reuse table includes mammalian expression, topology, reporter interpretation, assembly standards, restriction sites, and verification requirements.'],
-        ['Can published HEK293 expression be treated as AeroSense VOC proof?', 'No. Host/platform knowledge informs design; the specific receptor system needs its own controlled functional evidence.']
-      ],
       'plasmid-atlas': [
         ['Does the plasmid map show the registered insert or the whole vector?', 'The maps show the full pcDNA3.1(+) context. The registered sensing composites are the inserts.'],
         ['What differs among the sensing plasmids?', 'The tuning OR coding sequence differs; the maps make the shared construct context visible.']
       ],
       'references': [
         ['Do numbered citations include datasheets and Registry pages?', 'This page reserves numbered in-text markers for papers. Other source types are identified separately.'],
-        ['How do references relate to characterization?', 'Published work supports component choice and mechanism. Team-specific functional characterization remains a separate evidence claim.', 'parts.html#characterization']
+        ['How do references relate to characterization?', 'Published work informs component choice and mechanism. AeroSense measurements are presented in Results.', 'results.html#subsystem-status']
       ]
     },
     'hardware.html': {

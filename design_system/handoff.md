@@ -1,5 +1,6 @@
 # AeroSense · Signal Atlas v18 handoff
 
+Historical verification reports referenced in this document are not included in the final release. Current editable website sources remain available.
 12 October 2026. Read [strategy](strategy.md), [component specification](component-spec.md), [audit](audit.md), [base palettes](palettes-v14.json) and the [watercolor manifest](../assets/editorial/watercolor-v15/manifest.json). The v11 guide and older hero presentations are historical.
 
 ## Shared sources, in build order
@@ -27,16 +28,16 @@
 
 These 18 layers are assembled in the listed order. V15 intentionally overrides the earlier zero-inset caption rule and brown-only Learning components. Keep page behavior with its owner. Homepage continuity overrides are in `css/home-continuum-v16.css`; `css/home-color-v17.css` follows it and harmonizes the forest-green night with sage and paper, and gives the notebook calendar a fine monochrome stepped outline with 24 px / 16 px inner padding. The shared sensing continuum owns the railway canvas and measured gradient stops through the team photograph. The homepage footer ends on a solid forest surface, without a transition gradient.
 
-From the workspace root (`wiki/`):
+From the website root (`aerosense-wiki/`):
 
 ```text
 python scripts/build-illustration-palettes-v14.py
-python aerosense-wiki/scripts/build-pixel-frames-v16.py
-node aerosense-wiki/scripts/build-design-system.mjs
-node aerosense-wiki/scripts/build-home-bundles.mjs
+python scripts/build-pixel-frames-v16.py
+node scripts/build-design-system.mjs
+node scripts/build-home-bundles.mjs
 ```
 
-Use `palettes-v14.json` and the [palette generator](../../scripts/build-illustration-palettes-v14.py) for base colors. Never edit generated CSS or bundles directly. Synchronize versioned asset URLs after final integration; the final report owns build hashes.
+Use `palettes-v14.json` and the [palette generator](../scripts/build-illustration-palettes-v14.py) for base colors. Never edit generated CSS or bundles directly. Synchronize versioned asset URLs after final integration; the final report owns build hashes.
 
 ## Integration rules
 
@@ -53,11 +54,11 @@ Use `palettes-v14.json` and the [palette generator](../../scripts/build-illustra
 
 ## Verification handoff
 
-- `reports/check-learning-color-v15.cjs --compiled`: 14 cases at 1440/390 px; [JSON](../../reports/learning-v15/compiled/checks.json), [report](../../reports/learning-colors-v15.md).
-- `reports/check-model-parts-captions-v15.cjs`: Model/Parts at both widths; [JSON](../../reports/captions-v15/model-parts-checks.json).
-- `reports/check-caption-widths-v15.cjs`: 205 checks across 38 page/width/study cases, including all three Model tabs; [JSON](../../reports/captions-v15/site-caption-widths.json). Checks preserve native display, visible width and horizontal caption position.
+- `reports/check-learning-color-v15.cjs --compiled`: 14 cases at 1440/390 px; JSON (historical record), report (historical record).
+- `reports/check-model-parts-captions-v15.cjs`: Model/Parts at both widths; JSON (historical record).
+- `reports/check-caption-widths-v15.cjs`: 205 checks across 38 page/width/study cases, including all three Model tabs; JSON (historical record). Checks preserve native display, visible width and horizontal caption position.
 
-Representative Learning, Model and Parts screenshots were inspected. The [v14 report](../../reports/2026-10-12-palette-notebook-v14.md) preserves palette/alignment and Notebook history. The [v15 integration report](../../reports/2026-10-12-visual-evidence-v15.md) records final combined checks; do not infer its outcome from these scoped runs. This handoff makes no deployment claim.
+Representative Learning, Model and Parts screenshots were inspected. The v14 report (historical record) preserves palette/alignment and Notebook history. The v15 integration report (historical record) records final combined checks; do not infer its outcome from these scoped runs. This handoff makes no deployment claim.
 
 ## Attributions presentation
 
@@ -68,6 +69,8 @@ The v17 integration record is `reports/2026-10-12-hero-harmony-v17.md`, with sco
 ## V18 loading and illustration refinements
 
 The current follow-up is `reports/2026-10-12-first-paint-v18.md`.
+
+The three workspace-level installer/prerender commands described below are historical migration steps, not commands in the current self-contained release workflow. Their resulting HTML and runtime files are retained. Use the website-root build commands above for current retained generators.
 
 - `js/hero-first-paint-v18.js` is inlined after the head stylesheets in every chapter that uses the Hero helper. It measures progressively parsed covers before they can paint at the old column width. `js/hero-layout-v17.js` takes over the observers without changing the initial geometry or hiding the cover. After editing the bootstrap, regenerate all copies with `python scripts/install_hero_first_paint_v18.py` from the workspace root.
 - The five Learning reading editions now use the same `renderHero` output and layout as the interactive edition. Their original reading content remains available without JavaScript. Runtime activity initialization preserves the existing header node. After changes to lesson Hero content or its renderer, run `node scripts/prerender_learning_heroes_v18.cjs`, then refresh cache fingerprints.

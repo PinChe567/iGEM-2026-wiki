@@ -1,5 +1,6 @@
 # Signal Atlas · v15 component specification
 
+Historical verification reports referenced in this document are not included in the final release. Current editable website sources remain available.
 12 October 2026. These contracts describe production sources. [guide.html](guide.html) remains a **historical v11 specimen**.
 
 | Component | Current contract |
@@ -31,8 +32,8 @@ Preserve Parts 2D/3D selection, Description journey/text fallback, Hardware CAD/
 
 ## Checked scope
 
-- [Learning v15](../../reports/learning-colors-v15.md): 14 desktop/mobile cases, including real pre/post quiz flow, feedback colors, focus and touch targets.
-- [Caption v15](../../reports/model-parts-captions-v15.md): Model/Parts at 1440/390 px and 205 native table-caption checks across 38 page/width/study cases, including visible wrapper width and horizontal scrolling.
-- [V14 history](../../reports/2026-10-12-palette-notebook-v14.md): base palettes, reading alignment and Notebook.
+- Learning v15 (historical record): 14 desktop/mobile cases, including real pre/post quiz flow, feedback colors, focus and touch targets.
+- Caption v15 (historical record): Model/Parts at 1440/390 px and 205 native table-caption checks across 38 page/width/study cases, including visible wrapper width and horizontal scrolling.
+- V14 history (historical record): base palettes, reading alignment and Notebook.
 
-These scoped results do not certify a later whole-site build. Final combined results belong in [the v15 integration report](../../reports/2026-10-12-visual-evidence-v15.md).
+These scoped results do not certify a later whole-site build. Final combined results belong in the v15 integration report (historical record).

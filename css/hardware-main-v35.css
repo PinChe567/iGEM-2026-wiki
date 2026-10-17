@@ -1,11 +1,11 @@
 /* Operation and evidence continue the Hardware article after the product film. */
 .page-hardware .hw-main-content { min-width:0; margin-top:clamp(2rem,5vw,4.5rem); }
-.page-hardware.hw-map-ready .hw-main-content > [data-hardware-reader-home] { display:none!important; }
+
 .page-hardware .hw-main-content > .section-block { padding-block:clamp(2.6rem,5vw,4.5rem); margin-block:0; border-color:var(--v-rule,#bfd6e0); }
 .page-hardware .hw-main-content .section-eyebrow { color:var(--v-accent,#2373a2); }
 .page-hardware .hw-main-content .section-block > h2 { max-width:none; }
 .page-hardware .hw-main-content > .section-block > h2 { position:relative; isolation:isolate; overflow:hidden; width:100%; box-sizing:border-box; padding:1.1rem 1.5rem; margin:.3rem 0 1.75rem; border:0; border-left:3px solid var(--v-accent); border-radius:6px 34px 7px 16px; background:linear-gradient(105deg,var(--v-soft),var(--v-tint)); color:var(--v-ink); }
-.page-hardware .hw-main-content > .section-block > h2::after { content:""; position:absolute; z-index:-1; pointer-events:none; right:-.5rem; top:50%; width:264px; height:212px; transform:translateY(-50%) rotate(-8deg); background-image:var(--chapter-art-atlas,url('../assets/editorial/watercolor-v15/hero-watercolor-atlas.png')); background-size:621.21212% 576.88679%; background-position:var(--chapter-sprite-position,0.58140% 0.79130%); opacity:.17; mix-blend-mode:multiply; mask-image:linear-gradient(90deg,transparent,#000 45%); }
+.page-hardware .hw-main-content > .section-block > h2::after { content:""; position:absolute; z-index:-1; pointer-events:none; right:-.5rem; top:50%; width:264px; height:212px; transform:translateY(-50%) rotate(-8deg); background-image:var(--chapter-art-atlas,url('https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/71d462519225-hero-watercolor-atlas.webp')); background-size:621.21212% 576.88679%; background-position:var(--chapter-sprite-position,0.58140% 0.79130%); opacity:.17; mix-blend-mode:multiply; mask-image:linear-gradient(90deg,transparent,#000 45%); }
 body.signal-atlas.page-hardware .page-article .hw-main-content .section-block :is(p,li,td,th) { text-align:start!important; hyphens:none; }
 .page-hardware .hw-main-content p { max-width:80ch; }
 .page-hardware .hw-main-content .hw-story-flashing { margin-block:2rem; padding:clamp(1.1rem,2.8vw,1.8rem); border-left:4px solid var(--v-accent,#2373a2); background:var(--v-soft,#edf6fc); }
@@ -25,3 +25,30 @@ body.signal-atlas.page-hardware .page-article .hw-main-content .section-block :i
  .page-hardware .hw-main-content .hw-result-slot__space { height:7rem; }
 }
 @media print { .page-hardware .hw-main-content .hw-result-slot__space { height:3rem; } }
+
+@media(max-width:640px) {
+ /* Opening the menu must not resize the sticky scene or its scroll distance. */
+ .page-hardware .audit-mobile-jump nav { position:absolute; top:100%; inset-inline:0; box-sizing:border-box; margin:0; padding:.75rem 1rem 1rem; background:#fff; border-bottom:1px solid var(--v-rule,#bfd6e0); overscroll-behavior:contain; }
+}
+
+/* Results are visible in the article; technical detail uses native disclosure. */
+.page-hardware .hw-inline-topic { scroll-margin-top:calc(var(--actual-header-height,74px) + 32px); }
+.page-hardware .hw-inline-topic > h2 { transition:background-color .6s ease,box-shadow .6s ease; }
+.page-hardware .hw-topic-arriving > h2 { box-shadow:inset 0 0 0 2px var(--v-accent,#2373a2); }
+.page-hardware .hw-inline-topic .hw-result-lead { font-size:1.06rem; line-height:1.8; }
+.page-hardware .hw-inline-topic figure { margin-block:1.5rem 2.2rem; width:100%; box-sizing:border-box; }
+.page-hardware .hw-inline-topic figure img { max-width:100%; height:auto; }
+.page-hardware .hw-inline-topic figcaption { text-align:start!important; hyphens:none; line-height:1.65; }
+.page-hardware .hw-topic-details { margin-top:2rem; border:1px solid var(--v-rule,#bfd6e0); background:var(--v-soft,#edf6fc); border-radius:4px; }
+.page-hardware .hw-topic-details > summary { padding:1.05rem 1.2rem; color:var(--v-ink,#193345); font-weight:650; cursor:pointer; }
+.page-hardware .hw-topic-details > .hw-v2-disclose__body { padding:0 clamp(1rem,2.5vw,1.6rem) 1.4rem; }
+.page-hardware .hw-topic-details .hw-topic-block + .hw-topic-block { margin-top:2.4rem; }
+.page-hardware .hw-topic-details .section-block { margin:1.8rem 0; padding:0; border:0; }
+.page-hardware .hw-topic-details :is(select,table) { max-width:100%; }
+.page-hardware .hw-topic-details .hw-component-explorer select { width:100%; }
+.page-hardware .hw-main-content #figure-14 { width:min(100%,390px); margin-inline:auto; }
+.page-hardware .hw-manual-links { display:flex; flex-wrap:wrap; gap:1rem; margin:1.6rem 0; }
+.page-hardware .hw-manual-links a { border:1px solid var(--v-rule,#bfd6e0); padding:.9rem 1.2rem; background:var(--v-soft,#edf6fc); text-underline-offset:4px; }
+.page-hardware .hw-main-content .hw-ui-instructions .hw-v4-ui-steps { margin:0; padding-left:1.4rem; }
+@media(prefers-reduced-motion:reduce) { .page-hardware .hw-inline-topic > h2 { transition:none; } }
+@media print { .page-hardware .hw-topic-details > .hw-v2-disclose__body { display:block!important; } }

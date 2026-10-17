@@ -1,0 +1,43 @@
+/* Shared scientific media, with data and controls visible at rest. */
+.fly-results__summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin:1.4rem 0}
+.fly-results__summary>div{border-top:2px solid var(--v-accent,#6c4a92);padding:.8rem 0}
+.fly-results__summary strong{display:block;font-size:1.6rem;line-height:1.2}
+.fly-results__summary span{display:block;font-size:.85rem;margin-top:.4rem}
+.fly-results__media{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.2rem;align-items:start;margin:1.4rem 0}
+.fly-results__media>*{min-width:0}
+.fly-results__media figure,.fly-results figure{margin:1rem 0}
+.fly-results img{display:block;max-width:100%;height:auto;max-height:none;object-fit:contain}
+.fly-results__subsection{margin-top:2.4rem;padding-top:1rem;border-top:1px solid var(--v-rule,#d9c8e8)}
+.fly-results__subsection>h3{margin-top:0}
+.fly-results__links{display:flex;flex-wrap:wrap;gap:.6rem 1.25rem;margin:1rem 0}
+.fly-results__links a{font-size:.9rem}
+:is(.fly-results,.fly-recordings) .desc-lightsheet__player{position:relative;background:#111815;border-radius:.4rem;overflow:hidden}
+:is(.fly-results,.fly-recordings) .desc-lightsheet__player canvas{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:contain}
+:is(.fly-results,.fly-recordings) .desc-lightsheet__player>img{position:absolute;inset:0;width:100%;height:auto;aspect-ratio:1;object-fit:contain;margin:0;background:#111815;pointer-events:none}
+:is(.fly-results,.fly-recordings) .desc-lightsheet__player.is-ready>img{display:none}
+:is(.fly-results,.fly-recordings) .desc-lightsheet__controls{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:.6rem;padding:.75rem;background:#35264b;color:#fff}
+:is(.fly-results,.fly-recordings) .desc-lightsheet__controls button{border:0;background:#f1e1ae;color:#35264b;padding:.5rem .8rem;font-weight:700;cursor:pointer;flex-shrink:0}
+:is(.fly-results,.fly-recordings) .desc-lightsheet__controls input{grid-column:1/-1;grid-row:2;width:100%;min-width:0;accent-color:#ddc5f1}
+:is(.fly-results,.fly-recordings) .desc-lightsheet__controls output{grid-column:2;grid-row:1;justify-self:end;white-space:nowrap;font: .75rem var(--font-mono,monospace)}
+:is(.fly-results,.fly-recordings) :is(.desc-lightsheet__status,.lightsheet-phase){font-size:.78rem!important;line-height:1.5;margin:0!important;padding:.45rem .75rem;color:#eee4f6!important;background:#35264b}
+:is(.fly-results,.fly-recordings) [data-lightsheet-phase]{font-weight:600}
+.fly-results__scope{font-size:.94rem;border-left:3px solid var(--v-accent,#6c4a92);padding-left:1rem}
+.desc-lightsheet .fly-results-link{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.2rem 1.4rem;margin:1.5rem 0;background:#e7efe4;color:#214e3d;font-weight:700;text-decoration:none;border:1px solid #a6b8a2}
+.desc-lightsheet .fly-results-link:hover{text-decoration:underline;text-underline-offset:.2em}
+.desc-lightsheet .fly-results-link:focus-visible{outline:3px solid #247458;outline-offset:3px}
+@media(max-width:700px){.fly-results__summary{gap:.8rem}.fly-results__summary strong{font-size:1.3rem}.fly-results__media{grid-template-columns:1fr}.fly-results__summary span{font-size:.78rem}:is(.fly-results,.fly-recordings) .desc-lightsheet__controls{gap:.4rem;padding:.6rem}:is(.fly-results,.fly-recordings) .desc-lightsheet__controls output{font-size:.68rem}}
+
+.fly-recordings{margin:2rem 0}
+.fly-recordings__group{margin:2rem 0;padding-top:1rem;border-top:1px solid #cbd7ca}
+.fly-recordings__group>h4{font-size:1.25rem;margin:0 0 1rem}
+.fly-recordings__pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;align-items:start;margin:1rem 0}
+.fly-recordings__group>figure{margin:1rem 0!important}
+.fly-recordings img{width:100%;height:auto;max-height:none!important;object-fit:contain}
+.fly-recordings :is(.desc-lightsheet__controls,.desc-lightsheet__status,.lightsheet-phase){background:#203c34!important}
+.fly-recordings .desc-lightsheet__controls button{background:#e7d990;color:#1e362b}
+.fly-recordings .desc-lightsheet__controls input{accent-color:#d5dfbc}
+@media(max-width:800px){.fly-recordings__pair{grid-template-columns:1fr}.fly-recordings__pair>figure{min-width:0}}
+
+/* Compare the three POC recordings in one row. */
+@media(min-width:1000px){.fly-results__media--compact{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.fly-results__media--compact .desc-lightsheet__controls output{min-width:0;white-space:normal;text-align:right;font-size:.65rem}

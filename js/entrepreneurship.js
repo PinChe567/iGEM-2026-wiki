@@ -39,6 +39,7 @@
 
   /* Sync horizontal chapter nav + sticky TOC current section */
   function initChapterCurrent() {
+    if (window.AeroSenseToc) return;
     var links = qsa(".page-toc a[href^='#']:not(.back-to-top)");
     if (!links.length) return;
 

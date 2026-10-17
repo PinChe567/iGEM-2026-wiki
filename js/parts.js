@@ -69,11 +69,6 @@
   }
 
   var openPartDrawer = function () {};
-  var sensor3d = {
-    focus: function () {},
-    reset: function () {},
-    setOrName: function () {},
-  };
 
   function featureCopy(feature, sensing) {
     var cds = sensing && sensing.cds ? sensing.cds : partById("BBa_26VGDFA1");
@@ -375,7 +370,7 @@
       if (mode === "reporting") {
         name = "GCaMP6f-(GGGGS)3-DmOrco";
         id = "BBa_26E11Z80";
-        src = "plasmid/GCaMP6f_GGGGSx3_DmOrco.png";
+        src = "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/d78cfeac0ea7-gcamp6f-ggggsx3-dmorco.webp";
         caption = "Shared reporting fusion — common to every AeroSense line.";
         alt = "Compact construct map of GCaMP6f-(GGGGS)3-DmOrco (BBa_26E11Z80).";
       } else {
@@ -448,7 +443,6 @@
       if (cds) {
         if (cdsLabel) cdsLabel.textContent = orKey;
         setText("[data-or-protein-label]", orKey + " protein");
-        setText("[data-or-3d-label]", orKey);
         setText("[data-or-map-label]", orKey + " · tuning OR");
         qsa('.protein-map [data-feature="or"]', root).forEach(function (hit) {
           hit.setAttribute("data-part-id", cds.id);
@@ -464,7 +458,6 @@
         setText("[data-or-protein-label]", orKey + " protein");
       }
 
-      sensor3d.setOrName(orKey);
 
       /* Receptor choice updates ONLY the specificity module; keep OR highlighted. */
       showFeature("or", announce);
@@ -496,7 +489,6 @@
         btn.setAttribute("tabindex", btn.getAttribute("data-feature") === feature ? "0" : "-1");
       });
 
-      sensor3d.focus(feature);
       if(featureDetail){
         qs('h3',featureDetail).textContent=copy.title;
         qs('.parts-feature-detail__role',featureDetail).textContent=copy.role||'';
@@ -520,8 +512,6 @@
       showFeature(feature, true, event && event.currentTarget);
     }
 
-    // Both views share one selection; the diagram never navigates away from it.
-    sensor3d.select = function (feature) { showFeature(feature, true); };
 
     radios.forEach(function (radio, index) {
       radio.addEventListener("click", function (event) {
@@ -960,65 +950,6 @@
     initCatalog.apply = apply;
   }
 
-  function initSensor3D() {
-    var host = qs("[data-parts-3d]");
-    if (!host) return;
-    var diagram = qs("#receptor-2d-panel");
-    var switcher = qs("[data-parts-view-switch]");
-    var canvas = qs("canvas", host);
-    var status = qs("[data-parts-3d-fallback]", host);
-    var loading = false;
-    var selectedView = "2d";
-    if (!canvas || !status || !diagram || !switcher) return;
-    switcher.hidden = false;
-    function selectView(view) {
-      selectedView = view === "3d" ? "3d" : "2d";
-      var show3d = selectedView === "3d";
-      host.hidden = !show3d;
-      diagram.hidden = show3d;
-      qsa("[data-parts-view]", switcher).forEach(function (control) {
-        control.setAttribute("aria-pressed", String(control.getAttribute("data-parts-view") === selectedView));
-      });
-      if (sensor3d.setEnabled) sensor3d.setEnabled(show3d);
-      if (show3d) loadViewer();
-    }
-    // Only an explicit 3D selection imports Three.js and creates a WebGL context.
-    // Keep the selected control focused so repeated switching is straightforward.
-    function loadViewer() {
-      if (loading || canvas.dataset.loaded) return;
-      loading = true;
-      status.hidden = false;
-      status.textContent = "Loading the interactive model…";
-      host.setAttribute("aria-busy", "true");
-      import("./parts-viewer.js?v=36fdae75e1c5e6af").then(function (module) {
-        canvas.hidden = false;
-        return module.createPartsViewer(host, sensor3d);
-      }).then(function () {
-        // Keep the same selected protein when moving between 2D and 3D.
-        var explorer = host.closest("[data-parts-explorer]");
-        if (explorer) {
-          sensor3d.setOrName(explorer.getAttribute("data-or") || "Or7a");
-        }
-        sensor3d.focus(explorer ? explorer.getAttribute("data-feature") : null);
-        if (sensor3d.setEnabled) sensor3d.setEnabled(selectedView === "3d");
-        status.hidden = true;
-      }).catch(function (error) {
-        console.warn("Receptor viewer unavailable", error);
-        delete canvas.dataset.loaded;
-        canvas.hidden = true;
-        status.hidden = false;
-        status.textContent = "The 3D model could not load. Select 3D model again to retry, or switch to the 2D diagram.";
-      }).finally(function () {
-        loading = false;
-        host.removeAttribute("aria-busy");
-      });
-    }
-    qsa("[data-parts-view]", switcher).forEach(function (control) {
-      control.addEventListener("click", function () { selectView(control.getAttribute("data-parts-view")); });
-    });
-    selectView("2d");
-  }
-
   function initMetrics() {
     if (!catalog || typeof catalog.validateCounts !== "function") return;
     var result = catalog.validateCounts();
@@ -1048,15 +979,6 @@
       if (el) el.textContent = value || "—";
     }
 
-    function evidenceFor(part) {
-      if (!part) return "Architecture annotation; no independent characterization record.";
-      if (part.characterization) return String(part.characterization);
-      if (part.hek293Literature && part.hek293Literature.aerosenseCharacterization === false) {
-        return "Expression-associated endpoint imaging is linked in Results. Receptor-specific function and membrane trafficking are not established; the literature note is separate evidence.";
-      }
-      return "System-level endpoint imaging is available in Results; no isolated-part functional assay is claimed here.";
-    }
-
     function litFor(part) {
       if (!part || !part.hek293Literature) return "No literature note attached in the collection index";
       var status = part.hek293Literature.status;
@@ -1075,7 +997,7 @@
       if (part.biologicalRole === "reporting-module") {
         return "Shared across all nine sensing lines — do not treat as receptor-specific";
       }
-      return "See Reuse & QC for collection-level caveats";
+      return "See the Registry documentation for sequence and reuse details.";
     }
 
     function roleFor(part) {
@@ -1136,7 +1058,17 @@
       }
       setDrawer("[data-drawer-used]", part ? usedInLabel(part) || (annotation && annotation.used) || "—" : (annotation && annotation.used) || "—");
       setDrawer("[data-drawer-sequence]", part ? sequenceFor(part) : "Not a registered part — no Registry sequence page.");
-      setDrawer("[data-drawer-evidence]", part ? evidenceFor(part) : "Architecture annotation — not an experimental result");
+      if (part && part.registryUrl) {
+        var sequenceField = qs("[data-drawer-sequence]", dlg);
+        if (sequenceField) {
+          var registryLink = document.createElement("a");
+          registryLink.href = part.registryUrl;
+          registryLink.target = "_blank";
+          registryLink.rel = "noopener noreferrer";
+          registryLink.textContent = part.id + " ↗";
+          sequenceField.replaceChildren(registryLink);
+        }
+      }
       setDrawer("[data-drawer-lit]", part ? litFor(part) : "—");
       setDrawer("[data-drawer-reuse]", part ? reuseFor(part) : (annotation && annotation.body) || "—");
 
@@ -1207,7 +1139,6 @@
   initExplorer();
   initCatalog();
   initDrawer();
-  initSensor3D();
   // Construct maps expand in place; no lightbox interrupts the reading position.
   qsa('[data-lightbox]').forEach(function(map){map.removeAttribute('aria-haspopup');map.removeAttribute('aria-controls');map.setAttribute('aria-expanded','false');});
   document.addEventListener('click',function(event){

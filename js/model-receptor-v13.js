@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  var details = Array.from(document.querySelectorAll('#model-receptor-engineering :is(.re-detail,.model-archive)'));
+  var details = Array.from(document.querySelectorAll('#model-receptor-engineering :is(.re-detail,.model-archive),[data-model-supplement="receptor"] details'));
   document.querySelectorAll('[data-re-expand]').forEach(function (button) {
     button.addEventListener('click', function () {
       details.forEach(function (detail) { detail.open = button.dataset.reExpand === 'true'; });

@@ -1,0 +1,67 @@
+/* Document hierarchy: chapter, topic and detail share one reading scale.
+   The page palette and existing watercolor chapter treatment are preserved. */
+body.signal-atlas:not(.page-home) :is(main,.page-main-column,.page-article) :is(h2,h3,h4,h5,h6).reading-heading--chapter {
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box;
+  display:block; width:100%; max-width:none!important;
+  font-family:var(--ds-font,inherit)!important;
+  font-size:clamp(1.6rem,1.1rem + 1.5vw,2.05rem)!important;
+  font-weight:750!important; line-height:1.28!important; letter-spacing:-.02em!important;
+  text-align:start!important; text-transform:none!important;
+  text-wrap:balance; overflow-wrap:normal; word-break:normal; hyphens:none;
+  padding:1.1rem 1.5rem!important; margin:.35rem 0 1.75rem!important;
+  border:0!important; border-left:4px solid var(--v-accent)!important;
+  border-radius:6px 34px 7px 16px!important;
+  background:linear-gradient(105deg,var(--v-soft),var(--v-tint))!important;
+  box-shadow:none!important; color:var(--v-ink)!important;
+}
+body.signal-atlas:not(.page-home) :is(main,.page-main-column,.page-article) :is(h2,h3,h4,h5,h6).reading-heading--chapter::after {
+  content:""!important; display:block!important; position:absolute; z-index:-1; pointer-events:none;
+  right:-.5rem; top:50%; left:auto!important; bottom:auto!important;
+  width:264px!important; height:212px!important; border:0!important; border-radius:0!important;
+  transform:translateY(-50%) rotate(-8deg); background-color:transparent!important;
+  background-image:var(--chapter-art-atlas,url('https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/71d462519225-hero-watercolor-atlas.webp'))!important;
+  background-size:621.21212% 576.88679%!important;
+  background-position:var(--chapter-sprite-position,0.58140% 0.79130%)!important;
+  opacity:.17; mix-blend-mode:multiply; mask-image:linear-gradient(90deg,transparent,#000 45%);
+}
+body.signal-atlas:not(.page-home) :is(main,.page-main-column,.page-article) :is(h2,h3,h4,h5,h6).reading-heading--topic {
+  position:relative; display:block; box-sizing:border-box; max-width:none!important;
+  font-family:var(--ds-font,inherit)!important;
+  font-size:clamp(1.22rem,1rem + .6vw,1.5rem)!important;
+  font-weight:700!important; line-height:1.35!important; letter-spacing:-.012em!important;
+  text-align:start!important; text-transform:none!important;
+  text-wrap:balance; overflow-wrap:normal; word-break:normal; hyphens:none;
+  margin:2rem 0 1rem!important; padding:0 0 .65rem!important;
+  border:0!important; border-bottom:1px solid var(--v-rule)!important;
+  border-radius:0!important; background:none!important; box-shadow:none!important;
+  color:var(--v-ink)!important;
+}
+body.signal-atlas:not(.page-home) :is(main,.page-main-column,.page-article) :is(h2,h3,h4,h5,h6).reading-heading--topic::after,
+body.signal-atlas:not(.page-home) :is(main,.page-main-column,.page-article) :is(h2,h3,h4,h5,h6).reading-heading--detail::after { display:none!important; }
+body.signal-atlas:not(.page-home) :is(main,.page-main-column,.page-article) :is(h2,h3,h4,h5,h6).reading-heading--detail {
+  font-family:var(--ds-font,inherit)!important;
+  font-size:1.12rem!important; font-weight:650!important; line-height:1.45!important;
+  letter-spacing:0!important; text-align:start!important; text-transform:none!important;
+  text-wrap:balance; overflow-wrap:normal; word-break:normal; hyphens:none;
+  color:var(--v-ink)!important; background:none!important; box-shadow:none!important;
+  border:0!important; border-radius:0!important; padding:0!important; margin:1.5rem 0 .75rem!important;
+}
+/* Each engineering workstream retains its discipline color and the same cycle scale. */
+body.signal-atlas.page-engineering .page-article .eng-track__title.reading-heading--topic {
+  color:var(--lab-dark,var(--v-ink))!important; margin-top:0!important;
+}
+body.signal-atlas.page-engineering .page-article .eng-cycle__title.reading-heading--detail {
+  color:var(--lab-dark,var(--v-ink))!important;
+  font-size:clamp(1.16rem,1rem + .4vw,1.35rem)!important; margin:.2rem 0 .7rem!important;
+}
+@media(max-width:760px) {
+  body.signal-atlas:not(.page-home) :is(main,.page-main-column,.page-article) :is(h2,h3,h4,h5,h6).reading-heading--chapter {
+    padding:.9rem 1rem!important; margin-bottom:1.35rem!important; border-radius:5px 25px 5px 12px!important;
+  }
+  body.signal-atlas:not(.page-home) :is(main,.page-main-column,.page-article) :is(h2,h3,h4,h5,h6).reading-heading--topic { margin-top:1.6rem!important; }
+}
+@media print {
+  body.signal-atlas:not(.page-home) :is(.reading-heading--chapter,.reading-heading--topic,.reading-heading--detail) {
+    break-after:avoid; page-break-after:avoid;
+  }
+}

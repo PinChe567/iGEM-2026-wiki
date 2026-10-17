@@ -5,7 +5,7 @@
 import * as THREE from "./vendor/three.module.js";
 import { GLTFLoader } from "./vendor/GLTFLoader.js";
 
-const FLY_URL = "models/showcase_v3/aerosense_fly_v3.glb";
+const FLY_URL = "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/564f03379537-aerosense-fly-v3.glb";
 const WING_HZ = 12;
 const BANK_MAX = THREE.MathUtils.degToRad(18);
 const CAM_ROLL_MAX = THREE.MathUtils.degToRad(2.5);
@@ -83,8 +83,8 @@ const STAGES = [
     id: "air",
     num: "01",
     key: "AIR",
-    url: "models/showcase_v3/aerosense_01_warehouse_v3.glb",
-    preview: "models/previews_v15/journey-1.webp",
+    url: "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/1867aa150daf-aerosense-01-warehouse-v3.glb",
+    preview: "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/cebfc8fcc272-journey-1.webp",
     kicker: "01 / AIR",
     heading: "FOLLOW THE SCENT.",
     chain: "",
@@ -102,8 +102,8 @@ const STAGES = [
     id: "fly",
     num: "02",
     key: "FLY",
-    url: "models/showcase_v4/aerosense_02_olfaction_v4.glb",
-    preview: "models/previews_v15/journey-2.webp",
+    url: "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/2dc0c3425f83-aerosense-02-olfaction-v4.glb",
+    preview: "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/9ec1321c9ef1-journey-2.webp",
     kicker: "02 / OLFACTION",
     heading: "AT THE\nRECEPTOR.",
     chain: "",
@@ -121,8 +121,8 @@ const STAGES = [
     id: "cell",
     num: "03",
     key: "CELL",
-    url: "models/showcase_v4/aerosense_03_cell_v4.glb",
-    preview: "models/previews_v15/journey-3.webp",
+    url: "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/309304379bf0-aerosense-03-cell-v4.glb",
+    preview: "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/260409b5f83c-journey-3.webp",
     kicker: "03 / SENSE",
     heading: "WE BORROWED\nTHE RECEPTOR.",
     chain: "OR + Orco → Ca²⁺ → GCaMP6f",
@@ -140,8 +140,8 @@ const STAGES = [
     id: "read",
     num: "04",
     key: "READ",
-    url: "models/showcase_v4/aerosense_04_hardware_v4.glb",
-    preview: "models/previews_v15/journey-4.webp",
+    url: "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/2ae5e2a0ac09-aerosense-04-hardware-v4.glb",
+    preview: "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/19add4e187cc-journey-4.webp",
     kicker: "04 / READ",
     heading: "A GLOW BECOMES\nA SIGNAL.",
     chain: "LIGHT → PHOTODIODE → TIA → ADC",
@@ -160,8 +160,8 @@ const STAGES = [
     id: "decode",
     num: "05",
     key: "DECODE",
-    url: "models/showcase_v4/aerosense_05_decoder_v4.glb",
-    preview: "models/previews_v15/journey-5.webp",
+    url: "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/3e99e16803a4-aerosense-05-decoder-v4.glb",
+    preview: "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/459aa36798e7-journey-5.webp",
     kicker: "05 / DECODE",
     heading: "SEPARATE\nWHAT OVERLAPS.",
     chain: "INPUT → CONTRAST → SPARSE CODE",
@@ -179,8 +179,8 @@ const STAGES = [
     id: "act",
     num: "06",
     key: "ACT",
-    url: "models/showcase_v4/aerosense_06_return_v4.glb",
-    preview: "models/previews_v15/journey-6.webp",
+    url: "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/34a7f6c66527-aerosense-06-return-v4.glb",
+    preview: "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/4cab5d676ddb-journey-6.webp",
     kicker: "06 / ACT",
     heading: "FROM SIGNAL\nTO A REASON\nTO LOOK CLOSER.",
     chain: "",

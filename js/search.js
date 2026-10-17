@@ -11,6 +11,22 @@
    */
   var SEARCH_INDEX = [
     {
+    "pageTitle": "Engineering",
+    "section": "Hardware Cycle 6 · Photodiode amplifier gain",
+    "excerpt": "Three illumination conditions gave ADC code 32767 and approximately 3.15 V at the ADC input. iST proposed lower TIA gain; saturation remains a working explanation pending resistor replacement and verification.",
+    "keywords": "R27 100 MΩ TIA LMP7721 VEMD5060X01 32767 3.15 V iST gain saturation 光電二極體 增益 飽和 電阻 電路 測試",
+    "url": "engineering.html",
+    "anchor": "hw-cycle-6"
+},
+    {
+    "pageTitle": "Hardware",
+    "section": "Assembled reader",
+    "excerpt": "Ten physical photographs connect the PCB, printed enclosure, well carrier, gas tubing and fan to the CAD assembly.",
+    "keywords": "assembly photograph PCB CAD enclosure printed parts tubing fan 實品 實體 組裝 照片 外殼 列印 氣管 風扇",
+    "url": "hardware.html",
+    "anchor": "reader-build-photos"
+},
+    {
         "pageTitle": "Hardware",
         "section": "Explore the reader",
         "excerpt": "A cinematic assembly connects the optical path, gas delivery, PCB, enclosure and local phone interface. Select a part to read its design chapter.",
@@ -29,10 +45,26 @@
     {
         "pageTitle": "Hardware",
         "section": "System evidence",
-        "excerpt": "Software builds and 78 recorded checks connect to the model and biological evidence. Separate result areas cover cell survival in our wells, reader verification, feedback and an integrated demonstration.",
-        "keywords": "verification software tests cell survival well culture feedback demo 實驗 驗證 細胞 培養 存活 回饋",
+        "excerpt": "96 software checks passed. Board acquisitions returned 8,000 samples per run, but invariant ADC codes did not demonstrate a light-dependent response.",
+        "keywords": "verification software tests ADC SPI acquisition diagnostic 驗證 軟體 測試 電路板 擷取 診斷",
         "url": "hardware.html",
         "anchor": "hardware-verification"
+    },
+    {
+        "pageTitle": "Hardware",
+        "section": "Interface and firmware",
+        "excerpt": "Local controls, sample naming, acquisition schedules, channel results, history, JSON/CSV exports and ADC diagnostics.",
+        "keywords": "UI firmware history export software phone ADC 介面 韌體 歷史 匯出 手機",
+        "url": "hardware.html",
+        "anchor": "hardware-topic-interface"
+    },
+    {
+        "pageTitle": "Hardware",
+        "section": "Cell viability",
+        "excerpt": "After 7 h in three printed wells, recovered HEK293–GCaMP6f cells showed 60.0 ± 7.5% viability in medium and 25.5 ± 0.9% in bottom recovery fractions.",
+        "keywords": "cell viability survival printed well Trypan blue HEK293 GCaMP6f 細胞 存活率 培養井",
+        "url": "hardware.html",
+        "anchor": "reader-cell-culture"
     },
     {
         "pageTitle": "Model · Receptor engineering",
@@ -209,14 +241,6 @@
         "keywords": "Dry Lab receptor engineering AlphaFold ColabFold docking MD OR10 Or22a Or35a pathway odor selectivity 從幾何空隙，走向可檢驗的分子路徑",
         "url": "model.html",
         "anchor": "receptor-cycle-6"
-    },
-    {
-        "pageTitle": "Alternative Platform",
-        "section": "HEK293 host rationale and evidence",
-        "excerpt": "Why a mammalian host was selected, what endpoint expression supports, and the validation still required.",
-        "keywords": "HEK293 alternative platform host receptor OR Orco",
-        "url": "alternative-platform.html",
-        "anchor": "main"
     },
     {
         "pageTitle": "Measurement",
@@ -565,7 +589,7 @@
     {
         "pageTitle": "Engineering",
         "section": "Hardware Cycle 3",
-        "excerpt": "V2 PCB layout, enclosure CAD, compiled software and integration documents define the reader design. The supplied record contains no physical performance measurements.",
+        "excerpt": "The earlier integration archive records PCB layout, CAD and software. Subsequent board tests and gain diagnosis are documented in Hardware Cycle 6.",
         "keywords": "hw-cycle-3 validation ladder FDM DLIA dark noise IN PROGRESS",
         "url": "engineering.html",
         "anchor": "hw-cycle-3"
@@ -1084,11 +1108,11 @@
     },
     {
         "pageTitle": "Notebook",
-        "section": "20 April · TH light-sheet record",
-        "excerpt": "The 20 April recording used 5137;TH (TH-GFP) membrane labeling. Its normalized GFP fluorescence does not establish a calcium response or neural activity.",
-        "keywords": "April 20 4/20 TH 5137 TH-GFP mCD8 GFP membrane reporter fly brain light-sheet notebook",
+        "section": "24 September · TH-GFP acquisition",
+        "excerpt": "Instrument settings document 696 five-plane stacks over 132.013 seconds. The notebook links the original measurements and the complete Results analysis.",
+        "keywords": "TH 5137 TH-GFP light-sheet 696 stacks September 24 notebook acquisition 果蠅 光片 拍攝",
         "url": "notebook.html",
-        "anchor": "wet-th-lightsheet-20260420"
+        "anchor": "wet-th-lightsheet-20260924"
     },
     {
         "pageTitle": "Notebook",
@@ -1140,8 +1164,16 @@
     },
     {
         "pageTitle": "Results",
+        "section": "DNA electrophoresis",
+        "excerpt": "Four annotated gels show DNA in all 24 sample lanes across twelve construct labels. Paired lanes are grouped by construct, with the same 1 kb ladder on each gel.",
+        "keywords": "DNA electrophoresis gel ladder undigested plasmid ORCO GCaMP6f Or7a Or19a Or22a Or35a Or42a Or59b Or67a Or67b Or85b Or98a 電泳 質體",
+        "url": "results.html",
+        "anchor": "gel-results"
+    },
+    {
+        "pageTitle": "Results",
         "section": "Cloning plate photographs",
-        "excerpt": "Three bacterial plate photographs show discrete colonies and denser growth. The archive contains no annotated gel or linked sequence-confirmation result.",
+        "excerpt": "Three bacterial plate photographs show discrete colonies and denser growth.",
         "keywords": "cloning bacteria plate colony transformation miniprep DNA gel",
         "url": "results.html",
         "anchor": "cloning-results"
@@ -1745,6 +1777,30 @@
         "keywords": "dashboard progress score pre post knowledge gain reflection reset local",
         "url": "learning-platform/progress.html",
         "anchor": ""
+    },
+    {
+        "pageTitle": "Results",
+        "section": "GH146 fluorescence dynamics",
+        "excerpt": "Compare the two GH146 odor panels from one fly: seven odors, movies, every measured region and complete ΔF/F₀ traces.",
+        "keywords": "GH146 GCaMP6f PN light-sheet odor fluorescence ROI isopentyl acetate 3-octanol 果蠅 光片 投射神經元 螢光",
+        "url": "results.html",
+        "anchor": "fly-gh146-results"
+    },
+    {
+        "pageTitle": "Results",
+        "section": "TH-GFP imaging",
+        "excerpt": "View TH-GFP structures, measured regions and bleaching-corrected ΔF/F₀ across the full 132-second recording.",
+        "keywords": "TH 5137 TH-GFP mCD8 GFP light-sheet membrane ROI fluorescence 果蠅 光片 螢光",
+        "url": "results.html",
+        "anchor": "fly-th-results"
+    },
+    {
+        "pageTitle": "Notebook",
+        "section": "15 October · GH146 acquisitions",
+        "excerpt": "Three serial recordings from the same female fly, with instrument start times and acquisition settings. The linked Results analysis covers runs 03 and 04.",
+        "keywords": "GH146 GCaMP October 15 notebook acquisition 02 03 04 果蠅 光片 拍攝",
+        "url": "notebook.html",
+        "anchor": "wet-gh146-lightsheet-20261015"
     }
 ];
 

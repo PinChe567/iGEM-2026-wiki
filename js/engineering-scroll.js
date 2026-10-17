@@ -47,8 +47,9 @@
     const stageOf=panel=>Math.max(0,stages.indexOf(bodyOf(panel)?.dataset.activeStage||'design'));
     const indexOf=reader=>reader.panels.indexOf(current(reader))*5+stageOf(current(reader));
     const headerHeight=()=>{
+      if(window.AeroSenseToc)return window.AeroSenseToc.offset()-24;
       const header=document.querySelector('.site-header')?.getBoundingClientRect().height||0;
-      const toc=innerWidth<1100?(document.querySelector('.page-toc > summary')?.getBoundingClientRect().height||0):0;
+      const toc=innerWidth<1100?(document.querySelector('.audit-mobile-jump')?.getBoundingClientRect().height||0):0;
       return header+toc;
     };
     function anchor(reader) {
@@ -281,20 +282,13 @@
       initialPending=false;
       if(openTarget(target))event.preventDefault();
     });
-    document.querySelector('.page-toc')?.addEventListener('click',event=>{
-      const link=event.target.closest('a[href^="#"]');
-      if(!link||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
-      let target;try{target=document.getElementById(decodeURIComponent(link.hash.slice(1)));}catch(_){return;}
+    document.addEventListener('aerosense:before-anchor',event=>{
+      const target=event.detail?.target;
       if(!target||target.closest('[data-cycle-panel]'))return;
-      event.preventDefault();
       // A chapter jump must not traverse the intermediate cycle runways: their
       // different decision/footer heights would move the destination en route.
+      initialPending=false;
       readers.forEach(reader=>{reader.lastDistance=undefined;reader.manualExit=false;});
-      if(location.hash!==link.hash)history.pushState(null,'',link.hash);
-      if(innerWidth<1100)link.closest('details')?.removeAttribute('open');
-      window.scrollTo({top:Math.max(0,scrollY+target.getBoundingClientRect().top-headerHeight()-24),behavior:'instant'});
-      if(!target.hasAttribute('tabindex'))target.setAttribute('tabindex','-1');
-      target.focus({preventScroll:true});
       schedule();
     });
     window.addEventListener('scroll',schedule,{passive:true});

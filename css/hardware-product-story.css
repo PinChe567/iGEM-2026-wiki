@@ -108,3 +108,12 @@
 }
 @media(max-width:800px) and (prefers-reduced-motion:reduce) { .hw-product-phone { height:auto; max-height:42%; } }
 @media print { .hw-reading-library,.hw-map-ready .page-main-column > #references { display:block!important; } .hw-product-tour { height:auto; } .hw-product-stage { position:relative; top:auto; height:700px; } .hw-product-scene canvas,.hw-product-label-layer,.hw-topic-view { display:none!important; } .hw-product-fallback { display:block!important; } }
+
+/* Hardware-only decorative wordmark behind the existing 3D assembly. */
+.page-hardware .hw-product-watermark {
+  position:absolute; inset:0; z-index:-1; display:flex;
+  align-items:center; justify-content:center; overflow:hidden;
+  color:rgba(30,75,88,.075); font:800 clamp(42px,10vw,150px)/1 Arial,sans-serif;
+  letter-spacing:.045em; white-space:nowrap; pointer-events:none; user-select:none;
+}
+@media print { .page-hardware .hw-product-watermark { display:none; } }

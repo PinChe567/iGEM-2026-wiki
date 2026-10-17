@@ -80,6 +80,7 @@
   var sensorFrame = document.createElement('canvas');
   var normalContext = normalFrame.getContext('2d', { alpha: false });
   var sensorContext = sensorFrame.getContext('2d', { alpha: false });
+  var lastCompositeKey = '';
   function snapshot(video, buffer) {
     if (buffer.width !== video.videoWidth) buffer.width = video.videoWidth;
     if (buffer.height !== video.videoHeight) buffer.height = video.videoHeight;
@@ -229,6 +230,7 @@
     var k = Math.min(1, 1920 / cw, Math.sqrt(1920 * 1080 / (cw * ch)));
     canvas.width = Math.round(cw * k);
     canvas.height = Math.round(ch * k);
+    lastCompositeKey = '';
     st.canvasScale = canvas.width / st.w;
     // Keep the long track fixed through mobile address-bar height changes.
     // Changing it above a reader could otherwise move later chapters by hundreds of pixels.
@@ -333,6 +335,8 @@
     st.sensorSynced = false;
     st.frameShown = -1;
     st.seek = null;
+    clearSeekCheck();
+    lastCompositeKey = '';
     useBtn.disabled = true;
     [vN, vS].forEach(function (v) {
       var pendingFetch = mediaFetches.get(v);
@@ -359,12 +363,14 @@
     st.ready.sensor = false;
     st.sensorSynced = false;
     st.seek = null;
+    clearSeekCheck();
     st.r = 0;
     useBtn.disabled = true;
     setMode('off', 'media');
   }
   function recoverSeek(v) {
     st.seek = null;
+    clearSeekCheck();
     st.ready[v === vN ? 'normal' : 'sensor'] = false;
     st.sensorSynced = false;
     if (v.dataset.blob) mediaFailed(v);
@@ -502,6 +508,23 @@
   /* ---------- frame-locked seeking */
   function frameTime(f) { return (f + 0.5) / TL.fps; }
 
+  var seekCheckTimer = 0;
+  function clearSeekCheck() {
+    clearTimeout(seekCheckTimer);
+    seekCheckTimer = 0;
+  }
+  function scheduleSeekCheck() {
+    if (!st.seek || seekCheckTimer || !st.running) return;
+    var elapsed = performance.now() - st.seek.started;
+    // Media events resume the next frame. A timer retains stall recovery
+    // without polling the decoder at the display's refresh rate.
+    var deadline = elapsed < 15000 ? 15020 : 30020;
+    seekCheckTimer = setTimeout(function () {
+      seekCheckTimer = 0;
+      if (st.seek && st.running) invalidate();
+    }, Math.max(20, deadline - elapsed));
+  }
+
   // The sensor is decoded only when it contributes to the picture. Opening
   // the lens forces a joint seek before exposing the second layer.
   function wantSensor() { return st.ready.sensor && (st.mode !== 'off' || st.r > 0.5); }
@@ -539,6 +562,7 @@
       st.frameShown = s.frame;
       st.sensorSynced = s.list.length === 2;
       st.seek = null;
+      clearSeekCheck();
       invalidate();
     }
   }
@@ -589,13 +613,27 @@
   /* ---------- drawing */
   function draw() {
     if (st.frameShown < 0) return;
+    var sensorVisible = st.r > 0.5 && st.sensorSynced;
+    var sensorCoversStage = sensorVisible && st.r >= Math.hypot(
+      Math.max(st.lx, st.w - st.lx), Math.max(st.ly, st.h - st.ly)
+    );
+    var clipKey = !sensorVisible ? 'normal' : sensorCoversStage ? 'sensor' :
+      [st.lx, st.ly, st.r].join(',');
+    var compositeKey = st.frameShown + '|' + clipKey;
+    // Scroll can arrive faster than video decoding. Keep the already painted
+    // frame until either the decoded picture or its visible lens has changed.
+    if (compositeKey === lastCompositeKey) return;
     var k = st.canvasScale;
     var c = cover();
     if (!ctx) { st.fallback = true; root.classList.add('is-fallback'); return; }
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     try {
-      ctx.drawImage(normalFrame, c.x * k, c.y * k, c.w * k, c.h * k);
-      if (st.r > 0.5 && st.sensorSynced) {
+      if (sensorCoversStage) {
+        ctx.drawImage(sensorFrame, c.x * k, c.y * k, c.w * k, c.h * k);
+      } else {
+        ctx.drawImage(normalFrame, c.x * k, c.y * k, c.w * k, c.h * k);
+      }
+      if (sensorVisible && !sensorCoversStage) {
         ctx.save();
         ctx.beginPath();
         ctx.arc(st.lx * k, st.ly * k, st.r * k, 0, Math.PI * 2);
@@ -603,6 +641,7 @@
         ctx.drawImage(sensorFrame, c.x * k, c.y * k, c.w * k, c.h * k);
         ctx.restore();
       }
+      lastCompositeKey = compositeKey;
       if (!root.classList.contains('is-drawn')) root.classList.add('is-drawn');
       startSensor();
     } catch (e) {
@@ -793,7 +832,8 @@
     // Sleep completely on a held frame. Scroll, input, media and layout
     // events wake the loop; only an unfinished transition needs another frame.
     var lensMoving = nr !== rt || (rt > 0.5 && (nx !== st.px || ny !== st.py));
-    if (st.t !== st.tTarget || st.seek || lensMoving) requestTick();
+    scheduleSeekCheck();
+    if (st.t !== st.tTarget || lensMoving) requestTick();
     else st.lastNow = 0;
   }
   function setRunning(on) {
@@ -802,7 +842,10 @@
     st.running = on;
     st.lastNow = 0;
     if (on) { st.dirty = true; requestTick(); }
-    else if (tickId) { cancelAnimationFrame(tickId); tickId = 0; }
+    else {
+      clearSeekCheck();
+      if (tickId) { cancelAnimationFrame(tickId); tickId = 0; }
+    }
   }
 
   /* ---------- modes */
@@ -987,6 +1030,9 @@
     rz = window.setTimeout(measure, 120);
   });
   window.addEventListener('scroll', function () {
+    // Later reading sections do not need film progress or pause calculations.
+    // The visibility observer wakes and refreshes the film on return.
+    if (!st.running) return;
     // If media failed while the reader was elsewhere, offer the static story
     // only when they return to the film. Never move a reader backwards.
     if (!reading && root.classList.contains('is-media-error')) mediaUnavailable();
@@ -999,11 +1045,11 @@
   function getJSON(url) {
     return fetch(url).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
   }
-  getJSON(base + 'timeline.json').then(function (j) {
+  getJSON(base === 'homepage_animation/media/' ? "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/f0f03e36b880-timeline.json" : base + 'timeline.json').then(function (j) {
     if (j && j.fps && j.frames && j.web) TL = j;
     invalidate();
   }).catch(function () {});
-  getJSON(base + 'tracks.json').then(function (j) { st.tracks = j; invalidate(); }).catch(function () {});
+  getJSON(base === 'homepage_animation/media/' ? "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/99e38090c7b0-tracks.json" : base + 'tracks.json').then(function (j) { st.tracks = j; invalidate(); }).catch(function () {});
 
   /* ---------- go */
   if (isTouch()) {

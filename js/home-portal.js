@@ -36,7 +36,8 @@
     const ctx=canvas.getContext('2d');if(!ctx)return;
     let width=1,height=1,visible=false,frame=0,last=0,time=0;
     const isBrain=!!canvas.closest('dialog');
-    const nodes=[],edges=[],offsets=[];
+    const nodes=[],edges=[],offsets=[],projected=[],ordered=[],nodeColors=[];
+    const tilt=isBrain?-.12:.32,tiltCos=Math.cos(tilt),tiltSin=Math.sin(tilt),reach=isBrain?110:145;
     let geometryReady=false;
     function initializeGeometry(){
       if(geometryReady)return;
@@ -86,7 +87,7 @@
       for(let i=0;i<100;i++){const y=1-2*(i+.5)/100,r=Math.sqrt(1-y*y),a=i*Math.PI*(3-Math.sqrt(5));nodes.push([r*Math.cos(a),y,r*Math.sin(a),0]);}
       nodes.forEach((p,i)=>nodes.slice(i+1).forEach((q,k)=>{if(Math.hypot(...p.slice(0,3).map((v,j)=>v-q[j]))<.39)edges.push([i,i+1+k,0]);}));
     }
-      nodes.forEach(()=>offsets.push({x:0,y:0,vx:0,vy:0}));
+      nodes.forEach((node,i)=>{offsets.push({x:0,y:0,vx:0,vy:0});projected.push([0,0,0,node[3],i,0]);nodeColors.push(isBrain?['#bdd9a4','#afdacf','#e7bd79'][node[3]]:(i%13?'#b9d6a3':'#e7bd79'));});
     }
     // The closed navigation does not need its detailed brain mesh yet.
     // Build it once when its canvas first draws; the hero orb remains immediate.
@@ -101,26 +102,29 @@
       initializeGeometry();
       ctx.clearRect(0,0,width,height);
       const radius=isBrain?Math.min(width/3.6,height/2.1):Math.min(width,height)*.41;
-      const cy=height*.51,cx=width*.5,a=isBrain?.22+time*.000055:time*.00008,c=Math.cos(a),s=Math.sin(a),tilt=isBrain?-.12:.32;
-      const points=nodes.map(([x,y,z,kind,nx,ny,nz],i)=>{
-        const xx=x*c+z*s,zz=-x*s+z*c,yy=y*Math.cos(tilt)-zz*Math.sin(tilt),depth=zz*Math.cos(tilt)+y*Math.sin(tilt);
+      const cy=height*.51,cx=width*.5,a=isBrain?.22+time*.000055:time*.00008,c=Math.cos(a),s=Math.sin(a);
+      const pointerActive=!reduced.matches&&pointer.x!==-9999;
+      // Reuse projected points; reset sort input to source order for tied depths.
+      for(let i=0;i<nodes.length;i++){const [x,y,z,kind,nx,ny,nz]=nodes[i];
+        const xx=x*c+z*s,zz=-x*s+z*c,yy=y*tiltCos-zz*tiltSin,depth=zz*tiltCos+y*tiltSin;
         const perspective=isBrain?3.8/(3.8-depth):1,px=cx+xx*radius*perspective,py=cy+yy*radius*perspective;
-        const offset=offsets[i],dx=px-pointer.x,dy=py-pointer.y,d=Math.hypot(dx,dy),reach=isBrain?110:145;
-        const force=!reduced.matches&&d<reach?Math.pow(1-d/reach,2)*(isBrain?55:105):0;
-        const tx=dx/Math.max(1,d)*force,ty=dy/Math.max(1,d)*force;
+        const offset=offsets[i];let tx=0,ty=0;
+        if(pointerActive){const dx=px-pointer.x,dy=py-pointer.y,d=Math.hypot(dx,dy);const force=d<reach?Math.pow(1-d/reach,2)*(isBrain?55:105):0;tx=dx/Math.max(1,d)*force;ty=dy/Math.max(1,d)*force;}
         offset.vx=(offset.vx+(tx-offset.x)*.13)*.72;offset.vy=(offset.vy+(ty-offset.y)*.13)*.72;
         offset.x+=offset.vx;offset.y+=offset.vy;
-        const rim=nx===undefined?0:1-Math.abs((-nx*s+nz*c)*Math.cos(tilt)+ny*Math.sin(tilt));
-        return [px+offset.x,py+offset.y,depth,kind,i,rim];
-      });
+        const rim=nx===undefined?0:1-Math.abs((-nx*s+nz*c)*tiltCos+ny*tiltSin);
+        const point=projected[i];point[0]=px+offset.x;point[1]=py+offset.y;point[2]=depth;point[5]=rim;ordered[i]=point;
+      }
+      const points=projected;
       ctx.lineWidth=isBrain?.65:.7;
       for(const [i,j,tract]of edges){const p=points[i],q=points[j];ctx.strokeStyle=`rgba(171,204,157,${isBrain?(tract?.17:.035)+(p[2]+q[2]+3)*.014:.035+(p[2]+q[2]+2)*.04})`;ctx.beginPath();ctx.moveTo(p[0],p[1]);ctx.lineTo(q[0],q[1]);ctx.stroke();}
-      points.sort((a,b)=>a[2]-b[2]).forEach(([x,y,z,kind,i,rim])=>{
-        ctx.fillStyle=isBrain?['#bdd9a4','#afdacf','#e7bd79'][kind]:(i%13?'#b9d6a3':'#e7bd79');
+      ordered.sort((a,b)=>a[2]-b[2]);
+      for(const [x,y,z,kind,i,rim]of ordered){
+        ctx.fillStyle=nodeColors[i];
         ctx.globalAlpha=isBrain?Math.max(.14,Math.min(.9,.20+.66*rim**3+z*.1)):.18+(z+1)*.3;
         const size=isBrain?Math.max(.55,.76+z*.26+rim*.3)+(i%23===0?.4:0):.7+(z+1)*1.15;
         ctx.beginPath();ctx.arc(x,y,size,0,Math.PI*2);ctx.fill();
-      });ctx.globalAlpha=1;
+      }ctx.globalAlpha=1;
     }
     function tick(now){frame=0;if(!visible||document.hidden||isBrain&&!menu.open)return;if(!last||now-last>40){time+=last?Math.min(80,now-last):0;last=now;draw();}if(!reduced.matches)frame=requestAnimationFrame(tick);}
     function wake(){cancelAnimationFrame(frame);frame=0;last=0;if(visible&&!document.hidden&&(!isBrain||menu.open)){draw();if(!reduced.matches)frame=requestAnimationFrame(tick);}}
@@ -207,13 +211,13 @@
     frame();
     // Reuse the supplied logo artwork, including its subtle head/wing movement.
     // The PNG already displays correctly if this optional enhancement fails.
-    fetch('assets/brand/logo-fly-puppet.svg?v=20261004-menu-flight').then(response=>{
+    fetch('https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/7b241aa949f9-logo-fly-puppet.svg?v=20261004-menu-flight').then(response=>{
       if(!response.ok)throw new Error('Mascot illustration unavailable');return response.text();
     }).then(source=>{
       const scoped=source.replaceAll('id="logo-fly-','id="menu-fly-').replaceAll('#logo-fly-','#menu-fly-');
       const svg=new DOMParser().parseFromString(scoped,'image/svg+xml').documentElement;
       if(svg.localName!=='svg')return;
-      svg.querySelector('image')?.setAttribute('href',new URL('assets/brand/logo-fly-cutout.webp',document.baseURI).href);
+      svg.querySelector('image')?.setAttribute('href',new URL('https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/d9638484592a-logo-fly-cutout.webp',document.baseURI).href);
       puppet=document.importNode(svg,true);art.replaceChildren(puppet);lastProgress=-1;queue();
     }).catch(()=>{});
   }

@@ -156,49 +156,158 @@
     update();
   }
 
-  /* ---------- TOC current section ---------- */
+  /* ---------- Shared contents navigation and current section ---------- */
   function initTocSpy() {
-    var links = qsa('.page-toc a[href^="#"]:not(.back-to-top)');
+    if (window.AeroSenseToc) return;
+    var selector = '.page-toc nav a[href^="#"], .audit-mobile-jump nav a[href^="#"], .lm-sticky__stages a[href^="#"]';
+    var links = qsa(selector);
     if (!links.length) return;
-
+    var frame = 0, navigation = 0, stopFollowing = function () {}, current = '';
+    function targetFor(hash) {
+      try { return doc.getElementById(decodeURIComponent(hash.slice(1))); }
+      catch (_) { return null; }
+    }
+    var targets = [];
+    links.forEach(function (link) {
+      var target = targetFor(link.hash);
+      if (target && targets.indexOf(target) < 0) targets.push(target);
+    });
+    function shown(node) {
+      return node && !node.closest('[hidden],dialog:not([open])') && node.getClientRects().length > 0;
+    }
+    function offset() {
+      var header = qs('.site-header');
+      var bottom = header ? Math.max(0, header.getBoundingClientRect().bottom) : 0;
+      var menu = qs('.audit-mobile-jump');
+      if (shown(menu)) bottom += menu.getBoundingClientRect().height;
+      var stages = qs('.lm-sticky');
+      if (shown(stages)) bottom += stages.getBoundingClientRect().height;
+      return Math.ceil(bottom + 24);
+    }
     function mark(id) {
+      if (id === current) return;
+      current = id;
       links.forEach(function (link) {
-        link.removeAttribute("aria-current");
-      });
-      links.forEach(function (link) {
-        if (link.getAttribute("href") === "#" + id) {
-          link.setAttribute("aria-current", "true");
-        }
+        if (link.hash === '#' + id) link.setAttribute('aria-current', 'true');
+        else link.removeAttribute('aria-current');
       });
     }
-
-    if (location.hash) mark(location.hash.slice(1));
-
-    if (!("IntersectionObserver" in window)) return;
-
-    var map = {};
-    links.forEach(function (link) {
-      var id = link.getAttribute("href").slice(1);
-      if (id) map[id] = link;
-    });
-
-    var observer = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          mark(entry.target.id);
-        });
-      },
-      {
-        rootMargin: "-20% 0px -65% 0px",
-        threshold: 0,
+    function update() {
+      frame = 0;
+      var line = offset() + 32, before = null, after = null;
+      targets.forEach(function (target) {
+        if (!shown(target)) return;
+        var top = target.getBoundingClientRect().top;
+        if (top <= line && (!before || top >= before.top)) before = { target: target, top: top };
+        else if (top > line && (!after || top < after.top)) after = { target: target, top: top };
+      });
+      var selected = before || after;
+      if (selected) mark(selected.target.id);
+    }
+    function schedule() { if (!frame) frame = requestAnimationFrame(update); }
+    function prepare(target, source) {
+      var menu = qs('.audit-mobile-jump');
+      if (menu) menu.open = false;
+      doc.dispatchEvent(new CustomEvent('aerosense:before-anchor', {
+        detail: { target: target, hash: '#' + target.id, source: source }
+      }));
+      for (var node = target; node; node = node.parentElement) {
+        if (node.tagName === 'DETAILS') node.open = true;
+        if (node.hasAttribute('data-reveal')) {
+          node.classList.remove('is-pending'); node.classList.add('is-visible');
+        }
       }
-    );
-
-    Object.keys(map).forEach(function (id) {
-      var section = doc.getElementById(id);
-      if (section) observer.observe(section);
-    });
+      // A topic link reveals the same technical record as the product diagram.
+      if (target.matches('[data-hardware-inline-topic]')) {
+        qsa('[data-hardware-topic-details]', target).forEach(function (detail) { detail.open = true; });
+      }
+    }
+    function navigate(target, options) {
+      options = options || {};
+      stopFollowing();
+      var ticket = ++navigation;
+      prepare(target, options.source || 'toc');
+      if (options.push && location.hash !== '#' + target.id) {
+        history.pushState(history.state, '', '#' + target.id);
+      }
+      // Two layout frames let tab/disclosure handlers settle before measuring.
+      requestAnimationFrame(function () { requestAnimationFrame(function () {
+        if (ticket !== navigation || !shown(target)) return;
+        function align() {
+          if (ticket !== navigation || !shown(target)) return;
+          var top = Math.max(0, Math.min(
+            scrollY + target.getBoundingClientRect().top - offset(),
+            doc.documentElement.scrollHeight - innerHeight
+          ));
+          if (Math.abs(top - scrollY) > 1) window.scrollTo({ top: top, behavior: 'instant' });
+          mark(target.id);
+        }
+        align();
+        if (options.focus) {
+          if (!target.hasAttribute('tabindex')) {
+            target.setAttribute('tabindex', '-1');
+            target.addEventListener('blur', function () { target.removeAttribute('tabindex'); }, { once: true });
+          }
+          target.focus({ preventScroll: true });
+        }
+        // Correct late image/font/disclosure layout once it changes, never fight
+        // the reader: wheel, touch, pointer and navigation keys cancel at once.
+        var resize, settleFrame = 0, timer;
+        function settle() {
+          cancelAnimationFrame(settleFrame);
+          settleFrame = requestAnimationFrame(align);
+        }
+        function cancel(event) {
+          if (event && event.type === 'keydown' && !['ArrowUp','ArrowDown','PageUp','PageDown','Home','End',' '].includes(event.key)) return;
+          ++navigation;
+          stopFollowing();
+        }
+        if ('ResizeObserver' in window) {
+          resize = new ResizeObserver(settle);
+          resize.observe(doc.body);
+          var header = qs('.site-header'); if (header) resize.observe(header);
+        }
+        ['wheel','touchstart','pointerdown','keydown'].forEach(function (type) {
+          window.addEventListener(type, cancel, { passive: true });
+        });
+        stopFollowing = function () {
+          clearTimeout(timer); cancelAnimationFrame(settleFrame);
+          if (resize) resize.disconnect();
+          ['wheel','touchstart','pointerdown','keydown'].forEach(function (type) { window.removeEventListener(type, cancel); });
+          stopFollowing = function () {};
+        };
+        timer = setTimeout(stopFollowing, 1600);
+      }); });
+    }
+    // The shared handler owns TOC scrolling; page-specific hooks only reveal
+    // their content, avoiding native scroll-margin + scroll-padding duplication.
+    doc.addEventListener('click', function (event) {
+      var link = event.target.closest && event.target.closest(selector);
+      if (!link || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      var target = targetFor(link.hash);
+      if (!target) return;
+      event.preventDefault(); event.stopImmediatePropagation();
+      navigate(target, { push: true, focus: true, source: 'toc' });
+    }, true);
+    function fromLocation() {
+      var target = targetFor(location.hash);
+      if (targets.indexOf(target) >= 0) navigate(target, { source: 'location' });
+      else schedule();
+    }
+    window.AeroSenseToc = { refresh: schedule, navigate: navigate, offset: offset };
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    window.addEventListener('hashchange', fromLocation);
+    window.addEventListener('popstate', fromLocation);
+    doc.addEventListener('aerosense:languagechange', schedule);
+    doc.addEventListener('toggle', schedule, true);
+    var initialHash = location.hash;
+    function initial() { if (navigation === 0 && location.hash === initialHash) fromLocation(); }
+    Promise.all([
+      doc.readyState === 'complete' ? Promise.resolve() : new Promise(function (done) { window.addEventListener('load', done, { once: true }); }),
+      doc.fonts ? doc.fonts.ready : Promise.resolve()
+    ]).then(initial);
+    schedule();
   }
 
   /* ---------- Restrained reveal ---------- */
@@ -251,7 +360,7 @@
     if (!toc) return;
 
     function sync() {
-      if (window.matchMedia("(min-width: 1024px)").matches) {
+      if (window.matchMedia("(min-width: 1100px)").matches) {
         toc.setAttribute("open", "");
       }
     }
@@ -917,7 +1026,9 @@
     initProgress();
     initBackToTop();
     initTocLabelWrap();
-    initTocSpy();
+    // Lesson stage links are rendered by the module after the shell is ready.
+    if (doc.body.classList.contains('page-learn-module')) setTimeout(initTocSpy, 0);
+    else initTocSpy();
     initReveal();
     initTocDetails();
     initContributionFilter();

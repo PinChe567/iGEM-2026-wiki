@@ -1,16 +1,16 @@
-/* A compact native jump menu for long scientific articles; no scroll interception. */
+/* Desktop and mobile contents share one chapter list. */
 (() => {
   const main = document.querySelector('main');
   if (!main || document.body.classList.contains('page-home') || document.querySelector('[data-learn-root]')) return;
   // Reuse the native first-paint menu instead of moving the article after load.
   const existing = document.querySelector('.audit-mobile-jump');
   if (existing) {
-    existing.querySelectorAll('nav a').forEach(link => {
-      link.addEventListener('click', () => { existing.open = false; });
-    });
+    const contents = document.querySelector('.page-toc nav');
+    if (contents) existing.querySelector('nav').replaceChildren(...contents.cloneNode(true).childNodes);
     return;
   }
-  const headers = [...main.querySelectorAll('h2')].filter(h => h.id || h.closest('section[id]'));
+  const headers = [...main.querySelectorAll('h2')].filter(h =>
+    !h.closest('dialog,[hidden]') && (h.id || h.closest('section[id]')));
   if (headers.length < 5) return;
   const menu = document.createElement('details');
   menu.className = 'audit-mobile-jump';

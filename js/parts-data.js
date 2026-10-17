@@ -1,7 +1,7 @@
 /**
  * AeroSense Parts collection — structured inventory for the Parts page.
  *
- * Scientific source: ../../parts_content.md (authoritative).
+ * Scientific source: maintained catalogue and the dated Registry verification archive.
  * Plasmid maps: ../plasmid/*.png (final construct images).
  *
  * Do not invent nucleotide sequences, Registry URLs, or assay results.
@@ -53,7 +53,7 @@
       firstGeneration: false,
       rfc1000: false,
       childIds: ["BBa_26VGDFA1", "BBa_K5490030", "BBa_K4177005"],
-      plasmidMap: "plasmid/Or7a_IRES_mCherry.png",
+      plasmidMap: "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/b3f73c565ae7-or7a-ires-mcherry.webp",
       architecture: SENSING_ARCHITECTURE,
       hek293Literature: hekLit(HEK293_LITERATURE.expressedVuaa1NoVoc),
       codonOptimizedForHumanExpression: true,
@@ -74,7 +74,7 @@
       firstGeneration: false,
       rfc1000: false,
       childIds: ["BBa_26AIIWHV", "BBa_K5490030", "BBa_K4177005"],
-      plasmidMap: "plasmid/Or22a_IRES_mCherry.png",
+      plasmidMap: "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-20261018/17f0b812c39e-or22a-ires-mcherry.webp",
       architecture: SENSING_ARCHITECTURE,
       hek293Literature: hekLit(HEK293_LITERATURE.notInZborayHek293Set),
       codonOptimizedForHumanExpression: true,
@@ -95,7 +95,7 @@
       firstGeneration: false,
       rfc1000: false,
       childIds: ["BBa_26HJ1RUT", "BBa_K5490030", "BBa_K4177005"],
-      plasmidMap: "plasmid/Or35a_IRES_mCherry.png",
+      plasmidMap: "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/ce4207cf708b-or35a-ires-mcherry.webp",
       architecture: SENSING_ARCHITECTURE,
       hek293Literature: hekLit(HEK293_LITERATURE.notInZborayHek293Set),
       codonOptimizedForHumanExpression: true,
@@ -116,7 +116,7 @@
       firstGeneration: false,
       rfc1000: true,
       childIds: ["BBa_26UHN7NT", "BBa_K5490030", "BBa_K4177005"],
-      plasmidMap: "plasmid/Or42a_IRES_mCherry.png",
+      plasmidMap: "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/6d1e3bb1a61c-or42a-ires-mcherry.webp",
       architecture: SENSING_ARCHITECTURE,
       hek293Literature: hekLit(HEK293_LITERATURE.notInZborayHek293Set),
       codonOptimizedForHumanExpression: true,
@@ -137,7 +137,7 @@
       firstGeneration: false,
       rfc1000: true,
       childIds: ["BBa_26OJ8HGO", "BBa_K5490030", "BBa_K4177005"],
-      plasmidMap: "plasmid/Or59b_IRES_mCherry.png",
+      plasmidMap: "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/dc55adc406c4-or59b-ires-mcherry.webp",
       architecture: SENSING_ARCHITECTURE,
       hek293Literature: hekLit(HEK293_LITERATURE.notInZborayHek293Set),
       codonOptimizedForHumanExpression: true,
@@ -158,7 +158,7 @@
       firstGeneration: false,
       rfc1000: false,
       childIds: ["BBa_26XXP4K7", "BBa_K5490030", "BBa_K4177005"],
-      plasmidMap: "plasmid/Or67a_IRES_mCherry.png",
+      plasmidMap: "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/9bf5e91b22c1-or67a-ires-mcherry.webp",
       architecture: SENSING_ARCHITECTURE,
       hek293Literature: hekLit(HEK293_LITERATURE.notInZborayHek293Set),
       codonOptimizedForHumanExpression: true,
@@ -179,7 +179,7 @@
       firstGeneration: false,
       rfc1000: true,
       childIds: ["BBa_26DVVZIA", "BBa_K5490030", "BBa_K4177005"],
-      plasmidMap: "plasmid/Or85b_IRES_mCherry.png",
+      plasmidMap: "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/90620044cb1c-or85b-ires-mcherry.webp",
       architecture: SENSING_ARCHITECTURE,
       hek293Literature: hekLit(HEK293_LITERATURE.vocResponsiveOverlap),
       codonOptimizedForHumanExpression: true,
@@ -200,7 +200,7 @@
       firstGeneration: false,
       rfc1000: true,
       childIds: ["BBa_26DG1NPK", "BBa_K5490030", "BBa_K4177005"],
-      plasmidMap: "plasmid/Or98a_IRES_mCherry.png",
+      plasmidMap: "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-20261018/0813b9645d8b-or98a-ires-mcherry.webp",
       architecture: SENSING_ARCHITECTURE,
       hek293Literature: hekLit(HEK293_LITERATURE.vocResponsiveOverlap),
       codonOptimizedForHumanExpression: true,
@@ -221,7 +221,7 @@
       firstGeneration: false,
       rfc1000: false,
       childIds: ["BBa_26HTXB02", "BBa_K5490030", "BBa_K4177005"],
-      plasmidMap: "plasmid/Or19a_IRES_mCherry.png",
+      plasmidMap: "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/f4a21fcd284b-or19a-ires-mcherry.webp",
       architecture: SENSING_ARCHITECTURE,
       hek293Literature: hekLit(HEK293_LITERATURE.expressedVuaa1NoVoc),
       codonOptimizedForHumanExpression: true,
@@ -247,7 +247,7 @@
       rfc1000: false,
       rfc1000Note: "BsaI inherited from DmOrco",
       childIds: ["BBa_262WP16P", "BBa_26QHYP02", "BBa_26E21OEQ", "BBa_26LWIKBQ"],
-      plasmidMap: "plasmid/GCaMP6f_GGGGSx3_DmOrco.png",
+      plasmidMap: "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/d78cfeac0ea7-gcamp6f-ggggsx3-dmorco.webp",
       architecture: REPORTING_ARCHITECTURE,
       codonOptimizedForHumanExpression: null,
       shortDescription:
@@ -463,7 +463,7 @@
       firstGeneration: true,
       rfc1000: null,
       childIds: [],
-      plasmidMap: "plasmid/Or67b_IRES_mCherry_pTwist.png",
+      plasmidMap: "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/b8102e2d4d5b-or67b-ires-mcherry-ptwist.webp",
       plasmidMapKind: "legacy-construct",
       sourceOrganism: "Drosophila melanogaster",
       codonOptimizedForHumanExpression: true,
@@ -572,15 +572,15 @@
   ];
 
   var EXPECTED_SENSING = [
-    ["BBa_26ZAGFK0", "Or7a-IRES-mCherry", "plasmid/Or7a_IRES_mCherry.png"],
-    ["BBa_26WOX4B1", "Or22a-IRES-mCherry", "plasmid/Or22a_IRES_mCherry.png"],
-    ["BBa_26LLF3LM", "Or35a-IRES-mCherry", "plasmid/Or35a_IRES_mCherry.png"],
-    ["BBa_26Q1Q094", "Or42a-IRES-mCherry", "plasmid/Or42a_IRES_mCherry.png"],
-    ["BBa_26Y7CI2H", "Or59b-IRES-mCherry", "plasmid/Or59b_IRES_mCherry.png"],
-    ["BBa_265G8CE1", "Or67a-IRES-mCherry", "plasmid/Or67a_IRES_mCherry.png"],
-    ["BBa_26K1TU11", "Or85b-IRES-mCherry", "plasmid/Or85b_IRES_mCherry.png"],
-    ["BBa_26TZLBMJ", "Or98a-IRES-mCherry", "plasmid/Or98a_IRES_mCherry.png"],
-    ["BBa_2629NIWH", "Or19a-IRES-mCherry", "plasmid/Or19a_IRES_mCherry.png"],
+    ["BBa_26ZAGFK0", "Or7a-IRES-mCherry", "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/b3f73c565ae7-or7a-ires-mcherry.webp"],
+    ["BBa_26WOX4B1", "Or22a-IRES-mCherry", "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-20261018/17f0b812c39e-or22a-ires-mcherry.webp"],
+    ["BBa_26LLF3LM", "Or35a-IRES-mCherry", "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/ce4207cf708b-or35a-ires-mcherry.webp"],
+    ["BBa_26Q1Q094", "Or42a-IRES-mCherry", "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/6d1e3bb1a61c-or42a-ires-mcherry.webp"],
+    ["BBa_26Y7CI2H", "Or59b-IRES-mCherry", "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/dc55adc406c4-or59b-ires-mcherry.webp"],
+    ["BBa_265G8CE1", "Or67a-IRES-mCherry", "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/9bf5e91b22c1-or67a-ires-mcherry.webp"],
+    ["BBa_26K1TU11", "Or85b-IRES-mCherry", "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/90620044cb1c-or85b-ires-mcherry.webp"],
+    ["BBa_26TZLBMJ", "Or98a-IRES-mCherry", "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-20261018/0813b9645d8b-or98a-ires-mcherry.webp"],
+    ["BBa_2629NIWH", "Or19a-IRES-mCherry", "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/f4a21fcd284b-or19a-ires-mcherry.webp"],
   ];
 
   var RFC1000_COMPATIBLE_IDS = [
@@ -685,12 +685,12 @@
     },
     legacyConstructs: [
       {
-        image: "plasmid/Or67b_IRES_mCherry_pTwist.png",
+        image: "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/b8102e2d4d5b-or67b-ires-mcherry-ptwist.webp",
         relatedBasicId: "BBa_26ACVV3R",
         registeredCompositeId: null,
         inFinalCompositeCount: false,
         note:
-          "First-generation Or67b–IRES–mCherry construct image on pTwist. No registered composite ID is given in parts_content.md, so this image is not a tenth/eleventh composite part.",
+          "First-generation Or67b–IRES–mCherry construct image on pTwist. Registered as a basic Or67b entry; this earlier construct is outside the final sensing-composite panel.",
       },
     ],
     references: [
@@ -749,158 +749,132 @@
   "BBa_2629NIWH": {
     "url": "https://registry.igem.org/parts/bba-2629niwh",
     "rfc10": false,
-    "rfc1000": false,
-    "documentationEmpty": true
+    "rfc1000": false
   },
   "BBa_262WP16P": {
     "url": "https://registry.igem.org/parts/bba-262wp16p",
     "rfc10": true,
-    "rfc1000": true,
-    "documentationEmpty": true
+    "rfc1000": true
   },
   "BBa_265G8CE1": {
     "url": "https://registry.igem.org/parts/bba-265g8ce1",
     "rfc10": false,
-    "rfc1000": false,
-    "documentationEmpty": true
+    "rfc1000": false
   },
   "BBa_26ACVV3R": {
     "url": "https://registry.igem.org/parts/bba-26acvv3r",
     "rfc10": false,
-    "rfc1000": false,
-    "documentationEmpty": true
+    "rfc1000": false
   },
   "BBa_26AIIWHV": {
     "url": "https://registry.igem.org/parts/bba-26aiiwhv",
     "rfc10": false,
-    "rfc1000": false,
-    "documentationEmpty": true
+    "rfc1000": false
   },
   "BBa_26DG1NPK": {
     "url": "https://registry.igem.org/parts/bba-26dg1npk",
     "rfc10": true,
-    "rfc1000": true,
-    "documentationEmpty": true
+    "rfc1000": true
   },
   "BBa_26DVVZIA": {
     "url": "https://registry.igem.org/parts/bba-26dvvzia",
     "rfc10": false,
-    "rfc1000": true,
-    "documentationEmpty": true
+    "rfc1000": true
   },
   "BBa_26E11Z80": {
     "url": "https://registry.igem.org/parts/bba-26e11z80",
     "rfc10": false,
-    "rfc1000": false,
-    "documentationEmpty": true
+    "rfc1000": false
   },
   "BBa_26E21OEQ": {
     "url": "https://registry.igem.org/parts/bba-26e21oeq",
     "rfc10": true,
-    "rfc1000": true,
-    "documentationEmpty": true
+    "rfc1000": true
   },
   "BBa_26HJ1RUT": {
     "url": "https://registry.igem.org/parts/bba-26hj1rut",
     "rfc10": false,
-    "rfc1000": false,
-    "documentationEmpty": true
+    "rfc1000": false
   },
   "BBa_26HTXB02": {
     "url": "https://registry.igem.org/parts/bba-26htxb02",
     "rfc10": true,
-    "rfc1000": false,
-    "documentationEmpty": true
+    "rfc1000": false
   },
   "BBa_26K1TU11": {
     "url": "https://registry.igem.org/parts/bba-26k1tu11",
     "rfc10": false,
-    "rfc1000": true,
-    "documentationEmpty": true
+    "rfc1000": true
   },
   "BBa_26LLF3LM": {
     "url": "https://registry.igem.org/parts/bba-26llf3lm",
     "rfc10": false,
-    "rfc1000": false,
-    "documentationEmpty": true
+    "rfc1000": false
   },
   "BBa_26LWIKBQ": {
     "url": "https://registry.igem.org/parts/bba-26lwikbq",
     "rfc10": false,
-    "rfc1000": false,
-    "documentationEmpty": true
+    "rfc1000": false
   },
   "BBa_26OJ8HGO": {
     "url": "https://registry.igem.org/parts/bba-26oj8hgo",
     "rfc10": true,
-    "rfc1000": true,
-    "documentationEmpty": true
+    "rfc1000": true
   },
   "BBa_26Q1Q094": {
     "url": "https://registry.igem.org/parts/bba-26q1q094",
     "rfc10": false,
-    "rfc1000": true,
-    "documentationEmpty": true
+    "rfc1000": true
   },
   "BBa_26QHYP02": {
     "url": "https://registry.igem.org/parts/bba-26qhyp02",
     "rfc10": false,
-    "rfc1000": true,
-    "documentationEmpty": true
+    "rfc1000": true
   },
   "BBa_26TZLBMJ": {
     "url": "https://registry.igem.org/parts/bba-26tzlbmj",
     "rfc10": false,
-    "rfc1000": true,
-    "documentationEmpty": true
+    "rfc1000": true
   },
   "BBa_26UHN7NT": {
     "url": "https://registry.igem.org/parts/bba-26uhn7nt",
     "rfc10": false,
-    "rfc1000": true,
-    "documentationEmpty": true
+    "rfc1000": true
   },
   "BBa_26VGDFA1": {
     "url": "https://registry.igem.org/parts/bba-26vgdfa1",
     "rfc10": false,
-    "rfc1000": false,
-    "documentationEmpty": true
+    "rfc1000": false
   },
   "BBa_26WOX4B1": {
     "url": "https://registry.igem.org/parts/bba-26wox4b1",
     "rfc10": false,
-    "rfc1000": false,
-    "documentationEmpty": true
+    "rfc1000": false
   },
   "BBa_26XXP4K7": {
     "url": "https://registry.igem.org/parts/bba-26xxp4k7",
     "rfc10": false,
-    "rfc1000": false,
-    "documentationEmpty": true
+    "rfc1000": false
   },
   "BBa_26Y7CI2H": {
     "url": "https://registry.igem.org/parts/bba-26y7ci2h",
     "rfc10": false,
-    "rfc1000": true,
-    "documentationEmpty": true
+    "rfc1000": true
   },
   "BBa_26ZAGFK0": {
     "url": "https://registry.igem.org/parts/bba-26zagfk0",
     "rfc10": false,
-    "rfc1000": false,
-    "documentationEmpty": true
+    "rfc1000": false
   },
   "BBa_K4177005": {
     "url": "https://registry.igem.org/parts/bba-k4177005",
     "rfc10": false,
-    "rfc1000": true,
-    "documentationEmpty": false
+    "rfc1000": true
   },
   "BBa_K5490030": {
     "url": "https://registry.igem.org/parts/bba-k5490030",
     "rfc10": true,
-    "rfc1000": true,
-    "documentationEmpty": false
+    "rfc1000": true
   }
 };
 
@@ -911,7 +885,6 @@
       part.rfc10 = verified.rfc10;
       part.rfc1000 = verified.rfc1000;
       part.registryVerifiedOn = "2026-10-11";
-      part.registryDocumentationEmpty = verified.documentationEmpty;
     }
     if (!part.registryUrl) part.registryUrl = null;
     if (!part.parentIds) part.parentIds = [];
@@ -1030,7 +1003,7 @@
       if (report.displayName !== "GCaMP6f-(GGGGS)3-DmOrco") {
         addError(errors, "reporting displayName mismatch");
       }
-      if (report.plasmidMap !== "plasmid/GCaMP6f_GGGGSx3_DmOrco.png") {
+      if (report.plasmidMap !== "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/d78cfeac0ea7-gcamp6f-ggggsx3-dmorco.webp") {
         addError(errors, "reporting map mismatch");
       }
       if (report.childIds.join(",") !== "BBa_262WP16P,BBa_26QHYP02,BBa_26E21OEQ,BBa_26LWIKBQ") {
@@ -1044,7 +1017,7 @@
       if (or67b.category !== "basic") addError(errors, "Or67b must remain a basic part");
       if (or67b.inFinalPanel) addError(errors, "Or67b must not be in the final panel");
       if (!or67b.firstGeneration) addError(errors, "Or67b must be marked first-generation");
-      if (or67b.plasmidMap !== "plasmid/Or67b_IRES_mCherry_pTwist.png") {
+      if (or67b.plasmidMap !== "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/b8102e2d4d5b-or67b-ires-mcherry-ptwist.webp") {
         addError(errors, "Or67b legacy map mismatch");
       }
     }

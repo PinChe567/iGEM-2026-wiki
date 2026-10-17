@@ -7489,7 +7489,7 @@ body{background-color:#f5f3e9}
 .site-footer .footer-meta{display:block!important;border-top:1px solid #ffffff25!important;padding-top:1.5rem!important}.site-footer .footer-contacts,.site-footer .footer-legal{display:flex;flex-wrap:wrap;gap:.7rem 1.3rem;list-style:none;padding:0;margin:.7rem 0;font-size:.72rem!important}.site-footer .footer-copy{color:#a7bfa0!important;font-size:.7rem!important}
 .page-glossary .glossary-page{padding-top:3rem}.glossary-index section{border:1px solid #d4dfce;border-radius:16px;background:#fffef9}
 .home-explore__item{box-shadow:none!important;border-radius:18px!important;border-color:#d0dcc6!important}.home-explore__num{border-bottom:1px solid #9cae90;padding-bottom:.5rem;align-self:start}
-.journey-launch{border-radius:18px;overflow:hidden;min-height:400px}.journey-launch__back{background-image:url('../models/previews_v3/01_warehouse_v3.png')!important;background-size:cover!important;background-position:center!important}.journey-launch__veil{background:linear-gradient(90deg,#102e25e8,#102e2540)!important}
+.journey-launch{border-radius:18px;overflow:hidden;min-height:400px}.journey-launch__back{background-image:url('https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/b69fb76a6f0e-01-warehouse-v3.webp')!important;background-size:cover!important;background-position:center!important}.journey-launch__veil{background:linear-gradient(90deg,#102e25e8,#102e2540)!important}
 .flight__static-nav[hidden],.flight__card[hidden],.flight__finale[hidden],.flight__loading[hidden]{display:none!important}
 .flight [hidden]{display:none!important}
 .flight [data-flight-exit]{border:1px solid #a9c49c!important;border-radius:100px!important;background:#173e30e6!important;color:#eff8e6!important;font-size:.65rem!important;min-height:38px;padding:.6rem .8rem}
@@ -7940,20 +7940,20 @@ img,video,canvas{max-width:100%}main>*{min-width:0}
 /* Source: css/home-cinematic.css */
 @font-face {
   font-family: 'AscSerif';
-  src: url('../homepage_animation/fonts/fraunces-latin-400-normal.woff2') format('woff2');
+  src: url('https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/e558f39453a9-fraunces-latin-400-normal.woff2') format('woff2');
   font-weight: 400;
   font-display: swap;
 }
 @font-face {
   font-family: 'AscSerif';
-  src: url('../homepage_animation/fonts/fraunces-latin-400-italic.woff2') format('woff2');
+  src: url('https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/475b154af19c-fraunces-latin-400-italic.woff2') format('woff2');
   font-weight: 400;
   font-style: italic;
   font-display: swap;
 }
 @font-face {
   font-family: 'AscMono';
-  src: url('../homepage_animation/fonts/ibm-plex-mono-latin-500-normal.woff2') format('woff2');
+  src: url('https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/01d285447409-ibm-plex-mono-latin-500-normal.woff2') format('woff2');
   font-weight: 500;
   font-display: swap;
 }
@@ -9418,6 +9418,46 @@ html:has(body.page-home){scroll-padding-top:0;}
 
 
 /* Source: css/navigation-type.css */
+/* One contents hierarchy for the reading rail and the compact jump menu. */
+body:not(.page-home) :is(.page-toc,.audit-mobile-jump) nav ol {
+  list-style:none; margin:0; padding:0;
+}
+body:not(.page-home) :is(.page-toc,.audit-mobile-jump) nav ol ol {
+  margin:.15rem 0 .5rem .6rem; padding-left:.7rem;
+  border-left:1px solid var(--v-rule,#ccd2c5);
+}
+body:not(.page-home) :is(.page-toc,.audit-mobile-jump) nav li {
+  margin:0; padding:0; text-align:start;
+}
+body:not(.page-home) :is(.page-toc,.audit-mobile-jump) nav a {
+  white-space:normal; overflow-wrap:normal; word-break:normal; hyphens:none;
+}
+body:not(.page-home) :is(.page-toc,.audit-mobile-jump) nav ol ol a {
+  font-size:.75rem!important; font-weight:400;
+}
+body:not(.page-home) .audit-mobile-jump nav a {
+  display:block; padding:.55rem .4rem; line-height:1.5;
+}
+body:not(.page-home) .audit-mobile-jump a[aria-current="true"] {
+  background:var(--v-soft,#e8eee6); font-weight:650;
+}
+@media(max-width:1099px) {
+  body:not(.page-home):has(.audit-mobile-jump) .page-toc-slot { display:contents; }
+  body:not(.page-home):has(.audit-mobile-jump) .page-toc { display:none; }
+  body:not(.page-home) .audit-mobile-jump {
+    display:block; position:sticky; top:var(--site-header-height,72px);
+    z-index:38; padding:.55rem 1rem; max-width:100%;
+    background:var(--v-paper,#fffdf7); border-block:1px solid var(--v-rule,#ccd2c5);
+  }
+  body:not(.page-home) .audit-mobile-jump > summary { cursor:pointer; font-size:.8rem; font-weight:650; }
+  body:not(.page-home) .audit-mobile-jump nav {
+    display:block; position:absolute; top:100%; inset-inline:0;
+    box-sizing:border-box; margin:0; padding:.5rem 1rem 1rem;
+    max-height:min(65dvh,32rem); overflow:auto; overscroll-behavior:contain;
+    background:var(--v-paper,#fffdf7); border-bottom:1px solid var(--v-rule,#ccd2c5);
+    box-shadow:0 10px 16px #182d2512;
+  }
+}
 /* Familiar letterforms and one-row navigation. The homepage owns its own menu. */
 body {
   --font-editorial:Georgia,"Times New Roman",serif;
@@ -10331,9 +10371,9 @@ body dfn.term:focus-visible {outline:2px solid currentColor;outline-offset:4px;b
 
 /* tokens */
 /* Signal Atlas: sole active shared theme. Compiled into css/design-system.css. */
-@font-face{font-family:AscMono;src:url('../homepage_animation/fonts/ibm-plex-mono-latin-500-normal.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
-@font-face{font-family:AscSerif;src:url('../homepage_animation/fonts/fraunces-latin-400-normal.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
-@font-face{font-family:AscSerif;src:url('../homepage_animation/fonts/fraunces-latin-400-italic.woff2') format('woff2');font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:AscMono;src:url('https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/01d285447409-ibm-plex-mono-latin-500-normal.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:AscSerif;src:url('https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/e558f39453a9-fraunces-latin-400-normal.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:AscSerif;src:url('https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/475b154af19c-fraunces-latin-400-italic.woff2') format('woff2');font-weight:400;font-style:italic;font-display:swap}
 body{
  --ds-white:#fff;--ds-ink:#162d29;--ds-muted:#52645f;--ds-line:#dce5e0;
  --ds-font: 'Segoe UI',Arial,Helvetica,sans-serif;--ds-story:AscSerif,Georgia,'Times New Roman',serif;
@@ -10639,7 +10679,7 @@ body.signal-atlas.page-members .members-section__title::after,
 body.signal-atlas :is(.exp-track__header,.exp-proto__head,.nb-section-head,.nb-view-panel__head,.parts-builder__intro,.editorial-spread__intro) > h2::after,
 body.signal-atlas.page-model :is(.re-introduction,.re-highlights,.re-structure-key,.re-research-detail,.re-cycle,.re-next,.re-refs) > h2::after{
  content:""!important;display:block!important;position:absolute;z-index:-1;pointer-events:none;right:-.5rem;top:50%;left:auto!important;bottom:auto!important;width:264px!important;height:212px!important;border:0!important;border-radius:0!important;
- transform:translateY(-50%) rotate(-8deg);background-color:transparent!important;background-image:var(--chapter-art-atlas,url('../assets/editorial/watercolor-v15/hero-watercolor-atlas.png'))!important;
+ transform:translateY(-50%) rotate(-8deg);background-color:transparent!important;background-image:var(--chapter-art-atlas,url('https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/71d462519225-hero-watercolor-atlas.webp'))!important;
  background-size:621.21212% 576.88679%!important;background-position:var(--chapter-sprite-position,0.58140% 0.79130%)!important;
  opacity:.17;mix-blend-mode:multiply;mask-image:linear-gradient(90deg,transparent,#000 45%);
 }
@@ -11707,14 +11747,14 @@ body.signal-atlas:not(.page-home) .site-footer a:focus-visible{outline-color:var
 /* flat-editorial-v20 */
 /* Graphic object illustrations. Portraits, postcards and scientific media keep
    their original treatment; no filter is applied to measured images or plots. */
-body.signal-atlas{--chapter-art-atlas:url('../assets/editorial/block-color-v20/hero-block-atlas.png')}
+body.signal-atlas{--chapter-art-atlas:url('https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/70550eccac3a-hero-block-atlas.webp')}
 html body.signal-atlas:is(.editorial-2026,.page-learn-progress):not(.page-home) :is(.page-hero,.members-intro,.learn-hero,.lm-hero,.glossary-conversation-hero) :is(.ds-hero-art[data-art-style=claude-source],.learning-claude-art){
  mask-image:none!important;-webkit-mask-image:none!important;mix-blend-mode:normal!important;
  clip-path:none!important;background:transparent!important;filter:none!important;box-shadow:none!important;
 }
 body.signal-atlas .editorial-block-art{
  display:block;position:relative;aspect-ratio:1.12;background-color:transparent!important;
- background-image:url('../assets/editorial/block-color-v20/hero-block-atlas.png');
+ background-image:url('https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/70550eccac3a-hero-block-atlas.webp');
  background-size:600% 500%;background-position:var(--flat-x,0%) var(--flat-y,0%);background-repeat:no-repeat;
  border:0!important;border-radius:0!important;mix-blend-mode:normal!important;filter:none!important;
 }

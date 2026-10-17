@@ -9,7 +9,7 @@
  const ctx=canvas.getContext('2d');if(!ctx){layer.remove();return;}
  let w=1,h=1,total=1,offset=0,visible=false,frame=0,last=0,time=0,stops=[],experienceY=0,duskStart=0,duskEnd=1,copyBoxes=[],arrival=null,returnStart=0,paperStart=1;
  let seed=2167;const rnd=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};
- const dots=Array.from({length:9000},()=>({u:rnd(),v:rnd()-.5,q:rnd(),r:.5+rnd()*1.25}));
+ const dots=Array.from({length:9000},()=>{const dot={u:rnd(),v:rnd()-.5,q:rnd(),r:.5+rnd()*1.25};dot.ripple=Math.sin(dot.v*6);return dot;});
  const glow=document.createElement('canvas');glow.width=glow.height=24;
  const gx=glow.getContext('2d'),gradient=gx.createRadialGradient(12,12,0,12,12,12);
  gradient.addColorStop(0,'#fff5d8');gradient.addColorStop(.16,'#eed7a3');gradient.addColorStop(.4,'#b9cfd265');gradient.addColorStop(1,'#b9cfd200');
@@ -29,14 +29,14 @@
   return {...shape,points,path:new Path2D(shape.path)};
  }
  Object.keys(shapes).forEach(key=>shapes[key]=samplePath(shapes[key]));
- const fly=new Image();fly.onload=()=>{
+ const fly=new Image();fly.crossOrigin='anonymous';fly.onload=()=>{
   const c=document.createElement('canvas');c.width=c.height=180;const x=c.getContext('2d');x.drawImage(fly,0,0,180,180);
   const d=x.getImageData(0,0,180,180).data,points=[];
   for(let y=2;y<178;y+=2)for(let xx=2;xx<178;xx+=2){const i=(y*180+xx)*4+3;
    if(d[i]>110&&(d[i-8]<110||d[i+8]<110||d[i-1440]<110||d[i+1440]<110))points.push([xx*1.12,y*.82]);
   }
   shapes.fly={label:'THE FRUIT FLY',points};wake();
- };fly.src='assets/brand/logo-fly-cutout.webp';
+ };fly.src='https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/d9638484592a-logo-fly-cutout.webp';
  function quiet(){return reduced.matches;}
  function refreshViewport(rect=host.getBoundingClientRect()){
   const wasVisible=visible;
@@ -91,16 +91,28 @@
   return originalCenter(y,t)*(1-p)+arrival.x*p;
  }
  function strength(y){return (.16+.84*ease((y-experienceY+650)/1050))*ease(y/300)*(arrival?1:ease((total-y)/280));}
+ const tintDay=[[82,111,83],[143,106,46]],tintNight=[[220,230,207],[239,208,149]],tintPaper=[[64,104,73],[138,105,49]];
+ function tintChannel(a,b,paper,p,q){return Math.round((a+(b-a)*p)*(1-q)+paper*q);}
  function tone(y,gold=false,alpha=1){
   const p=ease((y-duskStart)/Math.max(1,duskEnd-duskStart));
-  const a=gold?[143,106,46]:[82,111,83],b=gold?[239,208,149]:[220,230,207],paper=gold?[138,105,49]:[64,104,73],q=arrival?ease((y-returnStart)/Math.max(1,paperStart-returnStart)):0;
-  return `rgba(${a.map((v,i)=>Math.round((v+(b[i]-v)*p)*(1-q)+paper[i]*q)).join(',')},${alpha})`;
+  const index=gold?1:0,a=tintDay[index],b=tintNight[index],paper=tintPaper[index],q=arrival?ease((y-returnStart)/Math.max(1,paperStart-returnStart)):0;
+  return `rgba(${tintChannel(a[0],b[0],paper[0],p,q)},${tintChannel(a[1],b[1],paper[1],p,q)},${tintChannel(a[2],b[2],paper[2],p,q)},${alpha})`;
  }
  // Orthographic depth projection and Fibonacci directions adapted from
  // thinking-orbs (Jakub Antalik, MIT). See assets/licenses/thinking-orbs.txt.
  // Each readable silhouette holds before dissolving into a rotating sphere
  // and resolving into the next shape. The illustrations are conceptual.
  const sequence=['fly','brain','neuron','cell','banana'];
+ // Fixed sphere coordinates and projection storage preserve the authored order
+ // before each stable depth sort, without allocating another cloud per frame.
+ const motifPools=new Map();
+ function motifPool(n){
+  if(!motifPools.has(n)){
+   const samples=Array.from({length:n},(_,i)=>{const fy=1-2*(i+.5)/n;return{fy,fr:Math.sqrt(1-fy*fy),fa:i*Math.PI*(3-Math.sqrt(5)),z:Math.sin(i*2.3)*5,point:{x:0,y:0,z:0,light:0,r:0}};});
+   motifPools.set(n,{samples,points:new Array(n)});
+  }
+  return motifPools.get(n);
+ }
  function motif(index,cx,cy,size){
   if(cy+size<0||cy-size>h)return;
   const phase=(quiet()?index*7:(time/1000+index*7))/7;
@@ -110,32 +122,36 @@
   const next=shapes[sequence[(slot+1)%sequence.length]]||shapes.cell;
   if(!shape.points.length||!next.points.length)return;
   const n=w<700?260:440,scale=size/210,angle=Math.sin(time*.00023+index)*.18+cloud*.65;
-  const c=Math.cos(angle),s=Math.sin(angle),points=[];
+  const c=Math.cos(angle),s=Math.sin(angle),{samples,points}=motifPool(n);
   for(let i=0;i<n;i++){
    const a=shape.points[(i*131)%shape.points.length],b=next.points[(i*131)%next.points.length];
-   const fy=1-2*(i+.5)/n,fr=Math.sqrt(1-fy*fy),fa=i*Math.PI*(3-Math.sqrt(5))+time*.0005;
+   const sample=samples[i],fy=sample.fy,fr=sample.fr,fa=sample.fa+time*.0005;
    let x=(a[0]+(b[0]-a[0])*smooth-105)*(1-cloud*.65)+fr*Math.cos(fa)*90*cloud;
    let y=(a[1]+(b[1]-a[1])*smooth-75)*(1-cloud*.65)+fy*85*cloud;
-   const z=fr*Math.sin(fa)*70*cloud+Math.sin(i*2.3)*5;
+   const z=fr*Math.sin(fa)*70*cloud+sample.z;
    const depth=-x*s+z*c;x=x*c+z*s;
-   points.push({x:cx+x*scale,y:cy+y*scale,z:depth,light:.63+depth/270,r:(i%11?1:1.65)*scale});
+   const point=sample.point;point.x=cx+x*scale;point.y=cy+y*scale;point.z=depth;point.light=.63+depth/270;point.r=(i%11?1:1.65)*scale;points[i]=point;
   }
   points.sort((a,b)=>a.z-b.z);
-  for(const [i,p]of points.entries()){ctx.globalAlpha=Math.min(1,p.light)*strength(cy+offset);ctx.fillStyle=tone(cy+offset,i%7===0);ctx.beginPath();ctx.arc(p.x,p.y,Math.max(.7,p.r),0,Math.PI*2);ctx.fill();}
+  const motifStrength=strength(cy+offset),motifInk=tone(cy+offset),motifGold=tone(cy+offset,true);
+  for(let i=0;i<points.length;i++){const p=points[i];ctx.globalAlpha=Math.min(1,p.light)*motifStrength;ctx.fillStyle=i%7===0?motifGold:motifInk;ctx.beginPath();ctx.arc(p.x,p.y,Math.max(.7,p.r),0,Math.PI*2);ctx.fill();}
   const label=(smooth>.5?next:shape).label;
-  ctx.globalAlpha=.82*(1-cloud)*strength(cy+offset);ctx.fillStyle=tone(cy+offset);ctx.font='10px monospace';ctx.textAlign='center';ctx.fillText(window.AeroSenseI18n?.t(label)||label,cx,cy+size*.48);ctx.globalAlpha=1;
+  ctx.globalAlpha=.82*(1-cloud)*motifStrength;ctx.fillStyle=motifInk;ctx.font='10px monospace';ctx.textAlign='center';ctx.fillText(window.AeroSenseI18n?.t(label)||label,cx,cy+size*.48);ctx.globalAlpha=1;
  }
+ const lineCenters=[];
  function draw(){
   ctx.clearRect(0,0,w,h);const t=quiet()?0:time;
   const start=-25;
-  for(let j=0;j<18;j++){ctx.beginPath();for(let yy=start;yy<h+25;yy+=8){const y=yy+offset,taper=32+55*(.5+.5*Math.sin(y*.008+j));
-   const x=center(y,t)+Math.sin(y*.014+j*.35+t*.0002)*taper+(j-9)*7;
+  // All eighteen strands share the same moving center and two identical inks.
+  for(let yy=start,k=0;yy<h+25;yy+=8,k++)lineCenters[k]=center(yy+offset,t);
+  const lineInks=[false,true].map(gold=>{const ink=ctx.createLinearGradient(0,0,0,h);for(let k=0;k<=8;k++){const y=offset+h*k/8;ink.addColorStop(k/8,tone(y,gold,.2*strength(y)));}return ink;});
+  for(let j=0;j<18;j++){ctx.beginPath();for(let yy=start,k=0;yy<h+25;yy+=8,k++){const y=yy+offset,taper=32+55*(.5+.5*Math.sin(y*.008+j));
+   const x=lineCenters[k]+Math.sin(y*.014+j*.35+t*.0002)*taper+(j-9)*7;
    if(yy===start)ctx.moveTo(x,yy);else ctx.lineTo(x,yy);}
-   const ink=ctx.createLinearGradient(0,0,0,h);for(let k=0;k<=8;k++){const y=offset+h*k/8;ink.addColorStop(k/8,tone(y,j%3===0,.2*strength(y)));}
-   ctx.strokeStyle=ink;ctx.globalAlpha=1;ctx.lineWidth=j%2?.8:1.2;ctx.stroke();}
+   ctx.strokeStyle=lineInks[j%3===0?1:0];ctx.globalAlpha=1;ctx.lineWidth=j%2?.8:1.2;ctx.stroke();}
   const n=w<700?4200:9000;
   for(let i=0;i<n;i++){const p=dots[i],y=(p.u*total+t*.012)%total,yy=y-offset;if(yy<start||yy>h+15)continue;
-   const width=(w<700?60:110)+95*(.5+.5*Math.sin(y*.009))**2,ripple=Math.sin(y*.028+t*.0004+p.q*7)*42*Math.sin(p.v*6);
+   const width=(w<700?60:110)+95*(.5+.5*Math.sin(y*.009))**2,ripple=Math.sin(y*.028+t*.0004+p.q*7)*42*p.ripple;
    const x=center(y,t)+p.v*width*2+ripple;ctx.globalAlpha=(.27+p.q*.65)*(1-Math.abs(p.v))*strength(y);
    if(p.q>.93&&y>duskStart&&(!arrival||y<returnStart))ctx.drawImage(glow,x-10,yy-10,20,20);
    else{ctx.fillStyle=tone(y,i%7===0);ctx.beginPath();ctx.arc(x,yy,p.r,0,Math.PI*2);ctx.fill();}}

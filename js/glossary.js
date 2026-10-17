@@ -283,9 +283,9 @@
   var closeTimer = null;
   var definitionOrb = null;
   var ILLUSTRATIONS = {
-    drosophila: { src: 'assets/editorial/2026-10-10-refined/biology-print.webp', alt: 'Editorial illustration of a fruit fly, the organism inspiring the receptor and coding designs', caption: 'Fruit fly · conceptual illustration' },
-    gcamp: { src: 'fig/engineering/GCaMP6f_GGGGSx3_DmOrco.png', alt: 'Team construct map showing GCaMP6f linked to Orco', caption: 'Our reporter construct map · not a protein structure' },
-    pcb: { src: 'fig/hardware/v2-pcb-top.png', alt: 'Team reader-board top layout', caption: 'Reader-board design · not a built-device photo' }
+    drosophila: { src: 'https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/22f951271c8a-biology-print.webp', alt: 'Editorial illustration of a fruit fly, the organism inspiring the receptor and coding designs', caption: 'Fruit fly · conceptual illustration' },
+    gcamp: { src: 'https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/d78cfeac0ea7-gcamp6f-ggggsx3-dmorco.webp', alt: 'Team construct map showing GCaMP6f linked to Orco', caption: 'Our reporter construct map · not a protein structure' },
+    pcb: { src: 'https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-20261018/07eb620a4cab-v2-pcb-top.webp', alt: 'Team reader-board top layout', caption: 'Reader-board design · not a built-device photo' }
   };
 
   // One small, decorative Canvas 2D mark. This is not a loading/AI status:

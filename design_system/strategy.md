@@ -1,5 +1,6 @@
 # Signal Atlas · v15 visual strategy
 
+Historical verification reports referenced in this document are not included in the final release. Current editable website sources remain available.
 12 October 2026. Watercolor entrances introduce the topic; clear scientific figures carry the evidence. Stepped title edges, small color blocks and quiet hard shadows supply a playful interface while the article retains an open, aligned reading surface.
 
 ## Illustration and rhythm
@@ -35,4 +36,4 @@ Keep h2 text, prose and principal figure/table outer bounds aligned within each 
 
 Engineering's nine status-only evidence blocks are asides, preserving anchors without presenting them as figures. Five media-bearing figures remain. The V1 preview identifies its PDF as a circuit schematic. Keep stable source IDs, numbering, full-size access, Model's three studies, deliberate grids and Engineering's guided/expanded behavior.
 
-The homepage Learning entrance remains a book with five real chapter links. Preserve keyboard, mobile, reduced-motion and no-JavaScript access. The [v14 report](../../reports/2026-10-12-palette-notebook-v14.md) retains palette/alignment and Notebook history; [v15 integration](../../reports/2026-10-12-visual-evidence-v15.md) records the current revision. The v11 guide is historical.
+The homepage Learning entrance remains a book with five real chapter links. Preserve keyboard, mobile, reduced-motion and no-JavaScript access. The v14 report (historical record) retains palette/alignment and Notebook history; v15 integration (historical record) records the current revision. The v11 guide is historical.

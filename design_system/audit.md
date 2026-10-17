@@ -1,5 +1,6 @@
 # Signal Atlas · v15 revision audit
 
+Historical verification reports referenced in this document are not included in the final release. Current editable website sources remain available.
 12 October 2026. This reconciliation updates active contracts while preserving earlier decisions and test boundaries. It does not itself certify a final whole-site build.
 
 ## V15 changes
@@ -15,7 +16,7 @@
 | Engineering | Nine status-only figures become evidence asides with anchors retained; five media-bearing figures remain. The V1 archive PDF and preview are identified as a circuit schematic. |
 | Shared build | Three new layers follow the nine v14 layers: `watercolor-pixel-v15`, `learning-color-v15`, `evidence-caption-v15`. Total: 12. |
 
-Model's 32 table captions and Parts' 11 plasmid-map captions were expanded from existing rows and prose. Their [before/after record](../../reports/captions-v15/model-parts-caption-changes.json) is retained. The edit check confirmed byte-identical markup outside captions for that pass. The two module-map captions and Parts tables remained with the parent integration task.
+Model's 32 table captions and Parts' 11 plasmid-map captions were expanded from existing rows and prose. Their before/after record was historical and is omitted from this final release. The edit check confirmed byte-identical markup outside captions for that pass. The two module-map captions and Parts tables remained with the parent integration task.
 
 The parent integration record adds 46 further caption revisions, for 89 in total. Its static inventory distinguishes 170 content figures from seven homepage sponsor marks (177 figure elements overall), alongside 105 tables. These are inventory/content counts, not a claim that the final runtime audit has passed.
 
@@ -25,7 +26,7 @@ The parent integration record adds 46 further caption revisions, for 89 in total
 
 The v14 alignment layer still aligns h2 text, prose and principal evidence outer bounds, removes competing paragraph-width caps and preserves deliberate grids. Heading fields bleed 16 px desktop / 8 px mobile. Justified prose, natural last lines, inline citation flow and the separate 56 px reference-number column remain. V15's internal caption padding explicitly revises the former zero-inset caption rule.
 
-Notebook's v14 update integrated 24 Wet Lab and five Hardware entries, retaining exact times, the failed dense-cell cotransfection, G418 status and future planned work. Three supplied items matched existing events; the resulting Notebook has 87 records. The [v14 report](../../reports/2026-10-12-palette-notebook-v14.md) preserves its source and verification history.
+Notebook's v14 update integrated 24 Wet Lab and five Hardware entries, retaining exact times, the failed dense-cell cotransfection, G418 status and future planned work. Three supplied items matched existing events; the resulting Notebook has 87 records. The v14 report (historical record) preserves its source and verification history.
 
 Model's three studies, Engineering reader behavior, genuine photos, scientific encodings and Learning browser-local progress remain. The original v13 crop source, v12 two-ink heroes and v11 guide remain historical assets rather than current visual acceptance evidence.
 
@@ -33,11 +34,11 @@ Model's three studies, Engineering reader behavior, genuine photos, scientific e
 
 | Check | Observed result | Evidence |
 | --- | --- | --- |
-| Learning at 1440/390 px | 14 cases passed; no page overflow, companion colors present, activity targets at least 44 px, focus retained, real pre/post flow and semantic feedback checked | [JSON](../../reports/learning-v15/compiled/checks.json), [report](../../reports/learning-colors-v15.md) |
-| Learning contrast | Accent-on-soft pairs 4.94–5.67; large index numerals at least 3.0 on the darkest paint endpoint | [Report](../../reports/learning-colors-v15.md) |
-| Model/Parts caption views | Both pages passed at 1440/390 px; inset and visible-width checks passed and representative screenshots were inspected | [JSON](../../reports/captions-v15/model-parts-checks.json), [report](../../reports/model-parts-captions-v15.md) |
-| Native table-caption sweep | 205 checks across 38 page/width/study cases passed; no page overflow, caption clipping or horizontal drift; native display retained | [JSON](../../reports/captions-v15/site-caption-widths.json) |
+| Learning at 1440/390 px | 14 cases passed; no page overflow, companion colors present, activity targets at least 44 px, focus retained, real pre/post flow and semantic feedback checked | JSON (historical record), report (historical record) |
+| Learning contrast | Accent-on-soft pairs 4.94–5.67; large index numerals at least 3.0 on the darkest paint endpoint | Report (historical record) |
+| Model/Parts caption views | Both pages passed at 1440/390 px; inset and visible-width checks passed and representative screenshots were inspected | JSON (historical record), report (historical record) |
+| Native table-caption sweep | 205 checks across 38 page/width/study cases passed; no page overflow, caption clipping or horizontal drift; native display retained | JSON (historical record) |
 
-Initial inspection found zero inline padding on Parts and clipped mobile Model captions. Both were corrected in the evidence-caption layer and checks rerun. These records describe actual scoped runs; they do not claim a final 60-case audit, deployment or official submission. Final combined results and hashes belong in [the v15 report](../../reports/2026-10-12-visual-evidence-v15.md).
+Initial inspection found zero inline padding on Parts and clipped mobile Model captions. Both were corrected in the evidence-caption layer and checks rerun. These records describe actual scoped runs; they do not claim a final 60-case audit, deployment or official submission. Final combined results and hashes belong in the v15 report (historical record).
 
 This reconciliation pass edits Markdown documentation only, without changing HTML, CSS, JavaScript, data or artwork.

@@ -35,8 +35,8 @@
   function lookupFallback(key, depth) {
     if (depth > 4) return null;
     const part = text => lookup(text, depth + 1) || text;
-    let match = /^(Figure|Table|Reference)\s+(\d+)([.:]?)$/.exec(key);
-    if (match) return ({Figure:'圖',Table:'表',Reference:'參考文獻'})[match[1]] + ' ' + match[2] + match[3];
+    let match = /^(Figure|Video|Table|Reference)\s+(\d+)([.:]?)$/.exec(key);
+    if (match) return ({Figure:'圖',Video:'影片',Table:'表',Reference:'參考文獻'})[match[1]] + ' ' + match[2] + match[3];
     match=/^Reference \[(\d+)\]$/.exec(key);
     if(match)return '參考文獻 ['+match[1]+']';
     match=/^Reading now: (.+)$/.exec(key);

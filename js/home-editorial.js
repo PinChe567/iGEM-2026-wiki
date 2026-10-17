@@ -34,6 +34,7 @@
   }
   let cinematic=false,storyTop=72,storyTravel=0,active=-1,queued=false,layoutWidth=0,layoutHeight=0;
   let scene=null,sceneDirty=true,lastWheelAngle=null,lastWheelLabel=null,lastInStory=null;
+  let geometry=null,geometryDirty=true,scrollOffset=scrollY;
   function reflect(){document.body.classList.toggle('home-motion-off',quiet);}
   reflect();reduced.addEventListener('change',()=>{quiet=reduced.matches;reflect();measure();});
   document.body.classList.add('home-motion-ready');
@@ -102,11 +103,22 @@
     }
     invalidateScene();
   }
-  // Read geometry together, before any frame writes. Scroll/resize/font changes
-  // refresh this snapshot; easing between scroll events reuses it without layout.
+  // Section positions in the document change with layout, not scrolling.
+  // Cache them together and derive viewport positions from the scroll event;
+  // do not force layout after another animation has written styles this frame.
   function readScene(){
-    const snapshot={scroll:scrollY,width:innerWidth,height:innerHeight,story:story?.getBoundingClientRect()};
-    if(scent&&!quiet){const rect=scent.getBoundingClientRect();if(rect.bottom>0&&rect.top<snapshot.height)snapshot.scentTop=rect.top;}
+    if(geometryDirty||!geometry){
+      scrollOffset=scrollY;
+      const storyRect=story?.getBoundingClientRect();
+      const scentRect=scent&&!quiet?scent.getBoundingClientRect():null;
+      geometry={width:innerWidth,height:innerHeight,
+        story:storyRect?{top:storyRect.top+scrollOffset,bottom:storyRect.bottom+scrollOffset}:null,
+        scent:scentRect&&(scentRect.width||scentRect.height)?{top:scentRect.top+scrollOffset,bottom:scentRect.bottom+scrollOffset}:null};
+      geometryDirty=false;
+    }
+    const snapshot={scroll:scrollOffset,width:geometry.width,height:geometry.height,
+      story:geometry.story?{top:geometry.story.top-scrollOffset,bottom:geometry.story.bottom-scrollOffset}:null};
+    if(geometry.scent){const top=geometry.scent.top-scrollOffset,bottom=geometry.scent.bottom-scrollOffset;if(bottom>0&&top<snapshot.height)snapshot.scentTop=top;}
     sceneDirty=false;return snapshot;
   }
   function draw(timestamp){
@@ -131,11 +143,11 @@
     if(scene.scentTop!==undefined)setStyle(scent,'stroke-dashoffset',(-scene.scentTop*.12).toFixed(2));
   }
   function schedule(){if(!queued&&!document.hidden){queued=true;requestAnimationFrame(draw);}}
-  function invalidateScene(){sceneDirty=true;schedule();}
-  addEventListener('scroll',invalidateScene,{passive:true});
+  function invalidateScene(){geometryDirty=true;sceneDirty=true;schedule();}
+  addEventListener('scroll',()=>{scrollOffset=scrollY;sceneDirty=true;schedule();},{passive:true});
   document.addEventListener('visibilitychange',invalidateScene);
   // Late-loading media can shift the wheel without a window resize.
-  if('ResizeObserver' in window){const geometryObserver=new ResizeObserver(invalidateScene);[story,wordmark].filter(Boolean).forEach(node=>geometryObserver.observe(node));}
+  if('ResizeObserver' in window){const geometryObserver=new ResizeObserver(invalidateScene);[story,wordmark,scent,document.body].filter(Boolean).forEach(node=>geometryObserver.observe(node));}
   let resizeTimer;addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(measure,120);});
   addEventListener('load',()=>{measure();revealHash();});document.fonts?.ready.then(measure);
   measure();

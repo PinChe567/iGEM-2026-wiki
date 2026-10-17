@@ -39,6 +39,7 @@
   }
 
   function initChapterSpy() {
+    if (window.AeroSenseToc) return;
     var links = qsa(
       ".page-toc a[href^='#']"
     );

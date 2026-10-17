@@ -319,6 +319,14 @@
     return "all";
   }
 
+  // Reveal a selected track before the shared TOC measures its destination.
+  // The shared navigator owns scrolling and focus; this hook only sets content.
+  document.addEventListener("aerosense:before-anchor", function (event) {
+    var target = event.detail && event.detail.target;
+    var protocol = target && protocolForId(target.id);
+    if (protocol) applyProtocolFilter(protocol, { updateUrl: true });
+  });
+
   if (filterRoot && protocolSections.length) {
     filterButtons.forEach(function (btn) {
       btn.addEventListener("click", function () {

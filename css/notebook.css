@@ -845,7 +845,7 @@
  color: var(--color-ink-muted);
 }
 
-.page-notebook .nb-monthcal__heading h3,
+.page-notebook .nb-monthcal__heading h4,
 .page-notebook .nb-monthcal__heading [data-cal-month-title] {
  margin: 0;
  font-family: var(--font-display);
@@ -1204,7 +1204,7 @@
  display: inline;
  }
 
- .page-notebook .nb-monthcal__heading h3,
+ .page-notebook .nb-monthcal__heading h4,
  .page-notebook .nb-monthcal__heading [data-cal-month-title] {
  font-size: var(--text-lg);
  }
@@ -1290,7 +1290,7 @@
  max-width: none;
 }
 
-.page-notebook .nb-cal-fallback h3 {
+.page-notebook .nb-cal-fallback h4 {
  margin: 0 0 var(--space-2);
  font-size: var(--text-base);
 }
@@ -2599,5 +2599,47 @@
   font-variant-numeric: tabular-nums;
   color: var(--color-ink-muted);
   text-align: start !important;
+}
+
+/* A small celebration belongs to the birthday record, not the research log. */
+.page-notebook {
+  --nb-birthday-art: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 160'%3E%3Cg fill='none' stroke-width='1.7' opacity='.48'%3E%3Cpath d='M39 48c22 28-12 39 8 65M72 35c-15 27 17 36 1 69M204 49c-17 30 12 38-6 60' stroke='%23899891'/%3E%3Cellipse cx='37' cy='31' rx='17' ry='22' fill='%237bbdc3' stroke='%235d9ca4'/%3E%3Cellipse cx='76' cy='22' rx='15' ry='19' fill='%23e4b5bc' stroke='%23c5909b'/%3E%3Cellipse cx='207' cy='32' rx='16' ry='21' fill='%23e8c575' stroke='%23c3a05c'/%3E%3Cpath d='M110 99h62v36h-62z' fill='%23efc6c0' stroke='%23bb8e88'/%3E%3Cpath d='M110 111c6 8 10-5 16 1s9-5 15 1 9-5 15 1 9-6 16-3M104 136h75' stroke='%23bc8c84'/%3E%3Cpath d='M124 99V87m17 12V85m17 14V87' stroke='%237faaa6' stroke-width='4'/%3E%3Cpath d='M124 83c-6-7 2-10 0-13 6 5 6 9 0 13m17-2c-6-7 2-10 0-13 6 5 6 9 0 13m17 2c-6-7 2-10 0-13 6 5 6 9 0 13' fill='%23e5b658' stroke='none'/%3E%3Cpath d='M99 43l6 3m66 6l-4 6m-72 62l-5 2m95-39l7 3M149 28l3 5' stroke='%23c99d67'/%3E%3C/g%3E%3C/svg%3E");
+}
+.page-notebook .nb-birthday,
+.page-notebook #team-jeffrey-birthday-20261030 {
+  background-color: #fff9ef;
+  background-image: var(--nb-birthday-art);
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 210px 140px;
+  border-color: #d6b880;
+}
+.page-notebook .nb-event-drawer__header.nb-birthday {
+  padding: var(--space-4);
+  border: 1px solid #d6b880;
+}
+.page-notebook .nb-monthcal__day.nb-monthcal__day--birthday {
+  background-color: #fff7e7;
+  background-image: var(--nb-birthday-art);
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  background-size: 100px 68px;
+  box-shadow: inset 0 0 0 1px #d6b880;
+}
+.page-notebook .nb-monthcal__day--birthday .nb-monthcal__daynum {
+  font-weight: 800;
+}
+.page-notebook .nb-gantt-bar--birthday {
+  background: #f3dfb8;
+  color: #463d2e;
+  border-color: #b6904e;
+}
+@media (max-width: 640px) {
+  .page-notebook .nb-birthday {
+    background-size: 120px 80px;
+    background-position: right 6px bottom 6px;
+    padding-bottom: 84px;
+  }
+  .page-notebook .nb-monthcal__day.nb-monthcal__day--birthday { background-size: 66px 52px; }
 }
 

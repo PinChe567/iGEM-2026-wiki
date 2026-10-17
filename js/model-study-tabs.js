@@ -1,11 +1,12 @@
 /* Accessible study tabs; original sections, anchors and numbering stay intact. */
 (() => {
   'use strict';
-  // Figures are archival evidence identities. Moving full records into details
-  // changes DOM order but must not renumber their existing links or captions.
-  document.querySelectorAll('main figure[data-static-figure-number]').forEach(figure=>{
+  // Authored labels follow the current display order. Evidence identity is kept
+  // by stable anchors across the visible results and inline supporting figures.
+  document.querySelectorAll('main figure[data-static-figure-number], main figure[data-static-video-number]').forEach(figure=>{
     const label=figure.querySelector(':scope > figcaption > .media-caption__label');
-    if(label)label.textContent='Figure '+figure.dataset.staticFigureNumber+'. ';
+    const video=figure.hasAttribute('data-static-video-number');
+    if(label)label.textContent=(video?'Video ':'Figure ')+(video?figure.dataset.staticVideoNumber:figure.dataset.staticFigureNumber)+'. ';
   });
   document.querySelectorAll('main table[data-model-table-number]').forEach(table=>{
     const label=table.querySelector(':scope > caption > .media-caption__label');
@@ -15,6 +16,8 @@
   if(!rail)return;
   const tabs=[...rail.querySelectorAll('[data-model-tab]')];
   const panels=[...document.querySelectorAll('[data-model-panel]')];
+  const supplements=[...document.querySelectorAll('[data-model-supplement]')];
+  const availability=[...document.querySelectorAll('[data-model-availability]')];
   if(tabs.length<2||tabs.length!==panels.length)return;
   const panelFor=key=>panels.find(panel=>panel.dataset.modelPanel===key);
   const names=Object.fromEntries(tabs.map(tab=>{const label=tab.querySelector('strong');return[tab.dataset.modelTab,window.AeroSenseI18n?.sourceText(label)||label.textContent];}));
@@ -31,7 +34,7 @@
     if(!hash||hash==='#')return null;
     try{return document.getElementById(decodeURIComponent(hash.slice(1)));}catch{return null;}
   }
-  function directTrack(target){return target?.closest('[data-model-panel]')?.dataset.modelPanel||target?.closest('[data-model-reference-group]')?.dataset.modelReferenceGroup||null;}
+  function directTrack(target){return target?.closest('[data-model-panel]')?.dataset.modelPanel||target?.closest('[data-model-supplement]')?.dataset.modelSupplement||target?.closest('[data-model-availability]')?.dataset.modelAvailability||target?.closest('[data-model-reference-group]')?.dataset.modelReferenceGroup||null;}
   references.forEach(ref=>{
     const tracks=new Set();
     document.querySelectorAll('main a[href="#'+CSS.escape(ref.id)+'"]').forEach(cite=>{
@@ -46,7 +49,8 @@
   // same numbering is authored in HTML, so the full no-JS page remains usable.
   panels.forEach(panel=>{
     const order=[];
-    panel.querySelectorAll('a[href^="#"]').forEach(cite=>{
+    const scopes=[panel,...supplements.filter(group=>group.dataset.modelSupplement===panel.dataset.modelPanel),...availability.filter(group=>group.dataset.modelAvailability===panel.dataset.modelPanel)];
+    scopes.flatMap(scope=>[...scope.querySelectorAll('a[href^="#"]')]).forEach(cite=>{
       const id=cite.getAttribute('href').slice(1);
       if(!referenceTracks.has(id))return;
       if(!order.includes(id))order.push(id);
@@ -78,6 +82,7 @@
     });
     const title=document.querySelector('.page-toc .toc__label');if(title)title.textContent=names[active];
     const mobileTitle=document.querySelector('.audit-mobile-jump > summary');if(mobileTitle)mobileTitle.textContent=names[active]+' · contents';
+    window.AeroSenseToc?.refresh();
   }
   function activate(key,{focus=false}={}){
     if(!panelFor(key))key=defaultStudy;
@@ -86,6 +91,11 @@
       const selected=panel.dataset.modelPanel===key;panel.hidden=!selected;
       if(!selected)panel.querySelectorAll('video').forEach(video=>video.pause());
     });
+    supplements.forEach(group=>{
+      group.hidden=group.dataset.modelSupplement!==key;
+      if(group.hidden)group.querySelectorAll('video').forEach(video=>video.pause());
+    });
+    availability.forEach(group=>{group.hidden=group.dataset.modelAvailability!==key;});
     tabs.forEach(tab=>{
       const selected=tab.dataset.modelTab===key;
       tab.setAttribute('aria-selected',String(selected));tab.tabIndex=selected?0:-1;
@@ -101,6 +111,7 @@
   }
   function reveal(target){
     if(!target)return;
+    if(target.tagName==='DETAILS')target.open=true;
     for(let parent=target.parentElement;parent;parent=parent.parentElement){if(parent.tagName==='DETAILS')parent.open=true;}
     cancelAnimationFrame(scrollFrame);
     scrollFrame=requestAnimationFrame(()=>{
@@ -150,10 +161,14 @@
     if(url.origin!==location.origin||path(url.pathname)!==path(location.pathname)||!url.hash)return;
     const target=targetFromHash(url.hash),key=trackFor(target);
     if(key&&key!==active)activate(key);
-    if(target){for(let parent=target.parentElement;parent;parent=parent.parentElement){if(parent.tagName==='DETAILS')parent.open=true;}}
+    if(target){if(target.tagName==='DETAILS')target.open=true;for(let parent=target.parentElement;parent;parent=parent.parentElement){if(parent.tagName==='DETAILS')parent.open=true;}}
   },true);
   window.addEventListener('hashchange',()=>readLocation());
   window.addEventListener('popstate',()=>readLocation());
+  document.addEventListener('aerosense:before-anchor',event=>{
+    const target=event.detail?.target,key=trackFor(target);
+    if(key&&key!==active)activate(key);
+  });
   readLocation();
   document.body.classList.add('model-studies-ready');
 })();

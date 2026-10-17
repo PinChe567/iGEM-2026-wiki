@@ -1,14 +1,29 @@
+/* BEGIN IGEM STATIC MEDIA MAP __igem_media_js_hardware_components_v7_js */
+function __igem_media_js_hardware_components_v7_js(value) {
+  var original = value, text = String(value), split = text.search(/[?#]/);
+  var key = split < 0 ? text : text.slice(0, split), suffix = split < 0 ? "" : text.slice(split);
+  try { key = decodeURIComponent(key); } catch (_) { return original; }
+  key = key.replace(/^(?:\.\/)+/, "");
+  var urls = {"../fig/hardware/schematics/reader-schematic-1.png":"https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/958f14cbabb9-reader-schematic-1.webp","../fig/hardware/schematics/reader-schematic-2.png":"https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-20261018/1591a2509665-reader-schematic-2.webp","../hardware information/pcb v2/PCB_BTM.png":"https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-20261018/27f44c22b010-pcb-btm.webp","../hardware information/pcb v2/PCB_BTM_Etch.png":"https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-20261018/05d79b8b1698-pcb-btm-etch.webp","../hardware information/pcb v2/PCB_TOP.png":"https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/6ce68321325b-pcb-top.webp","../hardware information/pcb v2/PCB_TOP_Etch.png":"https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/6e8a047ebfab-pcb-top-etch.webp","fig/hardware/schematics/reader-schematic-1.png":"https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/958f14cbabb9-reader-schematic-1.webp","fig/hardware/schematics/reader-schematic-2.png":"https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-20261018/1591a2509665-reader-schematic-2.webp","hardware information/pcb v2/PCB_BTM.png":"https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-20261018/27f44c22b010-pcb-btm.webp","hardware information/pcb v2/PCB_BTM_Etch.png":"https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-20261018/05d79b8b1698-pcb-btm-etch.webp","hardware information/pcb v2/PCB_TOP.png":"https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/6ce68321325b-pcb-top.webp","hardware information/pcb v2/PCB_TOP_Etch.png":"https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/6e8a047ebfab-pcb-top-etch.webp"};
+  var target = urls[key]; if (!target) return original;
+  var hashAt = target.indexOf("#"), savedHash = hashAt < 0 ? "" : target.slice(hashAt);
+  if (hashAt >= 0) target = target.slice(0, hashAt);
+  var suffixHash = suffix.indexOf("#"), query = suffixHash < 0 ? suffix : suffix.slice(0, suffixHash);
+  if (query) target += (target.indexOf("?") < 0 ? "?" : "&") + query.slice(1);
+  return target + (suffixHash < 0 ? savedHash : suffix.slice(suffixHash));
+}
+/* END IGEM STATIC MEDIA MAP __igem_media_js_hardware_components_v7_js */
 (() => {
- const host=document.querySelector('[data-component-explorer]'),map=document.querySelector('[data-pcb-map]');if(!host||!map)return;
+ const host=document.querySelector('[data-component-explorer]'),map=document.querySelector('[data-pcb-map]');if(!host)return;
  const boardRoot='hardware%20information/pcb%20v2/';
- const select=host.querySelector('select'),detail=host.querySelector('.hw-component-explorer__detail'),plate=map.querySelector('.hw-pcb-map__image'),img=plate.querySelector('img');let side=0,etch=false,activeRef="U4";
+ const select=host.querySelector('select'),detail=host.querySelector('.hw-component-explorer__detail'),plate=map?.querySelector('.hw-pcb-map__image'),img=plate?.querySelector('img');if(!select||!detail)return;let side=0,etch=false,activeRef="U4";
  const parts={
  U1:['Boost converter','TPS61023','The battery supply is raised to the reader rail. Select the inductor and current limit from the peak rail load, efficiency and input-voltage range.','https://www.ti.com/lit/ds/symlink/tps61023.pdf'],
  U2:['Battery charging / power path','BQ24074','The power-path charger supports the single-cell battery and external supply. Charge current and thermal dissipation follow the programmed resistance and input-to-battery voltage drop.','https://www.ti.com/lit/gpn/bq24074'],
  U4:['Controller','ESP32-WROOM-32E','The controller schedules the four excitation channels and reads the ADC. Digital timing, buffering and interface bandwidth connect optical acquisition to demodulation.','https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf'],
  U6:['Analog supply','LP5907','The 3.3 V low-noise analog rail separates the receiver supply from digital switching. The LDO load budget and dropout margin must cover the analog chain.','https://www.ti.com/lit/ds/symlink/lp5907.pdf'],
  U7:['Voltage reference','LTC6655, 2.5 V','The reference sets the ADC full-scale range. For a 16-bit conversion, 2.5 V / 65,536 = 38.15 µV per ideal code. Reference noise and drift contribute to the input-referred error.','https://www.analog.com/media/en/technical-documentation/data-sheets/ltc6655-6655ln.pdf'],
- U8:['Transimpedance amplifier','LMP7721','The low-input-bias amplifier converts photodiode current into voltage. Using the current conditional NE model, 0.593 nW × an assumed 0.3 A/W gives about 0.178 nA; a 100 MΩ feedback resistance gives an ideal 17.8 mV. This is a scale calculation, not measured signal, noise or sufficient ADC headroom.','https://www.ti.com/lit/ds/symlink/lmp7721.pdf'],
+ U8:['Transimpedance amplifier','LMP7721','The low-input-bias amplifier converts photodiode current into voltage. The 100 MΩ feedback resistor gives a nominal DC gain of 100 mV per nA.','https://www.ti.com/lit/ds/symlink/lmp7721.pdf'],
  U9:['Analog-to-digital converter','ADS8866','A 16-bit SAR converter samples the conditioned signal. Its 100 kSPS rated throughput provides headroom over the 4 kHz design sampling schedule; settling and noise determine useful resolution.','https://www.ti.com/lit/ds/symlink/ads8866.pdf'],
  D1:['Excitation LED 1','155124BS73200','Four blue excitation LEDs illuminate the channels. Wavelength, optical power and drive current are selected together with the reporter spectrum and excitation-rejection optics.','https://www.we-online.com/components/products/datasheet/155124BS73200.pdf'],
  D5:['Photodiode','VEMD5060X01','The detector converts collected fluorescence into photocurrent. Responsivity at the emission wavelength, active area, capacitance and dark current define the receiver budget.','https://www.vishay.com/doc?84278=']
@@ -35,18 +50,17 @@
  ];
  const schematicBlocks={U1:'Sheet 1 · TPS61023 boost stage beside SW1 and L1',U2:'Sheet 1 · BQ24074 battery charger / power path',U4:'Sheet 2 · ESP32 / UART block',U6:'Sheet 2 · 3V3 LDO, analog supply output',U7:'Sheet 2 · 2V5_REF block',U8:'Sheet 2 · TIA block, between PD_SUM and ADC_AINP',U9:'Sheet 2 · ADC 3-Wire CS Mode block',D1:'Sheet 2 · LEDs, LED1_GATE / Q1 branch',D2:'Sheet 2 · LEDs, LED2_GATE / Q2 branch',D3:'Sheet 2 · LEDs, LED3_GATE / Q3 branch',D4:'Sheet 2 · LEDs, LED4_GATE / Q4 branch',D5:'Sheet 2 · Photo Diod block, feeding PD_SUM'};
  function para(label,text){const p=document.createElement('p'),b=document.createElement('strong');b.textContent=label+' ';p.append(b,document.createTextNode(text));return p;}
- function link(url,label){const a=document.createElement('a');a.href=url;a.textContent=label;a.target='_blank';a.rel='noopener';return a;}
  function show(ref,{scroll=false}={}){
   const p=parts[ref];if(!p)return;
   activeRef=ref;
   const location=pins.find(pin=>pin.ref===ref);
   if(location && side!==location.side){side=location.side;flip();}
   select.value=ref;detail.replaceChildren();
-  plate.querySelectorAll('button').forEach(b=>{const on=b.dataset.ref===ref;b.classList.toggle('is-active',on);b.setAttribute('aria-pressed',String(on));});
-  plate.querySelectorAll('[data-marker-ref]').forEach(el=>el.classList.toggle('is-active',el.dataset.markerRef===ref));
+  plate?.querySelectorAll('button').forEach(b=>{const on=b.dataset.ref===ref;b.classList.toggle('is-active',on);b.setAttribute('aria-pressed',String(on));});
+  plate?.querySelectorAll('[data-marker-ref]').forEach(el=>el.classList.toggle('is-active',el.dataset.markerRef===ref));
   const h=document.createElement('h3');h.textContent=p[0]+' · '+p[1];
-  detail.append(h,para('BOM reference:',ref),para('Function and specification:',p[2]),para('Board position:',(location.side?'Back':'Front')+' face · provisional drawing location; verify physical labels, orientation and LED mapping before use'),para('Schematic location:',schematicBlocks[ref]));
-  const sources=document.createElement('p'),citation=document.createElement('a'),source=sourcesByPart[ref],number=document.getElementById('ref-'+source)?.getAttribute('value');citation.href='#ref-'+source;citation.textContent=number?'Reference ['+number+']':'Manufacturer reference';citation.setAttribute('aria-label','Read manufacturer reference'+(number?' '+number:'')+' for '+p[1]);sources.append(citation,document.createTextNode(' · '),link(p[3],'Manufacturer datasheet ↗'),document.createTextNode(' · '),link(boardRoot+'NTHU_TEST_BOARD_Schematic.pdf#page='+(['U1','U2'].includes(ref)?1:2),'Open corresponding schematic sheet ↗'));detail.append(sources);
+  detail.append(h,para('BOM reference:',ref),para('Function and specification:',p[2]),para('Board position:',(location.side?'Back':'Front')+' face · supplied PCB component layout'),para('Schematic location:',schematicBlocks[ref]));
+  const sources=document.createElement('p'),citation=document.createElement('a'),source=sourcesByPart[ref],number=document.getElementById('ref-'+source)?.getAttribute('value');citation.href='#ref-'+source;citation.textContent=number?'Reference ['+number+']':'Manufacturer reference';citation.setAttribute('aria-label','Read manufacturer reference'+(number?' '+number:'')+' for '+p[1]);sources.append(citation);detail.append(sources);
   window.AeroSenseGlossary?.enhance(detail);
   if(scroll){
    detail.focus({preventScroll:true});
@@ -54,10 +68,11 @@
   }
  }
  function flip(){
+  if(!map||!plate||!img)return;
   const filename=`PCB_${side?'BTM':'TOP'}${etch?'_Etch':''}.png`;
-  img.src=boardRoot+filename;img.alt=`Reader PCB ${side?'back':'front'} ${etch?'copper routing':'component layout'} from the supplied board source`;
+  img.src=__igem_media_js_hardware_components_v7_js(boardRoot+filename);img.alt=`Reader PCB ${side?'back':'front'} ${etch?'copper routing':'component layout'} from the supplied board source`;
   map.querySelector('[data-board-side]').textContent=`${side?'Back':'Front'} · ${etch?'copper routing':'component layout'}`;
-  map.querySelector('[data-board-source]').href=boardRoot+filename;
+  map.querySelector('[data-board-source]').href=__igem_media_js_hardware_components_v7_js(boardRoot+filename);
   const etchButton=map.querySelector('[data-board-etch]');etchButton.setAttribute('aria-pressed',String(etch));etchButton.textContent=etch?'Hide copper traces':'Show copper traces';
   plate.querySelectorAll('button,.hw-pcb-leaders').forEach(b=>b.remove());map.querySelector('.hw-pcb-legend')?.remove();
   const legend=document.createElement('p');legend.className='hw-pcb-legend';legend.textContent=side?'LED 1–4 · excitation  /  PD · photodiode  /  TIA · current-to-voltage amplifier  /  Charger · battery power':'Boost · reader supply  /  MCU · controller  /  LDO · analog supply  /  Ref · ADC reference  /  ADC · conversion';
@@ -69,15 +84,15 @@
    const b=document.createElement('button');b.type='button';b.className='hw-pcb-map__pin';b.textContent=p.label;b.dataset.ref=p.ref;b.style.left=p.lx+'%';b.style.top=p.ly+'%';b.setAttribute('aria-label','Inspect '+p.ref+' · '+parts[p.ref][0]);b.setAttribute('aria-pressed',String(p.ref===activeRef));b.classList.toggle('is-active',p.ref===activeRef);b.setAttribute('aria-controls','hw-component-detail');b.addEventListener('click',()=>show(p.ref,{scroll:true}));plate.append(b);
   });plate.prepend(svg);
  }
- map.querySelector('[data-board-flip]').addEventListener('click',()=>{side=1-side;flip();if(pins.find(p=>p.ref===activeRef)?.side!==side)show(pins.find(p=>p.side===side).ref);if(!matchMedia('(prefers-reduced-motion:reduce)').matches)plate.animate([{opacity:.35,transform:'rotateY(-8deg)'},{opacity:1,transform:'rotateY(0deg)'}],{duration:350});});
- map.querySelector('[data-board-etch]').addEventListener('click',()=>{etch=!etch;flip();});
+ map?.querySelector('[data-board-flip]')?.addEventListener('click',()=>{side=1-side;flip();if(pins.find(p=>p.ref===activeRef)?.side!==side)show(pins.find(p=>p.side===side).ref);if(!matchMedia('(prefers-reduced-motion:reduce)').matches)plate.animate([{opacity:.35,transform:'rotateY(-8deg)'},{opacity:1,transform:'rotateY(0deg)'}],{duration:350});});
+ map?.querySelector('[data-board-etch]')?.addEventListener('click',()=>{etch=!etch;flip();});
  select.addEventListener('change',()=>show(select.value));flip();show('U4');
  const schematic=document.querySelector('[data-schematic]');
  schematic?.querySelectorAll('[data-schematic-page]').forEach(button=>button.addEventListener('click',()=>{
   const page=button.dataset.schematicPage;
   schematic.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
-  const preview=schematic.querySelector('.hw-schematic__preview');preview.href=boardRoot+'NTHU_TEST_BOARD_Schematic.pdf#page='+page;
-  const image=preview.querySelector('img');image.src='fig/hardware/schematics/reader-schematic-'+page+'.png';
+  const preview=schematic.querySelector('.hw-schematic__preview');preview.href=__igem_media_js_hardware_components_v7_js('fig/hardware/schematics/reader-schematic-'+page+'.png');
+  const image=preview.querySelector('img');image.src=__igem_media_js_hardware_components_v7_js('fig/hardware/schematics/reader-schematic-'+page+'.png');
   image.alt=page==='1'?'Reader schematic sheet 1: battery, charging, USB and boost supply':'Reader schematic sheet 2: analog supplies, ESP32, LEDs, photodiode, TIA, voltage reference and ADC';
  }));
 })();

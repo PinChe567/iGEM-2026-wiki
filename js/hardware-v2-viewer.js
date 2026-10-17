@@ -1,7 +1,7 @@
 import * as THREE from './vendor/three.module.js';
+import {loadHardwareWebModel} from './hardware-web-model.js?v=b549a49252ead7f1';
 
 export async function createViewer(host) {
-  const base = 'hardware%20information/AeroSense%20v2/01_print/';
   const parts = [
     ['01_base_BLACK.stl',[-54,-56,0],0,0x080a0c],
     ['02_black_hood_BLACK.stl',[-54,-56,40.8],38,0x080a0c],
@@ -36,31 +36,24 @@ export async function createViewer(host) {
   cards.forEach(card=>{card.geometry.dispose();card.material.dispose();});
   const group = new THREE.Group();scene.add(group);
   const meshes = [];
-  function parse(buffer, part) {
-    const view = new DataView(buffer), count = view.getUint32(80,true);
-    if (buffer.byteLength !== 84 + count*50) throw new Error('Invalid binary STL');
-    const positions = new Float32Array(count*9);
-    for(let n=0;n<count;n++) for(let v=0;v<3;v++) for(let a=0;a<3;a++) positions[n*9+v*3+a]=view.getFloat32(84+n*50+12+v*12+a*4,true);
-    const geometry = new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.BufferAttribute(positions,3));geometry.computeBoundingBox();
-    const min = geometry.boundingBox.min;
-    // Print STLs have Z=0. Restore each recorded assembly minimum before display rotation.
-    geometry.translate(part[1][0]-min.x,part[1][1]-min.y,part[1][2]-min.z);
-    geometry.rotateX(-Math.PI/2);geometry.computeVertexNormals();
-    const clear = part[0].includes('CLEAR');
-    // Preserve every source triangle and assembly dimension. The faceted look
-    // comes from matte flat shading, never from decimating printable CAD.
-    const mesh = new THREE.Mesh(geometry,new THREE.MeshStandardMaterial({color:part[3],roughness:clear?.84:.9,metalness:0,envMapIntensity:.18,flatShading:true,transparent:clear,opacity:clear?.6:1,side:THREE.DoubleSide}));
-    mesh.userData.lift=part[2];group.add(mesh);meshes.push(mesh);
+  try {
+    const model=await loadHardwareWebModel();
+    for(const part of parts){
+      const value=model.parts.get(part[0]),geometry=value.geometry,clear=part[0].includes('CLEAR');
+      geometry.rotateX(-Math.PI/2);value.edges.dispose();
+      const mesh=new THREE.Mesh(geometry,new THREE.MeshStandardMaterial({color:part[3],roughness:clear?.84:.9,metalness:0,envMapIntensity:.18,flatShading:true,transparent:clear,opacity:clear?.6:1,side:THREE.DoubleSide}));
+      mesh.userData.lift=part[2];group.add(mesh);meshes.push(mesh);
+    }
+    host.dataset.modelBytes=String(model.byteLength);
   }
-  try { await Promise.all(parts.map(async part => {const response=await fetch(base+part[0]);if(!response.ok)throw new Error('Missing STL');parse(await response.arrayBuffer(),part);})); }
   catch(error){meshes.forEach(m=>{m.geometry.dispose();m.material.dispose();});environment.dispose();renderer.dispose();throw error;}
   host.dataset.renderStyle='faceted-matte';
-  host.dataset.geometry='source-stl-preserved';
+  host.dataset.geometry='lossless-indexed-glb';
   host.dataset.meshCount=String(meshes.length);
-  host.dataset.triangleCount=String(meshes.reduce((total,mesh)=>total+mesh.geometry.attributes.position.count/3,0));
-  let active=true,visible=true,frame=0,yaw=.62,pitch=.36,zoom=1,amount=0,drag;
+  host.dataset.triangleCount=String(meshes.reduce((total,mesh)=>total+mesh.geometry.index.count/3,0));
+  let active=true,visible=true,frame=0,yaw=.62,pitch=.36,zoom=1,amount=0,drag,size={width:0,height:0};
   const slider=host.querySelector('[data-hw-v2-explode]');
-  function draw(){frame=0;if(!active||!visible||document.hidden)return;const w=Math.max(1,canvas.clientWidth),h=Math.max(1,canvas.clientHeight);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();meshes.forEach(m=>m.position.y=m.userData.lift*amount);const centerY=33+amount*45;const distance=(camera.aspect<1?380:290)*zoom+amount*65;camera.position.set(Math.sin(yaw)*Math.cos(pitch)*distance,centerY+Math.sin(pitch)*distance,Math.cos(yaw)*Math.cos(pitch)*distance);camera.lookAt(0,centerY,2);renderer.render(scene,camera);}
+  function draw(){frame=0;if(!active||!visible||document.hidden)return;const w=Math.max(1,canvas.clientWidth),h=Math.max(1,canvas.clientHeight);if(size.width!==w||size.height!==h){renderer.setSize(w,h,false);size={width:w,height:h};}camera.aspect=w/h;camera.updateProjectionMatrix();meshes.forEach(m=>m.position.y=m.userData.lift*amount);const centerY=33+amount*45;const distance=(camera.aspect<1?380:290)*zoom+amount*65;camera.position.set(Math.sin(yaw)*Math.cos(pitch)*distance,centerY+Math.sin(pitch)*distance,Math.cos(yaw)*Math.cos(pitch)*distance);camera.lookAt(0,centerY,2);renderer.render(scene,camera);}
   function schedule(){if(active&&visible&&!document.hidden&&!frame)frame=requestAnimationFrame(draw);}
   function changeZoom(delta){zoom=THREE.MathUtils.clamp(zoom+delta,.5,2);schedule();}
   slider.addEventListener('input',()=>{amount=Number(slider.value)/100;host.querySelector('output').value=`${slider.value}%`;schedule();});

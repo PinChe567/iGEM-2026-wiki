@@ -1,3 +1,43 @@
+/* One contents hierarchy for the reading rail and the compact jump menu. */
+body:not(.page-home) :is(.page-toc,.audit-mobile-jump) nav ol {
+  list-style:none; margin:0; padding:0;
+}
+body:not(.page-home) :is(.page-toc,.audit-mobile-jump) nav ol ol {
+  margin:.15rem 0 .5rem .6rem; padding-left:.7rem;
+  border-left:1px solid var(--v-rule,#ccd2c5);
+}
+body:not(.page-home) :is(.page-toc,.audit-mobile-jump) nav li {
+  margin:0; padding:0; text-align:start;
+}
+body:not(.page-home) :is(.page-toc,.audit-mobile-jump) nav a {
+  white-space:normal; overflow-wrap:normal; word-break:normal; hyphens:none;
+}
+body:not(.page-home) :is(.page-toc,.audit-mobile-jump) nav ol ol a {
+  font-size:.75rem!important; font-weight:400;
+}
+body:not(.page-home) .audit-mobile-jump nav a {
+  display:block; padding:.55rem .4rem; line-height:1.5;
+}
+body:not(.page-home) .audit-mobile-jump a[aria-current="true"] {
+  background:var(--v-soft,#e8eee6); font-weight:650;
+}
+@media(max-width:1099px) {
+  body:not(.page-home):has(.audit-mobile-jump) .page-toc-slot { display:contents; }
+  body:not(.page-home):has(.audit-mobile-jump) .page-toc { display:none; }
+  body:not(.page-home) .audit-mobile-jump {
+    display:block; position:sticky; top:var(--site-header-height,72px);
+    z-index:38; padding:.55rem 1rem; max-width:100%;
+    background:var(--v-paper,#fffdf7); border-block:1px solid var(--v-rule,#ccd2c5);
+  }
+  body:not(.page-home) .audit-mobile-jump > summary { cursor:pointer; font-size:.8rem; font-weight:650; }
+  body:not(.page-home) .audit-mobile-jump nav {
+    display:block; position:absolute; top:100%; inset-inline:0;
+    box-sizing:border-box; margin:0; padding:.5rem 1rem 1rem;
+    max-height:min(65dvh,32rem); overflow:auto; overscroll-behavior:contain;
+    background:var(--v-paper,#fffdf7); border-bottom:1px solid var(--v-rule,#ccd2c5);
+    box-shadow:0 10px 16px #182d2512;
+  }
+}
 /* Familiar letterforms and one-row navigation. The homepage owns its own menu. */
 body {
   --font-editorial:Georgia,"Times New Roman",serif;
