@@ -53,8 +53,8 @@ const L = (zh: string, en: string): Localized => ({ 'zh-Hant': zh, en });
 const PACK = '../education-games';
 
 const licenseUnknown = L(
-  '本倉庫尚未公布根目錄 LICENSE。在團隊補上授權之前，請勿假設 Creative Commons 或其他開放授權。iGEM Wiki 托管仍須遵守 iGEM 規則。標示 TODO-VERIFY 的媒體不可視為已授權。',
-  'This repository has not published a root LICENSE file. Do not assume Creative Commons or similar rights until the team adds one. iGEM Wiki hosting remains subject to iGEM rules. Media marked TODO-VERIFY is not cleared.',
+  '使用者於 2026 年 10 月 18 日確認遊戲由 NTHU FLY iGEM 2026 團隊自製。遊戲與氣味圖鑑的重用及再散布條款尚未另行指定；團隊作者身分確認不等於新增開放授權。',
+  'The user confirmed on 18 October 2026 that the game was created by the NTHU FLY iGEM 2026 team. Reuse and redistribution terms for the game and odor atlas have not been separately specified; confirming authorship does not add an open license.',
 );
 
 const packLicense = L(

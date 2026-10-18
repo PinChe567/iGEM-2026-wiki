@@ -12,3 +12,5 @@ Migrated images, fonts, models and microscopy playback data load from official i
 Remaining local videos still supply the live page. An upload receipt does not establish playable official video availability; retain those files until official playback is verified and the page is updated. The Apple touch PNG is retained for iOS compatibility.
 
 Run `node scripts/audit-publish-assets-v7.cjs` and then `python scripts/prepare_publication_manifest_v7.py` from the website directory. These refresh metadata without copying assets or uploading HTML.
+
+Light-sheet update (18 October 2026): three original AVI files were accepted by Video Universe, saved with public visibility requested, and automatically blocked pending moderator review. Their exact watch and embed URLs are recorded in `official-upload-receipt.json`. Public API access still returned HTTP 401; upload success does not establish public playback. Keep the Description/Results readiness flags false and their existing official static frame players active until moderation and playback checks succeed. No local converted copies were created.

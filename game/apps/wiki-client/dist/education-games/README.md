@@ -9,14 +9,14 @@ This folder is the facilitator-facing documentation for the three Wiki games. It
 | Game | Wiki route | Doc |
 |------|------------|-----|
 | 1 · Odor Pixel Lab | `games/pixel/index.html` | [game-1-pixel.md](./game-1-pixel.md) |
-| 2 · AeroSense QC Shift | `games/labyrinth/index.html` | [game-2-qc-shift.md](./game-2-qc-shift.md) |
+| 2 · AeroSense: Scentbound Labyrinth (Odor Maze) | `games/labyrinth/index.html` | [Archived QC Shift plan](./game-2-qc-shift.md); not a matched Maze guide |
 | 3 · Scent Mixer | `games/spectrum/index.html` | [game-3-scent-mixer.md](./game-3-scent-mixer.md) |
 
-All three are **playable**. Game 2 keeps the historical `/games/labyrinth/` URL; the live activity is QC Shift, not a maze.
+All three are **playable**. Game 2 uses `/games/labyrinth/` for the current Maze. QC Shift documents and G2 items are archived; the Maze does not mount their study mode or export their outcomes.
 
 ## What this suite is (and is not)
 
-The games are **educational illustrative models**. They help people practice pattern reading, screening-vs-confirmation decisions, and mixture decoding.
+The current games are **educational illustrative models** for pattern reading, maze exploration using scent information, and mixture decoding. Screening-vs-confirmation questions belong to the archived QC Shift plan.
 
 They do **not** validate AeroSense sensor hardware, measure real gas concentrations, or set professional operational thresholds.
 
@@ -35,7 +35,7 @@ They do **not** validate AeroSense sensor hardware, measure real gas concentrati
 
 Public hub: open a game and play immediately. No pre-test.
 
-Workshop evidence: append `?study=1` to a game URL. See the study protocol.
+Workshop evidence: append `?study=1` to **Pixel Lab or Scent Mixer**. See the study protocol. The current Maze has no matched pre/post study flow; do not apply the archived G2 QC Shift items to it.
 
 ## Wiki page
 
@@ -43,4 +43,4 @@ The Education page (`education/index.html`) lists structured activity records. S
 
 ## License
 
-This repository does not currently publish a root `LICENSE` file. Do not assume Creative Commons or similar rights until the team adds one. iGEM Wiki hosting remains subject to iGEM rules. Media credits that still say `TODO-VERIFY` are not cleared.
+The user confirmed on 18 October 2026 that Odor Pixel Suite and its odor atlas were created by the NTHU FLY iGEM 2026 team. Authorship is recorded in `assets-manifest.json`. Reuse and redistribution terms for the game and atlas have not been separately specified; the website's general license link does not establish a separate license for these files.

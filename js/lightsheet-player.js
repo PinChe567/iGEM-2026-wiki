@@ -57,7 +57,34 @@
     if (precise) value = Math.round(value * 10) / 10;
     return String(Math.floor(value / 60)).padStart(2, "0") + ":" + (precise ? (value % 60).toFixed(1).padStart(4, "0") : String(Math.floor(value % 60)).padStart(2, "0"));
   }
+  function initializeOfficialPlayer(root) {
+    // Upload success is not publication: a moderator may still block the video.
+    // Set this flag only after verifying public access and decoded playback.
+    // Until then, keep the existing frame player and its acquisition clock.
+    if (root.dataset.videoUniverseReady !== "true") return false;
+    var videoId = root.dataset.videoUniverseId;
+    if (!videoId || !/^[A-Za-z0-9-]{10,36}$/.test(videoId)) return false;
+    var canvas = root.querySelector("canvas");
+    var title = canvas ? (window.AeroSenseI18n && window.AeroSenseI18n.sourceAttribute ? window.AeroSenseI18n.sourceAttribute(canvas, "aria-label") : canvas.getAttribute("aria-label")) : "Light-sheet recording";
+    var iframe = document.createElement("iframe");
+    iframe.src = "https://video.igem.org/videos/embed/" + videoId + "?p2p=0&title=0&warningTitle=0";
+    iframe.title = title;
+    iframe.loading = "lazy";
+    iframe.allow = "fullscreen; picture-in-picture";
+    iframe.referrerPolicy = "strict-origin-when-cross-origin";
+    iframe.setAttribute("allowfullscreen", "");
+    root.replaceChildren(iframe);
+    root.dataset.playbackSource = "video-universe";
+    var figure = root.closest("figure");
+    var pending = figure && figure.querySelector("[data-lightsheet-publication-status]");
+    if (pending) pending.hidden = true;
+    // Native controls show playback time. The static acquisition-time reference
+    // beside the player remains separate; no playback-to-acquisition estimate.
+    return true;
+  }
   function initialize(root) {
+    if (initializeOfficialPlayer(root)) return;
+    root.dataset.playbackSource = "frame-preview";
     var canvas = root.querySelector("canvas");
     var button = root.querySelector("[data-lightsheet-play]");
     var seek = root.querySelector("[data-lightsheet-seek]");

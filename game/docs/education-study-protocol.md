@@ -2,12 +2,12 @@
 
 This protocol is for **workshop / education events**. It does not change everyday Wiki play.
 
-Public visitors should open a game from the hub and play immediately. Study questions appear **only** when a facilitator adds a query parameter.
+Public visitors should open a game from the hub and play immediately. Pixel Lab and Scent Mixer show study questions **only** when a facilitator adds a query parameter. The current Game 2, Scentbound Labyrinth (Odor Maze), does not mount this education study flow.
 
 ## Intended audience
 
 - iGEM education / Human Practices workshops
-- Classroom or museum events using the three Wiki games
+- Classroom or museum events evaluating Pixel Lab or Scent Mixer
 - Facilitators who need **anonymous, paired pre/post evidence** without collecting personal data
 
 Not intended as:
@@ -20,11 +20,12 @@ Child and general-public answers must **not** be used to infer professional scre
 
 ## How to enable study mode
 
-Append `?study=1` to a game URL (same device / browser as the workshop laptops):
+Append `?study=1` to a supported game URL (same device / browser as the workshop laptops):
 
 - Game 1: `games/pixel/index.html?study=1`
-- Game 2: `games/labyrinth/index.html?study=1` (AeroSense QC Shift)
 - Game 3: `games/spectrum/index.html?study=1`
+
+Game 2's `games/labyrinth/index.html` currently runs Scentbound Labyrinth (Odor Maze). Its entry point starts `startScentbound` without the study banner, questions or education export. Adding `?study=1` does not activate the archived QC Shift flow. G2 items and QC Shift outcome fields below are retained for historical reference, not as a matched Maze assessment.
 
 Without the parameter, there is **no** mandatory pre-test and **no** mandatory survey.
 
@@ -35,12 +36,12 @@ Hub “Play” cards do **not** add this flag.
 1. A short banner that this is workshop study mode and that answers stay on the device.
 2. **Two** short pre questions (required to start).
 3. The normal game (tutorial / play / results unchanged in mechanics).
-4. After play: the **same two concepts** again, plus **one transfer/application** question, plus **optional** feedback. Game 2 also offers an optional alert-information preference item.
+4. After play: the **same two concepts** again, plus **one transfer/application** question, plus **optional** feedback.
 5. Facilitator controls: **Export anonymous study data** (JSON and CSV).
 
 ## Item IDs and what they measure
 
-Paired pre/post items reuse the same ID. Transfer and feedback have their own IDs.
+Paired pre/post items reuse the same ID. Transfer and feedback have their own IDs. **G1 and G3 are used by the current study flows. G2 rows describe the archived QC Shift plan and must not be used to claim Maze learning.**
 
 | ID | Game | Phase | Measures |
 |---|---|---|---|
@@ -76,7 +77,7 @@ Each anonymous session includes:
 Game-specific outcome fields (when the run finished):
 
 - Pixel: correct count, question count, score, preset, whether study-review was used
-- QC Shift: monitor / retest / hold-confirm counts, missed simulated high-risk lots, unnecessary holds, invalid-reading follow-up, optional alert preference
+- Archived QC Shift schema: monitor / retest / hold-confirm counts, missed simulated high-risk lots, unnecessary holds, invalid-reading follow-up, optional alert preference. These are not current Maze outputs.
 - Spectrum: guesses, hint level, solved, difficulty
 
 **Never collected:** name, email, exact age, IP, school ID, or other PII.  
@@ -84,7 +85,7 @@ Game-specific outcome fields (when the run finished):
 
 ## How to export
 
-On a study-mode game page:
+On a supported Pixel Lab or Scent Mixer study-mode page:
 
 1. Click **Export anonymous study data (JSON)** (primary archive).
 2. Optionally export **CSV** (one row per answer, session fields repeated).
@@ -110,7 +111,7 @@ Descriptive report (no significance tests):
 - play completion count
 - median duration when `durationMs` exists
 - median hint usage when `hintsUsed` exists
-- Game 2 mean decision counts when outcomes exist
+- Archived QC Shift mean decision counts only when an actual QC Shift export supplies them; never report these as current Maze outcomes
 
 ## Summarizer
 
@@ -132,7 +133,7 @@ The script:
 
 - Self-selected workshop participants; not a randomized trial.
 - Items are short and in-game; they do not measure long-term retention.
-- Games are **educational simulations** (illustrative receptor patterns / screening role-play / mixture decoding), not experimental AeroSense measurements.
+- Current study games are **educational simulations** (illustrative receptor patterns / mixture decoding), not experimental AeroSense measurements. The archived QC Shift screening role-play has a different scope from the current Maze.
 - Junior / child play is valid educational evidence for *this* audience only.
 - Do not generalize scores into warehouse SOP, toxin limits, or sensor calibration.
 - Local storage can be cleared by the browser; export before wiping workshop devices.

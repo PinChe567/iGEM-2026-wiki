@@ -7,9 +7,9 @@ describe('content catalog', () => {
     expect(contentCatalog.odors).toHaveLength(20);
   });
 
-  it('marks unknown media credits as TODO-VERIFY', () => {
+  it('credits team-created media while keeping the model illustrative', () => {
     for (const odor of contentCatalog.odors) {
-      expect(odor.creditStatus).toBe('TODO-VERIFY');
+      expect(odor.creditStatus).toBe('credited');
       expect(odor.sourceStatus).toBe('illustrative');
       expect(odor.modelKind).toBe('illustrative-virtual-receptor');
     }

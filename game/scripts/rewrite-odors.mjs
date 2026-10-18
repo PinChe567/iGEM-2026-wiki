@@ -51,7 +51,7 @@ const rows = ids
   .map((id, i) => {
     const [zh, en] = names[id];
     const v = vectors[id].join(', ');
-    return `  { id: '${id}', name: { 'zh-Hant': '${zh}', en: '${en}' }, featureVector: [${v}], imageKey: 'odor-atlas:${i}', sourceStatus: 'illustrative', creditStatus: 'TODO-VERIFY' },`;
+    return `  { id: '${id}', name: { 'zh-Hant': '${zh}', en: '${en}' }, featureVector: [${v}], imageKey: 'odor-atlas:${i}', sourceStatus: 'illustrative', creditStatus: 'credited' },`;
   })
   .join('\n');
 

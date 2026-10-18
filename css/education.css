@@ -3093,3 +3093,171 @@ html.js .edu-chain__static[hidden] {
  grid-template-columns: minmax(0, 1fr);
  }
 }
+
+/* Authored activity map: native SVG links keep the drawing useful without JavaScript. */
+body.page-education .edu-brain-map {
+ margin: 2rem 0 0;
+ max-width: none;
+}
+
+body.page-education .edu-brain-map__canvas {
+ padding: clamp(1rem, 2.5vw, 2rem);
+ border: 1px solid #dcd6c9;
+ border-radius: 28px 12px 28px 12px;
+ background: #faf7ef;
+}
+
+body.page-education .edu-brain-map__prompt {
+ margin: 0;
+ max-width: none;
+ color: #595c4c;
+ text-align: center;
+ font-size: clamp(.95rem, 1.5vw, 1.1rem);
+}
+
+body.page-education .edu-brain-map__drawing {
+ display: block;
+ width: 100%;
+ height: auto;
+ max-height: none;
+ overflow: visible;
+}
+
+body.page-education .edu-brain-map__region {
+ cursor: pointer;
+ text-decoration: none;
+ outline: none;
+ -webkit-tap-highlight-color: transparent;
+}
+
+.edu-brain-map__region--coral { --brain-fill: #e8ac98; }
+.edu-brain-map__region--lavender { --brain-fill: #d0b7df; }
+.edu-brain-map__region--sage { --brain-fill: #c8d9ae; }
+
+.edu-brain-map__patch {
+ fill: var(--brain-fill);
+ stroke: #64664e;
+ stroke-width: 2;
+ stroke-linejoin: round;
+ transition: stroke-width 160ms ease, filter 160ms ease;
+}
+
+.edu-brain-map__neuron {
+ fill: none;
+ stroke: #444a3d;
+ stroke-width: 1.6;
+ stroke-linecap: round;
+ stroke-linejoin: round;
+ opacity: .45;
+ pointer-events: none;
+}
+
+body.page-education .edu-brain-map__drawing text {
+ fill: #303b34;
+ text-anchor: middle;
+ pointer-events: none;
+}
+
+.edu-brain-map__number {
+ font: 650 32px/1 var(--font-display, sans-serif);
+ letter-spacing: -.04em;
+}
+
+.edu-brain-map__number--small { font-size: 24px; }
+.edu-brain-map__label { font: 600 20px/1.2 var(--font-body, sans-serif); }
+.edu-brain-map__label--small { font-size: 17px; }
+
+body.page-education .edu-brain-map__region:hover .edu-brain-map__patch,
+body.page-education .edu-brain-map__region:focus-visible .edu-brain-map__patch {
+ stroke: #263d32;
+ stroke-width: 5;
+ filter: drop-shadow(0 4px 0 #263d3226);
+}
+
+body.page-education .edu-brain-map__region:focus-visible {
+ outline: 2px dashed #263d32;
+ outline-offset: 5px;
+}
+
+body.page-education .edu-brain-map > figcaption {
+ margin: .85rem 0 0;
+ max-width: none;
+}
+
+body.page-education .edu-brain-map__mobile-key { display: none; }
+
+@media (max-width: 700px) {
+ body.page-education .edu-brain-map__canvas { padding: 1rem .65rem; }
+ body.page-education .edu-brain-map__label { display: none; }
+ body.page-education .edu-brain-map__number { font-size: 40px; }
+ body.page-education .edu-brain-map__number--small { font-size: 32px; }
+ body.page-education .edu-brain-map__mobile-key {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .35rem .6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+ }
+ body.page-education .edu-brain-map__mobile-key li { margin: 0; padding: 0; min-width: 0; }
+ body.page-education .edu-brain-map__mobile-key a {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  min-height: 48px;
+  padding: .2rem;
+  color: #303b34;
+  font-size: .88rem;
+  line-height: 1.35;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+ }
+ body.page-education .edu-brain-map__mobile-key a:hover { text-decoration: underline; }
+ .edu-brain-map__dot {
+  flex: 0 0 1.8rem;
+  display: grid;
+  place-items: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 45% 55% 50% 44%;
+  font-size: .72rem;
+  font-weight: 700;
+ }
+ .edu-brain-map__dot--coral { background: #e8ac98; }
+ .edu-brain-map__dot--lavender { background: #d0b7df; }
+ .edu-brain-map__dot--sage { background: #c8d9ae; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+ .edu-brain-map__patch { transition: none; }
+}
+
+/* The Notion narrative retains its source order; activity controls are separate. */
+body.page-education .edu-source-section [data-notion-index] { white-space: pre-line; }
+body.page-education .edu-source-activity { scroll-margin-top: calc(var(--header-offset, 80px) + 1.5rem); }
+body.page-education .edu-source-activity > h4 {
+ margin: 1.6rem 0 .6rem;
+ color: #8e3734;
+ font-size: 1rem;
+ line-height: 1.45;
+}
+body.page-education .edu-source-quote {
+ margin: 1.5rem 0;
+ padding: 1rem 1.4rem;
+ border-left: 3px solid #b53d39;
+ background: #faf4ef;
+}
+body.page-education .edu-source-quote p { margin: 0; }
+body.page-education .edu-source-list { padding-left: 1.5rem; }
+body.page-education .edu-source-list li { margin-block: .45rem; }
+body.page-education .edu-source-image { margin: 1.5rem 0; }
+body.page-education .edu-source-image img { display: block; width: 100%; height: auto; object-fit: contain; }
+body.page-education .edu-source-gallery:empty { display: none; }
+body.page-education .edu-source-gallery img { width: 100%; height: auto; max-height: none; object-fit: contain; }
+body.page-education .edu-source-gallery .edu-source-image { margin: 0; }
+body.page-education .edu-source-download { margin-block: 1rem 1.75rem; }
+body.page-education .edu-site-interaction { margin-block: 1.5rem; }
+body.page-education .edu-site-interaction .edu-decide { grid-template-columns: minmax(0, 1fr); }
+body.page-education .edu-source-pending { font-size: .9rem; }
+body.page-education .edu-source-reference { padding-block: .65rem; border-bottom: 1px solid #e6dfd7; }
+body.page-education .edu-source-reference p { margin: 0; overflow-wrap: anywhere; }

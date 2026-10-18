@@ -1,5 +1,7 @@
 # 08 — Wiki release report (Odor Pixel Suite)
 
+**Current provenance correction — 18 October 2026:** The user confirmed that the game was created by the NTHU FLY iGEM 2026 team in response to the game/odor-atlas provenance question. The current manifest and credits now record team authorship. Reuse and redistribution terms have not been separately specified; the remaining license check is distinct from the resolved unknown-author issue. The dated August results below are historical, not a current build or release certification.
+
 **Date:** 2026-08-01  
 **Scope:** Three-game Wiki static trilogy (no online backend).  
 **Verdict:** **NOT ready for iGEM** — blocker FAIL on media provenance (`TODO-VERIFY`).

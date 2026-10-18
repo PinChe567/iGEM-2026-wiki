@@ -8,7 +8,7 @@
     if (!caption || figure.closest('.footer-partners__logos,.home-partners__logos,.home-supporters__gallery') || figure.classList.contains('footer-partners__slot')) return;
     const scope = figure.closest('[data-model-panel], [data-model-supplement], [data-model-availability]');
     const key = scope ? (scope.dataset.modelPanel || scope.dataset.modelSupplement || scope.dataset.modelAvailability) : 'page';
-    const isVideo = Boolean(figure.querySelector('video, [data-lightsheet-player]'));
+    const isVideo = Boolean(figure.querySelector('video, iframe[data-igem-video], [data-lightsheet-player]'));
     const numbers = isVideo ? videoNumbers : figureNumbers;
     const number = (numbers.get(key) || 0) + 1;
     numbers.set(key, number);

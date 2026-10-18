@@ -6250,19 +6250,12 @@ var SOURCE_COVERAGE=[{"section":"Plate P2 instrument exports, runs 904–935, an
    section shows a static story (keyframes + text). With JS it becomes a
    sticky, scroll-scrubbed film with an "AeroSense lens".
 
-   HOW SYNCHRONIZATION WORKS
-   - Two videos (NORMAL, SENSOR) are rendered from ONE deterministic master
-     timeline (homepage_animation/media/source). Same fps, frame count, size,
-     GOP. They never play; they are only ever SEEKED.
-   - Scroll → time → an integer frame index f. The normal video is always
-     sought; the sensor video joins only while its view is visible. Both
-     use currentTime = (f + 0.5) / fps, the middle of the same frame.
-   - The visible picture is a <canvas>. When the sensor view is active,
-     both videos must report `seeked` for that same f before a composite
-     is drawn. The previous composite stays visible during a seek, and
-     sensor activation waits for a matching frame before revealing it.
-   - The lens is a circular clip on the canvas; the HTML tags share the exact
-     same circle via CSS clip-path, computed in the same animation frame.
+   MEDIA TRANSPORT
+   - Video is loaded only inside official video.igem.org embeds.
+   - The embed API seeks both layers and returns JPEG snapshots. The visible
+     canvas swaps the pair together; moving the lens never fetches more frames.
+   - PeerTube does not expose decoded-frame timestamps or a seeked event.
+     Capture stabilization is best effort, not a frame-accuracy guarantee.
 
    No globals are created. A debug accessor is attached to the section
    element (section.ascDebug()) for automated QA.
@@ -6318,6 +6311,14 @@ var SOURCE_COVERAGE=[{"section":"Plate P2 instrument exports, runs 904–935, an
   var stage = $('[data-asc-stage]');
   var canvas = $('[data-asc-canvas]');
   var ctx = canvas.getContext('2d', { alpha: false });
+  // Keep paired pictures on separate visible layers. CSS moves the circular
+  // reveal without redrawing or resampling either video on pointer movement.
+  var sensorCanvas = document.createElement('canvas');
+  sensorCanvas.className = 'asc-sensor-canvas';
+  sensorCanvas.setAttribute('aria-hidden', 'true');
+  sensorCanvas.hidden = true;
+  canvas.after(sensorCanvas);
+  var sensorDisplayContext = sensorCanvas.getContext('2d', { alpha: false });
   var vN = $('[data-asc-video="normal"]');
   var vS = $('[data-asc-video="sensor"]');
   var normalFrame = document.createElement('canvas');
@@ -6325,10 +6326,10 @@ var SOURCE_COVERAGE=[{"section":"Plate P2 instrument exports, runs 904–935, an
   var normalContext = normalFrame.getContext('2d', { alpha: false });
   var sensorContext = sensorFrame.getContext('2d', { alpha: false });
   var lastCompositeKey = '';
-  function snapshot(video, buffer) {
-    if (buffer.width !== video.videoWidth) buffer.width = video.videoWidth;
-    if (buffer.height !== video.videoHeight) buffer.height = video.videoHeight;
-    (buffer === normalFrame ? normalContext : sensorContext).drawImage(video, 0, 0);
+  function snapshot(picture, buffer) {
+    if (buffer.width !== picture.width) buffer.width = picture.width;
+    if (buffer.height !== picture.height) buffer.height = picture.height;
+    (buffer === normalFrame ? normalContext : sensorContext).drawImage(picture, 0, 0);
   }
   var lensEl = $('[data-asc-lens]');
   var tagsEl = $('[data-asc-tags]');
@@ -6388,6 +6389,7 @@ var SOURCE_COVERAGE=[{"section":"Plate P2 instrument exports, runs 904–935, an
   $('[data-asc-read]').addEventListener('click', function () { showStory(); });
   $('[data-asc-replay]').addEventListener('click', function () {
     reading = false;
+    if (failedLayers.normal) mediaLayout = '';
     productPause.state = 'armed';
     productPause.previousTime = null;
     root.classList.remove('is-reading');
@@ -6414,7 +6416,7 @@ var SOURCE_COVERAGE=[{"section":"Plate P2 instrument exports, runs 904–935, an
     // A delayed media failure must never collapse thousands of pixels above
     // someone already reading the project, or focus the film behind them.
     var view = stage.getBoundingClientRect();
-    if (view.top < window.innerHeight * 0.5 && view.bottom > window.innerHeight * 0.5) showStory();
+    if (!document.hidden && view.top < window.innerHeight * 0.5 && view.bottom > window.innerHeight * 0.5) showStory();
   }
   reduce.addEventListener('change', function () { if (reduce.matches) showStory(); });
 
@@ -6464,16 +6466,19 @@ var SOURCE_COVERAGE=[{"section":"Plate P2 instrument exports, runs 904–935, an
     var rect = stage.getBoundingClientRect();
     st.w = Math.max(1, rect.width);
     st.h = Math.max(1, rect.height);
-    // The movie is 720p; a 2x full-screen canvas adds compositing work without
-    // recovering source detail. Keep touch devices especially lightweight.
+    // A high-DPI canvas cannot recover detail from the official rendition.
+    // Keep touch devices especially lightweight.
     st.dpr = Math.min(window.devicePixelRatio || 1, finePointer.matches ? 1.5 : 1.25);
     var cw = Math.round(st.w * st.dpr);
     var ch = Math.round(st.h * st.dpr);
     // Match the source's pixel budget rather than repainting an oversized
     // retina canvas. CSS still fills the viewport at every aspect ratio.
-    var k = Math.min(1, 1920 / cw, Math.sqrt(1920 * 1080 / (cw * ch)));
+    var canvasMaxWidth = st.w / st.h < 0.9 ? 720 : 1280;
+    var k = Math.min(1, canvasMaxWidth / cw, Math.sqrt(1280 * 720 / (cw * ch)));
     canvas.width = Math.round(cw * k);
     canvas.height = Math.round(ch * k);
+    sensorCanvas.width = canvas.width;
+    sensorCanvas.height = canvas.height;
     lastCompositeKey = '';
     st.canvasScale = canvas.width / st.w;
     // Keep the long track fixed through mobile address-bar height changes.
@@ -6508,144 +6513,183 @@ var SOURCE_COVERAGE=[{"section":"Plate P2 instrument exports, runs 904–935, an
     };
   }
 
-  /* ---------- media loading (visible film, normal first, then sensor) */
+  /* ---------- official PeerTube embeds: strict-origin RPC, no media URLs */
   var mediaLayout = '';
-  var mediaFetches = new Map();
+  var mediaGeneration = 0;
+  var players = { normal: null, sensor: null };
+  var failedLayers = {};
+  var EMBED_ORIGIN = 'https://video.igem.org';
+  var VIDEO_IDS = {
+    landscape: {
+      normal: 'e9061255-56e7-4587-ad3d-13358b46b76d',
+      sensor: 'bfb52eef-be2b-497f-9f0d-df724ae8514d'
+    },
+    portrait: {
+      normal: '46349dd9-79d5-43c7-b619-ee7fc177680b',
+      sensor: '6e3cf0fe-1525-4155-80b2-d645cd098f51'
+    }
+  };
+  var rpcSerial = 1;
+  // Small protocol adapter for PeerTube's documented embed methods.
+  // It exchanges JSChannel-compatible JSON messages; no SDK or CDN is loaded.
+  function EmbedPlayer(element, url) {
+    var pending = new Map();
+    var stopped = false, connected = false, ready = false;
+    var resolveReady, rejectReady;
+    var controller = this;
+    this.element = element;
+    this.time = 0;
+    this.url = url;
+    this.lastImage = '';
+    // Six recently decoded pictures per layer, in memory only. At the current
+    // 854x480 rendition the two caches retain at most about 19 MiB of pixels.
+    this.frames = new Map();
+    this.ready = new Promise(function (resolve, reject) { resolveReady = resolve; rejectReady = reject; });
+    function send(message) {
+      if (!stopped) element.contentWindow.postMessage(JSON.stringify(message), EMBED_ORIGIN);
+    }
+    this.call = function (method, params) {
+      return new Promise(function (resolve, reject) {
+        if (stopped) { reject(new Error('Player disposed')); return; }
+        var id = rpcSerial++;
+        var timer = setTimeout(function () { pending.delete(id); reject(new Error('Embed API timeout: ' + method)); }, 10000);
+        pending.set(id, { resolve: resolve, reject: reject, timer: timer });
+        send({ id: id, method: 'peertube::' + method, params: params });
+      });
+    };
+    function markReady() {
+      if (ready || stopped) return;
+      ready = true;
+      controller.isReady = true;
+      clearTimeout(readyTimer);
+      clearInterval(handshakeTimer);
+      resolveReady(controller);
+    }
+    function onMessage(event) {
+      if (stopped || event.origin !== EMBED_ORIGIN || event.source !== element.contentWindow) return;
+      var message;
+      try { message = typeof event.data === 'string' ? JSON.parse(event.data) : event.data; } catch (_) { return; }
+      if (!message || typeof message !== 'object') return;
+      if (message.method === 'peertube::__ready') {
+        if (message.params && message.params.type === 'publish-request') {
+          send({ method: 'peertube::__ready', params: { type: 'publish-reply', publish: [] } });
+        }
+        if (!connected) {
+          connected = true;
+          controller.call('isReady').then(function (value) { if (value) markReady(); }).catch(function () {});
+        }
+      } else if (message.method === 'peertube::ready' && message.params) {
+        markReady();
+      } else if (message.id && pending.has(message.id)) {
+        var task = pending.get(message.id);
+        pending.delete(message.id); clearTimeout(task.timer);
+        if (message.error) task.reject(new Error(String(message.message || message.error)));
+        else task.resolve(message.result);
+      }
+    }
+    window.addEventListener('message', onMessage);
+    function handshake() {
+      send({ method: 'peertube::__ready', params: { type: 'publish-request', publish: [] } });
+    }
+    var handshakeTimer = setInterval(handshake, 1000);
+    var readyTimer = setTimeout(function () { rejectReady(new Error('Official player did not become ready')); }, 30000);
+    this.destroy = function () {
+      stopped = true;
+      clearInterval(handshakeTimer); clearTimeout(readyTimer);
+      window.removeEventListener('message', onMessage);
+      pending.forEach(function (task) { clearTimeout(task.timer); task.reject(new Error('Player disposed')); });
+      pending.clear();
+      controller.frames.clear();
+      controller.picture = null;
+      controller.lastImage = '';
+      rejectReady(new Error('Player disposed'));
+      element.removeAttribute('src');
+    };
+    element.src = url;
+  }
   function srcFor(mode) {
-    var base = root.getAttribute('data-asc-igem-base') || root.getAttribute('data-asc-base') || 'homepage_animation/media/';
-    // Screen width and CPU count do not tell us download speed. The 720p pair
-    // saves almost half the transfer on desktop while retaining the same film.
-    var res = st.layout + '-720';
-    return base + 'aerosense-desc-' + res + '-' + mode + '.' + EXT;
+    return EMBED_ORIGIN + '/videos/embed/' + VIDEO_IDS[st.layout][mode] +
+      '?api=1&p2p=0&muted=1&autoplay=0&controls=0&title=0&warningTitle=0';
   }
-  // H.264 MP4 everywhere it is supported (Safari, Chrome, Edge, Firefox);
-  // VP9 WebM twin for engines without H.264 (e.g. open-source Chromium).
-  var EXT = (function () {
-    var v = document.createElement('video');
-    if (v.canPlayType('video/mp4; codecs="avc1.640028"')) return 'mp4';
-    if (v.canPlayType('video/webm; codecs="vp9"')) return 'webm';
-    return 'mp4';
-  })();
-
-  function prime(v) {
-    // iOS Safari only paints seeked frames after the element has "played" once.
-    var p = v.play();
-    if (p && p.then) p.then(function () { v.pause(); }).catch(function () {});
-  }
-
-  // Prefer native byte-range streaming, including the local preview server.
-  // Only an actual failed seek falls back to a full-file Blob.
-  // Do not require the whole duration to be seekable at loadeddata: a browser
-  // can report only its first buffered range while streaming a valid MP4.
-  var LOCAL = ['localhost', '127.0.0.1', '::1', '[::1]', ''].indexOf(location.hostname) >= 0;
-  function setSource(v, url) {
-    v.dataset.srcUrl = url;
-    delete v.dataset.blob;
-    v.src = url;
-    v.load();
-  }
-  function toBlob(v) {
-    if (v.dataset.blob) return;
-    v.dataset.blob = '1';
-    var url = v.dataset.srcUrl;
-    // Stop the old streaming request before starting the full-file fallback.
-    v.pause();
-    v.removeAttribute('src');
-    v.load();
-    var controller = window.AbortController ? new AbortController() : null;
-    if (controller) mediaFetches.set(v, controller);
-    fetch(url, controller ? { signal: controller.signal } : {}).then(function (r) {
-      if (!r.ok) throw new Error(r.status);
-      return r.blob();
-    }).then(function (b) {
-      if (v.dataset.srcUrl !== url || (controller && controller.signal.aborted)) return;
-      v.src = URL.createObjectURL(b);
-      v.load();
-    }).catch(function (error) {
-      if (error.name !== 'AbortError' && v.dataset.srcUrl === url) mediaFailed(v);
-    }).finally(function () {
-      if (mediaFetches.get(v) === controller) mediaFetches.delete(v);
-    });
-  }
-  function seekableOK(v) {
-    var s = v.seekable;
-    return !!(s && s.length && s.end(s.length - 1) >= (v.duration || 0) - 0.25);
-  }
-
-  function loadVideos() {
-    mediaLayout = st.layout;
-    root.classList.remove('is-drawn');
-    st.ready.normal = st.ready.sensor = false;
-    st.sensorSynced = false;
-    st.frameShown = -1;
-    st.seek = null;
-    clearSeekCheck();
-    lastCompositeKey = '';
-    useBtn.disabled = true;
-    [vN, vS].forEach(function (v) {
-      var pendingFetch = mediaFetches.get(v);
-      if (pendingFetch) { pendingFetch.abort(); mediaFetches.delete(v); }
-      v.pause();
-      if (v.src && v.src.indexOf('blob:') === 0) URL.revokeObjectURL(v.src);
-      v.removeAttribute('src');
-      delete v.dataset.srcUrl;
-      v.load();
-    });
-    vN.preload = 'auto';
-    setSource(vN, srcFor('normal'));
-  }
-  function startSensor() {
-    // The opening frame gets the connection first. No fallback timer competes
-    // with a still-loading normal stream on a slow mobile connection.
-    if (reading || !st.running || document.hidden || vS.dataset.srcUrl || !st.ready.normal) return;
-    vS.preload = 'auto';
-    setSource(vS, srcFor('sensor'));
-  }
-  function mediaFailed(v) {
-    if (v === vN) { mediaUnavailable(); return; }
-    // A missing sensor layer must not discard the healthy normal film.
+  function mediaFailed(which, error) {
+    root.dataset.mediaError = which + ': ' + (error && error.message || 'Unavailable');
+    failedLayers[which] = true;
+    if (players[which]) { players[which].destroy(); players[which] = null; }
+    if (which === 'normal') {
+      mediaGeneration++;
+      if (players.sensor) { players.sensor.destroy(); players.sensor = null; }
+      st.ready.normal = st.ready.sensor = false;
+      mediaUnavailable();
+      return;
+    }
     st.ready.sensor = false;
     st.sensorSynced = false;
-    st.seek = null;
-    clearSeekCheck();
     st.r = 0;
     useBtn.disabled = true;
     setMode('off', 'media');
   }
-  function recoverSeek(v) {
-    st.seek = null;
-    clearSeekCheck();
-    st.ready[v === vN ? 'normal' : 'sensor'] = false;
-    st.sensorSynced = false;
-    if (v.dataset.blob) mediaFailed(v);
-    else toBlob(v);
-  }
-
-  function onReady(which, v) {
-    return function () {
-      if (!v.dataset.srcUrl || st.ready[which]) return;
-      st.ready[which] = true;
-      st.videoW = v.videoWidth || st.videoW;
-      st.videoH = v.videoHeight || st.videoH;
-      prime(v);
-      st.frameShown = -1; // force a joint seek including this layer
-      invalidate();
-      if (which === 'sensor') {
-        useBtn.disabled = false;
-
+  function openPlayer(which) {
+    var generation = mediaGeneration;
+    var player = new EmbedPlayer(which === 'normal' ? vN : vS, srcFor(which));
+    players[which] = player;
+    player.ready.then(async function () {
+      if (generation !== mediaGeneration) return;
+      if (!st.running) throw new Error('Startup paused');
+      // A muted play/pause primes the decoder in browsers that otherwise
+      // leave an embedded paused video uninitialized.
+      await player.call('setVolume', 0);
+      await player.call('play');
+      var deadline = performance.now() + 20000;
+      var primed = false;
+      while (performance.now() < deadline) {
+        await delay(100);
+        if (generation !== mediaGeneration) return;
+        if (!st.running) { await player.call('pause'); throw new Error('Startup paused'); }
+        var position = await player.call('getCurrentTime');
+        var first = await player.call('getImageDataUrl');
+        if (position > 0 && typeof first === 'string' && first.length > 1000) { primed = true; break; }
       }
-    };
-  }
-  vN.addEventListener('loadeddata', onReady('normal', vN));
-  vS.addEventListener('loadeddata', onReady('sensor', vS));
-  [vN, vS].forEach(function (v) {
-    v.addEventListener('error', function () {
-      // Media unavailable (e.g. not yet hosted): the poster + HTML story still work.
-      if (v.dataset.srcUrl) mediaFailed(v);
+      await player.call('pause');
+      if (!primed) throw new Error('Official player could not decode its first frame');
+      if (generation !== mediaGeneration) return;
+      st.ready[which] = true;
+      st.frameShown = -1;
+      if (which === 'sensor') useBtn.disabled = false;
+      invalidate();
+    }).catch(function (error) {
+      if (generation !== mediaGeneration) return;
+      if (error.message === 'Startup paused') {
+        player.destroy();
+        players[which] = null;
+        if (which === 'normal') mediaLayout = '';
+      } else mediaFailed(which, error);
     });
-  });
+  }
+  function loadVideos() {
+    mediaLayout = st.layout;
+    mediaGeneration++;
+    failedLayers = {};
+    Object.keys(players).forEach(function (which) {
+      if (players[which]) players[which].destroy();
+      players[which] = null;
+    });
+    root.classList.remove('is-drawn', 'is-media-error');
+    sensorCanvas.hidden = true;
+    delete root.dataset.mediaError;
+    root.dataset.mediaProvider = 'igem-embed-api';
+    st.ready.normal = st.ready.sensor = false;
+    st.sensorSynced = false;
+    st.frameShown = -1;
+    st.seek = null;
+    lastCompositeKey = '';
+    useBtn.disabled = true;
+    openPlayer('normal');
+  }
+  function startSensor() {
+    if (reading || !st.running || document.hidden || players.sensor || failedLayers.sensor || !st.ready.normal) return;
+    openPlayer('sensor');
+  }
   useBtn.disabled = true;
-
 
   /* ---------- scroll → time (piecewise map with "dwell" segments) */
   // The stage sticks at `top: var(--asc-top)` (below the site header), so the
@@ -6749,69 +6793,100 @@ var SOURCE_COVERAGE=[{"section":"Plate P2 instrument exports, runs 904–935, an
     else e.preventDefault();
   }, { passive: false });
 
-  /* ---------- frame-locked seeking */
+  /* ---------- bounded capture queue and atomic paired presentation */
   function frameTime(f) { return (f + 0.5) / TL.fps; }
-
-  var seekCheckTimer = 0;
-  function clearSeekCheck() {
-    clearTimeout(seekCheckTimer);
-    seekCheckTimer = 0;
-  }
-  function scheduleSeekCheck() {
-    if (!st.seek || seekCheckTimer || !st.running) return;
-    var elapsed = performance.now() - st.seek.started;
-    // Media events resume the next frame. A timer retains stall recovery
-    // without polling the decoder at the display's refresh rate.
-    var deadline = elapsed < 15000 ? 15020 : 30020;
-    seekCheckTimer = setTimeout(function () {
-      seekCheckTimer = 0;
-      if (st.seek && st.running) invalidate();
-    }, Math.max(20, deadline - elapsed));
-  }
-
-  // The sensor is decoded only when it contributes to the picture. Opening
-  // the lens forces a joint seek before exposing the second layer.
   function wantSensor() { return st.ready.sensor && (st.mode !== 'off' || st.r > 0.5); }
-
-  function pumpSeek() {
-    if (st.seek || !st.ready.normal) return;
-    var f = st.frameWanted;
-    // Sensor readiness can arrive during a normal-only seek. Complete a
-    // joint seek even when the scroll frame has not changed since then.
-    if (f === st.frameShown && (!wantSensor() || st.sensorSynced)) return;
-    var list = wantSensor() ? [vN, vS] : [vN];
-    st.seek = { frame: f, pending: list.length, started: performance.now(), list: list };
-    list.forEach(function (v) {
-      var target = frameTime(f);
-      if (Math.abs(v.currentTime - target) < 1e-4 && !v.seeking && v.readyState >= 2) {
-        seekDone(v);
-      } else {
-        v.currentTime = target;
+  function delay(ms) { return new Promise(function (resolve) { setTimeout(resolve, ms); }); }
+  function decodeSnapshot(data) {
+    return new Promise(function (resolve, reject) {
+      if (typeof data !== 'string' || !data.startsWith('data:image/jpeg;base64,') || data.length < 1000) {
+        reject(new Error('Official player returned no usable frame')); return;
       }
+      var picture = new Image();
+      picture.onload = function () { resolve(picture); };
+      picture.onerror = function () { reject(new Error('Cannot decode the official snapshot')); };
+      picture.src = data;
     });
   }
-  function seekDone(v) {
-    var s = st.seek;
-    if (!s || s.list.indexOf(v) < 0 || s['done_' + (v === vN ? 'n' : 's')]) return;
-    if (Math.abs(v.currentTime - frameTime(s.frame)) > 0.5 / TL.fps) {
-      // the element refused the seek (non-seekable resource): reload as Blob
-      recoverSeek(v);
-      return;
+  async function capture(player, frame, generation) {
+    if (player.frames.has(frame)) {
+      var cached = player.frames.get(frame);
+      player.frames.delete(frame); player.frames.set(frame, cached);
+      // A displayed cached frame must not change our last actual iframe
+      // capture: that state is used to detect unchanged live snapshots.
+      return cached;
     }
-    s['done_' + (v === vN ? 'n' : 's')] = true;
-    s.pending -= 1;
-    if (s.pending <= 0) {
-      snapshot(vN, normalFrame);
-      if (s.list.length === 2) snapshot(vS, sensorFrame);
-      st.frameShown = s.frame;
-      st.sensorSynced = s.list.length === 2;
-      st.seek = null;
-      clearSeekCheck();
-      invalidate();
+    var target = frameTime(frame);
+    // Startup and visibility changes already pause both embeds. No per-frame
+    // pause RPC is needed; the hidden players never play during scrubbing.
+    await player.call('seek', target);
+    var started = performance.now(), previous = '', unchanged = 0, data = '', time = null;
+    var minSettle = player.frame === undefined || Math.abs(frame - player.frame) > TL.fps ? 80 : 48;
+    // A seek acknowledgement sets the clock, not the decoded pixels. Require
+    // successive equal captures after a short settling period. This is an
+    // explicit best-effort limitation of the official API.
+    while (performance.now() - started < 8000) {
+      await delay(previous ? 16 : 24);
+      if (generation !== mediaGeneration || !st.running) throw new Error('Capture cancelled');
+      if (time === null || Math.abs(time - target) > 0.5 / TL.fps) {
+        var response = await Promise.all([player.call('getCurrentTime'), player.call('getImageDataUrl')]);
+        time = response[0]; data = response[1];
+      } else data = await player.call('getImageDataUrl');
+      var age = performance.now() - started;
+      unchanged = data === previous ? unchanged + 1 : 0;
+      previous = data;
+      if (Math.abs(time - target) <= 0.5 / TL.fps && unchanged >= 1 &&
+          age >= minSettle && (data !== player.lastImage || age >= 160)) {
+        var picture = await decodeSnapshot(data);
+        if (generation !== mediaGeneration || !st.running) throw new Error('Capture cancelled');
+        player.time = time;
+        player.lastImage = data;
+        player.frame = frame;
+        player.picture = picture;
+        player.frames.set(frame, picture);
+        while (player.frames.size > 6) player.frames.delete(player.frames.keys().next().value);
+        return picture;
+      }
     }
+    throw new Error('Official frame capture did not settle');
   }
-  vN.addEventListener('seeked', function () { seekDone(vN); });
-  vS.addEventListener('seeked', function () { seekDone(vS); });
+  function pumpSeek() {
+    if (st.seek || !st.ready.normal || !st.running) return;
+    var f = st.frameWanted;
+    if (f === st.frameShown && (!wantSensor() || st.sensorSynced)) return;
+    var both = wantSensor(), generation = mediaGeneration;
+    var task = { frame: f, started: performance.now(), both: both };
+    st.seek = task;
+    var modes = both ? ['normal', 'sensor'] : ['normal'];
+    task.cached = modes.every(function (which) { return players[which].frames.has(f); });
+    Promise.allSettled(modes.map(function (which) {
+      return capture(players[which], f, generation).catch(function (error) { error.layer = which; throw error; });
+    })).then(function (results) {
+      var failure = results.find(function (result) { return result.status === 'rejected'; });
+      if (failure) throw failure.reason;
+      var pictures = results.map(function (result) { return result.value; });
+      if (generation !== mediaGeneration || st.seek !== task || !st.running) return;
+      // A reversal can make a completed request counterproductive. Keep the
+      // current pair if this result would move farther from the latest target.
+      // Still publish useful intermediate frames during continuous scrolling.
+      if (st.frameShown >= 0 && Math.abs(f - st.frameWanted) > Math.abs(st.frameShown - st.frameWanted)) return;
+      // Do not paint an obsolete orientation or one layer of an incomplete pair.
+      snapshot(pictures[0], normalFrame);
+      if (both) snapshot(pictures[1], sensorFrame);
+      st.videoW = pictures[0].width;
+      st.videoH = pictures[0].height;
+      st.frameShown = f;
+      st.sensorSynced = both;
+      root.dataset.mediaFrame = String(f);
+      root.dataset.mediaPaired = String(both);
+      root.dataset.mediaLatencyMs = String(Math.round(performance.now() - task.started));
+      root.dataset.mediaCached = String(task.cached);
+    }).catch(function (error) {
+      if (generation === mediaGeneration && st.running && error.message !== 'Capture cancelled') mediaFailed(error.layer || 'normal', error);
+    }).finally(function () {
+      if (st.seek === task) { st.seek = null; invalidate(); }
+    });
+  }
 
   /* ---------- cover mapping (video px → stage px) */
   function cover() {
@@ -6857,41 +6932,26 @@ var SOURCE_COVERAGE=[{"section":"Plate P2 instrument exports, runs 904–935, an
   /* ---------- drawing */
   function draw() {
     if (st.frameShown < 0) return;
-    var sensorVisible = st.r > 0.5 && st.sensorSynced;
-    var sensorCoversStage = sensorVisible && st.r >= Math.hypot(
-      Math.max(st.lx, st.w - st.lx), Math.max(st.ly, st.h - st.ly)
-    );
-    var clipKey = !sensorVisible ? 'normal' : sensorCoversStage ? 'sensor' :
-      [st.lx, st.ly, st.r].join(',');
-    var compositeKey = st.frameShown + '|' + clipKey;
-    // Scroll can arrive faster than video decoding. Keep the already painted
-    // frame until either the decoded picture or its visible lens has changed.
+    var compositeKey = st.frameShown + '|' + st.sensorSynced;
+    // Pointer motion only changes the CSS clip. Upload pixels once per paired
+    // frame, keeping both visible canvases in the same animation-frame commit.
     if (compositeKey === lastCompositeKey) return;
     var k = st.canvasScale;
     var c = cover();
-    if (!ctx) { st.fallback = true; root.classList.add('is-fallback'); return; }
+    if (!ctx || !sensorDisplayContext) { st.fallback = true; mediaUnavailable(); return; }
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     try {
-      if (sensorCoversStage) {
-        ctx.drawImage(sensorFrame, c.x * k, c.y * k, c.w * k, c.h * k);
-      } else {
-        ctx.drawImage(normalFrame, c.x * k, c.y * k, c.w * k, c.h * k);
+      ctx.drawImage(normalFrame, c.x * k, c.y * k, c.w * k, c.h * k);
+      if (st.sensorSynced) {
+        sensorDisplayContext.drawImage(sensorFrame, c.x * k, c.y * k, c.w * k, c.h * k);
       }
-      if (sensorVisible && !sensorCoversStage) {
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(st.lx * k, st.ly * k, st.r * k, 0, Math.PI * 2);
-        ctx.clip();
-        ctx.drawImage(sensorFrame, c.x * k, c.y * k, c.w * k, c.h * k);
-        ctx.restore();
-      }
+      sensorCanvas.hidden = !st.sensorSynced;
       lastCompositeKey = compositeKey;
       if (!root.classList.contains('is-drawn')) root.classList.add('is-drawn');
-      startSensor();
     } catch (e) {
-      // Canvas compositing failed (very old engines): fall back to CSS layers.
+      // Canvas compositing failed: show the existing static story.
       st.fallback = true;
-      root.classList.add('is-fallback');
+      mediaUnavailable();
     }
   }
 
@@ -7033,30 +7093,22 @@ var SOURCE_COVERAGE=[{"section":"Plate P2 instrument exports, runs 904–935, an
     if (!st.running) return;
     // Direct reading links and offscreen films do not need either movie yet.
     if (!directReadingPending && st.layout && mediaLayout !== st.layout) loadVideos();
+    startSensor();
     var dt = st.lastNow ? Math.min(0.05, (now - st.lastNow) / 1000) : 0.016;
     st.lastNow = now;
 
     st.tTarget = productPause.state === 'holding' ? productPause.time : timeFromProgress(progress());
-    if (st.t < 0) st.t = st.tTarget;
-    // Gentle smoothing so wheel steps glide through intermediate frames.
-    var k = 1 - Math.exp(-dt / 0.085);
-    st.t += (st.tTarget - st.t) * k;
-    if (Math.abs(st.tTarget - st.t) < 0.2 / TL.fps) st.t = st.tTarget;
+    // The embed API already samples asynchronously. An additional easing
+    // queue seeks obsolete intermediate positions and adds visible lag.
+    st.t = st.tTarget;
     st.frameWanted = clamp(Math.round(st.t * TL.fps), 0, TL.frames - 1);
 
-    // Give a slow byte-range request time to arrive instead of restarting it
-    // every 1.5s. Only fall back after a sustained stall; range-capable streams
-    // get 30s, and a source that cannot seek gets 15s before the Blob fallback.
-    if (st.seek && now - st.seek.started > 15000) {
-      var stalled = st.seek.list.find(function (v) { return !st.seek['done_' + (v === vN ? 'n' : 's')]; });
-      if (stalled && (!seekableOK(stalled) || now - st.seek.started > 30000)) recoverSeek(stalled);
-    }
     pumpSeek();
 
     // lens spring: low latency position, softer radius
     var rt = lensTarget(st.frameShown < 0 ? Math.max(0, st.t) : st.frameShown / TL.fps);
-    var kp = 1 - Math.exp(-dt * 26);
-    var kr = 1 - Math.exp(-dt * 9);
+    var kp = 1 - Math.exp(-dt * 44);
+    var kr = 1 - Math.exp(-dt * 14);
     var nx = st.lx + (st.px - st.lx) * kp;
     var ny = st.ly + (st.py - st.ly) * kp;
     var nr = st.r + (rt - st.r) * kr;
@@ -7076,7 +7128,6 @@ var SOURCE_COVERAGE=[{"section":"Plate P2 instrument exports, runs 904–935, an
     // Sleep completely on a held frame. Scroll, input, media and layout
     // events wake the loop; only an unfinished transition needs another frame.
     var lensMoving = nr !== rt || (rt > 0.5 && (nx !== st.px || ny !== st.py));
-    scheduleSeekCheck();
     if (st.t !== st.tTarget || lensMoving) requestTick();
     else st.lastNow = 0;
   }
@@ -7087,7 +7138,10 @@ var SOURCE_COVERAGE=[{"section":"Plate P2 instrument exports, runs 904–935, an
     st.lastNow = 0;
     if (on) { st.dirty = true; requestTick(); }
     else {
-      clearSeekCheck();
+      Object.keys(players).forEach(function (which) {
+        var player = players[which];
+        if (player && player.isReady) player.call('pause').catch(function () {});
+      });
       if (tickId) { cancelAnimationFrame(tickId); tickId = 0; }
     }
   }
@@ -7312,10 +7366,10 @@ var SOURCE_COVERAGE=[{"section":"Plate P2 instrument exports, runs 904–935, an
       tTarget: st.tTarget,
       frameWanted: st.frameWanted,
       frameShown: st.frameShown,
-      normalTime: vN.currentTime,
-      sensorTime: vS.currentTime,
-      normalFrame: Math.floor(vN.currentTime * TL.fps + 1e-6),
-      sensorFrame: Math.floor(vS.currentTime * TL.fps + 1e-6),
+      normalTime: players.normal && players.normal.time,
+      sensorTime: players.sensor && players.sensor.time,
+      normalFrame: players.normal && Math.floor(players.normal.time * TL.fps + 1e-6),
+      sensorFrame: players.sensor && Math.floor(players.sensor.time * TL.fps + 1e-6),
       sensorSynced: !!st.sensorSynced,
       seeking: !!st.seek,
       ready: { normal: st.ready.normal, sensor: st.ready.sensor },
@@ -7323,7 +7377,7 @@ var SOURCE_COVERAGE=[{"section":"Plate P2 instrument exports, runs 904–935, an
       r: st.r,
       lens: [st.lx, st.ly],
       layout: st.layout,
-      src: [vN.currentSrc, vS.currentSrc],
+      src: [vN.src, vS.src],
       scrollYForTime: function (t) {
         var rect = track.getBoundingClientRect();
         var span = track.offsetHeight - stage.offsetHeight;
@@ -8022,7 +8076,7 @@ var SOURCE_COVERAGE=[{"section":"Plate P2 instrument exports, runs 904–935, an
     if (!caption || figure.closest('.footer-partners__logos,.home-partners__logos,.home-supporters__gallery') || figure.classList.contains('footer-partners__slot')) return;
     const scope = figure.closest('[data-model-panel], [data-model-supplement], [data-model-availability]');
     const key = scope ? (scope.dataset.modelPanel || scope.dataset.modelSupplement || scope.dataset.modelAvailability) : 'page';
-    const isVideo = Boolean(figure.querySelector('video, [data-lightsheet-player]'));
+    const isVideo = Boolean(figure.querySelector('video, iframe[data-igem-video], [data-lightsheet-player]'));
     const numbers = isVideo ? videoNumbers : figureNumbers;
     const number = (numbers.get(key) || 0) + 1;
     numbers.set(key, number);

@@ -24,14 +24,15 @@ On each participant device (or shared station):
 
 1. Set language (zh-Hant or English) in the suite switcher.
 2. Optionally turn on **Accessibility**: high contrast, reduced motion.
-3. Open one game with `?study=1`:
+3. Open a supported game with `?study=1`:
    - Game 1: `games/pixel/index.html?study=1`
-   - Game 2: `games/labyrinth/index.html?study=1`
    - Game 3: `games/spectrum/index.html?study=1`
 4. Two short pre questions → play the game as usual → post + transfer + optional feedback.
 5. Before wiping the browser, click **Export anonymous study data (JSON)**. CSV is optional.
 
 If several laptops were used, export from **each** device.
+
+The current Game 2 is Scentbound Labyrinth (Odor Maze). It does not mount this pre/post flow or study export, even with `?study=1`. The archived QC Shift G2 items and action counts do not measure Maze learning. A Maze playtest can document observations, but a learning evaluation needs a separately defined, matched instrument.
 
 ## What not to collect
 
@@ -56,7 +57,7 @@ node scripts/summarize-education.mjs path/to/export.json [--out out-dir]
 
 Paired *n* = sessions with both pre and post `correct` booleans for the **same** item ID.
 
-Also report, when present in the export: completion, median `durationMs`, median `hintsUsed`, Game 2 decision counts, Game 3 solved/attempted.
+Also report, when present in the export: completion, median `durationMs`, median `hintsUsed`, and Game 3 solved/attempted. QC Shift decision counts may be described only for an actual archived QC Shift session; never label them Maze results.
 
 ## Limitations (always state)
 

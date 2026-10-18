@@ -64,7 +64,7 @@ function parse(file){
  // This provenance manifest records original/excluded editions and hashes.
  // Its strings are audit metadata, not browser dependencies or download links.
  // Public HTML/Markdown resource links are still traversed and validated below.
- if(relative(file)==='resources/hardware-en/publication-manifest.json')return;
+ if(['resources/hardware-en/publication-manifest.json','publication-files.json'].includes(relative(file)))return;
  // The design handoff links editable build layers as source downloads. Their
  // URLs are deliberately relative to the emitted css/design-system.css, not
  // to design_system/styles/. Runtime dependencies are checked in that compiled
@@ -111,12 +111,12 @@ async function main(){
  const entries=fs.readdirSync(site).filter(f=>f.endsWith('.html')).sort();
  for(const name of entries)add(name,fromPath('index.html'),'entry-page',true);
  drain();
- // home-cinematic.js builds these URLs from layout, resolution, layer and
- // supported codec. Literal-path scanning cannot discover the assembled URL.
- family('homepage-film-responsive-codecs','index.html',[
-  ...['landscape','portrait'].flatMap(layout=>['normal','sensor'].flatMap(layer=>['mp4','webm'].map(codec=>'homepage_animation/media/aerosense-desc-'+layout+'-720-'+layer+'.'+codec))),
-  'homepage_animation/media/timeline.json','homepage_animation/media/tracks.json'
- ]);
+ // Home videos run exclusively through official embeds. The eight original
+ // MP4/WebM files are retained for evaluation, not runtime dependencies.
+ family('homepage-official-video-embeds','index.html',[
+  'e9061255-56e7-4587-ad3d-13358b46b76d','bfb52eef-be2b-497f-9f0d-df724ae8514d',
+  '46349dd9-79d5-43c7-b619-ee7fc177680b','6e3cf0fe-1525-4155-80b2-d645cd098f51'
+ ].map(id=>'https://video.igem.org/videos/embed/'+id+'?api=1&p2p=0&muted=1&autoplay=0&controls=0&title=0&warningTitle=0'));
  const micro='assets/results/microscopy/';
  const microscopy=[...verifiedMedia.keys()].filter(p=>p.startsWith(micro)&&/\/field-\d{2}-[^/]+\.(?:webp|png)$/.test(p));
  if(microscopy.length!==225)throw new Error('Expected 225 verified microscopy image paths.');

@@ -4,7 +4,7 @@ Stable IDs live in `packages/core/src/education/items.ts`. Prompts measure **con
 
 Correct option for every scored item is **`b`**. Feedback / preference items are unscored (`correct` = null).
 
-Pre items are reused after play as **post** (same ID, `phase: post`).
+Pre items are reused after play as **post** (same ID, `phase: post`) in the supported Pixel Lab and Scent Mixer study flows. G2 items below are archived QC Shift definitions; they are not mounted by the current Scentbound Labyrinth (Odor Maze) and are not a matched assessment of Maze learning.
 
 ## Game 1 — Pixel
 
@@ -49,7 +49,9 @@ Correct: **b** — the full receptor patterns (not the strongest single receptor
 
 What was most confusing or most useful? Options: visuals / instructions / idea / skip.
 
-## Game 2 — QC Shift
+## Archived Game 2 plan — QC Shift
+
+Retained for historical reference and interpretation of any actual QC Shift export. The current `games/labyrinth/index.html` runs the Maze without this study flow. Do not administer these questions as if they had been matched to the Maze or combine G2 and Maze outcomes.
 
 ### G2-SCREEN-01 (pre / post)
 

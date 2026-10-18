@@ -1,6 +1,7 @@
 /* Original simulation movies: attach the file only when a reader asks to play. */
 document.querySelectorAll('[data-model-video]').forEach((figure) => {
   const video=figure.querySelector('video');
+  if (!video) return; // Official iGEM iframes provide their own playback controls.
   const button=figure.querySelector('button');
   const status=figure.querySelector('[data-model-video-status]');
   let loading=false;

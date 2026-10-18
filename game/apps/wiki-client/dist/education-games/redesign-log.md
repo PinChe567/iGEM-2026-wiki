@@ -46,23 +46,23 @@ Does not model a biological nose or validate AeroSense hardware.
 
 ## Version
 
-Game 2 public Wiki activity is AeroSense QC Shift (screening shift), still served at `games/labyrinth/index.html`.
+Archived Game 2 plan: AeroSense QC Shift (screening shift). The current `games/labyrinth/index.html` serves AeroSense: Scentbound Labyrinth (Odor Maze).
 
 ### Observation / player feedback
 
-Education brief for Game 2: screening is an early warning, not confirmatory diagnosis; invalid readings need follow-up. The maze / identity-deduction prototype is not the public education activity.
+The archived QC Shift brief teaches screening as an early warning and follow-up for invalid readings. The current Maze instead uses exploration and illustrative scent-vision scanning. These activities have different learning objectives.
 
 ### Evidence
 
-Code mount: `apps/wiki-client/games/labyrinth/src/main.ts` starts QC Shift. No player-count dataset in this repository.
+Current code mount: `apps/wiki-client/games/labyrinth/src/main.ts` imports and starts `startScentbound`. The distributed page describes maze exploration. The current Maze does not mount the education study flow. No player-count dataset or matched Maze learning result is supplied here.
 
 ### Design decision
 
-Teach monitor / retest / hold-and-confirm with limited tokens; keep the labyrinth URL stable for the Wiki.
+Preserve the QC Shift plan and G2 item IDs as archived records. Do not interpret them as Maze instruction or outcome measures.
 
 ### Change made
 
-QC Shift ready → tutorial → play → debrief; science note states the simulation is not an SOP.
+The live route opens Scentbound Labyrinth. QC Shift's proposed monitor / retest / hold-and-confirm flow is not the activity at that route. This documentation correction aligns the record with the current implementation; it is not evidence of a participant-driven redesign.
 
 ### Re-test result
 
@@ -70,7 +70,7 @@ Not yet. Awaiting human playtest data.
 
 ### Remaining limitation
 
-Decision counts are from a **simulation**. Do not infer professional operational thresholds from child or general-public participants.
+No matched Maze pre/post instrument or education export is implemented. Archived QC Shift decision fields describe a **simulation** and cannot establish Maze learning or professional operational thresholds.
 
 ---
 
@@ -106,7 +106,7 @@ Linear/saturation model ≠ real mixture chemistry; solving a puzzle ≠ concent
 
 ## Version
 
-Optional education study mode (`?study=1`) shared across the three games.
+Optional education study mode (`?study=1`) in Pixel Lab and Scent Mixer.
 
 ### Observation / player feedback
 
@@ -114,11 +114,11 @@ Workshops need paired pre/post evidence without turning everyday Wiki play into 
 
 ### Evidence
 
-Module `@suite/core/education`; protocol `docs/education-study-protocol.md`. No workshop export is stored in this repo.
+Pixel and Spectrum `src/game.ts` use `isStudyMode`, pre/post questions and local export from `@suite/core/education`. The current Maze does not mount that flow. Protocol: `docs/education-study-protocol.md`. No workshop export is stored in this repo.
 
 ### Design decision
 
-Activate only with `?study=1`. Local storage only. Anonymous session IDs. Facilitator JSON/CSV export. Two short pre items, same concepts post, one transfer, optional feedback.
+Activate only with `?study=1` in Pixel Lab and Scent Mixer. Local storage only. Anonymous session IDs. Facilitator JSON/CSV export. Two short pre items, same concepts post, one transfer, optional feedback. Retain archived G2 definitions without presenting them as Maze evaluation.
 
 ### Change made
 

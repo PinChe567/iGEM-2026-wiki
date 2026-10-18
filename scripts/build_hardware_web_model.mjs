@@ -6,13 +6,18 @@
  * From the site repository: node scripts/build_hardware_web_model.mjs
  */
 import fs from 'node:fs/promises';
+import {existsSync} from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import * as THREE from '../js/vendor/three.module.js';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-const researchRoot=process.env.AEROSENSE_RESEARCH_ROOT || path.resolve(root,'../../zenodo-release/aerosense-wiki');
+const researchRoot=process.env.AEROSENSE_RESEARCH_ROOT ||
+  ['../zenodo-release/aerosense-wiki','../../zenodo-release/aerosense-wiki']
+    .map(relative=>path.resolve(root,relative))
+    .find(candidate=>existsSync(path.join(candidate,'hardware information/AeroSense v2/01_print')));
+if(!researchRoot)throw new Error('Research sources were not found. Keep zenodo-release in the workspace root or set AEROSENSE_RESEARCH_ROOT.');
 const source=path.join(researchRoot,'hardware information/AeroSense v2/01_print');
 const output=path.join(root,'assets/hardware/product-story');
 const parts=[

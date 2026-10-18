@@ -406,6 +406,56 @@
     });
   }
 
+  function initBrainMapNavigation() {
+    var map = document.getElementById("education-activity-map");
+    if (!map) return;
+    map.addEventListener("click", function (event) {
+      var link = event.target.closest && event.target.closest('a[href^="#"]');
+      if (!link || !map.contains(link) || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      var target = document.getElementById(link.getAttribute("href").slice(1));
+      if (!target || !root.AeroSenseToc) return;
+      event.preventDefault();
+      root.AeroSenseToc.navigate(target, { push: true, focus: true, source: "education-map" });
+    });
+
+    // Keep the visible passage in place when translated text changes page height.
+    var readingPosition = null;
+    document.addEventListener("click", function (event) {
+      if (!event.target.closest || !event.target.closest("[data-language-toggle]")) return;
+      var offset = root.AeroSenseToc ? root.AeroSenseToc.offset() : 100;
+      var passages = document.querySelectorAll(".page-article [data-notion-index], .page-article figure");
+      readingPosition = null;
+      var destination = document.getElementById(root.location.hash.slice(1));
+      if (destination) {
+        var destinationRect = destination.getBoundingClientRect();
+        if (destinationRect.top >= 0 && destinationRect.top < root.innerHeight) {
+          readingPosition = { node: destination, top: destinationRect.top, destination: true };
+          return;
+        }
+      }
+      for (var i = 0; i < passages.length; i++) {
+        var rect = passages[i].getBoundingClientRect();
+        if (rect.height && rect.bottom > offset && rect.top < root.innerHeight) {
+          readingPosition = { node: passages[i], top: rect.top };
+          break;
+        }
+      }
+    }, true);
+    document.addEventListener("aerosense:languagechange", function () {
+      var position = readingPosition;
+      readingPosition = null;
+      if (!position) return;
+      if (position.destination && root.AeroSenseToc) {
+        root.AeroSenseToc.navigate(position.node, { push: false, source: "education-language" });
+        return;
+      }
+      root.requestAnimationFrame(function () {
+        var delta = position.node.getBoundingClientRect().top - position.top;
+        if (Math.abs(delta) > 1) root.scrollTo({ top: root.scrollY + delta, behavior: "instant" });
+      });
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     initPhilosophyLoop();
     hydrateEvidenceMarks(document);
@@ -413,5 +463,6 @@
     initDecideFirst();
     initMeasurementChain();
     initLabPath();
+    initBrainMapNavigation();
   });
 })(window);

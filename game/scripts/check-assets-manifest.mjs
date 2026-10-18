@@ -32,10 +32,14 @@ for (const asset of assets) {
     asset.creditStatus,
   ];
   if (fields.some((v) => v === 'TODO-VERIFY')) {
-    todos.push(asset.id ?? asset.filename ?? '(unknown)');
+    const label = asset.id ?? asset.filename ?? '(unknown)';
+    todos.push(asset.verificationStatus === 'team-confirmed' && asset.license === 'TODO-VERIFY'
+      ? `${label} (team author confirmed; reuse license not specified)`
+      : label);
   }
   for (const p of [asset.path, ...(asset.optimizedPaths ?? [])]) {
     if (!p) continue;
+    if (/^https:\/\//.test(p)) continue;
     const abs = path.join(root, p);
     if (!fs.existsSync(abs)) {
       console.warn(`check:assets-manifest WARN: file missing ${p}`);

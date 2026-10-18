@@ -8,6 +8,8 @@ Nothing is sent to a server automatically. There is no name, email, exact age, I
 
 Export: **JSON** (source of truth) and optional **CSV** (one row per answer; session fields repeated).
 
+The current study flow is mounted by Pixel Lab and Scent Mixer. The schema retains `qc-shift` and G2 fields for the archived QC Shift design. The current Scentbound Labyrinth (Odor Maze) does not export these education sessions; do not relabel QC Shift records as Maze data.
+
 Parser: `parseEducationExportJson` accepts `{ sessions: [...] }`, a raw array, or a single session object.
 
 ## Session fields
@@ -16,7 +18,7 @@ Parser: `parseEducationExportJson` accepts `{ sessions: [...] }`, a raw array, o
 |-------|------|--------|
 | `schemaVersion` | number | Currently `1` |
 | `anonymousSessionId` | string | Random local ID, not a person |
-| `gameId` | `'pixel' \| 'qc-shift' \| 'spectrum'` | |
+| `gameId` | `'pixel' \| 'qc-shift' \| 'spectrum'` | `qc-shift` is retained for the archived activity, not the current Maze |
 | `gameVersion` | string | Software version of that game |
 | `contentVersion` | string | Content catalog version |
 | `locale` | `'zh-Hant' \| 'en'` | UI language for that session |
@@ -43,7 +45,7 @@ Parser: `parseEducationExportJson` accepts `{ sessions: [...] }`, a raw array, o
 
 `correctCount`, `questionCount`, `score`, `presetId`, `studyReviewUsed`
 
-## QC Shift `outcome.qcShift`
+## Archived QC Shift `outcome.qcShift`
 
 `monitorCount`, `retestCount`, `holdConfirmCount`, `missedSimulatedRisks`, `unnecessaryHolds`, `invalidReadingBatches`, `invalidReadingsFollowedUp`, `qcInvalidComprehension` (boolean or null), `alertInformationPreference` (string or null)
 

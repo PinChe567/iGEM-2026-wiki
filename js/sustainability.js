@@ -159,7 +159,8 @@
         if (filter === "all") {
           count.textContent = "Showing all " + visible + " entries";
         } else {
-          count.textContent = "Showing " + visible + " · filter: " + filter;
+          var label = { stakeholder: "Stakeholder-backed", designed: "Designed", estimated: "Estimated", hypothesis: "Hypothesis", gap: "Open gap" }[filter] || filter;
+          count.textContent = "Showing " + visible + " · filter: " + label;
         }
       }
     }
@@ -170,7 +171,22 @@
       });
     });
 
+    function revealLinkedEntry() {
+      var id;
+      try { id = decodeURIComponent(window.location.hash.slice(1)); } catch (_) { return; }
+      var target = document.getElementById(id);
+      if (!target || !root.contains(target) || !target.matches("[data-evidence-id]")) return;
+      if (target.hidden) apply("all");
+      var detail = target.querySelector("details");
+      if (detail) detail.open = true;
+    }
     apply("all");
+    window.addEventListener("hashchange", revealLinkedEntry);
+    document.addEventListener("click", function (event) {
+      var link = event.target.closest ? event.target.closest("a[href]") : null;
+      if (link && link.origin === window.location.origin && link.pathname === window.location.pathname && link.search === window.location.search && link.hash === window.location.hash) revealLinkedEntry();
+    });
+    revealLinkedEntry();
   }
 
   function initCanvasCopy(root) {
