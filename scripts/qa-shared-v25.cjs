@@ -1,5 +1,5 @@
 const{chromium}=require('../game/node_modules/playwright'),fs=require('fs'),path=require('path');
-const site=path.resolve(__dirname,'..'),out=path.resolve(site,'../reports/review-v25/shared');fs.mkdirSync(out,{recursive:true});
+const site=path.resolve(__dirname,'..'),out=path.resolve(site,'reports/review-v25/shared');fs.mkdirSync(out,{recursive:true});
 const allRoutes=fs.readdirSync(site).filter(n=>n.endsWith('.html')&&!['index.html','glossary.html'].includes(n)).concat('learning-platform/progress.html');
 // A scoped rerun replaces only its matching route/width records in the existing report.
 const args=process.argv.slice(2);

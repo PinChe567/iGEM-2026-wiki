@@ -1296,9 +1296,19 @@
 
         if (hasText(ev.evidence)) {
           var evList = makeEl("ul", "nb-event-drawer__list");
+          var evidenceFilesLinked = false;
           (ev.evidence || []).forEach(function (item) {
             if (!item) return;
             var li = makeEl("li");
+            if (item.status === "Zenodo (publication pending)") {
+              if (evidenceFilesLinked) return;
+              evidenceFilesLinked = true;
+              var filesLink = makeEl("a", null, "Data availability");
+              filesLink.href = "#notebook-data-availability";
+              li.appendChild(filesLink);
+              evList.appendChild(li);
+              return;
+            }
             if (typeof item === "string") {
               li.textContent = item;
             } else {
@@ -1336,6 +1346,7 @@
 
       if (hasText(ev.relatedLinks)) {
         var linkList = makeEl("ul", "nb-event-drawer__list");
+        var relatedFilesLinked = false;
         (ev.relatedLinks || []).forEach(function (link) {
           if (!link || (!link.href && !link.publicationPending)) return;
           var li = makeEl("li");
@@ -1344,9 +1355,11 @@
             a.href = link.href;
             li.appendChild(a);
           } else {
-            li.appendChild(makeEl("span", null, link.label || "Evidence"));
-            li.appendChild(document.createTextNode(" — "));
-            li.appendChild(makeEl("span", "zenodo-pending", "Zenodo (publication pending)"));
+            if (relatedFilesLinked) return;
+            relatedFilesLinked = true;
+            var filesLink = makeEl("a", null, "Data availability");
+            filesLink.href = "#notebook-data-availability";
+            li.appendChild(filesLink);
           }
           linkList.appendChild(li);
         });
@@ -1504,6 +1517,19 @@
     });
 
     dialog.addEventListener("click", function (event) {
+      var filesLink = event.target.closest && event.target.closest('a[href="#notebook-data-availability"]');
+      if (filesLink) {
+        event.preventDefault();
+        closeDrawer();
+        var destination = document.getElementById("notebook-data-availability");
+        if (destination) {
+          history.replaceState(history.state, "", "#notebook-data-availability");
+          destination.tabIndex = -1;
+          destination.focus({preventScroll: true});
+          destination.scrollIntoView({block: "start"});
+        }
+        return;
+      }
       if (event.target === dialog) closeDrawer();
     });
 

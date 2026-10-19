@@ -21,6 +21,7 @@
   }
 
   var PROTOCOL_IDS = [
+    "fly-lightsheet",
     "molecular-cloning",
     "dna-gel",
     "cell-culture",
@@ -31,13 +32,12 @@
     "stable-selection",
     "post-selection-odor-tests",
     "calcium-imaging",
-    "data-analysis",
-    "fly-lightsheet"
+    "data-analysis"
   ];
   var TRACKS = {
+    "fly-imaging": ["fly-lightsheet"],
     cloning: ["molecular-cloning", "dna-gel"],
-    "cell-odor": ["cell-culture", "transfection", "expression-validation", "microscopy-analysis", "p2-kinetics", "exp-p2-kinetics", "stable-selection", "post-selection-odor-tests", "calcium-imaging", "data-analysis"],
-    "fly-imaging": ["fly-lightsheet"]
+    "cell-odor": ["cell-culture", "transfection", "expression-validation", "microscopy-analysis", "p2-kinetics", "exp-p2-kinetics", "stable-selection", "post-selection-odor-tests", "calcium-imaging", "data-analysis"]
   };
   function trackForProtocol(id) {
     if (Object.prototype.hasOwnProperty.call(TRACKS, id)) return id;
@@ -48,9 +48,9 @@
     return found;
   }
 
-  var SPY_IDS = ["abstract", "introduction", "workflow"]
+  var SPY_IDS = ["abstract", "workflow"]
     .concat(PROTOCOL_IDS)
-    .concat(["results-record", "discussion", "conclusion", "supplementary", "safety", "references"]);
+    .concat(["safety", "references"]);
 
   var navLinks = Array.prototype.slice.call(
     document.querySelectorAll("[data-exp-flow] a[href^='#'], [data-exp-glance] a[href^='#']")

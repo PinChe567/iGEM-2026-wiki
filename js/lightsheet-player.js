@@ -152,7 +152,7 @@
         updateControls();
       }).catch(function (error) {
         index = null; bytes = null;
-        setStatus("The web player could not load. Zenodo publication is pending."); throw error;
+        setStatus("The web player could not load. Try again or open the recording on iGEM Video Universe."); throw error;
       }).finally(function () { button.disabled = false; loading = null; });
       return loading;
     }

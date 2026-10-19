@@ -18,6 +18,6 @@ for p in [*root.glob('*.html'),*root.glob('learning-platform/*.html')]:
     out=hero.sub(relocate,s)
     if moved:
         p.write_text(out,encoding='utf-8');report.append({'page':str(p.relative_to(root)),'moved':len(moved)})
-report_path=root.parent/'reports/review-v25/breadcrumb-relocation.json'
+report_path=root/'reports/review-v25/breadcrumb-relocation.json'
 if report:report_path.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
 print(f'Moved breadcrumbs below the hero on {len(report)} pages')

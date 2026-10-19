@@ -931,7 +931,193 @@
     window.setTimeout(function () {passage.classList.remove('is-citation-highlight');},5000);
   }
 
+  var referenceFamilies = [
+    {key:'paper', label:'Research papers'},
+    {key:'web', label:'Web resources'},
+    {key:'datasheet', label:'Datasheets'},
+    {key:'other', label:'Books and reports'}
+  ];
+  var referenceOriginalOrder = new WeakMap(), referenceSequence = 0;
+  function referenceFamily(item) {
+    var explicit = item.dataset.referenceType;
+    if (referenceFamilies.some(function (family) { return family.key === explicit; })) return explicit;
+    var copy = item.cloneNode(true);
+    qsa('.ref-highlights, .ref-return-tools, .ref-backlink, .ref-citation-popover, .cite-preview', copy).forEach(function (node) { node.remove(); });
+    var text = copy.textContent.replace(/\s+/g,' ').trim();
+    var urls = qsa('a[href]',copy).map(function (link) { return link.getAttribute('href'); }).join(' ');
+    if (/^ref-edu-source-[3-7]$/.test(item.id)) return 'paper';
+    if (item.id === 'ref-edu-source-8') return 'other';
+    if (/\bdatasheets?\b|data[-_ ]sheets?|\/lit\/ds\//i.test(text+' '+urls)) return 'datasheet';
+    // A dataset DOI identifies a deposited resource, not a research article.
+    if (/\[(?:dataset|database|software)(?:[\];]| documentation)/i.test(text) || /^(ref-uci-270|ref-malecns-dataset)$/.test(item.id)) return 'web';
+    if (/^(ref-jolliffe-2002|ref-meadows-2008|ref-wced-1987|ref-mccloskey-1989)$/.test(item.id) || /\bISBN\b/.test(text)) return 'other';
+    if (/\b10\.\d{4,9}\//.test(text+' '+urls) || /arxiv\.org\/(abs|pdf)\/|proceedings\.iclr\.cc\/|eprints\.whiterose\.ac\.uk\/|tsapps\.nist\.gov\/publication\//i.test(urls)) return 'paper';
+    if (/\b(?:Nature|Science|Scientific Reports|eLife|PNAS|Journal of|Proceedings of|IEEE Transactions|European Journal|Frontiers in|Food Chemistry)\b/.test(text) && /\b(?:19|20)\d{2}\b/.test(text)) return 'paper';
+    return /https?:\/\//.test(urls) ? 'web' : 'other';
+  }
+  function organizeReferences() {
+    var listSelector = '.ref-list, .tech-source-list, .reference-list';
+    // The Notion-derived Education bibliography uses authored block divs. Wrap
+    // those existing records once so the same numbering and return tools apply.
+    qsa('.edu-source-reference[id]').forEach(function (record) {
+      if (record.closest(listSelector)) return;
+      var section=record.closest('#references');if(!section)return;
+      section.classList.add('references');
+      var list=qs(':scope > .ref-list',section);
+      if(!list){list=doc.createElement('ol');list.className='ref-list';section.appendChild(list);}
+      var item=doc.createElement('li');item.id=record.id;record.removeAttribute('id');
+      var first=record.querySelector('p')?.firstChild;
+      if(first?.nodeType===3)first.data=first.data.replace(/^\s*\[\d+\]\s*/,'');
+      item.appendChild(record);list.appendChild(item);
+    });
+    var items = qsa('.ref-list > li, .tech-source-list > li, .reference-list > li');
+    if (!items.length) return;
+    var first = new Map(), byId = new Map(), byUrl = new Map();
+    items.forEach(function (item) {
+      if (!referenceOriginalOrder.has(item)) referenceOriginalOrder.set(item,referenceSequence++);
+      if (!item.id) {
+        var suffix = referenceOriginalOrder.get(item)+1;
+        while (doc.getElementById('reference-auto-'+suffix)) suffix++;
+        item.id = 'reference-auto-'+suffix;
+      }
+      byId.set(item.id,item);
+      qsa('a[href]',item).filter(function (link) { return !link.closest('.ref-highlights, .ref-return-tools') && !link.getAttribute('href').startsWith('#'); }).forEach(function (link) {
+        var sources = byUrl.get(link.href) || [];sources.push(item);byUrl.set(link.href,sources);
+      });
+    });
+    qsa('main a[href], .page-article a[href]').forEach(function (anchor,index) {
+      if (anchor.closest(listSelector+', .reference-reading-note, .cite-preview, .page-toc, .audit-mobile-jump') || anchor.classList.contains('cite--background')) return;
+      var href = anchor.getAttribute('href'), targets = href.startsWith('#') ? [byId.get(href.slice(1))] : (byUrl.get(anchor.href) || []);
+      targets.forEach(function (item) { if (item && !first.has(item)) first.set(item,index); });
+    });
+    var records = items.map(function (item) { return {item:item,family:referenceFamily(item),first:first.has(item)?first.get(item):Infinity,original:referenceOriginalOrder.get(item)}; });
+    var rank = Object.fromEntries(referenceFamilies.map(function (family,index) { return [family.key,index]; }));
+    records.sort(function (a,b) { return rank[a.family]-rank[b.family] || a.first-b.first || a.original-b.original; });
+    var sections = new Map();
+    records.forEach(function (record,index) {
+      var item = record.item, number = index+1, section = item.closest('.references') || item.parentElement.parentElement;
+      item.value = number;item.dataset.referenceFamily = record.family;
+      var groups = sections.get(section) || [];groups.push(record);sections.set(section,groups);
+      qsa('a[href="#'+CSS.escape(item.id)+'"]').filter(function (anchor) { return !anchor.closest(listSelector); }).forEach(function (anchor) {
+        if (/^\s*\[\d+\]\s*$/.test(anchor.textContent)) anchor.textContent='['+number+']';
+        if (anchor.classList.contains('cite')) anchor.setAttribute('aria-label','Reference ['+number+']');
+      });
+    });
+    sections.forEach(function (sectionRecords,section) {
+      var previousLists = qsa(listSelector,section);
+      referenceFamilies.forEach(function (family) {
+        var members = sectionRecords.filter(function (record) { return record.family===family.key; });
+        var group = qs(':scope > .reference-group[data-reference-family="'+family.key+'"]',section);
+        if (!members.length) { if(group)group.hidden=true;return; }
+        if (!group) {
+          group=doc.createElement('div');group.className='reference-group';group.dataset.referenceFamily=family.key;
+          var heading=doc.createElement('h3');heading.className='reference-group__heading';heading.textContent=family.label;
+          var list=doc.createElement('ol');list.className='ref-list';list.dataset.referenceOrder='category-then-first-citation';
+          group.append(heading,list);section.appendChild(group);
+        }
+        var target=qs('.ref-list',group);target.start=Number(members[0].item.value);
+        members.forEach(function (record) { target.appendChild(record.item); });
+        group.hidden=false;section.appendChild(group);
+      });
+      previousLists.forEach(function (list) { if(!list.children.length)list.hidden=true; });
+      // Keep the old study anchors as aliases. The model controller filters the
+      // same reference nodes inside the shared source families after grouping.
+      qsa('.model-reference-group',section).forEach(function (group) {
+        if (group.dataset.referenceLegacy) return;
+        if (group.id) {
+          var alias=doc.createElement('span');alias.id=group.id;alias.className='anchor-alias';alias.dataset.modelReferenceGroup=group.dataset.modelReferenceGroup;
+          group.removeAttribute('id');group.before(alias);
+        }
+        group.removeAttribute('data-model-reference-group');group.dataset.referenceLegacy='true';group.hidden=true;
+      });
+      section.dataset.referenceOrder='category-then-first-citation';
+    });
+    doc.dispatchEvent(new CustomEvent('aerosense:referenceschange'));
+  }
+  window.AeroSenseOrganizeReferences = organizeReferences;
+
+  // Keep references before the sentence stop without replacing anchors or their
+  // event handlers. Translation restores these display-only edits before looking
+  // up the authored sentence, then reapplies them to the selected language.
+  var citationPunctuationEdits = [];
+  var citationFormattingReady = doc.readyState === 'complete';
+  doc.addEventListener('DOMContentLoaded', function () {
+    // A microtask can run between DOMContentLoaded listeners. Wait one task so
+    // glossary annotation and citation previews finish reading the source first.
+    window.setTimeout(function () {
+      citationFormattingReady = true;
+      if (window.AeroSenseI18n) window.AeroSenseI18n.refresh();
+      else normalizeCitationPunctuation();
+    }, 0);
+  });
+  function citationDisplayText(node, value) {
+    if (window.AeroSenseI18n && window.AeroSenseI18n.setDisplayText) window.AeroSenseI18n.setDisplayText(node, value);
+    else node.data = value;
+  }
+  function restoreCitationPunctuation() {
+    citationPunctuationEdits.forEach(function (edit) {
+      if (edit.node.data === edit.display) citationDisplayText(edit.node, edit.source);
+      if (edit.stop) edit.stop.remove();
+    });
+    citationPunctuationEdits = [];
+  }
+  function normalizeCitationPunctuation() {
+    if (!citationFormattingReady) return;
+    restoreCitationPunctuation();
+    var excluded = '.ref-list, .tech-source-list, .reference-list, .references, .ref-highlights, .cite-preview, .reference-reading-note, script, style, code, pre';
+    var blocks = new Set();
+    function citation(element) {
+      if (!element.matches('a.cite[href^="#"]')) return false;
+      var id = element.getAttribute('href').slice(1), target = doc.getElementById(id);
+      return !!target && !!target.closest('.ref-list, .tech-source-list, .reference-list');
+    }
+    qsa('a.cite[href^="#"]').forEach(function (anchor) {
+      if (!anchor.closest(excluded) && citation(anchor)) blocks.add(anchor.closest('p, li, td, th, dd, dt, figcaption, blockquote, .notice, .home-lead, .page-lede, h1, h2, h3, h4, h5, h6') || anchor.parentElement);
+    });
+    blocks.forEach(function (block) {
+      var tokens = [];
+      function walk(node) {
+        if (node.nodeType === 3) { tokens.push({text:node}); return; }
+        if (node.nodeType !== 1 || node.matches(excluded)) return;
+        if (citation(node)) { tokens.push({cite:node}); return; }
+        if (node.matches('.cite-wrap, sup') && Array.from(node.querySelectorAll('a.cite[href^="#"]')).some(citation)) { tokens.push({cite:node}); return; }
+        if (node.tagName === 'BR') { tokens.push({boundary:true}); return; }
+        Array.from(node.childNodes).forEach(walk);
+      }
+      Array.from(block.childNodes).forEach(walk);
+      tokens.forEach(function (token, index) {
+        if (!token.cite) return;
+        var previous = index - 1;
+        while (previous >= 0 && tokens[previous].text && !tokens[previous].text.data.trim()) previous--;
+        var node = previous >= 0 && tokens[previous].text;
+        if (!node) return;
+        var match = /([.。])(\s*)$/.exec(node.data);
+        if (!match || (match[1] === '.' && node.data.charAt(match.index - 1) === '.')) return;
+        var last = token.cite, cursor = index + 1;
+        while (cursor < tokens.length) {
+          if (tokens[cursor].cite) { last = tokens[cursor].cite; cursor++; continue; }
+          if (tokens[cursor].text && /^[\s,，;；]*$/.test(tokens[cursor].text.data)) { cursor++; continue; }
+          break;
+        }
+        var separated = tokens.slice(previous + 1, index).some(function (part) { return part.text && /\s/.test(part.text.data); });
+        var source = node.data, display = source.slice(0, match.index) + (match[2] || (separated ? '' : ' '));
+        var following = tokens[cursor] && tokens[cursor].text;
+        var stop = null;
+        // A few older passages already have a stop on both sides of the marker.
+        // Keep the existing final stop rather than creating a second one.
+        if (!following || !/^[\s]*[.。]/.test(following.data)) {
+          stop = doc.createElement('span');stop.dataset.citationStop = '';stop.setAttribute('translate','no');stop.textContent = match[1];
+          last.after(stop);
+        }
+        citationDisplayText(node, display);
+        citationPunctuationEdits.push({node:node, source:source, display:display, stop:stop});
+      });
+    });
+  }
+  window.AeroSenseCitationPunctuation = {restore:restoreCitationPunctuation, normalize:normalizeCitationPunctuation};
+
   function initReferencesEnhance() {
+    organizeReferences();
     var listSelector = '.ref-list, .tech-source-list, .reference-list';
     var items = qsa('.ref-list > li, .tech-source-list > li, .reference-list > li');
     var pageName = location.pathname.split('/').pop() || 'index.html';
@@ -944,6 +1130,8 @@
       var originalText = item.textContent.replace(/\s+/g,' ').trim();
       var sourceLinks = qsa('a[href]', item).filter(function (a) {return !a.classList.contains('ref-backlink') && a.getAttribute('href').charAt(0) !== '#';});
       var cites = qsa('a[href="#' + refId + '"]').filter(function (a) {return !a.closest(listSelector);});
+      var authoredCites = cites.filter(function (a) { return !a.classList.contains('cite--background') && !a.closest('.reference-reading-note'); });
+      if (authoredCites.length) cites = authoredCites;
       // Direct source hyperlinks are already genuine citations, including ones
       // that predate the numbered-reference system.
       if (!cites.length) {
@@ -962,7 +1150,12 @@
         marker.textContent=item.hasAttribute('value') ? '['+item.getAttribute('value')+']' : (sourceLinks[0] ? sourceLinks[0].textContent.replace(/\s+/g,' ').trim().slice(0,76) : originalText.slice(0,70));
         marker.setAttribute('aria-label','Further reading: '+originalText.slice(0,140));reading.appendChild(marker);cites=[marker];
       }
-      cites.forEach(function(cite,index){if(!cite.id)cite.id='cite-auto-'+refId+'-'+(index+1);});
+      cites.forEach(function(cite,index){
+        if(cite.id)return;
+        var suffix=index+1;
+        while(doc.getElementById('cite-auto-'+refId+'-'+suffix))suffix++;
+        cite.id='cite-auto-'+refId+'-'+suffix;
+      });
       if (!qs('.ref-highlights',item)) {
         var details=doc.createElement('details');details.className='ref-highlights';
         var summary=doc.createElement('summary');summary.textContent='Source highlights';details.appendChild(summary);
@@ -1017,9 +1210,146 @@
         cite.addEventListener('click',function(event){selected=index;back.href='#'+cite.id;if(cite.closest('dialog')){event.preventDefault();item.setAttribute('tabindex','-1');item.focus({preventScroll:true});item.scrollIntoView({block:'center',behavior:reduceMotion?'auto':'smooth'});}item.classList.add('is-citation-highlight');window.setTimeout(function(){item.classList.remove('is-citation-highlight');},5000);});
       });
     });
+    // Glossary and language initialization still need the untouched sentence.
+    // Request a display pass after the other DOMContentLoaded handlers finish.
+    queueMicrotask(function () {
+      if (window.AeroSenseI18n) window.AeroSenseI18n.refresh();
+      else normalizeCitationPunctuation();
+    });
   }
 
   window.AeroSenseEnhanceReferences = initReferencesEnhance;
+
+  /* ---------- Inline attachment reading ---------- */
+  function initPdfPreviews() {
+    var main = qs('main');
+    if (!main) return;
+    var existing = Object.create(null);
+    var readers = [];
+
+    function pdfUrl(value) {
+      try {
+        var url = new URL(value, doc.baseURI);
+        if (!/\.pdf$/i.test(url.pathname) || !/^(https?:|file:)$/.test(url.protocol)) return null;
+        url.hash = '';
+        return url;
+      } catch (_) { return null; }
+    }
+
+    // Bibliographic links to third-party papers/datasheets stay source links:
+    // those hosts can prohibit embedding. Team attachments have a known host.
+    function isAttachment(url, link) {
+      return url.origin === new URL(doc.baseURI).origin ||
+        /^(static\.igem\.wiki|gitlab\.igem\.org)$/.test(url.hostname) ||
+        link.getAttribute('data-pdf-preview') === 'true';
+    }
+
+    qsa('iframe[src], iframe[data-src]', main).forEach(function (frame) {
+      var url = pdfUrl(frame.getAttribute('src') || frame.getAttribute('data-src'));
+      if (url) existing[url.href] = true;
+    });
+
+    qsa('a[href]', main).forEach(function (link) {
+      var url = pdfUrl(link.getAttribute('href'));
+      var localPreview = pdfUrl(link.getAttribute('data-pdf-preview-src'));
+      if (localPreview && localPreview.origin !== new URL(doc.baseURI).origin) localPreview = null;
+      var previewUrl = localPreview || url;
+      if (!url || !isAttachment(url, link) || existing[url.href] || existing[previewUrl.href] ||
+          (url.hostname === 'gitlab.igem.org' && !localPreview) ||
+          link.closest('[data-pdf-preview="false"], [data-hw-v2-preview]')) return;
+      existing[url.href] = true;
+      existing[previewUrl.href] = true;
+      var details = doc.createElement('details');
+      details.className = 'pdf-preview';
+      details.setAttribute('translate', 'no');
+      var summary = doc.createElement('summary');
+      var body = doc.createElement('div');
+      body.className = 'pdf-preview__body';
+      var actions = doc.createElement('p');
+      actions.className = 'pdf-preview__actions';
+      var open = doc.createElement('a');
+      open.href = url.href;
+      open.target = '_blank';
+      open.rel = 'noopener noreferrer';
+      var download = doc.createElement('a');
+      download.href = url.href;
+      download.setAttribute('download', '');
+      var close = doc.createElement('button');
+      close.type = 'button';
+      var frame = doc.createElement('iframe');
+      frame.className = 'pdf-preview__frame';
+      frame.loading = 'lazy';
+      frame.setAttribute('data-pdf-preview-src', previewUrl.href);
+      var fallback = doc.createElement('p');
+      fallback.className = 'pdf-preview__fallback';
+      actions.appendChild(open);
+      actions.appendChild(download);
+      actions.appendChild(close);
+      body.appendChild(actions);
+      body.appendChild(frame);
+      body.appendChild(fallback);
+      details.appendChild(summary);
+      details.appendChild(body);
+
+      // Keep block readers out of paragraphs and inside table/list containers.
+      var anchor = link.closest('p, li, dd, td, th, figure') || link;
+      if (/^(LI|DD|TD|TH)$/.test(anchor.tagName)) anchor.appendChild(details);
+      else anchor.parentNode.insertBefore(details, anchor.nextSibling);
+
+      function syncFrame() {
+        var visible = details.open;
+        var parent = details.parentElement;
+        while (parent) {
+          if (parent.tagName === 'DETAILS' && !parent.open) visible = false;
+          parent = parent.parentElement;
+        }
+        var reader = frame._aeroSensePdfReader;
+        if (visible && !reader && window.AeroSensePdfReader) reader = window.AeroSensePdfReader.enhance(frame);
+        if (reader) {
+          reader.setActive(visible);
+          return; // The detached native frame must never start another request.
+        }
+        if (visible && frame.isConnected) {
+          if (!frame.hasAttribute('src')) frame.src = previewUrl.href + '#view=FitH';
+        } else frame.removeAttribute('src');
+      }
+      function closeReader() {
+        details.open = false;
+        syncFrame();
+        summary.focus();
+      }
+      details.addEventListener('toggle', syncFrame);
+      var parent = details.parentElement;
+      while (parent) {
+        if (parent.tagName === 'DETAILS') parent.addEventListener('toggle', syncFrame);
+        parent = parent.parentElement;
+      }
+      close.addEventListener('click', closeReader);
+      details.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && details.open) {
+          event.preventDefault();
+          closeReader();
+        }
+      });
+      readers.push({summary:summary, open:open, download:download, close:close,
+        frame:frame, fallback:fallback, link:link});
+    });
+
+    function updateLabels() {
+      var zh = /^zh/i.test(root.lang);
+      readers.forEach(function (reader) {
+        reader.summary.textContent = zh ? '在此頁閱讀 PDF' : 'Read PDF on this page';
+        reader.open.textContent = zh ? '另開 PDF' : 'Open PDF';
+        reader.download.textContent = zh ? '下載 PDF' : 'Download PDF';
+        reader.close.textContent = zh ? '收起預覽' : 'Close preview';
+        reader.frame.title = (zh ? 'PDF 預覽：' : 'PDF preview: ') + reader.link.textContent.trim();
+        if (reader.frame._aeroSensePdfReader) reader.frame._aeroSensePdfReader.setTitle(reader.frame.title);
+        reader.fallback.textContent = zh ? '若未顯示預覽，可另開或下載 PDF。' : 'If the preview is unavailable, open or download the PDF.';
+      });
+    }
+    updateLabels();
+    doc.addEventListener('aerosense:languagechange', updateLabels);
+  }
 
   doc.addEventListener("DOMContentLoaded", function () {
     initNav();
@@ -1035,5 +1365,6 @@
     initNotebookFilter();
     initNotebookCalendar();
     initReferencesEnhance();
+    initPdfPreviews();
   });
 })();

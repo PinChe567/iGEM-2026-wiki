@@ -1,5 +1,5 @@
 import * as THREE from './vendor/three.module.js';
-import {loadHardwareWebModel} from './hardware-web-model.js?v=b549a49252ead7f1';
+import {loadHardwareWebModel,addHardwareLidBranding} from './hardware-web-model.js?v=90796fdc3e03eb6b';
 
 export async function createViewer(host) {
   const parts = [
@@ -43,6 +43,7 @@ export async function createViewer(host) {
       geometry.rotateX(-Math.PI/2);value.edges.dispose();
       const mesh=new THREE.Mesh(geometry,new THREE.MeshStandardMaterial({color:part[3],roughness:clear?.84:.9,metalness:0,envMapIntensity:.18,flatShading:true,transparent:clear,opacity:clear?.6:1,side:THREE.DoubleSide}));
       mesh.userData.lift=part[2];group.add(mesh);meshes.push(mesh);
+      if(part[0]==='03_gas_lid_BLACK.stl')addHardwareLidBranding(mesh,true,()=>requestAnimationFrame(schedule));
     }
     host.dataset.modelBytes=String(model.byteLength);
   }

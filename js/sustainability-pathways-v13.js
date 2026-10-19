@@ -32,3 +32,24 @@
   window.addEventListener('hashchange', revealTarget);
   revealTarget();
 })();
+
+/* Open the chosen goal before a table-of-contents or citation jump. */
+(function () {
+ 'use strict';
+ function revealGoal(hash) {
+  if (!hash || hash === '#') return;
+  var target;
+  try { target = document.getElementById(decodeURIComponent(hash.slice(1))); } catch (_) { return; }
+  var section = target && target.closest('section[id^="notion-sdg"]');
+  var disclosure = section && section.querySelector(':scope > .sust-goal-disclosure');
+  if (disclosure) disclosure.open = true;
+ }
+ document.addEventListener('click', function (event) {
+  var link = event.target.closest && event.target.closest('a[href]');
+  if (!link || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+  var url = new URL(link.href, location.href);
+  if (url.origin === location.origin && url.pathname === location.pathname) revealGoal(url.hash);
+ }, true);
+ window.addEventListener('hashchange', function () { revealGoal(location.hash); });
+ revealGoal(location.hash);
+})();

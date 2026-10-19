@@ -183,8 +183,8 @@ body.page-entrepreneurship .framework-note__sheet {
 }
 body.page-entrepreneurship .framework-note__sheet::before {display:none}
 body.page-entrepreneurship .framework-flip__back {background:#ffffff}
-:is(body,dialog) > .reading-popover.is-open {background:#ffffff!important;border-color:var(--v-rule);color:var(--v-ink)!important}
-:is(body,dialog) > .reading-popover .reading-popover__close {background:var(--v-soft);color:var(--v-accent)!important}
+body > .reading-popover.is-open {background:#ffffff!important;border-color:var(--v-rule);color:var(--v-ink)!important}
+body > .reading-popover .reading-popover__close {background:var(--v-soft);color:var(--v-accent)!important}
 body .glossary-popover__visual {background:var(--v-tint);border-color:var(--v-rule)}
 body .fly-qa {background:#ffffff}
 body .fly-qa__choices button {background:var(--v-tint);color:var(--v-ink);border-color:var(--v-rule)}
@@ -218,7 +218,7 @@ body.signal-atlas:not(.page-home){background:#fcfcf8!important;background-image:
 body.signal-atlas:not(.page-home) :is(.shell,.page-main-column,.page-article){min-width:0}
 body.signal-atlas:not(.page-home) .shell--with-toc{max-width:1360px;gap:clamp(2rem,4vw,4rem);padding-inline:clamp(1.25rem,3vw,3rem);padding-top:1.5rem}
 body.signal-atlas:not(.page-home) .page-article{--content-reading:var(--ds-reading);--measure:var(--ds-reading);--reading-max:var(--ds-reading)}
-body.signal-atlas:not(.page-home) :is(.page-article,.lm-article,.audit-static-lesson,.learn-section,.lm-section,.members-section,.glossary-entry) :is(p,li,dd){text-align:justify!important;text-align-last:start;hyphens:auto;word-spacing:normal;overflow-wrap:break-word;line-height:1.75}
+body.signal-atlas:not(.page-home) :is(.page-article,.lm-article,.audit-static-lesson,.learn-section,.lm-section,.members-section,.glossary-entry) :is(p,li,dd){overflow-wrap:break-word;line-height:1.75}
 body.signal-atlas:not(.page-home) .page-article > :is(section,.section-block) > p,
 body.signal-atlas:not(.page-home) .page-article > :is(section,.section-block) > :is(ul,ol):not([class]){max-width:var(--ds-reading)}
 body.signal-atlas:not(.page-home) .page-article :is(h2,h3,h4){font-family:var(--ds-font);color:var(--v-ink);text-wrap:pretty}
@@ -680,6 +680,36 @@ body.signal-atlas.page-home .home-book-chapters a:nth-of-type(5){--chapter-color
    a second inset. Deliberate grids, callouts and interactive stages retain
    their own geometry. This layer does not set image/canvas heights. */
 body.signal-atlas{--content-title-bleed:16px}
+
+/* Reading alignment is one site policy, not a per-card layout choice.
+   Important declarations in this named layer outrank unlayered component
+   !important rules, including later mobile rules. Keep prose justified in both
+   languages; its last line stays natural. Navigation, controls, data cells and
+   short display labels retain their component alignment. */
+@layer prose-alignment {
+ body.signal-atlas main :is(p,li,dd,figcaption,caption,.figure-caption,.table-caption,.editorial-caption):not(:where(
+  nav *,button *,[role="button"] *,[role="tablist"] *,[role="menu"] *,[role="listbox"] *,
+  td *,th *,[aria-hidden="true"],[aria-hidden="true"] *,
+  .page-toc *,.toc *,.breadcrumb *,.ref-return-tools *,.eng-cycle-nav *,
+  .model-study-tabs *,.members-index *,.pdf-reader__toolbar *,
+  .sr-only,.visually-hidden,[role="status"],[aria-live],
+  [data-text-align="preserve"],[data-text-align="preserve"] *,
+  [class*="kicker"],[class*="eyebrow"],[class*="__title"],[class*="__name"],
+  [class*="__label"],[class*="-label"],[class*="__value"],[class*="__number"],
+  [class*="__count"],[class*="__meta"],[class*="__arrow"],[class*="__conn"],
+  [class*="__tag"],[class*="__type"],[class*="__ident"],
+  .hero-tagline,.hp-event-meta,.hp-odor__hub-name,.lightsheet-phase,
+  .eng-cycle__track,.parts-layer__flow,.sust-canvas__blank-cell,
+  li:has(> :is(h2,h3,h4,button))
+ )) {
+  text-align:justify!important;
+  text-align-last:start!important;
+  text-justify:auto!important;
+  word-spacing:normal!important;
+  hyphens:auto!important;
+ }
+ body.signal-atlas main :lang(zh):is(p,li,dd,figcaption,caption,.figure-caption,.table-caption,.editorial-caption){hyphens:manual!important}
+}
 
 /* Use each existing chapter or grid-column width instead of several competing
    character measures. Do not alter the enclosing article, TOC or sticky track. */

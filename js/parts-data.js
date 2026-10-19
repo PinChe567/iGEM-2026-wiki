@@ -26,7 +26,7 @@
   };
 
   var LITERATURE_HEK293 =
-    "Published HEK293 evidence exists for four receptors in our final panel, but only two belong to the previously reported VOC-responsive panel. Zboray et al. reported seven VOC-responsive Drosophila OR cell lines; among our nine final receptors, Or85b and Or98a overlap that responsive panel. The same study also generated Or7a and Or19a HEK293 lines that expressed the reporter and responded to the Orco agonist VUAA1, but did not show VOC-specific responses to the tested ligand panel.";
+    "Published HEK293 evidence exists for four receptors in our final panel, but only two belong to the previously reported VOC-responsive panel. Zboray et al. reported seven VOC-responsive Drosophila OR cell lines; among our ten tuning receptors, Or85b and Or98a overlap that responsive panel. The same study also generated Or7a and Or19a HEK293 lines that expressed the reporter and responded to the Orco agonist VUAA1, but did not show VOC-specific responses to the tested ligand panel.";
 
   function hekLit(status) {
     return {
@@ -38,7 +38,7 @@
   }
 
   var PARTS = [
-    /* ---------- 9 final-panel sensing composites ---------- */
+    /* ---------- 10 sensing composites ---------- */
     {
       id: "BBa_26ZAGFK0",
       displayName: "Or7a-IRES-mCherry",
@@ -229,6 +229,26 @@
         "Final-panel bicistronic sensing module: Or19a CDS, EMCV IRES, and mCherry as a separate polypeptide.",
     },
 
+    {
+      id: "BBa_269VSDDR",
+      displayName: "Or67b-IRES-mCherry",
+      category: "composite",
+      biologicalRole: "sensing-module",
+      signalLayer: null,
+      receptorKey: "Or67b",
+      lengthBp: 2570,
+      proteinLengthAa: null,
+      orProteinLengthAa: 421,
+      inFinalPanel: true,
+      firstGeneration: false,
+      rfc10: "unknown",
+      rfc1000: "unknown",
+      childIds: ["BBa_26ACVV3R", "BBa_K5490030", "BBa_K4177005"],
+      plasmidMap: "https://static.igem.wiki/teams/6460/wiki/parts/architecture-bba-269vsddr.svg",
+      plasmidMapKind: "design-schematic",
+      codonOptimizedForHumanExpression: true,
+      shortDescription: "Bicistronic Or67b sensing module. The published design schematic is not the historical pTwist construct map or evidence of receptor function.",
+    },
     /* ---------- 1 reporting composite ---------- */
     {
       id: "BBa_26E11Z80",
@@ -458,9 +478,9 @@
       signalLayer: "input",
       receptorKey: "Or67b",
       lengthBp: 1266,
-      proteinLengthAa: null,
-      inFinalPanel: false,
-      firstGeneration: true,
+      proteinLengthAa: 421,
+      inFinalPanel: true,
+      firstGeneration: false,
       rfc1000: null,
       childIds: [],
       plasmidMap: "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/b8102e2d4d5b-or67b-ires-mcherry-ptwist.webp",
@@ -468,7 +488,7 @@
       sourceOrganism: "Drosophila melanogaster",
       codonOptimizedForHumanExpression: true,
       shortDescription:
-        "First-generation Or67b coding sequence. Registered for traceability; not one of the nine final-panel receptors. The accompanying pTwist construct image is not a counted composite part.",
+        "Or67b coding sequence used in BBa_269VSDDR. The accompanying pTwist image remains a historical construct record.",
     },
     {
       id: "BBa_26QHYP02",
@@ -572,6 +592,7 @@
   ];
 
   var EXPECTED_SENSING = [
+    ["BBa_269VSDDR", "Or67b-IRES-mCherry", "https://static.igem.wiki/teams/6460/wiki/parts/architecture-bba-269vsddr.svg"],
     ["BBa_26ZAGFK0", "Or7a-IRES-mCherry", "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/b3f73c565ae7-or7a-ires-mcherry.webp"],
     ["BBa_26WOX4B1", "Or22a-IRES-mCherry", "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-20261018/17f0b812c39e-or22a-ires-mcherry.webp"],
     ["BBa_26LLF3LM", "Or35a-IRES-mCherry", "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/ce4207cf708b-or35a-ires-mcherry.webp"],
@@ -596,11 +617,11 @@
     registryPortalUrl: REGISTRY_PORTAL_URL,
     expectedCounts: {
       basic: 14,
-      composite: 10,
+      composite: 11,
       reused: 2,
-      finalPanelSensingComposites: 9,
+      finalPanelSensingComposites: 10,
       reportingComposites: 1,
-      firstGenerationBasic: 1,
+      firstGenerationBasic: 0,
     },
     backbone: "pcDNA3.1(+)",
     sensingArchitecture: SENSING_ARCHITECTURE,
@@ -610,7 +631,7 @@
       {
         id: "input",
         label: "Input (specificity)",
-        parts: "Nine tuning odorant receptors",
+        parts: "Ten tuning odorant receptors",
         function:
           "Binds a distinct set of VOCs. The swappable element — changing the OR retargets the whole sensor.",
       },
@@ -663,7 +684,7 @@
     assemblyNotes: {
       cloningHostIntent: "seamless cloning into pcDNA3.1(+)",
       rfc10Note:
-        "RFC 10 and RFC 1000 are independent Registry assembly standards. This index records RFC 10 only when a Registry compatibility field has been verified in-repo. All26 entries were checked on2026-10-11; RFC 10 is read independently of RFC 1000. The archived JSON records the first incompatible motif where supplied.",
+        "RFC 10 and RFC 1000 are independent Registry assembly standards. This index records RFC 10 only when a Registry compatibility field has been verified in-repo. The original 26 entries were checked on 2026-10-11; the additional Or67b composite was confirmed published on 2026-10-19 and its RFC fields remain unverified; RFC 10 is read independently of RFC 1000. The archived JSON records the first incompatible motif where supplied.",
       rfc10VerifiedIds: ["BBa_2629NIWH", "BBa_262WP16P", "BBa_265G8CE1", "BBa_26ACVV3R", "BBa_26AIIWHV", "BBa_26DG1NPK", "BBa_26DVVZIA", "BBa_26E11Z80", "BBa_26E21OEQ", "BBa_26HJ1RUT", "BBa_26HTXB02", "BBa_26K1TU11", "BBa_26LLF3LM", "BBa_26LWIKBQ", "BBa_26OJ8HGO", "BBa_26Q1Q094", "BBa_26QHYP02", "BBa_26TZLBMJ", "BBa_26UHN7NT", "BBa_26VGDFA1", "BBa_26WOX4B1", "BBa_26XXP4K7", "BBa_26Y7CI2H", "BBa_26ZAGFK0", "BBa_K4177005", "BBa_K5490030"],
       rfc1000CompatibleSensing: ["Or85b", "Or59b", "Or42a", "Or98a"],
       rfc1000ViolationCount: 7,
@@ -677,7 +698,7 @@
       flybaseIdentity:
         "All eleven codon-optimised coding sequences encode proteins identical to the FlyBase reference.",
       junctionSites:
-        "Assembling the sub-parts creates no new restriction sites at any junction in any of the ten composites.",
+        "The earlier junction check covered the original ten composites. The added Or67b module requires its own junction and assembly-standard review.",
       preOrderCorrections: [
         "promoterless backbone in an earlier design round",
         "tandem-repeat linker",
@@ -690,7 +711,7 @@
         registeredCompositeId: null,
         inFinalCompositeCount: false,
         note:
-          "First-generation Or67b–IRES–mCherry construct image on pTwist. Registered as a basic Or67b entry; this earlier construct is outside the final sensing-composite panel.",
+          "Historical Or67b–IRES–mCherry pTwist construct image. The current collection separately includes the published Or67b CDS and composite BBa_269VSDDR; this image does not verify that composite sequence.",
       },
     ],
     references: [
@@ -746,6 +767,7 @@
   }
 
   var VERIFIED_REGISTRY = {
+  "BBa_269VSDDR": {"url": "https://registry.igem.org/parts/bba-269vsddr", "rfc10": "unknown", "rfc1000": "unknown", "checked": "2026-10-19"},
   "BBa_2629NIWH": {
     "url": "https://registry.igem.org/parts/bba-2629niwh",
     "rfc10": false,
@@ -884,7 +906,7 @@
       part.registryUrl = verified.url;
       part.rfc10 = verified.rfc10;
       part.rfc1000 = verified.rfc1000;
-      part.registryVerifiedOn = "2026-10-11";
+      part.registryVerifiedOn = verified.checked || "2026-10-11";
     }
     if (!part.registryUrl) part.registryUrl = null;
     if (!part.parentIds) part.parentIds = [];
@@ -957,12 +979,12 @@
     });
 
     if (basic.length !== 14) addError(errors, "basic count " + basic.length + " !== 14");
-    if (composite.length !== 10) addError(errors, "composite count " + composite.length + " !== 10");
+    if (composite.length !== 11) addError(errors, "composite count " + composite.length + " !== 11");
     if (reused.length !== 2) addError(errors, "reused count " + reused.length + " !== 2");
-    if (sensing.length !== 9) addError(errors, "final-panel sensing composites " + sensing.length + " !== 9");
+    if (sensing.length !== 10) addError(errors, "final-panel sensing composites " + sensing.length + " !== 10");
     if (reporting.length !== 1) addError(errors, "reporting composites " + reporting.length + " !== 1");
-    if (firstGenBasic.length !== 1) {
-      addError(errors, "first-generation basic parts " + firstGenBasic.length + " !== 1");
+    if (firstGenBasic.length !== 0) {
+      addError(errors, "first-generation basic parts " + firstGenBasic.length + " !== 0");
     }
 
     var ids = {};
@@ -1015,8 +1037,8 @@
     if (!or67b) addError(errors, "missing Or67b basic part");
     else {
       if (or67b.category !== "basic") addError(errors, "Or67b must remain a basic part");
-      if (or67b.inFinalPanel) addError(errors, "Or67b must not be in the final panel");
-      if (!or67b.firstGeneration) addError(errors, "Or67b must be marked first-generation");
+      if (!or67b.inFinalPanel) addError(errors, "Or67b must be included in the current collection");
+      if (or67b.firstGeneration) addError(errors, "Historical map status must not exclude the current Or67b CDS");
       if (or67b.plasmidMap !== "https://static.igem.wiki/teams/6460/wiki/aerosense-assets-20261017/lossless-part2-20261018/b8102e2d4d5b-or67b-ires-mcherry-ptwist.webp") {
         addError(errors, "Or67b legacy map mismatch");
       }
@@ -1025,8 +1047,8 @@
     var or67bAsComposite = PARTS.filter(function (part) {
       return part.category === "composite" && (part.receptorKey === "Or67b" || /Or67b/i.test(part.displayName));
     });
-    if (or67bAsComposite.length) {
-      addError(errors, "Or67b must not be counted as a composite part");
+    if (or67bAsComposite.length !== 1 || or67bAsComposite[0].id !== "BBa_269VSDDR") {
+      addError(errors, "Or67b composite BBa_269VSDDR must appear exactly once");
     }
 
     PARTS.forEach(function (part) {

@@ -29,3 +29,44 @@ body.signal-atlas.page-hardware .hw-ui-overview .hw-v4-ui-steps h3.reading-headi
   .page-hardware .hw-ui-overview { grid-template-columns:1fr; gap:1.5rem; }
   .page-hardware .hw-main-content .hw-ui-overview #figure-14 { max-width:330px; }
 }
+
+/* One PDF at a time; the feedback remains its own document below. */
+.page-hardware .hw-manual-tabs { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem;margin:1.5rem 0 1rem;padding:.4rem;border:1px solid var(--v-rule,#bfd6e0);border-radius:14px;background:var(--v-soft,#edf6fc); }
+.page-hardware .hw-manual-tabs button { display:flex;align-items:center;justify-content:center;gap:.7rem;min-height:56px;padding:.8rem 1rem;border:1px solid transparent;border-radius:10px;background:transparent;color:var(--v-ink,#173f55);font:inherit;font-weight:650;cursor:pointer;transition:background .2s,border-color .2s,box-shadow .2s; }
+.page-hardware .hw-manual-tabs button[aria-selected="true"] { background:#fff;border-color:var(--v-accent,#0876a5);box-shadow:0 3px 12px #173f5512; }
+.page-hardware .hw-manual-tabs button:focus-visible { outline:3px solid var(--v-accent,#0876a5);outline-offset:2px; }
+.page-hardware .hw-manual-document[hidden] { display:none!important; }
+.page-hardware .hw-manual-panel-title { position:absolute!important;width:1px!important;height:1px!important;padding:0!important;overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important; }
+
+/* The screen regions share numbered, expandable instructions. */
+.page-hardware .hw-ui-guide { position:relative; }
+.page-hardware .hw-ui-guide__image { position:relative; }
+.page-hardware .hw-ui-guide__image > a { display:block; }
+.page-hardware .hw-ui-guide__region { position:absolute;z-index:2;padding:0;border:1px solid #287ba894;border-radius:6px;background:#98dfff08;cursor:pointer;transition:border-color .2s,background .2s,box-shadow .2s; }
+.page-hardware .hw-ui-guide__region > span { position:absolute;left:-10px;top:-10px;display:grid;place-items:center;width:25px;height:25px;border:2px solid #fff;border-radius:50%;background:#1c6287;color:#fff;font:600 10px/1 ui-monospace,monospace;box-shadow:0 2px 6px #173f5525; }
+.page-hardware .hw-ui-guide__region.is-active { border:2px solid #0876a5;background:#a5ddf41a;box-shadow:0 0 0 3px #0876a51a; }
+.page-hardware .hw-ui-guide__region:focus-visible { outline:3px solid #174a68;outline-offset:3px; }
+.page-hardware .hw-ui-guide__leaders { position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:1; }
+.page-hardware .hw-ui-guide__leaders path { fill:none;stroke:#0876a5;stroke-width:1.5;stroke-linejoin:round;vector-effect:non-scaling-stroke; }
+.page-hardware .hw-ui-guide .hw-v4-ui-steps > li { padding:0;margin:0 0 .85rem;position:relative;z-index:2; }
+.page-hardware .hw-ui-guide .hw-v4-ui-steps > li::before { display:none; }
+.page-hardware .hw-ui-guide details.hw-ui-guide__step { margin:0;padding:0;border:1px solid var(--v-rule,#bfd6e0);border-radius:12px;background:#fff;box-shadow:none;overflow:hidden; }
+.page-hardware .hw-ui-guide li.is-active details { border-color:#0876a5; }
+.page-hardware .hw-ui-guide__step > summary { display:flex;align-items:center;gap:.8rem;list-style:none;padding:1rem;cursor:pointer; }
+.page-hardware .hw-ui-guide__step > summary::-webkit-details-marker { display:none; }
+.page-hardware .hw-ui-guide__step > summary::after { content:'+';margin-left:auto;color:#0876a5;font-size:1.3rem;font-weight:400; }
+.page-hardware .hw-ui-guide__step[open] > summary::after { content:'−'; }
+body.signal-atlas.page-hardware .hw-ui-guide__step h3.reading-heading--topic { margin:0!important;padding:0!important;border:0!important;font-size:1.05rem!important; }
+.page-hardware .hw-ui-guide__number { flex:0 0 auto;color:#0876a5;font:600 .8rem/1 ui-monospace,monospace;letter-spacing:.06em; }
+.page-hardware .hw-ui-guide__body { padding:0 1rem 1rem; }
+.page-hardware .hw-ui-guide__body p { margin:0;font-size:.94rem; }
+.page-hardware .hw-equation { margin:.45rem 0;overflow-x:auto; }
+.page-hardware .hw-equation math { font-family:'Cambria Math','STIX Two Math',math;font-size:1.13em;line-height:1.7; }
+.page-hardware .hw-bom-summary td { vertical-align:top; }
+@media(max-width:800px) { .page-hardware .hw-ui-guide__leaders { display:none; } }
+@media(prefers-reduced-motion:reduce) { .page-hardware .hw-ui-guide__region,.page-hardware .hw-manual-tabs button { transition:none; } }
+@media print {
+  .page-hardware .hw-manual-tabs,.page-hardware .hw-ui-guide__leaders,.page-hardware .hw-ui-guide__region { display:none; }
+  .page-hardware .hw-manual-document[hidden] { display:block!important; }
+  .page-hardware .hw-manual-panel-title { position:static!important;width:auto!important;height:auto!important;clip-path:none!important;white-space:normal!important; }
+}

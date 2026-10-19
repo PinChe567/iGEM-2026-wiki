@@ -4,7 +4,7 @@ import re, json
 from bs4 import BeautifulSoup
 
 ROOT=Path(__file__).resolve().parents[1]
-REPORT=ROOT.parent/'reports/review-v25'
+REPORT=ROOT/'reports/review-v25'
 REPORT.mkdir(parents=True,exist_ok=True)
 logfile=REPORT/'root-copy-changes.json'
 changes=json.loads(logfile.read_text(encoding='utf-8')) if logfile.exists() else []

@@ -18,6 +18,7 @@
   const panels=[...document.querySelectorAll('[data-model-panel]')];
   const supplements=[...document.querySelectorAll('[data-model-supplement]')];
   const availability=[...document.querySelectorAll('[data-model-availability]')];
+  const nextReadings=[...document.querySelectorAll('[data-model-next-for]')];
   if(tabs.length<2||tabs.length!==panels.length)return;
   const panelFor=key=>panels.find(panel=>panel.dataset.modelPanel===key);
   const names=Object.fromEntries(tabs.map(tab=>{const label=tab.querySelector('strong');return[tab.dataset.modelTab,window.AeroSenseI18n?.sourceText(label)||label.textContent];}));
@@ -45,24 +46,9 @@
     if(!tracks.size)ref.dataset.referenceEnhanced='uncited-model-source';
     referenceTracks.set(ref.id,tracks);
   });
-  // Each panel owns a bibliography ordered by its first actual citation. The
-  // same numbering is authored in HTML, so the full no-JS page remains usable.
-  panels.forEach(panel=>{
-    const order=[];
-    const scopes=[panel,...supplements.filter(group=>group.dataset.modelSupplement===panel.dataset.modelPanel),...availability.filter(group=>group.dataset.modelAvailability===panel.dataset.modelPanel)];
-    scopes.flatMap(scope=>[...scope.querySelectorAll('a[href^="#"]')]).forEach(cite=>{
-      const id=cite.getAttribute('href').slice(1);
-      if(!referenceTracks.has(id))return;
-      if(!order.includes(id))order.push(id);
-      const number=order.indexOf(id)+1;
-      cite.textContent='['+number+']';
-      cite.setAttribute('aria-label','Reference '+number);
-      cite.dataset.modelReference=id;
-      document.getElementById(id).value=number;
-    });
-    const list=document.querySelector('[data-model-reference-group="'+panel.dataset.modelPanel+'"] .ref-list');
-    if(list){list.start=1;order.forEach(id=>list.appendChild(document.getElementById(id)));}
-  });
+  // Source families share one page-wide numbering. Study switches only filter
+  // visibility; they must never assign a new number to the same source.
+  window.AeroSenseOrganizeReferences?.();
   function trackFor(target,preferred=active){
     const direct=directTrack(target);if(direct)return direct;
     const ref=target?.closest('#references :is(.ref-list,.re-bibliography) > li[id]');
@@ -84,6 +70,13 @@
     const mobileTitle=document.querySelector('.audit-mobile-jump > summary');if(mobileTitle)mobileTitle.textContent=names[active]+' · contents';
     window.AeroSenseToc?.refresh();
   }
+  function syncReferenceVisibility(){
+    references.forEach(ref=>{ref.hidden=!referenceTracks.get(ref.id).has(active);});
+    document.querySelectorAll('#references :is(.ref-list,.re-bibliography)').forEach(list=>{list.hidden=![...list.children].some(ref=>!ref.hidden);});
+    document.querySelectorAll('#references .reference-group[data-reference-family]').forEach(group=>{group.hidden=![...group.querySelectorAll('.ref-list > li')].some(ref=>!ref.hidden);});
+    if(referenceSection)referenceSection.hidden=!references.some(ref=>!ref.hidden);
+  }
+  document.addEventListener('aerosense:referenceschange',syncReferenceVisibility);
   function activate(key,{focus=false}={}){
     if(!panelFor(key))key=defaultStudy;
     active=key;document.body.dataset.modelStudy=key;
@@ -96,15 +89,13 @@
       if(group.hidden)group.querySelectorAll('video').forEach(video=>video.pause());
     });
     availability.forEach(group=>{group.hidden=group.dataset.modelAvailability!==key;});
+    nextReadings.forEach(nav=>{nav.hidden=nav.dataset.modelNextFor!==key;});
     tabs.forEach(tab=>{
       const selected=tab.dataset.modelTab===key;
       tab.setAttribute('aria-selected',String(selected));tab.tabIndex=selected?0:-1;
       if(selected&&focus)tab.focus({preventScroll:true});
     });
-    references.forEach(ref=>{ref.hidden=!referenceTracks.get(ref.id).has(key);});
-    document.querySelectorAll('#references [data-model-reference-group]').forEach(group=>{group.hidden=group.dataset.modelReferenceGroup!==key;});
-    document.querySelectorAll('#references :is(.ref-list,.re-bibliography)').forEach(list=>{list.hidden=![...list.children].some(ref=>!ref.hidden);});
-    if(referenceSection)referenceSection.hidden=!references.some(ref=>!ref.hidden);
+    syncReferenceVisibility();
     status.textContent=names[key]+' selected.';
     syncContents();
     window.dispatchEvent(new Event('scroll'));
@@ -151,11 +142,23 @@
       if(next){event.preventDefault();selectTab(next,{focus:true});}
     });
   });
+  document.querySelectorAll('[data-model-next]').forEach(link=>{
+    link.addEventListener('click',event=>{
+      if(event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+      const key=link.dataset.modelNext,target=targetFromHash(link.hash);
+      if(!panelFor(key)||!target)return;
+      event.preventDefault();activate(key);
+      history.pushState({...history.state,modelStudy:key},'',link.hash);
+      const heading=target.matches('h2,h3,h4')?target:target.querySelector('h2,h3,h4')||target;
+      if(!heading.hasAttribute('tabindex'))heading.setAttribute('tabindex','-1');
+      heading.focus({preventScroll:true});reveal(target);
+    });
+  });
   panels.forEach(panel=>{panel.setAttribute('role','tabpanel');panel.tabIndex=0;});
   // Run before native anchor scrolling and existing citation-return handlers.
   document.addEventListener('click',event=>{
     const link=event.target.closest('a[href]');
-    if(!link||link.hasAttribute('data-model-tab')||event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+    if(!link||link.hasAttribute('data-model-tab')||link.hasAttribute('data-model-next')||event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
     let url;try{url=new URL(link.href,location.href);}catch{return;}
     const path=value=>value.replace(/\.html$/,'').replace(/\/$/,'');
     if(url.origin!==location.origin||path(url.pathname)!==path(location.pathname)||!url.hash)return;

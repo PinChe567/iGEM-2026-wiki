@@ -87,7 +87,7 @@ function harness({reducedMotion=false,height=800,trackCount=1,initialHash='',loa
       querySelectorAll(){return [];},
       getBoundingClientRect(){const track=this.closest('[data-cycle-viewer]');if(this.className==='eng-reader-runway')return{top:track.base-y,height:parseFloat(track.style.values['--eng-runway-height'])||628};return{top:0,height:0,width:0};}
     };
-    Object.defineProperty(el,'innerHTML',{set(value){this.html=value;if(!value.includes('data-guide-status'))return;this.controlNodes={};for(const key of ['status','hint','prev','next','skip','evidence']){const control=node();this.controlNodes[`[data-guide-${key}]`]=control;this.append(control);}}});
+    Object.defineProperty(el,'innerHTML',{set(value){this.html=value;if(!value.includes('data-guide-status'))return;this.controlNodes={};for(const key of new Set([...value.matchAll(/\bdata-guide-([a-z-]+)\b/g)].map(match=>match[1]))){const control=node();this.controlNodes[`[data-guide-${key}]`]=control;this.append(control);}}});
     return Object.assign(el,extra);
   }
   document.documentElement=node();document.body=node();
@@ -246,7 +246,7 @@ test('Previous and Next cross cycles while preserving keyboard focus on a visibl
 
 test('Skip is explicit navigation and does not permanently disable later native reentry',()=>{
   const h=harness();h.scroll(h.position(3));h.frame();h.click(0,'skip');
-  assert.deepEqual(h.scrollCalls.at(-1),{top:h.track.base+9200-97,behavior:'smooth'});
+  assert.deepEqual(h.scrollCalls.at(-1),{top:h.track.base+9200-97,behavior:'instant'});
   assert.equal(h.getFocus(),h.summary);assert.equal(h.summary.attrs.tabindex,'-1');
   h.fire('scroll');h.frame();h.scroll(h.position(5));h.frame();
   assert.deepEqual(selected(h),{cycle:1,stage:'design'});assert(h.track.classList.contains('is-guided'));
@@ -260,14 +260,15 @@ test('Human Practices Skip reaches the next local item rather than another track
   h.click(0,'skip');assert.equal(h.getY(),10003);
 });
 
-test('reading a cycle decision preserves that cycle during the explicit exit',()=>{
-  const h=harness();h.selectCycle(1);h.selectGear(1,2);h.frame();
-  h.click(1,'evidence');h.fire('scroll');h.frame();
-  assert.deepEqual(selected(h),{cycle:1,stage:'test'});assert.equal(h.getFocus(),h.items[1].footer);
+test('Continue reading preserves the final cycle during the explicit exit',()=>{
+  const h=harness();h.selectCycle(2);h.selectGear(2,4);h.frame();
+  assert.equal(h.button(2,'next').textContent,'Continue reading ↓');
+  h.click(2,'next');h.fire('scroll');h.frame();
+  assert.deepEqual(selected(h),{cycle:2,stage:'redesign'});assert.equal(h.getFocus(),h.items[2].footer);
   const writes=h.scrollCalls.length;
-  for(const delta of [120,240,480]){h.scroll(h.getY()+delta);h.frame();assert.deepEqual(selected(h),{cycle:1,stage:'test'});}
+  for(const delta of [120,240,480]){h.scroll(h.getY()+delta);h.frame();assert.deepEqual(selected(h),{cycle:2,stage:'redesign'});}
   assert.equal(h.scrollCalls.length,writes);
-  h.scroll(h.position(6));h.frame();assert.deepEqual(selected(h),{cycle:1,stage:'build'});
+  h.scroll(h.position(11));h.frame();assert.deepEqual(selected(h),{cycle:2,stage:'build'});
 });
 
 test('every cycle owns a runway with a shared stable dimension and equalized header height',()=>{

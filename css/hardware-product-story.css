@@ -117,3 +117,26 @@
   letter-spacing:.045em; white-space:nowrap; pointer-events:none; user-select:none;
 }
 @media print { .page-hardware .hw-product-watermark { display:none; } }
+
+/* The Learning Lab field-guide fly dances only while its media is loading. */
+.hw-local-media--positioned{position:relative;}
+.hw-local-loader{position:absolute;inset:0;z-index:5;display:grid;place-items:center;pointer-events:none;}
+.hw-local-loader[hidden]{display:none;}
+.hw-local-loader__card{display:flex;align-items:center;flex-direction:column;gap:0;width:min(210px,82%);box-sizing:border-box;padding:3px 16px 17px;border:1px solid #d9ddce;border-radius:20px;background:#fffdf8f5;box-shadow:0 8px 32px #364b4210;color:#73845b;font:500 12px/1.45 var(--font-sans,sans-serif);}
+.hw-local-loader__scene{display:block;width:144px;max-width:100%;height:auto;overflow:visible;}
+.hw-local-loader__dance{transform-origin:84px 88px;animation:hw-fly-dance 2.4s ease-in-out infinite;}
+.hw-local-loader__wing--left{transform-origin:82px 76px;animation:hw-fly-left-wing .8s ease-in-out infinite;}
+.hw-local-loader__wing--right{transform-origin:85px 77px;animation:hw-fly-right-wing .8s ease-in-out -.4s infinite;}
+.hw-local-loader__legs--left{transform-origin:75px 83px;animation:hw-fly-left-step 1.2s ease-in-out infinite;}
+.hw-local-loader__legs--right{transform-origin:94px 82px;animation:hw-fly-right-step 1.2s ease-in-out infinite;}
+.hw-local-loader__label{min-height:18px;text-align:center;letter-spacing:.025em;color:#586a5c;}
+.hw-media-frame{width:100%;}
+.hw-media-frame>iframe,.hw-media-frame>video{display:block;max-width:100%;}
+@keyframes hw-fly-dance{0%,100%{transform:translate(-4px,1px) rotate(-7deg);}25%{transform:translate(2px,-5px) rotate(3deg);}50%{transform:translate(5px,1px) rotate(8deg);}75%{transform:translate(-1px,-5px) rotate(-3deg);}}
+@keyframes hw-fly-left-wing{0%,100%{transform:rotate(-3deg);}50%{transform:rotate(9deg);}}
+@keyframes hw-fly-right-wing{0%,100%{transform:rotate(3deg);}50%{transform:rotate(-9deg);}}
+@keyframes hw-fly-left-step{0%,100%{transform:rotate(-5deg);}35%{transform:rotate(12deg);}65%{transform:rotate(0deg);}}
+@keyframes hw-fly-right-step{0%,100%{transform:rotate(0deg);}35%{transform:rotate(-5deg);}65%{transform:rotate(-12deg);}}
+.hw-local-loader[hidden] *{animation-play-state:paused;}
+@media(prefers-reduced-motion:reduce){.hw-local-loader__dance,.hw-local-loader__wing,.hw-local-loader__legs{animation:none;}}
+@media print{.hw-local-loader{display:none!important;}}

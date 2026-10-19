@@ -1,0 +1,372 @@
+{
+  "retrieved": "2026-10-06",
+  "status": "STE-style proposed operating methods with user-reported preliminary cell observations and corrected seven-hour counts. Cell compatibility and integrated sensor function are not validated. No formal ASD-STE100 certification.",
+  "engineering_choices_not_manufacturer_protocol": [
+    "PBS approximately pH 7.4; selected 100 uL per well only after actual capacity/leak check; C=0.10 uM and half C=0.05 uM are a proposed starting range",
+    "One bounded fallback pilot C=0.50 uM with half C=0.25 uM; restart all formal calibration/series if changed",
+    "Nine formal states with five distinct 2-second technical blocks per state (45); an additional five PHASE_REF setup blocks for UI correction; separate dark QC",
+    "Relative row-normalized volume-model comparison, not a radiometric calibration or GCaMP concentration conversion",
+    "Conditional same-batch cell/reference comparison uses established laboratory controls and a prespecified sustained-response window",
+    "Nominal floor area 0.112 cm2; 3000 viable HEK293 cells/well (2.68e4/cm2), or a 1500/3000/4000 pilot; density and attachment must be confirmed in actual printed wells",
+    "100 uL at 3000 viable cells/well requires 3.00e4 viable cells/mL; nominal liquid depth 8.93 mm; actual printed depth remains unmeasured",
+    "First assessment at 24-48 h after seeding is a planning window, not guaranteed assay readiness; reporter expression timing remains assay-specific",
+    "Proposed material gates include healthy morphology and viability at least 80% of matched tissue-culture plastic; no claim of regulatory qualification",
+    "Proposed evaporation rework threshold 10%; first external-reader feasibility run 10-15 min; baseline recording 2-5 min; each requires actual temperature/pH and reference controls",
+    "Use the existing GCaMP6f-expressing HEK293. HEK293T is not the basis for its DMEM recipe. No new genetic-engineering or stimulus procedure is prescribed.",
+    "For HEK293 ATCC CRL-1573, default the 10-15 min device feasibility pilot to externally controlled and verified 37 C; inspect attachment before/after. HEPES does not provide temperature control.",
+    "Complete DMEM example: 45.00 mL basal DMEM plus 5.00 mL suitable existing FBS gives 50.00 mL with 10% FBS; already-complete medium is not supplemented again",
+    "Glutamine branch: if present as L-glutamine or GlutaMAX, do not add automatically. If absent, follow the existing cell procedure and product instructions. The 0.50 mL of 200 mM example applies only when 2 mM added glutamine is already required.",
+    "Standard starting example is 37 C in a humidified 5% CO2 incubator. Different product-label or already-successful cell conditions take precedence. Check equilibrated pH; no immediate EMEM or special imaging-buffer purchase is required.",
+    "Current optical comparison uses no filter, one LEE 101 layer, two LEE 101 layers, and one specified OD4 filter; separate calibration/complete sequence for every configuration; no new spectral numerical results in this guide.",
+    "English numbered instructions target at most 20 words per sentence; descriptive sentences target at most 25 words. This is a writing-style check, not formal ASD-STE100 vocabulary/compliance certification."
+  ],
+  "sources": [
+    {
+      "id": "fluorescein_supplier",
+      "title": "Sigma/Merck 46960 Fluorescein sodium salt, suitable for fluorescence",
+      "url": "https://www.sigmaaldrich.com/US/en/product/sigma/46960",
+      "type": "official supplier",
+      "verified_claims": [
+        "CAS 518-47-8",
+        "Formula mass 376.27 g/mol",
+        "Excitation/emission 490/514 nm in 0.1 M Tris pH 8.0",
+        "Water-soluble powder"
+      ],
+      "boundary": "No claim of local availability, price, actual lot concentration or exact PBS spectral peaks",
+      "retrieved": "2026-10-06"
+    },
+    {
+      "id": "actual_LED",
+      "title": "Wurth 155124BS73200 WL-SMSW datasheet",
+      "url": "https://www.we-online.com/components/products/datasheet/155124BS73200.pdf",
+      "type": "official component datasheet",
+      "revision": "001.011, 2026-07-06",
+      "location": "page 2",
+      "verified_claims": [
+        "At 20 mA: typical peak 468 nm, dominant 470 nm, spectral bandwidth 25 nm"
+      ],
+      "boundary": "Datasheet test current and luminous intensity do not measure board drive current or radiant power",
+      "retrieved": "2026-10-06"
+    },
+    {
+      "id": "fluorescein_handbook",
+      "title": "Thermo Fisher Molecular Probes Handbook, Section 1.5",
+      "url": "https://www.thermofisher.com/us/en/home/references/molecular-probes-the-handbook/fluorophores-and-their-amine-reactive-derivatives/fluorescein-oregon-green-and-rhodamine-green-dyes.html",
+      "type": "official supplier technical reference",
+      "verified_claims": [
+        "Fluorescein emission is pH dependent",
+        "Photobleaching is a relevant limitation"
+      ],
+      "boundary": "Do not transfer extinction coefficients of a reactive derivative or alkaline condition to sodium fluorescein at 470 nm in PBS",
+      "retrieved": "2026-10-06"
+    },
+    {
+      "id": "doughty_2010",
+      "title": "pH dependent spectral properties of sodium fluorescein ophthalmic solutions revisited",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/20444121/",
+      "doi": "10.1111/j.1475-1313.2009.00703.x",
+      "year": 2010,
+      "type": "primary experimental research, abstract inspected",
+      "verified_claims": [
+        "Solution pH and concentration affect sodium-fluorescein spectra and measured fluorescence"
+      ],
+      "boundary": "Cuvette-specific quenching and spectral thresholds are not universal thresholds for this printed well",
+      "retrieved": "2026-10-06"
+    },
+    {
+      "id": "nist_guidance",
+      "title": "NISTIR 7457 Recommendations and Guidelines for Standardization of Fluorescence Spectroscopy",
+      "url": "https://nvlpubs.nist.gov/nistpubs/ir/2007/ir7457.pdf",
+      "publication_date": "2007-10",
+      "type": "primary metrology guidance",
+      "verified_claims": [
+        "Absorption/reabsorption, sample environment and photodegradation can compromise concentration/intensity proportionality",
+        "Instrument/sample matching is required for quantitative fluorescence"
+      ],
+      "boundary": "This screen does not implement a full NIST qualification or absolute-intensity calibration",
+      "retrieved": "2026-10-06"
+    },
+    {
+      "id": "certified_standard",
+      "title": "Thermo Fisher F36915 Fluorescein NIST-Traceable Standard instructions",
+      "url": "https://documents.thermofisher.com/TFS-Assets/LSG/manuals/mp36915.pdf",
+      "document_revision_date": "2004-02-26",
+      "type": "official product instructions",
+      "verified_claims": [
+        "Certified standard is supplied in borate buffer pH 9.5",
+        "Comparable pH, buffer and temperature matter for intensity comparisons",
+        "Fresh working dilution and light protection are specified"
+      ],
+      "boundary": "Not a required purchase, not a claim that the proposed PBS dilution is certified, and not the source of the proposed 0.10 uM concentration",
+      "retrieved": "2026-10-06"
+    },
+    {
+      "id": "gcamp6_original",
+      "title": "Chen et al., Ultrasensitive fluorescent proteins for imaging neuronal activity",
+      "url": "https://www.nature.com/articles/nature12354",
+      "doi": "10.1038/nature12354",
+      "year": 2013,
+      "type": "primary GCaMP6 research",
+      "verified_claims": [
+        "GCaMP6 includes a fast calcium indicator; acquisition timing matters for fast signals"
+      ],
+      "boundary": "Neuronal results do not validate this HEK293T receptor, odor dose, material compatibility or device time response",
+      "retrieved": "2026-10-06"
+    },
+    {
+      "id": "atcc_hek293",
+      "title": "ATCC 293 [HEK-293], CRL-1573",
+      "url": "https://www.atcc.org/products/crl-1573",
+      "type": "official cell-line supplier instructions",
+      "retrieved": "2026-10-11",
+      "verified_claims": [
+        "ATCC-formulated EMEM plus 10% final FBS",
+        "37 C and 5% CO2 in air",
+        "Adherent culture; recommended inoculum 1e4-4e4 viable cells/cm2",
+        "Medium renewal every 2-3 days in standard cultureware",
+        "Specific room-temperature attachment warning: this line may detach when left at room temperature; reattachment at 37 C may take days"
+      ],
+      "boundary": "Instructions do not validate Aqua-Clear Plus, device geometry, 100 uL working volume, GCaMP expression or 24-48 h assay readiness",
+      "product_sheet_url": "https://www.atcc.org/atcc/productsheetpdf/generatehtmlpdf/crl-1573"
+    },
+    {
+      "id": "atcc_hek293t",
+      "title": "ATCC 293T, CRL-3216",
+      "url": "https://www.atcc.org/products/crl-3216",
+      "type": "official cell-line supplier instructions",
+      "retrieved": "2026-10-11",
+      "verified_claims": [
+        "HEK293 derivative with SV40 T-antigen, distinct from HEK293",
+        "DMEM 30-2002 plus 10% heat-inactivated FBS and 2 mM L-glutamine as specified by this product",
+        "37 C and 5% CO2 in air"
+      ],
+      "boundary": "Only applies when actual line matches; does not automatically replace a different supplier or adapted clone SOP"
+    },
+    {
+      "id": "live_cell_buffer_current",
+      "title": "Live Cell Imaging Solution A59688DJ, MAN1001427 Rev A",
+      "url": "https://documents.thermofisher.com/TFS-Assets/LSG/manuals/MAN1001427-LiveCellImagingSolution-QR.pdf",
+      "publication_date": "2025-05-12",
+      "type": "official product instructions",
+      "retrieved": "2026-10-11",
+      "verified_claims": [
+        "Physiological saline with calcium, magnesium and 20 mM HEPES; pH 7.4",
+        "Supplied without glucose; optional addition 5-20 mM D-glucose"
+      ],
+      "boundary": "The proposed 10 mM glucose preparation and 10-15 min device pilot must be validated for the actual reporter; general product claims do not validate this resin or replace complete growth medium"
+    },
+    {
+      "id": "resin_cytocompatibility",
+      "title": "Parylene-C Coating Protects Resin-3D-Printed Devices from Material Erosion and Prevents Cytotoxicity toward Primary Cells",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/37534979/",
+      "year": 2023,
+      "type": "primary research, abstract inspected",
+      "retrieved": "2026-10-11",
+      "verified_claims": [
+        "Resin-device studies distinguish direct-contact and conditioned-medium effects",
+        "Material leaching and cytotoxicity can matter for cell-culture devices"
+      ],
+      "boundary": "Different resin and cells; neither recommends a sterilization cycle nor qualifies Aqua-Clear Plus or HEK293 attachment"
+    },
+    {
+      "id": "hek293_dmem_primary",
+      "title": "He B, Soderlund DM. Human embryonic kidney (HEK293) cells express endogenous voltage-gated sodium currents and Nav1.7 sodium channels",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2815232/",
+      "doi": "10.1016/j.neulet.2009.12.012",
+      "year": 2010,
+      "type": "primary research; cell-culture methods inspected",
+      "retrieved": "2026-10-11",
+      "verified_claims": [
+        "The methods identify HEK293 ATCC CRL-1573, lot 7681666",
+        "Cells were cultured in ATCC DMEM plus 10% FBS at 37 C in humidified 5% CO2/95% air"
+      ],
+      "boundary": "Evidence for HEK293 rather than HEK293T; does not identify the user Gibco product or prove all DMEM variants, GCaMP clone behavior or resin culture compatibility"
+    },
+    {
+      "id": "gibco_dmem_manufacturer",
+      "title": "Gibco DMEM Product Information Sheet MAN0018898 Rev 4.0",
+      "url": "https://assets.thermofisher.com/TFS-Assets%2FLSG%2Fmanuals%2FMAN0018898_DMEM_IFU.pdf",
+      "publication_date": "2022-03-14",
+      "type": "official medium manufacturer instructions",
+      "retrieved": "2026-10-11",
+      "verified_claims": [
+        "DMEM can culture cell lines including 293 and commonly requires serum supplementation",
+        "Product family includes different glucose, glutamine/GlutaMAX and pyruvate formulations",
+        "Bicarbonate-buffered formulations require an appropriate CO2 environment; cited sheet describes 5-10% CO2 for its 3.7 g/L bicarbonate system"
+      ],
+      "boundary": "Does not identify the exact user bottle; do not presume all products have the same ingredients or add glutamine blindly. Established medium/cell conditions take priority."
+    }
+  ],
+  "local_evidence": {
+    "volume_model": "../02_simulation/optics/results/volume_standard_summary.json",
+    "row_order": [
+      "NE",
+      "NW",
+      "SW",
+      "SE"
+    ],
+    "column_order": [
+      "NE",
+      "NW",
+      "SW",
+      "SE"
+    ],
+    "model_absorption_per_mm": 0.001,
+    "model_fill_uL": 100,
+    "model_reference_QY": 1,
+    "model_LED_on_uW": 500,
+    "model_diagonal_row_fraction": [
+      0.8060157840236554,
+      0.8675851927269969,
+      0.8670554567109082,
+      0.8254863375856646
+    ],
+    "protocol": "Validation_Plan_EN.md",
+    "correction_guide": "../03_software/guides/Measured_Correction_EN.md",
+    "acquisition_boundary": "2-second blocks plus at least 3 seconds idle; carrier frequencies do not imply fast per-well cell time series",
+    "current_provisional_operating_fill_uL": 100,
+    "volume_model_boundary": "Selected operating fill and nominal optical-model fill both equal 100 uL. Printed geometry and optical properties remain unverified; volume agreement is not radiometric validation.",
+    "offline_matrix_definition": "For each single-well condition, abs(mean(blank-corrected complex I/Q)), then row normalization; not signed projection or mean of magnitudes. Low-SNR magnitude bias remains.",
+    "phase_reference_workflow": "UI PHASE_REF adds five setup blocks after B_CAL and before B_CHECK/sample collection. quick_check.py ignores PHASE_REF and uses formal ALL_C for offline signed projection.",
+    "raw_waveform_retention": "Only latest raw ADC waveform available: stop and download B_CAL final block before PHASE_REF, and ALL_C final block before ALL_HALF_REPEAT. Final session JSON retains observed I/Q block records, not every raw waveform.",
+    "current_filter_comparison": [
+      "no filter",
+      "one LEE 101 layer",
+      "two LEE 101 layers",
+      "one specified OD4 filter"
+    ],
+    "manual_style": "Preparation, procedure, checks and failure actions; detailed quantities retained; no formal ASD-STE100 certification"
+  },
+  "no_claims": [
+    "No validated integrated optical or biological device performance",
+    "No absolute optical power or GCaMP concentration calibration",
+    "No gas or protein-assisted uptake validation",
+    "No new biological stimulus concentration",
+    "No independent biological replication from five technical blocks or four shared-gas wells"
+  ],
+  "updated": "2026-10-15",
+  "current_user_materials": {
+    "cells": "HEK293 already expressing GCaMP6f, confirmed by user",
+    "medium": "Available DMEM, reported as probably Gibco; exact product unknown",
+    "FBS": "Not reported absent; use the suitable FBS already used for these cells",
+    "workflow": "No further formulation question required; read bottle before preparation to avoid duplicate supplements; use established successful culture conditions"
+  },
+  "2026_10_14_user_report": {
+    "material": "Phrozen Aqua-Clear Plus",
+    "printer": "Phrozen Mighty Revo 16K (user description)",
+    "culture": "37 C, 5% CO2, approximately 24 hours",
+    "observations": [
+      "Several wells dry",
+      "One wet well without normal visible attached cells",
+      "Same-batch standard culture dish normal with same DMEM"
+    ],
+    "quantitativeViabilityMeasured": false,
+    "materialCauseEstablished": false,
+    "decision": "Suspend overnight culture in current wells. Maintain cells in standard vessels. Check liquid loss without cells. Prefer a complete qualified culture insert and printed holder."
+  },
+  "2026_10_15_user_cell_count_report": {
+    "reportDate": "2026-10-15",
+    "source": "User message with raw four-square counts; no count images or individual-square counts supplied",
+    "testStatus": "One reported preliminary experiment; independent replicate count not documented",
+    "cellLine": "HEK293 with GCaMP6f, user reported",
+    "wellResin": "Aqua-Clear Plus",
+    "wellBottomTreatment": "Light sanding, user reported",
+    "microscopy": "Cell images remained unclear through the printed bottom",
+    "incubationHours": 7,
+    "reportedSeedConcentrationPerMl": 2000000,
+    "reportedSeedVolumeUl": 100,
+    "nominalInputCells": 200000,
+    "quantitativeInitialViability": null,
+    "matchedSevenHourControlCounts": null,
+    "priorStandardDishObservation": "User previously reported normal cells in standard vessels; no matched seven-hour numeric control supplied.",
+    "counting": {
+      "sampleUl": 5,
+      "trypanBlueUl": 5,
+      "dilutionFactor": 2,
+      "assumedLargeSquareAreaMm2": 1,
+      "assumedChamberDepthMm": 0.1,
+      "assumedSquareVolumeMl": 0.0001,
+      "additionalDilutionReported": false,
+      "concentrationFormula": "(four-square count / 4) * 2 * 10000",
+      "viabilityFormula": "unstained_count / (unstained_count + stained_count) * 100"
+    },
+    "fractions": [
+      {
+        "name": "removed_medium",
+        "largeSquaresCounted": 4,
+        "rawUnstainedCount": 72,
+        "rawStainedCount": 48,
+        "userReportedLiveConcentrationPerMl": 360000,
+        "userReportedDeadConcentrationPerMl": 240000,
+        "correctedLiveConcentrationPerMl": 360000,
+        "correctedDeadConcentrationPerMl": 240000,
+        "trypanBlueViabilityPercent": 60,
+        "nominalRecoveryVolumeUl": null,
+        "actualMeasuredRecoveryVolumeUl": null
+      },
+      {
+        "name": "bottom_trypsin_recovery",
+        "largeSquaresCounted": 4,
+        "rawUnstainedCount": 101,
+        "rawStainedCount": 290,
+        "userReportedLiveConcentrationPerMl": 5050000,
+        "userReportedDeadConcentrationPerMl": 14500000,
+        "correctedLiveConcentrationPerMl": 505000,
+        "correctedDeadConcentrationPerMl": 1450000,
+        "trypanBlueViabilityPercent": 25.831202046035806,
+        "nominalRecoveryVolumeUl": 100,
+        "actualMeasuredRecoveryVolumeUl": null
+      }
+    ],
+    "bottomRecoveryVolumesUl": {
+      "trypsin": 50,
+      "medium": 50
+    },
+    "bottomCellTotalsAtNominal100Ul": {
+      "live": 50500,
+      "dead": 145000
+    },
+    "conditionalPooling": {
+      "assumption": "Both fractions recovered in 100 uL each. Actual removed-medium volume was not supplied.",
+      "isMeasuredPooledResult": false,
+      "liveCells": 86500,
+      "deadCells": 169000,
+      "totalCells": 255500,
+      "trypanBlueViabilityPercent": 33.85518590998043,
+      "totalRecoveryRelativeToNominalInputPercent": 127.75,
+      "liveRecoveryRelativeToNominalInputPercent": 43.25,
+      "liveRecoveryIsNotSurvivalRate": true
+    },
+    "nominalGeometry": {
+      "floorDimensionsMm": [
+        4,
+        2.8
+      ],
+      "floorAreaCm2": 0.112,
+      "nominalInputCellsPerCm2": 1785714.2857142857,
+      "source": "09_engineering_sources/CAD/design_parameters.json"
+    },
+    "interpretation": [
+      "Bottom concentrations initially reported were ten times too high.",
+      "Some recovered cells excluded Trypan blue after seven hours; high stained-cell proportion in bottom fraction.",
+      "Bottom recovery can include settled dead cells and does not prove attachment.",
+      "Material toxicity, high loading, liquid loss, recovery and dye handling are not separated.",
+      "Four counted squares are subsamples, not four biological replicates.",
+      "No GCaMP6f functional response, safe exposure duration, material compatibility or complete-device performance is established."
+    ],
+    "recommendedUse": "Report as preliminary Test/Learn evidence. Preserve limitations and label proposed redesign as untested.",
+    "sources": [
+      "https://www.thermofisher.com/be/en/home/references/gibco-cell-culture-basics/cell-culture-protocols/counting-cells-in-a-hemacytometer.html",
+      "https://www.thermofisher.com/us/en/home/references/gibco-cell-culture-basics/cell-culture-protocols/trypan-blue-exclusion.html",
+      "https://www.atcc.org/products/cells_and_microorganisms/by_tissue/kidney/crl-1573",
+      "https://technology.igem.org/engineering"
+    ],
+    "resultFolder": "10_cell_viability_results"
+  },
+  "operating_volume_update_2026_10_16": {
+    "selected_working_fill_uL": 100,
+    "reported_approximate_full_volume_uL": 120,
+    "status": "User-selected operating fill; not a validated culture condition or measured capacity tolerance.",
+    "gas_model_scope": "Gas arrival above the liquid only. OBP binding, gas-to-liquid uptake and cellular response are outside the current airflow study."
+  }
+}

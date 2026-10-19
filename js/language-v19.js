@@ -5,6 +5,22 @@
   const root = document.documentElement;
   const dictionaries = window.AeroSenseTranslations || [];
   const catalog = Object.assign(Object.create(null), ...dictionaries);
+  // Authored paragraph translations can contain citation numbers while the
+  // page uses separate anchor nodes. Reuse their matching text segments so
+  // changing a reference number never makes the surrounding prose untranslatable.
+  const citationSegments = new Map();
+  Object.entries(catalog).forEach(([source, translated]) => {
+    const markers = source.match(/\[\d+\]/g);
+    if (!markers || markers.join('|') !== (translated.match(/\[\d+\]/g) || []).join('|')) return;
+    const targets = translated.split(/\[\d+\]/);
+    source.split(/\[\d+\]/).forEach((segment, index) => {
+      const key = segment.replace(/\s+/g, ' ').trim(), value = targets[index].trim();
+      if (key.length < 8 || !value || Object.hasOwn(catalog, key)) return;
+      if (citationSegments.has(key) && citationSegments.get(key) !== value) citationSegments.set(key, null);
+      else if (!citationSegments.has(key)) citationSegments.set(key, value);
+    });
+  });
+  citationSegments.forEach((value, key) => { if (value !== null) catalog[key] = value; });
   const texts = new WeakMap();
   const attributes = new WeakMap();
   const ranges = new Set();
@@ -213,6 +229,7 @@
     fullScanRequested = false;
     if (!fullScan && !dirtyNodes.size && !dirtyAttributes.size && !rangeCleanupRequested) return;
     observer.disconnect();
+    window.AeroSenseCitationPunctuation?.restore();
     ranges.forEach(translateRange);
     if (fullScan) translateSubtree(document.body);
     else {
@@ -234,6 +251,7 @@
     if (root.lang !== language) root.lang = language;
     if (root.dataset.language !== language) root.dataset.language = language;
     updateButtons();
+    window.AeroSenseCitationPunctuation?.normalize();
     observe();
   }
   const titleState = {original:document.title, rendered:document.title};
@@ -257,6 +275,14 @@
     setLanguage,
     t(value) { return language === 'zh-Hant' ? lookup(value) || value : value; },
     lookup(value) { return lookup(value) || value; },
+    // Presentation punctuation must not become a new dictionary source. The
+    // citation formatter restores it before the next translation pass.
+    setDisplayText(node, value) {
+      const old = texts.get(node);
+      if (old && node.data === old.rendered) old.rendered = value;
+      else texts.set(node, {original:node.data, rendered:value});
+      node.data = value;
+    },
     sourceAttribute(element, name) {
       const value=element.getAttribute(name),old=attributes.get(element)?.[name];
       return old&&value===old.rendered?old.original:value;
@@ -270,7 +296,7 @@
           const range=starts.get(node);
           if(range){result+=range.source;node=range.end;}
           else if(node.nodeType===3){const old=texts.get(node);result+=old&&node.data===old.rendered?old.original:node.data;}
-          else if(node.nodeType===1)result+=node.tagName==='BR'?' ':read(node);
+          else if(node.nodeType===1&&!node.hasAttribute('data-citation-stop'))result+=node.tagName==='BR'?' ':read(node);
         }
         return result;
       }
@@ -286,6 +312,7 @@
           for(const [name,old] of Object.entries(record))if(node.getAttribute(name)===old.rendered)copy.setAttribute(name,old.original);
         }
         for(let child=node.firstChild;child;child=child.nextSibling){
+          if(child.nodeType===1&&child.hasAttribute('data-citation-stop'))continue;
           const range=starts.get(child);
           if(range){
             const fragment=document.createDocumentFragment();

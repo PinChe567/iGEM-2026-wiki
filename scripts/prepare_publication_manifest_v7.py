@@ -9,7 +9,13 @@ english_manifest=SITE/'resources/hardware-en/publication-manifest.json'
 excluded=set(json.loads(english_manifest.read_text(encoding='utf-8')).get('exclude_from_igem_upload',[])) if english_manifest.exists() else set()
 localized_flow_art={f'assets/hardware/pcb-flow-v32/pcb-flow-{layout}-zh-Hant.svg' for layout in ('wide','stacked')}
 localized_flow_art.update(f'assets/hardware/optics-v38/spectral-alignment-zh-Hant.{extension}' for extension in ('svg','png'))
-invalid=[p for p in paths if p in excluded or (re.search(r'(?:^|[._/-])zh(?:[._/-]|$)',p,re.I) and p not in localized_flow_art)]
+# The user approved these anonymized bilingual historical evidence documents.
+# Their English counterparts are linked beside them; identified originals stay excluded.
+localized_evidence_documents={
+    'resources/hardware-en/usability/developer-manual-r4-zh-annotated.pdf',
+    'resources/hardware-en/usability/user-feedback-zh-anonymized.pdf',
+}
+invalid=[p for p in paths if p in excluded or (re.search(r'(?:^|[._/-])zh(?:[._/-]|$)',p,re.I) and p not in localized_flow_art and p not in localized_evidence_documents)]
 if invalid:raise ValueError('Non-English or excluded hardware editions are still publicly linked: '+str(invalid))
 for path in paths:
     p=(SITE/path).resolve()

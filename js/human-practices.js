@@ -208,6 +208,218 @@
     });
   }
 
+  function initValueIcons() {
+    var marks = {
+      early: '<circle cx="24" cy="25" r="14"/><path d="M24 16v10l6 4M17 6h14M24 6v5M35 13l4-4"/>',
+      uncertainty: '<path d="M8 25h32M8 18v14M40 18v14M16 12h16M24 8v8"/><circle cx="24" cy="25" r="5"/><path d="M18 38h12"/>',
+      modular: '<rect x="6" y="6" width="13" height="13" rx="3"/><rect x="29" y="6" width="13" height="13" rx="3"/><rect x="6" y="29" width="13" height="13" rx="3"/><rect x="29" y="29" width="13" height="13" rx="3"/><path d="M19 12h10M12 19v10M36 19v10M19 36h10"/>'
+    };
+    qsa('.hp-value-icon[data-value-icon]').forEach(function (slot) {
+      var shape = marks[slot.getAttribute('data-value-icon')];
+      if (!shape || slot.querySelector('svg')) return;
+      slot.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" aria-hidden="true" focusable="false">' + shape + '</svg>';
+    });
+  }
+
+
+  // The current interviews remain the sole source of each journey panel.
+  function initSourceJourney() {
+    var section = qs('#hp-source-story');
+    if (!section || section.dataset.journeyReady) return;
+    var articles = qsa(':scope > .hp-story-chapter', section);
+    if (!articles.length) return;
+    var labels = [
+      ['Ya-Yun Chang', 'Taoyuan DARES'],
+      ['Professor Cheng', 'Enosim Bio-Tech'],
+      ['Assistant Professor Huang', 'National Tsing Hua University'],
+      ['Founder Lin', 'Challenge Bio'],
+      ['Engineering team', 'iST Group'],
+      ['Industry mentors', 'FITI'],
+      ['NTHU Garage', 'Business development'],
+      ['Patent Attorney Hsu', 'Intellectual property'],
+      ['Public survey', 'Community perspectives'],
+      ['Shan-chi Elementary School', 'Education partnership']
+    ];
+    section.dataset.journeyReady = 'true';
+    var layout = doc.createElement('div');
+    layout.className = 'hp-journey';
+    var nav = doc.createElement('nav');
+    nav.className = 'hp-journey__stops';
+    nav.setAttribute('aria-label', 'Interview journey');
+    var list = doc.createElement('ol');
+    var chooser = doc.createElement('label');
+    chooser.className = 'hp-journey__choose';
+    var chooserText = doc.createElement('span');
+    chooserText.textContent = 'Choose an interview';
+    var selectInput = doc.createElement('select');
+    chooser.append(chooserText, selectInput);
+    nav.append(list);
+    var reader = doc.createElement('div');
+    reader.className = 'hp-journey__reader';
+    reader.setAttribute('role', 'region');
+    reader.tabIndex = 0;
+    layout.append(nav, chooser, reader);
+    section.append(layout);
+    var current = 0;
+    var buttons = articles.map(function (article, index) {
+      var heading = qs('h3', article);
+      if (!heading.id) heading.id = article.id + '-heading';
+      var number = heading.textContent.match(/^#([\d.]+)/);
+      var name = labels[index] ? labels[index][0] : heading.textContent;
+      var role = labels[index] ? labels[index][1] : '';
+      var item = doc.createElement('li');
+      var button = doc.createElement('button');
+      button.type = 'button';
+      button.setAttribute('aria-controls', article.id);
+      var step = doc.createElement('span');
+      step.className = 'hp-journey__number';
+      step.textContent = number ? number[1].padStart(2, '0') : String(index + 1).padStart(2, '0');
+      step.setAttribute('aria-hidden', 'true');
+      var text = doc.createElement('span');
+      var person = doc.createElement('strong');
+      person.textContent = name;
+      var organization = doc.createElement('small');
+      organization.textContent = role;
+      text.append(person, organization);
+      button.append(step, text);
+      item.append(button);
+      list.append(item);
+      var option = doc.createElement('option');
+      option.value = String(index);
+      option.textContent = (number ? number[1] + ' · ' : '') + name;
+      selectInput.append(option);
+      reader.append(article);
+      button.addEventListener('click', function (event) { activate(index, { focus: event.detail === 0 }); });
+      button.addEventListener('keydown', function (event) {
+        var target;
+        if (event.key === 'ArrowDown') target = (index + 1) % articles.length;
+        else if (event.key === 'ArrowUp') target = (index + articles.length - 1) % articles.length;
+        else if (event.key === 'Home') target = 0;
+        else if (event.key === 'End') target = articles.length - 1;
+        if (target === undefined) return;
+        event.preventDefault();
+        activate(target);
+        buttons[target].focus({ preventScroll: true });
+      });
+      return button;
+    });
+    function activate(index, options) {
+      options = options || {};
+      current = index;
+      articles.forEach(function (article, i) { article.hidden = i !== index; });
+      buttons.forEach(function (button, i) { button.setAttribute('aria-pressed', String(i === index)); });
+      selectInput.value = String(index);
+      var heading = qs('h3', articles[index]);
+      reader.setAttribute('aria-labelledby', heading.id);
+      reader.scrollTop = 0;
+      if (options.focus) { heading.tabIndex = -1; heading.focus({ preventScroll: true }); }
+    }
+    function revealTarget(target) {
+      var article = target && target.closest ? target.closest('.hp-story-chapter') : null;
+      var index = articles.indexOf(article);
+      if (index < 0) return;
+      activate(index);
+      if (target !== article) requestAnimationFrame(function () {
+        if (getComputedStyle(reader).position === 'sticky') {
+          reader.scrollTop += target.getBoundingClientRect().top - reader.getBoundingClientRect().top - 20;
+        }
+      });
+    }
+    function fromHash() {
+      try { revealTarget(doc.getElementById(decodeURIComponent(location.hash.slice(1)))); } catch (_) {}
+    }
+    function headerSpace() {
+      var header = qs('.site-header');
+      section.style.setProperty('--hp-journey-top', Math.ceil((header ? header.getBoundingClientRect().height : 80) + 16) + 'px');
+    }
+    selectInput.addEventListener('change', function () { activate(Number(selectInput.value)); });
+    doc.addEventListener('aerosense:before-anchor', function (event) { revealTarget(event.detail && event.detail.target); });
+    window.addEventListener('hashchange', fromHash);
+    window.addEventListener('resize', headerSpace, { passive: true });
+    doc.addEventListener('aerosense:languagechange', headerSpace);
+    if ('ResizeObserver' in window && qs('.site-header')) new ResizeObserver(headerSpace).observe(qs('.site-header'));
+    activate(0);
+    headerSpace();
+    fromHash();
+  }
+
+  function initStakeholderConnections(map) {
+    var stage = qs('.hp-stakeholder-map__stage', map);
+    var hub = qs('.hp-stakeholder-map__hub', map);
+    var groups = qsa('.hp-stakeholder-map__group', map);
+    if (!stage || !hub || !groups.length) return;
+    var ns = 'http://www.w3.org/2000/svg';
+    var svg = doc.createElementNS(ns, 'svg');
+    svg.classList.add('hp-stakeholder-map__connections');
+    svg.setAttribute('aria-hidden', 'true');
+    var paths = groups.map(function () { var path = doc.createElementNS(ns, 'path'); svg.append(path); return path; });
+    stage.prepend(svg);
+    var frame = 0;
+    function draw() {
+      frame = 0;
+      var box = stage.getBoundingClientRect();
+      var center = hub.getBoundingClientRect();
+      svg.setAttribute('viewBox', '0 0 ' + box.width + ' ' + box.height);
+      groups.forEach(function (group, index) {
+        var target = group.getBoundingClientRect();
+        var left = target.left < center.left;
+        var x1 = (left ? center.left : center.right) - box.left;
+        var y1 = center.top + center.height / 2 - box.top;
+        var x2 = (left ? target.right : target.left) - box.left;
+        var y2 = target.top + target.height / 2 - box.top;
+        var middle = (x1 + x2) / 2;
+        paths[index].setAttribute('d', 'M' + x1 + ' ' + y1 + 'H' + middle + 'V' + y2 + 'H' + x2);
+      });
+    }
+    function schedule() { if (!frame) frame = requestAnimationFrame(draw); }
+    if ('ResizeObserver' in window) new ResizeObserver(schedule).observe(stage);
+    window.addEventListener('resize', schedule, { passive: true });
+    doc.addEventListener('aerosense:languagechange', schedule);
+    schedule();
+  }
+
+  function initStakeholderMap() {
+    var map = qs('[data-hp-stakeholder-map]');
+    if (!map) return;
+    var people = qsa('.hp-stakeholder-person[data-person]', map);
+    var panels = qsa('[data-stakeholder-panel]', map);
+    var prompt = qs('[data-stakeholder-prompt]', map);
+    var status = qs('[data-stakeholder-status]', map);
+    var reader = qs('.hp-stakeholder-map__reader', map);
+    var selected = null;
+    function select(button, reveal) {
+      selected = button;
+      var key = button ? button.getAttribute('data-person') : '';
+      people.forEach(function (person) { person.setAttribute('aria-pressed', person === button ? 'true' : 'false'); });
+      panels.forEach(function (panel) { panel.hidden = panel.getAttribute('data-stakeholder-panel') !== key; });
+      if (prompt) prompt.hidden = !!button;
+      var active = panels.find(function (panel) { return !panel.hidden; });
+      if (status) status.textContent = active ? active.textContent.trim().replace(/\s+/g, ' ') : '';
+      if (reveal && reader) {
+        var bounds = reader.getBoundingClientRect();
+        if (bounds.bottom > window.innerHeight || bounds.top < 80) reader.scrollIntoView({block:'nearest', behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+      }
+    }
+    people.forEach(function (button, index) {
+      button.addEventListener('click', function () { select(button, true); });
+      button.addEventListener('keydown', function (event) {
+        var next;
+        if (event.key === 'ArrowRight' || event.key === 'ArrowDown') next = (index + 1) % people.length;
+        if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') next = (index + people.length - 1) % people.length;
+        if (event.key === 'Home') next = 0;
+        if (event.key === 'End') next = people.length - 1;
+        if (next !== undefined) { event.preventDefault(); people[next].focus(); select(people[next], false); }
+        if (event.key === 'Escape') { event.preventDefault(); select(null, false); }
+      });
+    });
+    doc.addEventListener('aerosense:languagechange', function () {
+      if (selected) window.requestAnimationFrame(function () { select(selected, false); });
+    });
+    map.classList.add('is-interactive');
+    initStakeholderConnections(map);
+    select(null, false);
+  }
+
   function initOdorMap() {
     var map = qs("[data-hp-odor-map]");
     if (!map) return;
@@ -558,8 +770,11 @@
     initMobileNavOpen();
     initPortraits();
     initRoad();
+    initSourceJourney();
     initHpDetailPanel();
     initEngagements();
+    initValueIcons();
+    initStakeholderMap();
     initOdorMap();
     setNavHeight();
     window.addEventListener("resize", setNavHeight);

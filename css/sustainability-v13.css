@@ -68,3 +68,83 @@
   .page-sustainability .sust-source-table th,
   .page-sustainability .sust-source-table td { padding: .7rem; }
 }
+
+/* Current source narrative, with older assessment tools kept in focused disclosures. */
+.page-sustainability .sust-source-text > .sust-section {
+  padding-block: 1.4rem; margin-block: 1.2rem; border-top: 1px solid var(--color-rule);
+}
+.page-sustainability .sust-source-text > .sust-section:first-of-type { border-top: 0; }
+.page-sustainability .sust-source-text .sust-goal-heading {
+  display: flex; align-items: center; gap: 1rem; font-size: clamp(1.5rem, 2.5vw, 2.1rem);
+}
+.page-sustainability .sust-goal-heading img { flex: 0 0 64px; width: 64px; height: 64px; border-radius: 0; }
+.page-sustainability #notion-development > .sust-source-list {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; max-width: none;
+  padding: 0; list-style: none;
+}
+.page-sustainability #notion-development > .sust-source-list > li {
+  margin: 0; padding: 1.1rem 0; border-block: 1px solid var(--color-rule);
+}
+.page-sustainability #notion-development .sust-framing { min-width: 0; overflow-wrap: anywhere; }
+.page-sustainability #notion-development .sust-framing--application { --sust-framing-accent: #8c3d35; }
+.page-sustainability #notion-development .sust-framing--commercial { --sust-framing-accent: #315f57; }
+.page-sustainability #notion-development .sust-framing__title,
+.page-sustainability #notion-development .sust-framing__keyword {
+  color: var(--sust-framing-accent); font-weight: 750;
+}
+.page-sustainability .sust-source-table table caption { text-align: left; font-weight: 600; padding-bottom: .65rem; }
+.page-sustainability .sust-source-table th:first-child { width: 22%; }
+.page-sustainability #notion-glance th:first-child { width: 20%; }
+.page-sustainability .sust-source-links { display: flex; flex-wrap: wrap; gap: .6rem 1.5rem; font-size: .9rem; }
+.page-sustainability .sust-record-group { border-top: 1px solid var(--color-rule); padding: 0; margin: 0; }
+.page-sustainability .sust-record-group > summary { cursor: pointer; padding: 1.1rem 0; font-weight: 600; line-height: 1.5; }
+.page-sustainability .sust-record-group > summary:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+.page-sustainability .sust-record-group[open] { padding-bottom: 1rem; }
+.page-sustainability .sust-record-body > section { margin-top: 0; }
+.page-sustainability .sust-record-body .sust-section { padding-top: 1rem; }
+.page-sustainability .sust-current-evidence { font-size: .9rem; color: var(--color-ink-muted); }
+@media (max-width: 640px) {
+  .page-sustainability #notion-development > .sust-source-list { grid-template-columns: 1fr; gap: .5rem; }
+  .page-sustainability .sust-source-text .sust-goal-heading { gap: .75rem; font-size: 1.4rem; }
+  .page-sustainability .sust-goal-heading img { flex-basis: 48px; width: 48px; height: 48px; }
+  .page-sustainability .sust-source-table { margin-inline: 0; }
+}
+
+/* Official SDG artwork: preserve its complete frame, proportions and colors. */
+.page-sustainability .sust-sdg-overview { margin: 1.8rem 0 0; width: 100%; max-width: 980px; }
+.page-sustainability .sust-sdg-overview > a { display: block; background: #fff; border: 1px solid var(--color-rule); }
+.page-sustainability .sust-sdg-overview img { display: block; width: 100%; height: auto; aspect-ratio: 4962 / 3508; object-fit: contain; border-radius: 0; }
+.page-sustainability .sust-sdg-overview > a:focus-visible { outline: 3px solid var(--color-signal-text); outline-offset: 4px; }
+.page-sustainability .sust-sdg-overview figcaption { margin: .65rem 0 .35rem; max-width: none; line-height: 1.6; }
+.page-sustainability .sust-sdg-overview .sust-sdg-attribution { margin: 0; max-width: 96ch; color: var(--color-ink-muted); font-size: .75rem; line-height: 1.5; }
+.page-sustainability .sust-goal-lead { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: clamp(1rem, 3vw, 2rem); align-items: center; margin-block: .5rem 1.6rem; }
+.page-sustainability .sust-goal-lead > img { display: block; width: 160px; height: 160px; object-fit: contain; border-radius: 0; }
+.page-sustainability .sust-goal-lead > .sust-goal-heading { margin: 0; display: block; max-width: 26ch; }
+@media (max-width: 640px) {
+  .page-sustainability .sust-goal-lead { grid-template-columns: 112px minmax(0, 1fr); gap: 1rem; }
+  .page-sustainability .sust-goal-lead > img { width: 112px; height: 112px; }
+  .page-sustainability .sust-goal-lead > .sust-goal-heading { font-size: clamp(1.15rem, 4.7vw, 1.4rem); }
+}
+@media (max-width: 480px) {
+  .page-sustainability .sust-goal-lead { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  .page-sustainability .sust-goal-lead > .sust-goal-heading { max-width: none; }
+}
+
+/* Focused goal disclosures share the page's existing SDG headings. */
+.page-sustainability .sust-goal-disclosure { border-block: 1px solid var(--color-rule); }
+.page-sustainability .sust-goal-disclosure > summary.sust-goal-lead { grid-template-columns: 72px minmax(0, 1fr) 24px; gap: 1.1rem; margin: 0; padding: 1.1rem 0; cursor: pointer; list-style: none; }
+.page-sustainability .sust-goal-disclosure > summary::-webkit-details-marker { display: none; }
+.page-sustainability .sust-goal-disclosure > summary::after { content: '+'; font-size: 1.6rem; text-align: center; color: var(--color-signal-text); }
+.page-sustainability .sust-goal-disclosure[open] > summary::after { content: '−'; }
+.page-sustainability .sust-goal-disclosure > summary > img { width: 72px; height: 72px; }
+.page-sustainability .sust-goal-disclosure > summary > h2 { margin: 0; padding: .6rem 1rem; font-size: clamp(1.15rem, 2vw, 1.65rem); max-width: none; }
+.page-sustainability .sust-goal-disclosure > summary:focus-visible { outline: 2px solid var(--color-signal-text); outline-offset: 4px; }
+.page-sustainability .sust-goal-disclosure__body { padding-bottom: 1rem; }
+@media (max-width: 600px) {
+ .page-sustainability .sust-goal-disclosure > summary.sust-goal-lead { grid-template-columns: 52px minmax(0, 1fr) 20px; gap: .6rem; }
+ .page-sustainability .sust-goal-disclosure > summary > img { width: 52px; height: 52px; }
+ .page-sustainability .sust-goal-disclosure > summary > h2 { padding: .5rem; }
+}
+@media print { .page-sustainability .sust-goal-disclosure:not([open]) > .sust-goal-disclosure__body { display: block; } }
+
+.page-sustainability section[id^="notion-sdg"] { margin-block: 1.25rem; padding-block: 0; }

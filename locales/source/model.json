@@ -539,10 +539,6 @@
     "text": "Simulation · spectral comparison.",
     "tag": "strong"
   },
-  "6e26aafc3379": {
-    "text": "LEE uses sampled vendor data; the OD4 pointwise curve is constructed. Panel C uses a linear 0–100% axis for relative integrated photocurrent; panel D gives the minimum analytic SNR across four channels for a 1% fluorescence change after an ideal stable blank. No experimental or Monte Carlo confidence bands are shown.",
-    "tag": "figcaption"
-  },
   "2c31f8a70984": {
     "text": "Modeled detector currents and ideal-blank analytic SNR for four filter scenarios under the same sources. LED and proxy-green currents are percentages of the no-filter case; SNR assumes a 1% fluorescence change and the stated idealized noise model.",
     "tag": "caption"
@@ -642,10 +638,6 @@
   "5b58cb81cde2": {
     "text": "Simulation · stability requirement.",
     "tag": "strong"
-  },
-  "27d786477bb9": {
-    "text": "Left: one seeded corrected AC residual, in pA, on the same four-frequency basis. Right: deterministic blue I/Q gain drift relative to a hypothetical 1% fluorescence change; the dotted 0.1 line is an example engineering budget, not a validated acceptance limit. Fixed optical mean powers are used; these curves are not uncertainty intervals.",
-    "tag": "figcaption"
   },
   "6c8e7da6d34a": {
     "text": "Selected implementation and remaining test",
@@ -8334,5 +8326,497 @@
   "51be2243fa53": {
     "text": "Model · Dry Lab · AeroSense · NTHU iGEM 2026",
     "tag": "title"
+  },
+  "d5878495fb4c": {
+    "text": "Code, analysis scripts and reusable documentation are prepared for the",
+    "tag": "p"
+  },
+  "2592bc245e38": {
+    "text": "official iGEM GitLab repository",
+    "tag": "p"
+  },
+  "aa0ba7b660c5": {
+    "text": "; the updated files still await upload and public-access verification. Raw and complete research datasets are prepared for Zenodo and have not been published.",
+    "tag": "p"
+  },
+  "9151a836f996": {
+    "text": "GitLab",
+    "tag": "span"
+  },
+  "ed1122d14f70": {
+    "text": "— GitLab",
+    "tag": "span"
+  },
+  "68c7ae2b12fc": {
+    "text": "code/docs: GitLab; data: Zenodo",
+    "tag": "span"
+  },
+  "a89832db704b": {
+    "text": "— code/docs: GitLab; data: Zenodo",
+    "tag": "span"
+  },
+  "005225199da8": {
+    "text": "analysis/odor_model.py",
+    "tag": "span"
+  },
+  "0867124776c9": {
+    "text": "A biological response can only be read after sample molecules reach the cells and emitted light reaches the detector. We separated these steps to ask which part of the proposed geometry could limit a usable signal: optical collection, excitation leakage, gas distribution or transport through the liquid.",
+    "tag": "p"
+  },
+  "dbecac648164": {
+    "text": "A shared detector must collect fluorescence while preserving information about which well produced it. We therefore varied optical geometry and tracked source and detector locations separately. In the sensitivity plots, compare collection with spatial variation; in the mixing matrix, follow one LED row across source wells to distinguish the intended contribution from optical crosstalk.",
+    "tag": "p"
+  },
+  "3271de4cf276": {
+    "text": "Frequency tagging alone cannot remove excitation light arriving at the same modulation frequency as fluorescence. Filter selection therefore asks how much unwanted current can be removed without sacrificing too much useful signal. Read the spectral curves first, then compare integrated currents and signal-to-noise estimates under the same assumed sources.",
+    "tag": "p"
+  },
+  "04cdb9c4eff8": {
+    "text": "An inlet flow rate does not tell us when each well receives the sample or whether delivery is even. We compared chamber geometry and flow conditions using the same inlet concentration step. The maps locate delayed regions; the surface curves show their timing and spatial spread, so both arrival speed and differences between wells inform the operating choice.",
+    "tag": "p"
+  },
+  "013640101d07": {
+    "text": "Gas reaching a well is only the first delivery step: bottom-attached cells remain separated from it by liquid. We next varied liquid depth and diffusivity, then added a membrane to the transport model. Read the depth comparison before the membrane sweep to see whether a proposed barrier adds delay to a path already limited by the liquid.",
+    "tag": "p"
+  },
+  "4ad14c7ea0b5": {
+    "text": "Overlapping sensor responses make a useful test of sparse expansion: can a larger neural representation make gas identity easier to read? The circuit diagram separates that representation from the learned output, and distinguishes the teacher used during training from the information available during testing. Those distinctions guide the later layerwise comparisons.",
+    "tag": "p"
+  },
+  "031c7423a074": {
+    "text": "Before comparing learning rules, the measurements must be represented consistently without using test-set information. The workflow follows an exposure from sensor features to neural input; the gas-by-sensor heatmap then shows which response patterns overlap. This connects the encoding choices to the later classwise errors.",
+    "tag": "p"
+  },
+  "01b463562dca": {
+    "text": "Expansion, inhibition and readout learning perform different jobs in the model. We kept those stages explicit so that a classification error could later be traced to the representation or to the rule that learns from it, rather than treating the network as a single unexplained classifier.",
+    "tag": "p"
+  },
+  "ea8af57a886a": {
+    "text": "The split determines the question a score can answer. Mixing exposures across days tests separation within the sampled collection, whereas holding out whole days tests transfer to different collection conditions. We keep those comparisons distinct from the later chronological UCI analysis and fit preprocessing within the training partition.",
+    "tag": "p"
+  },
+  "af6992ca0c73": {
+    "text": "An overall score can conceal a class that the network repeatedly confuses. We first examine the confusion matrix against the earlier sensor-response heatmap, then use spike rasters to follow an example through the network. The matrix describes the error pattern; the rasters help interpret how a particular decision develops.",
+    "tag": "p"
+  },
+  "145ae083135b": {
+    "text": "A high pooled score is less useful if the classifier relies on conditions shared by the training and test days. We therefore kept measurement days intact and compared classifiers under the same split question. Read the random and unseen-day bars as a change in evaluation conditions before interpreting the drop as a particular physical drift mechanism.",
+    "tag": "p"
+  },
+  "069a5bba4575": {
+    "text": "We also asked whether the chosen setting depended on a narrow parameter choice. The one-factor sweep changes one setting at a time around the earlier reference, so departures from the dashed line identify parameters worth controlling. This comparison concerns sensitivity of that run, rather than independent confirmation of a new optimum.",
+    "tag": "p"
+  },
+  "973f073b04e7": {
+    "text": "The classwise errors leave two possibilities: useful information was lost upstream, or the learned output failed to use information still present. We trained conventional probes at successive representations on a common split. Compare the layer scores first, then the learned MBON output, to locate the loss within this diagnostic experiment.",
+    "tag": "p"
+  },
+  "f4154d0d6a1b": {
+    "text": "The layer diagnosis motivated a more focused comparison in which the representation stays fixed and only the readout rule changes. The offline bars ask whether averaging, error-dependent updates or a conventional linear classifier recover more of the same KC information; they do not compare different upstream encoders.",
+    "tag": "p"
+  },
+  "3c1447428ff1": {
+    "text": "Unseen-day evaluation cannot by itself describe how sensor responses evolve over a long deployment. We therefore used the separate UCI batches to examine response gain, its shared and gas-dependent components, and the resulting classification loss. Read the sensor traces before the decomposition: a correctable common shift need not describe every sensor–gas pair.",
+    "tag": "p"
+  },
+  "40d7f53db1ed": {
+    "text": "To separate classification within a batch from transfer between batches, we compared where the training data came from and whether test concentrations were covered. The curves should therefore be read as different coverage conditions, not interchangeable estimates of one drift penalty.",
+    "tag": "p"
+  },
+  "e634bd84f7ff": {
+    "text": "The shared drift components suggest a practical question: can measurements of one reference gas help classify the others? We compared that correction with global and per-sample normalization. The gas-specific comparator uses additional information, so its bar provides context rather than the expected outcome of an ethanol-only procedure.",
+    "tag": "p"
+  },
+  "e39cf32009b7": {
+    "text": "A deployed classifier may encounter a gas that was absent from its initial training. We used a sequential-learning run to ask whether learning the added class disrupts previously learned classes. Read the before-and-after fractions for the old and new gases together: success on the new class alone would hide forgetting.",
+    "tag": "p"
+  },
+  "6ec3aa8877ed": {
+    "text": "Receptor selection needs functional response evidence before a structural score can be useful. We began with published receptor–odorant measurements and retained their identities in the response matrix. Its rows and columns define the benchmark; holding out receptors or chemical groups then asks different questions about extending beyond the observed combinations.",
+    "tag": "p"
+  },
+  "7ffd703bb120": {
+    "text": "The first cycle connects candidate choice to a prediction test. We compare published responses to the selected mold-related and control panels, then ask which molecular and receptor features help predict held-out measurements. Read the panel differences as a selection criterion and the matched ablations as a test of added information, rather than evidence that a designed mutation works.",
+    "tag": "p"
+  },
+  "76ca5d9e1154": {
+    "text": "A retained baseline provides a reference for asking whether a richer description of an odorant adds useful information. The following studies test measured vibrations, computed modes and a learned molecular representation. Each comparison keeps its eligible compounds and evaluation folds matched, so a change in dataset coverage is not mistaken for a feature benefit.",
+    "tag": "p"
+  },
+  "f10e6559dafe": {
+    "text": "Measured IR offers a description of molecular vibrations beyond the original descriptors, but it may also overlap with size-related information. We compared adding spectra with removing molecular weight or the broader size-feature group. Read each variant against its matched baseline separately for chemical and receptor holdouts; a gain in one task need not transfer to the other.",
+    "tag": "p"
+  },
+  "85b9cd89c415": {
+    "text": "Computed harmonic modes let us test a different vibration representation and whether its dimensionality obscures useful signal. We compared frequency-based EVA, intensity-weighted computed IR, fold-contained compression and random-feature controls. The second figure retrains measured and computed alternatives on their shared compounds, separating that comparison from results obtained on the larger eligible cohorts.",
+    "tag": "p"
+  },
+  "38cefe7f4d5f": {
+    "text": "A representation learned from odor descriptions might capture chemical relationships missing from hand-built features, but receptor-response prediction is a different task. We therefore transferred frozen OpenPOM features without treating pretraining as receptor validation. Compare the matched model variants first, then the paired gain intervals to judge whether the apparent changes are distinguishable from uncertainty.",
+    "tag": "p"
+  },
+  "be03ec4797cb": {
+    "text": "Extending a fly-trained model to another species requires more than recognizing similar sequences. We tested direct response prediction against mosquito measurements and separately compared sequence similarity with similarity of functional profiles. The scatter tests agreement of predictions with observations; the method comparison asks whether local sequence matching supplies a useful ranking signal.",
+    "tag": "p"
+  },
+  "5bb7e5a0e86f": {
+    "text": "A mutation should improve the intended comparison, not merely obtain a favorable score in one pose. We paired mutant and wild-type docking across the same odor panels and inspected whether the altered side chain was near the ligand. Read the score shifts and contact distances together to test the proposed rationale for each candidate.",
+    "tag": "p"
+  },
+  "492918a05620": {
+    "text": "Static docking samples one receptor conformation; receptor motion might alter the accessible poses and their ranking. In the separate reference complex, we compared static and trajectory-derived ensembles against a published functional panel. The ranking plot tests predictive usefulness, while the trajectory diagnostics show how uncertain or drifting structural regions qualify that interpretation.",
+    "tag": "p"
+  },
+  "aa8ba98f7ea0": {
+    "text": "Docking places an odorant in a pocket without showing how it arrives there. We next varied starting locations and molecular availability to distinguish finding the receptor from entering its pocket. Follow distance and pocket contacts for the same molecule together; an approach or surface encounter does not satisfy the sustained-entry criterion.",
+    "tag": "p"
+  },
+  "6162f5cda4de": {
+    "text": "The absence of observed entry left open whether local receptor geometry obstructed access. We guided entrance distances toward the unbound reference and monitored the odorant independently. In the paired panels, reduced geometry error shows that guidance affected the receptor; ligand distance and persistence after bias removal test the separate question of release.",
+    "tag": "p"
+  },
+  "7f33ead4578b": {
+    "text": "A corridor that admits a point probe may still be blocked for an odorant with finite size and orientation. We therefore progressed from empty-space maps to whole-ligand placement and flexible pulling. Read target motion separately from actual ligand motion, then use the clash scans and waiting comparisons to locate what continued to obstruct passage.",
+    "tag": "p"
+  },
+  "2a44bc848528": {
+    "text": "Code and documents — GitLab",
+    "tag": "p"
+  },
+  "1f51e25a274f": {
+    "text": "Raw and complete data — Zenodo (publication pending)",
+    "tag": "p"
+  },
+  "ec53cfaf1a15": {
+    "text": "Code, analysis scripts and reusable documentation are published in the",
+    "tag": "p"
+  },
+  "94e13f6da59a": {
+    "text": ". Raw and complete research datasets are prepared for Zenodo and have not been published.",
+    "tag": "p"
+  },
+  "c24d21601078": {
+    "text": "Molecules must reach the cells and emitted light must reach the detector. We model these steps separately to locate limits from optical collection, excitation leakage, gas distribution and liquid transport.",
+    "tag": "p"
+  },
+  "bd9684d50e38": {
+    "text": "We varied optical geometry to test fluorescence collection and source-well mixing at the shared detector. Compare collection with spatial variation, then follow each LED row across the mixing matrix to separate intended-well signal from crosstalk.",
+    "tag": "p"
+  },
+  "92187c32df41": {
+    "text": "Frequency tagging cannot reject excitation leakage at the fluorescence modulation frequency. We compare filter rejection against signal retention: read the spectra, integrated currents and signal-to-noise estimates under the same source assumptions.",
+    "tag": "p"
+  },
+  "34a6a1c544f0": {
+    "text": "We compared chamber geometry and flow under the same inlet concentration step to test arrival time and delivery uniformity. Maps locate delayed regions; surface curves show timing and spatial spread across wells.",
+    "tag": "p"
+  },
+  "fffeb44adb0b": {
+    "text": "Gas must also cross the liquid to reach bottom-attached cells. We varied liquid depth and diffusivity before adding a membrane; compare depth effects first, then the membrane’s added delay.",
+    "tag": "p"
+  },
+  "670193117ae9": {
+    "text": "We test information loss, unseen-day performance and reference-gas correction. The newer five-fold study extends the single-run benchmark; its parameter sweep retains a separate 0.868 reference. These metal-oxide studies are independent of the reader simulations and HEK293 experiments.",
+    "tag": "p"
+  },
+  "a3fd755e5b16": {
+    "text": "Can sparse expansion make overlapping sensor responses easier to classify? The circuit diagram separates representation from learned output and training-only teacher signals from test inputs, preparing the later layerwise comparisons.",
+    "tag": "p"
+  },
+  "b17e66c1f961": {
+    "text": "Encoding must be consistent and exclude test-set information. Follow each exposure from sensor features to neural input, then compare overlapping patterns in the gas-by-sensor heatmap with later classwise errors.",
+    "tag": "p"
+  },
+  "520b0eba6cfe": {
+    "text": "We separate expansion, inhibition and readout learning so that errors can be traced to the representation or its learned output.",
+    "tag": "p"
+  },
+  "74f9a99fcab4": {
+    "text": "Random exposure splits test separation within the collection; whole-day holdouts test unseen collection conditions. Both differ from the chronological UCI analysis. Preprocessing is fitted within each training partition.",
+    "tag": "p"
+  },
+  "d1b30d09e616": {
+    "text": "An overall score can conceal repeated class confusion. Compare the confusion matrix with sensor-response patterns, then use spike rasters to trace example decisions; the rasters explain dynamics rather than estimate accuracy.",
+    "tag": "p"
+  },
+  "3a9043f80007": {
+    "text": "Keeping measurement days intact tests reliance on shared collection conditions. Compare random and unseen-day bars before attributing their difference to a particular drift mechanism.",
+    "tag": "p"
+  },
+  "52c6bc6e2b97": {
+    "text": "The one-factor sweep tests sensitivity around the earlier reference. Departures from the dashed line identify parameters worth controlling, not an independently confirmed optimum.",
+    "tag": "p"
+  },
+  "6504a8d67e0c": {
+    "text": "Errors may reflect upstream information loss or an inadequate learned output. Compare conventional probes across representations on a common split, then with MBON output, to locate the loss.",
+    "tag": "p"
+  },
+  "272d144a76a8": {
+    "text": "To test the readout diagnosis, we fixed the KC representation and varied only the output rule. Compare averaging, error-dependent updates and a linear classifier using the same information.",
+    "tag": "p"
+  },
+  "91c73485a747": {
+    "text": "The separate UCI batches test long-term gain changes and classification loss. Read sensor traces before their common and gas-dependent components: a shared correction may not fit every sensor–gas pair.",
+    "tag": "p"
+  },
+  "05e535ef7a97": {
+    "text": "The curves compare training-batch choice and test-concentration coverage, separating within-batch classification from between-batch transfer rather than estimating a single drift penalty.",
+    "tag": "p"
+  },
+  "c88e7b1e6f27": {
+    "text": "Can one reference gas help classify the others? Compare its correction with global and per-sample normalization. The gas-specific comparator uses extra information and is not an ethanol-only outcome.",
+    "tag": "p"
+  },
+  "8b5f0bce69bc": {
+    "text": "We tested whether learning a new gas disrupts earlier classes. Read old- and new-gas fractions together; success on the added class alone would conceal forgetting.",
+    "tag": "p"
+  },
+  "00cf6d93b23e": {
+    "text": "Published receptor–odorant measurements define the response matrix and benchmark. Receptor and chemical-group holdouts separately test extension beyond observed combinations.",
+    "tag": "p"
+  },
+  "a38cc5ad9744": {
+    "text": "Compare published responses for mold-related and control odor panels, then test added molecular and receptor features against held-out measurements. Panel differences select candidates; matched ablations test predictive information, not mutant function.",
+    "tag": "p"
+  },
+  "0737895052fc": {
+    "text": "We compared measured vibrations, computed modes and learned molecular features with the baseline. Each comparison uses matched compounds and folds, separating feature effects from dataset coverage.",
+    "tag": "p"
+  },
+  "413aaf700e02": {
+    "text": "Measured IR may overlap with size-related descriptors. Compare added spectra and removal of molecular weight or size features against matched baselines, separately for chemical and receptor holdouts.",
+    "tag": "p"
+  },
+  "ad147a51e933": {
+    "text": "We compared frequency-based EVA, intensity-weighted computed IR, fold-contained compression and random controls. The second figure retrains measured and computed alternatives on shared compounds, separating representation effects from larger-cohort results.",
+    "tag": "p"
+  },
+  "6f73d482b6b5": {
+    "text": "We transferred frozen OpenPOM features from odor-description learning to receptor-response prediction. Compare matched variants and paired gain intervals; pretraining alone does not validate receptor predictions.",
+    "tag": "p"
+  },
+  "60fc5fa40a1b": {
+    "text": "We paired mutant and wild-type docking across the same odor panels. Compare score shifts with side-chain–ligand distances to test each candidate’s rationale, rather than relying on a favorable pose.",
+    "tag": "p"
+  },
+  "9b6766aec411": {
+    "text": "We tested fly-trained response predictions against mosquito measurements and separately compared sequence similarity with functional profiles. Read prediction–observation agreement before evaluating the ranking signal from local sequence matching.",
+    "tag": "p"
+  },
+  "6f4836a37892": {
+    "text": "Receptor motion may change accessible poses and rankings. We compared static and trajectory-derived ensembles against a published functional panel; trajectory diagnostics qualify the ranking results where structural regions drift.",
+    "tag": "p"
+  },
+  "ec16ae7db3a1": {
+    "text": "Docking does not explain arrival at the pocket. We varied starting positions and molecular availability, tracking each molecule’s distance and pocket contacts; approach alone does not meet the sustained-entry criterion.",
+    "tag": "p"
+  },
+  "03101767e132": {
+    "text": "We guided entrance distances toward the unbound reference to test a possible geometric obstruction. Compare reduced geometry error with ligand distance and persistence after bias removal: changing receptor geometry and releasing the ligand are separate outcomes.",
+    "tag": "p"
+  },
+  "3ac418be0529": {
+    "text": "A point-probe corridor may exclude a finite, oriented odorant. We progressed to whole-ligand placement and flexible pulling; compare target and ligand motion, then inspect clashes and waiting tests for remaining obstacles.",
+    "tag": "p"
+  },
+  "09841d6fff9b": {
+    "text": "The gas model predicts a four-well surface t90 of 47.80–49.42 s at 3 mL/min, D = 10 mm²/s and a 100 µL fill. Conditional optical transport predicts NE detector collection of 0.593 ± 0.035 nW. We use these separate calculations to locate transport and readout limits before interpreting a biological signal.",
+    "tag": "p"
+  },
+  "ba48f6540662": {
+    "text": "01–02 / TRANSPORT",
+    "tag": "span"
+  },
+  "198dc52e39c2": {
+    "text": "How does the sample reach the cells?",
+    "tag": "strong"
+  },
+  "1ea1e51abed1": {
+    "text": "Gas arrival, liquid depth and membrane delay →",
+    "tag": "small"
+  },
+  "a4428683abed": {
+    "text": "03 / LIGHT",
+    "tag": "span"
+  },
+  "af63e11e3f8c": {
+    "text": "04 / FILTER",
+    "tag": "span"
+  },
+  "a0778a36fe96": {
+    "text": "We first compared how a concentration step moves through the chamber. The movie holds the color scale fixed across geometries and flows; the maps below resolve that progression in a vertical section and immediately above each well.",
+    "tag": "p"
+  },
+  "22c06d5dddb2": {
+    "text": "The maps reveal where gas remains dilute, but choosing a flow also requires a time threshold. We therefore tracked each well’s surface-area mean as it approaches the inlet concentration; the shaded curves retain spatial variation around that mean.",
+    "tag": "p"
+  },
+  "dc58d461b77a": {
+    "text": "Geometry was compared at the same flow and diffusivity to separate redistribution from simply pumping faster. Read each interval from t10 to t90 and compare its t50 marker: the shelf redirects gas without giving the shortest interval in every case.",
+    "tag": "p"
+  },
+  "0433ef2a7a4c": {
+    "text": "Finally, flow and diffusivity sweeps test the operating range, while grid and time-step checks show how much the timing depends on discretization. The small separation between geometries must be read alongside these numerical shifts.",
+    "tag": "p"
+  },
+  "8f9ebae6d15f": {
+    "text": "Hardware: selected gas path and chamber geometry →",
+    "tag": "a"
+  },
+  "1477168a304d": {
+    "text": "The first comparison places gas-side wash-in and delivery to the well floor on their respective time axes. It tests whether chamber equilibration is a useful proxy for exposure of bottom-attached cells.",
+    "tag": "p"
+  },
+  "648976f2565e": {
+    "text": "Depth and effective diffusivity were varied independently to ask which design change could shorten that path. The depth sweep tests geometric distance; the mixing multiplier represents a hypothetical transport enhancement.",
+    "tag": "p"
+  },
+  "68d7500f76ad": {
+    "text": "A membrane adds another barrier whose importance may depend on liquid mixing. The thickness–diffusivity–partitioning sweep separates those regimes: color tracks delay, while gray marks conditions that do not reach the target during the simulated window.",
+    "tag": "p"
+  },
+  "80b2dea91af0": {
+    "text": "Hardware: selected no-film chamber and sample geometry →",
+    "tag": "a"
+  },
+  "1939b0b4b843": {
+    "text": "Shown over 20 s of playback. Panel A displays saved",
+    "tag": "figcaption"
+  },
+  "3e5e39e86a3f": {
+    "text": "Hardware: optical registration and the selected reader layout →",
+    "tag": "a"
+  },
+  "8c25cad270f9": {
+    "text": "Under the stated noise assumptions, one LEE 101 layer retains 70.43% of modeled proxy-green current with analytic SNR 16.14 for a 1% change. The two-layer and constructed OD4 cases compare signal retention with stronger rejection.",
+    "tag": "p"
+  },
+  "d695d5855bc5": {
+    "text": "Selected design",
+    "tag": "h3"
+  },
+  "dd90961698e7": {
+    "text": "Use one LEE 101 layer in the reader. Retain raw I/Q, independent illuminated blanks and a signed phase reference; do not automatically apply the simulated mixing matrix.",
+    "tag": "p"
+  },
+  "bbceadcf2139": {
+    "text": "Hardware: selected single-layer filter comparison →",
+    "tag": "a"
+  },
+  "1da7ab991ae5": {
+    "text": "Computational evidence and the resulting gas-flow, optical and membrane design decisions.",
+    "tag": "caption"
+  },
+  "0a64e8a7e983": {
+    "text": "Hardware: resulting apparatus and assembly →",
+    "tag": "a"
+  },
+  "6525cbc32d34": {
+    "text": "The optical and filter results are predictions under their stated source and noise assumptions. The constructed OD4 disc also differs from the selected film in mounting geometry; its modeled performance does not establish compatibility with the reader.",
+    "tag": "p"
+  },
+  "a45943167ba8": {
+    "text": "Physical checks must cover blank and dye calibration, actual detector/filter response, one fluorescent source well at a time, LED-synchronous background and noise, and assembled-path flow, pressure and interface concentration history. These measurements test the design decisions rather than being supplied by the simulations.",
+    "tag": "p"
+  },
+  "55b627d67c36": {
+    "text": "Panel A displays saved",
+    "tag": "figcaption"
+  },
+  "6965934a0f05": {
+    "text": "From computational evidence to a build decision",
+    "tag": "div"
+  },
+  "d850430ff778": {
+    "text": "LEE uses sampled vendor data; the OD4 pointwise curve is constructed. Panel C shows relative integrated photocurrent on a logarithmic axis (0.01–200%); panel D gives the minimum analytic SNR across four channels for a 1% fluorescence change after an ideal stable blank. No experimental or Monte Carlo confidence bands are shown.",
+    "tag": "figcaption"
+  },
+  "a1b8116f3e86": {
+    "text": "Left: one seeded corrected AC residual, in pA, on the same four-frequency basis. Right: deterministic blue I/Q gain drift relative to a hypothetical 1% fluorescence change; the dotted 0.1 line is an example engineering budget, not a validated acceptance limit. Fixed optical mean powers and a constructed OD4 scenario are used; no hardware drift is measured, and these curves are not uncertainty intervals.",
+    "tag": "figcaption"
+  },
+  "9ead979eea49": {
+    "text": "Research data record — Zenodo",
+    "tag": "span"
+  },
+  "14149f7f02c9": {
+    "text": "Zenodo research record",
+    "tag": "span"
+  },
+  "67af718400b1": {
+    "text": "— Zenodo research record",
+    "tag": "span"
+  },
+  "a01b7d312645": {
+    "text": ". Research data record:",
+    "tag": "span"
+  },
+  "2c09ca92cd7d": {
+    "text": "Research data record:",
+    "tag": "span"
+  },
+  "81222b7d8120": {
+    "text": "Zenodo DOI",
+    "tag": "span"
+  },
+  "ca284f813c3f": {
+    "text": "— Source reference",
+    "tag": "span"
+  },
+  "54c5d5b45162": {
+    "text": "Two odor inputs in a simulated PN–KC circuit",
+    "tag": "span"
+  },
+  "874c910ec7fd": {
+    "text": "Circuit simulation · 10.84 s",
+    "tag": "span"
+  },
+  "4665c9594070": {
+    "text": "OR10–Orco: steered molecular dynamics of o-cresol",
+    "tag": "span"
+  },
+  "c32300135c6c": {
+    "text": "Computational trajectory · 19.08 s",
+    "tag": "span"
+  },
+  "b641d3a0289a": {
+    "text": "Uploaded to iGEM Video Universe",
+    "tag": "span"
+  },
+  "c303c36f93cc": {
+    "text": "Playback is not yet available.",
+    "tag": "span"
+  },
+  "144407790d1f": {
+    "text": "Open official video page",
+    "tag": "span"
+  },
+  "9ac91bbce96d": {
+    "text": "Video 4.",
+    "tag": "span"
+  },
+  "e30f4f17a899": {
+    "text": "Video 5.",
+    "tag": "span"
+  },
+  "19a629903102": {
+    "text": "Two odor inputs, each activating 20 projection neurons, drive a leaky integrate-and-fire PN–KC simulation on Hemibrain anatomy; rasters show simulated KC spikes. This circuit illustration is separate from calcium imaging and the AeroSense decoder benchmark.",
+    "tag": "figcaption"
+  },
+  "8daca2027cc6": {
+    "text": "Saved coordinates show o-cresol under steered molecular dynamics in OR10–Orco, with ligand–pocket distance and bias force. The target follows a lateral candidate route at a nominal 0.20 nm/ns; the 3.610 ns run ends without sustained exit and does not represent spontaneous dissociation.",
+    "tag": "figcaption"
+  },
+  "03c7533357c0": {
+    "text": "Continue through model studies",
+    "tag": "span"
+  },
+  "3a3cd017a644": {
+    "text": "Next study",
+    "tag": "span"
+  },
+  "716e91a1d7c4": {
+    "text": "Return to first study",
+    "tag": "span"
   }
 }

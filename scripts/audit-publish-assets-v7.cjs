@@ -80,7 +80,7 @@ function parse(file){
  if(/\.html?$/i.test(file)){
   for(const m of text.matchAll(/<(?:a|img|source|video|audio|iframe|script|link|object|embed|meta)\b[^>]*>/gi)){
    const tag=m[0],a=attrs(tag);const t=tag.match(/^<(\w+)/)[1].toLowerCase();
-   for(const key of ['src','href','poster','data','data-src','data-model','data-file','data-full','data-original','data-image'])if(a[key])add(a[key],file,t==='a'?'link-or-download':t+'-resource',true);
+   for(const key of ['src','href','poster','data','data-src','data-model','data-file','data-full','data-original','data-image','data-pdf-preview-src'])if(a[key])add(a[key],file,t==='a'?'link-or-download':t+'-resource',true);
    if(a.srcset)for(const item of a.srcset.split(','))add(item.trim().split(/\s+/)[0],file,'responsive-image',true);
    if(t==='meta'&&a.content&&allowed.test(a.content.replace(/[?#].*$/,'')))add(a.content,file,'meta-image');
   }
@@ -126,6 +126,7 @@ async function main(){
  family('pcb-flow-responsive-bilingual','hardware.html',['wide','stacked'].flatMap(layout=>['en','zh-Hant'].map(language=>'assets/hardware/pcb-flow-v32/pcb-flow-'+layout+'-'+language+'.svg')));
  family('optical-spectra-bilingual','hardware.html',['en','zh-Hant'].flatMap(language=>['svg','png'].map(extension=>'assets/hardware/optics-v38/spectral-alignment-'+language+'.'+extension)));
  family('product-story-current-pcb-drawings','hardware.html',['top','bottom'].map(side=>'assets/hardware/product-story/pcb-'+side+'-0911.png'));
+ if(fileMap.has('js/pdf-reader.js')) family('inline-pdf-renderer','hardware.html',['js/vendor/pdfjs-6.4.299/pdf.mjs','js/vendor/pdfjs-6.4.299/pdf.worker.mjs','js/vendor/pdfjs-6.4.299/LICENSE']);
  // STL names in the viewer are GLB part identifiers. Original print files are kept only in the Zenodo package.
  drain();
  const prior=new Map();const old=path.join(out,'all-assets-inventory.json');if(fs.existsSync(old)){for(const a of JSON.parse(fs.readFileSync(old,'utf8')).assets||[])if(a.official_url)prior.set(a.sha256,a.official_url);}

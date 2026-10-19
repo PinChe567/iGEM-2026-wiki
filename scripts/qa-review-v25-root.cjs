@@ -1,6 +1,6 @@
 const {chromium}=require('../game/node_modules/playwright');
 const fs=require('fs');const path=require('path');
-const out=path.resolve(__dirname,'../../reports/review-v25/root');fs.mkdirSync(out,{recursive:true});
+const out=path.resolve(__dirname,'../reports/review-v25/root');fs.mkdirSync(out,{recursive:true});
 (async()=>{const browser=await chromium.launch({channel:'chrome',headless:true});const results=[];
  for(const width of [1440,1146,390]){const page=await browser.newPage({viewport:{width,height:900},reducedMotion:'reduce'});
   for(const slug of ['human-practices','entrepreneurship','description']){

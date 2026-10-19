@@ -44,17 +44,27 @@
     });
   }
 
+  function targetFromHash(hash) {
+    var id;
+    try { id = decodeURIComponent((hash || "").replace(/^#/, "")); } catch (_) { return null; }
+    var target = id && document.getElementById(id);
+    return target && root.contains(target) ? target : null;
+  }
+
+  function stageForTarget(target) {
+    return target && target.closest(".desc-flow__stage[data-layer]");
+  }
+
   function stageFromHash() {
-    var id = (location.hash || "").replace("#", "");
-    if (!id) return null;
-    return root.querySelector('.desc-flow__stage[id="' + id + '"]');
+    return stageForTarget(targetFromHash(location.hash));
   }
 
   function activateFromLink(anchor, scrollPanel) {
     var href = anchor.getAttribute("href") || "";
     var id = href.split("#")[1];
     if (!id) return false;
-    var stage = root.querySelector('.desc-flow__stage[id="' + id + '"]');
+    var target = targetFromHash("#" + id);
+    var stage = stageForTarget(target);
     if (!stage) return false;
     setScene(stage.getAttribute("data-layer"));
     if (history.replaceState) {
@@ -63,9 +73,9 @@
     if (scrollPanel) {
       // Reveal the selected explanation itself; the four links must not all
       // land at the same pipeline heading above the active content.
-      stage.scrollIntoView({ block: "start", behavior: "smooth" });
-      stage.setAttribute("tabindex", "-1");
-      stage.focus({ preventScroll: true });
+      target.scrollIntoView({ block: "start", behavior: "smooth" });
+      target.setAttribute("tabindex", "-1");
+      target.focus({ preventScroll: true });
     }
     return true;
   }
@@ -81,7 +91,7 @@
   });
 
   document.addEventListener("click", function (event) {
-    var link = event.target && event.target.closest && event.target.closest('a[href="#sense"], a[href="#read"], a[href="#decode"], a[href="#act"]');
+    var link = event.target && event.target.closest && event.target.closest('a[href^="#"]');
     if (!link || ticks.indexOf(link) !== -1) return;
     if (activateFromLink(link, true)) event.preventDefault();
   });

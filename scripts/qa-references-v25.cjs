@@ -1,5 +1,5 @@
 const{chromium}=require('../game/node_modules/playwright'),fs=require('fs'),path=require('path');
-const out=path.resolve(__dirname,'../../reports/review-v25/root');
+const out=path.resolve(__dirname,'../reports/review-v25/root');
 (async()=>{const b=await chromium.launch({channel:'chrome',headless:true}),rows=[];
 for(const width of[1440,390])for(const lang of['en','zh-Hant']){
  const p=await b.newPage({viewport:{width,height:900},hasTouch:width===390,reducedMotion:'reduce'}),errors=[];p.on('pageerror',e=>errors.push(e.message));

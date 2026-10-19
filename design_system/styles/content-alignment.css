@@ -4,6 +4,36 @@
    their own geometry. This layer does not set image/canvas heights. */
 body.signal-atlas{--content-title-bleed:16px}
 
+/* Reading alignment is one site policy, not a per-card layout choice.
+   Important declarations in this named layer outrank unlayered component
+   !important rules, including later mobile rules. Keep prose justified in both
+   languages; its last line stays natural. Navigation, controls, data cells and
+   short display labels retain their component alignment. */
+@layer prose-alignment {
+ body.signal-atlas main :is(p,li,dd,figcaption,caption,.figure-caption,.table-caption,.editorial-caption):not(:where(
+  nav *,button *,[role="button"] *,[role="tablist"] *,[role="menu"] *,[role="listbox"] *,
+  td *,th *,[aria-hidden="true"],[aria-hidden="true"] *,
+  .page-toc *,.toc *,.breadcrumb *,.ref-return-tools *,.eng-cycle-nav *,
+  .model-study-tabs *,.members-index *,.pdf-reader__toolbar *,
+  .sr-only,.visually-hidden,[role="status"],[aria-live],
+  [data-text-align="preserve"],[data-text-align="preserve"] *,
+  [class*="kicker"],[class*="eyebrow"],[class*="__title"],[class*="__name"],
+  [class*="__label"],[class*="-label"],[class*="__value"],[class*="__number"],
+  [class*="__count"],[class*="__meta"],[class*="__arrow"],[class*="__conn"],
+  [class*="__tag"],[class*="__type"],[class*="__ident"],
+  .hero-tagline,.hp-event-meta,.hp-odor__hub-name,.lightsheet-phase,
+  .eng-cycle__track,.parts-layer__flow,.sust-canvas__blank-cell,
+  li:has(> :is(h2,h3,h4,button))
+ )) {
+  text-align:justify!important;
+  text-align-last:start!important;
+  text-justify:auto!important;
+  word-spacing:normal!important;
+  hyphens:auto!important;
+ }
+ body.signal-atlas main :lang(zh):is(p,li,dd,figcaption,caption,.figure-caption,.table-caption,.editorial-caption){hyphens:manual!important}
+}
+
 /* Use each existing chapter or grid-column width instead of several competing
    character measures. Do not alter the enclosing article, TOC or sticky track. */
 body.signal-atlas:not(.page-home) :is(.page-article,.model-track-panel) > :is(section,.section-block) > :is(p,ul,ol):not(.ref-list):not(.references-list),

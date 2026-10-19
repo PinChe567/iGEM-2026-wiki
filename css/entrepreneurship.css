@@ -2321,3 +2321,41 @@
  aspect-ratio: 2144 / 1222;
  object-fit: contain;
 }
+.page-entrepreneurship .ent-document iframe {
+ display: block;
+ width: 100%;
+ height: min(70vh, 720px);
+ min-height: 300px;
+ border: 1px solid rgba(17, 38, 31, 0.18);
+ background: #fff;
+}
+
+/* Assembly photographs move through a centered, shallow arc. */
+.usability-gallery{position:relative;margin:1.7rem 0 2.2rem;--photo-height:clamp(260px,40vw,460px)}
+.usability-gallery__controls p{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.usability-gallery__controls button{position:absolute;z-index:3;top:calc(var(--photo-height)/2 - 12px);display:grid;place-items:center;border:1px solid #dcc9bb;border-radius:50%;width:46px;height:46px;background:#fffcf5ed;color:#6f4840;font-size:1.35rem;cursor:pointer;box-shadow:0 5px 16px #6f484021;transition:transform .2s,background .2s}
+.usability-gallery__controls [data-gallery-prev]{left:7px}
+.usability-gallery__controls [data-gallery-next]{right:7px}
+.usability-gallery__controls button:hover:not(:disabled){transform:scale(1.08);background:#fff8ed}
+.usability-gallery__controls button:disabled{opacity:.3;cursor:default;box-shadow:none}
+.usability-gallery__track{display:grid;gap:1.2rem;perspective:1200px;overflow:hidden;padding:12px 46px 0;touch-action:pan-y}
+.usability-gallery__track figure{margin:0;min-width:0}
+.usability-gallery.is-enhanced .usability-gallery__track figure{grid-area:1/1;opacity:0;transform:translateX(32%) scale(.86) rotateY(-10deg);transform-origin:center;transition:transform .58s cubic-bezier(.22,.68,.2,1),opacity .4s;pointer-events:none;visibility:hidden}
+.usability-gallery.is-enhanced .usability-gallery__track figure.is-before{opacity:.18;transform:translateX(-72%) scale(.82) rotateY(14deg);visibility:visible}
+.usability-gallery.is-enhanced .usability-gallery__track figure.is-after{opacity:.18;transform:translateX(72%) scale(.82) rotateY(-14deg);visibility:visible}
+.usability-gallery.is-enhanced .usability-gallery__track figure.is-active{opacity:1;transform:translateX(0) scale(1) rotateY(0);z-index:1;pointer-events:auto;visibility:visible}
+.usability-gallery__track a{display:flex;align-items:center;justify-content:center;height:var(--photo-height);padding:8px;background:#fffdf7;border:1px solid #e0d6c8;border-radius:8px;overflow:hidden;box-shadow:0 8px 20px -10px #5b413c44}
+.usability-gallery__track img{width:100%;height:100%;object-fit:contain;margin:0;border-radius:3px}
+.usability-gallery__track figcaption{margin:.85rem 0 .3rem;font-size:.92rem;line-height:1.6;text-align:center;color:#715b51}
+.usability-gallery.is-enhanced figure:not(.is-active) figcaption{visibility:hidden}
+.usability-gallery__progress{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:12px;padding:0 1rem}
+.usability-gallery__progress button{width:24px;height:32px;border:0;background:transparent;padding:13px 0;cursor:pointer;position:relative;transition:width .4s}
+.usability-gallery__progress button::after{content:"";display:block;width:100%;height:4px;background:#d9c7ba;border-radius:8px;transition:background .3s}
+.usability-gallery__progress button[aria-current="true"]{width:44px}
+.usability-gallery__progress button[aria-current="true"]::after{background:#a45c4d}
+.usability-gallery__count{margin-left:12px;font:500 .76rem/1.4 var(--font-body,sans-serif);letter-spacing:.1em;font-variant-numeric:tabular-nums;color:#856d61}
+.usability-gallery :is(button,a,[tabindex]):focus-visible{outline:2px solid #a45c4d;outline-offset:4px}
+#usability-manual-revision table th,#usability-manual-revision table td{vertical-align:top}
+@media(max-width:640px){.usability-gallery{--photo-height:280px}.usability-gallery__track{padding-inline:24px}.usability-gallery__controls button{width:40px;height:40px}.usability-gallery__controls [data-gallery-prev]{left:0}.usability-gallery__controls [data-gallery-next]{right:0}.usability-gallery__progress{gap:5px;padding:0}.usability-gallery__progress button{width:16px}.usability-gallery__progress button[aria-current="true"]{width:30px}.usability-gallery__count{margin-left:6px}}
+@media(prefers-reduced-motion:reduce){.usability-gallery *, .usability-gallery *::after{transition:none!important}}
+@media print{.usability-gallery__controls,.usability-gallery__progress{display:none}.usability-gallery .usability-gallery__track{display:block;overflow:visible;padding:0}.usability-gallery.is-enhanced .usability-gallery__track figure{opacity:1;visibility:visible;transform:none;break-inside:avoid;margin-bottom:1rem}.usability-gallery.is-enhanced figure:not(.is-active) figcaption{visibility:visible}}

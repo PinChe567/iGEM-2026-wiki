@@ -1801,66 +1801,33 @@ html.js .desc-flow__stage:not(:last-child)::after {
 
 /* ---------- Human Practices evolution chain ---------- */
 
-.desc-hp {
- list-style: none;
- margin: var(--space-5) 0 var(--space-5);
- padding: 0;
- max-width: none;
- border: var(--border-w) solid var(--color-rule);
+/* Feedback remains a sequence of decisions rather than four oversized cards. */
+.page-description #human-practices .desc-hp {
+ display: grid; grid-template-columns: minmax(0, 1fr); gap: 0;
+ list-style: none; margin: 1.5rem 0; padding: 0; max-width: none;
+ border: 1px solid #c4d5c9; border-radius: 14px; overflow: hidden;
+ background: #f0f5ee;
 }
-
-.desc-hp > li {
- position: relative;
- margin: 0;
- padding: var(--space-5);
- border-top: var(--border-w) solid var(--color-rule);
+.page-description #human-practices .desc-hp > li {
+ display: grid; grid-template-columns: 175px minmax(0, 1fr); gap: 1.25rem;
+ align-items: start; position: relative; margin: 0; padding: 1.25rem 1.4rem;
+ min-height: 0; height: auto; border: 0; border-top: 1px solid #c4d5c9;
+ background: none; box-shadow: none;
 }
-
-.desc-hp > li:first-child {
- border-top: 0;
-}
-
-.desc-hp > li:not(:last-child)::after {
- content: "\2192";
- display: block;
- margin-top: var(--space-4);
- color: var(--color-ink);
- font-family: var(--font-mono);
- font-size: var(--text-sm);
- letter-spacing: 0.08em;
- text-align: center;
-}
-
-.desc-hp__role {
- display: block;
- margin: 0 0 var(--space-3);
- font-family: var(--font-mono);
- font-size: var(--text-xs);
- letter-spacing: 0.08em;
- text-transform: uppercase;
- color: var(--color-ink-muted);
-}
-
-.desc-hp__name {
- margin: 0 0 var(--space-3);
- font-size: var(--text-lg);
-}
-
-.desc-hp p {
- margin: 0 0 var(--space-3);
- max-width: none;
-}
-
-.desc-hp p:last-child {
- margin-bottom: 0;
-}
-
-.desc-hp__seq {
- padding: var(--space-3) 0;
- font-family: var(--font-mono);
- font-size: var(--text-sm);
- letter-spacing: 0.02em;
- line-height: 1.6;
+.page-description #human-practices .desc-hp > li:first-child { border-top: 0; }
+.page-description #human-practices .desc-hp > li::after { display: none; }
+.desc-hp__step { display: grid; grid-template-columns: 2.3rem minmax(0, 1fr); gap: .65rem; align-items: center; }
+.desc-hp__number { display: grid; place-items: center; width: 2.3rem; height: 2.3rem; border-radius: 50%; background: #315e4a; color: #fff; font: 600 .8rem/1 var(--font-mono); }
+.page-description #human-practices .desc-hp__role { margin: 0; font: 600 .78rem/1.4 var(--font-body); letter-spacing: .025em; color: #315e4a; text-transform: none; }
+.page-description #human-practices .desc-hp__name { margin: 0 0 .5rem; padding: 0; font-size: clamp(1.08rem, 2vw, 1.25rem); line-height: 1.3; color: #214a36; }
+.page-description #human-practices .desc-hp__body { min-width: 0; }
+.page-description #human-practices .desc-hp p { max-width: none; margin: 0 0 .5rem; line-height: 1.65; }
+.page-description #human-practices .desc-hp p:last-child { margin-bottom: 0; }
+.page-description #human-practices .desc-hp__seq { padding: .7rem .85rem; background: #e1ebde; border-left: 3px solid #315e4a; border-radius: 0 7px 7px 0; font-size: .92rem; line-height: 1.7; }
+@media (max-width: 650px) {
+ .page-description #human-practices .desc-hp > li { grid-template-columns: minmax(0,1fr); gap: .8rem; padding: 1.1rem; }
+ .desc-hp__step { grid-template-columns: 2rem minmax(0,1fr); }
+ .desc-hp__number { width: 2rem; height: 2rem; }
 }
 
 .desc-hp__link {
@@ -2257,3 +2224,9 @@ html.js .desc-flow__stage:not(:last-child)::after {
  .page-description .desc-system-explorer .desc-flow__stage[hidden],
  .page-description .desc-system-explorer .desc-flow__stage:not(.is-current) { display: block; }
 }
+
+/* Four peer chapters share the existing interactive visual. */
+.page-description .desc-sense-rationale { margin: 1.5rem 0; padding: 0; }
+.page-description .desc-sense-rationale > h3 { margin-top: 0; }
+.page-description .desc-sense-rationale .desc-prior { margin: 1.5rem 0; }
+.page-description .desc-flow__stage .anchor-alias { scroll-margin-top: var(--anchor-offset, 6rem); }

@@ -123,11 +123,11 @@
   }
   function schedule(){if(!frame&&visible)frame=requestAnimationFrame(measure);}
   async function load(){
-    if(viewer||loading)return;loading=true;
-    try{const module=await import('./hardware-product-story.js?v=d88b742f8d208f39');viewer=await module.createProductStory(host);
+    if(viewer||loading)return;loading=true;host.dataset.productLoading='true';
+    try{const module=await import('./hardware-product-story.js?v=0bac1a56e4546f76');viewer=await module.createProductStory(host);
       viewer.setStoryProgress(reduced.matches?1:phase(distance,beats.assembledEnd,beats.openingEnd),0);
       viewer.ready.then(result=>{if(result.loaded!==8)host.classList.add('is-unavailable');anchors=viewer.getAnchors();schedule();});
-    }catch(error){host.classList.add('is-unavailable');schedule();}finally{loading=false;}
+    }catch(error){host.classList.add('is-unavailable');host.dataset.productLoading='false';schedule();}finally{loading=false;}
   }
   function request(key,trigger){key=key==='cellculture'?'optics':key;document.dispatchEvent(new CustomEvent('hardware:topic',{detail:{key,trigger}}));}
   host.addEventListener('productrender',e=>{anchors=e.detail.anchors||anchors;leaders();});

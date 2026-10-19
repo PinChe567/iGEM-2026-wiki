@@ -406,10 +406,175 @@
     });
   }
 
+  function initMediaCarousels() {
+    // Actual source nodes move between positions; no duplicated image assets.
+    Array.prototype.forEach.call(document.querySelectorAll('.edu-source-gallery[data-edu-carousel="photos"], .edu-source-gallery[data-edu-carousel="series"]'), function (track, index) {
+      var slides = Array.prototype.slice.call(track.children);
+      if (slides.length < 2) return;
+      var carousel = document.createElement("div");
+      carousel.className = "edu-media-carousel";
+      carousel.setAttribute("role", "region");
+      var isSeries = track.getAttribute("data-edu-carousel") === "series";
+      var seriesLabels = { parts: "Parts Design series", model: "Model series", hardware: "Hardware series" };
+      carousel.setAttribute("aria-label", isSeries ? seriesLabels[track.getAttribute("data-notion-gallery")] || "Image gallery" : "Image gallery");
+      track.parentNode.insertBefore(carousel, track);
+      var viewport = document.createElement("div");
+      viewport.className = "edu-media-carousel__viewport";
+      carousel.appendChild(viewport);
+      viewport.appendChild(track);
+      track.classList.add("edu-media-carousel__track");
+      track.id = track.id || "edu-gallery-track-" + index;
+      track.tabIndex = 0;
+      track.setAttribute("aria-label", "Use arrow keys to browse images");
+      function arrow(label, direction) {
+        var button = document.createElement("button");
+        button.type = "button";
+        button.className = "edu-media-carousel__arrow edu-media-carousel__arrow--" + direction;
+        button.setAttribute("aria-label", label);
+        button.setAttribute("aria-controls", track.id);
+        button.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5 7.5 12l7 7"/></svg>';
+        viewport.appendChild(button);
+        return button;
+      }
+      var previous = arrow("Previous image", "previous");
+      var next = arrow("Next image", "next");
+      var controls = document.createElement("div");
+      controls.className = "edu-media-carousel__controls";
+      var count = document.createElement("span");
+      count.className = "edu-media-carousel__count";
+      count.setAttribute("aria-live", "polite");
+      count.setAttribute("aria-atomic", "true");
+      var progress = document.createElement("div");
+      progress.className = "edu-media-carousel__progress";
+      progress.setAttribute("role", "group");
+      progress.setAttribute("aria-label", "Choose an image");
+      var stops = slides.map(function (slide, position) {
+        var stop = document.createElement("button");
+        stop.type = "button";
+        stop.className = "edu-media-carousel__stop";
+        stop.setAttribute("aria-label", "Show image " + (position + 1) + " of " + slides.length);
+        stop.setAttribute("aria-controls", track.id);
+        stop.addEventListener("click", function () { go(position); });
+        progress.appendChild(stop);
+        slide.classList.add("edu-media-carousel__slide");
+        slide.setAttribute("aria-label", "Image " + (position + 1) + " of " + slides.length);
+        return stop;
+      });
+      controls.append(count, progress);
+      carousel.appendChild(controls);
+      var hint = document.createElement("p");
+      hint.className = "edu-media-carousel__hint";
+      hint.id = "edu-gallery-help-" + index;
+      hint.textContent = isSeries ? "Explore with the arrows. Select a card to open the full image." : "Explore with the arrows. Select a photograph to open the full image.";
+      carousel.appendChild(hint);
+      track.setAttribute("aria-describedby", hint.id);
+      var current = 0;
+      function sync() {
+        slides.forEach(function (slide, position) {
+          var offset = position - current;
+          slide.classList.toggle("is-current", offset === 0);
+          slide.classList.toggle("is-previous", offset === -1);
+          slide.classList.toggle("is-next", offset === 1);
+          slide.setAttribute("aria-hidden", offset === 0 ? "false" : "true");
+          slide.inert = offset !== 0;
+          stops[position].classList.toggle("is-passed", offset < 0);
+          if (offset === 0) stops[position].setAttribute("aria-current", "true");
+          else stops[position].removeAttribute("aria-current");
+        });
+        count.textContent = String(current + 1).padStart(2, "0") + " / " + String(slides.length).padStart(2, "0");
+        previous.disabled = current === 0;
+        next.disabled = current === slides.length - 1;
+        carousel.dataset.currentImage = String(current + 1);
+      }
+      function go(position) {
+        var destination = Math.max(0, Math.min(slides.length - 1, position));
+        if (destination === current) return;
+        if (slides[current].contains(document.activeElement)) track.focus({ preventScroll: true });
+        current = destination;
+        sync();
+      }
+      previous.addEventListener("click", function () { go(current - 1); });
+      next.addEventListener("click", function () { go(current + 1); });
+      carousel.addEventListener("keydown", function (event) {
+        if (["ArrowLeft", "ArrowRight", "Home", "End"].indexOf(event.key) === -1) return;
+        event.preventDefault();
+        go(event.key === "Home" ? 0 : event.key === "End" ? slides.length - 1 : current + (event.key === "ArrowRight" ? 1 : -1));
+      });
+      var gesture = null, suppressClickUntil = 0;
+      track.addEventListener("pointerdown", function (event) {
+        if (event.pointerType !== "touch") return;
+        gesture = { x: event.clientX, y: event.clientY };
+      }, { passive: true });
+      track.addEventListener("pointerup", function (event) {
+        if (!gesture) return;
+        var dx = event.clientX - gesture.x, dy = event.clientY - gesture.y;
+        gesture = null;
+        if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.3) {
+          suppressClickUntil = Date.now() + 500;
+          go(current + (dx < 0 ? 1 : -1));
+        }
+      }, { passive: true });
+      track.addEventListener("pointercancel", function () { gesture = null; });
+      track.addEventListener("click", function (event) {
+        if (Date.now() < suppressClickUntil) { event.preventDefault(); event.stopPropagation(); }
+      }, true);
+      sync();
+    });
+  }
+
+  function initMeaningCards() {
+    Array.prototype.forEach.call(document.querySelectorAll("[data-meaning-card]"), function (card) {
+      var button = card.querySelector(".edu-meaning-card__toggle");
+      var biology = card.querySelector(".edu-meaning-card__face--biology");
+      var education = card.querySelector(".edu-meaning-card__face--education");
+      if (!button || !biology || !education) return;
+      button.querySelector('[aria-hidden="true"]').innerHTML = '<svg viewBox="0 0 24 24" focusable="false"><path d="M19.5 9a7.8 7.8 0 0 0-13-3L3 9m0-5v5h5M4.5 15a7.8 7.8 0 0 0 13 3l3.5-3m0 5v-5h-5"/></svg>';
+      function flip(showEducation) {
+        card.classList.toggle("is-flipped", showEducation);
+        button.setAttribute("aria-pressed", showEducation ? "true" : "false");
+        biology.setAttribute("aria-hidden", showEducation ? "true" : "false");
+        education.setAttribute("aria-hidden", showEducation ? "false" : "true");
+        biology.inert = showEducation;
+        education.inert = !showEducation;
+        button.querySelector('[data-meaning-label="education"]').hidden = showEducation;
+        button.querySelector('[data-meaning-label="biology"]').hidden = !showEducation;
+      }
+      card.classList.add("is-enhanced");
+      button.hidden = false;
+      flip(false);
+      card.addEventListener("click", function (event) {
+        if (event.target.closest("a") || (!event.target.closest("button") && String(root.getSelection()).length)) return;
+        flip(button.getAttribute("aria-pressed") !== "true");
+      });
+    });
+  }
+
   function initBrainMapNavigation() {
     var map = document.getElementById("education-activity-map");
     if (!map) return;
+    var selectors = map.querySelectorAll("[data-brain-select]");
+    var panels = map.querySelectorAll("[data-brain-panel]");
+    function selectRegion(key) {
+      Array.prototype.forEach.call(selectors, function (control) {
+        control.setAttribute("aria-pressed", control.getAttribute("data-brain-select") === key ? "true" : "false");
+      });
+      Array.prototype.forEach.call(panels, function (panel) {
+        panel.hidden = panel.getAttribute("data-brain-panel") !== key;
+      });
+    }
+    selectRegion("input");
+    map.addEventListener("keydown", function (event) {
+      var control = event.target.closest && event.target.closest("svg [data-brain-select]");
+      if (!control || (event.key !== "Enter" && event.key !== " ")) return;
+      event.preventDefault();
+      selectRegion(control.getAttribute("data-brain-select"));
+    });
     map.addEventListener("click", function (event) {
+      var control = event.target.closest && event.target.closest("[data-brain-select]");
+      if (control && map.contains(control)) {
+        selectRegion(control.getAttribute("data-brain-select"));
+        return;
+      }
       var link = event.target.closest && event.target.closest('a[href^="#"]');
       if (!link || !map.contains(link) || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       var target = document.getElementById(link.getAttribute("href").slice(1));
@@ -464,5 +629,7 @@
     initMeasurementChain();
     initLabPath();
     initBrainMapNavigation();
+    initMeaningCards();
+    initMediaCarousels();
   });
 })(window);

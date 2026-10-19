@@ -183,3 +183,70 @@
     boot();
   }
 })();
+
+(function () {
+  document.querySelectorAll('[data-usability-gallery]').forEach(function (gallery) {
+    var track = gallery.querySelector('.usability-gallery__track');
+    var previous = gallery.querySelector('[data-gallery-prev]');
+    var next = gallery.querySelector('[data-gallery-next]');
+    var slides = Array.from(track.children), current = 0;
+    gallery.classList.add('is-enhanced');
+    var progress = document.createElement('div');
+    progress.className = 'usability-gallery__progress';
+    progress.setAttribute('translate', 'no');
+    var count = document.createElement('span');
+    count.className = 'usability-gallery__count';
+    count.setAttribute('aria-live', 'polite');
+    var stops = slides.map(function (_, index) {
+      var stop = document.createElement('button');
+      stop.type = 'button';
+      stop.setAttribute('aria-label', String(index + 1) + ' / ' + slides.length);
+      stop.addEventListener('click', function () { moveTo(index); });
+      progress.appendChild(stop);
+      return stop;
+    });
+    progress.appendChild(count);
+    gallery.appendChild(progress);
+    function sync() {
+      slides.forEach(function (slide, index) {
+        slide.classList.toggle('is-active', index === current);
+        slide.classList.toggle('is-before', index === current - 1);
+        slide.classList.toggle('is-after', index === current + 1);
+        slide.setAttribute('aria-hidden', index === current ? 'false' : 'true');
+        slide.inert = index !== current;
+        stops[index].setAttribute('aria-current', index === current ? 'true' : 'false');
+      });
+      count.textContent = String(current + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+      previous.disabled = current === 0;
+      next.disabled = current === slides.length - 1;
+    }
+    function moveTo(index) {
+      if (slides[current].contains(document.activeElement)) track.focus({preventScroll: true});
+      current = Math.max(0, Math.min(slides.length - 1, index));
+      sync();
+    }
+    previous.addEventListener('click', function () { moveTo(current - 1); });
+    next.addEventListener('click', function () { moveTo(current + 1); });
+    gallery.addEventListener('keydown', function (event) {
+      if (!['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
+      event.preventDefault();
+      moveTo(event.key === 'Home' ? 0 : event.key === 'End' ? slides.length - 1 : current + (event.key === 'ArrowLeft' ? -1 : 1));
+    });
+    var gesture = null, suppressClickUntil = 0;
+    track.addEventListener('pointerdown', function (event) {
+      if (event.pointerType === 'touch') gesture = {x:event.clientX, y:event.clientY};
+    }, {passive:true});
+    track.addEventListener('pointerup', function (event) {
+      if (!gesture) return;
+      var dx = event.clientX - gesture.x, dy = event.clientY - gesture.y;
+      gesture = null;
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.3) {
+        suppressClickUntil = Date.now() + 500;
+        moveTo(current + (dx < 0 ? 1 : -1));
+      }
+    }, {passive:true});
+    track.addEventListener('pointercancel', function () {gesture = null;}, {passive:true});
+    track.addEventListener('click', function (event) {if (Date.now() < suppressClickUntil) {event.preventDefault();event.stopPropagation();}}, true);
+    sync();
+  });
+}());

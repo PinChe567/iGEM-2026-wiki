@@ -34,8 +34,8 @@
       return item.childIds && item.childIds.indexOf(part.id) !== -1;
     });
     if (!parents.length) return "";
-    if (part.category === "reused" && parents.length >= 9) {
-      return "All nine final-panel sensing composites";
+    if (part.category === "reused" && parents.length >= 10) {
+      return "All ten sensing composites";
     }
     return parents
       .map(function (item) {
@@ -122,7 +122,7 @@
         title: "EMCV IRES",
         partId: "BBa_K5490030",
         role: "RNA translation element — not a protein product",
-        used: "All nine final-panel sensing composites",
+        used: "All ten sensing composites",
         body: "Reused Registry part. IRES is an RNA translation element: after the OR CDS stops, it restarts translation so mCherry is a separate polypeptide. It is not itself a protein product.",
         reuse: true,
         topo: false,
@@ -131,7 +131,7 @@
         title: "mCherry",
         partId: "BBa_K4177005",
         role: "Transcription / expression marker — not the measurement",
-        used: "All nine final-panel sensing composites",
+        used: "All ten sensing composites",
         body: "Reused Registry part. Red fluorescence, if observed, reports that the sensing cassette is transcribed and that the IRES is active. It is not part of the ion channel and is not the AeroSense readout.",
         reuse: true,
         topo: false,
@@ -367,6 +367,7 @@
       var src;
       var caption;
       var alt;
+      var designSchematic = false;
       if (mode === "reporting") {
         name = "GCaMP6f-(GGGGS)3-DmOrco";
         id = "BBa_26E11Z80";
@@ -381,6 +382,11 @@
         src = composite && composite.plasmidMap ? composite.plasmidMap : "plasmid/" + currentOr + "_IRES_mCherry.png";
         caption = "Selected sensing cassette — only the OR module changes with the receptor buttons.";
         alt = "Compact construct map of " + name + (id ? " (" + id + ")" : "") + ".";
+        designSchematic = !!(composite && composite.plasmidMapKind === "design-schematic");
+        if (designSchematic) {
+          caption = "Registered Or67b design schematic — not to scale; receptor function is not established by the diagram.";
+          alt = "Design schematic of Or67b-IRES-mCherry (BBa_269VSDDR).";
+        }
       }
 
       setText("[data-map-name]", name.replace("GCaMP6f-(GGGGS)3-DmOrco", "GCaMP6f-(GGGGS)\u2083-DmOrco"));
@@ -397,7 +403,7 @@
         open.setAttribute("data-lightbox-src", src);
         open.setAttribute("data-lightbox-title", name + (id ? " (" + id + ")" : ""));
         open.setAttribute("data-lightbox-alt", alt.replace("Compact ", "Construct "));
-        open.setAttribute("data-lightbox-caption", mapCredit);
+        open.setAttribute("data-lightbox-caption", designSchematic ? caption : mapCredit);
       }
     }
 
@@ -995,7 +1001,7 @@
         return "Swap this OR module; keep shared reporting cassette BBa_26E11Z80";
       }
       if (part.biologicalRole === "reporting-module") {
-        return "Shared across all nine sensing lines — do not treat as receptor-specific";
+        return "Shared across all ten sensing lines — do not treat as receptor-specific";
       }
       return "See the Registry documentation for sequence and reuse details.";
     }

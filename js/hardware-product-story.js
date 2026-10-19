@@ -14,7 +14,7 @@ function __igem_media_js_hardware_product_story_js(value) {
 }
 /* END IGEM STATIC MEDIA MAP __igem_media_js_hardware_product_story_js */
 import * as THREE from './vendor/three.module.js';
-import {loadHardwareWebModel} from './hardware-web-model.js?v=b549a49252ead7f1';
+import {loadHardwareWebModel,addHardwareLidBranding} from './hardware-web-model.js?v=90796fdc3e03eb6b';
 
 // The web GLB losslessly indexes the source faces; no geometry is rescaled.
 // Its normals and neon edges are precomputed. Coordinates below are mm in
@@ -594,6 +594,10 @@ export async function createProductStory(host) {
           const value=model.parts.get(part.file),geometry=value.geometry,edges=value.edges,clear=part.file.includes('CLEAR');
           const material=mat(clear?0xb9dce4:0x202730,{physical:true,flatShading:clear,roughness:clear?.15:.4,metalness:clear?0:.44,specularColor:new THREE.Color(0xffffff),specularIntensity:clear?.75:.7,clearcoat:clear?.72:.36,clearcoatRoughness:clear?.16:.36,transparent:clear,opacity:clear?.66:1,side:THREE.DoubleSide});
           const obj=mesh(geometry,clear?material:satin(material),cad,part.key,part.file.replace(/\.stl$/,''));
+          if(part.file==='03_gas_lid_BLACK.stl'){
+            const brand=addHardwareLidBranding(obj,false,schedule);
+            events.addEventListener('abort',()=>brand.dispose(),{once:true});host.dataset.lidBranding='display-only-monochrome-relief';
+          }
           // Identical outer-edge endpoints are stored in the GLB. No runtime
           // adjacency scan, normal averaging or CAD-edge reconstruction needed.
           const strength=clear?.95:.92,edgeMaterial=new THREE.LineBasicMaterial({color:clear?0x70f0ff:0x4beaff,transparent:true,opacity:strength,depthWrite:false,toneMapped:false});
