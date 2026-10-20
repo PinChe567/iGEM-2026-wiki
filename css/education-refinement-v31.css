@@ -1,0 +1,106 @@
+/* Strong section cues, compact survey figures and the supplied quiz series. */
+body.signal-atlas.page-education #main .page-article :is(h3,h4,h5,h6),
+body.signal-atlas.page-education #main .page-article :is(h3,h4,h5,h6) :is(a,span,strong,em) {
+  color: #8e3734 !important;
+  font-weight: 700 !important;
+}
+
+body.signal-atlas.page-education .page-article .edu-static-figures[data-notion-gallery="survey"] {
+  gap: 2.75rem;
+}
+body.signal-atlas.page-education .page-article .edu-static-figures[data-notion-gallery="survey"] figure {
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(1.5rem, 3vw, 2.75rem);
+}
+body.signal-atlas.page-education .page-article .edu-static-figures[data-notion-gallery="survey"] figure > a {
+  min-width: 0;
+  width: 100%;
+  max-width: 470px;
+  justify-self: center;
+}
+body.signal-atlas.page-education .page-article .edu-static-figures[data-notion-gallery="survey"] img {
+  width: 100% !important;
+  height: auto !important;
+  max-height: 310px !important;
+  object-fit: contain !important;
+}
+body.signal-atlas.page-education .page-article .edu-static-figures[data-notion-gallery="survey"] figcaption {
+  min-width: 0;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: .96rem;
+  line-height: 1.7;
+  text-align: left !important;
+}
+body.signal-atlas.page-education .page-article .edu-static-figures[data-notion-gallery="survey"] > :nth-child(even) figure > a {
+  grid-column: 2;
+  grid-row: 1;
+}
+body.signal-atlas.page-education .page-article .edu-static-figures[data-notion-gallery="survey"] > :nth-child(even) figure > figcaption {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+body.signal-atlas.page-education .page-article .edu-social-impact > .edu-media-carousel {
+  --edu-gallery-image-height: clamp(390px, 39vw, 550px);
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+}
+body.signal-atlas.page-education .page-article .edu-social-impact .edu-media-carousel__track {
+  padding: 20px 42px 16px !important;
+}
+body.signal-atlas.page-education .page-article .edu-social-impact__copy > h4 {
+  margin-top: 0;
+  margin-bottom: .8rem;
+}
+body.signal-atlas.page-education .page-article .edu-social-impact .edu-media-carousel__arrow {
+  width: 34px;
+  height: 34px;
+  top: calc(var(--edu-gallery-image-height) / 2 + 28px);
+}
+body.page-education .edu-social-impact .edu-media-carousel__arrow--previous { left: 4px; }
+body.page-education .edu-social-impact .edu-media-carousel__arrow--next { right: 4px; }
+
+/* The Mini Jamboree screenshots are landscape slides, with captions beneath. */
+body.signal-atlas.page-education #education-team-exchange .edu-media-carousel__viewport {
+  container-type: inline-size;
+}
+body.signal-atlas.page-education #education-team-exchange .edu-media-carousel__track {
+  padding: 14px 12px 10px !important;
+}
+body.signal-atlas.page-education #education-team-exchange .edu-media-carousel__track figure > a {
+  padding: 4px !important;
+}
+body.signal-atlas.page-education #education-team-exchange .edu-media-carousel__track img {
+  height: auto !important;
+  aspect-ratio: 1024 / 547 !important;
+  object-fit: contain !important;
+}
+body.signal-atlas.page-education #education-team-exchange .edu-media-carousel__track figcaption {
+  padding: .75rem .25rem .25rem !important;
+}
+body.signal-atlas.page-education #education-team-exchange .edu-media-carousel__arrow {
+  top: calc(19px + (100cqw - 34px) * .26709);
+}
+
+@media (max-width: 760px) {
+  body.signal-atlas.page-education .page-article .edu-static-figures[data-notion-gallery="survey"] figure {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.1rem;
+  }
+  body.signal-atlas.page-education .page-article .edu-static-figures[data-notion-gallery="survey"] > :nth-child(even) figure > :is(a,figcaption) {
+    grid-column: auto;
+    grid-row: auto;
+  }
+  body.signal-atlas.page-education .page-article .edu-static-figures[data-notion-gallery="survey"] figure > a {
+    max-width: 440px;
+  }
+  body.signal-atlas.page-education .page-article .edu-social-impact > .edu-media-carousel {
+    --edu-gallery-image-height: clamp(340px, 112vw, 510px);
+    max-width: 470px;
+    justify-self: center;
+  }
+}

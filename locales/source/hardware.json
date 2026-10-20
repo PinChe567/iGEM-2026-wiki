@@ -783,10 +783,6 @@
     "text": "Open for well replacement, deflect inlet and form shared gas path. AssemblyZ57.9–66; inlet-X/outlet+X, axisZ60.8.",
     "tag": "small"
   },
-  "7f642d1630d7": {
-    "text": "04 · Clear well NE",
-    "tag": "th"
-  },
   "4db5c175c153": {
     "text": "Aqua Clear Plus",
     "tag": "td"
@@ -795,25 +791,13 @@
     "text": "Individually removable liquid vessel; gas phase shared. Center(3.3, 2.65); outer floorZ42.5, inner floorZ43, topZ55.5; flange outward.",
     "tag": "small"
   },
-  "ed2ae930e634": {
-    "text": "05 · Clear well NW",
-    "tag": "th"
-  },
   "929ee5e0ccd7": {
     "text": "Individually removable liquid vessel; gas phase shared. Center(-3.3, 2.65); outer floorZ42.5, inner floorZ43, topZ55.5; flange outward.",
     "tag": "small"
   },
-  "2b140fb375a4": {
-    "text": "06 · Clear well SW",
-    "tag": "th"
-  },
   "c00d74f3e0cb": {
     "text": "Individually removable liquid vessel; gas phase shared. Center(-3.3, -2.65); outer floorZ42.5, inner floorZ43, topZ55.5; flange outward.",
     "tag": "small"
-  },
-  "17849e98724c": {
-    "text": "07 · Clear well SE",
-    "tag": "th"
   },
   "e737290c6389": {
     "text": "Individually removable liquid vessel; gas phase shared. Center(3.3, -2.65); outer floorZ42.5, inner floorZ43, topZ55.5; flange outward.",
@@ -2259,10 +2243,6 @@
     "text": "nine illuminated analytical conditions",
     "tag": "strong"
   },
-  "d0b2b0dba8ef": {
-    "text": ", each with at least five distinct valid two-second technical blocks; DARK is saved separately.",
-    "tag": "p"
-  },
   "0d5d59a7adbf": {
     "text": "The provisional 50/100 nM pilot and the chosen fixed fill, medium/pH, LED duty and filter must be recorded. Approximately five-second record spacing can miss fast GCaMP6f peaks. A later cell comparison requires established wet-lab controls, the same cell batch and a common time window; it cannot be substituted by dye measurements.",
     "tag": "p"
@@ -2835,10 +2815,6 @@
     "text": "Use the PDF link above to read the complete document.",
     "tag": "p"
   },
-  "669d3ab94838": {
-    "text": "AeroSense user manual R5 PDF",
-    "tag": "p"
-  },
   "38d7a4fcff3c": {
     "text": "Editable Markdown source",
     "tag": "p"
@@ -3028,10 +3004,6 @@
     "text": "Read the current English manuals and the anonymized assembly feedback below.",
     "tag": "p"
   },
-  "62146ba0e40f": {
-    "text": "User manual · R5",
-    "tag": "p"
-  },
   "a3c9ce396030": {
     "text": "Developer manual · R6",
     "tag": "p"
@@ -3050,7 +3022,7 @@
   },
   "7d631fee0646": {
     "text": "System verification",
-    "tag": "p"
+    "tag": "h2"
   },
   "c99a4fe1dc33": {
     "text": "A shared photodiode collects light from all four wells. The optical model tests how much each excitation channel receives from its intended well versus neighboring wells; compare diagonal and off-diagonal contributions in the transfer matrix.",
@@ -3078,10 +3050,6 @@
   },
   "2627fec540fb": {
     "text": "Two constraints remain. Lower viability in bottom recovery cannot be attributed to material or recovery effects without a matched culture control. Fixed ADC readings also limit what software checks establish about optical measurement. Quantitative sensing therefore depends on resolving cell-contact conditions and analog readout.",
-    "tag": "p"
-  },
-  "406a8290c882": {
-    "text": "AeroSense is a compact reader designed to compare odor-responsive living-cell samples through fluorescence. It combines four replaceable 100 µL wells under a shared gas chamber, four frequency-tagged blue LEDs, one filtered photodiode, an ESP32-based acquisition circuit and a local phone interface. An eight-part printed enclosure fixes the optical geometry, separates sample gas from electronics cooling and allows the wells to be replaced. Optical simulations supported a single LEE 101 layer, which retained 70.43% of proxy-green current while reducing LED-derived current to 2.987% of the unfiltered value; airflow modeling guided the inlet shelf and delivery conditions. The reader was assembled, and its acquisition software supports frequency-resolved records and local data export. Assembly feedback informed the revised developer manual. Together, these results establish the prototype and its operating workflow; fluorescence detection by the complete instrument remains to be verified.",
     "tag": "p"
   },
   "b605350bc002": {
@@ -3439,5 +3407,1489 @@
   "81222b7d8120": {
     "text": "Zenodo DOI",
     "tag": "span"
+  },
+  "23a61cc0479d": {
+    "text": "Acquisition and illuminated background",
+    "tag": "h3"
+  },
+  "b1a0eb7a7054": {
+    "text": "Each record contains 8,000 samples at 4,000 Hz: 200,000 raw samples in total. All 25 records passed the recorded acquisition checks, with no constant-code blocks, ADC rail samples or timing faults. Codes ranged from 85 to 9831, below 0.376 V on the nominal 2.5 V ADC range; the largest interval error was 27 µs against the 50 µs rejection threshold. Recomputing the firmware amplitudes from the CSVs agreed within 5 × 10⁻¹⁰ V.",
+    "tag": "p"
+  },
+  "7159a5f7d5df": {
+    "text": "Four channel calibration curves",
+    "tag": "h3"
+  },
+  "67d56ac2f586": {
+    "text": "Transfer to separately reloaded mixed layouts",
+    "tag": "h3"
+  },
+  "03e2b0b83cf0": {
+    "text": "Measurement records and analysis",
+    "tag": "a"
+  },
+  "4d3bc166ecf7": {
+    "text": "Optical and airflow models turned design choices into testable targets: the LEE 101 layer limits excitation leakage, the shelf changes the inlet jet, and the optical matrix predicts unequal collection. The dye measurements now show distinct channel responses, but their mixed-layout recovery identifies the next priorities: stable blanks, independently measured single-well calibration and held-out recovery tests. Known electrical inputs should separately test analog linearity, and gas tracers should test modeled arrival times.",
+    "tag": "p"
+  },
+  "03aba98dc012": {
+    "text": "Hardware verification gates: current evidence and remaining work",
+    "tag": "div"
+  },
+  "f4507d0bcfa9": {
+    "text": "The protocol organizes electrical, optical, transport and workflow verification. Current evidence covers acquisition quality, an initial dye series and one assembly-feedback record; the table distinguishes this progress from the remaining measurements.",
+    "tag": "p"
+  },
+  "41669688ecc7": {
+    "text": "Current evidence and next measurement",
+    "tag": "th"
+  },
+  "87742c44834e": {
+    "text": "Next calibration sequence",
+    "tag": "h4"
+  },
+  "72710bc55bd6": {
+    "text": "Figure 17.",
+    "tag": "strong"
+  },
+  "9ba05eb09283": {
+    "text": "Figure 18.",
+    "tag": "strong"
+  },
+  "cc2caf9a3f98": {
+    "text": "Figure 14.",
+    "tag": "strong"
+  },
+  "97e600efef68": {
+    "text": "Figure 15.",
+    "tag": "strong"
+  },
+  "3cbe4a3d15ac": {
+    "text": "Figure 16.",
+    "tag": "strong"
+  },
+  "035d8f6c5233": {
+    "text": "Fluorescein analysis: methods and full results · Markdown — GitLab",
+    "tag": "a"
+  },
+  "d75ec22d5a15": {
+    "text": "Reproduce the fluorescein analysis · Python — GitLab",
+    "tag": "a"
+  },
+  "beffb9c4b0af": {
+    "text": "Fluorescein measurements · 25 JSON reports and 25 raw CSVs",
+    "tag": "a"
+  },
+  "57d0b4f94b1c": {
+    "text": "User manual · R6",
+    "tag": "h3"
+  },
+  "640bd5c51b0d": {
+    "text": "AeroSense user manual R6 PDF",
+    "tag": "iframe"
+  },
+  "37a3466565b1": {
+    "text": "Fluorescein standards produced concentration-dependent signals across all four excitation channels. We built a separate calibration curve for each channel and identified the channel containing 10 µM in all 13 held-out mixed-layout records. The study comprises 25 two-second acquisitions, connecting raw waveforms, independently prepared standards and reloaded mixed samples.",
+    "tag": "p"
+  },
+  "3324fe1f5895": {
+    "text": "The next step is a measured 4 × 4 well-to-channel calibration, followed by concentration recovery in independent mixtures. The present layouts have rank 3; four independent single-well standards will supply the missing calibration direction. Refreshed blanks and reloading comparisons will account for background and handling effects while testing quantitative recovery.",
+    "tag": "p"
+  },
+  "dc05d8c18a89": {
+    "text": "ADC diagnostic archive",
+    "tag": "summary"
+  },
+  "3722233fe88f": {
+    "text": "The bring-up archive contains two 8,000-sample recordings and 192 diagnostic readings from hardware SPI, slow GPIO and restored SPI, all fixed at code 32767. The record labeled “Dark” had all four LEDs enabled. These diagnostic records are kept separate from the 25 varying-signal dye acquisitions and from LED-off calibration.",
+    "tag": "p"
+  },
+  "55fb5ff41744": {
+    "text": "An independent assembly trial should record completion, assistance, elapsed time and alignment errors to test how the revised manual supports the complete operating workflow.",
+    "tag": "p"
+  },
+  "fc5cabd19212": {
+    "text": "AeroSense integrates four removable wells, filtered optical collection, shared-photodiode electronics and a local phone interface. The assembled reader produced four channel calibration curves and identified the highest-concentration channel across all mixed-layout measurements. Measured mixing calibration and improved cell-contact conditions will extend this foundation toward quantitative biological readout.",
+    "tag": "p"
+  },
+  "59abcee9dbee": {
+    "text": "AeroSense is a compact reader designed to compare odor-responsive living-cell samples through fluorescence. It combines four replaceable 100 µL wells under a shared gas chamber, four frequency-tagged blue LEDs, one filtered photodiode, an ESP32-based acquisition circuit and a local phone interface. An eight-part printed enclosure fixes the optical geometry, separates sample gas from electronics cooling and allows the wells to be replaced. Optical simulations supported a single LEE 101 layer, which retained 70.43% of proxy-green current while reducing LED-derived current to 2.987% of the unfiltered value; airflow modeling guided the inlet shelf and delivery conditions. The reader was assembled, and its acquisition software supports frequency-resolved records and local data export. Assembly feedback informed the revised developer manual. Fluorescein measurements yielded four channel calibration curves and identified the highest-concentration channel in all 13 mixed-layout records.",
+    "tag": "p"
+  },
+  "7b7382a7a321": {
+    "text": "25 complete, varying ADC records without rail samples; extend checks to calibrated electrical inputs and supply rails.",
+    "tag": "td"
+  },
+  "32d23ac6d1cb": {
+    "text": "Record an LED-off baseline alongside the illuminated-water references.",
+    "tag": "td"
+  },
+  "b444c9e2f460": {
+    "text": "Illuminated-water references recorded; next separate the spectral contributions to the background.",
+    "tag": "td"
+  },
+  "4f34850512fd": {
+    "text": "Four curves from 0, 0.1, 1 and 10 µM standards, with three independent preparations per level; refine the low-concentration range.",
+    "tag": "td"
+  },
+  "56e7a76c7f6d": {
+    "text": "Four frequency channels resolved; test single-well recovery with measured mixing calibration.",
+    "tag": "td"
+  },
+  "b96cb040528b": {
+    "text": "Measure four independent single-well standards, then assess the matrix with held-out mixtures.",
+    "tag": "td"
+  },
+  "80ddbcb4142f": {
+    "text": "Compare raw and demodulated SNR under controlled interference.",
+    "tag": "td"
+  },
+  "2d57fed23d65": {
+    "text": "Extend the dye-tested readout to controlled cells and a same-sample reference measurement.",
+    "tag": "td"
+  },
+  "c0cd8b55bb74": {
+    "text": "Measure acquisition stability across a documented battery-discharge series.",
+    "tag": "td"
+  },
+  "56cd66633581": {
+    "text": "One assembly-feedback record informed R6; evaluate the revision in an independent timed trial.",
+    "tag": "td"
+  },
+  "5e8011306473": {
+    "text": "The four well channels (D1–D4) use 41, 67, 89 and 113 Hz at 25% LED duty. Frequency demodulation separates their signals from the shared photodiode output, reported as peak component voltage in mV. The waveforms and spectra below compare a water blank with 10 µM sodium fluorescein.",
+    "tag": "p"
+  },
+  "dba86d87faf0": {
+    "text": "Water-blank and 10 µM sodium fluorescein waveforms, frequency spectra and water-blank residuals.",
+    "tag": "img"
+  },
+  "b07b9cd3ce30": {
+    "text": "A: the first 150 ms of representative water-blank and 10 µM sodium fluorescein recordings. B: spectra of the full two-second recordings, with the four LED frequencies marked. C: water-blank signals after complex background subtraction; bars show the mean and dots show three independent preparations.",
+    "tag": "figcaption"
+  },
+  "5522242befd7": {
+    "text": "The reader subtracts the mean illuminated water-blank background once in complex I/Q space, preserving both signal amplitude and phase during subtraction. The calibration below then uses the magnitude of this corrected signal in mV. Display smoothing was disabled.",
+    "tag": "p"
+  },
+  "d3208e513224": {
+    "text": "All four wells received the same sodium fluorescein concentration at 100 µL per well: 0 µM (water blank), 0.1 µM, 1 µM or 10 µM. Three independently prepared standards were measured at each level. These 12 measurements supplied a separate calibration for each well channel.",
+    "tag": "p"
+  },
+  "90d54f507e41": {
+    "text": "Figure 15 overlays all four linear fits, y = intercept + slope × C, where y is the blank-corrected signal in mV and C is sodium fluorescein concentration in µM. To read an unknown, use its own well’s line: C = (y − intercept) / slope. For example, a corrected D1 signal of 10 mV corresponds to 7.01 µM sodium fluorescein-equivalent concentration.",
+    "tag": "p"
+  },
+  "8e7cec30d306": {
+    "text": "Four overlaid per-well calibration lines with a low-concentration inset, equations and a voltage-to-concentration example.",
+    "tag": "img"
+  },
+  "8f2fef18f0e8": {
+    "text": "Four well-specific fits share the same axes. Faint points show independent standard preparations; larger points and bars show mean ± SD (n = 3 per concentration). Fits use all 12 uniform-standard measurements with a free intercept. The inset enlarges 0–1 µM; both concentration axes are linear.",
+    "tag": "figcaption"
+  },
+  "37306a1e8005": {
+    "text": "The fitted sensitivities are 1.420, 1.926, 1.896 and 2.036 mV/µM for D1–D4. Each curve therefore accounts for its own well’s response. The inset shows deviations from the linear fit at low concentrations, so concentration recovery is checked against separately loaded mixtures below. Because each frequency is fixed to one well, these measurements combine frequency, illumination, optical path and well-position effects.",
+    "tag": "p"
+  },
+  "50c1dcf024ba": {
+    "text": "Layout A placed 10, 1, 0.1 and 0 µM in D1–D4; layout B reversed this order. Layout A had two independent loadings with one and three reads, while layout B had three independent loadings with three consecutive reads each. The same carrier was cleaned between loadings. All 13 mixed readings were converted with the Figure 15 curves and were excluded from fitting.",
+    "tag": "p"
+  },
+  "7390f9b1554c": {
+    "text": "Layouts A and B combined after conversion with the same per-well calibration curves, compared with prepared concentrations.",
+    "tag": "img"
+  },
+  "bad649f74393": {
+    "text": "Both layouts use C = (y − intercept) / slope from Figure 15. Circles denote layout A and triangles layout B; colors identify the well channel. Large markers show the equally weighted mean ± SD between independent loadings, and faint markers show individual loading means. Dashed squares mark the prepared concentration. Horizontal offsets separate overlapping groups.",
+    "tag": "figcaption"
+  },
+  "36baf331f431": {
+    "text": "For prepared concentrations of 0, 0.1, 1 and 10 µM, layout A recovered 1.16, 0.36, 2.61 and 8.01 µM; layout B recovered 0.88, 0.37, 1.24 and 7.39 µM. The 0.1 µM and 10 µM groups give similar values across layouts, while the 1 µM group differs more. This common concentration scale makes the remaining background and layout effects visible; it does not force the two layouts to agree. The strongest measured channel matched the 10 µM well in all 13 mixed readings.",
+    "tag": "p"
+  },
+  "5e717ef853a2": {
+    "text": "The future developer pilot begins with electrical-rail and ADC-headroom checks, an LED-off baseline (DARK), stop-control checks and observed D1–D4 mapping. Its sodium-fluorescein sequence in PBS is: illuminated PBS calibration blank → independent PBS check blank → four single-well 100 nM conditions (PBS in the other wells) → all wells at 50 nM → all wells at 100 nM → repeat all wells at 50 nM. This sequence contains",
+    "tag": "p"
+  },
+  "22e608ae3da9": {
+    "text": ", each with at least five distinct valid two-second technical blocks; the LED-off baseline is saved separately.",
+    "tag": "p"
+  },
+  "5b9751f7b55a": {
+    "text": "This 50/100 nM PBS pilot is a separate future developer study from the water-blank and 0.1/1/10 µM standards reported above. Its approximately five-second record spacing calls for a separate timing assessment before recording fast GCaMP6f cell responses.",
+    "tag": "p"
+  },
+  "8fd6d201c83b": {
+    "text": "04 · Clear well D3",
+    "tag": "th"
+  },
+  "340418a97840": {
+    "text": "05 · Clear well D4",
+    "tag": "th"
+  },
+  "8d02596e6f01": {
+    "text": "06 · Clear well D1",
+    "tag": "th"
+  },
+  "89849310fc67": {
+    "text": "07 · Clear well D2",
+    "tag": "th"
+  },
+  "7140f4f19dec": {
+    "text": "Verification",
+    "tag": "span"
+  },
+  "7dd3e5e09b49": {
+    "text": "The expanded fluorescein study resolves four LED frequency channels and provides a measured route to concentration recovery. In single-well technical holdouts, all 12 reads identified the filled well, with recovered active-well concentrations of 9.25–10.83 µM for a prepared 10 µM standard. The concentration series also identifies useful nonlinear calibration candidates for D1, D2 and D4.",
+    "tag": "p"
+  },
+  "b523e04ef0cb": {
+    "text": "Each well contained 100 µL. The six uniform conditions were water blank and 1, 2.5, 5, 10 and 20 µM sodium fluorescein. Four additional conditions placed 10 µM in D1, D2, D3 or D4, with water in the other three wells. Each condition used one preparation read three times: 30 acquisitions in total.",
+    "tag": "p"
+  },
+  "fda116f63c21": {
+    "text": "From one waveform to four DLIA channels",
+    "tag": "h3"
+  },
+  "a4084cece810": {
+    "text": "D1–D4 are modulated at 41, 67, 89 and 113 Hz, with 25% LED duty. Every two-second record contains 8,000 samples at 4 kHz. Recomputing the in-phase and quadrature components from all 30 raw waveforms reproduces the stored DLIA results within 6.53 × 10⁻¹⁰ V. ADC codes span 89–27674, with no rail samples.",
+    "tag": "p"
+  },
+  "31ed3ef6e246": {
+    "text": "Measured composite waveform, four LED frequency peaks, digital lock-in extraction and same-session water-background correction.",
+    "tag": "img"
+  },
+  "38cf02506eb1": {
+    "text": "A: representative measured waveform. B: the electrical frequency spectrum resolves the four LED tags. C: DLIA estimates as the integration window grows. D: the extracted components before and after same-session water subtraction and phase projection. Carrier peaks are also present in water blanks, so their reconstruction verifies DLIA extraction; fluorescence response is assessed after background correction. These are modulation frequencies in Hz; this photodiode measurement does not resolve an optical wavelength spectrum.",
+    "tag": "figcaption"
+  },
+  "bece6eedaa2e": {
+    "text": "We use the current water readings to subtract the background once in complex I/Q space, then project each channel onto its fluorescence-response direction. Keeping the signed response avoids folding a negative baseline residual into an apparently positive fluorescence signal. An older saved blank is retained for comparison, rather than subtracted a second time.",
+    "tag": "p"
+  },
+  "a9bf0f1906dc": {
+    "text": "Choose curves by concentration recovery",
+    "tag": "h3"
+  },
+  "1397bb347d30": {
+    "text": "We compared linear, quadratic, cubic, exponential, power-law and shape-preserving piecewise cubic interpolation (PCHIP) models. All four channel curves share one concentration axis. Selection requires a monotonic full-range curve and a unique in-range inverse for all four omitted internal concentrations; among eligible models, the smallest concentration error determines the candidate.",
+    "tag": "p"
+  },
+  "1df7b9f2ac26": {
+    "text": "Four channel calibration curves, individual technical reads, six candidate model comparisons and corrected concentration-association tests.",
+    "tag": "img"
+  },
+  "3258f33d75b0": {
+    "text": "A: selected candidate curves and mean ± technical SD. B: every technical read in the low and middle range. C: signal-prediction RMSE when a whole concentration level is omitted. The table below reports the corresponding concentration-recovery criterion. Stars summarize the concentration trend across six condition means: exact two-sided Spearman permutation tests, with Holm correction across D1–D4 (* adjusted p < 0.05).",
+    "tag": "figcaption"
+  },
+  "ce4683e7013a": {
+    "text": "Channel",
+    "tag": "th"
+  },
+  "b2452d1eba32": {
+    "text": "Candidate",
+    "tag": "th"
+  },
+  "55f43a99e290": {
+    "text": "Linear inverse RMSE (µM)",
+    "tag": "th"
+  },
+  "0ea426354dda": {
+    "text": "Candidate inverse RMSE (µM)",
+    "tag": "th"
+  },
+  "33a123e5d474": {
+    "text": "D1",
+    "tag": "th"
+  },
+  "dd5612414a6e": {
+    "text": "Power law",
+    "tag": "td"
+  },
+  "2265f5336d7b": {
+    "text": "D2",
+    "tag": "th"
+  },
+  "a58da51adb22": {
+    "text": "Exponential",
+    "tag": "td"
+  },
+  "bed7abeac56e": {
+    "text": "D3",
+    "tag": "th"
+  },
+  "e6950b45d25c": {
+    "text": "Linear",
+    "tag": "td"
+  },
+  "080f62609837": {
+    "text": "D4",
+    "tag": "th"
+  },
+  "0a918a3148e7": {
+    "text": "D1, D2 and D4 benefit from curvature, while D3 retains the linear candidate under the complete-inverse rule. Spearman ρ is 1.000, 1.000, 0.943 and 1.000 for D1–D4; Holm-adjusted p values are 0.0111, 0.0111, 0.0167 and 0.0111. Pearson r values are 0.946, 0.961, 0.966 and 0.943. Strong concentration association supports sensing, while the held-level errors describe how accurately a curve can recover concentration.",
+    "tag": "p"
+  },
+  "f5d88ec37c5f": {
+    "text": "Each concentration mean has equal fitting weight. We omit 1, 2.5, 5 and 10 µM in turn, excluding all three reads and estimating the phase direction from the remaining levels. The selected candidates are exploratory because the same held-level comparison guides selection; a newly prepared unused standard is the next accuracy check.",
+    "tag": "p"
+  },
+  "463a0b6cbc92": {
+    "text": "Correlation tests use the six raw carrier-amplitude means before phase fitting and enumerate all 720 concentration permutations. They assume exchangeability under the null; acquisition order was not randomized. Three consecutive reads characterize technical repeatability, so no pairwise preparation-level significance stars are inferred from those three reads.",
+    "tag": "p"
+  },
+  "fed0504ce594": {
+    "text": "Curve comparison and held-level estimates",
+    "tag": "a"
+  },
+  "2936abbaed34": {
+    "text": "How curves and significance were checked",
+    "tag": "summary"
+  },
+  "bbd61b6f45b7": {
+    "text": "Use single-well fingerprints to recover concentrations",
+    "tag": "h3"
+  },
+  "b90224e65318": {
+    "text": "A single filled well produces a four-channel I/Q fingerprint. Combining these fingerprints gives an eight-real-component by four-well calibration matrix with full rank and a condition number of 10.61. Holding out one read index from every condition, including the blank, identifies the correct filled well in 12/12 tests and recovers its 10 µM concentration with an RMSE of 0.51 µM. The active-channel response has a technical coefficient of variation of 1.37–4.03% in these single-well 10 µM tests.",
+    "tag": "p"
+  },
+  "3c563f4526a9": {
+    "text": "Measured cross-channel fingerprints, a simultaneous four-well check, matrix concentration estimates and held-read single-well recovery.",
+    "tag": "img"
+  },
+  "87353110ce41": {
+    "text": "A: each single-well response is scaled to that filled well’s own channel. B: the sum of isolated-well responses is compared with all four wells measured at 10 µM. C: the matrix inverse is tested on that unused layout. D: active-well estimates from the technical holdouts, spanning 9.25–10.83 µM. These holdouts test repeat-read recovery within the same preparations.",
+    "tag": "figcaption"
+  },
+  "00d2dd1e456c": {
+    "text": "The simultaneous four-well check defines the next calibration step. Its measured response is 68.4%, 69.4%, 48.3% and 65.6% of the isolated-response sum for D1–D4. The same matrix estimates 9.09, 8.72, −2.37 and 10.51 µM for four known 10 µM wells. The negative D3 estimate flags a mismatch between that layout and the calibration, so mixed samples require a fresh layout check and a matrix measured at more than one concentration.",
+    "tag": "p"
+  },
+  "3d5125cdaadb": {
+    "text": "Compare measured cross-response with the optical model",
+    "tag": "h3"
+  },
+  "c1c8f648e732": {
+    "text": "The matching simulation uses fluorescence distributed throughout 100 µL of liquid. We compare it with the measured single-well matrix using the same row normalization: each row sums the source contributions seen by one channel. The measured D3 response is more broadly distributed across source wells than the simulated pattern, identifying optical isolation and calibration as useful engineering targets.",
+    "tag": "p"
+  },
+  "5d96ac449cbb": {
+    "text": "Liquid-volume optical simulation and measured single-well cross-response, both normalized within each detection-channel row.",
+    "tag": "img"
+  },
+  "c41b74b45e2f": {
+    "text": "Both panels show each source well’s share of a channel’s summed response. Simulation and experiment use the documented D1–D4 model registration. The model describes homogeneous fluorescent liquid; measured apparent cross-response also includes background, optical configuration and acquisition-state effects. Off-diagonal entries therefore cannot all be assigned to photon leakage. Negative measured entries are signed background residuals. This comparison guides calibration rather than replacing the measured matrix.",
+    "tag": "figcaption"
+  },
+  "18d8ecc48c7f": {
+    "text": "Recalibrate after the optical configuration changes",
+    "tag": "h3"
+  },
+  "c4c3dddd18b6": {
+    "text": "Shared water, 1 µM and 10 µM standards test whether the two measurement sessions can share a scale. We fit the transfer using only water and 10 µM, then check the unused 1 µM standard. Residual complex-signal errors are 0.878, 0.625, 0.665 and 3.066 mV for D1–D4. The anchor correction therefore does not justify transferring the earlier calibration unchanged.",
+    "tag": "p"
+  },
+  "21f5d2270190": {
+    "text": "Stored and current water baselines, an unused-standard test of session transfer and D3 changes between consecutive reads.",
+    "tag": "img"
+  },
+  "c3670963691b": {
+    "text": "A: previous stored blank versus the current water blank. B: the unused 1 µM check after fitting water and 10 µM anchors. C: consecutive D3 readings at 2.5 and 5 µM. Baseline, gain and between-read changes remain visible instead of forcing the sessions onto one curve.",
+    "tag": "figcaption"
+  },
+  "b75cb8f33d41": {
+    "text": "At 2.5 µM, D3 raw amplitudes were 38.02, 68.84 and 68.49 mV across the three reads. Within each two-second record, the raw carrier-amplitude change between the first and second seconds stayed below 1.8% across the dataset. This measures carrier stability, rather than the precision of a small background-corrected fluorescence signal. The larger changes occur between acquisitions. Filter seating, liquid wetting and carryover are possibilities to test; the recordings alone do not isolate the cause.",
+    "tag": "p"
+  },
+  "4aedfe12bfc2": {
+    "text": "For future unknowns, fix the filter and carrier position, acquire a fresh illuminated water blank, fit the complete channel curves, and check a newly prepared unused standard before converting signals. For mixed wells, add single-well calibrations at multiple concentrations and an independently prepared mixed layout. Define acceptable recovery, repeatability and background drift before testing, then retain the calibration only when those checks pass.",
+    "tag": "p"
+  },
+  "d03b63936f55": {
+    "text": "Full analysis, calibration coefficients and raw measurements",
+    "tag": "a"
+  },
+  "f6f0c6bf2ba2": {
+    "text": "The initial study remains available as a separate 25-acquisition dataset. It used 0, 0.1, 1 and 10 µM uniform standards, with three independently prepared standards per level, plus two mixed layouts across five independent loadings. The strongest channel identified the 10 µM well in all 13 mixed reads. Its linear concentration estimates belong to that optical configuration and are not used as a universal conversion for the expanded study.",
+    "tag": "p"
+  },
+  "8eeef0b189dc": {
+    "text": "Initial waveform analysis",
+    "tag": "a"
+  },
+  "aa82c067f26a": {
+    "text": "Initial calibration curves",
+    "tag": "a"
+  },
+  "5741921b658e": {
+    "text": "Initial mixed-layout comparison",
+    "tag": "a"
+  },
+  "35fa711541c5": {
+    "text": "Initial calibration study and archived figures",
+    "tag": "summary"
+  },
+  "bd9e5f21af95": {
+    "text": "The bring-up archive contains two 8,000-sample recordings and 192 diagnostic readings from hardware SPI, slow GPIO and restored SPI, all fixed at code 32767. The record labeled “Dark” had all four LEDs enabled. These diagnostic records are kept separate from the fluorescence calibration studies and from LED-off calibration.",
+    "tag": "p"
+  },
+  "86527d8a9eaf": {
+    "text": "Candidate curves and concentration-recovery error",
+    "tag": "caption"
+  },
+  "3a7a62bf0d81": {
+    "text": "Both panels show each source well’s share of a channel’s summed response, using the documented D1–D4 model registration; the assembled bottom-view wiring has not been independently checked. The model describes homogeneous fluorescent liquid; measured apparent cross-response also includes background, optical configuration and acquisition-state effects. Off-diagonal entries therefore cannot all be assigned to photon leakage. Negative measured entries are signed background residuals. This comparison guides calibration rather than replacing the measured matrix.",
+    "tag": "figcaption"
+  },
+  "7f0a9eac616a": {
+    "text": "Model registration",
+    "tag": "a"
+  },
+  "6b3256610b8c": {
+    "text": "AeroSense is a compact reader designed to compare odor-responsive living-cell samples through fluorescence. It combines four replaceable 100 µL wells under a shared gas chamber, four frequency-tagged blue LEDs, one filtered photodiode, an ESP32-based acquisition circuit and a local phone interface. An eight-part printed enclosure fixes the optical geometry, separates sample gas from electronics cooling and allows the wells to be replaced. Optical simulations supported a single LEE 101 layer, which retained 70.43% of proxy-green current while reducing LED-derived current to 2.987% of the unfiltered value; airflow modeling guided the inlet shelf and delivery conditions. The reader was assembled, and its acquisition software supports frequency-resolved records and local data export. Assembly feedback informed the revised developer manual. Expanded fluorescein measurements yielded four channel calibration candidates and a measured single-well response matrix. All 12 technical holdouts identified the filled well, recovering a prepared 10 µM standard at 9.25–10.83 µM.",
+    "tag": "p"
+  },
+  "79a15b8f822b": {
+    "text": "The well simulation predicts unequal collection and mixing between wells: the intended well contributes 88.6–90.9% of the modeled green signal in each LED channel. A brighter channel can therefore reflect collection geometry as well as sample fluorescence. We measured the four single-well response patterns with a 10 µM standard and built a complex I/Q calibration matrix. It identified the filled well in all 12 technical holdouts. The simultaneous four-well check now motivates calibration at multiple concentrations and independent mixed-sample validation. The liquid-volume simulation is compared with these measurements in System verification; the simulated matrix itself is not applied as a device correction.",
+    "tag": "p"
+  },
+  "37bd885f2c2b": {
+    "text": "Optical and airflow models turned design choices into testable targets: the LEE 101 layer limits excitation leakage, the shelf changes the inlet jet, and the optical matrix predicts unequal collection. The expanded study establishes concentration-dependent responses, nonlinear calibration candidates and single-well matrix recovery in 12/12 technical holdouts. Mixed-layout and session-transfer checks focus the next work on optical stability, fresh blanks, multi-concentration matrix calibration and independently prepared validation samples. Known electrical inputs should separately test analog linearity, and gas tracers should test modeled arrival times.",
+    "tag": "p"
+  },
+  "681206be6c91": {
+    "text": "AeroSense integrates four removable wells, filtered optical collection, shared-photodiode electronics and a local phone interface. The expanded study resolved four frequency channels, compared six calibration models and recovered single-well standards in all 12 technical holdouts. A fixed optical configuration, multi-concentration mixing calibration and independently prepared mixed samples provide the next route toward quantitative biological readout.",
+    "tag": "p"
+  },
+  "8d98bd671c25": {
+    "text": "AeroSense separates four fluorescence-readout channels and converts calibrated signals into sodium-fluorescein concentration. Using one exponential curve family for D1–D4, concentration-level holdouts give a pooled error of 1.28 µM. In a separate single-well test, all 12 technical holdouts identified the filled well and recovered a prepared 10 µM standard at 9.25–10.83 µM.",
+    "tag": "p"
+  },
+  "8f7676833c6f": {
+    "text": "Each well contained 100 µL. Uniform standards covered water blank and 1, 2.5, 5, 10 and 20 µM; four single-well controls contained 10 µM in D1, D2, D3 or D4 with water elsewhere. Each named loading was freshly prepared and read three times consecutively. An additional 2.5 µM loading brings this expanded dataset to 33 acquisitions.",
+    "tag": "p"
+  },
+  "b5b1fc73590c": {
+    "text": "From one waveform to four DLIA channels",
+    "tag": "h3"
+  },
+  "89ebb116ca5d": {
+    "text": "The LEDs label D1–D4 at 41, 67, 89 and 113 Hz. Digital lock-in amplification (DLIA) extracts their in-phase and quadrature components from one photodiode waveform. A fresh illuminated-water blank is subtracted once in complex I/Q space; the corresponding single-well control sets each channel’s phase.",
+    "tag": "p"
+  },
+  "1169443e42b0": {
+    "text": "Measured waveform, modulation-frequency peaks, DLIA integration and blank correction.",
+    "tag": "img"
+  },
+  "f01db23123cc": {
+    "text": "DLIA separates the four modulation channels from one photodiode recording. A shows the first 150 ms of the first uniform 10 µM acquisition; the complete record contains 8,000 samples at 4 kHz. B resolves the D1–D4 carriers at 41, 67, 89 and 113 Hz. These are modulation frequencies, not optical wavelengths. C shows the extracted carrier amplitudes as the integration window grows to 2 s. D compares raw carrier magnitude with the signed response after subtracting the same-session water blank in I/Q space and applying the phase of each channel’s own single-well 10 µM control. The raw carrier includes excitation leakage and other modulated background; it is not fluorescence alone. Recomputing I/Q directly from all 30 original ADC recordings reproduces the stored values to within 6.53 × 10⁻¹⁰ V.",
+    "tag": "figcaption"
+  },
+  "6345532be223": {
+    "text": "One calibration family for D1–D4",
+    "tag": "h3"
+  },
+  "f8de090c6079": {
+    "text": "All four channels use the same exponential equation, with separate coefficients for their different sensitivities. The primary fit uses 0, 1, 5, 10 and 20 µM after the 2.5 µM quality check. Among the eligible common curve families, exponential fitting gives the smallest concentration-level holdout error: 1.28 µM, compared with 3.04 µM for a straight line.",
+    "tag": "p"
+  },
+  "ed4002e15d47": {
+    "text": "Four overlaid exponential calibration curves with technical standard deviations.",
+    "tag": "img"
+  },
+  "54cfea6860e6": {
+    "text": "Shared exponential family for D1–D4. Points show loading means ± SD of three consecutive technical reads; curves use equal weight for each of five concentration means. The 2.5 µM quality check and full-data sensitivity analyses are available below. The single star marks the exploratory joint four-channel Spearman trend: mean ρ = 1.00, exact two-sided p = 0.0167, with concentration labels permuted jointly across the five loading means. It is not a pairwise test of technical replicates.",
+    "tag": "figcaption"
+  },
+  "1965998c2d74": {
+    "text": "Predict concentration, then check the residual",
+    "tag": "h3"
+  },
+  "92bee199e4d1": {
+    "text": "To test conversion directly, we leave out all readings of 1, 5 or 10 µM, refit the curve, and predict the omitted concentration. At an actual 10 µM, D1–D4 predict 11.59, 10.93, 11.24 and 10.99 µM. The pooled error across all 12 channel-level checks is 1.28 µM; uncertainty is proportionally larger at the low end.",
+    "tag": "p"
+  },
+  "fbef148777e1": {
+    "text": "Held-out predicted concentrations, residuals and nested tests of constant or linear residual corrections.",
+    "tag": "img"
+  },
+  "ae6c135d48dd": {
+    "text": "Concentration recovery from whole-level holdouts. A: predicted versus actual concentration; the dashed line is perfect agreement. B: residual = predicted − actual concentration. C: an extra constant or linear residual correction is learned only inside each training fold and tested on its omitted concentration. Pooled RMSE is 1.28 µM without extra correction, 1.34 µM with a constant correction and 19.57 µM with a linear correction. Each plotted point is a loading mean; 0 and 20 µM remain range anchors. Model choice and the 2.5 µM exclusion are exploratory, and these uniform-loading results do not establish recovery of arbitrary unequal mixtures.",
+    "tag": "figcaption"
+  },
+  "c279254f1d22": {
+    "text": "The residual is not a stable fixed offset, and the extra linear correction overfits the small calibration set. We therefore retain the exponential conversion without an additional residual adjustment. Future measurements should keep the optical configuration fixed and pass an independently prepared check standard before this conversion is used.",
+    "tag": "p"
+  },
+  "0d580a3baf48": {
+    "text": "Why the two simulation matrices differ",
+    "tag": "h3"
+  },
+  "209f34845faf": {
+    "text": "The earlier Hardware and Model figure describes a thin fluorescent layer at the well floor. The liquid-standard comparison distributes fluorescence throughout 100 µL. Their source thickness and absorption assumptions differ, so the predicted fractions differ too. Figure 17 places both original simulations beside the measurement using one normalization and one color convention; neither simulation has been adjusted to fit the experiment.",
+    "tag": "p"
+  },
+  "2705d88b7423": {
+    "text": "Original floor-layer simulation, liquid-volume simulation and measured single-well response on one signed color scale.",
+    "tag": "img"
+  },
+  "e222ca2bfce2": {
+    "text": "Optical models and measured channel mixing on a common scale. A reproduces the earlier Hardware and Model floor-layer simulation: a 20 µm fluorescent layer with absorption coefficient 0.5 mm⁻¹. B uses the same geometry with fluorescence distributed through 100 µL of liquid and absorption coefficient 0.001 mm⁻¹. C uses the mean blank-subtracted signed response from three technical reads of each single-well 10 µM standard. Each channel uses the phase of its own single-well control. Each row is divided by its signed sum; red is positive, blue negative, and white zero. The two model matrices are unchanged from their archived sources. The measured response includes the complete optical and electronic readout; its source matrix is assessed separately in the interference check below. Changing the fluorescent source geometry alone does not explain the measured off-diagonal responses.",
+    "tag": "figcaption"
+  },
+  "3b300092d75e": {
+    "text": "Keep calibration matched to the optical setup",
+    "tag": "h3"
+  },
+  "e452e623ae2d": {
+    "text": "Moving the filter can change both the background and sensitivity. We aligned two measurement sessions with their own water blanks and the shared 10 µM standard, then checked the unused 1 µM standard. The remaining signal differences support taking a fresh blank and calibration after the optical assembly changes.",
+    "tag": "p"
+  },
+  "8131bf8e3f58": {
+    "text": "Unused-standard check of calibration transfer between optical configurations.",
+    "tag": "img"
+  },
+  "bdee58ddd748": {
+    "text": "Checking calibration transfer with an unused standard. Each session is first corrected with its own water blank. The complex gain between sessions is then estimated from the 10 µM standard and applied to the current-session 1 µM standard, which was not used to estimate the gain. A compares the previous measured response with the aligned current response; points are means of three technical reads. B shows the magnitude of the complex I/Q difference, retaining both amplitude and phase mismatch. Residuals for D1–D4 are 0.88, 0.62, 0.67 and 3.07 mV. These are signal differences on the previous-session scale, not concentration errors. The remaining mismatch supports recording a new calibration after an optical configuration change instead of assuming that one gain factor transfers every concentration.",
+    "tag": "figcaption"
+  },
+  "3ffb087d6244": {
+    "text": "Calibration equation, interference check and quality control",
+    "tag": "summary"
+  },
+  "53f9e5941554": {
+    "text": "Conversion equation",
+    "tag": "h3"
+  },
+  "67144b6838e2": {
+    "text": "For every channel, y = a + b × expm1(kc/20) / expm1(k), where y is the signed blank-corrected response in mV and c is concentration in µM. Its inverse is c = (20/k) × log1p[(y − a) × expm1(k)/b]. Use only a unique solution in 0–20 µM; retain out-of-range flags instead of forcing negative or below-range values to zero.",
+    "tag": "p"
+  },
+  "8b654e130f07": {
+    "text": "Download D1–D4 coefficients, blank values and phase settings · CSV",
+    "tag": "a"
+  },
+  "846d45bac00b": {
+    "text": "Whole-level holdouts compare common linear, quadratic, exponential and power families. A common exponential family is retained after requiring monotonic full-range and fold fits and valid inverses. The phase comes from isolated-source controls rather than the held uniform concentration. Individual Spearman tests on five loading means have Holm-adjusted p = 0.0667; only the joint trend receives a star. The permutation test is exploratory and assumes exchangeable loading outcomes; acquisition order was not randomized.",
+    "tag": "p"
+  },
+  "50bb124a064c": {
+    "text": "Test interference removal before trusting it",
+    "tag": "h3"
+  },
+  "d2400201c18b": {
+    "text": "The isolated 10 µM controls supply a measured I/Q response matrix. Leaving out one read from every source and the blank identifies the active well in 12/12 technical checks, with concentration RMSE 0.51 µM. Applying that same matrix to simultaneous equal loading produces a negative D3 estimate; ridge regularization chosen from source-only holdouts does not remove the mismatch. The matrix therefore supports the single-well check, while uniform concentration conversion uses the measured uniform-standard curves.",
+    "tag": "p"
+  },
+  "74fe85867027": {
+    "text": "Measured row-normalized response matrix and direct matrix estimates for uniform standards.",
+    "tag": "img"
+  },
+  "d480d70768a2": {
+    "text": "Interference-transfer check. A: the measured single-well matrix, using the same signed row normalization as Figure 17. B: direct matrix estimates for uniform standards, retaining negative estimates. At actual 10 µM the estimates are 9.09, 8.72, −2.37 and 10.51 µM. Red denotes positive values, blue negative. This layout mismatch is why the matrix-before-curve route is evaluated but not adopted for arbitrary unknown mixtures.",
+    "tag": "figcaption"
+  },
+  "5f25e0e03e28": {
+    "text": "Compare both 2.5 µM loadings",
+    "tag": "h3"
+  },
+  "4f641f03ef48": {
+    "text": "The additional loading is more repeatable: D1–D4 raw-amplitude CVs are 0.20%, 0.18%, 0.29% and 0.42%. The original D3 readings jump by about 81% between the first and second read. However, the additional loading was acquired earlier and its D3/D4 signals fall below the later water blank, so it lacks a matching baseline. Both loadings remain in the archive and sensitivity analyses; neither enters the primary fit.",
+    "tag": "p"
+  },
+  "ccbe20036c83": {
+    "text": "Technical repeatability and background comparison of both 2.5 micromolar loadings.",
+    "tag": "img"
+  },
+  "25e43217c193": {
+    "text": "Original and additional 2.5 µM loadings, mean ± technical SD of three reads. A: raw carrier amplitude. B: signed response after subtraction of the expanded-session water blank. The additional loading is stable within its three reads but differs in baseline; stability alone does not make it interchangeable with the original loading. All-original and replacement analyses are included in the downloadable results.",
+    "tag": "figcaption"
+  },
+  "3de785a490b4": {
+    "text": "Complete raw data, calculations and reproducible scripts",
+    "tag": "a"
+  },
+  "a1cbc1cef05d": {
+    "text": "AeroSense is a compact reader that combines four replaceable 100 µL wells, frequency-tagged blue LEDs, a filtered photodiode, ESP32 acquisition and a local phone interface. The eight-part enclosure fixes the optical geometry and separates sample gas from electronics cooling. Optical and airflow simulations guided filter selection and the inlet shelf, while assembly feedback informed the manual. Fluorescein measurements resolved four channels, supported one shared exponential calibration family and recovered uniform-standard concentrations with a 1.28 µM pooled concentration-level holdout error. Separate single-well checks identified the filled well in all 12 technical holdouts.",
+    "tag": "p"
+  },
+  "c7cd2bc052cb": {
+    "text": "The original floor-layer simulation predicts an intended-well contribution of 88.6–90.9% in each LED channel. A brighter channel can reflect both fluorescence and collection geometry. Single-well standards provide measured source fingerprints, which correctly identify the active well in 12/12 technical holdouts. System verification compares this original model, the liquid-volume model and the measured matrix on the same scale, then checks which calibration transfers to uniform loading.",
+    "tag": "p"
+  },
+  "5126aa6046a0": {
+    "text": "Optical and airflow models turned design choices into measurable targets. The assembled reader resolves four modulation channels and supports concentration conversion with one common exponential family. Whole-concentration holdouts give a pooled error of 1.28 µM, while the isolated-source matrix identifies the loaded well in 12/12 technical checks. Testing matrix transfer and residual corrections distinguishes the working uniform-standard calibration from the additional calibration needed for unequal mixtures. Keeping the filter fixed and recording fresh blanks makes these operating conditions reproducible.",
+    "tag": "p"
+  },
+  "5dca6ad8d384": {
+    "text": "AeroSense integrates removable wells, filtered optical collection, shared-photodiode electronics and a local phone interface. Fluorescein measurements demonstrate four-channel separation, single-well identification and concentration recovery using a shared exponential family. The resulting calibration files specify how to subtract the blank, apply the measured phase and convert an in-range signal, with direct concentration and residual checks to guide future experiments.",
+    "tag": "p"
+  },
+  "c9fb14644ae5": {
+    "text": "The complete measurement archive and current analysis are downloadable below. Project code and documentation are available through the official repository; the research data record is linked separately.",
+    "tag": "p"
+  },
+  "31af0844aa8b": {
+    "text": "All fluorescein raw data · 58 JSON reports + 58 ADC CSVs · ZIP",
+    "tag": "a"
+  },
+  "0d9e4679ea3f": {
+    "text": "Calibration analysis, coefficients and reproducible scripts · ZIP",
+    "tag": "a"
+  },
+  "bc9452be1c80": {
+    "text": "D1–D4 calibration coefficients · CSV",
+    "tag": "a"
+  },
+  "e7e089a4ac39": {
+    "text": "Archived ADC and software diagnostics · ZIP",
+    "tag": "a"
+  },
+  "581e74fc84d8": {
+    "text": "Official project repository · GitLab",
+    "tag": "a"
+  },
+  "2da542bb8ab2": {
+    "text": "Research data record · DOI 10.5281/zenodo.23469212",
+    "tag": "a"
+  },
+  "01d8d721f2fc": {
+    "text": "The raw-data ZIP preserves all 58 acquisitions from the initial study, expanded study and additional 2.5 µM loading, including records excluded from the primary fit. Each original file is checked against its SHA-256 manifest. The new files are also retained in the Zenodo release folder; this download does not indicate that the linked DOI has already received a new version.",
+    "tag": "p"
+  },
+  "4a15b51b9d30": {
+    "text": "Raw measurements, revised calibration and diagnostic archives",
+    "tag": "a"
+  },
+  "8653fa351a85": {
+    "text": "The protocol organizes electrical, optical, transport and workflow verification. Current records include both fluorescein studies, single-well controls, concentration-level holdouts and an assembly-feedback record.",
+    "tag": "p"
+  },
+  "d3955fb5c040": {
+    "text": "58 complete fluorescence acquisitions are archived; the expanded ADC records are varying and contain no rail samples.",
+    "tag": "td"
+  },
+  "6c1beda5d8d4": {
+    "text": "A shared exponential family covers D1–D4; concentration-level holdout RMSE is 1.28 µM for the uniform-standard calibration.",
+    "tag": "td"
+  },
+  "a2e39d0020dd": {
+    "text": "The four LED frequencies are resolved; all 12 single-well technical holdouts identify the filled well.",
+    "tag": "td"
+  },
+  "9fa96b78dbca": {
+    "text": "A measured single-well I/Q matrix is available; uniform-loading transfer and regularization are assessed separately from source identification.",
+    "tag": "td"
+  },
+  "b3e1f44cc4ab": {
+    "text": "This 50/100 nM PBS pilot is a separate future developer study from the water-based fluorescein calibration reported above. Its approximately five-second record spacing calls for a separate timing assessment before recording fast GCaMP6f cell responses.",
+    "tag": "p"
+  },
+  "bb8450b3d0d4": {
+    "text": "Verification follows the measured signal: separate four frequency tags, measure well-to-well response and cross-talk, compare them with optical models, and then test concentration recovery using observations excluded from calibration.",
+    "tag": "p"
+  },
+  "caeaaa5f9e02": {
+    "text": "Both sessions used 100 µL per well. The earlier session includes uniform 0, 0.1, 1 and 10 µM standards and five unequal-well loadings; the later session adds uniform 2.5, 5 and 20 µM standards and four isolated-well controls. All 58 acquisitions remain available, including the two 2.5 µM loadings examined in quality control.",
+    "tag": "p"
+  },
+  "8be171ab5e00": {
+    "text": "1. Separate the four frequency-tagged signals",
+    "tag": "p"
+  },
+  "6010d06b0617": {
+    "text": "2. Calibrate different well responses",
+    "tag": "p"
+  },
+  "3a8957c25165": {
+    "text": "The same concentration gives different amplitudes in D1–D4, because excitation, collection and channel sensitivity differ. Each channel therefore needs its own calibration coefficients. This corrects the concentration response for the tested loading arrangement; it does not by itself subtract cross-talk from arbitrary mixtures.",
+    "tag": "p"
+  },
+  "cee6cac33b04": {
+    "text": "3. Compare simulated and measured cross-talk",
+    "tag": "p"
+  },
+  "04983e6d4730": {
+    "text": "A and B are optical simulations; C is measured data. In each panel, a column identifies the well containing fluorescein and a row identifies the frequency-tagged readout. The diagonal is the response assigned to that same well. Entries away from the diagonal show a response assigned to another channel. For example, measured channel D1 receives 50.9% of its row-normalized response from the D1-only loading and 19.2% from the D2-only loading.",
+    "tag": "p"
+  },
+  "3c4ec9ef52ff": {
+    "text": "A and B: optical simulations. C: measured single-well responses, with matching row normalization.",
+    "tag": "p"
+  },
+  "beb5ac127c59": {
+    "text": "Simulation versus measurement. A uses a 20 µm fluorescent layer at the well floor (absorption coefficient 0.5 mm⁻¹). B distributes fluorescence throughout 100 µL of liquid (0.001 mm⁻¹) in the same geometry. C averages three technical reads for each isolated 10 µM well after complex blank subtraction and the phase reference of its own channel. Each row is divided by its signed sum. These percentages compare response patterns; they are not fractions of total emitted fluorescence. Both model matrices retain their archived values and were not fitted to C.",
+    "tag": "p"
+  },
+  "3220fb36bab9": {
+    "text": "Both simulation and measurement show cross-talk, but the experiment has larger off-diagonal responses: the same-well diagonal is 80.6–90.9% in the two simulations and 36.2–69.5% in the measurement. The optical model therefore explains the need to account for leakage, but does not quantitatively reproduce the complete optical and electronic response.",
+    "tag": "p"
+  },
+  "cb8bf6b2bef7": {
+    "text": "Can it be corrected? A measured single-well I/Q matrix identifies the filled well in 12/12 technical holdouts and recovers 10 µM at 9.25–10.83 µM. Applying it to all wells filled at 10 µM instead gives D3 = −2.37 µM. This supports correction within the tested single-well arrangement, not a general subtraction for arbitrary mixtures. The final concentration comparison below uses the appropriate session calibration and keeps the two loading arrangements distinct.",
+    "tag": "p"
+  },
+  "e74e1e0ea19f": {
+    "text": "4. Check calibrated concentrations against prepared standards",
+    "tag": "p"
+  },
+  "7e259733ddb7": {
+    "text": "Yes—the plotted values are already calibrated. Circles use the later session: subtract its water blank, project onto the single-well phase, and invert a channel-specific exponential curve fitted without the concentration being checked. Triangles add the earlier session: its own blank and linear magnitude calibration, trained only on uniform standards, are applied to five previously withheld unequal-well loadings. The two sessions are compared in µM after their own calibration, rather than combining their raw voltages.",
+    "tag": "p"
+  },
+  "18ccf4c78bf9": {
+    "text": "A: calibrated concentration estimates from both sessions with predictive R squared. B: residuals. Session and loading type use distinct markers.",
+    "tag": "p"
+  },
+  "77a27858ba06": {
+    "text": "Calibrated concentration checks from both sessions. A compares predicted with prepared concentration; its dashed line is equality. B shows prediction minus prepared concentration. Triangles: 20 well/loading means from five earlier mixed loadings (13 acquisitions), R² = 0.881 and RMSE = 1.45 µM. Circles: 12 channel/level means from later 1, 5 and 10 µM holdouts (nine acquisitions), R² = 0.879 and RMSE = 1.28 µM. R² is 1 − SSE/SST, calculated separately for each check, not squared correlation. Colors identify D1–D4. These are 32 channel/loading means, not 32 independent preparations; the two checks are not pooled into one accuracy claim.",
+    "tag": "p"
+  },
+  "bf56dcdbcedd": {
+    "text": "The earlier figure had 12 points because it displayed only three later held concentrations × four channels, averaging consecutive reads within each loading. This view adds the earlier mixed-load results at 0, 0.1, 1 and 10 µM. Later 0 and 20 µM standards remain calibration anchors, and both 2.5 µM loadings remain in the quality-control analysis. They are not relabeled as independent validation. Low-concentration bias and incomplete recovery of unequal mixtures remain visible.",
+    "tag": "p"
+  },
+  "e0d3897db987": {
+    "text": "Calibration methods, cross-talk and complete checks",
+    "tag": "p"
+  },
+  "b5c5a8f962ce": {
+    "text": "How the two sessions are compared",
+    "tag": "p"
+  },
+  "6105952cfa9b": {
+    "text": "The earlier session uses a free-intercept linear calibration of blank-corrected magnitude against 12 independently prepared uniform standards (three each at 0, 0.1, 1 and 10 µM). All five unequal-well loadings are held out. Test1 and Test5 use D1/D2/D3/D4 = 10/1/0.1/0 µM; Test2–Test4 use 0/0.1/1/10 µM. Test1 has one read and the other four loadings have three consecutive technical reads. Each loading receives equal weight. These inverses are apparent concentrations from uniform standards, without a validated arbitrary-mixture unmixing step.",
+    "tag": "p"
+  },
+  "91d36fb0d86c": {
+    "text": "For the overlap check, 100C means 10 µM and 10C means 1 µM. Each session is blank-corrected independently; its 10 µM complex response estimates the between-session gain. The unused 1 µM check still differs by 0.88, 0.62, 0.67 and 3.07 mV for D1–D4 on the earlier-session scale. Therefore a shared gain is insufficient to pool raw signals. The main figure instead applies the separate session calibrations; no held-out concentration is used to force its own alignment. Full input files and SHA-256 hashes are preserved.",
+    "tag": "p"
+  },
+  "800f1b86e5ec": {
+    "text": "The extra residual-correction comparison is retained here: nested whole-level checks give RMSE 1.28 µM with no added residual correction, 1.34 µM with a constant offset and 19.57 µM with a linear residual correction. The linear adjustment overfits and is not adopted. Removing that panel from the main figure does not remove the underlying result or CSV.",
+    "tag": "p"
+  },
+  "05df19abc1b0": {
+    "text": "Both-session checks and reproducible analysis · ZIP",
+    "tag": "p"
+  },
+  "38354cee022b": {
+    "text": "All 32 plotted estimates · CSV",
+    "tag": "p"
+  },
+  "fe85ef41f571": {
+    "text": "Residual-correction comparison · CSV",
+    "tag": "p"
+  },
+  "5bb65c2cf51c": {
+    "text": "Interference-transfer check. A: the measured single-well matrix, using the same signed row normalization as Figure 16. B: direct matrix estimates for uniform standards, retaining negative estimates. At actual 10 µM the estimates are 9.09, 8.72, −2.37 and 10.51 µM. This layout mismatch is why the matrix-before-curve route is evaluated but not adopted for arbitrary unknown mixtures.",
+    "tag": "p"
+  },
+  "b52d85c7535d": {
+    "text": "Both-session concentration checks and figures · ZIP",
+    "tag": "p"
+  },
+  "478b58933b63": {
+    "text": "Each point represents a loading mean, not a separate consecutive reading. The later session contributes three held concentrations × four channels = 12 points; the earlier session adds 20 mixed-load estimates at 0, 0.1, 1 and 10 µM. Later 0 and 20 µM standards remain calibration anchors, and both 2.5 µM loadings remain in quality control rather than independent validation. Low-concentration bias and incomplete recovery of unequal mixtures remain visible.",
+    "tag": "p"
+  },
+  "c1872ca91da9": {
+    "text": "Nested whole-level checks give RMSE 1.28 µM with no added residual correction, 1.34 µM with a constant offset and 19.57 µM with a linear residual correction. The linear adjustment overfits and is not adopted. All untrimmed correction results remain available in the CSV.",
+    "tag": "p"
+  },
+  "fd792d06aa31": {
+    "text": "One participant’s assembly record identified unclear PCB fastening and nut placement. The developer manual combines this feedback with team-confirmed corrections for M2.5 PCB screws, M3 × 36 mm enclosure screws, fan clearance and the directional middle layer’s photodiode alignment.",
+    "tag": "text"
+  },
+  "5d74c5223eac": {
+    "text": "The record documents the issues found and the resulting assembly instructions.",
+    "tag": "text"
+  },
+  "8ac5d31d4825": {
+    "text": "User manual",
+    "tag": "text"
+  },
+  "cf3352963a8f": {
+    "text": "Developer manual",
+    "tag": "text"
+  },
+  "b67554cadea2": {
+    "text": "The table combines the current assembly specification with the retained materials workbook. Prices are reference purchase costs, with their pack sizes shown; they are not added into a misleading single-device total.",
+    "tag": "text"
+  },
+  "e77a9805a05a": {
+    "text": "Candidate specification: PTFE, 0.22 µm, 25 mm.",
+    "tag": "text"
+  },
+  "79d3d9590f8f": {
+    "text": "Assembly specification. Select screw length for the actual PCB/support stack.",
+    "tag": "text"
+  },
+  "76c47f71e115": {
+    "text": "Assembly specification; the workbook’s older 35 mm screw price is not applied.",
+    "tag": "text"
+  },
+  "361a8bae7fac": {
+    "text": "One assembly-feedback record informed the manual; evaluate the instructions in an independent timed trial.",
+    "tag": "text"
+  },
+  "7aeee28c1453": {
+    "text": "Here, t90 is the time for mean gas concentration beside each liquid surface to reach 90% of the inlet value; it excludes external tubing and cellular response. Similar velocities do not guarantee matched concentration arrival, because diffusion also affects transport. The fixed-surface model describes gas delivery beside the medium. A coupled fluid–fluid model would need to solve both phases and their interfacial force balance, as described by COMSOL",
+    "tag": "text"
+  },
+  "79820cd88516": {
+    "text": "These twelve sheets locate and dimension the enclosure, its internal features and all eight printed parts from the retained CAD and STL geometry. The assembly and principal part views use aligned, equal-scale third-angle projections; enlarged sections and details identify their relative scale. All dimensions are in millimetres. The CAD provides nominal dimensions and design clearances for fabrication and assembly checks.",
+    "tag": "text"
+  },
+  "86a2d246ea3c": {
+    "text": "The PCB figure is preserved from the workbook’s two-board development/setup record. The retained workbook reports a combined development cost. Current M2.5 PCB fasteners, M3 × 36 mm enclosure screws and fan spacers require updated quotations.",
+    "tag": "text"
+  },
+  "4077b119447d": {
+    "text": "The airflow simulation resolves gas delivery beside fixed liquid surfaces; it does not evaluate forces on cells or establish uniform cellular exposure. CAD dimensions are nominal, and manufacturing tolerances and populated-board fit require assembly checks. The manual revision draws on one assembly record; an independent timed retest would evaluate its usability.",
+    "tag": "text"
+  },
+  "b9b6575c9a22": {
+    "text": "The estimated live bottom recovery was",
+    "tag": "text"
+  },
+  "3c8fa8d4f19c": {
+    "text": "Canonical floor-layer simulation: row-normalized response percentages for D1–D4",
+    "tag": "p"
+  },
+  "3fd2ef00ea68": {
+    "text": "The canonical optical design model, also used in Model and the measured comparison below. Each row is normalized to 100%; rows are LED / readout channels and columns are fluorescent source wells. The original 20 µm floor layer, 0.5 mm⁻¹ absorption coefficient and three-seed mean are unchanged. Intended-well shares are 88.6–90.9%.",
+    "tag": "p"
+  },
+  "1a5ec5465122": {
+    "text": "The intended well contributes 88.6–90.9% of each modeled readout. The same matrix is used in Model and in verification Figure 16, where it is compared with measured single-well responses and their channel-pattern correlations. These percentages describe response distribution, not a fraction of all emitted fluorescence.",
+    "tag": "p"
+  },
+  "5034f9aa793b": {
+    "text": "A is the original optical design simulation; B is the measured single-well response. A column identifies the fluorescent source well and a row identifies the readout channel, so an off-diagonal entry describes how another source well contributes to that readout. C compares the shapes of simulated and measured channel patterns across the same four source positions.",
+    "tag": "p"
+  },
+  "b1de0f636180": {
+    "text": "Original floor-layer simulation and single-well measurements in row-normalized percentages, followed by a heatmap of channel-pattern Pearson correlations",
+    "tag": "p"
+  },
+  "cbf6c4114202": {
+    "text": "A uses exactly the canonical floor-layer matrix shown in the optics section and Model. B averages three technical reads per isolated 10 µM source, after complex water-blank subtraction and own-well phase projection. Both are divided by their signed row sums. C shows Pearson r between each simulated row and measured row, each based on four corresponding source wells; its diagonal compares the same channel. Correlation describes pattern agreement, not equal response magnitude or a leakage-removal coefficient.",
+    "tag": "p"
+  },
+  "acc8f8a6e042": {
+    "text": "Across all 16 entries, Pearson r = 0.810 and Spearman ρ = 0.699. Removing the shared dominant diagonal leaves r = 0.257 and ρ = 0.276 across 12 leakage entries. Same-channel pattern r values are D1 0.971, D2 0.945, D3 0.377 and D4 0.932. The model captures some broad channel patterns, but detailed off-diagonal leakage remains different. These are descriptive statistics of dependent matrix entries, not 16 independent experimental samples.",
+    "tag": "p"
+  },
+  "947f5f3413d0": {
+    "text": "D4 has the largest own-well share in both matrices: 90.9% simulated and 69.5% measured. Its strongest non-own source is D3 in both: 8.6% and 30.6%. This means source D3 contributes to readout D4. The reverse direction is different: source D4 contributes 8.5% to readout D3 in the simulation but only 0.3% in the measurement.",
+    "tag": "p"
+  },
+  "226da91366ed": {
+    "text": "The simulation is an ideal floor-layer source, while the standard emits through liquid volume and the measured response includes electronics. Printed geometry, alignment, resin optics and electrical interference could contribute to the wider experimental response, but this comparison does not isolate those causes. The result supports partial trend agreement with the design model; it does not establish a matched-condition optical validation or complete correction of arbitrary mixtures.",
+    "tag": "p"
+  },
+  "319e7855c5d3": {
+    "text": "A measured single-well I/Q matrix identifies the filled well in 12/12 technical holdouts and recovers 10 µM at 9.25–10.83 µM. Applied to all wells filled at 10 µM, however, it gives D3 = −2.37 µM. The supported result is therefore correction within the single-well arrangement; a general leakage subtraction for arbitrary mixtures has not yet been demonstrated. Concentration recovery below uses measured calibration standards.",
+    "tag": "p"
+  },
+  "8a38e043f5c4": {
+    "text": "Optical comparison: one model, normalization and correlation",
+    "tag": "p"
+  },
+  "238ebf5f9301": {
+    "text": "The previous optics figure showed received power in nW, while the validation figure used percentages. These were the same floor-layer matrix in different units: D4 own-well power 0.657 nW is 90.9% of its row total. We now use the same percentage scale throughout Hardware and Model. The alternative liquid-volume simulation remains in the archive.",
+    "tag": "p"
+  },
+  "20142cd25aaf": {
+    "text": "Canonical matrices · CSV",
+    "tag": "p"
+  },
+  "f9a62c843830": {
+    "text": "Channel correlations · CSV",
+    "tag": "p"
+  },
+  "03084086edbd": {
+    "text": "Global and leakage-only correlations · CSV",
+    "tag": "p"
+  },
+  "59a79e0355a6": {
+    "text": "Sources and reproducible calculation",
+    "tag": "p"
+  },
+  "b77016693429": {
+    "text": "All wells contained 100 µL. The study includes uniform standards spanning 0–20 µM, five unequal-well loadings and four isolated-well controls. All 58 acquisitions are retained, including both 2.5 µM loadings examined in quality control.",
+    "tag": "p"
+  },
+  "ad1fa6ce6a67": {
+    "text": "Each readout channel has a different response, so a fitted curve converts its blank-corrected, signed signal into concentration. We compared linear, quadratic, exponential, power and PCHIP functions by withholding an entire concentration, including all its readings. Curves must increase throughout their calibration range and give a unique in-range inverse for every held standard. The selected functions are linear for the 0–10 µM calibration set and exponential for the 0–20 µM set; all four channels use the same family within each set.",
+    "tag": "p"
+  },
+  "71b21cfc8db8": {
+    "text": "Whole-concentration holdout comparison of linear, quadratic, exponential, power and PCHIP calibration; non-monotone fits are excluded.",
+    "tag": "p"
+  },
+  "9202363f86ad": {
+    "text": "Calibration-family comparison using 20 channel/concentration means. The selected functions give a holdout RMSE of 1.043 µM with 20/20 in-range inverses. Hatched candidates contain non-monotone fits. This is exploratory selection on the same folds, not prospective validation of a locked model.",
+    "tag": "p"
+  },
+  "f19d0ae60540": {
+    "text": "The shared DDW, 10C and 100C standards correspond to 0, 1 and 10 µM. Their response ratios differ, so one gain factor cannot align all three levels. The supplementary comparison evaluates three-point mappings and a shared curve shape; the results below use the selected calibration functions in common µM units.",
+    "tag": "p"
+  },
+  "f2ce3581d688": {
+    "text": "Shared-standard alignment and model comparison",
+    "tag": "p"
+  },
+  "180893a4c86e": {
+    "text": "The calibrated results are shown together in µM, using the same symbol and color for each channel. Unequal-well loadings were excluded from their calibration; uniform-concentration checks exclude every reading at the tested concentration. The residuals show the error remaining after calibration.",
+    "tag": "p"
+  },
+  "0fd928085f47": {
+    "text": "One combined channel-colored scatter plot of 32 calibrated concentration means and their residuals, with descriptive R squared 0.886.",
+    "tag": "p"
+  },
+  "93c68500b275": {
+    "text": "Integrated concentration checks. A compares predicted with prepared concentration; the dashed line marks equality. B shows prediction minus prepared concentration. There are 32 channel/loading means from 22 acquisitions, not 32 independent preparations. Descriptive R² = 1 − SSE/SST = 0.886 and RMSE = 1.415 µM summarize the displayed checks across different loading configurations. Two negative diagnostic estimates are retained; 30/32 means are within their calibration ranges.",
+    "tag": "p"
+  },
+  "27d6e2437f5a": {
+    "text": "Agreement is incomplete, particularly near the low end and for unequal-well loading. These data support channel-specific calibration, but do not yet establish a single accuracy specification for arbitrary mixtures. The complete provenance, failed alternatives and 2.5 µM sensitivity checks remain in the supplementary analysis.",
+    "tag": "p"
+  },
+  "07889d03630b": {
+    "text": "Calibration, shared standards and reproducible calculations",
+    "tag": "p"
+  },
+  "89dfb3415fae": {
+    "text": "The preceding display used separate calibrations and had not aligned all three shared standards. This revision reconstructs the raw I/Q records, applies the same current-blank and signed-phase processing to both calibration sets, and compares the candidate functions using whole-concentration holdouts.",
+    "tag": "p"
+  },
+  "24754a22fa24": {
+    "text": "DDW, 10C and 100C correspond to 0, 1 and 10 µM. All three shared levels were audited. After blank subtraction, the 1-to-10 µM response ratio differs between calibration sets: for D4 it is 0.86% versus 16.18%, so one gain factor cannot align both. A flexible curve can be made to pass through three points, but those same points cannot independently validate it. The main result uses fresh within-set blank correction and the selected inverse curve to obtain common concentration units; no common three-point signal warp is applied.",
+    "tag": "p"
+  },
+  "a06820b7778c": {
+    "text": "A joint exponential shape with a separate offset/gain for each calibration set gives an interpolation RMSE of 1.036 µM, but only 19/20 inverses remain in range. The retained functions give 1.043 µM and 20/20 in-range estimates. That small RMSE difference is not a demonstrated statistical advantage. Entire concentrations are removed from both sets and transfer/phase fitting in the joint checks; endpoint extrapolation is reported separately.",
+    "tag": "p"
+  },
+  "60853048ab2d": {
+    "text": "Use z = 1000(I + iQ) mV, subtract the current calibration set's DDW mean, then take y = Re[(z − blank) conjugate(phase)]. Set A uses its highest retained training standard as the phase reference; set B uses separate isolated-source controls. The linear form is y = a + b(c/10). The exponential form is y = a + b expm1(kc/20)/expm1(k). All channel coefficients, raw hashes, folds and inverse-validity flags are downloadable.",
+    "tag": "p"
+  },
+  "a8f0bde3fb5f": {
+    "text": "The original 2.5 µM loading is unstable in D3; the additional loading predates a matching blank. Both remain in the archive and sensitivity analyses. Calibration anchors are not presented as new holdout predictions. Selection and QC are exploratory, channels in one loading are dependent, and signed phase projection does not establish arbitrary-mixture interference removal.",
+    "tag": "p"
+  },
+  "b13e36503888": {
+    "text": "The 0–10 µM set contains 12 independently prepared uniform standards and five withheld unequal-well loadings. The 0–20 µM set supplies three tested interior levels, each averaged over three technical reads. Main-figure means therefore combine 20 withheld mixed-loading estimates with 12 concentration-holdout estimates. Their combined R² and RMSE describe this display, not one independent accuracy specification. Low-concentration evidence remains limited to two held standard levels in the first calibration set.",
+    "tag": "p"
+  },
+  "883f37402ed0": {
+    "text": "Unified calibration, figures and reproducible analysis · ZIP",
+    "tag": "p"
+  },
+  "2448a315aa94": {
+    "text": "All 32 plotted means · CSV",
+    "tag": "p"
+  },
+  "b59770580145": {
+    "text": "All 88 individual well/read estimates · CSV",
+    "tag": "p"
+  },
+  "05c021a11b8f": {
+    "text": "Calibration functions and coefficients · CSV",
+    "tag": "p"
+  },
+  "085aff61535b": {
+    "text": "Three shared standards · CSV",
+    "tag": "p"
+  },
+  "d305ab20bbba": {
+    "text": "Shared-shape model comparison · CSV",
+    "tag": "p"
+  },
+  "32749f9016f3": {
+    "text": "Complete method and validation limits",
+    "tag": "p"
+  },
+  "8ac966c2e925": {
+    "text": "A historical sensitivity check compared extra residual corrections after the exponential calibration: nested whole-level RMSE was 1.28 µM without an added correction, 1.34 µM with a constant offset and 19.57 µM with a linear adjustment. That extra adjustment is not part of the retained method; the original diagnostic is preserved.",
+    "tag": "p"
+  },
+  "2d57f0c8c5c8": {
+    "text": "Historical residual-correction comparison · CSV",
+    "tag": "p"
+  },
+  "49b10f230322": {
+    "text": "Unified concentration checks and calibration comparison · ZIP",
+    "tag": "p"
+  },
+  "b145420bcbd6": {
+    "text": "2. Compare simulated and measured cross-talk",
+    "tag": "p"
+  },
+  "741f27a32f09": {
+    "text": "3. Correct cross-talk and calibrate concentration",
+    "tag": "p"
+  },
+  "8915638d6518": {
+    "text": "The intended well contributes 88.6–90.9% of each modeled readout. The same matrix is used in Model and in verification Figure 15, where it is compared with measured single-well responses and their channel-pattern correlations. These percentages describe response distribution, not a fraction of all emitted fluorescence.",
+    "tag": "p"
+  },
+  "4c3cee61476b": {
+    "text": "Interference-transfer check. A: the measured single-well matrix, using the same signed row normalization as Figure 15. B: direct matrix estimates for uniform standards, retaining negative estimates. At actual 10 µM the estimates are 9.09, 8.72, −2.37 and 10.51 µM. This layout mismatch is why the matrix-before-curve route is evaluated but not adopted for arbitrary unknown mixtures.",
+    "tag": "p"
+  },
+  "19c08c3831df": {
+    "text": "A is the original optical design simulation and B is the measured single-well response. In both, a column fixes the fluorescent source well while a row fixes the LED-frequency/readout channel. C compares the same D1–D4 in both directions: one source across four readout channels, and one readout channel across four separately loaded sources.",
+    "tag": "p"
+  },
+  "5f5021075b46": {
+    "text": "Canonical simulation and measured single-well response matrices, with a two-by-four heatmap of same-D1 to D4 pattern correlations by source well and by readout channel",
+    "tag": "p"
+  },
+  "a55f68a41aa2": {
+    "text": "A uses the canonical floor-layer model shown in the optics section and Model. B averages three technical reads per isolated 10 µM source, with 100 µL DDW in each of the other three wells, after complex water-blank subtraction and own-well phase projection. A/B are displayed as percentages of their signed row sums. C is a 2 × 4 Pearson correlation heatmap using the original nW and signed mV matrices before that display normalization: the first row compares corresponding source columns, the second corresponding readout rows. Each value uses four positions and describes a response pattern, not an emitted-light fraction or a leakage-removal coefficient.",
+    "tag": "p"
+  },
+  "cfa638d1839e": {
+    "text": "The same-D1–D4 comparison gives different answers in the two directions. Source patterns agree strongly for D3/D4 but weakly for D1/D2; readout patterns agree strongly for D1/D2/D4 and less for D3. Source-pattern comparisons include channel sensitivity as well as optics, so the two rows should be read separately.",
+    "tag": "p"
+  },
+  "71733802b2c8": {
+    "text": "The correlation heatmap compares patterns; concentration correction uses the full measured I/Q mixing matrix. The following sections test that correction explicitly, including whether the isolated-well matrix transfers to simultaneous multi-well loading.",
+    "tag": "p"
+  },
+  "a10b981f05ab": {
+    "text": "The four rows are four LED-frequency/readout channels from one photodiode, not four physical detectors. A source-column pattern is the measured response when the same fluorescent well is read in different frequency channels. A readout-row pattern is that channel’s response to separate source-well loadings; neither is a direct measurement of the fraction of all light leaving an LED or well.",
+    "tag": "p"
+  },
+  "1aa8aa38030e": {
+    "text": "By source well, D1–D4 correlations are −0.125, 0.193, 0.999 and 0.987; by readout channel they are 0.971, 0.945, 0.377 and 0.932. The two directions answer different questions. Source-column comparisons retain channel gain and electronic response; row-normalizing the inputs first would change that question. All eight correlations are descriptive four-position summaries. A high Pearson value can be dominated by one large response: source D4 has r = 0.987 but Spearman ρ = 0.316.",
+    "tag": "p"
+  },
+  "18fcc04aba7e": {
+    "text": "Same-source and same-channel correlations · CSV",
+    "tag": "p"
+  },
+  "4ddfa059c5b2": {
+    "text": "We now explicitly remove the measured cross-well contribution before interpreting concentration. Four isolated 10 µM controls define an 8 × 4 matrix from the I and Q responses; the other three wells contain 100 µL DDW in each control. After subtracting the current water blank, a signed ridge solution estimates the four source contributions. Its strength is chosen using only single-source and blank technical holdouts, without fitting the tested mixed or uniform loadings.",
+    "tag": "p"
+  },
+  "a732fa2cee1b": {
+    "text": "Measured cross-talk correction: technical holdout solver errors and disagreement between summed isolated-source controls and all-well measurements.",
+    "tag": "p"
+  },
+  "7fc996d77e09": {
+    "text": "Actual matrix correction checks. A: 15 acquisition-level technical holdouts, including blank controls, give component RMSEs of 0.331 µM (unregularized), 0.328 µM (signed ridge, relative penalty 0.0001) and 0.212 µM (nonnegative LS). Ridge is selected among signed solvers to retain negative values as model diagnostics; nonnegative LS is a separately evaluated constrained optimization. B: adding the four isolated 10 µM signals overpredicts the all-well 10 µM measurement. The fixed matrix distinguishes isolated controls but has not transferred reliably to simultaneous loading.",
+    "tag": "p"
+  },
+  "15fb92f87db9": {
+    "text": "Simply adding a scalar curve after this fixed-matrix inversion does not repair its transfer. The inferred D3 source component decreases across part of the uniform series. None of the tested post-matrix linear, quadratic, exponential, power or PCHIP families provides increasing, valid in-range inverses for all four components. Signed matrix estimates are therefore retained as diagnostics. This does not rule out other nonlinear forward models, which these data have not validated.",
+    "tag": "p"
+  },
+  "5288ee6e6e18": {
+    "text": "These values have undergone the measured matrix correction. They are 10 µM-reference-equivalent estimates, not validated final concentrations. The figure combines 32 well/loading means using one symbol and color per well. Each violin retains all eight residuals and marks their numerical mean.",
+    "tag": "p"
+  },
+  "9f3a14fa40cd": {
+    "text": "After actual cross-talk correction, integrated matrix-equivalent estimates and well residual violins with eight points and a mean per well.",
+    "tag": "p"
+  },
+  "fe6438731b8f": {
+    "text": "After matrix unmixing. A: matrix-derived estimates versus prepared concentration, with descriptive R² = −0.276 and RMSE = 4.738 µM. B: residual = estimate − prepared concentration; the violin shows a smoothed distribution of eight means per well, with every point and its well mean retained. Ten negative estimates remain visible. The 32 means come from 22 acquisitions, not independent preparations. For the calibration set lacking isolated-source controls, a complex affine transfer uses DDW, 10C and 100C before the measured matrix is applied; unchanged matrix shape across sets remains an unverified assumption.",
+    "tag": "p"
+  },
+  "975e437dce72": {
+    "text": "The mean residuals are +0.03, −0.84, −4.41 and −0.02 µM for D1–D4. A mean near zero does not remove the wide spread. The poor combined R² and D3 negative estimates show that this cross-talk model has not yet achieved reliable concentration recovery. The previous curve-only result (R² 0.886) did not perform this matrix subtraction and is retained only as a supplementary benchmark.",
+    "tag": "p"
+  },
+  "244a58711bdb": {
+    "text": "3. Test measured cross-talk correction",
+    "tag": "p"
+  },
+  "19da97858fac": {
+    "text": "4. Check estimates after matrix unmixing",
+    "tag": "p"
+  },
+  "154bf98861f3": {
+    "text": "Verification follows the measured signal: separate four frequency tags, compare simulated and measured cross-talk, apply the measured source matrix, and inspect the resulting estimates and residuals. The checks distinguish performing a correction from demonstrating reliable concentration recovery.",
+    "tag": "p"
+  },
+  "581220f4a428": {
+    "text": "Measured matrix correction and its limits",
+    "tag": "p"
+  },
+  "42453ad87aa5": {
+    "text": "Previous per-channel curves and quality checks",
+    "tag": "p"
+  },
+  "23ae7181f91d": {
+    "text": "This earlier analysis fitted each readout separately without explicitly inverting a cross-well matrix. Its descriptive R² of 0.886 is retained as a historical benchmark and does not measure the accuracy of the matrix correction now shown above.",
+    "tag": "p"
+  },
+  "5673e43d23a1": {
+    "text": "For z = 1000(I + iQ) mV, subtract the same-set DDW mean. Each source column is the corresponding isolated 10 µM net response divided by 10; stack its four I rows and four Q rows into M. Solve ĉ = (MᵀM + λσmax²I)⁻¹Mᵀy with λ = 0.0001, selected from 15 single-source/blank technical leave-one-acquisition-out folds. Matrix condition number: 10.613. No uniform target concentration or mixed-loading truth is used to tune λ.",
+    "tag": "p"
+  },
+  "99ff16808459": {
+    "text": "The measured all-well 10 µM responses are only 68.4%, 69.4%, 48.3% and 65.6% of the summed isolated-source predictions. A fixed additive source matrix must satisfy that sum at its own calibration concentration regardless of the later scalar curve family. Nonnegative constraints reduce technical-control error but set failed components to the boundary; they do not demonstrate correct concentration recovery.",
+    "tag": "p"
+  },
+  "41cd3e665650": {
+    "text": "Set A has no independent four-source matrix. Its two unequal concentration patterns and uniform standards span only three source-design directions, so an unrestricted 4-source matrix is not identifiable there. A per-channel complex affine map is fitted to the three shared standard means (0, 1, 10 µM), then the set-B matrix is applied without tuning against mixed-loading truth. Set-B uniform 1/5/10 µM loadings are absent from matrix training; isolated 10 µM controls remain, so these are loading holdouts rather than exclusion of every 10 µM record. Technical repeats, channels and violin density are not independent biological replicates.",
+    "tag": "p"
+  },
+  "10f1bb8def0d": {
+    "text": "Each isolated-source control contains 100 µL of 10 µM fluorescein in one well and 100 µL DDW in each of the other three. All-well standards also contain 100 µL per well. The observed discrepancy therefore occurs with neighboring wells filled in both configurations; these measurements do not isolate its physical cause.",
+    "tag": "p"
+  },
+  "9c2ddcd78965": {
+    "text": "Measured cross-talk correction and reproducible checks · ZIP",
+    "tag": "p"
+  },
+  "1f535600dc2f": {
+    "text": "Full complex mixing matrix · CSV",
+    "tag": "p"
+  },
+  "ab9ae19daba8": {
+    "text": "All matrix-derived estimates · CSV",
+    "tag": "p"
+  },
+  "fef309968b11": {
+    "text": "Residual means by source well · CSV",
+    "tag": "p"
+  },
+  "94626716a0b5": {
+    "text": "Solver comparison · CSV",
+    "tag": "p"
+  },
+  "c8dddc99467b": {
+    "text": "Curve checks after matrix inversion · CSV",
+    "tag": "p"
+  },
+  "b46a983dc7cf": {
+    "text": "Full method, assumptions and data provenance",
+    "tag": "p"
+  },
+  "cda1a0b82a66": {
+    "text": "AeroSense is a compact reader that combines four replaceable 100 µL wells, frequency-tagged blue LEDs, a filtered photodiode, ESP32 acquisition and a local phone interface. The eight-part enclosure fixes the optical geometry and separates sample gas from electronics cooling. Optical and airflow simulations guided filter selection and the inlet shelf, while assembly feedback informed the manual. Fluorescein measurements resolve four frequency channels and quantify cross-well responses. Explicit I/Q matrix correction distinguishes isolated controls, but transfer to simultaneous multi-well loading remains inconsistent; concentration recovery therefore requires further matched-control validation.",
+    "tag": "p"
+  },
+  "24c304b94e44": {
+    "text": "Optical and airflow models turn design choices into measurable targets. The reader separates four modulation channels, and isolated-source controls provide a measured mixing matrix. Applying that matrix explicitly exposes a gap between isolated and simultaneous loading: uniform 10 µM responses are only 48.3–69.4% of the sum predicted by the isolated controls. The matrix-derived estimates and residuals retain this discrepancy. A new concentration calibration needs matched single-source and mixed-source controls across concentrations under the same optical configuration.",
+    "tag": "p"
+  },
+  "f0a288557e32": {
+    "text": "AeroSense integrates removable wells, filtered optical collection, shared-photodiode electronics and a local phone interface. Fluorescein measurements demonstrate four-frequency separation and quantify source mixing. The reproducible analysis now applies the full measured I/Q matrix and reports its residuals, including negative diagnostic estimates. The remaining loading-dependent discrepancy defines the next calibration experiment; reliable arbitrary-mixture concentration recovery has not yet been demonstrated.",
+    "tag": "p"
+  },
+  "2b842a47de3b": {
+    "text": "Measured cross-talk correction, residuals and reproducible analysis · ZIP",
+    "tag": "p"
+  },
+  "ba9b6364c6b9": {
+    "text": "Previous per-channel calibration benchmark · ZIP",
+    "tag": "p"
+  },
+  "ef3293bc255c": {
+    "text": "Concentration estimates after matrix unmixing",
+    "tag": "p"
+  },
+  "feac273411b1": {
+    "text": "These diagnostic estimates explicitly apply the measured I/Q mixing matrix. They are 10 µM-reference-equivalent values, not the per-channel curve estimates in Figure 17. The full signed results are retained here.",
+    "tag": "p"
+  },
+  "088dae2f539c": {
+    "text": "Mean residuals are +0.03, −0.84, −4.41 and −0.02 µM for D1–D4. A mean near zero does not remove the wide spread. The negative D3 estimates and poor combined fit show that this fixed matrix has not achieved reliable concentration recovery for these simultaneous loadings.",
+    "tag": "p"
+  },
+  "03bdd47c30fd": {
+    "text": "The figure shows per-channel curve calibration after blank subtraction and phase projection, using the same color and symbol for each channel. Unequal-well loadings were excluded from calibration; uniform-concentration checks exclude all readings at the tested concentration. This analysis does not explicitly invert the cross-well mixing matrix.",
+    "tag": "p"
+  },
+  "6f74eb85cf34": {
+    "text": "Per-channel curve-calibrated concentrations and residual scatter plots, with descriptive R squared 0.886 and RMSE 1.415 micromolar.",
+    "tag": "p"
+  },
+  "9c5818b7d137": {
+    "text": "Per-channel concentration checks. A compares predicted with prepared concentration; the dashed line marks equality. B shows prediction minus prepared concentration. The 32 channel/loading means come from 22 acquisitions and are not independent preparations. Descriptive R² = 1 − SSE/SST = 0.886 and RMSE = 1.415 µM summarize these curve-calibrated checks; they do not measure the accuracy of matrix unmixing. Both negative diagnostic values are retained; 30/32 means lie within their calibration ranges.",
+    "tag": "p"
+  },
+  "6f52cfb61054": {
+    "text": "Low concentrations and unequal-well loadings still show deviations. These checks support per-channel calibration within the tested configurations, not a single accuracy specification for arbitrary mixtures. The matrix-unmixing estimates and their residuals remain available in the supplementary analysis.",
+    "tag": "p"
+  },
+  "b56b312cbf51": {
+    "text": "Matrix-unmixing estimates and residuals",
+    "tag": "p"
+  },
+  "b9e45e94677e": {
+    "text": "Per-channel curves and quality checks",
+    "tag": "p"
+  },
+  "9ac29ee6c598": {
+    "text": "Figure 17 fits each readout separately without explicitly inverting a cross-well matrix. Its descriptive R² of 0.886 describes the per-channel calibration display. The matrix-derived concentration estimates are reported separately below.",
+    "tag": "p"
+  },
+  "cc42133150a3": {
+    "text": "A is the optical design simulation and B is the measured single-well response. Columns identify the fluorescent source well; rows identify the LED-frequency/readout channel. C directly compares the four displayed source responses within each matching readout channel: it shows their mean absolute difference in percentage points.",
+    "tag": "p"
+  },
+  "591e746b41e3": {
+    "text": "Simulation and measured row-normalized responses, with mean absolute differences of 19.3, 17.2, 30.4 and 12.4 percentage points for readouts D1 through D4.",
+    "tag": "p"
+  },
+  "1734282bff68": {
+    "text": "A uses the same floor-layer matrix as the optics section and Model. For B, one well contained 100 µL of 10 µM fluorescein; each other well contained 100 µL DDW. Three technical reads were averaged after complex blank subtraction and own-well phase projection. A/B divide each row by its signed sum. C averages the four absolute differences |B − A| in each row. Lower means closer; zero means all four displayed values agree. This is a response-distribution discrepancy, not a correlation, photon fraction or leakage-removal coefficient.",
+    "tag": "p"
+  },
+  "36e4cd6b5b21": {
+    "text": "Mean differences are D1 19.3, D2 17.2, D3 30.4 and D4 12.4 percentage points. D4 is closest to the simulated distribution and D3 differs most. This comparison includes all four positions and preserves the signed measured responses, so a large own-well signal cannot conceal the remaining discrepancies behind a high correlation.",
+    "tag": "p"
+  },
+  "52e843e6123f": {
+    "text": "The heatmap quantifies response differences. Section 3 separately tests concentration correction with the full measured I/Q matrix, including whether isolated-well controls transfer to simultaneous multi-well loading.",
+    "tag": "p"
+  },
+  "e5738e4c0cdb": {
+    "text": "Optical comparison: one model and distribution differences",
+    "tag": "p"
+  },
+  "af9ae3b35e69": {
+    "text": "The original optical figure showed received power in nW. Hardware and Model now display the same floor-layer matrix as row-normalized response percentages. For example, the D4 own-well power of 0.657 nW becomes 90.9% of its row total. The alternative liquid-volume simulation remains archived.",
+    "tag": "p"
+  },
+  "772d63cfce65": {
+    "text": "For each readout i, C = (1/4) Σj |Bᵢⱼ − Aᵢⱼ|, using the percentage values shown in A/B. Differences are measured in percentage points. No clipping or extra renormalization is applied: the negative D4 response to source D1 remains part of the calculation. The four cells form a descriptive distribution comparison, not four independent experimental replicates.",
+    "tag": "p"
+  },
+  "042a33744a61": {
+    "text": "The four readouts are LED-frequency channels of one photodiode, not four physical detectors. A row compares separate source-well loadings at one readout frequency. A column records one source across frequencies and also includes their different excitation and electronic sensitivities. Neither direction directly measures the fraction of all photons leaving a well.",
+    "tag": "p"
+  },
+  "28562b74cd21": {
+    "text": "Difference for every matrix entry · CSV",
+    "tag": "p"
+  },
+  "3586bb3dd2b5": {
+    "text": "Mean absolute differences by readout · CSV",
+    "tag": "p"
+  },
+  "c1c059fd2f90": {
+    "text": "Earlier correlation checks",
+    "tag": "p"
+  },
+  "6e28e03f49ea": {
+    "text": "Earlier figures used Pearson correlations over four positions. A dominant same-well entry can give high correlation despite substantial differences elsewhere. Source-column comparisons also depended on whether channel gain was retained or row normalization was applied. These checks are archived below; the primary figure now directly compares the displayed percentages.",
+    "tag": "p"
+  },
+  "d46b56bb69c8": {
+    "text": "Historical same-source and same-channel correlations · CSV",
+    "tag": "p"
+  },
+  "6ff358b99aac": {
+    "text": "Historical cross-channel correlations · CSV",
+    "tag": "p"
+  },
+  "14d24eaea0b8": {
+    "text": "Historical global and leakage-only correlations · CSV",
+    "tag": "p"
+  },
+  "3f7be9ceae48": {
+    "text": "The intended well contributes 88.6–90.9% of each modeled readout. The same matrix is used in Model and in verification Figure 15, which compares the displayed response distributions with measured single-well controls. These percentages describe response distribution, not a fraction of all emitted fluorescence.",
+    "tag": "p"
+  },
+  "41ac0d4b992e": {
+    "text": "Matrix solvers and concentration-curve checks",
+    "tag": "p"
+  },
+  "edd5f906b23a": {
+    "text": "3. Check whether signals from four wells add up",
+    "tag": "p"
+  },
+  "fe3cb35adbdb": {
+    "text": "The previous figure shows which source wells affect each readout channel. To subtract those contributions, we first need to check whether the signals measured one well at a time can predict the signal when all four wells contain fluorescein.",
+    "tag": "p"
+  },
+  "351d485b3ff6": {
+    "text": "We added the four separate single-well measurements to form a prediction. We then measured all four wells together, each at 10 µM. In the chart, each channel’s prediction is set to 100%; the bar is the actual simultaneous measurement. If the signals add up as assumed, the bar should reach the dashed line.",
+    "tag": "p"
+  },
+  "5f16e4aa472a": {
+    "text": "All-well measured response reaches 68.4, 69.4, 48.3 and 65.6 percent of the summed single-well prediction for D1 through D4; the dashed line marks the 100 percent prediction.",
+    "tag": "p"
+  },
+  "4638b96cbbca": {
+    "text": "Do isolated-well measurements predict simultaneous loading? Each bar is 100 × (measured all-well response) ÷ (sum of the four isolated-well responses), after blank subtraction and the same channel phase projection. Every well contains 100 µL. For each isolated control, one well contains 10 µM fluorescein and the other three contain DDW; for simultaneous loading, all four contain 10 µM fluorescein. Each condition averages three technical reads. These percentages compare signals, not concentration accuracy.",
+    "tag": "p"
+  },
+  "50b3f77fcbac": {
+    "text": "All four measured responses fall below the prediction; D3 reaches only 48.3%. This dataset therefore does not support directly applying the isolated-well proportions to subtract contributions during simultaneous loading. The comparison shows a mismatch, but does not identify its physical cause. Section 4 shows the separate per-channel calibration curves; the detailed matrix calculations remain in the supplementary analysis.",
+    "tag": "p"
+  },
+  "f6523906ba6a": {
+    "text": "Matrix calculation and solver checks",
+    "tag": "p"
+  },
+  "4f4daad29e15": {
+    "text": "Signal comparison data · CSV",
+    "tag": "p"
+  },
+  "c441acb0feed": {
+    "text": "A is the optical design simulation and B is the measured single-well response. Columns identify the fluorescent source well; rows identify the LED-frequency/readout channel. C plots the 16 corresponding entries, with A on the x-axis and B on the y-axis. D shows the element-wise difference after scaling the full range of B to match A.",
+    "tag": "p"
+  },
+  "c7331403bd98": {
+    "text": "A and B compare simulated and measured responses. C plots 16 paired entries with Pearson r 0.810. D maps B to the global minimum and maximum of A, then shows the signed difference as a percentage of A range.",
+    "tag": "p"
+  },
+  "7e561b86a3d5": {
+    "text": "A/B show row-normalized responses. A is the same floor-layer model used in the optics section and Model. B averages three technical reads after complex blank subtraction and own-well phase projection: one well contains 100 µL of 10 µM fluorescein and the other three each contain 100 µL DDW. C uses the 16 unscaled A/B pairs; Pearson r = 0.810 and the dashed line is B = A. For D, B′ = Amin + (B − Bmin)/(Bmax − Bmin) × (Amax − Amin), then D = 100 × (B′ − A)/(Amax − Amin). One global minimum and maximum are used for each matrix, with no subsequent row normalization.",
+    "tag": "p"
+  },
+  "1da8b3837dd8": {
+    "text": "The paired responses have Pearson r = 0.810, indicating a positive association across the 16 entries; this does not mean each pair is equal. D compares the pattern after removing a global offset and range difference. Positive cells are higher after scaling and negative cells are lower. Its zero at D4/D4 is forced by aligning the two global maxima, rather than demonstrating equal original responses.",
+    "tag": "p"
+  },
+  "be4064511044": {
+    "text": "These comparisons describe response patterns. Section 3 checks a separate requirement for cross-talk correction: whether four isolated-well responses can be added to predict a simultaneous four-well measurement.",
+    "tag": "p"
+  },
+  "43af49edc213": {
+    "text": "Optical comparison: paired values and range scaling",
+    "tag": "p"
+  },
+  "db20582acb6b": {
+    "text": "The original optical figure showed received power in nW. Hardware and Model now display the same floor-layer matrix as row-normalized response percentages. The raw simulation and measured signed matrices are retained in the canonical CSV; the alternative liquid-volume simulation remains archived.",
+    "tag": "p"
+  },
+  "a593c750f3fa": {
+    "text": "C pairs Aᵢⱼ with Bᵢⱼ at the same readout i and source j, using all 16 full-precision displayed-matrix entries. Pearson r = 0.8097999981. The signed negative measured entry is retained. These matrix cells are dependent, so the correlation is descriptive and is not an independent-sample significance test. Large same-well entries contribute strongly to the overall association.",
+    "tag": "p"
+  },
+  "d9bbb86fed9f": {
+    "text": "D applies one global linear transformation: B′ = Amin + [(B − Bmin)/(Bmax − Bmin)](Amax − Amin). The displayed difference is 100(B′ − A)/(Amax − Amin). Here Amin = 0, Amax = 90.93545589, Bmin = −3.07287215 and Bmax = 69.54308979. No clipping or further row normalization is used. The transformed B′ rows need not sum to 100%; B′ is a scaled response, not a probability matrix.",
+    "tag": "p"
+  },
+  "53eb802533c9": {
+    "text": "D is a percentage of the simulated global range, not a raw percentage-point difference or an error divided by each A cell. Scaling deliberately removes the global offset and range differences and cannot establish magnitude agreement or concentration accuracy. D4/D4 is zero because it is the maximum of both matrices.",
+    "tag": "p"
+  },
+  "c3d64fcc02f7": {
+    "text": "The four readouts are LED-frequency channels of one photodiode, not four physical detectors. Source-column patterns include differences in excitation and electronic sensitivity; neither matrix direction directly measures the fraction of all photons leaving a well.",
+    "tag": "p"
+  },
+  "2e78ed8c05b9": {
+    "text": "Canonical A/B matrices · CSV",
+    "tag": "p"
+  },
+  "c1b5d4133c91": {
+    "text": "Paired A/B values, scaled B and difference percentages · CSV",
+    "tag": "p"
+  },
+  "df80dcfc5416": {
+    "text": "Earlier comparison metrics",
+    "tag": "p"
+  },
+  "a357dc103b9b": {
+    "text": "Earlier versions compared four-position row/column correlations or the mean absolute difference of each readout row. Those calculations remain archived. The current C instead correlates all 16 corresponding entries, and D uses the globally range-matched difference defined above.",
+    "tag": "p"
+  },
+  "822377d303dc": {
+    "text": "Historical mean absolute differences · CSV",
+    "tag": "p"
+  },
+  "344dba359f50": {
+    "text": "Global and leakage-only correlation calculations · CSV",
+    "tag": "p"
+  },
+  "cf645b148fca": {
+    "text": "Approx. USD 4,024 / two-board development project",
+    "tag": "p"
+  },
+  "738917a85bd8": {
+    "text": "One-time PCB setup: approx. USD 2,453. Estimated average cost per board: approx. USD 613.",
+    "tag": "p"
+  },
+  "dc1fd7b65241": {
+    "text": "Current assembly materials and recorded cost basis. All amounts in USD; shipping and tax excluded.",
+    "tag": "p"
+  },
+  "8f43c2668fea": {
+    "text": "The PCB project total is retained from the historical two-board development record. The setup and per-board amounts are approximate team estimates, rather than an itemized reconciliation of that total. Current M2.5 PCB fasteners, M3 × 36 mm enclosure screws and fan spacers require updated quotations.",
+    "tag": "p"
+  },
+  "09c86ff22f8f": {
+    "text": "PCB currency conversion: USD 1 = NTD 32.615, the midpoint of Bank of Taiwan’s USD spot buying and selling rates on 20 October 2026. Converted amounts are rounded to the nearest dollar.",
+    "tag": "p"
+  },
+  "6b91b9386b71": {
+    "text": "Exchange-rate source",
+    "tag": "p"
+  },
+  "99fa2224e684": {
+    "text": "A is the optical design simulation and B is the measured single-well response. Columns identify the fluorescent source well; rows identify the LED-frequency/readout channel. C pairs the same 16 matrix positions, with A on the x-axis and B on the y-axis.",
+    "tag": "p"
+  },
+  "3c7c76eb133c": {
+    "text": "A and B compare simulated and measured responses. C plots their 16 corresponding matrix entries with Pearson r 0.810.",
+    "tag": "p"
+  },
+  "9ea6486d0baf": {
+    "text": "A/B show row-normalized responses. A is the floor-layer model used in the optics section and Model. B averages three technical reads after complex blank subtraction and own-well phase projection: one well contains 100 µL of 10 µM fluorescein and the other three each contain 100 µL DDW. C uses all 16 matching A/B entries, with Pearson r = 0.810; the dashed line is B = A. These are dependent matrix entries, so the correlation describes the overall pattern, not independent-sample significance or concentration accuracy.",
+    "tag": "p"
+  },
+  "715b25a11a12": {
+    "text": "Pairing matching matrix entries is appropriate for this descriptive comparison. However, the four large same-well responses strongly influence the overall r = 0.810. Restricting the calculation to the 12 off-diagonal cross-talk entries gives r = 0.257. The overall positive association therefore does not establish agreement in the detailed leakage pattern or equal response magnitudes.",
+    "tag": "p"
+  },
+  "defff0325260": {
+    "text": "Optical comparison: corresponding matrix entries",
+    "tag": "p"
+  },
+  "41681aaae0b5": {
+    "text": "Hardware and Model use the same floor-layer simulation, displayed as row-normalized response percentages. The canonical CSV preserves the raw simulation in nW and the measured signed response in mV as well as the displayed percentages.",
+    "tag": "p"
+  },
+  "ca4c7812ae57": {
+    "text": "For C, pair Aᵢⱼ with Bᵢⱼ at the same readout i and source j, using full-precision values before display rounding. Pearson r is 0.8097999981 across all 16 entries and 0.2570218322 across the 12 off-diagonal entries. Signed negative responses are retained. The shared strong diagonal and the dependence between cells must be considered when interpreting the overall correlation; no independent-sample significance test is claimed.",
+    "tag": "p"
+  },
+  "7f9d4b25498c": {
+    "text": "The four readouts are LED-frequency channels of one photodiode, not four physical detectors. Source-column patterns include excitation and electronic-sensitivity differences. Neither matrix direction directly measures the fraction of all photons leaving a well.",
+    "tag": "p"
+  },
+  "5474866e3a1e": {
+    "text": "Corresponding A/B entries · CSV",
+    "tag": "p"
+  },
+  "7dbd2b043107": {
+    "text": "Overall and cross-talk-only correlations · CSV",
+    "tag": "p"
+  },
+  "d254a9720a1a": {
+    "text": "Curve-calibrated concentrations in A, and residual violins grouped by prepared concentration in B, with all 32 points and labeled group means.",
+    "tag": "p"
+  },
+  "31fe2137bc37": {
+    "text": "Per-channel concentration checks. A compares predicted with prepared concentration; the dashed line marks equality. B groups prediction-minus-prepared residuals by prepared concentration, with equal spacing between categories. Each violin shows all original channel-colored points and the group mean. The 0, 0.1, 1, 5 and 10 µM groups contain 5, 5, 9, 4 and 9 means. The 32 channel/loading means come from 22 acquisitions, not independent preparations. Descriptive R² = 0.886 and RMSE = 1.415 µM are unchanged and describe curve calibration, not matrix unmixing.",
+    "tag": "p"
+  },
+  "dc8a067dbd7f": {
+    "text": "Summed single-well predictions and simultaneous four-well measurements. Each bar is 100 × (measured all-well response) ÷ (sum of the four isolated-well responses), after blank subtraction and the same channel phase projection. Every well contains 100 µL. For each isolated control, one well contains 10 µM fluorescein and the other three contain DDW; for simultaneous loading, all four contain 10 µM fluorescein. Each condition averages three technical reads. These percentages compare signals, not concentration accuracy.",
+    "tag": "p"
+  },
+  "b4203bc79011": {
+    "text": "Residual means by prepared concentration · CSV",
+    "tag": "p"
+  },
+  "0770a9ae6c65": {
+    "text": "3. Multi-well signal additivity",
+    "tag": "p"
   }
 }

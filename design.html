@@ -4,9 +4,9 @@
 <meta content="width=device-width, initial-scale=1" name="viewport">
 <title>Biological Design · AeroSense · NTHU iGEM 2026</title>
 <meta content="Wet Lab biological design for AeroSense: nine Drosophila OR sensing plasmids and one GCaMP6f–Orco reporter on a shared pcDNA3.1(+) backbone, with a phase-by-phase mechanism and construct maps." name="description">
-<link href="css/styles.css?v=bb147c93758a30c4" rel="stylesheet">
+<link href="css/styles.css?v=72ac1cdfea87c4ba" rel="stylesheet">
 <link href="css/design.css?v=2cd33bd88e38ae09" rel="stylesheet">
-<script defer="" src="js/main.js?v=379dbf98151dc55e"></script>
+<script defer="" src="js/main.js?v=377f557424b4c4b9"></script>
 <script defer="" src="js/glossary.js?v=06dbb240785f01ca"></script>
 <script defer="" src="js/microinteractions.js?v=d9546b50bea3532d"></script>
 <script defer="" src="js/search.js?v=1eb899868c4f6aea"></script>
@@ -37,12 +37,12 @@
 <link href="css/definition-message.css?v=710ac682727c5d2f" rel="stylesheet">
 <script defer="" src="js/navigation-type.js?v=1c13f29e0cb46690"></script>
 <link href="css/reference-groups.css?v=a363fc2f88926065" rel="stylesheet">
-<link href="css/wetlab-audit.css?v=bf5504680be0228d" rel="stylesheet"><link rel="canonical" href="https://2026.igem.wiki/nthu/design"><meta property="og:url" content="https://2026.igem.wiki/nthu/design"><link rel="stylesheet" href="css/judging-review-v7.css?v=6c399f3f70a5b637"><script src="js/judging-review-v7.js?v=e602bd7fb17cb1f2" defer=""></script><link rel="stylesheet" href="css/design-system.css?v=3457a944e32792a5">
+<link href="css/wetlab-audit.css?v=bf5504680be0228d" rel="stylesheet"><link rel="canonical" href="https://2026.igem.wiki/nthu/design"><meta property="og:url" content="https://2026.igem.wiki/nthu/design"><link rel="stylesheet" href="css/judging-review-v7.css?v=6c399f3f70a5b637"><script src="js/judging-review-v7.js?v=e602bd7fb17cb1f2" defer=""></script><link rel="stylesheet" href="css/design-system.css?v=b26f0f354a994709">
 
 <!-- local-language-v19 -->
 <link rel="stylesheet" href="css/language-v19.css?v=2f736c0f497dfb3d">
-<script src="js/i18n-common-v19.js?v=c78ef8d6afe9645c" defer></script>
-<script src="js/i18n-design-v19.js?v=e5659a2c189e498e" defer></script>
+<script src="js/i18n-common-v19.js?v=fd303af40e060a40" defer></script>
+<script src="js/i18n-design-v19.js?v=97acc91bb4b6583d" defer></script>
 <script src="js/language-v19.js?v=a1ded888c10557a6" defer></script>
 <!-- /local-language-v19 -->
 <script data-hero-first-paint="v18">
@@ -185,15 +185,15 @@
 <!-- first-paint:mobile-contents --><details class="audit-mobile-jump"><summary>On this page</summary><nav aria-label="Table of contents">
 <ol>
   <li><a href="#design-abstract">Abstract</a></li>
-  <li><a href="#design-overview">Design overview</a></li>
   <li><a href="#design-requirements">Design requirements</a></li>
+  <li><a href="#design-overview">Design overview</a></li>
   <li><a href="#how-aerosense-senses">Sensing mechanism</a></li>
   <li><a href="#current-architecture">Current architecture</a></li>
   <li><a href="#receptor-panel">Receptor panel &amp; standardization</a></li>
   <li><a href="#design-decisions">Design decisions</a></li>
   <li><a href="#assay-design">Assay design</a></li>
-  <li><a href="#design-discussion">Interpretation</a></li>
   <li><a href="#design-future-work">Future work</a></li>
+  <li><a href="#design-discussion">Interpretation</a></li>
   <li><a href="#design-conclusion">Conclusion</a></li>
   <li><a href="#design-data">Data and resources</a></li>
   <li><a href="#references">References</a></li>
@@ -304,7 +304,46 @@
 <h2 class="reading-heading--chapter">Abstract</h2>
 <p>The original design documented here couples insect receptors to calcium-dependent fluorescence in HEK293. It comprises nine tuning-receptor plasmids and one GCaMP6f–(GGGGS)<sub>3</sub>–DmOrco reporter on pcDNA3.1(+). mCherry is a separate IRES-dependent marker; the reporter is one fusion protein. <a href="results.html#wet-lab">Results</a> presents the cellular measurements. <a href="parts.html#explore">Parts lists the current collection</a>.</p>
 </section>
-<section class="section-block" data-reveal="" id="design-overview">
+<section class="section-block" data-reveal="" id="design-requirements">
+<span class="anchor-alias" id="at-a-glance"></span>
+<span class="anchor-alias" id="optimization"></span>
+<span class="anchor-alias" id="trade-offs"></span>
+<h2 class="reading-heading--chapter">Introduction · comparable sensing panels</h2>
+<p>The Sense-layer design uses a common expression context to make receptor outputs comparable.</p>
+<ul class="design-req">
+<li>
+<strong>Tuning receptor</strong>
+                Each sensing cell needs one <i>Drosophila</i> OR that supplies ligand specificity. Nine ORs are used so the array can span chemical classes without collapsing every odor onto a single receptor.
+              </li>
+<li>
+<strong>Orco channel support</strong>
+                Insect ORs are not GPCRs. The OR–Orco complex is a heteromeric ligand-gated ion channel
+                <a aria-label="Reference 1" class="cite" href="#ref-sato-2008" id="cite-auto-ref-sato-2008-1">[1]</a>,
+                so Orco must be present as functional channel support in the same cell as the tuning receptor.
+              </li>
+<li>
+<strong>Optical conversion</strong>
+                Channel opening must become an optical signal. GCaMP6f is the designed genetically encoded reporter of cytosolic Ca<sup>2+</sup>
+<a aria-label="Reference 2" class="cite" href="#ref-chen-2013" id="cite-auto-ref-chen-2013-1">[2]</a>.
+              </li>
+<li>
+<strong>Nine-receptor comparability</strong>
+                Downstream decoding needs a vector, not nine incompatible assays. Receptor identity may change; chassis, backbone, reporter architecture, and assay logic should not.
+              </li>
+<li>
+<strong>Minimize unnecessary differences</strong>
+                Only the OR open reading frame is intended to change across sensing plasmids. Promoter context, IRES marker, poly(A), and selection markers stay shared.
+              </li>
+<li>
+<strong>Standardized assay output</strong>
+                The designed product of a well is a normalized, comparable receptor-response — not an ad hoc microscope snapshot.
+              </li>
+</ul>
+<p>
+              Ten plasmids implement that contract: nine OR sensing modules and one GCaMP6f–Orco reporting module, all on
+              <a href="#shared-backbone">pcDNA3.1(+)</a>.
+            </p>
+</section><section class="section-block" data-reveal="" id="design-overview">
 <h2 class="reading-heading--chapter">Design overview</h2>
 <div class="wiki-figure design-breakout" id="fig-design-overview" role="figure" aria-label="Design overview">
 <div class="wiki-figure__media"><svg class="design-overview-wide" viewBox="0 0 1080 635" role="img" aria-labelledby="overview-wide-title overview-wide-desc" xmlns="http://www.w3.org/2000/svg">
@@ -380,46 +419,7 @@
 </div>
 <p>The nine receptors shown here share the original HEK293 chassis and GCaMP6f–Orco reporter design. The <a href="parts.html#explore">current Parts catalogue</a> also includes the Or67b insert design. Dashed branches lead to <a href="#design-future-work">Future work</a>.</p>
 </section>
-<section class="section-block" data-reveal="" id="design-requirements">
-<span class="anchor-alias" id="at-a-glance"></span>
-<span class="anchor-alias" id="optimization"></span>
-<span class="anchor-alias" id="trade-offs"></span>
-<h2 class="reading-heading--chapter">Introduction · what a comparable sensing panel needs</h2>
-<p>The Sense-layer design uses a common expression context to make receptor outputs comparable.</p>
-<ul class="design-req">
-<li>
-<strong>Tuning receptor</strong>
-                Each sensing cell needs one <i>Drosophila</i> OR that supplies ligand specificity. Nine ORs are used so the array can span chemical classes without collapsing every odor onto a single receptor.
-              </li>
-<li>
-<strong>Orco channel support</strong>
-                Insect ORs are not GPCRs. The OR–Orco complex is a heteromeric ligand-gated ion channel
-                <a aria-label="Reference 1" class="cite" href="#ref-sato-2008" id="cite-auto-ref-sato-2008-1">[1]</a>,
-                so Orco must be present as functional channel support in the same cell as the tuning receptor.
-              </li>
-<li>
-<strong>Optical conversion</strong>
-                Channel opening must become an optical signal. GCaMP6f is the designed genetically encoded reporter of cytosolic Ca<sup>2+</sup>
-<a aria-label="Reference 2" class="cite" href="#ref-chen-2013" id="cite-auto-ref-chen-2013-1">[2]</a>.
-              </li>
-<li>
-<strong>Nine-receptor comparability</strong>
-                Downstream decoding needs a vector, not nine incompatible assays. Receptor identity may change; chassis, backbone, reporter architecture, and assay logic should not.
-              </li>
-<li>
-<strong>Minimize unnecessary differences</strong>
-                Only the OR open reading frame is intended to change across sensing plasmids. Promoter context, IRES marker, poly(A), and selection markers stay shared.
-              </li>
-<li>
-<strong>Standardized assay output</strong>
-                The designed product of a well is a normalized, comparable receptor-response — not an ad hoc microscope snapshot.
-              </li>
-</ul>
-<p>
-              Ten plasmids implement that contract: nine OR sensing modules and one GCaMP6f–Orco reporting module, all on
-              <a href="#shared-backbone">pcDNA3.1(+)</a>.
-            </p>
-</section>
+
 <section class="section-block" data-reveal="" id="how-aerosense-senses">
 <span class="anchor-alias" id="architecture"></span>
 <h2 class="reading-heading--chapter">Sensing mechanism</h2>
@@ -1154,7 +1154,7 @@
 <p>
               The (GGGGS)<sub>3</sub> linker was chosen to give GCaMP6f enough conformational freedom to undergo its Ca²⁺-driven change while keeping it close to the channel.
               Glycine is used for backbone flexibility and serine to keep the linker hydrophilic.
-              Its conformation, susceptibility to cleavage and effect on channel function have not been measured in the fusion.
+              Fusion conformation, cleavage and channel function form the next validation targets.
               The three repeats were synthesised with <strong>diversified synonymous codons</strong> to avoid a tandem DNA repeat, which is a common cause of synthesis failure and deletion.
             </p>
 <h3 class="reading-heading--topic">RSET leader</h3>
@@ -1204,16 +1204,16 @@
 </div>
 <p class="design-callout design-callout--decision">The selected backbone omits WPRE. The associated documentation is collected on <a href="safety-and-security.html">Safety and Security</a>.</p>
 </section>
-<section class="section-block" data-reveal="" id="design-decisions"><h2 class="reading-heading--chapter">Design decisions</h2><p>The selected architecture addresses expression and measurement separately. This table records each design choice and its rationale.</p><div aria-label="Data table; scroll horizontally to inspect all columns." class="table-scroll" role="region" tabindex="0"><table class="goal-table" id="table-4"><caption><strong class="media-caption__label">Table 4. </strong>Design choices, alternatives and the observations needed to evaluate them.</caption><thead><tr><th scope="col">Decision</th><th scope="col">Rationale</th><th scope="col">Comparison / alternative</th><th scope="col">Risk or unknown</th><th scope="col">Discriminating test</th></tr></thead><tbody><tr><th scope="row">HEK293 host</th><td>A mammalian expression system compatible with our calcium-reporting strategy and published insect-OR workflows.</td><td>Insect-cell or oocyte expression systems.</td><td>Host-dependent folding, trafficking and response; cell maintenance constrains deployment.</td><td>Matched expression, localization and agonist-response controls.</td></tr><tr><th scope="row">Nine-receptor panel</th><td>Keep a common expression context while varying the tuning OR.</td><td>A smaller validated panel; receptor substitutions.</td><td>Published responsiveness does not transfer automatically to every receptor or ligand.</td><td>Test each receptor against matched vehicle, Orco-only and positive controls.</td></tr><tr><th scope="row">OR–IRES–mCherry as separate proteins</th><td>Expression marker without attaching mCherry directly to the tuning receptor.</td><td>A linked reporter or independent expression cassette.</td><td>Downstream IRES expression can differ; red fluorescence does not report membrane trafficking.</td><td>Quantify transcript/protein expression and independently inspect localization.</td></tr><tr><th scope="row">GCaMP6f–(GGGGS)₃–Orco fusion</th><td>Couple reporter production to Orco in one open reading frame, following the weak first-generation IRES reporter.</td><td>Separate cytosolic GCaMP6f and Orco.</td><td>Fusion may alter folding, channel behavior or calcium reporting.</td><td>Compare ionomycin and VUAA1 responses under matched acquisition.</td></tr><tr><th scope="row">N-terminal reporter</th><td>The inferred intracellular N terminus motivates placing the calcium reporter there.</td><td>Separate reporter, or alternative topology only after verification.</td><td>Structural precedent does not establish the topology/function of our fusion.</td><td>Localization and topology checks plus a controlled functional assay.</td></tr><tr><th scope="row">Human-oriented codon optimization</th><td>Apply a consistent expression design across insect coding sequences.</td><td>Native coding sequences.</td><td>Sequence optimization alone does not prove increased expression.</td><td>Matched native/optimized comparison if expression remains limiting.</td></tr><tr><th scope="row">Shared pcDNA3.1(+) backbone; no WPRE</th><td>CMV-driven cassettes in the documented common backbone.</td><td>A separately evaluated regulatory architecture.</td><td>Resistance survival cannot establish both plasmids in every cell.</td><td>Verify insert/junction sequences, reporter retention and dual-module function.</td></tr></tbody></table></div></section>
+<section class="section-block" data-reveal="" id="design-decisions"><h2 class="reading-heading--chapter">Design decisions</h2><p>The selected architecture addresses expression and measurement separately. This table records each design choice and its rationale.</p><div aria-label="Data table; scroll horizontally to inspect all columns." class="table-scroll" role="region" tabindex="0"><table class="goal-table" id="table-4"><caption><strong class="media-caption__label">Table 4. </strong>Design choices, alternatives and the observations needed to evaluate them.</caption><thead><tr><th scope="col">Decision</th><th scope="col">Rationale</th><th scope="col">Comparison / alternative</th><th scope="col">Risk or unknown</th><th scope="col">Discriminating test</th></tr></thead><tbody><tr><th scope="row">HEK293 host</th><td>A mammalian expression system compatible with our calcium-reporting strategy and published insect-OR workflows.</td><td>Insect-cell or oocyte expression systems.</td><td>Host-dependent folding, trafficking and response; cell maintenance constrains deployment.</td><td>Matched expression, localization and agonist-response controls.</td></tr><tr><th scope="row">Nine-receptor panel</th><td>Keep a common expression context while varying the tuning OR.</td><td>A smaller validated panel; receptor substitutions.</td><td>Published responsiveness does not transfer automatically to every receptor or ligand.</td><td>Test each receptor against matched vehicle, Orco-only and positive controls.</td></tr><tr><th scope="row">OR–IRES–mCherry as separate proteins</th><td>Expression marker without attaching mCherry directly to the tuning receptor.</td><td>A linked reporter or independent expression cassette.</td><td>Downstream IRES expression can differ; red fluorescence does not report membrane trafficking.</td><td>Quantify transcript/protein expression and independently inspect localization.</td></tr><tr><th scope="row">GCaMP6f–(GGGGS)₃–Orco fusion</th><td>Couple reporter production to Orco in one open reading frame, following the weak first-generation IRES reporter.</td><td>Separate cytosolic GCaMP6f and Orco.</td><td>Fusion may alter folding, channel behavior or calcium reporting.</td><td>Compare ionomycin and VUAA1 responses under matched acquisition.</td></tr><tr><th scope="row">N-terminal reporter</th><td>The inferred intracellular N terminus motivates placing the calcium reporter there.</td><td>Separate reporter, or alternative topology only after verification.</td><td>Fusion topology and function are evaluated in the engineered construct.</td><td>Localization and topology checks plus a controlled functional assay.</td></tr><tr><th scope="row">Human-oriented codon optimization</th><td>Apply a consistent expression design across insect coding sequences.</td><td>Native coding sequences.</td><td>Expression is evaluated experimentally after sequence optimization.</td><td>Matched native/optimized comparison if expression remains limiting.</td></tr><tr><th scope="row">Shared pcDNA3.1(+) backbone; no WPRE</th><td>CMV-driven cassettes in the documented common backbone.</td><td>A separately evaluated regulatory architecture.</td><td>Confirm retention of both plasmids independently of resistance selection.</td><td>Verify insert/junction sequences, reporter retention and dual-module function.</td></tr></tbody></table></div></section>
 <section class="section-block" data-reveal="" id="assay-design">
 <span class="anchor-alias" id="reporters"></span>
 <span class="anchor-alias" id="functional-validation"></span>
 <span class="anchor-alias" id="voc-assay"></span>
-<h2 class="reading-heading--chapter">Methods · assay and interpretation framework</h2>
+<h2 class="reading-heading--chapter">Assay design and interpretation</h2>
 <p>The assay logic separates cassette expression, reporter behavior and receptor-dependent response. <a href="experiments.html">Experiments</a> records the methods and reference protocols; <a href="results.html#limitations">Results</a> defines the evidence limits.</p>
 <div class="design-can-cannot">
 <article aria-labelledby="can-tell-heading" class="design-card design-callout design-callout--evidence">
-<h3 id="can-tell-heading">Can tell</h3>
+<h3 id="can-tell-heading">Reporter readouts</h3>
 <ul class="limitation-list">
 <li>
 <strong>mCherry can</strong> support evidence that the Module 1 cassette is transcribed and that the IRES has fired, because mCherry is a separate polypeptide from the same mRNA.
@@ -1227,7 +1227,7 @@
 </ul>
 </article>
 <article aria-labelledby="cannot-tell-heading" class="design-card design-callout design-callout--limit">
-<h3 id="cannot-tell-heading">Cannot tell</h3>
+<h3 id="cannot-tell-heading">Functional validation</h3>
 <ul class="limitation-list">
 <li>
 <strong>mCherry cannot</strong> by itself prove OR folding, plasma-membrane trafficking, or VOC responsiveness.
@@ -1261,7 +1261,7 @@
               </li>
 <li>
 <strong>Concentration range</strong>
-                The current protocol specifies a 1 / 10 / 100 µM series. Compound identities are not assigned on this page.
+                The concentration series and compound-specific conditions are specified in Experiments.
               </li>
 <li>
 <strong>Normalization</strong>
@@ -1273,31 +1273,10 @@
               </li>
 </ul>
 </section>
-<section class="section-block" data-reveal="" id="limitations">
-<span class="anchor-alias" id="risks"></span>
-<h2 class="reading-heading--chapter">Construct constraints</h2>
-<ul class="limitation-list design-callout design-callout--limit">
-<li><strong>No receptor epitope tag.</strong> Final OR constructs carry no FLAG or trafficking tag, preserving the minimal receptor sequence. Published N-terminal rhodopsin tags and ER-export signals provide the comparison context for this design choice. <span class="cite-wrap">
-<a aria-describedby="cite-preview-miazzi-2019" aria-label="Reference 9" class="cite" href="#ref-miazzi-2019" id="cite-miazzi-2019">[9]</a>
-<span class="cite-preview" id="cite-preview-miazzi-2019" role="tooltip">Miazzi et al., 2019 — full entry in References.</span>
-</span></li>
-<li>
-<strong>The EMCV poly(C) tract.</strong>
-                The IRES region contains a 10× cytosine homopolymer. It is a known synthesis-difficulty region, but it is a genuine feature of the EMCV 5′ element and was deliberately retained rather than recoded.
-              </li>
-<li>
-<strong>Bicistronic expression ratio.</strong>
-                IRES-dependent mCherry and cap-dependent receptor expression can differ; their ratio has not been quantified in these cells. For an expression marker this is acceptable, since mCherry is bright and constitutive; it was explicitly <em>not</em> acceptable for a dim calcium sensor, which is why the Orco module uses a fusion instead.
-              </li>
-<li><strong>Panel coverage.</strong> Seven of nine receptors are outside the Zboray et al. comparator panel. The <a href="results.html#kinetic-pilot">P2 record</a> documents the project’s acquired VOC observations.</li>
-</ul>
-</section>
-<section class="section-block" data-reveal="" id="design-discussion">
-<h2 class="reading-heading--chapter">Discussion · interpreting the first images</h2>
-<h3 class="reading-heading--topic">Separate expression, selection and function</h3><p>A fluorescence image answers a narrower question than a calcium-response experiment. GCaMP6f brightness depends on calcium as well as reporter abundance <a aria-label="Reference 2" class="cite" href="#ref-chen-2013" id="cite-auto-ref-chen-2013-4">[2]</a>; a dim resting field cannot by itself distinguish low expression from low calcium. Similarly, mCherry supports expression only when separated from background and imaging artifacts. Cell death cannot be diagnosed from the red channel alone. The expression images and their acquisition limitations belong in <a href="results.html">Results</a>.</p><p>G418 enriches surviving, resistance-bearing cells. Because both plasmids share the resistance marker, survival cannot prove retention of both modules. Interpret selection alongside construct identity, expression and functional controls; a better-looking field does not quantify improved transfection efficiency.</p><h3 class="reading-heading--topic">What would change the design?</h3><p>Reporter activity with weak Orco-dependent response would prioritize channel expression and localization. Absent reporter activity first requires independent checks of abundance and imaging sensitivity. Compare fusion, linker or trafficking revisions under matched conditions, using independent cultures rather than fields from one well; a separate cytosolic reporter provides an alternative if fusion compromises function.</p>
-</section>
+
+
 <section class="section-block" data-reveal="" id="verification">
-<h2 class="reading-heading--chapter">Methods · sequence verification and evidence status</h2>
+<h2 class="reading-heading--chapter">Construct verification framework</h2>
 <p class="design-callout design-callout--evidence">
               Sequence checks, synthesis, Sanger reads, and living-cell function are different claims.
               They are not collapsed into a single “Verified” status.
@@ -1542,7 +1521,28 @@
 </article>
 </div>
 </section>
-<section class="section-block" data-reveal="" id="design-conclusion">
+<section class="section-block" data-reveal="" id="limitations">
+<span class="anchor-alias" id="risks"></span>
+<h2 class="reading-heading--chapter">Construct constraints</h2>
+<ul class="limitation-list design-callout design-callout--limit">
+<li><strong>No receptor epitope tag.</strong> Final OR constructs carry no FLAG or trafficking tag, preserving the minimal receptor sequence. Published N-terminal rhodopsin tags and ER-export signals provide the comparison context for this design choice. <span class="cite-wrap">
+<a aria-describedby="cite-preview-miazzi-2019" aria-label="Reference 9" class="cite" href="#ref-miazzi-2019" id="cite-miazzi-2019">[9]</a>
+<span class="cite-preview" id="cite-preview-miazzi-2019" role="tooltip">Miazzi et al., 2019 — full entry in References.</span>
+</span></li>
+<li>
+<strong>The EMCV poly(C) tract.</strong>
+                The IRES region contains a 10× cytosine homopolymer. It is a known synthesis-difficulty region, but it is a genuine feature of the EMCV 5′ element and was deliberately retained rather than recoded.
+              </li>
+<li>
+<strong>Bicistronic expression ratio.</strong>
+                IRES-dependent mCherry and cap-dependent receptor expression can differ; their ratio has not been quantified in these cells. For an expression marker this is acceptable, since mCherry is bright and constitutive; it was explicitly <em>not</em> acceptable for a dim calcium sensor, which is why the Orco module uses a fusion instead.
+              </li>
+<li><strong>Panel coverage.</strong> Seven of nine receptors are outside the Zboray et al. comparator panel. The <a href="results.html#kinetic-pilot">P2 record</a> documents the project’s acquired VOC observations.</li>
+</ul>
+</section><section class="section-block" data-reveal="" id="design-discussion">
+<h2 class="reading-heading--chapter">Discussion · interpreting the first images</h2>
+<h3 class="reading-heading--topic">Separate expression, selection and function</h3><p>A fluorescence image answers a narrower question than a calcium-response experiment. GCaMP6f brightness depends on calcium as well as reporter abundance <a aria-label="Reference 2" class="cite" href="#ref-chen-2013" id="cite-auto-ref-chen-2013-4">[2]</a>; a dim resting field cannot by itself distinguish low expression from low calcium. Similarly, mCherry supports expression only when separated from background and imaging artifacts. Cell death cannot be diagnosed from the red channel alone. The expression images and their acquisition limitations belong in <a href="results.html">Results</a>.</p><p>G418 enriches surviving, resistance-bearing cells. Because both plasmids share the resistance marker, survival cannot prove retention of both modules. Interpret selection alongside construct identity, expression and functional controls; a better-looking field does not quantify improved transfection efficiency.</p><h3 class="reading-heading--topic">What would change the design?</h3><p>Reporter activity with weak Orco-dependent response would prioritize channel expression and localization. Absent reporter activity first requires independent checks of abundance and imaging sensitivity. Compare fusion, linker or trafficking revisions under matched conditions, using independent cultures rather than fields from one well; a separate cytosolic reporter provides an alternative if fusion compromises function.</p>
+</section><section class="section-block" data-reveal="" id="design-conclusion">
 <h2 class="reading-heading--chapter">Conclusion</h2>
 <p>The architecture exchanges tuning receptors while retaining a common reporter and backbone. Characterizing it in HEK293 requires construct verification, expression and reporter checks, followed by Orco- and ligand-dependent response tests.</p>
 </section>
@@ -1626,15 +1626,15 @@
 <nav aria-label="Table of contents">
 <ol>
   <li><a href="#design-abstract">Abstract</a></li>
-  <li><a href="#design-overview">Design overview</a></li>
   <li><a href="#design-requirements">Design requirements</a></li>
+  <li><a href="#design-overview">Design overview</a></li>
   <li><a href="#how-aerosense-senses">Sensing mechanism</a></li>
   <li><a href="#current-architecture">Current architecture</a></li>
   <li><a href="#receptor-panel">Receptor panel &amp; standardization</a></li>
   <li><a href="#design-decisions">Design decisions</a></li>
   <li><a href="#assay-design">Assay design</a></li>
-  <li><a href="#design-discussion">Interpretation</a></li>
   <li><a href="#design-future-work">Future work</a></li>
+  <li><a href="#design-discussion">Interpretation</a></li>
   <li><a href="#design-conclusion">Conclusion</a></li>
   <li><a href="#design-data">Data and resources</a></li>
   <li><a href="#references">References</a></li>

@@ -92,6 +92,13 @@
 .page-sustainability #notion-development .sust-framing__keyword {
   color: var(--sust-framing-accent); font-weight: 750;
 }
+.page-sustainability #notion-development .sust-framing__title {
+  display: block; margin-bottom: .8rem; font-size: clamp(1.25rem, 1.8vw, 1.5rem);
+  line-height: 1.35; text-align: left;
+}
+.page-sustainability #notion-development .sust-framing__body {
+  display: block; text-align: left;
+}
 .page-sustainability .sust-source-table table caption { text-align: left; font-weight: 600; padding-bottom: .65rem; }
 .page-sustainability .sust-source-table th:first-child { width: 22%; }
 .page-sustainability #notion-glance th:first-child { width: 20%; }
@@ -132,19 +139,34 @@
 
 /* Focused goal disclosures share the page's existing SDG headings. */
 .page-sustainability .sust-goal-disclosure { border-block: 1px solid var(--color-rule); }
-.page-sustainability .sust-goal-disclosure > summary.sust-goal-lead { grid-template-columns: 72px minmax(0, 1fr) 24px; gap: 1.1rem; margin: 0; padding: 1.1rem 0; cursor: pointer; list-style: none; }
+.page-sustainability .sust-goal-disclosure > summary.sust-goal-lead { grid-template-columns: 92px minmax(0, 1fr) 24px; gap: 1.1rem; margin: 0; padding: 1.1rem 0; cursor: pointer; list-style: none; }
 .page-sustainability .sust-goal-disclosure > summary::-webkit-details-marker { display: none; }
 .page-sustainability .sust-goal-disclosure > summary::after { content: '+'; font-size: 1.6rem; text-align: center; color: var(--color-signal-text); }
 .page-sustainability .sust-goal-disclosure[open] > summary::after { content: '−'; }
-.page-sustainability .sust-goal-disclosure > summary > img { width: 72px; height: 72px; }
+.page-sustainability .sust-goal-disclosure > summary > img { width: 92px; height: 92px; }
 .page-sustainability .sust-goal-disclosure > summary > h2 { margin: 0; padding: .6rem 1rem; font-size: clamp(1.15rem, 2vw, 1.65rem); max-width: none; }
 .page-sustainability .sust-goal-disclosure > summary:focus-visible { outline: 2px solid var(--color-signal-text); outline-offset: 4px; }
 .page-sustainability .sust-goal-disclosure__body { padding-bottom: 1rem; }
 @media (max-width: 600px) {
- .page-sustainability .sust-goal-disclosure > summary.sust-goal-lead { grid-template-columns: 52px minmax(0, 1fr) 20px; gap: .6rem; }
- .page-sustainability .sust-goal-disclosure > summary > img { width: 52px; height: 52px; }
+ .page-sustainability .sust-goal-disclosure > summary.sust-goal-lead { grid-template-columns: 68px minmax(0, 1fr) 20px; gap: .6rem; }
+ .page-sustainability .sust-goal-disclosure > summary > img { width: 68px; height: 68px; }
  .page-sustainability .sust-goal-disclosure > summary > h2 { padding: .5rem; }
 }
 @media print { .page-sustainability .sust-goal-disclosure:not([open]) > .sust-goal-disclosure__body { display: block; } }
 
 .page-sustainability section[id^="notion-sdg"] { margin-block: 1.25rem; padding-block: 0; }
+
+.page-sustainability .sust-glance-list { list-style: none; padding: 0; margin: 0; }
+.page-sustainability .sust-glance-list > li {
+  display: grid; grid-template-columns: minmax(10rem, 1fr) 2fr;
+  gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--color-rule);
+}
+.page-sustainability .sust-glance-list > li:last-child { border-bottom: 0; }
+.page-sustainability .sust-glance-list strong,
+.page-sustainability .sust-glance-list span { text-align: left; }
+.page-sustainability #supporting-records.supplementary-data__group {
+  margin: 0; padding: 0; border-bottom: 1px solid var(--color-rule);
+}
+@media (max-width: 600px) {
+  .page-sustainability .sust-glance-list > li { grid-template-columns: 1fr; gap: .35rem; }
+}

@@ -1,0 +1,23 @@
+# Preparation example only. This file does not activate a pipeline.
+# Apply at the official repository root only when website publication is requested.
+# Preserve the repository's existing LICENSE, remote and contributor settings.
+# Validate this syntax with the official instance's CI Lint before activation.
+default:
+  image: node:22-bookworm
+  before_script:
+    - apt-get update
+    - apt-get install -y --no-install-recommends python3
+
+stages:
+  - build
+
+build-wiki-pages:
+  stage: build
+  script:
+    - python3 scripts/ci-build.py --output public
+  pages: true
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'

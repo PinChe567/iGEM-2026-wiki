@@ -458,8 +458,15 @@ export async function createProductStory(host) {
     const updateShadow=!shadowPose||nextShadowPose.length!==shadowPose.length||nextShadowPose.some((value,index)=>value!==shadowPose[index]);
     renderer.shadowMap.needsUpdate=updateShadow;
     if(updateShadow){shadowPose=nextShadowPose;statistics.shadowUpdates++;}
-    renderer.render(scene,camera);statistics.renderCount++;
-    if(statistics.sourceMeshes===8)host.classList.add('is-ready');
+    try{renderer.render(scene,camera);}catch(error){host.dataset.productError='true';writeStatus('3D rendering paused. Use the drawings below.');emit('producterror',{reason:'render'});return;}statistics.renderCount++;
+    if(statistics.sourceMeshes===8){
+      host.classList.add('is-ready');
+      if(host.dataset.productFrameReady!=='true')requestAnimationFrame(()=>{
+        if(disposed||renderer.getContext().isContextLost()||!canvas.clientWidth||!canvas.clientHeight)return;
+        host.dataset.productFrameReady='true';host.dataset.productLoading='false';
+        emit('productfirstframe',{loaded:statistics.sourceMeshes});
+      });
+    }
     updateAnchors();emit('productrender',{stage,anchors:getAnchors(),revealProgress:revealStarted?revealProgress:1,loaded:statistics.sourceMeshes});
     if(revealing&&!transition)finishReveal();
     if(transition)schedule();
@@ -614,7 +621,8 @@ export async function createProductStory(host) {
       }catch(error){if(disposed||error.name==='AbortError')return;statistics.failed.push(...PARTS.filter(part=>!sourceMeshes.some(mesh=>mesh.userData.sourcePart===part)).map(part=>part.file));}
     }
     await Promise.all([loadMeshes(),loadBoardDrawings()]);if(disposed)return;
-    loaded=true;host.dataset.productLoading='false';host.dataset.geometry='lossless-indexed-glb';host.dataset.meshCount=String(statistics.sourceMeshes);
+    loaded=true;host.dataset.geometry='lossless-indexed-glb';host.dataset.meshCount=String(statistics.sourceMeshes);
+    if(statistics.sourceMeshes!==8){host.classList.add('is-unavailable');host.dataset.productLoading='false';emit('producterror',{reason:'geometry'});}
     host.dataset.pcbGeometry='source-derived-nominal';
     writeStatus(statistics.failed.length?'Some parts could not load. Open the source drawings below.':'3D model ready.');
     readyResolve({loaded:statistics.sourceMeshes,failed:[...statistics.failed]});schedule();emit('productready',{loaded:statistics.sourceMeshes,failed:[...statistics.failed]});
@@ -626,8 +634,8 @@ export async function createProductStory(host) {
   },{rootMargin:'160px'});observer.observe(canvas);
   document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(raf);raf=0;}else{if(revealPending&&loaded)revealPending();schedule();}},{signal:events});
   reduced.addEventListener('change',()=>{if(reduced.matches&&transition){state={...target,center:[...target.center]};transition=null;if(revealStarted&&revealProgress<1)finishReveal();schedule();}},{signal:events});
-  canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();active=false;cancelAnimationFrame(raf);raf=0;writeStatus('3D rendering paused. Use the drawings below.');},{signal:events});
-  canvas.addEventListener('webglcontextrestored',()=>{studioMap.dispose();studioMap=bakeStudio();scene.environment=studioMap.texture;shadowPose=null;active=true;writeStatus(loaded?'3D model ready.':'Loading 3D model…');schedule();},{signal:events});
+  canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();active=false;cancelAnimationFrame(raf);raf=0;host.dataset.productFrameReady='false';host.dataset.productError='true';host.classList.remove('is-ready');writeStatus('3D rendering paused. Use the drawings below.');emit('producterror',{reason:'context'});},{signal:events});
+  canvas.addEventListener('webglcontextrestored',()=>{host.dataset.productError='false';host.dataset.productLoading='true';studioMap.dispose();studioMap=bakeStudio();scene.environment=studioMap.texture;shadowPose=null;active=true;writeStatus('Loading 3D model…');schedule();},{signal:events});
   host.dataset.productStage='assembled';host.dataset.productRenderer='on-demand';host.dataset.productRevealing='false';
   // Fetch the compact source mesh set before the reader reaches the scene.
   // Rendering still waits for a complete set and a visible canvas.

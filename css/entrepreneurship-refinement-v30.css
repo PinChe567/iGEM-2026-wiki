@@ -1,0 +1,412 @@
+/* Focus the business chapter on diagrams, decisions and the reviewed manuals. */
+body.page-entrepreneurship {
+  --ent-review-red: #a13731;
+}
+body.page-entrepreneurship .ent-source-section > h3,
+body.page-entrepreneurship .ent-impact-label {
+  color: var(--ent-review-red);
+  font-weight: 750;
+}
+body.page-entrepreneurship #decision-problem > h3,
+body.page-entrepreneurship #unit-economics > h3 {
+  color: var(--ent-review-red) !important;
+}
+body.page-entrepreneurship .ent-criteria-grid {
+  display: block;
+  border-top: 1px solid var(--v-rule);
+}
+body.page-entrepreneurship details.ent-criterion {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--v-rule);
+  border-radius: 0;
+  background: transparent;
+}
+body.page-entrepreneurship details.ent-criterion > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.15rem .2rem;
+  color: var(--ent-review-red);
+  font-size: 1.08rem;
+  font-weight: 700;
+  line-height: 1.45;
+  cursor: pointer;
+  list-style: none;
+}
+body.page-entrepreneurship details.ent-criterion > summary::-webkit-details-marker {
+  display: none;
+}
+body.page-entrepreneurship details.ent-criterion > summary::after {
+  content: "+";
+  flex: 0 0 1.5rem;
+  font-size: 1.45rem;
+  text-align: center;
+}
+body.page-entrepreneurship details.ent-criterion[open] > summary::after {
+  content: "−";
+}
+body.page-entrepreneurship details.ent-criterion > summary h3 {
+  color: inherit;
+  font: inherit;
+}
+body.page-entrepreneurship details.ent-criterion > div {
+  padding: .2rem 1.25rem 1.35rem;
+  border-left: 3px solid var(--v-rule);
+  margin: 0 0 1rem;
+}
+body.page-entrepreneurship details.ent-criterion > summary:focus-visible {
+  outline: 2px solid var(--ent-review-red);
+  outline-offset: 4px;
+}
+
+/* Expanded notes use the full column and their natural height. */
+body.page-entrepreneurship .framework.is-revealing .framework-stage {
+  width: 100%;
+  overflow: visible;
+}
+body.page-entrepreneurship .framework.is-revealing .framework-stage > .atlas-art {
+  display: none;
+}
+body.page-entrepreneurship .framework[data-interaction] .framework-reveal {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  max-width: none;
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  box-sizing: border-box;
+  overflow: visible;
+  margin: 0;
+  padding: 3.8rem clamp(1.25rem, 3vw, 2.25rem) 2rem;
+  border-radius: 20px;
+  text-align: left;
+  align-content: start;
+  justify-content: start;
+}
+body.page-entrepreneurship .framework[data-interaction="circle"] .framework-reveal {
+  grid-template-columns: 82px minmax(0, 1fr);
+  gap: 2rem;
+  align-items: start;
+  background: linear-gradient(120deg, var(--v-soft), #fffefb 42%);
+}
+body.page-entrepreneurship .framework[data-interaction="circle"] .framework-reveal__emblem {
+  width: 82px;
+  box-sizing: border-box;
+  font-size: 1rem;
+  margin: .4rem 0;
+}
+body.page-entrepreneurship .framework[data-interaction] .framework-reveal__body {
+  max-width: none;
+  width: 100%;
+  font-size: 1rem;
+  line-height: 1.8;
+  margin: 0;
+}
+body.page-entrepreneurship .framework-reveal :is(p, li) {
+  text-align: start !important;
+  text-align-last: auto !important;
+  hyphens: none !important;
+  overflow-wrap: break-word;
+}
+body.page-entrepreneurship .page-article .framework .framework-reveal .framework-reveal__body :is(p, li) {
+  hyphens: none !important;
+  text-align: start !important;
+}
+body.page-entrepreneurship .framework-reveal h4 {
+  margin: 0 0 1rem;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+body.page-entrepreneurship .framework-reveal__close {
+  top: .65rem;
+  right: .8rem;
+}
+body.page-entrepreneurship .framework[data-interaction="drawer"] .framework-reveal {
+  padding-left: 4.5rem;
+}
+body.page-entrepreneurship .framework[data-interaction="contact"] .framework-reveal {
+  grid-template-columns: 60px minmax(0, 1fr);
+  gap: 1.5rem;
+}
+body.page-entrepreneurship .framework[data-interaction="contact"] .framework-reveal__emblem {
+  width: 60px;
+  height: 60px;
+  font-size: 1.15rem;
+}
+body.page-entrepreneurship .framework[data-interaction="lens"] .framework-reveal__emblem {
+  font-size: 2.25rem;
+}
+body.page-entrepreneurship .ent-stakeholder-person {
+  list-style: none;
+  position: relative;
+  padding: clamp(1.1rem, 3vw, 1.6rem);
+  margin-block: 1rem;
+  border: 1px solid var(--v-rule, #dac6be);
+  border-left: 4px solid var(--ent-review-red);
+  border-radius: 3px 18px 18px 18px;
+  background: var(--v-tint, #fff9f5);
+}
+body.page-entrepreneurship #team-stakeholders > h3 {
+  color: var(--ent-review-red) !important;
+  font-weight: 750 !important;
+}
+body.page-entrepreneurship #team-stakeholders > ul:has(.ent-stakeholder-person) {
+  padding-left: 0;
+}
+body.page-entrepreneurship .ent-insight__heading {
+  display: flex;
+  gap: .85rem;
+  align-items: flex-start;
+  margin: 0 0 .9rem;
+}
+body.page-entrepreneurship .ent-insight__heading > div {
+  min-width: 0;
+}
+body.page-entrepreneurship .ent-person-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  box-sizing: border-box;
+  color: var(--ent-review-red);
+  background: var(--v-soft);
+  border-radius: 50%;
+}
+body.page-entrepreneurship .ent-person-icon > svg {
+  display: block;
+  position: static;
+  width: 32px !important;
+  height: 32px !important;
+  max-width: 32px;
+  margin: 0;
+  padding: 0;
+}
+body.page-entrepreneurship .ent-insight__heading h4 {
+  margin: 0 0 .3rem;
+  padding: 0;
+  border: 0;
+  color: var(--ent-review-red) !important;
+  font-size: 1.05rem;
+  font-weight: 750;
+  line-height: 1.5;
+}
+body.page-entrepreneurship .ent-insight__heading .ent-insight__source {
+  margin: 0;
+  color: var(--v-muted, #785b54);
+  font-size: .85rem;
+  line-height: 1.5;
+  text-align: left;
+}
+body.page-entrepreneurship .ent-stakeholder-person > p {
+  margin: 0;
+  line-height: 1.8;
+  text-align: left !important;
+  hyphens: none !important;
+}
+body.page-entrepreneurship #financial-workbook-preview,
+body.page-entrepreneurship #business-plan-preview {
+  margin: 1.4rem 0 2.5rem;
+}
+body.page-entrepreneurship #appendix > #entrepreneurship-guides-heading {
+  color: var(--ent-review-red) !important;
+  font-weight: 750;
+  margin-top: 2.5rem;
+}
+body.page-entrepreneurship .ent-device-photo {
+  max-width: 640px;
+  margin: 1.5rem auto 2rem;
+}
+body.page-entrepreneurship .ent-device-photo img {
+  width: 100%;
+  max-height: 440px;
+  object-fit: contain;
+}
+/* The roadmap remains a real timeline on small screens, with horizontal reading. */
+body.page-entrepreneurship .ent-gantt {
+  margin: 1.6rem 0;
+  padding: 0;
+  border: 1px solid var(--v-rule);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fffefb;
+}
+body.page-entrepreneurship .ent-gantt > header {
+  padding: 1rem 1.15rem .75rem;
+  background: var(--v-tint);
+}
+body.page-entrepreneurship #commercialization-gantt > header h3 {
+  margin: 0 0 .5rem;
+  font-size: 1.2rem;
+  color: var(--ent-review-red);
+}
+body.page-entrepreneurship .ent-gantt > header p {
+  font-size: .87rem;
+  margin: 0;
+  line-height: 1.6;
+  text-align: left;
+}
+body.page-entrepreneurship .ent-gantt-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem 1.5rem;
+  margin: 1rem 0 .25rem;
+  font-size: .8rem;
+}
+body.page-entrepreneurship .ent-gantt [data-phase="beachhead"] { --phase-color: #aa483e; }
+body.page-entrepreneurship .ent-gantt [data-phase="expansion"] { --phase-color: #98702c; }
+body.page-entrepreneurship .ent-gantt [data-phase="diagnostics"] { --phase-color: #49746d; }
+body.page-entrepreneurship .ent-gantt-legend > span::before {
+  content: "";
+  display: inline-block;
+  width: .65rem;
+  height: .65rem;
+  margin-right: .4rem;
+  border-radius: 2px;
+  background: var(--phase-color);
+}
+body.page-entrepreneurship .ent-gantt-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+}
+body.page-entrepreneurship .ent-gantt-scroll:focus-visible {
+  outline: 2px solid var(--ent-review-red);
+  outline-offset: -3px;
+}
+body.page-entrepreneurship .ent-gantt-grid {
+  min-width: 710px;
+  padding: 0 1rem 1rem;
+}
+body.page-entrepreneurship .ent-gantt-axis,
+body.page-entrepreneurship .ent-gantt-row > summary {
+  display: grid;
+  grid-template-columns: 235px minmax(0, 1fr);
+}
+body.page-entrepreneurship .ent-gantt-axis {
+  padding-block: .65rem .4rem;
+  color: var(--v-muted);
+  font: 600 .8rem/1.5 var(--font-body, sans-serif);
+}
+body.page-entrepreneurship .ent-gantt-years {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  text-align: center;
+}
+body.page-entrepreneurship details.ent-gantt-row {
+  border: 0;
+  border-bottom: 1px solid var(--v-rule);
+  background: none;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+}
+body.page-entrepreneurship .ent-gantt-row > summary {
+  gap: 0;
+  align-items: stretch;
+  padding: 0;
+  cursor: pointer;
+  list-style: none;
+  min-height: 40px;
+  border: 0;
+}
+body.page-entrepreneurship .ent-gantt-row > summary::-webkit-details-marker { display: none; }
+body.page-entrepreneurship .ent-gantt-row > summary::after { content: none; }
+body.page-entrepreneurship .ent-gantt-label {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: .25rem 1.4rem .25rem .15rem;
+  text-align: left;
+  line-height: 1.4;
+}
+body.page-entrepreneurship .ent-gantt-label strong {
+  display: block;
+  font-size: .8rem;
+  line-height: 1.3;
+  color: var(--v-ink);
+}
+body.page-entrepreneurship .ent-gantt-label small {
+  display: block;
+  font-size: .68rem;
+  color: var(--v-muted);
+  margin-top: 0;
+}
+body.page-entrepreneurship .ent-gantt-label::after {
+  content: "+";
+  position: absolute;
+  right: .45rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ent-review-red);
+}
+body.page-entrepreneurship .ent-gantt-row[open] .ent-gantt-label::after { content: "−"; }
+body.page-entrepreneurship .ent-gantt-track {
+  display: grid;
+  grid-template-columns: repeat(24, minmax(0, 1fr));
+  align-items: center;
+  background:
+    repeating-linear-gradient(to right, var(--v-rule) 0 1px, transparent 1px calc(100% / 6)),
+    repeating-linear-gradient(to right, #ad75650c 0 1px, transparent 1px calc(100% / 24));
+}
+body.page-entrepreneurship .ent-gantt-bar {
+  grid-column: var(--start) / span var(--span);
+  height: 17px;
+  margin-inline: 2px;
+  border-radius: 3px;
+  background: var(--phase-color);
+  box-shadow: inset 0 -3px 0 #00000012;
+}
+body.page-entrepreneurship .ent-gantt-row > summary:hover,
+body.page-entrepreneurship .ent-gantt-row > summary:focus-visible {
+  background-color: var(--v-soft);
+}
+body.page-entrepreneurship .ent-gantt-note {
+  margin: .25rem 0 .9rem;
+  padding: .9rem 1rem;
+  border-left: 3px solid var(--phase-color);
+  background: var(--v-tint);
+  max-width: 70ch;
+  text-align: left;
+  font-size: .9rem;
+  line-height: 1.7;
+}
+body.page-entrepreneurship #commercialization-gantt > figcaption {
+  margin: 0;
+  padding: .8rem 1.15rem;
+  font-size: .78rem;
+  line-height: 1.65;
+  text-align: left;
+  background: var(--v-tint);
+}
+@media (max-width: 600px) {
+  body.page-entrepreneurship .ent-gantt-note {
+    max-width: calc(100vw - 6rem);
+    box-sizing: border-box;
+  }
+  body.page-entrepreneurship .framework[data-interaction="circle"] .framework-reveal,
+  body.page-entrepreneurship .framework[data-interaction="contact"] .framework-reveal {
+    display: block;
+    padding: 3.8rem 1.15rem 1.4rem;
+  }
+  body.page-entrepreneurship .framework[data-interaction="circle"] .framework-reveal__emblem {
+    width: 60px;
+    margin: 0 0 1.5rem;
+    font-size: .8rem;
+  }
+  body.page-entrepreneurship .framework[data-interaction="contact"] .framework-reveal__emblem {
+    margin-bottom: 1.25rem;
+  }
+  body.page-entrepreneurship details.ent-criterion > div {
+    padding-inline: .85rem;
+  }
+}
+@media print {
+  body.page-entrepreneurship .framework.is-revealing .framework-stage > .atlas-art {
+    display: block;
+  }
+}

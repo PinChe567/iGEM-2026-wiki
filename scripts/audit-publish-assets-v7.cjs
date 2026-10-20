@@ -78,9 +78,9 @@ function parse(file){
  // Comments document dependencies but are not deployed requests or downloads.
  const text=full.replace(/<!--[\s\S]*?-->/g,'');
  if(/\.html?$/i.test(file)){
-  for(const m of text.matchAll(/<(?:a|img|source|video|audio|iframe|script|link|object|embed|meta)\b[^>]*>/gi)){
+  for(const m of text.matchAll(/<[a-z][\w:-]*\b[^>]*>/gi)){
    const tag=m[0],a=attrs(tag);const t=tag.match(/^<(\w+)/)[1].toLowerCase();
-   for(const key of ['src','href','poster','data','data-src','data-model','data-file','data-full','data-original','data-image','data-pdf-preview-src'])if(a[key])add(a[key],file,t==='a'?'link-or-download':t+'-resource',true);
+   for(const key of ['src','href','poster','data','data-src','data-model','data-file','data-full','data-original','data-image','data-pdf-preview-src','data-index','data-frames-manifest'])if(a[key])add(a[key],file,t==='a'?'link-or-download':t+'-resource',true);
    if(a.srcset)for(const item of a.srcset.split(','))add(item.trim().split(/\s+/)[0],file,'responsive-image',true);
    if(t==='meta'&&a.content&&allowed.test(a.content.replace(/[?#].*$/,'')))add(a.content,file,'meta-image');
   }

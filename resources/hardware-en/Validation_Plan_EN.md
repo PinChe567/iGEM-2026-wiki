@@ -4,9 +4,9 @@ This procedure tests the assembled reader with sodium fluorescein in PBS. It doe
 
 ## 1. Prepare the experiment
 
-1. Read the [Developer Manual](Developer_Manual_EN.pdf).
+1. Read the [Developer Manual](https://static.igem.wiki/teams/6460/wiki/review-resources/developer-manual-en.pdf).
 2. Complete its electrical checks.
-3. Read the [User Manual](User_Manual_EN.pdf).
+3. Read the [User Manual](https://static.igem.wiki/teams/6460/wiki/review-resources/user-manual-en.pdf).
 4. Prepare the solutions with the [sample guide](Fluorescence_and_Cell_Test_EN.md).
 5. Use the same PBS batch for the blank and both fluorescein concentrations.
 6. Start the pilot with C = 100 nM and 0.5C = 50 nM.

@@ -1220,135 +1220,246 @@
 
   window.AeroSenseEnhanceReferences = initReferencesEnhance;
 
-  /* ---------- Inline attachment reading ---------- */
-  function initPdfPreviews() {
-    var main = qs('main');
-    if (!main) return;
-    var existing = Object.create(null);
-    var readers = [];
-
-    function pdfUrl(value) {
-      try {
-        var url = new URL(value, doc.baseURI);
-        if (!/\.pdf$/i.test(url.pathname) || !/^(https?:|file:)$/.test(url.protocol)) return null;
-        url.hash = '';
-        return url;
-      } catch (_) { return null; }
-    }
-
-    // Bibliographic links to third-party papers/datasheets stay source links:
-    // those hosts can prohibit embedding. Team attachments have a known host.
-    function isAttachment(url, link) {
-      return url.origin === new URL(doc.baseURI).origin ||
-        /^(static\.igem\.wiki|gitlab\.igem\.org)$/.test(url.hostname) ||
-        link.getAttribute('data-pdf-preview') === 'true';
-    }
-
-    qsa('iframe[src], iframe[data-src]', main).forEach(function (frame) {
-      var url = pdfUrl(frame.getAttribute('src') || frame.getAttribute('data-src'));
-      if (url) existing[url.href] = true;
-    });
-
-    qsa('a[href]', main).forEach(function (link) {
-      var url = pdfUrl(link.getAttribute('href'));
-      var localPreview = pdfUrl(link.getAttribute('data-pdf-preview-src'));
-      if (localPreview && localPreview.origin !== new URL(doc.baseURI).origin) localPreview = null;
-      var previewUrl = localPreview || url;
-      if (!url || !isAttachment(url, link) || existing[url.href] || existing[previewUrl.href] ||
-          (url.hostname === 'gitlab.igem.org' && !localPreview) ||
-          link.closest('[data-pdf-preview="false"], [data-hw-v2-preview]')) return;
-      existing[url.href] = true;
-      existing[previewUrl.href] = true;
-      var details = doc.createElement('details');
-      details.className = 'pdf-preview';
-      details.setAttribute('translate', 'no');
-      var summary = doc.createElement('summary');
-      var body = doc.createElement('div');
-      body.className = 'pdf-preview__body';
-      var actions = doc.createElement('p');
-      actions.className = 'pdf-preview__actions';
-      var open = doc.createElement('a');
-      open.href = url.href;
-      open.target = '_blank';
-      open.rel = 'noopener noreferrer';
-      var download = doc.createElement('a');
-      download.href = url.href;
-      download.setAttribute('download', '');
-      var close = doc.createElement('button');
-      close.type = 'button';
-      var frame = doc.createElement('iframe');
-      frame.className = 'pdf-preview__frame';
-      frame.loading = 'lazy';
-      frame.setAttribute('data-pdf-preview-src', previewUrl.href);
-      var fallback = doc.createElement('p');
-      fallback.className = 'pdf-preview__fallback';
-      actions.appendChild(open);
-      actions.appendChild(download);
-      actions.appendChild(close);
-      body.appendChild(actions);
-      body.appendChild(frame);
-      body.appendChild(fallback);
-      details.appendChild(summary);
-      details.appendChild(body);
-
-      // Keep block readers out of paragraphs and inside table/list containers.
-      var anchor = link.closest('p, li, dd, td, th, figure') || link;
-      if (/^(LI|DD|TD|TH)$/.test(anchor.tagName)) anchor.appendChild(details);
-      else anchor.parentNode.insertBefore(details, anchor.nextSibling);
-
-      function syncFrame() {
-        var visible = details.open;
-        var parent = details.parentElement;
-        while (parent) {
-          if (parent.tagName === 'DETAILS' && !parent.open) visible = false;
-          parent = parent.parentElement;
-        }
-        var reader = frame._aeroSensePdfReader;
-        if (visible && !reader && window.AeroSensePdfReader) reader = window.AeroSensePdfReader.enhance(frame);
-        if (reader) {
-          reader.setActive(visible);
-          return; // The detached native frame must never start another request.
-        }
-        if (visible && frame.isConnected) {
-          if (!frame.hasAttribute('src')) frame.src = previewUrl.href + '#view=FitH';
-        } else frame.removeAttribute('src');
-      }
-      function closeReader() {
-        details.open = false;
-        syncFrame();
-        summary.focus();
-      }
-      details.addEventListener('toggle', syncFrame);
-      var parent = details.parentElement;
-      while (parent) {
-        if (parent.tagName === 'DETAILS') parent.addEventListener('toggle', syncFrame);
-        parent = parent.parentElement;
-      }
-      close.addEventListener('click', closeReader);
-      details.addEventListener('keydown', function (event) {
-        if (event.key === 'Escape' && details.open) {
-          event.preventDefault();
-          closeReader();
-        }
-      });
-      readers.push({summary:summary, open:open, download:download, close:close,
-        frame:frame, fallback:fallback, link:link});
-    });
-
-    function updateLabels() {
+  /* ---------- Shared media readiness: a state, never a decorative timer ---------- */
+  function createMediaLoader(container, target, kind, retryAction, officialUrl) {
+    container.classList.add('media-loader-host');
+    if (getComputedStyle(container).position === 'static') container.classList.add('media-loader-host--positioned');
+    var overlay = doc.createElement('div'); overlay.className = 'media-loader'; overlay.hidden = true;
+    overlay.setAttribute('translate', 'no'); overlay.setAttribute('role', 'status'); overlay.setAttribute('aria-live', 'polite');
+    var card = doc.createElement('div'); card.className = 'media-loader__card';
+    card.innerHTML = "<svg class=\"media-loader__scene\" viewBox=\"0 0 160 170\" fill=\"none\" aria-hidden=\"true\" focusable=\"false\">\n    <circle cx=\"80\" cy=\"79\" r=\"61\" stroke=\"currentColor\" stroke-width=\".7\" stroke-dasharray=\"2 6\" opacity=\".6\"/>\n    <ellipse cx=\"80\" cy=\"79\" rx=\"38\" ry=\"69\" transform=\"rotate(35 80 79)\" stroke=\"currentColor\" stroke-width=\".8\" opacity=\".45\"/>\n    <g class=\"media-loader__dance\">\n      <g class=\"media-loader__wing media-loader__wing--left\">\n        <path d=\"M83 57C63 33 20 38 32 67 37 81 61 83 82 76\" fill=\"#cbd9ae\" fill-opacity=\".5\" stroke=\"#73845b\" stroke-width=\"1.4\"/>\n        <path d=\"M82 73 54 59\" stroke=\"#73845b\" stroke-width=\"1.5\"/>\n      </g>\n      <g class=\"media-loader__wing media-loader__wing--right\">\n        <path d=\"M85 57C100 20 139 27 128 55 122 69 105 74 85 77\" fill=\"#cbd9ae\" fill-opacity=\".5\" stroke=\"#73845b\" stroke-width=\"1.4\"/>\n        <path d=\"M85 68 115 43\" stroke=\"#73845b\" stroke-width=\"1.5\"/>\n      </g>\n      <g class=\"media-loader__legs media-loader__legs--left\" stroke=\"#73845b\" stroke-width=\"1.5\"><path d=\"M75 88 54 98 43 116M75 78 51 78 39 86\"/></g>\n      <g class=\"media-loader__legs media-loader__legs--right\" stroke=\"#73845b\" stroke-width=\"1.5\"><path d=\"M92 88 116 96 125 112M95 75 121 73 133 78\"/></g>\n      <ellipse cx=\"84\" cy=\"88\" rx=\"10\" ry=\"26\" transform=\"rotate(-8 84 88)\" fill=\"#d7b367\" stroke=\"#6f744c\" stroke-width=\"1.4\"/>\n      <path d=\"M75 84 94 82M75 94 94 91M78 103 92 100\" stroke=\"#8e7950\" stroke-width=\"2\"/>\n      <ellipse cx=\"83\" cy=\"61\" rx=\"11\" ry=\"12\" fill=\"#bbc690\" stroke=\"#6f744c\" stroke-width=\"1.4\"/>\n      <circle cx=\"76\" cy=\"60\" r=\"4\" fill=\"#b96950\"/><circle cx=\"90\" cy=\"58\" r=\"4\" fill=\"#b96950\"/>\n      <path d=\"M79 50 75 38M86 49 90 38\" stroke=\"#6f744c\" stroke-width=\"1.4\" stroke-linecap=\"round\"/>\n    </g>\n    <circle cx=\"29\" cy=\"120\" r=\"4\" fill=\"#c47a57\"/><circle cx=\"135\" cy=\"100\" r=\"3\" fill=\"#b1c590\"/><circle cx=\"114\" cy=\"145\" r=\"4\" fill=\"#e0c47c\"/>\n    <path d=\"M49 151h63M66 158h30\" stroke=\"#a5af8b\" stroke-width=\"1\"/>\n  </svg>";
+    var label = doc.createElement('span'); label.className = 'media-loader__label'; card.appendChild(label);
+    var retry = doc.createElement('button'); retry.type = 'button'; retry.className = 'media-loader__retry'; retry.hidden = true;
+    if (retryAction) retry.addEventListener('click', retryAction); card.appendChild(retry);
+    var original;
+    if (officialUrl) { original = doc.createElement('a'); original.href = officialUrl; original.target = '_blank'; original.rel = 'noopener noreferrer'; original.className = 'media-loader__original'; original.hidden = true; card.appendChild(original); }
+    overlay.appendChild(card); container.appendChild(overlay);
+    var state = 'idle';
+    function labels() {
       var zh = /^zh/i.test(root.lang);
-      readers.forEach(function (reader) {
-        reader.summary.textContent = zh ? '在此頁閱讀 PDF' : 'Read PDF on this page';
-        reader.open.textContent = zh ? '另開 PDF' : 'Open PDF';
-        reader.download.textContent = zh ? '下載 PDF' : 'Download PDF';
-        reader.close.textContent = zh ? '收起預覽' : 'Close preview';
-        reader.frame.title = (zh ? 'PDF 預覽：' : 'PDF preview: ') + reader.link.textContent.trim();
-        if (reader.frame._aeroSensePdfReader) reader.frame._aeroSensePdfReader.setTitle(reader.frame.title);
-        reader.fallback.textContent = zh ? '若未顯示預覽，可另開或下載 PDF。' : 'If the preview is unavailable, open or download the PDF.';
+      label.textContent = state === 'error' ? (zh ? '內容尚未載入，請重試或開啟原始檔。' : 'This content could not load. Retry or open the original.') : kind === 'pdf' ? (zh ? '正在顯示 PDF…' : 'Rendering PDF…') : (zh ? '正在載入影片…' : 'Loading video…');
+      retry.textContent = zh ? '重試' : 'Retry'; if (original) original.textContent = zh ? '開啟原始檔' : 'Open original';
+    }
+    function change(next) { state = next; overlay.dataset.state = state; overlay.hidden = state === 'ready' || state === 'idle'; overlay.classList.toggle('is-error', state === 'error'); retry.hidden = state !== 'error' || !retryAction; if (original) original.hidden = state !== 'error'; target.setAttribute('aria-busy', String(state === 'loading')); labels(); }
+    doc.addEventListener('aerosense:languagechange', labels);
+    return { start: function () { change('loading'); }, finish: function () { change('ready'); }, fail: function () { change('error'); }, hide: function () { change('idle'); }, element: overlay };
+  }
+  window.AeroSenseMediaLoader = { create: createMediaLoader };
+
+  function initMediaReadiness() {
+    var serial = 910000, activeFrames = [];
+    function nativeVideo(video) {
+      if (video.dataset.readinessEnhanced || video.closest('[data-asc]')) return;
+      video.dataset.readinessEnhanced = 'true';
+      var host = doc.createElement('div'); host.className = 'media-player-frame'; video.before(host); host.appendChild(video);
+      var loader = createMediaLoader(host, video, 'video', function () { loader.start(); video.load(); });
+      var frameRequest = 0;
+      function visibleFrame() {
+        if (video.readyState < 2) return;
+        var ticket = ++frameRequest;
+        if (video.requestVideoFrameCallback && !video.paused) video.requestVideoFrameCallback(function () { if (ticket === frameRequest) loader.finish(); });
+        else requestAnimationFrame(function () { if (ticket === frameRequest && video.readyState >= 2) loader.finish(); });
+      }
+      ['loadstart', 'waiting', 'seeking'].forEach(function (name) { video.addEventListener(name, function () { ++frameRequest; loader.start(); }); });
+      ['loadeddata', 'canplay', 'playing', 'seeked'].forEach(function (name) { video.addEventListener(name, visibleFrame); });
+      video.addEventListener('error', function () { ++frameRequest; loader.fail(); });
+      if (video.readyState >= 2) visibleFrame(); else if (video.currentSrc || video.getAttribute('src')) loader.start();
+    }
+    function officialPlayer(frame) {
+      if (frame.dataset.readinessEnhanced || frame.closest('[data-asc]')) return;
+      var initial = frame.getAttribute('src') || frame.getAttribute('data-video-src');
+      var url;
+      try { url = new URL(initial, doc.baseURI); if (url.origin !== 'https://video.igem.org' || !url.pathname.startsWith('/videos/embed/')) return; } catch (_) { return; }
+      frame.dataset.readinessEnhanced = 'true'; url.searchParams.set('api', '1');
+      var host = doc.createElement('div'); host.className = 'media-player-frame'; frame.before(host); host.appendChild(frame);
+      var watch = 'https://video.igem.org/w/' + url.pathname.split('/').pop();
+      var connected = false, ready = false, running = false, timer, deadline, lastPosition = -1, lastAdvance = 0, playing = false, imageSupported = true, imagePending = false, frameDecoded = false;
+      var calls = new Map();
+      var loader = createMediaLoader(host, frame, 'video', function () { reset(); frame.src = url.href; begin(); }, watch);
+      function send(message) { if (frame.contentWindow) frame.contentWindow.postMessage(JSON.stringify(message), url.origin); }
+      function rpc(method, callback) { var id = ++serial; calls.set(id, {method:method, callback:callback, time:Date.now()}); send({id:id,method:'peertube::'+method}); }
+      function reset() { clearInterval(timer); clearTimeout(deadline); calls.clear(); connected = ready = running = playing = imagePending = frameDecoded = false; lastPosition = -1; }
+      function markReady() { ready = true; clearTimeout(deadline); loader.finish(); }
+      function checkFrame() {
+        if (!imageSupported || imagePending) return;
+        imagePending = true;
+        rpc('getImageDataUrl', function (result, error) {
+          imagePending = false;
+          // Older official players may not support snapshots. Playback progress
+          // remains the fallback; an unsupported RPC is not a playback failure.
+          if (error) { imageSupported = false; return; }
+          if (typeof result === 'string' && /^data:image\//.test(result) && result.length > 1000) { frameDecoded = true; if (lastAdvance && Date.now()-lastAdvance < 1800) loader.finish(); }
+        });
+      }
+      function tick() {
+        if (!frame.isConnected) { reset(); return; }
+        if (doc.hidden || !frame.getClientRects().length) return;
+        if (!ready) {
+          send({method:'peertube::__ready',params:{type:'publish-request',publish:[]}});
+          if (connected && !Array.from(calls.values()).some(function (call) { return call.method === 'isReady'; })) rpc('isReady', function (value) { if (value === true) markReady(); });
+        } else if (playing && lastAdvance && Date.now()-lastAdvance > 2200) {
+          loader.start();
+          if (Date.now()-lastAdvance > 45000) { loader.fail(); playing = false; }
+        }
+        calls.forEach(function (call,id) { if (Date.now()-call.time > 8000) { calls.delete(id); call.callback(null,true); } });
+      }
+      function begin() {
+        if (running || !frame.getAttribute('src') || frame.hidden) return;
+        running = true; if (ready) loader.finish(); else loader.start(); timer = setInterval(tick, 900); tick();
+        if (!ready) deadline = setTimeout(function () { if (!ready) loader.fail(); }, 45000);
+      }
+      function message(event) {
+        if (event.origin !== url.origin || event.source !== frame.contentWindow) return;
+        var m; try { m = typeof event.data === 'string' ? JSON.parse(event.data) : event.data; } catch (_) { return; }
+        if (!m || typeof m !== 'object') return;
+        if (m.method === 'peertube::__ready') {
+          if (m.params && m.params.type === 'publish-request') send({method:'peertube::__ready',params:{type:'publish-reply',publish:[]}});
+          connected = true; tick();
+        } else if (m.method === 'peertube::ready') { if (m.params === true) markReady(); else if (m.params === false) loader.fail(); }
+        else if (calls.has(m.id)) { var call = calls.get(m.id); calls.delete(m.id); call.callback(m.result, m.error); }
+        else if (m.method === 'peertube::playbackStatusChange') { playing = m.params === 'playing'; if (playing) { lastAdvance = Date.now(); frameDecoded = false; loader.start(); checkFrame(); } }
+        else if (m.method === 'peertube::playbackStatusUpdate' && m.params) {
+          var update = m.params; playing = update.playbackState === 'playing';
+          if (playing && Number.isFinite(update.position) && update.position !== lastPosition) { lastAdvance = Date.now(); lastPosition = update.position; if (frameDecoded || !imageSupported) loader.finish(); else checkFrame(); }
+          else if (update.playbackState === 'ended' || update.playbackState === 'paused') { if (ready) loader.finish(); }
+        }
+      }
+      window.addEventListener('message', message);
+      // iframe.load starts negotiation only. It never dismisses the loader.
+      frame.addEventListener('load', function () { if (!running) begin(); tick(); });
+      frame.addEventListener('error', loader.fail);
+      new MutationObserver(function () { if (frame.getAttribute('src')) begin(); }).observe(frame,{attributes:true,attributeFilter:['src','hidden']});
+      if (frame.hasAttribute('data-video-src')) frame.setAttribute('data-video-src', url.href);
+      if (frame.getAttribute('src') && frame.getAttribute('src') !== url.href) frame.src = url.href;
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) { if (entries.some(function (entry) { return entry.isIntersecting; })) { begin(); io.disconnect(); } },{rootMargin:'240px 0px'}); io.observe(host);
+      } else begin();
+      activeFrames.push({frame:frame,stop:reset});
+    }
+    function scan(scope) { qsa('video,iframe',scope).forEach(function (el) { if (el.tagName === 'VIDEO') nativeVideo(el); else officialPlayer(el); }); }
+    scan(doc);
+    new MutationObserver(function (records) { records.forEach(function (record) { record.addedNodes.forEach(function (node) { if (node.nodeType !== 1) return; if (node.matches('iframe')) officialPlayer(node); else if (node.matches('video')) nativeVideo(node); scan(node); }); }); }).observe(doc.body,{subtree:true,childList:true});
+    window.addEventListener('pagehide',function () { activeFrames.forEach(function (entry) { entry.stop(); }); });
+  }
+
+  /* ---------- One named PDF preview per team attachment ---------- */
+  function initPdfPreviews() {
+    var main = qs('main'); if (!main) return;
+    var existing = Object.create(null), readers = [], jumps = [], nativeActions = [], counter = 0;
+    function pdfUrl(value) { try { var url = new URL(value,doc.baseURI); if (!/\.pdf$/i.test(url.pathname) || !/^(https?:|file:)$/.test(url.protocol)) return null; url.hash=''; return url; } catch (_) { return null; } }
+    function isAttachment(url,link) { return url.origin === new URL(doc.baseURI).origin || /^(static\.igem\.wiki|gitlab\.igem\.org)$/.test(url.hostname) || link.getAttribute('data-pdf-preview') === 'true'; }
+    function sourceText(link) { return (window.AeroSenseI18n ? window.AeroSenseI18n.sourceText(link) : link.textContent).trim(); }
+    function title(value) { return value.replace(/^(?:Read|Open|Download)\s+/i,'').replace(/(?:_compressed)?\.pdf\b/ig,'').replace(/\s*[·—–-]?\s*\(?PDF(?:,\s*\d+\s*pages)?\)?/ig,'').replace(/\s*[—·]\s*GitLab\s*$/i,'').replace(/\s*↗\s*$/,'').trim() || 'Document'; }
+    function translated(value) { return title(window.AeroSenseI18n ? window.AeroSenseI18n.t(value) : value); }
+    function targetId(target) { if (!target.id) target.id='pdf-document-'+(++counter); return target.id; }
+    function reveal(target) { var ancestor=target; while (ancestor) { if (ancestor.tagName==='DETAILS') ancestor.open=true; ancestor=ancestor.parentElement; } target.scrollIntoView({block:'start',behavior:reduceMotion?'auto':'smooth'}); var focus=target.querySelector('summary') || target; if (!focus.hasAttribute('tabindex') && focus.tagName!=='SUMMARY') focus.tabIndex=-1; focus.focus({preventScroll:true}); }
+    qsa('iframe[src],iframe[data-src]',main).forEach(function (frame) {
+      var url=pdfUrl(frame.getAttribute('src')||frame.getAttribute('data-src')); if (!url) return;
+      var card=frame.closest('.hw-manual-document,.ent-document,details')||frame.parentElement;
+      targetId(card); existing[url.href]=card;
+      qsa('a[data-pdf-preview-src]',card).forEach(function (link) { var publicUrl=pdfUrl(link.getAttribute('href')); if (publicUrl) existing[publicUrl.href]=card; });
+    });
+    qsa('a[href]',main).forEach(function (link) {
+      var url=pdfUrl(link.getAttribute('href')),localPreview=pdfUrl(link.getAttribute('data-pdf-preview-src'));
+      if (localPreview && localPreview.origin!==new URL(doc.baseURI).origin) localPreview=null;
+      var previewUrl=localPreview||url;
+      if (!url||!isAttachment(url,link)||link.closest('[data-pdf-preview="false"],[data-hw-v2-preview]')||(url.hostname==='gitlab.igem.org'&&!localPreview)) return;
+      var prior=existing[url.href]||existing[previewUrl.href];
+      if (prior) {
+        if (prior.contains(link)) {
+          // The existing card already has its document heading. Use a concise
+          // action inside that card instead of repeating the file name.
+          link.setAttribute('translate','no'); nativeActions.push({link:link,download:link.hasAttribute('download')}); return;
+        }
+        var jumpSource=sourceText(link); link.href='#'+targetId(prior); link.removeAttribute('target'); link.removeAttribute('download'); link.removeAttribute('data-pdf-preview-src'); link.setAttribute('translate','no');
+        link.addEventListener('click',function (event) { event.preventDefault(); reveal(prior); }); jumps.push({link:link,source:jumpSource}); return;
+      }
+      var labelSource=sourceText(link); var details=doc.createElement('details'); details.className='pdf-preview'; details.setAttribute('translate','no'); targetId(details);
+      existing[url.href]=existing[previewUrl.href]=details;
+      var summary=doc.createElement('summary'),name=doc.createElement('span'),badge=doc.createElement('span'); name.className='pdf-preview__title'; badge.className='pdf-preview__badge'; badge.textContent='PDF'; badge.setAttribute('aria-hidden','true'); summary.append(name,badge);
+      var body=doc.createElement('div'); body.className='pdf-preview__body';
+      var actions=doc.createElement('p'); actions.className='pdf-preview__actions';
+      var open=doc.createElement('a'); open.href=url.href; open.target='_blank'; open.rel='noopener noreferrer';
+      var download=doc.createElement('a'); download.href=url.href; download.setAttribute('download','');
+      var close=doc.createElement('button'); close.type='button';
+      var frame=doc.createElement('iframe'); frame.className='pdf-preview__frame'; frame.loading='lazy'; frame.setAttribute('data-pdf-preview-src',previewUrl.href);
+      var fallback=doc.createElement('p'); fallback.className='pdf-preview__fallback';
+      actions.append(open,download,close); body.append(actions,frame,fallback); details.append(summary,body);
+      var anchor=link.closest('p,li,dd,td,th')||link;
+      // Replace a standalone document link rather than repeating it above the reader.
+      if (anchor.tagName==='P' && anchor.textContent.trim()===link.textContent.trim() && anchor.querySelectorAll('a').length===1) { if(anchor.id)details.id=anchor.id; anchor.replaceWith(details); }
+      else if (/^(LI|DD|TD|TH)$/.test(anchor.tagName)) { link.replaceWith(details); }
+      else {
+        anchor.after(details);
+        if (anchor===link) link.remove();
+        else { link.remove(); if (anchor.firstChild && anchor.firstChild.nodeType===3) anchor.firstChild.data=anchor.firstChild.data.replace(/^\s*[·|]\s*/,''); }
+      }
+      function syncFrame() {
+        var visible=details.open,parent=details.parentElement;
+        while(parent) { if(parent.hidden||(parent.tagName==='DETAILS'&&!parent.open))visible=false; parent=parent.parentElement; }
+        var reader=frame._aeroSensePdfReader;
+        if(visible&&!reader&&window.AeroSensePdfReader)reader=window.AeroSensePdfReader.enhance(frame);
+        if(reader){reader.setActive(visible);return;}
+        if(visible&&frame.isConnected){if(!frame.hasAttribute('src'))frame.src=previewUrl.href+'#view=FitH';}else frame.removeAttribute('src');
+      }
+      function closeReader(){details.open=false;syncFrame();summary.focus();}
+      details.addEventListener('toggle',syncFrame);
+      var parent=details.parentElement;while(parent){if(parent.tagName==='DETAILS')parent.addEventListener('toggle',syncFrame);parent=parent.parentElement;}
+      close.addEventListener('click',closeReader);details.addEventListener('keydown',function(event){if(event.key==='Escape'&&details.open){event.preventDefault();closeReader();}});
+      readers.push({name:name,open:open,download:download,close:close,frame:frame,fallback:fallback,source:labelSource});
+    });
+    function updateLabels(){var zh=/^zh/i.test(root.lang);nativeActions.forEach(function(action){action.link.textContent=action.download?(zh?'下載 PDF':'Download PDF'):(zh?'另開 PDF':'Open PDF');});readers.forEach(function(reader){var label=translated(reader.source);reader.name.textContent=label;reader.open.textContent=zh?'另開 PDF':'Open PDF';reader.download.textContent=zh?'下載 PDF':'Download PDF';reader.close.textContent=zh?'收起預覽':'Close preview';reader.frame.title=(zh?'PDF 預覽：':'PDF preview: ')+label;if(reader.frame._aeroSensePdfReader)reader.frame._aeroSensePdfReader.setTitle(reader.frame.title);reader.fallback.textContent=zh?'若未顯示預覽，可另開或下載 PDF。':'If the preview is unavailable, open or download the PDF.';});jumps.forEach(function(jump){jump.link.textContent=translated(jump.source)+(zh?' — 前往預覽':' — view preview');});}
+    updateLabels();doc.addEventListener('aerosense:languagechange',updateLabels);
+  }
+
+  function initIllustrationCredits() {
+    // These exact official filenames are tied by verified-official-urls.json
+    // to object metadata recording built-in image_gen. Do not infer an image's
+    // provenance from the historical "claude-source" CSS label.
+    var verified = new Set([
+      "0a94eb9ed729-learning-04-decode.webp", "2931213df1bd-notebook.webp",
+      "387d48bdbdec-index.webp", "3e7460e423d9-experiments.webp",
+      "4b1bb6846acb-measurement.webp", "4e95484b7359-members.webp",
+      "4f0478388e07-description.webp", "6574e767d19a-contribution.webp",
+      "6d2d793c6144-entrepreneurship.webp", "7ed69fc660e2-learning-03-synbio.webp",
+      "80498231178d-design.webp", "80c2022bdb46-education.webp",
+      "81923740ea45-parts.webp", "8e9d0ac54c68-learning-platform.webp",
+      "9cb8fece8726-learning-05-act.webp", "a38b84e66327-sustainability.webp",
+      "a4349884e17d-hardware.webp", "af31e611f889-human-practices.webp",
+      "c8f90001c37d-safety-and-security.webp", "d2b3c9f70478-results.webp",
+      "ddfebb6ea12d-learning-01-smell.webp", "efe9d6a342b0-model.webp",
+      "f2b53410a3fc-engineering.webp", "f53a138df142-learning-02-mold.webp",
+      "fb4aa54013d7-attributions.webp"
+    ]);
+    var sourceScript = doc.querySelector('script[src*="js/main.js"],script[src*="js/home.bundle.js"]');
+    var creditsUrl = sourceScript ? new URL('../credits.html#responsible-ai', sourceScript.src).href : 'credits.html#responsible-ai';
+    function scan() {
+      qsa('.ds-hero-art img[src],.learning-claude-art img[src]').forEach(function (img) {
+        var url;try { url = new URL(img.src, doc.baseURI); } catch (_) { return; }
+        if (url.hostname !== 'static.igem.wiki' || !verified.has(url.pathname.split('/').pop())) return;
+        var art=img.closest('.ds-hero-art,.learning-claude-art'),hero=art.parentElement;
+        if(hero.querySelector(':scope > .illustration-credit'))return;
+        var credit=doc.createElement('p'),tool=doc.createElement('a'),license=doc.createElement('a');
+        credit.className='illustration-credit';credit.setAttribute('data-i18n-ignore','');
+        tool.href=creditsUrl;tool.className='illustration-credit__source';
+        license.href='https://creativecommons.org/licenses/by/4.0/';license.textContent='CC BY 4.0';license.rel='license noopener noreferrer';
+        credit.append(tool,doc.createTextNode(' · '),license);art.after(credit);
+      });
+      updateLabels();
+    }
+    function updateLabels() {
+      var zh=/^zh/i.test(doc.documentElement.lang);
+      qsa('.illustration-credit__source').forEach(function (link) {
+        var label=zh?'AI 插畫：OpenAI 圖像生成':'AI illustration: OpenAI image generation';
+        if(link.textContent!==label)link.textContent=label;
       });
     }
-    updateLabels();
-    doc.addEventListener('aerosense:languagechange', updateLabels);
+    scan();
+    var main=doc.querySelector('main');
+    if(main)new MutationObserver(function(records){
+      if(records.some(function(r){return Array.from(r.addedNodes).some(function(n){return n.nodeType===1&&(n.matches('.ds-hero-art,.learning-claude-art')||n.querySelector('.ds-hero-art,.learning-claude-art'))})}))scan();
+    }).observe(main,{childList:true,subtree:true});
+    doc.addEventListener('aerosense:languagechange',updateLabels);
   }
 
   doc.addEventListener("DOMContentLoaded", function () {
@@ -1366,5 +1477,7 @@
     initNotebookCalendar();
     initReferencesEnhance();
     initPdfPreviews();
+    initMediaReadiness();
+    initIllustrationCredits();
   });
 })();

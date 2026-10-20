@@ -26,11 +26,11 @@ For further development of direct resin culture, first control liquid loss. Then
 
 The [official Aqua-Clear Plus product page](https://global.phrozen3d.com/collections/standard-resins/products/phrozen-standard-aqua-clear-plus-resin) describes a transparent printing resin. It does not provide HEK293 culture validation for this project. A [primary study of other photopolymers](https://pmc.ncbi.nlm.nih.gov/articles/PMC7372443/) reports cytotoxicity and discusses the material-surface-to-medium-volume ratio. It does not prove that Aqua-Clear Plus caused this failure.
 
-First resolve the constant ADC code. Then perform cell-free fluorescence reference tests. GCaMP6f cell measurements in standard vessels with the existing microscope remain separate biological evidence. They do not establish live-cell operation of this device. A brief transfer into the device also requires evidence for the actual contact time. Ten or fifteen minutes is not an automatic safe limit.
+The constant ADC code was an earlier diagnostic issue. The current cell-free records are evaluated with their acquisition QC; this update does not turn the earlier culture observations into a successful live-cell test. GCaMP6f cell measurements in standard vessels with the existing microscope remain separate biological evidence. They do not establish live-cell operation of this device. A brief transfer into the device also requires evidence for the actual contact time. Ten or fifteen minutes is not an automatic safe limit.
 
 Working-volume update: 2026-10-16. Use the existing **GCaMP6f-expressing HEK293 cells and Gibco DMEM**. Section 6 gives the complete-medium preparation. EMEM is not a required purchase for this workflow.
 
-This manual uses short instructions, fixed terms, and preparation–procedure–check sections. It follows selected ASD-STE100 writing principles. It does not claim formal ASD-STE100 compliance. The procedures are development tests, not completed experiments or a validated resin-culture process. Use [Validation_Plan_EN.md](Validation_Plan_EN.md) for the hardware checks.
+This manual uses short instructions, fixed terms, and preparation–procedure–check sections. It follows selected ASD-STE100 writing principles. It does not claim formal ASD-STE100 compliance. Sections 2–5 describe the current double-distilled water workflow and its recorded repeat structure. The later cell procedures are development tests, not a validated resin-culture process. Use [Validation_Plan_EN.md](Validation_Plan_EN.md) for the hardware checks.
 
 **Selected working volume: 100 µL per well.**
 
@@ -40,147 +40,110 @@ The latest user report places the full volume near 120 µL. The selected working
 
 ### Preparation
 
-Borrow a small amount of **fluorescein sodium salt / sodium fluorescein, CAS 518-47-8**, preferably a documented laboratory stock or fluorescence-grade reagent. An identifiable purchase example is Sigma/Merck 46960; local stock and price have not been confirmed. It is a fluorescent molecule, not simply a coloured or pH-indicator solution. Avoid substituting FITC, highlighter ink or unspecified tracer mixtures. The supplier lists excitation/emission at 490/514 nm in 0.1 M Tris, pH 8.0; these are condition-specific values, not guaranteed peaks in PBS. [Supplier identity and spectral information](https://www.sigmaaldrich.com/US/en/product/sigma/46960)
+Borrow a small amount of **fluorescein sodium salt / sodium fluorescein, CAS 518-47-8**, preferably a documented laboratory stock or fluorescence-grade reagent. An identifiable purchase example is Sigma/Merck 46960; local stock and price have not been confirmed. It is a fluorescent molecule, not simply a coloured or pH-indicator solution. Avoid substituting FITC, highlighter ink or unspecified tracer mixtures. The supplier lists excitation/emission at 490/514 nm in 0.1 M Tris, pH 8.0; these are condition-specific values, not guaranteed peaks in double-distilled water. [Supplier identity and spectral information](https://www.sigmaaldrich.com/US/en/product/sigma/46960)
 
 The specified Würth 155124BS73200 LED has a typical 468 nm peak and 470 nm dominant wavelength. Its spectral bandwidth is 25 nm at the 20 mA datasheet condition. Fluorescein is therefore a practical candidate for this blue-excitation/green-detection path. Excitation is below its alkaline-solution maximum. This overlap is an engineering inference. Actual device sensitivity remains to be measured. Datasheet current and luminous intensity do not establish PCB optical power. [Actual LED datasheet, page 2](https://www.we-online.com/components/products/datasheet/155124BS73200.pdf)
 
 Keep buffer, pH, temperature and light exposure consistent. Fluorescein changes with pH and can bleach; increasing concentration can introduce nonlinearity, self-quenching or absorption/reabsorption effects. Published thresholds from a different cuvette or buffer are not acceptance thresholds for our wells. [Manufacturer handbook](https://www.thermofisher.com/us/en/home/references/molecular-probes-the-handbook/fluorophores-and-their-amine-reactive-derivatives/fluorescein-oregon-green-and-rhodamine-green-dyes.html), [primary sodium-fluorescein study](https://pubmed.ncbi.nlm.nih.gov/20444121/), [NIST fluorescence guidance](https://nvlpubs.nist.gov/nistpubs/ir/2007/ir7457.pdf)
 
-## 2. Minimal materials and one starting dilution series
+## 2. Prepare the expanded water standards
 
-### Preparation
+Use sodium fluorescein in double-distilled water, with **100 µL in every well**. Keep the stock, working solutions, blank and final rinse in the same solvent. Record stock identity, concentration, preparation ID and available temperature and pH measurements. Protect standards from unnecessary light.
 
-Use existing pipettes, tips, tubes, foil for light protection, the four finished wells and the installed emission filter. No new printed part, second dye, spectrometer or certified reference kit is required. Use one batch of **1× PBS at recorded pH approximately 7.4** for this cell-free test only. This is not a recommendation to maintain cells in PBS. All blanks and dye solutions must have matching buffer composition. Do not introduce culture-medium additives into only one concentration.
-
-Start with **C = 0.10 µM = 100 nM** and **0.5C = 0.05 µM = 50 nM**. Use the checked working volume, 100 µL per well. These are proposed starting concentrations. They are not a measured sensitivity limit or a guaranteed detectable range. A 100 µL well at 100 nM contains 10 pmol. This is approximately 3.76 ng of anhydrous sodium salt. Prepare a bulk dilution. Then dispense 100 µL. Do not weigh this tiny mass directly. Sodium fluorescein needs **no DMSO or ethanol** here. Use the same PBS for stock, dilutions and blank.
-
-### Procedure A — Start from a documented 1 mM stock
-
-Use a **1 mM sodium-fluorescein stock made in the same PBS**. If only powder is available, complete Procedure B first.
-
-| Prepare | Mix | Final amount and concentration |
+| Reported label | Sodium-fluorescein concentration | Four-well fill |
 |---|---|---|
-| Intermediate | 10 µL of 1 mM stock + 990 µL PBS | 1.00 mL at 10 µM |
-| C | 50 µL of intermediate + 4.950 mL PBS | 5.00 mL at 0.10 µM |
-| 0.5C | 2.50 mL of C + 2.50 mL PBS | 5.00 mL at 0.05 µM |
-| Blank | Same PBS without dye | Prepare at least 10 mL, plus rinse volume |
+| Water blank | 0 µM | Water in D1-D4 |
+| 10C | 1 µM = 0.001 mM | Same concentration in D1-D4 |
+| 25C | 2.5 µM = 0.0025 mM | Same concentration in D1-D4 |
+| 50C | 5 µM = 0.005 mM | Same concentration in D1-D4 |
+| 100C | 10 µM = 0.01 mM | Same concentration in D1-D4 |
+| 200C | 20 µM = 0.02 mM | Same concentration in D1-D4 |
 
-1. Prepare the intermediate with the quantities in the table.
-2. Mix the intermediate before you prepare C.
-3. Prepare C.
-4. Mix C before you prepare 0.5C.
-5. Prepare 0.5C.
-6. Mix 0.5C.
-7. Label each tube with its concentration, buffer and preparation date.
-8. Protect the tubes from unnecessary light.
+The 2.5 µM acquisitions are retained for QC; the current primary calibration uses water, 1, 5, 10 and 20 µM, as explained in Section 5.
 
-### Procedure B — Start from powder
+The original naming convention has C = 0.1 µM. Use the full concentration in figures, reports and new sample labels. The preparation route must follow the actual laboratory record; the table does not imply that one measured standard was diluted to make another.
 
-1. Confirm the sodium-salt identity on the bottle.
-2. Check the hydration state and assay certificate.
-3. If the applicable formula mass is 376.27 g/mol, weigh 37.627 mg.
-4. Dissolve the powder in less than 10 mL of the selected PBS.
-5. Add PBS to a **final volume of 10.00 mL**.
-6. Mix the solution.
-7. Label it as nominal 10 mM.
-8. Transfer 100 µL of this stock to a clean tube.
-9. Add 900 µL PBS.
-10. Mix the solution.
-11. Label it as 1 mM.
-12. Continue with Procedure A.
+For future preparation from a documented stock, use Cstock × Vstock = Cfinal × Vfinal. Make each target solution in a separate labelled tube. Select a stock or documented intermediate concentration that gives an accurately pipettable volume. Mix before dispensing; do not prepare a concentration directly inside an individual well.
 
-**Check:** The mass calculation assumes the stated anhydrous formula and full mass purity. Use a mass-fraction correction only if the certificate supports it. HPLC area percentage is not automatically a mass fraction. Otherwise retain the nominal label. If bottle identity differs, recalculate before weighing. Check the pipette ranges. Do not weigh nanogram quantities directly.
+**Recorded repeat structure:** each group has one freshly prepared sample/fill, read three consecutive times without reloading. Different named groups were freshly prepared. Thus the expanded series has six preparation groups and 18 technical readings; each concentration has one preparation. Keep its three technical readings together during fitting and validation. The earlier four-level study has a different preparation structure and remains a separate dataset.
 
-Prepare working dilutions fresh for the session and protect them from unnecessary light; follow the bottle instructions for stock storage. A certified NIST-traceable fluorescein product exists, but its calibration is supplied in a different buffer and does not confer traceability on these ordinary powder dilutions. It is not a required purchase here. [Certified-standard instructions and matrix matching](https://documents.thermofisher.com/TFS-Assets/LSG/manuals/mp36915.pdf)
+## 3. Acquire and preserve the raw signal
 
-## 3. Brief pilot, then freeze the formal experiment
+1. Fix the filter, carrier, lid, LED settings and 100 µL fill. Record D1-D4 orientation and the acquisition condition ID.
+2. Before solution exchange, stop acquisition, switch LEDs off and stop external gas flow. Keep liquids away from the PCB.
+3. For a new session, acquire a fresh illuminated water blank before standards. Recheck water after rinsing and near the end of the series. These bracketing blanks help detect carryover or changing background.
+4. Inspect bubbles and liquid level, dry the outside of the carrier and close the light shield. Use a consistent interval between loading and measurement.
+5. Read the same fill three times. Keep the LEDs off between acquisitions. Record any accidental change to the filter, lid or carrier.
+6. Download each raw ADC CSV before the next acquisition. Retain the complete JSON, record ID, settings and actual acquisition order.
+7. Clean and rinse before a fresh group. Keep preparation ID, fill ID and read number separate.
+8. After a filter change or changed alignment, establish a new condition ID, blank and calibration.
 
-### Preparation
+The expanded records use 4,000 samples/s, 8,000 samples per two-second acquisition, 25% LED duty and D1-D4 frequencies of 41, 67, 89 and 113 Hz. All 33 records, including the separately supplied 2.5 µM acquisition, reproduce the recorded I/Q within 6.53 × 10^-10 V; recorded ADC codes span 89-27674 without rail saturation.
 
-Complete the power, leak, ADC and timing checks. Confirm the physical D1–D4 mapping. Use the verified working volume in every well.
+The supplied expanded dataset contains one water group acquired after the single-well groups. Its mean complex I/Q supplies the within-session reference for offline analysis. The earlier saved blank remains archived but is not substituted for this reference. This retrospective correction does not supply the before-and-after blank checks recommended above.
 
-The current filter comparison is **no filter, one LEE 101 layer, two LEE 101 layers, and one specified OD4 filter**. Record the actual product for each configuration. OD4 alone does not specify a passband or mechanical fit. Check those properties in the optical report. This guide does not assign new transmission values.
+## 4. Measure uniform and single-well groups
 
-### Procedure
+In the uniform series, fill D1-D4 with the same concentration from Section 2. In the single-well series, use the following four fresh fills; all four LEDs remain active during each acquisition.
 
-1. Install the selected filter configuration.
-2. Close the enclosure.
-3. Set a fixed, hardware-checked low LED duty.
-4. Measure a PBS blank.
-5. Measure C at the same volume and duty.
-6. Inspect raw ADC clipping.
-7. Check timing QC.
-8. Compare the C response with the blank.
+| Fill | D1 | D2 | D3 | D4 |
+|---|---|---|---|---|
+| D1 only | 10 µM | Water | Water | Water |
+| D2 only | Water | 10 µM | Water | Water |
+| D3 only | Water | Water | 10 µM | Water |
+| D4 only | Water | Water | Water | 10 µM |
 
-**If the signal clips:** Reduce duty or concentration. Restart the pilot. Retain the failed records.
+Each single-well fill has three technical readings. These four inputs identify a four-column optical response matrix at 10 µM. D1-D4 label the physical source wells and their assigned LED channels consistently; a channel can also receive fluorescence excited in another well.
 
-**If C is not distinguishable:** Check mapping, filter installation, alignment and raw acquisition first. If those checks pass, try one higher pilot at **C = 0.50 µM**. Mix 250 µL of 10 µM intermediate with 4.750 mL PBS. Dilute this C 1:1 with PBS for 0.25 µM. The higher range must still pass the concentration-ratio check.
+The earlier mixed layouts A and B remain an external comparison. They use 0, 0.1, 1 and 10 µM with multiple fresh loadings. Do not combine their preparation counts with the expanded series, or assume that a changed optical configuration preserves the same response.
 
-**If the higher pilot fails:** Stop and investigate the instrument. Do not repeatedly increase concentration until the result appears satisfactory.
+## 5. Calibrate and verify an unknown measurement
 
-Before the formal sequence, fix concentration, duty, filter, wells, volume, room light and acquisition settings. For a new filter configuration, collect new blank and phase calibrations. Run a separate complete sequence. Do not combine filter configurations in one `quick_check.py` input.
+### Subtract the matching water reference
 
-## 4. One sequence: 45 formal blocks plus phase-reference setup
+Recompute the lock-in vector Z = I + iQ at each LED frequency. Subtract the current water-reference mean once in complex space: Zcorrected = Zsample - mean(Zwater). Retain raw and corrected I/Q. Determine each channel's fixed phase from its own isolated 10 µM source measurement after the same blank subtraction. Project the corrected signal along that phase to obtain a signed response in mV. The phase therefore does not use the uniform concentration labels.
 
-### Preparation
+Blank subtraction removes the measured background offset. It does not eliminate random noise or a background that changes after the reference was collected. Preserve negative values; taking an absolute magnitude would fold them upward. The 41/67/89/113 Hz spectrum demonstrates LED-frequency separation, not an optical wavelength measurement.
 
-Stop scheduling before opening/refilling. Fill without bubbles, dry the exterior and close the lid before measurement. Keep the same assembly/acquisition correction context; change the condition tag before collecting each state. All four LEDs operate at their configured frequencies during illuminated states.
+### Use one curve family for D1–D4
 
-Before the continuous series, establish a controlled small-volume exchange procedure that keeps liquid away from the PCB. For each exchange, stop scheduling, LEDs and gas; keep the device boot/session and optical assembly unchanged where the verified handling arrangement permits. Initial seeding, leak checks and major assembly are performed off the electronics; they are not reasons to power-cycle at every dye condition. If liquid cannot be exchanged safely in the verified setup, stop and change the handling arrangement first. If power must be removed, or a reboot or optical reassembly occurs, restart calibration and the full formal series. `quick_check.py` rejects mixed boots/settings; do not combine partial series across reboots.
+Fit the same exponential function family for all four channels, with separate coefficients to account for their sensitivities:
 
-### Procedure
+**y = a + b × [exp(k × c / 20) - 1] / [exp(k) - 1]**
 
-Set the condition tag before acquisition. Follow the table in order.
+Here y is the signed blank-corrected signal in mV and c is sodium-fluorescein concentration in µM. The coefficient file supplies a, b and k for D1–D4. These curves describe the tested configuration with the same concentration in all four wells and a 100 µL fill. Keep the filling pattern and optical assembly consistent when using this conversion.
 
-| Tag | Contents of the four wells | Acquisition |
-|---|---|---|
-| DARK | All PBS; LEDs off | Save raw ADC and dark QC; separate from the 45 blocks |
-| B_CAL | All PBS; LEDs on | Five valid blocks, then freeze illuminated-blank calibration; stop and download the latest raw ADC now |
-| PHASE_REF | C in all four | Five additional setup blocks using the UI phase-reference collector; enable measured subtraction and set smoothing τ = 0 |
-| B_CHECK | Return all wells to fresh PBS after a carryover-checked rinse | Five held-out blocks; never add these to calibration |
-| NE_C | C only in NE; PBS in the other three | Five blocks |
-| NW_C | C only in NW; PBS in the other three | Five blocks |
-| SW_C | C only in SW; PBS in the other three | Five blocks |
-| SE_C | C only in SE; PBS in the other three | Five blocks |
-| ALL_HALF | 0.5C in all four | Five blocks |
-| ALL_C | C in all four | Five formal blocks; supplies the offline analysis phase; stop and download the latest raw ADC now |
-| ALL_HALF_REPEAT | Fresh refill of 0.5C in all four | Five blocks |
+The primary calibration uses water, 1, 5, 10 and 20 µM. The original 2.5 µM acquisition is kept as QC data because D3 changed by 81.1% between consecutive readings. The additional 2.5 µM acquisition has good carrier repeatability, with CV 0.18–0.42%, but was measured earlier and has no matching water reference. Its D3/D4 signals fall below the later blank, so it is retained separately rather than substituted into the primary curve. Both raw acquisitions and sensitivity fits remain archived. This QC decision does not establish a detection limit at 2.5 µM.
 
-The nine formal illuminated conditions contribute **45 blocks**. PHASE_REF adds five UI setup blocks. DARK is separate. Complete PHASE_REF before samples that need the UI's signed corrected display. Do not reuse that tag for ALL_C. `quick_check.py` ignores PHASE_REF and uses formal ALL_C for its offline phase. Each block is a new valid 2-second acquisition. Leave at least the permitted 3-second idle interval. Five blocks are technical repeats, not five biological samples. Between conditions, rinse with fresh matched buffer using the laboratory's appropriate procedure. A clean appearance does not prove zero dye carryover. If fluorescence persists after rinsing, retain the result. Stop treating that well as blank. Do not hide retention with a new background fit. Dye retention in resin can cause results to depend on test order.
+### Compare predicted and actual concentration
 
-### Checks and data export
+Invert the exponential curve only when the measured value gives a unique concentration inside 0–20 µM:
 
-1. Keep the gas pump off for the first optical test.
-2. If gas is necessary, fix and record its measured flow.
-3. After B_CAL, stop acquisition.
-4. Download its last raw-ADC block before PHASE_REF.
-5. After ALL_C, stop acquisition.
-6. Download its last raw-ADC block before ALL_HALF_REPEAT.
-7. At the end, export the full session JSON.
-8. Preserve settings, invalid blocks and pilot data.
+**c = (20 / k) × ln[1 + ((y - a) / b) × (exp(k) - 1)]**
 
-**Check:** The device retains only the latest raw waveform. The final block from each specified five-block condition is sufficient. A later download cannot recover an earlier waveform. Session JSON retains observed block records, not every waveform. Use raw I/Q for offline analysis. Do not subtract background again from already corrected values. Follow the correction guide — `code/aerosense/hardware/03_software/guides/Measured_Correction_EN.md` (official GitLab publication pending).
+Check the logarithm argument and calibrated range before reporting a value. Report an out-of-range result instead of clipping it to zero or choosing a root to match the expected answer. For routine measurements, retain the signal, curve version, blank ID, sample condition and calculated concentration together.
 
-## 5. Three outputs and the correct model comparison
+To check prediction, remove the entire 1, 5 or 10 µM group in turn and refit using the other levels. All three technical readings remain together. Across the 12 channel-by-concentration checks, the common exponential family gives RMSE 1.28 µM, compared with 3.04 µM for the common linear family. The held-out 10 µM predictions are 11.59, 10.93, 11.24 and 10.99 µM for D1–D4. The 1 µM predictions span 1.00–3.27 µM, so relative error is larger at the low end. Curve-family selection and the 2.5 µM QC exclusion are exploratory development decisions; these checks do not replace a fresh validation batch.
 
-### Procedure
+### Test residual corrections before applying them
 
-1. Run `quick_check.py` as specified in the main validation plan.
-2. Enter the physically observed D1–D4 mapping.
-3. Inspect the unsmoothed concentration response and technical SD.
-4. Inspect the single-well 4×4 matrix.
-5. Inspect independent B_CHECK before and after fixed subtraction.
-6. Compare each result with the predeclared criterion.
+Define residual as predicted minus assigned concentration. Evaluate an optional constant correction or a linear residual function using nested concentration holdouts. Learn the residual correction from inner training predictions only; then apply it to the outer withheld concentration without using its true value.
 
-**Check:** Do not replace failed criteria after seeing data. The half/full target of 0.35–0.65 is a project screening target. It is not a published law.
+For a linear residual fit e = alpha + beta × cpredicted, use cadjusted = cpredicted - (alpha + beta × cpredicted). In the current data, a constant correction changes nested RMSE from 1.28 to 1.34 µM; a linear correction raises it to 19.57 µM and produces three out-of-range predictions. Use the unadjusted exponential curve for the present uniform-loading candidate. An extra offset is not supported by these checks.
 
-For comparison, use volume-standard comparison in the optical model — `code/aerosense/hardware/02_simulation/optics/README.md` (official GitLab publication pending), **not the model of cells on the floor**. Rows are physical LED quadrants and columns are the fluorescent well, both ordered NE, NW, SW, SE. The implemented matrix entry is **abs(mean(blank-corrected complex I/Q))**, then each row is divided by its row sum. This is a magnitude of a complex mean, not a signed projection, a mean of individual magnitudes or clipping negative projections to zero. Inspect signed projections and blank variability separately: at low SNR, the nonnegative magnitude matrix has positive bias and can overstate weak cross-well coupling. The existing model's dominant-well row fractions are approximately **80.6%, 86.8%, 86.7% and 82.5%** in that order. These are simulated proportions, not measured isolation. A simulated zero from finite sampling does not prove no optical coupling.
+### Use isolated wells to assess channel interference
 
-The volume model uses absorption 0.001 mm^-1, reference quantum yield 1, and 100 µL fill. It uses LED on-power 500 µW and ideal transparent material. The selected 100 µL fill matches its nominal volume. This does not verify the printed geometry or actual optical properties. The dye concentration has no established mapping to that absorption or quantum yield. Historical fractions are qualitative context until geometry, volume and optical properties match. Do not compare ADC units directly with simulated nW. Do not call that comparison absolute-power validation.
+Build a response matrix from the four isolated 10 µM fills after blank subtraction, retaining four I and four Q components. A held-out technical reading is excluded from both its source-column estimate and the corresponding blank estimate. The active well is identified in all 12 held-out readings; active-well estimates span 9.25–10.83 µM, with RMSE 0.51 µM. This demonstrates repeatable source identification at the tested concentration.
 
-If a calibrated absorbance instrument is available, measure the actual solution at excitation wavelengths. Measure the optical path length in mm. Calculate μa = ln(10) × absorbance / path length. This optional measurement supports later model matching. It is not required for the compact screen.
+The requested matrix-first approach was also tested before curve fitting. With a common exponential family, its concentration-holdout RMSE is 3.07 µM among 11 valid results, with one failed inverse, compared with 1.28 µM and 12 valid results for the uniform empirical curves. The matrix alone estimates D3 at -2.37 µM for a uniform 10 µM sample; source-only ridge tuning changes this to -2.29 µM. The single-concentration matrix therefore is not used as a universal interference subtraction for mixed unknowns. To extend the method, measure each isolated well at several concentrations and validate independently prepared mixed fills.
 
-Successful results support **assembled-device fluorescence detection, short-session repeatability, concentration dependence, physical channel mapping and stable-background correction**. They do not establish GCaMP sensitivity, receptor selectivity, cell compatibility, sterility, gas-to-liquid transfer or neural-network accuracy. Frequency separation cannot remove unknown fluorescence-channel background that carries the same LED frequency.
+### Read the statistics and preserve the calibration context
+
+The primary five-level series has a positive joint concentration trend across D1–D4: exact two-sided joint Spearman permutation p = 0.0167. One star denotes this joint association. Individual-channel tests after Holm correction give p = 0.0667; the figure does not claim four separately significant tests or pairwise differences between technical readings. Error bars describe three technical reads of one preparation per condition.
+
+After a filter or geometry change, collect a fresh water blank, a span standard and a separate unused intermediate check standard. Keep optical position and timing fixed; collect bracketing blanks and inspect all readings before averaging. Accept a routine conversion only after independent check samples meet a tolerance selected for the experiment.
+
+Use the same D1–D4 orientation and normalization when comparing simulation and measurements. The original cell-floor simulation and the homogeneous 100 µL liquid simulation describe different emitter distributions. Preserve their separate labels; simulation optical-power fractions are not measured ADC voltages. In signed heatmaps, positive values are red and negative values are blue.
 
 ## 6. Prepare complete Gibco DMEM and qualify the wells
 
@@ -304,7 +267,7 @@ At nominal area, 100 µL corresponds to about **8.93 mm liquid depth**. This is 
 
 ## 8. Measurement medium and environment
 
-For growth, use complete culture medium in the incubator. For measurement, use one fixed, qualified assay medium on both instruments. Do not keep cells in the PBS fluorescein solution. The device has no demonstrated temperature, CO₂, humidity or cell-pH control. Its fan is not an incubator. A UI setting is not a measurement.
+For growth, use complete culture medium in the incubator. For measurement, use one fixed, qualified assay medium on both instruments. Do not keep cells in the DDW fluorescein solution. The device has no demonstrated temperature, CO₂, humidity or cell-pH control. Its fan is not an incubator. A UI setting is not a measurement.
 
 ### Preferred branch — Use the qualified DMEM
 
@@ -340,7 +303,7 @@ Use the existing GCaMP6f-expressing cells. Allocate matched device and reference
 
 | Stage | What to collect | What it answers |
 |---|---|---|
-| Hardware/dye qualification | DARK, B_CAL, independent B_CHECK and 50/100 nM dye series above | Whether the reader works at the selected fill/filter/settings |
+| Hardware/dye qualification | The water and 1/2.5/5/10/20 µM series above, single-well fills, raw acquisition QC and unused check standards | Whether the selected fill/filter/settings support the intended measurement |
 | Final assay-matrix calibration | Cell-free **actual assay medium**, final wells/filter stack/duty; at least five independent illuminated blocks, then held-out check | Background from resin, medium and LED leakage in the final optical context |
 | Fluorescence phase reference | A separate matched reference validated for that optical context; a separate dye-filled calibration well may be used after carryover is controlled | Reference I/Q direction; not living-cell baseline |
 | Living-cell baseline | Reporter cells before stimulus; suggested 2–5 min stable raw and unsmoothed corrected recording | F0 for this batch and environment; retain the whole period |
@@ -367,7 +330,7 @@ Use the existing GCaMP6f-expressing cells. Allocate matched device and reference
 17. Export raw and corrected data.
 18. Inspect the cells after measurement.
 
-**Check:** Subtract the independent complex blank **once**. Never save living cells as the optical blank. PBS calibration does not replace the actual-medium blank. Weak or near-zero F0 cannot support a reliable ΔF/F0 ratio. If filter, wells, volume, duty, medium or calibration changes, establish a new context and F0. Do not add fluorescein to these cells. Use separate qualified wells or a demonstrated carryover-free process. Correction guide — `code/aerosense/hardware/03_software/guides/Measured_Correction_EN.md` (official GitLab publication pending)
+**Check:** Subtract the independent complex blank **once**. Never save living cells as the optical blank. DDW calibration does not replace the actual-medium blank. Weak or near-zero F0 cannot support a reliable ΔF/F0 ratio. If filter, wells, volume, duty, medium or calibration changes, establish a new context and F0. Do not add fluorescein to these cells. Use separate qualified wells or a demonstrated carryover-free process. [Correction guide](../03_software/guides/Measured_Correction_EN.md)
 
 If calibration and cell measurements use different inserts, first test repeated insert exchanges with cell-free solutions. Check seating, resin background and optical-path variability. Record that transfer uncertainty. Another insert's blank is not automatically exact for a cell insert. Do not hide an optical change with an unchanged context label. After a restart, obtain valid calibration and F0 again.
 
@@ -377,10 +340,9 @@ Current firmware records a **2-second I/Q block followed by at least 3 seconds i
 
 Use identical cell/stimulus conditions in all four device wells for the simplest first biological comparison; retain all four channel traces. They remain optically mixed channels. Shared gas is not four independent exposure replicates. Liquid dosing in a reference instrument and gas dosing here are not equal-dose tests. One cell batch is a feasibility pilot; later replication must use independent culture batches. Dye results do not validate protein-assisted gas uptake or receptor specificity.
 
-## 10. Small final evidence set
+## 10. Retain the measurement record
 
-Keep one device photo and the three cell-free figures. Keep the full session JSON and preparation/settings notes. State each predeclared criterion as pass, fail or not performed.
+Keep device photos, analysis figures, full session JSON, raw CSVs and preparation/settings notes. Mark each predeclared criterion as pass, fail or not performed.
 
-If the cell comparison is complete, retain both unsmoothed traces and the matched reference data. Show vehicle responses, stimulus markers and the fixed comparison window. State the actual number of independent cell batches. One batch is a feasibility pilot. Do not hide agreement or disagreement through normalization, channel selection or shifted time axes.
+For a completed cell comparison, retain unsmoothed device and reference traces, vehicle responses, stimulus markers and the fixed comparison window. State the number of independent cell batches; one batch is a feasibility pilot. Preserve the original comparison when normalizing, selecting channels and aligning time.
 
-Optional record sheets are available for the [cell experiment](templates/cell_experiment.csv) and [fluorescein preparation](templates/fluorescein_preparation.csv). They support the procedure; they are not prerequisites for reading this manual. Blank fields are not results. Source metadata and claim boundaries are in [Fluorescence_Test_References.json](Fluorescence_Test_References.json). DMEM evidence was checked on 2026-10-11. Earlier sources retain their retrieval dates.

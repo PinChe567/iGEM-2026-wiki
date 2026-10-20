@@ -1,52 +1,124 @@
-AeroSense publication preparation
-================================
+AeroSense source-build and publication preparation
+================================================
 
-The canonical website source is this aerosense-wiki directory. Run all commands
-below from this directory. No parent-workspace scripts, backups or upload copies
-are required. This workflow does not upload files or push repository changes.
+Status: prepared locally; no website staging, commit, push or deployment.
+Run commands from aerosense-wiki/. The GitHub copy and official GitLab checkout
+remain separate. None of these scripts copies the website into either checkout.
 
-1. Refresh the local publication inventory:
-   node scripts/audit-publish-assets-v7.cjs
+Official requirements
+---------------------
+The signed-in NTHU 2026 requirements say the wiki must be built from source by
+a working .gitlab-ci.yml on each main-branch push, with locked dependencies.
+Hand-authored HTML is source. Compiled HTML, CSS and JavaScript are build output,
+not a substitute for their editable inputs:
+https://teams.igem.org/6460/deliverables/wiki/requirements
 
-   Output goes to igem-upload/publication/. Inspect the missing-reference list,
-   the local dependency inventory, and the external official-media URLs.
-   Resolve genuine missing local dependencies before preparing a release.
+The example uses GitLab's current Pages job syntax. Confirm compatibility with
+the official instance using CI Lint before activating it:
+https://docs.gitlab.com/user/project/pages/getting_started/pages_from_scratch/
 
-2. Prepare the file list:
-   python scripts/prepare_publication_manifest_v7.py
+Read-only local checks
+----------------------
+  python scripts/ci-build.py --check
+  python scripts/build-publication.py --check
+  python scripts/build-locales.py --check
 
-   This validates the inventory and updates publication-files.json. Original
-   research sources are retained separately from publication dependencies:
-   an unlisted research file is not permission to delete it.
+The first checks source/build prerequisites, the root npm lockfile, bundle
+inputs, build-script syntax and in-memory directory routes. It does not install
+packages, run the game build, rebuild bundles or create public/. The second
+also validates all files in the current publication manifest without copying.
+These checks do not establish a successful clean CI build or official hosting.
 
-3. Create deployment output only when it is needed:
-   python scripts/build-publication.py
+Source that a future official checkout must retain
+-------------------------------------------------
+Keep all editable root HTML, CSS, JavaScript, templates, locales, design_system
+style layers, game TypeScript/workspace sources, game/package.json,
+game/package-lock.json, home-bundle-sources.json, the scripts directory and
+igem-upload/verified-official-urls.json. Keep linked runtime/source resources.
+The game docs/education-games directory and education-study-protocol.md are
+build inputs. Original scientific files stay in the separate research package.
 
-   This creates public/, copies the local manifest files, and creates a
-   directory-index route for each root page using the /nthu/ team base.
-   --routes-only prepares the HTML route files without copying assets.
+When staging is explicitly requested, retain the official repository's existing
+root LICENSE and Git settings. The local editing tree now includes an unchanged
+copy of that official LICENSE, verified by matching SHA-256. ci-build.py checks
+for the license and requires it for a full build. Do not replace the official
+LICENSE with a generated or assumed license.
 
-4. Keep both compiled browser files and their editable sources. In particular,
-   keep game/apps/wiki-client/dist/, the homepage bundles and all inputs listed
-   in home-bundle-sources.json. The game package manifests and lockfile restore
-   build dependencies when a new build is needed.
+Do not commit generated output as the official website source:
+  public/
+  game/apps/wiki-client/dist/
+  css/design-system.css
+  css/home.bundle.css
+  js/home.bundle.js
+  js/i18n-*-v19.js
+  publication-files.json
+  igem-upload/publication/all-assets-inventory.json
+  audit/*.json
+Keep generated files needed for local preview locally until their source build
+is confirmed; this instruction is not a request to delete research originals.
+Do not exclude all of igem-upload/: verified-official-urls.json is a build input.
+Existing source tracking must be reviewed at the later authorized staging step.
 
-5. The official media receipt and verified URL mapping are retained under
-   igem-upload/. Migrated images already use their official URLs. Pending
-   videos and other resources still referenced locally must stay until their
-   official replacements are usable and the references have been updated.
+CI build, only in the intended source checkout
+----------------------------------------------
+scripts/gitlab-ci.example.yml is an inactive example. At the later authorized
+publication step, adapt it to the official repository root as .gitlab-ci.yml,
+preserving any required official runner configuration. It invokes:
 
-6. Raw and complete research data remain in the separate, unpublished
-   zenodo-release folder. Selected code and reusable documents are published
-   on official GitLab with source hashes. Website links use verified GitLab
-   URLs; raw-data entries retain "Zenodo (publication pending)" without a URL.
-   Necessary same-content PDF display copies remain in the website because
-   GitLab disallows cross-origin embedding. Include data-pdf-preview-src in
-   dependency checks. The approved bilingual historical evidence uses only
-   anonymized derivatives; identified originals must not enter publication.
-   Do not copy the complete Zenodo package into the website. Add its final
-   public URL only after publication.
+  python scripts/ci-build.py --output public
 
-7. Deployment remains separate from preparation. Verify the official host's
-   team base, extensionless routes, media playback and linked downloads after
-   deployment. A successful local preview does not verify server routing.
+The entry point performs these steps in order:
+  1. npm ci from the committed game lockfile, then npm run build:wiki.
+  2. Rebuild translation catalogs from locale JSON and explicit shared overlays;
+     rebuild css/design-system.css from design_system/styles/.
+  3. Refresh local dependency hashes and rebuild the homepage bundles from
+     home-bundle-sources.json; retain the editable source pages.
+  4. Run the compliance and linked-asset audits; fail on their hard errors.
+  5. Regenerate publication-files.json from the current asset inventory.
+  6. Validate dependencies and create public/ plus /nthu/<page>/index.html
+     routes. Relative resources resolve against /nthu/. Root *.html links
+     remain compatible with the current navigation.
+
+The output directory must be empty. These scripts never delete or merge old
+deployment output. --routes-only omits assets and is not a deployable website.
+Only a full successful CI build should supply the Pages artifact.
+
+Media, documents and research data
+---------------------------------
+Website images, fonts, models and public document previews use verified official
+iGEM CDN URLs. Public PDFs now use the CDN; local document sources are retained
+for editing and provenance, not required as duplicate PDF preview copies.
+Check data-pdf-preview-src and document controls as well as ordinary href/src.
+
+Audiovisual content uses Video Universe. A new URL, successful upload or finished
+transcode does not prove approval or anonymous playback. Preserve the source and
+receipt until moderation and playback checks are complete; do not re-upload
+duplicates to work around moderation.
+
+Code and reusable documents are organized in the official GitLab working copy;
+each file's actual pushed state must be read from the current manifest/receipt.
+This source-build preparation makes no statement that all current local edits
+are already public.
+
+Raw data and complete reproducibility sources remain in the separate
+zenodo-release/ package. Its publication and complete payload verification are
+still pending. A recorded DOI or record URL does not establish that all payloads
+are publicly downloadable. Confirm the actual record files and anonymous access
+before describing the full data package as published. Never copy the complete
+research package into public/. Identified participant originals are excluded
+from the website; only approved anonymized derivatives may be used.
+
+Remaining release verification
+-------------------------------
+The local locked npm installation succeeded (174 packages), and the game build
+passed TypeScript checking, Vite compilation (168 modules) and the education
+document-copy step. All 30 browser translation catalogs were rebuilt from their
+editable JSON sources and passed dictionary comparison. Source preflight and
+in-memory route preparation pass without creating a public/ copy.
+
+The complete entry point has not run in an official GitLab CI job. Official CI
+Lint, runner/image availability, extensionless routing on
+https://2026.igem.wiki/nthu, anonymous downloads, video approval/playback and the
+final submitted forms still need verification at the later publication step.
+The local build ran under Node.js 24; the proposed CI image uses Node.js 22 and
+must be verified on the official runner. A local audit is not deployment.

@@ -58,8 +58,9 @@ document.querySelectorAll('[data-hw-v2-assembly]').forEach((host) => {
     const status = host.querySelector('[data-hw-v2-status]');
     status.textContent = 'Loading the eight current CAD parts…';
     try {
-      const module = await import('./hardware-v2-viewer.js?v=9a60cb37d088d393');
+      const module = await import('./hardware-v2-viewer.js?v=c9b0b2097fdb64ca');
       viewer = await module.createViewer(host);
+      await viewer.firstFrame;
       host.classList.add('is-ready');
       status.textContent = 'Drag to rotate · arrow keys rotate · + / − zoom · separate parts with the slider.';
     } catch (error) {
@@ -112,26 +113,24 @@ function localMediaLoader(container, target, kind) {
   </svg>`;
   const label=document.createElement('span');label.className='hw-local-loader__label';card.append(label);status.append(card);container.append(status);status.hidden=true;
   function translate(){const zh=document.documentElement.lang==='zh-Hant';label.textContent=kind==='model'?(zh?'正在載入 3D 模型…':'Loading 3D model…'):(zh?'正在載入播放器…':'Loading player…');}
-  function finish(){status.hidden=true;target.setAttribute('aria-busy','false');}
-  function start(){translate();status.hidden=false;target.setAttribute('aria-busy','true');}
+  let failed=false;
+  const retry=document.createElement('button');retry.type='button';retry.className='hw-local-loader__retry';retry.hidden=true;
+  retry.addEventListener('click',()=>location.reload());card.append(retry);
+  const initialTranslate=translate;
+  translate=()=>{initialTranslate();const zh=document.documentElement.lang==='zh-Hant';if(failed)label.textContent=zh?'3D 模型無法顯示，請重新載入或查看下方圖面。':'The 3D model could not display. Reload or use the drawings below.';retry.textContent=zh?'重新載入':'Reload';};
+  function finish(){failed=false;status.hidden=true;target.setAttribute('aria-busy','false');}
+  function start(){failed=false;status.classList.remove('is-error');retry.hidden=true;translate();status.hidden=false;target.setAttribute('aria-busy','true');}
+  function fail(){failed=true;status.classList.add('is-error');retry.hidden=false;translate();status.hidden=false;target.setAttribute('aria-busy','false');}
   document.addEventListener('aerosense:languagechange',translate);
-  return {start,finish};
+  return {start,finish,fail};
 }
 document.querySelectorAll('[data-hardware-product-story], [data-hw-v2-assembly]').forEach(host=>{
   const region=host.querySelector('.hw-product-scene')||host,canvas=host.querySelector('canvas');if(!canvas)return;
   const loader=localMediaLoader(region,canvas,'model');
-  const update=()=>{if(host.classList.contains('is-ready')||host.classList.contains('is-unavailable')||host.dataset.productLoading==='false')loader.finish();else if(host.dataset.productLoading==='true')loader.start();};
-  new MutationObserver(update).observe(host,{attributes:true,attributeFilter:['class','data-product-loading']});
-  host.addEventListener('productready',loader.finish);canvas.addEventListener('webglcontextlost',loader.finish);update();
-});
-document.querySelectorAll('.page-hardware iframe[data-igem-video], .page-hardware video').forEach(media=>{
-  const wrapper=document.createElement('div');wrapper.className='hw-media-frame';media.before(wrapper);wrapper.append(media);
-  const loader=localMediaLoader(wrapper,media,'player');let settled=false;
-  const finish=()=>{settled=true;loader.finish();};
-  media.addEventListener('load',finish);media.addEventListener('loadeddata',finish);media.addEventListener('canplay',finish);media.addEventListener('error',finish);
-  if(media.tagName==='VIDEO'){media.addEventListener('waiting',()=>{if(!media.paused)loader.start();});media.addEventListener('pause',loader.finish);if(media.readyState>=2)settled=true;}
-  if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>{if(entries.some(entry=>entry.isIntersecting)){observer.disconnect();if(!settled)loader.start();}},{rootMargin:'80px'});observer.observe(media);}
-  else if(!settled)loader.start();
+  const update=()=>{if(host.classList.contains('is-unavailable')||host.dataset.productError==='true')loader.fail();else if(host.dataset.productFrameReady==='true')loader.finish();else loader.start();};
+  new MutationObserver(update).observe(host,{attributes:true,attributeFilter:['class','data-product-loading','data-product-frame-ready','data-product-error']});
+  host.addEventListener('productfirstframe',update);host.addEventListener('producterror',loader.fail);
+  canvas.addEventListener('webglcontextlost',loader.fail);update();
 });
 
 // Keep the two manuals in one reading space, with their PDF readers intact.

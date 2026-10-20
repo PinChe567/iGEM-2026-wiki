@@ -53,9 +53,36 @@ export async function createViewer(host) {
   host.dataset.meshCount=String(meshes.length);
   host.dataset.triangleCount=String(meshes.reduce((total,mesh)=>total+mesh.geometry.index.count/3,0));
   let active=true,visible=true,frame=0,yaw=.62,pitch=.36,zoom=1,amount=0,drag,size={width:0,height:0};
+  let firstFrameResolve, firstFrameReject, presented=false, presentationFrame=0;
+  const firstFrame=new Promise((resolve,reject)=>{firstFrameResolve=resolve;firstFrameReject=reject;});
   const slider=host.querySelector('[data-hw-v2-explode]');
-  function draw(){frame=0;if(!active||!visible||document.hidden)return;const w=Math.max(1,canvas.clientWidth),h=Math.max(1,canvas.clientHeight);if(size.width!==w||size.height!==h){renderer.setSize(w,h,false);size={width:w,height:h};}camera.aspect=w/h;camera.updateProjectionMatrix();meshes.forEach(m=>m.position.y=m.userData.lift*amount);const centerY=33+amount*45;const distance=(camera.aspect<1?380:290)*zoom+amount*65;camera.position.set(Math.sin(yaw)*Math.cos(pitch)*distance,centerY+Math.sin(pitch)*distance,Math.cos(yaw)*Math.cos(pitch)*distance);camera.lookAt(0,centerY,2);renderer.render(scene,camera);}
+  function fail(error){
+    active=false;cancelAnimationFrame(frame);frame=0;
+    cancelAnimationFrame(presentationFrame);presentationFrame=0;presented=false;
+    host.dataset.productFrameReady='false';host.dataset.productError='true';host.dataset.productLoading='false';
+    host.classList.remove('is-ready');firstFrameReject(error);host.dispatchEvent(new CustomEvent('producterror'));
+  }
+  function draw(){
+    frame=0;if(!active||!visible||document.hidden)return;
+    if(renderer.getContext().isContextLost()){fail(new Error('The 3D graphics context was lost.'));return;}
+    const w=Math.max(1,canvas.clientWidth),h=Math.max(1,canvas.clientHeight);
+    if(size.width!==w||size.height!==h){renderer.setSize(w,h,false);size={width:w,height:h};}
+    camera.aspect=w/h;camera.updateProjectionMatrix();meshes.forEach(m=>m.position.y=m.userData.lift*amount);
+    const centerY=33+amount*45;const distance=(camera.aspect<1?380:290)*zoom+amount*65;
+    camera.position.set(Math.sin(yaw)*Math.cos(pitch)*distance,centerY+Math.sin(pitch)*distance,Math.cos(yaw)*Math.cos(pitch)*distance);camera.lookAt(0,centerY,2);
+    try{renderer.render(scene,camera);}catch(error){fail(error);return;}
+    if(!presented&&!presentationFrame&&canvas.clientWidth>0&&canvas.clientHeight>0){
+      presentationFrame=requestAnimationFrame(()=>{
+        presentationFrame=0;
+        if(renderer.getContext().isContextLost()){fail(new Error('The 3D graphics context was lost.'));return;}
+        if(!active||!visible||document.hidden||host.dataset.productError==='true'||!canvas.clientWidth||!canvas.clientHeight)return;
+        presented=true;host.dataset.productFrameReady='true';host.dispatchEvent(new CustomEvent('productfirstframe'));firstFrameResolve();
+      });
+    }
+  }
   function schedule(){if(active&&visible&&!document.hidden&&!frame)frame=requestAnimationFrame(draw);}
+  // Context loss is a visible error; the loader offers Reload instead of claiming a blank canvas is ready.
+  canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();fail(new Error('The 3D graphics context was lost.'));});
   function changeZoom(delta){zoom=THREE.MathUtils.clamp(zoom+delta,.5,2);schedule();}
   slider.addEventListener('input',()=>{amount=Number(slider.value)/100;host.querySelector('output').value=`${slider.value}%`;schedule();});
   host.querySelector('[data-hw-v2-reset]').addEventListener('click',()=>{yaw=.62;pitch=.36;zoom=1;amount=0;slider.value='0';host.querySelector('output').value='0%';schedule();});
@@ -68,5 +95,5 @@ export async function createViewer(host) {
   new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if(visible)schedule();else{cancelAnimationFrame(frame);frame=0;}},{rootMargin:'60px'}).observe(canvas);
   document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(frame);frame=0;}else schedule();});
   schedule();
-  return {pause(){active=false;cancelAnimationFrame(frame);frame=0;},resume(){active=true;schedule();}};
+  return {firstFrame,pause(){active=false;cancelAnimationFrame(frame);frame=0;},resume(){active=true;schedule();}};
 }

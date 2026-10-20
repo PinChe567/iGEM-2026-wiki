@@ -1,0 +1,34 @@
+{
+  "figure15": {
+    "source": "https://static.igem.wiki/teams/6460/wiki/review-resources/optical-calibration/calibration-model-selection.svg",
+    "alt_en": "Whole-concentration holdout comparison of linear, quadratic, exponential, power and PCHIP calibration; non-monotone fits are excluded.",
+    "alt_zh": "比較線性、二次、指數、冪次及 PCHIP 校正的整個濃度留出誤差，排除非單調擬合。",
+    "before_en": "Each readout channel has a different response, so a fitted curve converts its blank-corrected, signed signal into concentration. We compared linear, quadratic, exponential, power and PCHIP functions by withholding an entire concentration, including all its readings. Curves must increase throughout their calibration range and give a unique in-range inverse for every held standard. The selected functions are linear for the 0–10 µM calibration set and exponential for the 0–20 µM set; all four channels use the same family within each set.",
+    "before_zh": "各通道的響應不同，因此先扣除當次水空白、取得有號訊號，再以校正曲線換算濃度。我們比較線性、二次、指數、冪次與 PCHIP，每次留出一整個濃度及其全部讀值。曲線必須在校正範圍內持續增加，且每個留出標準都能得到唯一、範圍內的反算值。0–10 µM 校正組選用線性，0–20 µM 組選用指數；同一組的四個通道採相同曲線族。",
+    "caption_en": "Calibration-family comparison using 20 channel/concentration means. The selected functions give a holdout RMSE of 1.043 µM with 20/20 in-range inverses. Hatched candidates contain non-monotone fits. This is exploratory selection on the same folds, not prospective validation of a locked model.",
+    "caption_zh": "以 20 個通道／濃度平均值比較校正曲線。選定函數的留出 RMSE 為 1.043 µM，20/20 個反算值都在校正範圍內。斜線柱表示出現非單調擬合。這是使用同一組留出結果進行的探索性選型，並非固定模型後的前瞻驗證。"
+  },
+  "figure17": {
+    "source": "https://static.igem.wiki/teams/6460/wiki/review-resources/optical-calibration/concentration-recovery.svg",
+    "alt_en": "One combined channel-colored scatter plot of 32 calibrated concentration means and their residuals, with descriptive R squared 0.886.",
+    "alt_zh": "整合 32 個校正濃度平均值與殘差，以通道區分顏色；描述性 R² 為 0.886。",
+    "before_en": "The calibrated results are shown together in µM, using the same symbol and color for each channel. Unequal-well loadings were excluded from their calibration; uniform-concentration checks exclude every reading at the tested concentration. The residuals show the remaining error rather than forcing the results onto the prepared values.",
+    "before_zh": "校正後的結果統一以 µM 呈現，同一通道使用相同顏色與符號。不同濃度的混合裝載未參與其校正；等濃度檢查則排除被測濃度的全部讀值。殘差保留實際剩餘誤差，沒有把結果強制調整到配製值。",
+    "caption_en": "Integrated concentration checks. A compares predicted with prepared concentration; the dashed line marks equality. B shows prediction minus prepared concentration. There are 32 channel/loading means from 22 acquisitions, not 32 independent preparations. Descriptive R² = 1 − SSE/SST = 0.886 and RMSE = 1.415 µM summarize the displayed checks across different loading configurations. Two negative diagnostic estimates are retained; 30/32 means are within their calibration ranges.",
+    "caption_zh": "整合後的濃度檢查。A 比較回推值與配製值，虛線代表相等；B 為回推值減去配製值。圖中是 22 次擷取形成的 32 個通道／裝載平均值，不是 32 個獨立配製樣品。描述性 R² = 1 − SSE/SST = 0.886、RMSE = 1.415 µM，彙整了不同裝載配置下的檢查。兩個負值保留作為診斷結果；30/32 個平均值位於其校正範圍內。",
+    "after_en": "Agreement is incomplete, particularly near the low end and for unequal-well loading. These data support channel-specific calibration, but do not yet establish a single accuracy specification for arbitrary mixtures. The complete provenance, failed alternatives and 2.5 µM sensitivity checks remain in the supplementary analysis.",
+    "after_zh": "低濃度與不同濃度混合裝載仍有偏差。這些資料支持依通道進行校正，但尚不足以建立適用於任意混合樣品的單一準確度規格。各筆來源、不適用的校正方案及 2.5 µM 敏感度檢查均保留於補充分析。"
+  },
+  "methods": {
+    "heading_en": "Calibration, shared standards and reproducible calculations",
+    "heading_zh": "校正、共同標準與可重現計算",
+    "overlap_en": "DDW, 10C and 100C correspond to 0, 1 and 10 µM. All three shared levels were audited. After blank subtraction, the 1-to-10 µM response ratio differs between calibration sets: for D4 it is 0.86% versus 16.18%, so one gain factor cannot align both. A flexible curve can be made to pass through three points, but those same points cannot independently validate it. The main result uses fresh within-set blank correction and the selected inverse curve to obtain common concentration units; no common three-point signal warp is applied.",
+    "overlap_zh": "DDW、10C、100C 分別是 0、1、10 µM，本次已檢查全部三個共同標準。扣除空白後，兩組校正的 1／10 µM 響應比例不同：D4 分別為 0.86% 與 16.18%，因此只改一個倍率無法同時對齊。可讓彈性曲線穿過三個點，但這三點不能再當作獨立驗證。主結果使用各組當次空白與選定的反函數，統一換算為濃度，未套用一條共同的三點訊號扭曲函數。",
+    "shared_shape_en": "A joint exponential shape with a separate offset/gain for each calibration set gives an interpolation RMSE of 1.036 µM, but only 19/20 inverses remain in range. The retained functions give 1.043 µM and 20/20 in-range estimates. That small RMSE difference is not a demonstrated statistical advantage. Entire concentrations are removed from both sets and transfer/phase fitting in the joint checks; endpoint extrapolation is reported separately.",
+    "shared_shape_zh": "兩組共用指數形狀、各自估計偏移與倍率時，內插留出 RMSE 為 1.036 µM，但只有 19/20 個反算值在範圍內。保留的方法為 1.043 µM、20/20 在範圍內；這個小幅 RMSE 差異不代表已證實的統計優勢。共同模型檢查會同時從兩組資料與對齊／相位估計中移除整個被測濃度，端點外推另行報告。",
+    "processing_en": "Use z = 1000(I + iQ) mV, subtract the current calibration set's DDW mean, then take y = Re[(z − blank) conjugate(phase)]. Set A uses its highest retained training standard as the phase reference; set B uses separate isolated-source controls. The linear form is y = a + b(c/10). The exponential form is y = a + b expm1(kc/20)/expm1(k). All channel coefficients, raw hashes, folds and inverse-validity flags are downloadable.",
+    "processing_zh": "以 z = 1000(I + iQ) mV 保留複數訊號，扣除該校正組的 DDW 平均值，再取 y = Re[(z − blank) conjugate(phase)]。A 組使用保留於訓練資料的最高標準作相位參考，B 組使用獨立的單井控制。線性形式為 y = a + b(c/10)；指數形式為 y = a + b expm1(kc/20)/expm1(k)。各通道係數、原始檔雜湊、留出分組及反算有效性標記均可下載。",
+    "limits_en": "The original 2.5 µM loading is unstable in D3; the additional loading predates a matching blank. Both remain in the archive and sensitivity analyses. Calibration anchors are not presented as new holdout predictions. Selection and QC are exploratory, channels in one loading are dependent, and signed phase projection does not establish arbitrary-mixture interference removal.",
+    "limits_zh": "原始 2.5 µM 裝載的 D3 讀值不穩定，追加裝載則早於可匹配的空白量測；兩者均保留於完整資料與敏感度分析。校正端點不當作新的留出結果。選型與品質判定屬探索性，同次裝載中的通道並非獨立樣品，有號相位投影也不等於已完成任意混合樣品的干擾扣除。"
+  }
+}

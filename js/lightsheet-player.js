@@ -94,6 +94,7 @@
     if (!canvas || !button || !seek || !time || !status) return;
     var context = canvas.getContext("2d");
     if (!context) return;
+    var readiness = window.AeroSenseMediaLoader ? window.AeroSenseMediaLoader.create(root, canvas, "video", function () { button.click(); }) : null;
     var index = null, bytes = null, frame = 0, playing = false, timer = null;
     var drawing = false, requestedFrame = null, loading = null, visible = true, playRequest = 0;
     var statusMessage = "Select Play to load the recording.";
@@ -140,7 +141,7 @@
     async function load() {
       if (index && bytes) return;
       if (loading) return loading;
-      setStatus("Loading light-sheet frames…"); button.disabled = true;
+      setStatus("Loading light-sheet frames…"); button.disabled = true; if (readiness) readiness.start();
       loading = Promise.all([
         fetch(root.dataset.index).then(function (response) { if (!response.ok) throw new Error("Frame index unavailable"); return response.json(); }),
         fetchFrameBytes(root.dataset.frames, root.dataset.framesManifest)
@@ -151,7 +152,7 @@
         setStatus(index.acquisitionTimesSeconds ? "Acquisition clock · playback at 6 frames/s" : "Team recording · 6 frames per second");
         updateControls();
       }).catch(function (error) {
-        index = null; bytes = null;
+        index = null; bytes = null; if (readiness) readiness.fail();
         setStatus("The web player could not load. Try again or open the recording on iGEM Video Universe."); throw error;
       }).finally(function () { button.disabled = false; loading = null; });
       return loading;
@@ -167,8 +168,9 @@
           var bitmap = await createImageBitmap(new Blob([view], { type: "image/jpeg" }));
           context.drawImage(bitmap, 0, 0, canvas.width, canvas.height); bitmap.close();
           root.classList.add("is-ready"); root.dataset.frame = String(current);
+          await new Promise(function (resolve) { requestAnimationFrame(resolve); }); if (readiness) readiness.finish();
         }
-      } catch (error) { stop(); setStatus("The recording stopped because a frame could not be decoded."); }
+      } catch (error) { stop(); if (readiness) readiness.fail(); setStatus("The recording stopped because a frame could not be decoded."); }
       finally { drawing = false; }
     }
     button.addEventListener("click", async function () {

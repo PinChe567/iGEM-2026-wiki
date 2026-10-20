@@ -36,8 +36,9 @@
   function motionState(){host.classList.toggle('is-motion-active',stageVisible&&!document.hidden&&!reduced.matches);}
   function layout(){
     const rect=route.getBoundingClientRect(),toc=document.querySelector('.page-toc'),tr=toc?.getBoundingClientRect();
-    const wide=innerWidth>=1100&&toc&&getComputedStyle(toc).display!=='none'&&tr.width>100;
-    const left=wide?Math.max(0,rect.left-tr.right-10):Math.max(0,rect.left),right=Math.max(0,innerWidth-rect.right);
+    const viewportWidth=document.documentElement.clientWidth;
+    const wide=viewportWidth>=1100&&toc&&getComputedStyle(toc).display!=='none'&&tr.width>100;
+    const left=wide?Math.max(0,rect.left-tr.right-10):Math.max(0,rect.left),right=Math.max(0,viewportWidth-rect.right);
     const header=document.querySelector('.site-header')?.getBoundingClientRect().height||72;
     const jump=document.querySelector('.audit-mobile-jump');const extra=jump&&getComputedStyle(jump).display!=='none'?jump.getBoundingClientRect().height:0;
     setStyle(host,'--product-left-outset',left+'px');setStyle(host,'--product-right-outset',right+'px');
@@ -124,7 +125,7 @@
   function schedule(){if(!frame&&visible)frame=requestAnimationFrame(measure);}
   async function load(){
     if(viewer||loading)return;loading=true;host.dataset.productLoading='true';
-    try{const module=await import('./hardware-product-story.js?v=0bac1a56e4546f76');viewer=await module.createProductStory(host);
+    try{const module=await import('./hardware-product-story.js?v=2ebb5892f362c7f8');viewer=await module.createProductStory(host);
       viewer.setStoryProgress(reduced.matches?1:phase(distance,beats.assembledEnd,beats.openingEnd),0);
       viewer.ready.then(result=>{if(result.loaded!==8)host.classList.add('is-unavailable');anchors=viewer.getAnchors();schedule();});
     }catch(error){host.classList.add('is-unavailable');host.dataset.productLoading='false';schedule();}finally{loading=false;}

@@ -1,2 +1,2 @@
-/* Generated local Traditional Chinese catalog. Edit locales/zh-Hant/attributions.json. */
+/* Generated local Traditional Chinese catalog. Edit locales/zh-Hant/attributions.json and locale overlays; run scripts/build-locales.py. */
 (window.AeroSenseTranslations ||= []).push({"View the official attribution form":"查看官方工作歸屬表","Official iGEM Project Attributions Form":"iGEM 官方專題工作歸屬表單","Official iGEM 2026 attributions: NTHU (Team 6460)":"iGEM 2026 官方工作歸屬：清華大學（團隊 6460）","Attributions · AeroSense · NTHU iGEM 2026":"工作歸屬 · AeroSense · 清華大學 iGEM 2026"});

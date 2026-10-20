@@ -415,7 +415,7 @@
       carousel.className = "edu-media-carousel";
       carousel.setAttribute("role", "region");
       var isSeries = track.getAttribute("data-edu-carousel") === "series";
-      var seriesLabels = { parts: "Parts Design series", model: "Model series", hardware: "Hardware series" };
+      var seriesLabels = { parts: "Parts Design series", model: "Model series", hardware: "Hardware series", sustainability: "Sustainability Pop Quiz series" };
       carousel.setAttribute("aria-label", isSeries ? seriesLabels[track.getAttribute("data-notion-gallery")] || "Image gallery" : "Image gallery");
       track.parentNode.insertBefore(carousel, track);
       var viewport = document.createElement("div");
@@ -621,6 +621,20 @@
     });
   }
 
+  function initArtGalleryNavigation() {
+    if (!document.body.classList.contains("page-education-gallery")) return;
+    function openTarget(hash) {
+      var target = document.getElementById(String(hash || "").replace(/^#/, ""));
+      if (target && target.matches("details.edu-camp-wall__group")) target.open = true;
+    }
+    openTarget(window.location.hash);
+    document.addEventListener("click", function (event) {
+      var link = event.target.closest && event.target.closest('a[href^="#"]');
+      if (link) openTarget(link.getAttribute("href"));
+    }, true);
+    window.addEventListener("hashchange", function () { openTarget(window.location.hash); });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     initPhilosophyLoop();
     hydrateEvidenceMarks(document);
@@ -631,5 +645,6 @@
     initBrainMapNavigation();
     initMeaningCards();
     initMediaCarousels();
+    initArtGalleryNavigation();
   });
 })(window);

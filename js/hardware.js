@@ -555,6 +555,15 @@
         .replace(/"/g, "&quot;");
     }
 
+    function displayBomValue(value) {
+      var labels = {
+        "FD_040(SMT用光學點)": "FD_040 (SMT optical fiducial)",
+        "CON(銅柱孔)": "CON (standoff hole)",
+        "CON4(4pin排針)": "CON4 (4-pin header)"
+      };
+      return labels[value] || value;
+    }
+
     function rows() {
       return data.v2 || [];
     }
@@ -591,13 +600,13 @@
               escapeHtml(row.qty) +
               "</td>" +
               "<td>" +
-              escapeHtml(row.value) +
+              escapeHtml(displayBomValue(row.value)) +
               "</td>" +
               "<td>" +
               escapeHtml(row.mpn) +
               "</td>" +
               "<td>" +
-              escapeHtml(row.function) +
+              escapeHtml(displayBomValue(row.function)) +
               "</td>" +
               "<td>" +
               escapeHtml(catLabel[row.category] || row.category) +

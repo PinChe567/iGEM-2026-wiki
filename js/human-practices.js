@@ -229,16 +229,28 @@
     var articles = qsa(':scope > .hp-story-chapter', section);
     if (!articles.length) return;
     var labels = [
-      ['Ya-Yun Chang', 'Taoyuan DARES'],
+      ['Researcher Chang', 'Taoyuan DARES'],
       ['Professor Cheng', 'Enosim Bio-Tech'],
       ['Assistant Professor Huang', 'National Tsing Hua University'],
       ['Founder Lin', 'Challenge Bio'],
       ['Engineering team', 'iST Group'],
-      ['Industry mentors', 'FITI'],
-      ['NTHU Garage', 'Business development'],
+      ['Industry & application experts', 'Four review rounds'],
+      ['NTHU Garage & FITI', 'Mentorship and review'],
       ['Patent Attorney Hsu', 'Intellectual property'],
       ['Public survey', 'Community perspectives'],
       ['Shan-chi Elementary School', 'Education partnership']
+    ];
+    var topics = [
+      ['problem', 'Problem', '<circle cx="16" cy="16" r="10"/><path d="M13 12a3 3 0 0 1 6 0c0 3-3 2-3 5M16 21h.01"/>'],
+      ['requirements', 'Sensing requirements', '<path d="M14 9h12M14 16h12M14 23h12M5 9l2 2 3-4M5 16l2 2 3-4M5 23l2 2 3-4"/>'],
+      ['platform', 'Sensing platform', '<path d="M11 4c14 5-4 19 10 24M21 4c-14 5 4 19-10 24M12 7h8M13 13h6M13 19h6M12 25h8"/>'],
+      ['receptors', 'Receptor selection', '<path d="M4 22h24M9 22v-8l-4-4M9 14l4-4M23 22v-8l-4-4M23 14l4-4"/><circle cx="16" cy="6" r="2"/>'],
+      ['signal', 'Signal extraction', '<path d="M3 17h5l3-9 5 17 5-14 3 6h5"/>'],
+      ['application', 'Application focus', '<circle cx="16" cy="16" r="11"/><circle cx="16" cy="16" r="6"/><path d="M16 16 27 5M22 5h5v5"/>'],
+      ['business', 'Business planning', '<path d="M5 27V5M5 27h22M10 22v-6M17 22V11M24 22V6"/>'],
+      ['ip', 'Intellectual property', '<path d="m16 3 11 4v9c0 8-11 13-11 13S5 24 5 16V7Z"/><path d="m10 15 4 4 8-9"/>'],
+      ['impact', 'Impact', '<path d="M7 26C4 9 16 4 27 5c0 11-4 24-20 21ZM7 26 21 12M13 20h8M13 20v-8"/>'],
+      ['education', 'Education handover', '<path d="M16 8c-4-3-9-3-13-2v20c4-1 9-1 13 2 4-3 9-3 13-2V6c-4-1-9-1-13 2ZM16 8v20M7 11h5M20 11h5"/>']
     ];
     section.dataset.journeyReady = 'true';
     var layout = doc.createElement('div');
@@ -253,43 +265,127 @@
     chooserText.textContent = 'Choose an interview';
     var selectInput = doc.createElement('select');
     chooser.append(chooserText, selectInput);
+    var miniRoute = doc.createElement('div');
+    miniRoute.className = 'hp-journey__mini-route';
+    miniRoute.setAttribute('aria-hidden', 'true');
+    chooser.append(miniRoute);
     nav.append(list);
+    var ns = 'http://www.w3.org/2000/svg';
+    function routeElement(tag, className) {
+      var element = doc.createElementNS(ns, tag);
+      if (className) element.setAttribute('class', className);
+      return element;
+    }
+    var route = routeElement('svg', 'hp-journey__route');
+    route.setAttribute('aria-hidden', 'true');
+    route.setAttribute('focusable', 'false');
+    var roadEdge = routeElement('path', 'hp-journey__road-edge');
+    var road = routeElement('path', 'hp-journey__road');
+    var travelled = routeElement('path', 'hp-journey__travelled');
+    var lane = routeElement('path', 'hp-journey__lane');
+    var connectors = routeElement('g', 'hp-journey__connectors');
+    var landmarks = routeElement('g', 'hp-journey__landmarks');
+    var routeNodes = routeElement('g', 'hp-journey__nodes');
+    route.append(connectors, roadEdge, road, travelled, lane, landmarks, routeNodes);
+    nav.append(route);
     var reader = doc.createElement('div');
     reader.className = 'hp-journey__reader';
     reader.setAttribute('role', 'region');
     reader.tabIndex = 0;
+    // The same small field-guide fly used on the homepage, drawn in native SVG.
+    var fly = routeElement('svg', 'hp-journey__fly');
+    fly.setAttribute('viewBox', '20 25 120 100');
+    fly.setAttribute('aria-hidden', 'true');
+    fly.setAttribute('focusable', 'false');
+    fly.innerHTML = '<g class="hp-journey__fly-wings"><path d="M83 57C63 33 20 38 32 67 37 81 61 83 82 76M85 57C100 20 139 27 128 55 122 69 105 74 85 77" fill="#cbd9ae" fill-opacity=".5" stroke="#73845b" stroke-width="1.4"/></g><path d="M82 73 54 59M85 68 115 43M75 88 54 98 43 116M92 88 116 96 125 112M75 78 51 78 39 86M95 75 121 73 133 78" fill="none" stroke="#73845b" stroke-width="1.5"/><ellipse cx="84" cy="88" rx="10" ry="26" transform="rotate(-8 84 88)" fill="#d7b367" stroke="#6f744c" stroke-width="1.4"/><path d="M75 84 94 82M75 94 94 91M78 103 92 100" fill="none" stroke="#8e7950" stroke-width="2"/><ellipse cx="83" cy="61" rx="11" ry="12" fill="#bbc690" stroke="#6f744c" stroke-width="1.4"/><circle cx="76" cy="60" r="4" fill="#b96950"/><circle cx="90" cy="58" r="4" fill="#b96950"/><path d="M79 50 75 38M86 49 90 38" fill="none" stroke="#6f744c" stroke-width="1.4" stroke-linecap="round"/>';
     layout.append(nav, chooser, reader);
     section.append(layout);
     var current = 0;
+    var points = [];
+    var routeFrame = 0;
+    var nodes = [];
+    var branches = [];
+    var miniStops = [];
     var buttons = articles.map(function (article, index) {
       var heading = qs('h3', article);
       if (!heading.id) heading.id = article.id + '-heading';
       var number = heading.textContent.match(/^#([\d.]+)/);
+      var title = doc.createElement('span');
+      title.className = 'hp-journey__heading-text';
+      while (heading.firstChild) title.append(heading.firstChild);
+      heading.append(title, fly.cloneNode(true));
       var name = labels[index] ? labels[index][0] : heading.textContent;
       var role = labels[index] ? labels[index][1] : '';
       var item = doc.createElement('li');
       var button = doc.createElement('button');
       button.type = 'button';
       button.setAttribute('aria-controls', article.id);
+      button.dataset.topic = topics[index][0];
+      article.dataset.topic = topics[index][0];
+      var badge = doc.createElement('span');
+      badge.className = 'hp-journey__badge';
+      badge.setAttribute('aria-hidden', 'true');
+      var icon = routeElement('svg', 'hp-journey__topic-icon');
+      icon.setAttribute('viewBox', '0 0 32 32');
+      icon.setAttribute('focusable', 'false');
+      icon.innerHTML = topics[index][2];
       var step = doc.createElement('span');
       step.className = 'hp-journey__number';
       step.textContent = number ? number[1].padStart(2, '0') : String(index + 1).padStart(2, '0');
       step.setAttribute('aria-hidden', 'true');
+      var miniStop = doc.createElement('span');
+      miniStop.textContent = step.textContent;
+      miniRoute.append(miniStop);
+      miniStops.push(miniStop);
+      var node = routeElement('circle');
+      node.setAttribute('r', '6');
+      routeNodes.append(node);
+      nodes.push(node);
+      var branch = routeElement('path');
+      connectors.append(branch);
+      branches.push(branch);
       var text = doc.createElement('span');
+      text.className = 'hp-journey__card-copy';
+      var topic = doc.createElement('span');
+      topic.className = 'hp-journey__topic';
+      topic.textContent = topics[index][1];
       var person = doc.createElement('strong');
       person.textContent = name;
       var organization = doc.createElement('small');
       organization.textContent = role;
-      text.append(person, organization);
-      button.append(step, text);
+      text.append(topic, person, organization);
+      if (index === 5) {
+        var rounds = doc.createElement('span');
+        rounds.className = 'hp-journey__rounds';
+        ['1 · FITI industry mentors', '2 · Founder Lin · Challenge Bio', '3 · Engineer Lin · SCIEX', '4 · Min-Hsiung Weng'].forEach(function (name) {
+          var round = doc.createElement('span');
+          round.textContent = name;
+          rounds.append(round);
+        });
+        text.append(rounds);
+      }
+      if (index === 6) {
+        var stages = doc.createElement('span');
+        stages.className = 'hp-journey__rounds';
+        ['Garage mentors', 'FITI reviewers', 'Five July mentors', 'Bootcamp review panels'].forEach(function (name) {
+          var stage = doc.createElement('span');
+          stage.textContent = name;
+          stages.append(stage);
+        });
+        text.append(stages);
+      }
+      badge.append(icon, step);
+      button.append(badge, text);
       item.append(button);
       list.append(item);
       var option = doc.createElement('option');
       option.value = String(index);
-      option.textContent = (number ? number[1] + ' · ' : '') + name;
+      option.textContent = topics[index][1] + ' · ' + name;
       selectInput.append(option);
       reader.append(article);
       button.addEventListener('click', function (event) { activate(index, { focus: event.detail === 0 }); });
+      button.addEventListener('pointerenter', function () { node.classList.add('is-hovered'); });
+      button.addEventListener('pointerleave', function () { node.classList.remove('is-hovered'); });
       button.addEventListener('keydown', function (event) {
         var target;
         if (event.key === 'ArrowDown') target = (index + 1) % articles.length;
@@ -303,15 +399,75 @@
       });
       return button;
     });
+    function routePath(stops) {
+      if (!stops.length) return '';
+      var first = stops[0];
+      var path = 'M' + first.x + ' ' + Math.max(8, first.y - 44);
+      var previous = { x: first.x, y: Math.max(8, first.y - 44) };
+      stops.forEach(function (point) {
+        var middle = (previous.y + point.y) / 2;
+        path += ' C' + previous.x + ' ' + middle + ' ' + point.x + ' ' + middle + ' ' + point.x + ' ' + point.y;
+        previous = point;
+      });
+      return path;
+    }
+    function updateRoute() {
+      travelled.setAttribute('d', routePath(points.slice(0, current + 1)));
+      nodes.forEach(function (node, index) {
+        node.classList.toggle('is-current', index === current);
+        node.classList.toggle('is-before', index < current);
+        branches[index].classList.toggle('is-current', index === current);
+        miniStops[index].classList.toggle('is-current', index === current);
+        miniStops[index].classList.toggle('is-before', index < current);
+      });
+    }
+    function drawRoute() {
+      routeFrame = 0;
+      if (!nav.getClientRects().length) return;
+      var bounds = nav.getBoundingClientRect();
+      var width = route.getBoundingClientRect().width;
+      if (!width || !bounds.height) return;
+      route.setAttribute('viewBox', '0 0 ' + width + ' ' + bounds.height);
+      points = buttons.map(function (button, index) {
+        var box = button.getBoundingClientRect();
+        return { x: width / 2 + (index % 2 ? 9 : -9), y: box.top - bounds.top + box.height / 2 };
+      });
+      var last = points[points.length - 1];
+      var full = routePath(points) + ' L' + last.x + ' ' + Math.min(bounds.height - 8, last.y + 44);
+      [roadEdge, road, lane].forEach(function (path) { path.setAttribute('d', full); });
+      points.forEach(function (point, index) {
+        nodes[index].setAttribute('cx', point.x);
+        nodes[index].setAttribute('cy', point.y);
+        branches[index].setAttribute('d', 'M0 ' + point.y + ' H' + (point.x - 18));
+      });
+      landmarks.replaceChildren();
+      [1, 4, 7].forEach(function (index) {
+        if (!points[index + 1]) return;
+        var sprig = routeElement('g');
+        var x = index % 2 ? width - 14 : 13;
+        var y = (points[index].y + points[index + 1].y) / 2;
+        sprig.setAttribute('transform', 'translate(' + x + ' ' + y + ') rotate(' + (index % 2 ? 16 : -20) + ')');
+        sprig.innerHTML = '<path d="M0 16Q-3 0 1-15"/><path d="M0 6C-13 6-13-3-3-3Q1 0 0 6ZM0-3C12-2 13-12 4-11Q0-8 0-3Z"/>';
+        landmarks.append(sprig);
+      });
+      updateRoute();
+    }
+    function scheduleRoute() {
+      if (!routeFrame) routeFrame = requestAnimationFrame(drawRoute);
+    }
     function activate(index, options) {
       options = options || {};
       current = index;
       articles.forEach(function (article, i) { article.hidden = i !== index; });
-      buttons.forEach(function (button, i) { button.setAttribute('aria-pressed', String(i === index)); });
+      buttons.forEach(function (button, i) {
+        button.setAttribute('aria-pressed', String(i === index));
+        button.setAttribute('aria-current', i === index ? 'step' : 'false');
+      });
       selectInput.value = String(index);
       var heading = qs('h3', articles[index]);
       reader.setAttribute('aria-labelledby', heading.id);
       reader.scrollTop = 0;
+      updateRoute();
       if (options.focus) { heading.tabIndex = -1; heading.focus({ preventScroll: true }); }
     }
     function revealTarget(target) {
@@ -331,6 +487,7 @@
     function headerSpace() {
       var header = qs('.site-header');
       section.style.setProperty('--hp-journey-top', Math.ceil((header ? header.getBoundingClientRect().height : 80) + 16) + 'px');
+      scheduleRoute();
     }
     selectInput.addEventListener('change', function () { activate(Number(selectInput.value)); });
     doc.addEventListener('aerosense:before-anchor', function (event) { revealTarget(event.detail && event.detail.target); });
@@ -338,6 +495,12 @@
     window.addEventListener('resize', headerSpace, { passive: true });
     doc.addEventListener('aerosense:languagechange', headerSpace);
     if ('ResizeObserver' in window && qs('.site-header')) new ResizeObserver(headerSpace).observe(qs('.site-header'));
+    if ('ResizeObserver' in window) {
+      var routeObserver = new ResizeObserver(scheduleRoute);
+      routeObserver.observe(nav);
+      buttons.forEach(function (button) { routeObserver.observe(button); });
+    }
+    if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(scheduleRoute);
     activate(0);
     headerSpace();
     fromHash();
@@ -380,7 +543,7 @@
 
   function initStakeholderMap() {
     var map = qs('[data-hp-stakeholder-map]');
-    if (!map) return;
+    if (!map || map.hasAttribute('data-hp-banana-map')) return;
     var people = qsa('.hp-stakeholder-person[data-person]', map);
     var panels = qsa('[data-stakeholder-panel]', map);
     var prompt = qs('[data-stakeholder-prompt]', map);
@@ -403,12 +566,14 @@
     people.forEach(function (button, index) {
       button.addEventListener('click', function () { select(button, true); });
       button.addEventListener('keydown', function (event) {
+        var available = people.filter(function (person) { return !person.closest('[hidden]'); });
+        var activeIndex = available.indexOf(button);
         var next;
-        if (event.key === 'ArrowRight' || event.key === 'ArrowDown') next = (index + 1) % people.length;
-        if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') next = (index + people.length - 1) % people.length;
+        if (event.key === 'ArrowRight' || event.key === 'ArrowDown') next = (activeIndex + 1) % available.length;
+        if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') next = (activeIndex + available.length - 1) % available.length;
         if (event.key === 'Home') next = 0;
-        if (event.key === 'End') next = people.length - 1;
-        if (next !== undefined) { event.preventDefault(); people[next].focus(); select(people[next], false); }
+        if (event.key === 'End') next = available.length - 1;
+        if (next !== undefined) { event.preventDefault(); available[next].focus(); select(available[next], false); }
         if (event.key === 'Escape') { event.preventDefault(); select(null, false); }
       });
     });

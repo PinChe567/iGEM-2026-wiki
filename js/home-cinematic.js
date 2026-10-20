@@ -67,6 +67,7 @@
   var stage = $('[data-asc-stage]');
   var canvas = $('[data-asc-canvas]');
   var ctx = canvas.getContext('2d', { alpha: false });
+  var mediaReadiness = window.AeroSenseMediaLoader ? window.AeroSenseMediaLoader.create(stage, canvas, 'video', function () { location.reload(); }) : null;
   // Keep paired pictures on separate visible layers. CSS moves the circular
   // reveal without redrawing or resampling either video on pointer movement.
   var sensorCanvas = document.createElement('canvas');
@@ -161,12 +162,14 @@
     setMode('off', 'pointer');
     setRunning(false);
     root.classList.add('is-reading');
+    if (mediaReadiness) mediaReadiness.hide();
     document.body.classList.remove('asc-in-film', 'asc-lens-active');
     var story = $('[data-asc-static]');
     story.scrollIntoView({ behavior: 'instant', block: 'start' });
     story.focus({ preventScroll: true });
   }
   function mediaUnavailable() {
+    if (mediaReadiness) mediaReadiness.fail();
     root.classList.add('is-media-error');
     productPause.state = 'passed';
     // A delayed media failure must never collapse thousands of pixels above
@@ -422,6 +425,7 @@
     });
   }
   function loadVideos() {
+    if (mediaReadiness) mediaReadiness.start();
     mediaLayout = st.layout;
     mediaGeneration++;
     failedLayers = {};
@@ -704,6 +708,7 @@
       sensorCanvas.hidden = !st.sensorSynced;
       lastCompositeKey = compositeKey;
       if (!root.classList.contains('is-drawn')) root.classList.add('is-drawn');
+      requestAnimationFrame(function () { if (mediaReadiness && st.frameShown >= 0 && !root.classList.contains('is-media-error')) mediaReadiness.finish(); });
     } catch (e) {
       // Canvas compositing failed: show the existing static story.
       st.fallback = true;

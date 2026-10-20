@@ -1,0 +1,42 @@
+{
+  "figure16": {
+    "source": "resources/hardware-en/crosstalk-calibration/crosstalk-method-check.svg",
+    "alt_en": "Measured cross-talk correction: technical holdout solver errors and disagreement between summed isolated-source controls and all-well measurements.",
+    "alt_zh": "實測串擾校正：技術留出求解器誤差，以及單井控制加總與全井實測的不一致。",
+    "before_en": "We now explicitly remove the measured cross-well contribution before interpreting concentration. Four isolated 10 µM controls define an 8 × 4 matrix from the I and Q responses; the other three wells contain 100 µL DDW in each control. After subtracting the current water blank, a signed ridge solution estimates the four source contributions. Its strength is chosen using only single-source and blank technical holdouts, without fitting the tested mixed or uniform loadings.",
+    "before_zh": "這裡先實際扣除量到的井間串擾，再檢查濃度。以四個單井 10 µM 控制的 I、Q 響應建立 8 × 4 矩陣；各控制中，另外三井皆裝有 100 µL DDW。扣除當次水空白後，以保留正負值的 ridge 解混估計四井貢獻。正則化強度只由單井與空白的技術留出選定，未用被檢查的混合或等濃度裝載調參。",
+    "caption_en": "Actual matrix correction checks. A: 15 acquisition-level technical holdouts, including blank controls, give component RMSEs of 0.331 µM (unregularized), 0.328 µM (signed ridge, relative penalty 0.0001) and 0.212 µM (nonnegative LS). Ridge is selected among signed solvers to retain negative values as model diagnostics; nonnegative LS is a separately evaluated constrained optimization. B: adding the four isolated 10 µM signals overpredicts the all-well 10 µM measurement. The fixed matrix distinguishes isolated controls but has not transferred reliably to simultaneous loading.",
+    "caption_zh": "實際矩陣校正的檢查。A：包含空白的 15 次擷取技術留出，其分量 RMSE 分別為未正則化 0.331 µM、保留正負值的 ridge 0.328 µM（相對懲罰 0.0001）、非負最小平方法 0.212 µM。Ridge 是在保留正負值的求解器中選出，以保留負值作模型診斷；非負最小平方法則另行評估其限制式最佳化結果。B：四個單井 10 µM 訊號相加，會高估全井 10 µM 實測。固定矩陣能區分單井控制，但尚未可靠轉移至同時裝載。",
+    "after_en": "Simply adding a scalar curve after this fixed-matrix inversion does not repair its transfer. The inferred D3 source component decreases across part of the uniform series. None of the tested post-matrix linear, quadratic, exponential, power or PCHIP families provides increasing, valid in-range inverses for all four components. Signed matrix estimates are therefore retained as diagnostics. This does not rule out other nonlinear forward models, which these data have not validated.",
+    "after_zh": "在這個固定矩陣解混後追加純量曲線，仍未修復其轉移。推算出的 D3 來源分量在部分等濃度序列中下降；本次測試的矩陣後線性、二次、指數、冪次與 PCHIP，沒有一種能讓四分量同時維持增加且得到有效、範圍內的反算值，因此保留有號矩陣估計作診斷。這不排除其他非線性前向模型，但目前資料尚未驗證那些模型。"
+  },
+  "figure17": {
+    "source": "resources/hardware-en/crosstalk-calibration/crosstalk-concentration-check.svg",
+    "alt_en": "After actual cross-talk correction, integrated matrix-equivalent estimates and well residual violins with eight points and a mean per well.",
+    "alt_zh": "實際串擾扣除後的整合矩陣等效估計，以及各井含八個數據點與平均值的殘差小提琴圖。",
+    "before_en": "These values have undergone the measured matrix correction. They are 10 µM-reference-equivalent estimates, not validated final concentrations. The figure combines 32 well/loading means using one symbol and color per well. Each violin retains all eight residuals and marks their numerical mean.",
+    "before_zh": "這些數值已經過實測矩陣的串擾扣除。它們是相對 10 µM 控制的等效估計，尚不是已驗證的最終濃度。圖中整合 32 個井／裝載平均值，同一井使用相同顏色與符號；各小提琴圖保留八個殘差點，並標出平均值。",
+    "caption_en": "After matrix unmixing. A: matrix-derived estimates versus prepared concentration, with descriptive R² = −0.276 and RMSE = 4.738 µM. B: residual = estimate − prepared concentration; the violin shows a smoothed distribution of eight means per well, with every point and its well mean retained. Ten negative estimates remain visible. The 32 means come from 22 acquisitions, not independent preparations. For the calibration set lacking isolated-source controls, a complex affine transfer uses DDW, 10C and 100C before the measured matrix is applied; unchanged matrix shape across sets remains an unverified assumption.",
+    "caption_zh": "串擾扣除後的結果。A：矩陣估計值對配製濃度，描述性 R² = −0.276、RMSE = 4.738 µM。B：殘差＝估計值−配製濃度；小提琴為各井八個平均值的平滑分布，全部數據點與各井平均均保留。十個負值仍顯示於圖中。32 個平均值來自 22 次擷取，並非獨立配製樣品。對缺少單井控制的校正組，先以 DDW、10C、100C 進行複數仿射轉移，再套用實測矩陣；跨組矩陣形狀不變仍是未驗證假設。",
+    "after_en": "The mean residuals are +0.03, −0.84, −4.41 and −0.02 µM for D1–D4. A mean near zero does not remove the wide spread. The poor combined R² and D3 negative estimates show that this cross-talk model has not yet achieved reliable concentration recovery. The previous curve-only result (R² 0.886) did not perform this matrix subtraction and is retained only as a supplementary benchmark.",
+    "after_zh": "D1–D4 的平均殘差依序為 +0.03、−0.84、−4.41、−0.02 µM；平均接近零不代表分散程度小。整合 R² 較差且 D3 出現負估計，顯示這個串擾模型尚未達成可靠濃度回推。先前僅做逐通道曲線換算的 R² 0.886，沒有進行此矩陣扣除，現在僅保留為補充比較。"
+  },
+  "methods": {
+    "heading_en": "Measured matrix correction and its limits",
+    "heading_zh": "實測矩陣扣除與適用限制",
+    "formula_en": "For z = 1000(I + iQ) mV, subtract the same-set DDW mean. Each source column is the corresponding isolated 10 µM net response divided by 10; stack its four I rows and four Q rows into M. Solve ĉ = (MᵀM + λσmax²I)⁻¹Mᵀy with λ = 0.0001, selected from 15 single-source/blank technical leave-one-acquisition-out folds. Matrix condition number: 10.613. No uniform target concentration or mixed-loading truth is used to tune λ.",
+    "formula_zh": "將 z = 1000(I + iQ) mV 扣除同組 DDW 平均。各來源欄為該單井 10 µM 淨響應除以 10，再將四列 I 與四列 Q 疊為 M。解 ĉ = (MᵀM + λσmax²I)⁻¹Mᵀy，λ = 0.0001，由 15 次單井／空白的逐次擷取技術留出選定。矩陣條件數為 10.613；λ 未使用等濃度目標或混合裝載真值調整。",
+    "condition_en": "The user confirmed that each isolated-source control has 100 µL 10 µM fluorescein in its source well and 100 µL DDW in each other well. All-well uniform controls contain 100 µL fluorescein solution per well. The discrepancy therefore cannot be attributed to empty versus filled neighboring wells. Other causes have not been identified by these records.",
+    "condition_zh": "使用者確認：每個單井控制的來源井裝 100 µL、10 µM 螢光素，其餘三井各裝 100 µL DDW；全井等濃度控制則各井裝 100 µL 螢光素溶液。因此，不能用鄰井空置與否來解釋差異；這些紀錄尚未辨識其他原因。",
+    "additivity_en": "The measured all-well 10 µM responses are only 68.4%, 69.4%, 48.3% and 65.6% of the summed isolated-source predictions. A fixed additive source matrix must satisfy that sum at its own calibration concentration regardless of the later scalar curve family. Nonnegative constraints reduce technical-control error but set failed components to the boundary; they do not demonstrate correct concentration recovery.",
+    "additivity_zh": "全井 10 µM 實測僅為單井訊號加總預測的 68.4%、69.4%、48.3%、65.6%。固定可加來源矩陣在自己的校正濃度下就應滿足此加總關係，不會因後續更換純量曲線族而消失。非負限制可降低技術控制誤差，但會把失配分量推到邊界，不能證明已正確回推濃度。",
+    "provenance_en": "Set A has no independent four-source matrix. Its two unequal concentration patterns and uniform standards span only three source-design directions, so an unrestricted 4-source matrix is not identifiable there. A per-channel complex affine map is fitted to the three shared standard means (0, 1, 10 µM), then the set-B matrix is applied without tuning against mixed-loading truth. Set-B uniform 1/5/10 µM loadings are absent from matrix training; isolated 10 µM controls remain, so these are loading holdouts rather than exclusion of every 10 µM record. Technical repeats, channels and violin density are not independent biological replicates.",
+    "provenance_zh": "A 組沒有獨立的四來源矩陣；其兩種不同濃度裝載與等濃度標準只涵蓋三個來源設計方向，無法辨識不受限制的四來源矩陣。因此，以三個共同標準平均（0、1、10 µM）擬合各通道複數仿射映射，再套用 B 組矩陣，未用混合裝載真值調參。B 組全井 1／5／10 µM 裝載不參與矩陣訓練，但單井 10 µM 控制仍保留，因此是裝載留出，不是排除全部 10 µM 紀錄。技術重複、同次裝載各通道及小提琴密度均不是獨立生物重複。"
+  },
+  "mean_residuals_uM": {
+    "D1": 0.029344820675484773,
+    "D2": -0.8404912498455238,
+    "D3": -4.408938701389181,
+    "D4": -0.015668261264948913
+  }
+}
