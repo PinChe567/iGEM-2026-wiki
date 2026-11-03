@@ -58,7 +58,7 @@ document.querySelectorAll('[data-hw-v2-assembly]').forEach((host) => {
     const status = host.querySelector('[data-hw-v2-status]');
     status.textContent = 'Loading the eight current CAD parts…';
     try {
-      const module = await import('./hardware-v2-viewer.js?v=c9b0b2097fdb64ca');
+      const module = await import('./hardware-v2-viewer.js?v=eb7ec076781b3217');
       viewer = await module.createViewer(host);
       await viewer.firstFrame;
       host.classList.add('is-ready');

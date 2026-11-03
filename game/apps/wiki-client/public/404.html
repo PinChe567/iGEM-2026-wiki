@@ -28,7 +28,10 @@
   </head>
   <body>
     <main>
-      <p lang="zh-Hant">找不到此頁面。可能是相對路徑錯誤或 Wiki 靜態託管未包含該檔。</p>
+      <div role="group" aria-label="Language / 語言" style="display:flex;gap:8px;margin-bottom:24px">
+        <button type="button" data-locale="zh-Hant" lang="zh-Hant" style="min-height:44px;padding:8px 16px">繁中</button>
+        <button type="button" data-locale="en" lang="en" style="min-height:44px;padding:8px 16px">English</button>
+      </div>
       <p>This page was not found. Check relative paths or that the static host includes this file.</p>
       <p><a href="./index.html">Back to suite hub</a></p>
       <p>
@@ -36,5 +39,31 @@
         available. Do not hotlink remote images.
       </p>
     </main>
-  </body>
+  <footer data-publication-license="" style="position:static;box-sizing:border-box;margin:24px auto 0;padding:16px 20px;max-width:1200px;width:100%;border-top:1px solid #dedad2;color:#443d4d;background:#f7f5f0;font:14px/1.6 system-ui,sans-serif;text-align:center;overflow-wrap:anywhere">Content is available under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener noreferrer" target="_blank" style="color:#5032bb;text-decoration:underline">CC BY 4.0</a>. View the <a href="https://gitlab.igem.org/2026/nthu" rel="noopener noreferrer" target="_blank" style="color:#5032bb;text-decoration:underline">wiki source on iGEM GitLab</a>.</footer>
+    <script>
+      (() => {
+        const items = [...document.querySelectorAll('main p, main a, footer')];
+        const original = items.map(node => node.innerHTML);
+        const chinese = [
+          '找不到此頁面，請確認相對路徑與網站是否包含此檔案。',
+          '<a href="./index.html">返回遊戲首頁</a>',
+          '返回遊戲首頁',
+          '圖片載入失敗時，遊戲會在可用處以 CSS 替代顯示並繼續運作。',
+          '內容採 <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> 授權。檢視 <a href="https://gitlab.igem.org/2026/nthu">iGEM GitLab 上的 Wiki 原始碼</a>。'
+        ];
+        function setLanguage(value) {
+          const lang = value === 'zh-Hant' ? value : 'en';
+          document.documentElement.lang = lang;
+          document.title = lang === 'en' ? 'Page not found · Odor Pixel Suite' : '找不到頁面 · Odor Pixel Suite';
+          items.forEach((node, i) => { node.innerHTML = lang === 'en' ? original[i] : chinese[i]; });
+          document.querySelectorAll('[data-locale]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.locale === lang)));
+          try { localStorage.setItem('aerosense-language', lang); localStorage.setItem('suite.locale', lang); } catch (_) {}
+        }
+        document.querySelectorAll('[data-locale]').forEach(button => button.addEventListener('click', () => setLanguage(button.dataset.locale)));
+        let saved = 'en';
+        try { saved = localStorage.getItem('aerosense-language') || 'en'; } catch (_) {}
+        setLanguage(saved);
+      })();
+    </script>
+</body>
 </html>

@@ -14,7 +14,7 @@ test('hub shows game cards without wiki page nav', async ({ page }) => {
 
 test('education page lists in-progress activities without invented results', async ({ page }) => {
   await page.goto('./education/index.html');
-  await page.locator('.lang-switch [data-locale="en"]').click();
+    await expect(page.locator('[data-locale]')).toHaveCount(0);
   await expect(page.getByTestId('for-educators')).toBeVisible();
   await expect(page.getByTestId('education-activity')).toHaveCount(4);
   await expect(page.getByTestId('education-empty')).toHaveCount(0);

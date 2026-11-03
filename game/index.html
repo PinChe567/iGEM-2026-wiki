@@ -1,35 +1,35 @@
 <!doctype html>
-<html lang="zh-Hant">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="嗅覺像素實驗室：觀察二維 LED 氣味編碼，找出它代表的氣味。"
+      content="Odor Pixel Lab: observe a two-dimensional LED odor code and identify the odor it represents."
     />
-    <title>嗅覺像素實驗室</title>
+    <title>Odor Pixel Lab</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="noise" aria-hidden="true"></div>
 
     <header class="topbar">
-      <a class="brand" href="#" aria-label="回到遊戲首頁">
+      <a class="brand" href="#" aria-label="Back to the game home">
         <span class="brand-mark" aria-hidden="true">
           <i></i><i></i><i></i><i></i>
         </span>
         <span>
-          <strong>嗅覺像素</strong>
+          <strong>Odor Pixel</strong>
           <small>ODOR PIXEL LAB</small>
         </span>
       </a>
 
       <div class="top-actions">
-        <button class="icon-button" id="soundButton" type="button" aria-label="切換音效" title="切換音效">
+        <button class="icon-button" id="soundButton" type="button" aria-label="Toggle sound" title="Toggle sound">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9v6h4l5 4V5L9 9H5Zm12.5 3a4.5 4.5 0 0 0-2.25-3.9v7.8A4.5 4.5 0 0 0 17.5 12Z"/></svg>
         </button>
         <button class="ghost-button" id="guideButton" type="button">
-          <span>?</span> 遊戲說明
+          <span>?</span> How to play
         </button>
       </div>
     </header>
@@ -37,66 +37,66 @@
     <main>
       <section class="intro">
         <div class="eyebrow"><span></span> NEURAL SCENT TRAINING</div>
-        <h1>看見氣味的<br /><em>幾何形狀</em></h1>
-        <p>每種氣味都藏在一組 LED 編碼裡。觀察亮點、辨認相似性，訓練你的嗅覺模式直覺。</p>
-        <div class="intro-chips" aria-label="遊戲特色">
-          <span><b>5</b> 種矩陣尺寸</span>
-              <span><b>6</b> 種隨機挑戰</span>
-          <span><b>60%</b> 過關門檻</span>
+        <h1>See the<br /><em>shape of odors</em></h1>
+        <p>Each odor has an LED code. Observe the lights and compare similarities to practice recognizing odor patterns.</p>
+        <div class="intro-chips" aria-label="Game features">
+          <span><b>5</b> matrix sizes</span>
+              <span><b>6</b> random challenges</span>
+          <span><b>60%</b> pass threshold</span>
         </div>
       </section>
 
-      <section class="lab" aria-label="氣味編碼遊戲">
+      <section class="lab" aria-label="Odor pattern game">
         <div class="level-header">
           <div>
             <span class="section-label">MAIN LEVEL</span>
-            <h2>選擇矩陣尺寸</h2>
+            <h2>Choose a matrix size</h2>
           </div>
           <button class="text-button" id="atlasButton" type="button">
-            開啟氣味圖鑑 <span>↗</span>
+            Open the odor atlas <span>↗</span>
           </button>
         </div>
 
-        <div class="level-tabs" id="levelTabs" role="tablist" aria-label="矩陣尺寸"></div>
+        <div class="level-tabs" id="levelTabs" role="tablist" aria-label="Matrix size"></div>
 
         <div class="game-card">
           <aside class="control-panel">
             <div class="control-heading">
               <div class="level-number" id="levelNumber">01</div>
               <div>
-                <span>目前關卡</span>
-                <strong id="levelName">感知初醒</strong>
+                <span>Current level</span>
+                <strong id="levelName">First impressions</strong>
               </div>
             </div>
 
             <div class="control-group">
               <div class="control-label">
-                <span>干擾活化率</span>
+                <span>Noise activation rate</span>
                 <strong id="activationValue">1%</strong>
               </div>
-              <div class="activation-picker" id="activationPicker" aria-label="干擾活化率"></div>
-              <p>隨機加入亮點干擾；比例越高，辨認越有挑戰。</p>
+              <div class="activation-picker" id="activationPicker" aria-label="Noise activation rate"></div>
+              <p>Random extra lights add noise; higher levels make recognition more challenging.</p>
             </div>
 
             <div class="control-group stats-block">
               <div>
-                <span>氣味數量</span>
+                <span>Odors</span>
                 <strong id="odorCount">6</strong>
               </div>
               <div>
-                <span>題目數量</span>
+                <span>Questions</span>
                 <strong>10</strong>
               </div>
               <div>
-                <span>及格標準</span>
+                <span>Pass mark</span>
                 <strong>6 / 10</strong>
               </div>
             </div>
 
             <div class="encoding-key">
-              <span><i class="key-light"></i> 基礎編碼</span>
-              <span><i class="key-noise"></i> 干擾活化</span>
-              <span><i class="key-off"></i> 未活化</span>
+              <span><i class="key-light"></i> Base pattern</span>
+              <span><i class="key-noise"></i> Noise activation</span>
+              <span><i class="key-off"></i> Inactive</span>
             </div>
           </aside>
 
@@ -107,17 +107,17 @@
 
     <footer>
       <span>ODOR PIXEL LAB · 2026</span>
-      <p>氣味不是孤立的點，而是一張彼此相連的地圖。</p>
+      <p>Odors form a connected map rather than isolated points.</p>
     </footer>
 
     <dialog id="atlasDialog" class="modal atlas-modal">
       <div class="modal-header">
         <div>
           <span class="section-label">ODOR ATLAS</span>
-          <h2>氣味編碼圖鑑</h2>
-          <p>點選任一氣味，觀察它在目前矩陣中的基礎編碼。</p>
+          <h2>Odor pattern atlas</h2>
+          <p>Select an odor to inspect its base pattern in the current matrix.</p>
         </div>
-        <button class="close-button" data-close="atlasDialog" type="button" aria-label="關閉">×</button>
+        <button class="close-button" data-close="atlasDialog" type="button" aria-label="Close">×</button>
       </div>
       <div class="atlas-grid" id="atlasGrid"></div>
     </dialog>
@@ -126,21 +126,21 @@
       <div class="modal-header">
         <div>
           <span class="section-label">HOW TO PLAY</span>
-          <h2>遊戲說明</h2>
+          <h2>How to play</h2>
         </div>
-        <button class="close-button" data-close="guideDialog" type="button" aria-label="關閉">×</button>
+        <button class="close-button" data-close="guideDialog" type="button" aria-label="Close">×</button>
       </div>
       <ol class="guide-list">
-        <li><b>預習六種</b><span>系統隨機抽選 6 種氣味，逐一展示圖片與基礎編碼。</span></li>
-        <li><b>觀察題目</b><span>挑戰時只顯示編碼；紫色亮點是隨機干擾。</span></li>
-        <li><b>選出氣味</b><span>從四張圖片中選出正確答案，共 10 題。</span></li>
-        <li><b>取得 60%</b><span>答對至少 6 題即可過關，全對獲得最高 1,000 分。</span></li>
+        <li><b>Study six odors</b><span>The game selects 6 odors and shows each image with its base pattern.</span></li>
+        <li><b>Observe the pattern</b><span>The challenge shows the pattern; purple lights are random noise.</span></li>
+        <li><b>Choose the odor</b><span>Choose the correct image from four options across 10 questions.</span></li>
+        <li><b>Reach 60%</b><span>Answer at least 6 questions correctly to pass. A perfect run earns 1,000 points.</span></li>
       </ol>
       <div class="similarity-note">
         <div class="note-matrix" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        <p><b>為什麼相似氣味有相似編碼？</b><br />每個格子都對「果香、花香、清新、烘焙、鹹鮮」等特徵有不同敏感度，氣味特徵越接近，共享的亮點就越多。</p>
+        <p><b>Why do similar odors have similar patterns?</b><br />Each cell has different sensitivity to illustrative fruity, floral, fresh, roasted and savory features. Similar feature vectors share more active cells.</p>
       </div>
-      <button class="primary-button full-button" data-close="guideDialog" type="button">知道了，開始探索</button>
+      <button class="primary-button full-button" data-close="guideDialog" type="button">Start exploring</button>
     </dialog>
 
     <script src="app.js"></script>

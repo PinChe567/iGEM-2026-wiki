@@ -71,7 +71,7 @@ async function setGuess(
 }
 
 test.describe('Scent Spectrum wiki', () => {
-  test('tutorial, pool A/B, history, solve, fail, locale, mobile, keyboard', async ({
+  test('tutorial, pool A/B, history, solve, fail, English interface, mobile, keyboard', async ({
     page,
   }) => {
     const session = buildPracticeSpectrumSession({
@@ -113,12 +113,12 @@ test.describe('Scent Spectrum wiki', () => {
 
     await resetSpectrum(page);
 
-    await page.locator('.lang-switch [data-locale="en"]').click();
+    await expect(page.locator('[data-locale]')).toHaveCount(0);
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
     await expect(page.getByTestId('start')).toContainText(/Start Game/i);
 
-    await page.locator('.lang-switch [data-locale="zh-Hant"]').click();
-    await expect(page.locator('html')).toHaveAttribute('lang', 'zh-Hant');
+    await expect(page.locator('[data-locale]')).toHaveCount(0);
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
 
     await startEasyPractice(page);
     await completeOrSkipTutorial(page);
@@ -250,7 +250,7 @@ test.describe('Scent Spectrum wiki', () => {
     await expect(page.getByTestId('level-junior')).toHaveAttribute('aria-checked', 'true');
     await expect(page.locator('#sp-title')).toContainText(/氣味指紋混合器|Scent Mixer/);
 
-    await page.locator('.lang-switch [data-locale="en"]').click();
+    await expect(page.locator('[data-locale]')).toHaveCount(0);
     await page.locator('#guideButton').click();
     await expect(page.getByTestId('how-cards')).toBeVisible();
     await expect(page.getByTestId('how-cards')).toContainText('Choose scents');

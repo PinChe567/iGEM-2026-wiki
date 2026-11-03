@@ -35,7 +35,7 @@
   let language = 'en', observer, scheduled = false, active = false;
   const normalize = value => String(value).replace(/\s+/g, ' ').trim();
   const preservedSpace = (source, value) => (source.match(/^\s*/)?.[0] || '') + value + (source.match(/\s*$/)?.[0] || '');
-  const validLanguage = value => value === 'zh-Hant' ? value : 'en';
+  const validLanguage = value => /^(zh|zh-TW|zh-Hant)$/i.test(value || '') ? 'zh-Hant' : 'en';
   function lookup(value, depth = 0) {
     const key = normalize(value);
     if (Object.hasOwn(catalog, key)) return catalog[key];
@@ -51,10 +51,14 @@
   function lookupFallback(key, depth) {
     if (depth > 4) return null;
     const part = text => lookup(text, depth + 1) || text;
-    let match = /^(Figure|Video|Table|Reference)\s+(\d+)([.:]?)$/.exec(key);
+    let match = /^(Figure|Video|Table|Reference)\s+(S?\d+)([.:]?)$/.exec(key);
     if (match) return ({Figure:'圖',Video:'影片',Table:'表',Reference:'參考文獻'})[match[1]] + ' ' + match[2] + match[3];
     match=/^Reference \[(\d+)\]$/.exec(key);
     if(match)return '參考文獻 ['+match[1]+']';
+    match=/^(\d{2}:\d{2}) Taipei (\(UTC[+-][\d:]+\))$/.exec(key);
+    if(match)return match[1]+' 臺北 '+match[2];
+    match=/^(.+) — archive availability$/.exec(key);
+    if(match)return part(match[1])+' — 封存可用性';
     match=/^Reading now: (.+)$/.exec(key);
     if(match)return '目前閱讀：'+part(match[1]);
     match=/^(.+) \(opens in a new tab\)$/.exec(key);
@@ -188,12 +192,12 @@
     document.querySelectorAll('[data-language-toggle]').forEach(button => {
       const chinese = language === 'zh-Hant';
       const label = button.querySelector('[data-language-label]');
-      const text = chinese ? 'EN' : 'ZH';
+      const text = chinese ? '繁中' : '中文';
       const accessibleLabel = chinese ? '切換為英文' : 'Switch to Traditional Chinese';
       if (label && label.textContent !== text) label.textContent = text;
       if (button.getAttribute('aria-label') !== accessibleLabel) button.setAttribute('aria-label', accessibleLabel);
       if (button.getAttribute('title') !== accessibleLabel) button.setAttribute('title', accessibleLabel);
-      if (button.getAttribute('lang') !== 'en') button.setAttribute('lang', 'en');
+      button.setAttribute('aria-pressed', String(chinese));
       if (button.disabled) button.disabled = false;
     });
   }
@@ -265,7 +269,7 @@
   }
   function setLanguage(value, persist = true) {
     language = validLanguage(value);
-    if (persist) { try { localStorage.setItem(storageKey, language); } catch (_) {} }
+    if (persist) { try { localStorage.setItem(storageKey, language); localStorage.setItem('suite.locale', language); } catch (_) {} }
     apply(true);
     document.dispatchEvent(new CustomEvent('aerosense:languagechange', {detail:{language}}));
     window.dispatchEvent(new Event('resize'));
@@ -348,7 +352,7 @@
       button.addEventListener('click', () => setLanguage(language === 'en' ? 'zh-Hant' : 'en'));
     });
     let saved='en';
-    try { saved=localStorage.getItem(storageKey) || 'en'; } catch (_) {}
+    try { saved=new URL(location.href).searchParams.get('lang') || localStorage.getItem(storageKey) || 'en'; } catch (_) {}
     // Run after all existing DOMContentLoaded handlers have initialized their state.
     queueMicrotask(() => setLanguage(saved, false));
     window.addEventListener('storage', event => { if(event.key===storageKey)setLanguage(event.newValue,false); });

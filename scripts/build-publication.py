@@ -13,11 +13,11 @@ SITE = Path(__file__).resolve().parents[1]
 TEAM_BASE = "/nthu/"
 
 
-def route_html(text):
+def route_html(text, source_name):
     """Keep hand-authored content intact while resolving slash-route resources."""
     text = re.sub(r"<base\b[^>]*>", "", text, flags=re.I)
     text, count = re.subn(
-        r"<head\b([^>]*)>", r'<head\1>' + f'\n  <base href="{TEAM_BASE}">',
+        r"<head\b([^>]*)>", r'<head\1>' + f'\n  <base href="{TEAM_BASE}{source_name}">',
         text, count=1, flags=re.I,
     )
     if count != 1:
@@ -30,7 +30,7 @@ def publication_inputs(routes_only=False):
     if not pages or not (SITE / "index.html").is_file():
         raise ValueError("The editable root HTML pages and index.html are required.")
     for source in pages:
-        route_html(source.read_text(encoding="utf-8"))
+        route_html(source.read_text(encoding="utf-8"), source.name)
     files = []
     if not routes_only:
         manifest = SITE / "publication-files.json"
@@ -91,7 +91,7 @@ def main():
         if source.stem != "index":
             route = output / source.stem
             route.mkdir(exist_ok=True)
-            (route / "index.html").write_text(route_html(text), encoding="utf-8")
+            (route / "index.html").write_text(route_html(text, source.name), encoding="utf-8")
     (output / "route-manifest.json").write_text(
         json.dumps({"team_base": TEAM_BASE, "routes": routes,
                     "dependencies_copied": not args.routes_only}, indent=2) + "\n",

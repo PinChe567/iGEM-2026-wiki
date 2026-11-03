@@ -1,19 +1,18 @@
-/* AeroSense inline PDF reader. PDF.js 6.4.299 is vendored under Apache-2.0.
+/* AeroSense inline PDF reader. PDF.js 6.4.299 is served by iGEM under Apache-2.0.
  * Upstream: https://github.com/mozilla/pdf.js/releases/tag/v6.4.299
  * The original PDF remains the document; only its current page is rendered.
  */
 (function () {
   'use strict';
-  var scriptUrl = document.currentScript.src;
-  var libraryUrl = new URL('./vendor/pdfjs-6.4.299/pdf.mjs', scriptUrl).href;
-  var workerUrl = new URL('./vendor/pdfjs-6.4.299/pdf.worker.mjs', scriptUrl).href;
+  var libraryUrl = 'https://static.igem.wiki/teams/6460/wiki/downloads/pdfjs-6-4-299-3ab3d2fe.js';
+  var workerUrl = 'https://static.igem.wiki/teams/6460/wiki/downloads/pdfjs-worker-6-4-299-07ceb740.js';
   var libraryPromise;
   var readers = [];
   var words = {
     en: { previous: 'Previous', next: 'Next', page: 'Page', zoomOut: 'Zoom out', zoomIn: 'Zoom in', fit: 'Fit width', fitPage: 'Fit page', thumbnails: 'Page thumbnails', thumbnailFailed: 'Thumbnail unavailable', download: 'Download PDF', waiting: 'PDF preview loads when it comes into view.', loading: 'Loading PDF…', drawing: 'Rendering page…', failed: 'The preview could not load. Retry or open the original PDF.', retry: 'Retry', text: 'Page text', of: 'of' },
     zh: { previous: '上一頁', next: '下一頁', page: '頁碼', zoomOut: '縮小', zoomIn: '放大', fit: '符合寬度', fitPage: '符合頁面', thumbnails: '頁面縮圖', thumbnailFailed: '縮圖無法載入', download: '下載 PDF', waiting: '捲動至此處時載入 PDF 預覽。', loading: '正在載入 PDF…', drawing: '正在顯示頁面…', failed: '無法載入預覽。請重試或開啟原始 PDF。', retry: '重試', text: '本頁文字', of: '/' }
   };
-  function language() { return /^zh/i.test(document.documentElement.lang || '') ? words.zh : words.en; }
+  function language() { return words.en; }
   function library() {
     if (!libraryPromise) libraryPromise = import(libraryUrl).then(function (pdfjs) {
       pdfjs.GlobalWorkerOptions.workerSrc = workerUrl;

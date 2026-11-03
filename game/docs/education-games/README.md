@@ -43,4 +43,4 @@ The Education page (`education/index.html`) lists structured activity records. S
 
 ## License
 
-The user confirmed on 18 October 2026 that Odor Pixel Suite and its odor atlas were created by the NTHU FLY iGEM 2026 team. Authorship is recorded in `assets-manifest.json`. Reuse and redistribution terms for the game and atlas have not been separately specified; the website's general license link does not establish a separate license for these files.
+The user confirmed on 18 October 2026 that Odor Pixel Suite and its odor atlas were created by the NTHU FLY iGEM 2026 team. Authorship is recorded in `assets-manifest.json`. The team-original game software is covered by the Software repository MIT license. This software grant does not relicense the odor-atlas artwork, educational text or research data; their existing notices remain in force. The artwork's separate reuse terms remain unspecified in the asset manifest.

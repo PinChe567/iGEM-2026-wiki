@@ -1,26 +1,26 @@
 import fs from 'node:fs';
 
 const names = {
-  banana: ['\u9999\u8549', 'Banana'],
-  lemon: ['\u6a58\u6aac', 'Lemon'],
-  rose: ['\u73ab\u7470', 'Rose'],
-  coffee: ['\u5496\u5561', 'Coffee'],
-  mint: ['\u8584\u8377', 'Mint'],
-  strawberry: ['\u8349\u8393', 'Strawberry'],
-  chocolate: ['\u5de7\u514b\u529b', 'Chocolate'],
-  lavender: ['\u85b0\u8863\u8349', 'Lavender'],
-  orange: ['\u67f3\u6a59', 'Orange'],
-  cinnamon: ['\u8089\u6842', 'Cinnamon'],
-  apple: ['\u860b\u679c', 'Apple'],
-  vanilla: ['\u9999\u8349', 'Vanilla'],
-  bread: ['\u9eba\u5305', 'Bread'],
-  pine: ['\u677e\u6728', 'Pine'],
-  popcorn: ['\u7206\u7c73\u82b1', 'Popcorn'],
-  peach: ['\u6c34\u871c\u6843', 'Peach'],
-  garlic: ['\u5927\u849c', 'Garlic'],
-  ocean: ['\u6d77\u6d0b', 'Ocean'],
-  honey: ['\u8702\u871c', 'Honey'],
-  smoke: ['\u71df\u706b', 'Campfire'],
+  banana: 'Banana',
+  lemon: 'Lemon',
+  rose: 'Rose',
+  coffee: 'Coffee',
+  mint: 'Mint',
+  strawberry: 'Strawberry',
+  chocolate: 'Chocolate',
+  lavender: 'Lavender',
+  orange: 'Orange',
+  cinnamon: 'Cinnamon',
+  apple: 'Apple',
+  vanilla: 'Vanilla',
+  bread: 'Bread',
+  pine: 'Pine',
+  popcorn: 'Popcorn',
+  peach: 'Peach',
+  garlic: 'Garlic',
+  ocean: 'Ocean',
+  honey: 'Honey',
+  smoke: 'Campfire',
 };
 
 const vectors = {
@@ -49,14 +49,12 @@ const vectors = {
 const ids = Object.keys(names);
 const rows = ids
   .map((id, i) => {
-    const [zh, en] = names[id];
+    const en = names[id];
     const v = vectors[id].join(', ');
-    return `  { id: '${id}', name: { 'zh-Hant': '${zh}', en: '${en}' }, featureVector: [${v}], imageKey: 'odor-atlas:${i}', sourceStatus: 'illustrative', creditStatus: 'credited' },`;
+    return `  { id: '${id}', name: { en: '${en}' }, featureVector: [${v}], imageKey: 'odor-atlas:${i}', sourceStatus: 'illustrative', creditStatus: 'credited' },`;
   })
   .join('\n');
 
-const disclaimerZh =
-  '\u672c\u904a\u6232\u7684\u6c23\u5473\u7de8\u78bc\u8207\u7279\u5fb5\u5411\u91cf\u70ba\u300c\u793a\u610f\u7528\u865b\u64ec\u53d7\u9ad4\u6a21\u578b\u300d\uff0c\u4e0d\u662f\u4eba\u9ad4\u3001\u679c\u8805\u6216 AeroSense \u7684\u5be6\u9a57\u91cf\u6e2c\u8cc7\u6599\u3002';
 const disclaimerEn =
   'Odor codes and feature vectors are an illustrative virtual-receptor model — not human, Drosophila, or AeroSense experimental measurements.';
 
@@ -69,7 +67,7 @@ const out = `import {
 
 type OdorSeed = Omit<OdorRecord, 'modelKind'> & { modelKind?: OdorRecord['modelKind'] };
 
-/** Generated with Unicode escapes to preserve zh-Hant on all platforms. */
+/** English odor labels with unchanged illustrative vectors. */
 const SEEDS: OdorSeed[] = [
 ${rows}
 ];
@@ -85,7 +83,6 @@ export const contentCatalog: ContentCatalog = {
   contentVersion: CONTENT_VERSION,
   odors: ODOR_RECORDS,
   modelDisclaimer: {
-    'zh-Hant': '${disclaimerZh}',
     en: '${disclaimerEn}',
   },
 };
@@ -102,7 +99,7 @@ export type LegacyOdor = {
 export function toLegacyOdors(records: readonly OdorRecord[] = odors): LegacyOdor[] {
   return records.map((odor) => ({
     id: odor.id,
-    name: odor.name['zh-Hant'],
+    name: odor.name.en,
     en: odor.name.en,
     vector: [...odor.featureVector],
   }));

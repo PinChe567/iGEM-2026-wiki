@@ -1120,7 +1120,7 @@
     organizeReferences();
     var listSelector = '.ref-list, .tech-source-list, .reference-list';
     var items = qsa('.ref-list > li, .tech-source-list > li, .reference-list > li');
-    var pageName = location.pathname.split('/').pop() || 'index.html';
+    var pageName = new URL(doc.baseURI).pathname.split('/').pop() || 'index.html';
     var contextMap = REFERENCE_CONTEXTS[pageName] || {};
     items.forEach(function (item, itemIndex) {
       if (item.dataset.referenceEnhanced) return;
@@ -1388,11 +1388,16 @@
       var anchor=link.closest('p,li,dd,td,th')||link;
       // Replace a standalone document link rather than repeating it above the reader.
       if (anchor.tagName==='P' && anchor.textContent.trim()===link.textContent.trim() && anchor.querySelectorAll('a').length===1) { if(anchor.id)details.id=anchor.id; anchor.replaceWith(details); }
-      else if (/^(LI|DD|TD|TH)$/.test(anchor.tagName)) { link.replaceWith(details); }
+      else if (/^(LI|DD|TD|TH)$/.test(anchor.tagName) && anchor.textContent.trim()===link.textContent.trim() && anchor.querySelectorAll('a').length===1) { link.replaceWith(details); }
       else {
-        anchor.after(details);
-        if (anchor===link) link.remove();
-        else { link.remove(); if (anchor.firstChild && anchor.firstChild.nodeType===3) anchor.firstChild.data=anchor.firstChild.data.replace(/^\s*[·|]\s*/,''); }
+        if (anchor===link) link.replaceWith(details);
+        else {
+          // A document title inside a sentence remains part of that sentence.
+          if (/^(LI|DD|TD|TH)$/.test(anchor.tagName)) anchor.append(details);
+          else anchor.after(details);
+          link.href='#'+targetId(details); link.removeAttribute('target'); link.removeAttribute('download'); link.removeAttribute('data-pdf-preview-src');
+          link.addEventListener('click',function (event) { event.preventDefault(); reveal(details); });
+        }
       }
       function syncFrame() {
         var visible=details.open,parent=details.parentElement;
@@ -1460,9 +1465,48 @@
       if(records.some(function(r){return Array.from(r.addedNodes).some(function(n){return n.nodeType===1&&(n.matches('.ds-hero-art,.learning-claude-art')||n.querySelector('.ds-hero-art,.learning-claude-art'))})}))scan();
     }).observe(main,{childList:true,subtree:true});
     doc.addEventListener('aerosense:languagechange',updateLabels);
+    
+  }
+
+  function initDataAvailabilityDisclosure() {
+    var groups = [];
+    qsa('main section').forEach(function (section) {
+      var heading = section.querySelector(':scope > h2, :scope > h3');
+      if (!heading || heading.textContent.trim().toLowerCase() !== 'data availability') return;
+      if (section.querySelector(':scope > .data-availability-disclosure')) return;
+      var details = doc.createElement('details');
+      details.className = 'data-availability-disclosure';
+      var summary = doc.createElement('summary');
+      summary.textContent = 'View data and source files';
+      details.appendChild(summary);
+      while (heading.nextSibling) details.appendChild(heading.nextSibling);
+      section.appendChild(details);
+      groups.push({ section: section, details: details });
+    });
+    function openTarget(hash) {
+      var target;
+      try { target = doc.getElementById(decodeURIComponent((hash || '').slice(1))); }
+      catch (_) { return; }
+      if (!target) return;
+      groups.forEach(function (group) {
+        if (group.section === target || group.details.contains(target)) group.details.open = true;
+      });
+      for (var node = target; node; node = node.parentElement) {
+        if (node.tagName === 'DETAILS') node.open = true;
+      }
+    }
+    doc.addEventListener('click', function (event) {
+      var link = event.target.closest && event.target.closest('a[href]');
+      if (!link || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      var url = new URL(link.href, location.href);
+      if (url.origin === location.origin && url.pathname === location.pathname) openTarget(url.hash);
+    }, true);
+    window.addEventListener('hashchange', function () { openTarget(location.hash); });
+    openTarget(location.hash);
   }
 
   doc.addEventListener("DOMContentLoaded", function () {
+    initDataAvailabilityDisclosure();
     initNav();
     initProgress();
     initBackToTop();

@@ -29,7 +29,6 @@ describe('spectrum content', () => {
   it('disclaimer rejects experimental provenance claims', () => {
     expect(spectrumContentCatalog.modelDisclaimer.en).toMatch(/illustrativeGenerated/i);
     expect(spectrumContentCatalog.modelDisclaimer.en).toMatch(/not AeroSense/i);
-    expect(spectrumContentCatalog.modelDisclaimer['zh-Hant']).toMatch(/illustrativeGenerated/);
   });
 
   it('exposes stable difficulty pools', () => {

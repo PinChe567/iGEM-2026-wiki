@@ -3,7 +3,6 @@ import {
   ADVENTURE_MODULE_IDS,
   ADVENTURE_MOVE_ACTOR,
   ADVENTURE_TITLE_EN,
-  ADVENTURE_TITLE_ZH,
   adventureToLabyrinthMap,
   applyMeleeAttack,
   applyPlayerHit,
@@ -83,7 +82,6 @@ function itemOf(session: AdventureSession, kind: string, extra?: (id: string) =>
 describe('AeroSense: Scentbound Labyrinth', () => {
   it('names the new adventure mode without replacing QC Shift', () => {
     expect(ADVENTURE_TITLE_EN).toBe('AeroSense: Scentbound Labyrinth');
-    expect(ADVENTURE_TITLE_ZH).toBe('AeroSense：氣味迷宮');
   });
 
   it('uses a 32×18 maze with the exit far from spawn', () => {

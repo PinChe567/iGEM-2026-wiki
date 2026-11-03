@@ -18,9 +18,9 @@ const rootPages=['human-practices.html','entrepreneurship.html','education.html'
   page.on('pageerror',e=>errors.push(e.message));
   await page.route('**/*',r=>{const q=r.request();if(q.resourceType()==='document'&&!q.url().startsWith('http://127.0.0.1:8011/')&&q.frame().parentFrame())r.abort();else r.continue();});
   const row={route,width,errors};
-  try{await page.goto('http://127.0.0.1:8011/'+route,{waitUntil:'domcontentloaded'});await page.waitForFunction(()=>window.AeroSenseI18n&&!document.querySelector('[data-language-toggle]')?.disabled);await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(120);
-   for(const lang of rootPages.includes(route)?['en','zh-Hant']:['en']){
-    await page.evaluate(lang=>window.AeroSenseI18n.setLanguage(lang),lang);await page.waitForTimeout(60);
+  try{await page.goto('http://127.0.0.1:8011/'+route,{waitUntil:'domcontentloaded'});await page.waitForFunction(()=>document.documentElement.lang==='en'&&!document.querySelector('[data-language-toggle]'));await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(120);
+   for(const lang of ['en']){
+    await page.waitForTimeout(60);
     const state=await page.evaluate(()=>{const hero=document.querySelector('.page-hero,.members-intro,.learn-hero,.lm-hero,.credits-intro'),crumb=document.querySelector('nav.page-breadcrumb'),r=e=>e?.getBoundingClientRect(),main=document.querySelector('.page-main-column'),slot=document.querySelector('.page-toc-slot');
      // Compare the reading content edge, including inner layout padding, rather than its outer shell.
      const content=main?.querySelector('.page-article')||main,style=content&&getComputedStyle(content),contentLeft=content?r(content).left+(parseFloat(style.borderLeftWidth)||0)+(parseFloat(style.paddingLeft)||0):null,alignmentDelta=content&&crumb?r(crumb).left-contentLeft:null;
@@ -32,5 +32,5 @@ const rootPages=['human-practices.html','entrepreneurship.html','education.html'
   }catch(e){row.pass=false;row.error=e.message;}
   rows.push(row);await page.close();saveRows(rows);console.log(route,width,row.pass?'PASS':'FAIL');
  }
- await browser.close();console.log(JSON.stringify({cases:rows.length,preservedCases:untouched.length,failures:rows.filter(r=>!r.pass).map(r=>({route:r.route,width:r.width,error:r.error,en:r.en,zh:r['zh-Hant']}))}));if(rows.some(r=>!r.pass))process.exitCode=1;
+ await browser.close();console.log(JSON.stringify({cases:rows.length,preservedCases:untouched.length,failures:rows.filter(r=>!r.pass).map(r=>({route:r.route,width:r.width,error:r.error,en:r.en}))}));if(rows.some(r=>!r.pass))process.exitCode=1;
 })();

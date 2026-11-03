@@ -40,6 +40,9 @@
 
 
   var DEFINITIONS = {
+    th: { term: "TH", def: "Tyrosine hydroxylase, an enzyme required for dopamine synthesis. TH-based drivers label dopamine-associated neuronal populations; the label itself does not measure dopamine release." },
+    gfp: { term: "GFP", def: "Green fluorescent protein, a genetically encoded reporter that makes labeled cells or proteins visible. GFP alone is not a calcium-activity indicator." },
+    gh146: { term: "GH146", def: "A Drosophila GAL4 driver labeling many antennal-lobe projection neurons, as well as additional cells including APL. It is not exclusively specific to projection neurons." },
     "uart": { term: "UART", def: "Universal asynchronous receiver-transmitter — a serial data interface. The AeroSense programming connection uses 3.3 V UART; it is separate from USB-C power." },
     "pdms": { term: "PDMS", def: "Polydimethylsiloxane — a silicone polymer considered in transport models. It is not part of the current AeroSense assembly or required bill of materials." },
     "led": { term: "LED", def: "Light-emitting diode — a semiconductor light source. In the reader, blue excitation light stimulates a fluorescent response; it is not the fluorescence signal itself." },
@@ -472,6 +475,7 @@
   // definitions remain in place; links, controls, code, references and headings
   // are never rewritten.
   var AUTO_ALIASES = {
+    th: ["TH"], gfp: ["GFP"], gh146: ["GH146"],
     uart:["UART"], pdms:["PDMS"], led:["LED", "LEDs"], mcu:["MCU"], ema:["EMA"], stl:["STL"], cad:["CAD"], t90:["t90"], "cross-talk":["cross-talk", "crosstalk"], "adc-clipping":["clipping", "clipped"],
     voc: ["VOCs", "VOC", "volatile organic compounds"],
     mycotoxin: ["mycotoxins", "mycotoxin"],

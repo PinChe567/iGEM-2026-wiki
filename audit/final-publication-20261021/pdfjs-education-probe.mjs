@@ -1,0 +1,5 @@
+import {chromium} from 'file:///C:/Users/user/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+const b=await chromium.launch({channel:'chrome',headless:true});const p=await b.newPage();p.on('console',m=>{if(m.type()==='error'||/PDF|worker/i.test(m.text()))console.log(m.type(),m.text())});p.on('pageerror',e=>console.log('ERROR',e.message));
+await p.goto('http://127.0.0.1:8015/nthu/education/#education-workshop-slides',{waitUntil:'commit'});await p.locator('#education-workshop-slides').waitFor({state:'attached'});await p.waitForTimeout(1500);
+console.log('DETAILS',await p.locator('#education-workshop-slides').evaluate(e=>({tag:e.tagName,open:e.open,html:e.innerHTML.slice(0,1800)})));
+console.log('READERS',await p.locator('.pdf-reader').evaluateAll(els=>els.map(e=>({label:e.getAttribute('aria-label'),state:e.dataset.pdfReaderState,visible:e.getBoundingClientRect().width>0,parents:[e.parentElement.tagName,e.parentElement.id]}))));await b.close();

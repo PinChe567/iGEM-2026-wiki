@@ -125,7 +125,7 @@
   function schedule(){if(!frame&&visible)frame=requestAnimationFrame(measure);}
   async function load(){
     if(viewer||loading)return;loading=true;host.dataset.productLoading='true';
-    try{const module=await import('./hardware-product-story.js?v=2ebb5892f362c7f8');viewer=await module.createProductStory(host);
+    try{const module=await import('./hardware-product-story.js?v=4f39f2fbd607a499');viewer=await module.createProductStory(host);
       viewer.setStoryProgress(reduced.matches?1:phase(distance,beats.assembledEnd,beats.openingEnd),0);
       viewer.ready.then(result=>{if(result.loaded!==8)host.classList.add('is-unavailable');anchors=viewer.getAnchors();schedule();});
     }catch(error){host.classList.add('is-unavailable');host.dataset.productLoading='false';schedule();}finally{loading=false;}

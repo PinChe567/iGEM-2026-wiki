@@ -8,10 +8,11 @@
     if (!caption || figure.closest('.footer-partners__logos,.home-partners__logos,.home-supporters__gallery') || figure.classList.contains('footer-partners__slot')) return;
     const scope = figure.closest('[data-model-panel], [data-model-supplement], [data-model-availability]');
     const key = scope ? (scope.dataset.modelPanel || scope.dataset.modelSupplement || scope.dataset.modelAvailability) : 'page';
-    const isVideo = Boolean(figure.querySelector('video, iframe[data-igem-video], [data-lightsheet-player]'));
+    const isVideo = Boolean(figure.querySelector('video, iframe[data-igem-video], [data-lightsheet-player], [data-igem-video-link]'));
     const numbers = isVideo ? videoNumbers : figureNumbers;
-    const number = (numbers.get(key) || 0) + 1;
-    numbers.set(key, number);
+    const authored = figure.getAttribute(isVideo ? 'data-static-video-number' : 'data-static-figure-number');
+    const number = authored && /^(?:S)?\d+$/.test(authored) ? authored : (numbers.get(key) || 0) + 1;
+    if (/^\d+$/.test(String(number))) numbers.set(key, Number(number));
     const captionLabel = `${isVideo ? 'Video' : 'Figure'} ${number}. `;
     const existing = caption.querySelector(':scope > .wiki-figure__num, :scope > .media-caption__label');
     if (existing) {

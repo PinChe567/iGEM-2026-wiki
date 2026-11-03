@@ -1,0 +1,153 @@
+{
+  "review_date": "2026-10-21",
+  "review_type": "Independent applicability audit; no calibration applied and no research input changed",
+  "figure18_processing_at_review": {
+    "voltage_conversion_and_lockin": true,
+    "display_at_initial_inspection": "raw amplitude divided by initial three living-cell readings; raw mV endpoint bars",
+    "subsequent_display_instruction": "Root authorized each acquisition stage normalized to its own first value; this is a display normalization, not gain/background/cross-talk calibration; raw endpoint bars remain unchanged.",
+    "fresh_illuminated_blank_subtraction": false,
+    "independent_phase_projection": false,
+    "concentration_conversion": false,
+    "cross_talk_inversion": false
+  },
+  "system_verification_methods": {
+    "signal": "Use same-acquisition-set illuminated DDW blank in complex I/Q, then independent calibration phase projection; retain signed response.",
+    "concentration": "Set A linear and set B exponential per-channel fluorescein calibration after blank subtraction and phase projection. Those inverse functions are not cellular GCaMP calibrations.",
+    "matrix": "Measured isolated-source complex matrix was evaluated, but failed simultaneous-loading additivity and reliable transfer.",
+    "uniform10_measured_over_sum_isolated_percent": [
+      68.3974564,
+      69.3835655,
+      48.2609194,
+      65.5693576
+    ],
+    "uniform10_signed_ridge_estimates_uM": [
+      9.016,
+      8.715,
+      -2.294,
+      10.464
+    ],
+    "matrix_conclusion": "Do not apply the isolated-well proportions or those percentages as correction factors to living-cell test3. A constant per-channel multiplier would cancel in within-channel F/Fstart ratios anyway."
+  },
+  "saved_blank_inspection": {
+    "context": "Medium",
+    "record_ids": [
+      "87187f3e-1",
+      "87187f3e-2",
+      "87187f3e-3",
+      "87187f3e-4",
+      "87187f3e-5"
+    ],
+    "phase_reference_count": 0,
+    "biological_contents": "Not independently specified by the user condition map; context Medium is a saved UI label.",
+    "complex_mean_magnitude_mV": [
+      15.75218397042662,
+      27.846399278537646,
+      76.49737143436413,
+      28.10755099517221
+    ],
+    "initial_cells_raw_mean_mV": [
+      15.547495685149656,
+      27.740196258810045,
+      76.54864548312084,
+      28.303518207499213
+    ],
+    "initial_cells_after_saved_blank_norm_mean_mV": [
+      0.21798905059653204,
+      0.17347741414648862,
+      0.2939513592464272,
+      0.300529556523
+    ],
+    "first_post_raw_mV": [
+      15.23595361416413,
+      20.24808356874067,
+      26.455629681518694,
+      30.212347741873355
+    ],
+    "first_post_after_saved_blank_norm_mV": [
+      0.5212670591286964,
+      7.598634700853531,
+      50.045817466903415,
+      2.108306853279529
+    ],
+    "failure_mode": "A nonnegative |z-B| measures distance from the blank. For D3 it becomes about50.05mV when raw amplitude falls to26.46mV; it cannot be interpreted as positive fluorescence recovery.",
+    "reported_errors": [
+      "correction_need_5_phase",
+      "correction_need_5_living_baseline",
+      "need_5_dark_and_5_baseline"
+    ]
+  },
+  "dilution_hypothesis": {
+    "last_pre_record": 18,
+    "first_post_record": 19,
+    "last_pre_raw_mV": [
+      15.036224859644324,
+      26.890075150251125,
+      71.72533261413535,
+      27.46305185535086
+    ],
+    "first_post_raw_mV": [
+      15.23595361416413,
+      20.24808356874067,
+      26.455629681518694,
+      30.212347741873355
+    ],
+    "step_percent": [
+      1.3283171566279117,
+      -24.700531866860263,
+      -63.11536145277503,
+      10.010889907659081
+    ],
+    "midpoint_gap_s": 144.958,
+    "addition_volume_known": false,
+    "restriction": "The following is a hypothetical conserved soluble concentration model, not a correction for cell-associated reporter fluorescence or raw electrical amplitude.",
+    "formula": "If signal were proportional to conserved soluble concentration, post/pre=Vinitial/(Vinitial+Vadded); Vadded/Vinitial=1/(post/pre)-1.",
+    "required_added_over_initial": [
+      -0.013109041913472952,
+      0.3280306286252428,
+      1.7111557531454658,
+      -0.09099908123697587
+    ],
+    "interpretation": "D1 and D4 increase, whereas D2 and D3 decrease by different fractions. A shared dilution-only factor cannot explain all four raw changes. Dilution or handling may contribute, but the data do not isolate it.",
+    "hundredfold_dilution_note": "A stated100xVUAA1 preparation does not determine how much was added to the wells. Only if one volume of stock were added to99volumes of sample would a conserved soluble sample component dilute by1%; that recipe is not assumed here.",
+    "cellular_caution": "The reporter is cell-associated; adding medium does not by itself establish proportional dilution of total reporter signal. Actual volumes, cell retention, mixing and a vehicle-addition control are needed."
+  },
+  "permitted_interpretation": "Retain raw voltage and stage-normalized trajectories as descriptive electrical readouts. Independent net fluorescence requires verified matched background and an appropriate phase reference; reliable well-source unmixing needs a validated cellular/loading-specific transfer. Do not tune coefficients to make wet-lab and hardware agree.",
+  "sources": [
+    {
+      "path": "aerosense-wiki/resources/hardware-en/unified-calibration/README.md",
+      "sha256": "dee710129c0493a7bcaacd51154c038874969491394d7a5f9b06d19acd2482cb"
+    },
+    {
+      "path": "aerosense-wiki/resources/hardware-en/unified-calibration/model_coefficients.csv",
+      "sha256": "d9777bc67ce9ae00dc07e68b3c8dfd93d3aa5df737146234bcd0a6bb9b691d1f"
+    },
+    {
+      "path": "aerosense-wiki/resources/hardware-en/crosstalk-calibration/README.md",
+      "sha256": "148a06cf58f063d5004aa2cf410958d13ee8de189271928b8ec40edd56a91c87"
+    },
+    {
+      "path": "aerosense-wiki/resources/hardware-en/crosstalk-calibration/additivity_check.csv",
+      "sha256": "97cc79d896727eda477532fcc80553e1737e813929625bc67e60a92c7997efd6"
+    },
+    {
+      "path": "zenodo-release/aerosense-wiki/data/hardware-test3-2026-10-21/summary-by-channel.csv",
+      "sha256": "a4c7e225754c829afdb7bccaa1a7e901404e22d1668547961efe3307130cc32d"
+    },
+    {
+      "path": "zenodo-release/aerosense-wiki/data/hardware-test3-2026-10-21/raw/Blank01_report_87187f3e-6.json",
+      "sha256": "dc2ec82ed9562c666ea26fd48a9a8a0d32e98b21766e4c6d73025420d9724d60"
+    },
+    {
+      "path": "zenodo-release/aerosense-wiki/data/hardware-test3-2026-10-21/raw/Blank_1min_report_87187f3e-18.json",
+      "sha256": "0b5bbd2dcfc88815ffd61a2e7e333dbc53cd7dfcf4457202f6f2383fa5bcd461"
+    },
+    {
+      "path": "zenodo-release/aerosense-wiki/data/hardware-test3-2026-10-21/raw/VUAA1_1min_report_87187f3e-19.json",
+      "sha256": "1bdcfda32ae329560fc126782769d6ecb64cfca1d77fc414ea74f6a39d7e8b80"
+    },
+    {
+      "path": "zenodo-release/aerosense-wiki/data/hardware-test3-2026-10-21/raw/VUAA1_1min_report_87187f3e-28.json",
+      "sha256": "fa5d6689a7fdeb053bb590adfcbc182de99f25c9a830884a93fc8bedbee63ca3"
+    }
+  ]
+}

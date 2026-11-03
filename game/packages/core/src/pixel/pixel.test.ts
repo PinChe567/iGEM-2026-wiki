@@ -197,7 +197,7 @@ describe('pixel localStorage migration', () => {
     expect(parsePixelStoredJson(null).storageVersion).toBe(2);
     expect(parsePixelStoredJson('{not json').playedSeeds).toEqual([]);
     expect(migratePixelStoredState({ locale: 'fr', bestByPreset: { x: 'bad' } }).locale).toBe(
-      'zh-Hant',
+      'en',
     );
     expect(
       migratePixelStoredState({

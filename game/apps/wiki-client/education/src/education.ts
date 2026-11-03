@@ -3,7 +3,7 @@ import '@suite/ui/shell.css';
 import '@suite/ui/components.css';
 import '../../src/pages/pages.css';
 import { mountShell, shellMain } from '../../src/shell/mount';
-import { educationCatalog } from '../../src/data/education';
+import { educationCatalog, educatorSourceUrl } from '../../src/data/education';
 import { escapeHtml, loc, wikiNavMarkup } from '../../src/pages/shared';
 import type { Locale } from '../../src/i18n/locale';
 
@@ -24,6 +24,7 @@ function paint(): void {
   const locale = shell.getLocale() as Locale;
   const copy = shell.getCopy();
   const p = copy.pages.education;
+  const sourceLabel = 'Read Markdown source';
   const cat = educationCatalog;
   document.title = `${p.title} · Odor Pixel Suite`;
   const main = shellMain(app);
@@ -35,11 +36,11 @@ function paint(): void {
       : '';
 
   const educatorLinks = [
-    { href: '../education-games/README.md', label: p.reusablePack },
-    { href: '../education-games/education-study-protocol.md', label: p.studyMode },
-    { href: '../education-games/question-bank.md', label: p.questionBank },
-    { href: '../education-games/playtest-protocol.md', label: p.playtestProtocol },
-    { href: '../education-games/data-dictionary.md', label: p.dataDictionary },
+    { href: educatorSourceUrl('README.md'), label: p.reusablePack },
+    { href: educatorSourceUrl('education-study-protocol.md'), label: p.studyMode },
+    { href: educatorSourceUrl('question-bank.md'), label: p.questionBank },
+    { href: educatorSourceUrl('playtest-protocol.md'), label: p.playtestProtocol },
+    { href: educatorSourceUrl('data-dictionary.md'), label: p.dataDictionary },
   ];
 
   const activities = cat.activities
@@ -59,7 +60,7 @@ function paint(): void {
               .map((d) => {
                 const label = escapeHtml(loc(d.label, locale));
                 const license = escapeHtml(loc(d.license, locale));
-                return `<li><a href="${escapeHtml(d.href)}" rel="noopener">${label}</a> (${license})</li>`;
+                return `<li><a href="${escapeHtml(d.href)}" rel="noopener">${escapeHtml(sourceLabel)}: ${label}</a> (${license})</li>`;
               })
               .join('')}</ul></dd></div>`;
 
@@ -101,7 +102,7 @@ function paint(): void {
         ${educatorLinks
           .map(
             (item) =>
-              `<li><a href="${escapeHtml(item.href)}" rel="noopener">${escapeHtml(item.label)}</a></li>`,
+              `<li><a href="${escapeHtml(item.href)}" rel="noopener">${escapeHtml(sourceLabel)}: ${escapeHtml(item.label)}</a></li>`,
           )
           .join('')}
       </ul>

@@ -50,22 +50,29 @@ const emptyLoc = (): Localized => ({ 'zh-Hant': '', en: '' });
 
 const L = (zh: string, en: string): Localized => ({ 'zh-Hant': zh, en });
 
-const PACK = '../education-games';
+const SOURCE_DOCS = 'https://gitlab.igem.org/2026/nthu/-/blob/main/site/game/docs';
+
+export function educatorSourceUrl(file: string): string {
+  return file === 'education-study-protocol.md'
+    ? `${SOURCE_DOCS}/${file}`
+    : `${SOURCE_DOCS}/education-games/${file}`;
+}
+
 
 const licenseUnknown = L(
-  '使用者於 2026 年 10 月 18 日確認遊戲由 NTHU FLY iGEM 2026 團隊自製。遊戲與氣味圖鑑的重用及再散布條款尚未另行指定；團隊作者身分確認不等於新增開放授權。',
-  'The user confirmed on 18 October 2026 that the game was created by the NTHU FLY iGEM 2026 team. Reuse and redistribution terms for the game and odor atlas have not been separately specified; confirming authorship does not add an open license.',
+  '使用者於 2026 年 10 月 18 日確認遊戲由 NTHU FLY iGEM 2026 團隊自製。團隊原創遊戲軟體採 MIT 授權；氣味圖鑑的獨立重用條款尚未指定，圖片、資料與文字既有聲明維持不變。',
+  'The user confirmed on 18 October 2026 that the game was created by the NTHU FLY iGEM 2026 team. Team-original game software is MIT-licensed. Separate reuse terms for the odor-atlas artwork remain unspecified; existing notices for images, data and text are unchanged.',
 );
 
 const packLicense = L(
-  '教育說明文件與遊戲原始碼授權尚未在倉庫根目錄公布。',
-  'Educator docs and game source license are not published at the repository root yet.',
+  '團隊原創遊戲程式採 Software 儲存庫的 MIT 授權。教育文字、圖片與資料保留既有聲明，不在此次軟體授權變更範圍內。',
+  'Team-original game source uses the Software repository MIT license. Educational text, images and data retain their existing notices and are outside this software license change.',
 );
 
 function download(labelZh: string, labelEn: string, file: string) {
   return {
     label: L(labelZh, labelEn),
-    href: `${PACK}/${file}`,
+    href: educatorSourceUrl(file),
     license: packLicense,
   };
 }

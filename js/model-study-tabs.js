@@ -36,19 +36,38 @@
     try{return document.getElementById(decodeURIComponent(hash.slice(1)));}catch{return null;}
   }
   function directTrack(target){return target?.closest('[data-model-panel]')?.dataset.modelPanel||target?.closest('[data-model-supplement]')?.dataset.modelSupplement||target?.closest('[data-model-availability]')?.dataset.modelAvailability||target?.closest('[data-model-reference-group]')?.dataset.modelReferenceGroup||null;}
+  // Each study owns its citation sequence, including its supplementary records.
+  // Keep one source node/anchor so previews and return links remain intact.
+  const referenceById=new Map(references.map(ref=>[ref.id,ref]));
+  const referenceByUrl=new Map();
   references.forEach(ref=>{
-    const tracks=new Set();
-    document.querySelectorAll('main a[href="#'+CSS.escape(ref.id)+'"]').forEach(cite=>{
-      const key=directTrack(cite);if(key)tracks.add(key);
+    referenceTracks.set(ref.id,new Set());
+    ref.querySelectorAll('a[href]').forEach(link=>{
+      if(link.getAttribute('href').startsWith('#')||link.closest('.ref-return-tools,.ref-highlights'))return;
+      const ids=referenceByUrl.get(link.href)||[];ids.push(ref.id);referenceByUrl.set(link.href,ids);
     });
-    // Uncited records never become automatic further reading in another study.
-    // The shared reference enhancer handles genuine citations and their returns.
-    if(!tracks.size)ref.dataset.referenceEnhanced='uncited-model-source';
-    referenceTracks.set(ref.id,tracks);
   });
-  // Source families share one page-wide numbering. Study switches only filter
-  // visibility; they must never assign a new number to the same source.
-  window.AeroSenseOrganizeReferences?.();
+  const studyReferences=new Map(tabs.map(tab=>[tab.dataset.modelTab,new Map()]));
+  const studyCitations=[];
+  document.querySelectorAll('main a[href]').forEach(cite=>{
+    if(cite.closest('#references,.cite-preview,.reference-reading-note,.page-toc,.audit-mobile-jump'))return;
+    const key=directTrack(cite),order=studyReferences.get(key);if(!order)return;
+    const href=cite.getAttribute('href');
+    const ids=href.startsWith('#')?[href.slice(1)]:(referenceByUrl.get(cite.href)||[]);
+    ids.forEach(id=>{
+      if(!referenceById.has(id))return;
+      if(!order.has(id))order.set(id,order.size+1);
+      referenceTracks.get(id).add(key);
+      studyCitations.push({cite,key,id});
+    });
+  });
+  references.forEach(ref=>{
+    if(!referenceTracks.get(ref.id).size)ref.dataset.referenceEnhanced='uncited-model-source';
+  });
+  const studyReferenceList=document.createElement('ol');
+  studyReferenceList.className='ref-list model-study-reference-list';
+  studyReferenceList.dataset.referenceOrder='study-first-citation';
+  referenceSection?.append(studyReferenceList);
   function trackFor(target,preferred=active){
     const direct=directTrack(target);if(direct)return direct;
     const ref=target?.closest('#references :is(.ref-list,.re-bibliography) > li[id]');
@@ -71,10 +90,30 @@
     window.AeroSenseToc?.refresh();
   }
   function syncReferenceVisibility(){
-    references.forEach(ref=>{ref.hidden=!referenceTracks.get(ref.id).has(active);});
-    document.querySelectorAll('#references :is(.ref-list,.re-bibliography)').forEach(list=>{list.hidden=![...list.children].some(ref=>!ref.hidden);});
-    document.querySelectorAll('#references .reference-group[data-reference-family]').forEach(group=>{group.hidden=![...group.querySelectorAll('.ref-list > li')].some(ref=>!ref.hidden);});
-    if(referenceSection)referenceSection.hidden=!references.some(ref=>!ref.hidden);
+    // The shared enhancer may regroup source types; restore this page's
+    // independent first-citation order after each shared enhancement pass.
+    const order=studyReferences.get(active);
+    studyCitations.forEach(({cite,key,id})=>{
+      const number=studyReferences.get(key).get(id);
+      if(cite.classList.contains('cite')||/^\s*\[[^\]]+\]\s*$/.test(cite.textContent))cite.textContent='['+number+']';
+      if(cite.classList.contains('cite'))cite.setAttribute('aria-label',names[key]+' reference '+number);
+    });
+    const ordered=references.slice().sort((a,b)=>(order.get(a.id)||Infinity)-(order.get(b.id)||Infinity));
+    ordered.forEach(ref=>{
+      const number=order.get(ref.id);ref.hidden=!number;
+      if(number)ref.value=number;
+      studyReferenceList.append(ref);
+    });
+    studyReferenceList.hidden=!order.size;studyReferenceList.start=1;
+    studyReferenceList.setAttribute('aria-label',names[active]+' references');
+    referenceSection?.setAttribute('data-reference-order','study-first-citation');
+    document.querySelectorAll('#references :is(.ref-list,.re-bibliography)').forEach(list=>{
+      if(list!==studyReferenceList)list.hidden=![...list.children].some(ref=>!ref.hidden);
+    });
+    document.querySelectorAll('#references .reference-group[data-reference-family],#references .model-reference-group').forEach(group=>{
+      group.hidden=![...group.querySelectorAll('.ref-list > li')].some(ref=>!ref.hidden);
+    });
+    if(referenceSection)referenceSection.hidden=!order.size;
   }
   document.addEventListener('aerosense:referenceschange',syncReferenceVisibility);
   function activate(key,{focus=false}={}){

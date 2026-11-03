@@ -18,7 +18,7 @@ export type LabyrinthStoredState = {
 
 export const DEFAULT_LABYRINTH_STORED_STATE: LabyrinthStoredState = {
   storageVersion: LABYRINTH_STORAGE_VERSION,
-  locale: 'zh-Hant',
+  locale: 'en',
   muted: false,
   lowDarkness: false,
   highContrast: false,
@@ -42,7 +42,7 @@ export function migrateLabyrinthStoredState(raw: unknown): LabyrinthStoredState 
   }
   return {
     storageVersion: LABYRINTH_STORAGE_VERSION,
-    locale: data.locale === 'en' || data.locale === 'zh-Hant' ? data.locale : 'zh-Hant',
+    locale: data.locale === 'en' || data.locale === 'zh-Hant' ? data.locale : 'en',
     muted: Boolean(data.muted),
     lowDarkness: Boolean(data.lowDarkness),
     highContrast: Boolean(data.highContrast),

@@ -340,6 +340,8 @@
         next.focus({ preventScroll: true });
       });
     });
+    var initial = tabs.find(function (tab) { return tab.getAttribute("aria-selected") === "true"; }) || tabs[0];
+    selectCycle(viewer, initial.getAttribute("data-cycle-tab"), { hash: false, source: "initial" });
   }
 
   function visibleStages() {

@@ -1,0 +1,300 @@
+{
+  "observed_at_utc": "2026-10-21T12:59:09.499427+00:00",
+  "scope": "Read-only inspection of local results, measurement, hardware and model pages and Zenodo materials. Only this audit JSON was written; no archive content was modified.",
+  "path_base": "zenodo-release/; the six payload roots remain at their original locations. Root management metadata may move to 00-provenance. No payload relocation is needed.",
+  "snapshot_note": "Other agents are adding Notion provenance during this audit. Final package totals must be rescanned after their work.",
+  "verification": {
+    "main_manifest_records": 8183,
+    "main_manifest_unique_destinations": 7823,
+    "missing_manifest_destinations": 0,
+    "size_mismatches": 0,
+    "selected_current_manifest_files_sha256_checked": 339,
+    "selected_sha256_mismatches": 0,
+    "complete_curve_input_records_sha256_checked": 54,
+    "complete_curve_input_mismatches": 0,
+    "hardware_test3_raw_sha256_checked": 52,
+    "hardware_test3_raw_mismatches": 0,
+    "fluorescein_raw_sha256_checked": 116,
+    "fluorescein_raw_mismatches": 0,
+    "cross_platform_input_sha256_checked": 44,
+    "cross_platform_input_mismatches": 0,
+    "note": "Checks overlap and must not be summed as unique validated files. Complete archive SHA was not recomputed in this audit."
+  },
+  "coverage": [
+    {
+      "id": "test1",
+      "pages": [
+        "results",
+        "measurement"
+      ],
+      "raw": [
+        "aerosense-wiki/wetlab results/final_test/raw_renamed/"
+      ],
+      "code": [
+        "aerosense-wiki/assets/results/final-test/analyze_plate_p2.py",
+        "aerosense-wiki/assets/results/final-test/plot_plate_p2.py"
+      ],
+      "outputs": [
+        "aerosense-wiki/assets/results/final-test/derived/",
+        "aerosense-wiki/assets/results/final-test/figures/"
+      ],
+      "limitations": [
+        "32 instrument CSVs plus one filename mapping CSV, not 33 experiments. Acquisition metadata gaps remain in PENDING."
+      ]
+    },
+    {
+      "id": "test2",
+      "pages": [
+        "results",
+        "measurement"
+      ],
+      "raw": [
+        "aerosense-wiki/data/odor-2026-10-21/raw/",
+        "aerosense-wiki/data/odor-2026-10-21/raw-manifest.json"
+      ],
+      "code": [
+        "aerosense-wiki/data/odor-2026-10-21/analysis/"
+      ],
+      "outputs": [
+        "aerosense-wiki/data/odor-2026-10-21/derived/",
+        "aerosense-wiki/data/odor-2026-10-21/figures/"
+      ],
+      "limitations": [
+        "12 XLSX exports; 72 wells and 1440 readings. Biological independent replicates and unresolved acquisition/dose metadata cannot be supplied by renaming files."
+      ]
+    },
+    {
+      "id": "complete-curves",
+      "pages": [
+        "results",
+        "measurement"
+      ],
+      "raw": [
+        "aerosense-wiki/wetlab results/final_test/raw_renamed/",
+        "aerosense-wiki/data/odor-2026-10-21/raw/"
+      ],
+      "code": [
+        "aerosense-wiki/data/odor-complete-curves-2026-10-21/analysis/build_complete_curves.py"
+      ],
+      "outputs": [
+        "aerosense-wiki/data/odor-complete-curves-2026-10-21/derived/",
+        "aerosense-wiki/data/odor-complete-curves-2026-10-21/figures/"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "microscopy",
+      "pages": [
+        "results",
+        "measurement"
+      ],
+      "raw": [
+        "aerosense-wiki/wetlab results/transfection_effeciency/"
+      ],
+      "code": [
+        "aerosense-wiki/assets/results/microscopy/analyze_microscopy.py",
+        "aerosense-wiki/assets/results/microscopy/analyze_nuclear_objects.py",
+        "aerosense-wiki/assets/results/microscopy/compare_controls.py"
+      ],
+      "outputs": [
+        "aerosense-wiki/assets/results/microscopy/"
+      ],
+      "limitations": [
+        "Retain original misspelling transfection_effeciency: source path is hardcoded. Display exports, one transfection batch, and missing numeric acquisition settings remain scientific limitations."
+      ]
+    },
+    {
+      "id": "lightsheet",
+      "pages": [
+        "results"
+      ],
+      "raw": [
+        "aerosense-wiki/wetlab results/description_lightsheet/raw_data/",
+        "aerosense-wiki/wetlab results/description_lightsheet/source/"
+      ],
+      "code": [
+        "reports/lightsheet-v50/plot-full-recording-dff.py",
+        "reports/lightsheet-v51/plot-comparison.py"
+      ],
+      "outputs": [
+        "aerosense-wiki/wetlab results/description_lightsheet/results/",
+        "aerosense-wiki/wetlab results/description_lightsheet/videos/"
+      ],
+      "limitations": [
+        "Historical GH146 run02 lacks full TIFF series and Settings; supplied runs03/04/TH each retain 696 TIFFs."
+      ]
+    },
+    {
+      "id": "fluorescein-calibration",
+      "pages": [
+        "hardware",
+        "model"
+      ],
+      "raw": [
+        "aerosense-wiki/hardware information/AeroSense v2/07_validation/fluorescein_2026-10-19/raw/",
+        "aerosense-wiki/hardware information/AeroSense v2/07_validation/fluorescein_2026-10-20/raw/"
+      ],
+      "code": [
+        "aerosense-wiki/resources/hardware-en/unified-calibration/analyze_unified_calibration.py"
+      ],
+      "outputs": [
+        "aerosense-wiki/resources/hardware-en/unified-calibration/"
+      ],
+      "limitations": [
+        "58 pairs / 116 files. raw_input_manifest.csv records historical hardware_test and hardware_test2 paths; archive-root mode resolves their canonical archive locations."
+      ]
+    },
+    {
+      "id": "optical-simulation-measurement",
+      "pages": [
+        "hardware",
+        "model"
+      ],
+      "raw": [
+        "aerosense-wiki/resources/hardware-en/optical-validation/simulation-source.json",
+        "aerosense-wiki/resources/hardware-en/optical-validation/measurement-source.csv"
+      ],
+      "code": [
+        "aerosense-wiki/resources/hardware-en/optical-validation/analyze_optical_validation.py"
+      ],
+      "outputs": [
+        "aerosense-wiki/resources/hardware-en/optical-validation/"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "living-cell-hardware",
+      "pages": [
+        "hardware"
+      ],
+      "raw": [
+        "aerosense-wiki/data/hardware-test3-2026-10-21/raw/",
+        "aerosense-wiki/data/hardware-test3-2026-10-21/revisions/"
+      ],
+      "code": [
+        "aerosense-wiki/data/hardware-test3-2026-10-21/analyze_hardware_test3.py"
+      ],
+      "outputs": [
+        "aerosense-wiki/data/hardware-test3-2026-10-21/"
+      ],
+      "limitations": [
+        "52 immutable firmware exports retained; selected record19 replacement and original scenario separate. Missing new acquisition JSON/timestamp and unresolved provenance conflict remain."
+      ]
+    },
+    {
+      "id": "hardware-wetlab-patterns",
+      "pages": [
+        "hardware",
+        "results"
+      ],
+      "raw": [
+        "aerosense-wiki/data/hardware-test3-2026-10-21/",
+        "aerosense-wiki/data/odor-2026-10-21/"
+      ],
+      "code": [
+        "aerosense-wiki/data/hardware-wetlab-pattern-comparison-2026-10-21/analyze_patterns.py",
+        "aerosense-wiki/data/hardware-wetlab-pattern-comparison-2026-10-21/verify_patterns.py"
+      ],
+      "outputs": [
+        "aerosense-wiki/data/hardware-wetlab-pattern-comparison-2026-10-21/"
+      ],
+      "limitations": [
+        "Source package is a diagnostic comparison; it does not establish cross-platform biological validation."
+      ]
+    },
+    {
+      "id": "hardware-design-and-physics",
+      "pages": [
+        "hardware",
+        "model"
+      ],
+      "raw": [
+        "aerosense-wiki/hardware information/AeroSense v2/01_print/",
+        "aerosense-wiki/hardware information/AeroSense v2/02_simulation/",
+        "aerosense-wiki/hardware information/AeroSense v2/09_engineering_sources/"
+      ],
+      "code": [
+        "aerosense-wiki/hardware information/AeroSense v2/02_simulation/",
+        "hardware-visuals/source/",
+        "scripts/",
+        "reports/hardware-story-v38/optics/"
+      ],
+      "outputs": [
+        "hardware-visuals/outputs/",
+        "aerosense-wiki/hardware information/AeroSense v2/02_simulation/"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "receptor-engineering",
+      "pages": [
+        "model"
+      ],
+      "raw": [
+        "receptor-engineering/data/"
+      ],
+      "code": [
+        "receptor-engineering/scripts/",
+        "receptor-engineering/environments/",
+        "receptor-engineering/vendor/"
+      ],
+      "outputs": [
+        "receptor-engineering/results/",
+        "aerosense-wiki/bioinformatic_results/"
+      ],
+      "limitations": [
+        "Full MD trajectories/checkpoints/topologies, third-party weights, original Gaussian logs/spectra and selected platform binaries remain incomplete per handover. Preserve interruption state and code revisions."
+      ]
+    },
+    {
+      "id": "odor-decoder",
+      "pages": [
+        "model"
+      ],
+      "raw": [
+        "aerosense-wiki/resources/model/odor-decoder-record.html",
+        "aerosense-wiki/assets/notion/model-v2/"
+      ],
+      "code": [
+        "aerosense-wiki/reproduction-source/eNose-feature-igem/"
+      ],
+      "outputs": [
+        "aerosense-wiki/reproduction-source/eNose-feature-igem/analysis/"
+      ],
+      "limitations": [
+        "These are descriptive evidence and wetlab feature-table sources, not the PN-KC-MBON engine. KT stable source/corpus, trained preprocessing, matching seeds/folds/predictions and full training engine are not provided. eNose README lists raw_renamed historically; canonical raw data are under wetlab results/final_test."
+      ]
+    }
+  ],
+  "safe_layout": {
+    "conclusion": "Preserving existing sibling roots and internal names preserves inspected source-relative dependencies. Use friendly linked indexes rather than raw renames.",
+    "archive_root_arguments": {
+      "unified_calibration": "zenodo-release",
+      "complete_curves": "zenodo-release or zenodo-release/aerosense-wiki",
+      "hardware_wetlab_patterns": "zenodo-release/aerosense-wiki/data"
+    },
+    "preserve_historical_paths": "Do not globally rewrite archived source paths, source_relative, source manifests, run metadata or absolute paths: they describe provenance. Add current destination mappings separately.",
+    "known_existing_traps": [
+      "hardware-visuals/source/technical-figures/verify-figures.py resolves WORKSPACE=HERE.parents[1], yielding hardware-visuals/aerosense-wiki rather than sibling aerosense-wiki. This is an existing historical verification path, not a new relocation failure.",
+      "hardware-visuals/source/orthographic/generate-original.py depends on current working directory; prefer the portable generate.py entry point.",
+      "reproduction-source/hardware-odor-backend-20261021/SOURCE-MAPPING.json maps current source across canonical locations. A publication directory is not automatically a standalone runnable project.",
+      "Archived publication snapshots contain distinct versions and licences. Never merge them by filename alone."
+    ],
+    "decision": "Keep all six research roots in their existing positions; add navigation and unified manifests without changing research paths.",
+    "preserve_roots": [
+      "aerosense-wiki",
+      "receptor-engineering",
+      "reports",
+      "reproduction-source",
+      "hardware-visuals",
+      "scripts"
+    ]
+  },
+  "documentation_fixes_recommended": [
+    "Provide one clear WIKI_DATA_COVERAGE mapping page/figure/topic to raw, source, outputs and reproduce command.",
+    "Explain each command archive-root definition explicitly: full package, aerosense-wiki, or aerosense-wiki/data as required. Management metadata moved to 00-provenance are separate from analysis inputs.",
+    "Replace stale reader-facing claim that original hardware_test3 working directory is retained; canonical raw exports are retained but original workspace copy was removed. Preserve earlier provenance wording as history.",
+    "Include previously separate hardware-visuals/reproduction supplements in the new unified file index and SHA list; do not silently omit the 2 previously blocked pyc files if they remain.",
+    "Keep unresolved scientific inputs in a concise current limitations section; do not claim all Model workflows are end-to-end reproducible."
+  ]
+}

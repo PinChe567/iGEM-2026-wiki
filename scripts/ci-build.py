@@ -29,8 +29,9 @@ def preflight():
     node_version = subprocess.check_output(
         [tools["node"], "--version"], text=True, encoding="utf-8"
     ).strip()
-    if int(node_version.lstrip("v").split(".")[0]) < 20:
-        raise RuntimeError("The locked game toolchain requires Node.js 20 or later.")
+    node_major_minor = tuple(int(part) for part in node_version.lstrip("v").split(".")[:2])
+    if node_major_minor < (22, 13):
+        raise RuntimeError("The locked PDF.js build dependency requires Node.js 22.13 or later.")
     required = [
         "game/package.json", "game/package-lock.json",
         "game/apps/wiki-client/package.json", "game/apps/wiki-client/vite.config.ts",
@@ -39,7 +40,8 @@ def preflight():
         "scripts/build-design-system.mjs", "scripts/build-home-bundles.mjs",
         "scripts/qa-compliance.cjs", "scripts/audit-publish-assets-v7.cjs",
         "scripts/prepare_publication_manifest_v7.py", "scripts/build-publication.py",
-        "scripts/build-locales.py",
+        "scripts/build-pdfjs.mjs",
+        "tooling/pdfjs/package.json", "tooling/pdfjs/package-lock.json",
     ]
     for relative in required:
         if not (SITE / relative).is_file():
@@ -54,7 +56,7 @@ def preflight():
             raise RuntimeError(f"Root package.json and package-lock.json differ: {group}")
     manifest = json.loads((SITE / "home-bundle-sources.json").read_text(encoding="utf-8"))
     for relative in manifest["styles"] + manifest["scripts"]:
-        if relative == "css/design-system.css" or re.match(r"js/i18n-.*-v19\.js$", relative):
+        if relative == "css/design-system.css":
             continue
         source = (SITE / relative).resolve()
         if not source.is_relative_to(SITE) or not source.is_file():

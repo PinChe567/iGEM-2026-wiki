@@ -1,0 +1,554 @@
+[
+  {
+    "page": "description",
+    "kind": "prose",
+    "before": "Changes in fungal-associated volatiles may provide a screening window before visible spoilage. AeroSense aims to connect insect OR/Orco receptors in HEK293 cells, a weak-fluorescence reader and a fly-inspired decoder. Current evidence includes endpoint reporter images from one batch, a separate P2 kinetic pilot, reader simulations, fluorescein calibration observations and computation on external metal-oxide sensor data. The intended output is a prompt for follow-up testing, not a mycotoxin concentration or a food-safety clearance.",
+    "after": "Fungal deterioration causes substantial crop losses, highlighting the need for accessible tools for early, on-site detection. Our project, AeroSense, is a modular biohybrid olfactory platform designed for agricultural screening, with banana production as its intended first application. The platform brings together a cell-based sensing array expressing Drosophila odorant receptors and their coreceptor ORCO in HEK293 cells, GCaMP6f fluorescence reporting, a compact four-channel optical reader, and a fly-inspired neural network for odor-pattern decoding. We documented reporter expression and conducted exploratory measurements of fluorescence kinetics. We also built and tested the optical reader using fluorescent standards, with transport and optical modeling informing its design. In parallel, computational studies evaluated odor-pattern decoding on external sensor datasets. Discussions with agricultural researchers and potential users shaped the proposed screening workflow and a shared-access deployment strategy. Together with reusable analysis code, hardware documentation, and educational resources, this work lays the groundwork for an accessible screening tool to guide follow-up inspection and confirmatory testing."
+  },
+  {
+    "page": "description",
+    "kind": "move",
+    "from_section": "abstract",
+    "to_section": "evidence-ladder",
+    "text": "In the single-plate P2 pilot, an ORCO-only well showed an 11.86% VUAA1-associated excursion, while a buffer-only Or35a + ORCO well rose 35.25%. Inspect the P2 evidence and controls ."
+  },
+  {
+    "page": "description",
+    "kind": "wording",
+    "before": "P2",
+    "after": "Test 1",
+    "count": 4
+  },
+  {
+    "page": "description",
+    "kind": "prose",
+    "before": "AeroSense begins with a question: could a changing odor tell us which stored-food samples deserve attention? Each step has its own evidence, and each leaves a different question for the next.",
+    "after": "AeroSense follows a measurement chain: receptor recognition, fluorescence readout, pattern decoding and a screening decision. Each layer has a defined input, output and validation question."
+  },
+  {
+    "page": "description",
+    "kind": "prose",
+    "before": "The Description page states the architecture and the claims we are and are not making. Layer detail lives on the pages below.",
+    "after": "The pages below develop the biological design, measurement system and validation evidence behind this architecture."
+  },
+  {
+    "page": "description",
+    "kind": "prose",
+    "before": "The use of Drosophila OR/Orco and GCaMP in mammalian cells is not our invention.",
+    "after": "Published mammalian OR/Orco sensing establishes the biological starting point for AeroSense."
+  },
+  {
+    "page": "description",
+    "kind": "prose",
+    "before": "AeroSense builds on that established architecture. It does not claim to have invented the receptor, the co-receptor, the calcium indicator, or the agonist control.",
+    "after": "Our contribution is the integration and evaluation of receptor modules, weak-fluorescence hardware and structured decoding within a traceable measurement workflow."
+  },
+  {
+    "page": "description",
+    "kind": "wording",
+    "before": "Our first application in 2026 is",
+    "after": "Our initial application is",
+    "count": 1
+  },
+  {
+    "page": "description",
+    "kind": "wording",
+    "before": "2026 focus",
+    "after": "Application focus",
+    "count": 1
+  },
+  {
+    "page": "description",
+    "kind": "wording",
+    "before": "We narrowed the 2026 application",
+    "after": "We narrowed the initial application",
+    "count": 1
+  },
+  {
+    "page": "results",
+    "kind": "prose",
+    "before": "Test 2 contains 72 wells and 1,440 readings. Rows A, D, E, F, G and H contain VUAA1, isopentyl acetate, 2-heptanone, valeric acid, pentyl acetate and DMSO control, respectively. VUAA1 was diluted 1:100; the odor solutions were diluted 1:1,000, with 0.1% DMSO reported. Stock concentrations were not supplied. Each construct × stimulus has one well; repeated time points are not independent biological replicates.",
+    "after": "Test 2 contains 72 wells and 1,440 readings across ten OR + ORCO conditions, ORCO-only cells and untransfected cells. Each construct × stimulus has one well."
+  },
+  {
+    "page": "experiments",
+    "kind": "prose",
+    "before": "",
+    "after": "Test 2: two-acquisition odor panel"
+  },
+  {
+    "page": "experiments",
+    "kind": "prose",
+    "before": "",
+    "after": "Test 2 contains 72 wells and 1,440 readings. Rows A, D, E, F, G and H contain VUAA1, isopentyl acetate, 2-heptanone, valeric acid, pentyl acetate and DMSO control, respectively. VUAA1 was diluted 1:100; the odor solutions were diluted 1:1,000, with 0.1% DMSO reported. Stock concentrations were not supplied."
+  },
+  {
+    "page": "experiments",
+    "kind": "prose",
+    "before": "",
+    "after": "Positions 1–12 are Or7a + ORCO, Or19a + ORCO, Or22a + ORCO, Or35a + ORCO, Or42a + ORCO, Or59b + ORCO, Or67a + ORCO, Or67b + ORCO, Or85b + ORCO, Or98a + ORCO, ORCO only and no transfect. F0 contains five reads over 0–48 s; F1 contains fifteen reads over 0–168 s, both at 12 s intervals. Each acquisition starts its own clock. Results defines the endpoint correction and VUAA1-reference normalization."
+  },
+  {
+    "page": "results",
+    "kind": "move",
+    "from_section": "kinetic-map",
+    "to_section": "limitations",
+    "text": "These are differences between separate control wells, expressed in percentage points. They describe the observed fluorescence pattern without establishing receptor specificity. The Test 2 DMSO control strengthens the comparison, but unknown acquisition gain and one well per condition still limit interpretation."
+  },
+  {
+    "page": "results",
+    "kind": "move",
+    "from_section": "kinetic-map",
+    "to_section": "limitations",
+    "text": "This map shows response relative to each construct’s reference, not measured transfection efficiency or absolute sensing strength. Each stimulus and reference comes from a separate single well. Or7a’s near-one valeric-acid ratio therefore does not identify it as the strongest responder; the corrected values in Figure 13 preserve the corrected-change magnitudes."
+  },
+  {
+    "page": "results",
+    "kind": "prose",
+    "before": "",
+    "after": "Test 2 concentrations are reported as dilution factors because stock concentrations were not supplied. Repeated time points describe each well’s trajectory; biological replication requires independent cultures."
+  },
+  {
+    "page": "results",
+    "kind": "prose",
+    "before": "The blank yielded 1/170 eligible objects above each channel threshold. The mCherry-free Orco-only condition yielded 0/342 RED-positive and 24/342 GREEN-positive objects. This is a useful separation of reporter channels within the acquired images. Because the blank also determined the cutoff, its 1/170 fraction is a calibration diagnostic, not an independently estimated false-positive rate.",
+    "after": "The blank yielded 1/170 eligible objects above each channel threshold. The mCherry-free Orco-only condition yielded 0/342 RED-positive and 24/342 GREEN-positive objects, separating the two reporter channels within this image set."
+  },
+  {
+    "page": "results",
+    "kind": "prose",
+    "before": "",
+    "after": "The blank also set the positivity threshold. Its 1/170 fraction is therefore a calibration diagnostic rather than an independently estimated false-positive rate."
+  },
+  {
+    "page": "results",
+    "kind": "duplicate_link_removed",
+    "target": "#results-odor21-source-files"
+  },
+  {
+    "page": "design",
+    "kind": "prose",
+    "before": "Discussion · interpreting the first images",
+    "after": "Discussion"
+  },
+  {
+    "page": "design",
+    "kind": "prose",
+    "before": "Supplementary information and data availability",
+    "after": "Data availability"
+  },
+  {
+    "page": "design",
+    "kind": "section_move",
+    "section": "limitations",
+    "to": "design-discussion"
+  },
+  {
+    "page": "design",
+    "kind": "section_move",
+    "section": "design-future-work",
+    "to": "design-discussion"
+  },
+  {
+    "page": "design",
+    "kind": "section_move",
+    "section": "design-feature-catalog",
+    "to": "after-design-data"
+  },
+  {
+    "page": "design",
+    "kind": "section_move",
+    "section": "design-or-catalog",
+    "to": "after-design-data"
+  },
+  {
+    "page": "design",
+    "kind": "prose",
+    "before": "Cassette feature record",
+    "after": "Supplementary data · cassette features"
+  },
+  {
+    "page": "design",
+    "kind": "prose",
+    "before": "Receptor notes",
+    "after": "Supplementary data · receptor notes"
+  },
+  {
+    "page": "design",
+    "kind": "prose",
+    "before": "mCherry can support evidence that the Module 1 cassette is transcribed and that the IRES has fired, because mCherry is a separate polypeptide from the same mRNA.",
+    "after": "mCherry provides an IRES-dependent expression marker translated from the same Module 1 transcript as the tuning receptor."
+  },
+  {
+    "page": "design",
+    "kind": "prose",
+    "before": "Sequence checks, synthesis, Sanger reads, and living-cell function are different claims.\n              They are not collapsed into a single “Verified” status.",
+    "after": "The verification framework distinguishes sequence review, synthesis, Sanger reads and living-cell function, with a separate evidence status for each."
+  },
+  {
+    "page": "design",
+    "kind": "prose",
+    "before": "The P2 data provide the project’s acquired stimulus-response record.",
+    "after": "The acquired odor tests are reported on Results."
+  },
+  {
+    "page": "measurement",
+    "kind": "prose",
+    "before": "Selection is the main uncertainty",
+    "after": "Discussion · measurement uncertainty"
+  },
+  {
+    "page": "measurement",
+    "kind": "prose",
+    "before": "P2: separate the trace from the correction",
+    "after": "Test 1: separate the trace from the correction"
+  },
+  {
+    "page": "measurement",
+    "kind": "prose",
+    "before": "WL-MIC-01. HEK293 cells were imaged 44–48 h after transfection, before G418 selection. The team confirmed 2% PFA fixation followed by DAPI, with no permeabilization; equal exposure within each fluorescence channel across groups; and blank calibration. Identically numbered channels are the same field. The source provides 1–3 fields per condition and no independent biological repeat or live/dead stain.",
+    "after": "WL-MIC-01 contains matched fluorescence channels from the same HEK293 fields, with 1–3 fields per condition. The source images are 8-bit exports. Biological preparation, fixation and staining are documented in Experiments ."
+  },
+  {
+    "page": "measurement",
+    "kind": "move",
+    "from_section": "sample-provenance",
+    "to_section": "discussion",
+    "text": "The experimental date, operator, delivery method, objective, numeric exposure/gain and raw camera intensity conversion are not resolved by the supplied record. The image exports are 8-bit; the available scale bars are retained rather than replaced with an inferred pixel calibration. The undated provenance entry separates the supplied evidence from absent acquisition metadata. Culture and delivery specifications are on Experiments ."
+  },
+  {
+    "page": "measurement",
+    "kind": "prose",
+    "before": "",
+    "after": "The supplied image set has no independent biological repeat or live/dead stain. These limits apply to population and viability claims, while the analysis remains reproducible at the selected-object level."
+  },
+  {
+    "page": "measurement",
+    "kind": "prose",
+    "before": "The acquired P2 pilot adds a different measurement to the endpoint images: one 96-well HEK293 plate recorded about 72 h after transfection, without G418 selection. Each condition × stimulus has one well. Fifteen repeated readings of a well describe its time course; they do not provide fifteen independent samples.",
+    "after": "Test 1 adds kinetic fluorescence measurements from one 96-well HEK293 plate. Each condition × stimulus has one well; fifteen sequential readings describe its time course. The biological preparation is documented in Experiments ."
+  },
+  {
+    "page": "measurement",
+    "kind": "prose",
+    "before": "",
+    "after": "Test 1 was acquired approximately 72 h after transfection without G418 selection, separately from the 44–48 h fixed-cell images. Fifteen reads of one well remain technical observations rather than independent samples."
+  },
+  {
+    "page": "measurement",
+    "kind": "wording",
+    "before": "P2 adds acquired",
+    "after": "Test 1 adds acquired",
+    "count": 1
+  },
+  {
+    "page": "measurement",
+    "kind": "prose",
+    "before": "The analysis defines a reproducible selected-object fraction and exposes threshold sensitivity and disagreement with fluorescent area. It does not estimate whole-culture transfection efficiency, biological reproducibility or receptor response.",
+    "after": "The analysis produces a reproducible selected-object fraction, quantifies threshold sensitivity and distinguishes local reporter contrast from broad fluorescent area. These defined measurements support comparison within the acquired image set."
+  },
+  {
+    "page": "measurement",
+    "kind": "prose",
+    "before": "",
+    "after": "The selected-object fraction does not estimate whole-culture transfection efficiency, biological reproducibility or receptor function."
+  },
+  {
+    "page": "measurement",
+    "kind": "duplicate_link_removed",
+    "target": "#reproducibility"
+  },
+  {
+    "page": "measurement",
+    "kind": "duplicate_link_removed",
+    "target": "#reproducibility"
+  },
+  {
+    "page": "measurement",
+    "kind": "duplicate_link_removed",
+    "target": "#reproducibility"
+  },
+  {
+    "page": "measurement",
+    "kind": "prose",
+    "before": "The signal score is q90(signal pixels) − median(background-ring pixels) . Units are exported digital numbers (DN), not calibrated photons or calcium concentration. Primary segmentation and thresholds remain unchanged in the added analysis. The and define the implementation exactly.",
+    "after": "The signal score is q90(signal pixels) − median(background-ring pixels). Units are exported digital numbers (DN). The primary segmentation and thresholds are retained in the control audit; source code and parameter files are collected under Data availability."
+  },
+  {
+    "page": "measurement",
+    "kind": "prose",
+    "before": "",
+    "after": "Exported digital numbers are not calibrated photon counts or calcium concentrations."
+  },
+  {
+    "page": "experiments",
+    "kind": "prose",
+    "before": "P2: the 96-well kinetic assay",
+    "after": "Odor-test acquisition and analysis"
+  },
+  {
+    "page": "experiments",
+    "kind": "wording",
+    "before": "P2",
+    "after": "Test 1",
+    "count": 15
+  },
+  {
+    "page": "experiments",
+    "kind": "prose",
+    "before": "The team confirms that the supplied HEK293 images were acquired approximately 44–48 h after transfection and before G418 selection. Cells were fixed with 2% paraformaldehyde before DAPI staining, without a permeabilization step. Blue images show DAPI. Files sharing the same field number refer to the same field of view across channels; exposure was held constant within each channel across groups, and blank calibration was performed. Fixation duration, numerical exposure settings and the complete acquisition log have not been supplied.",
+    "after": "The supplied HEK293 images were acquired approximately 44–48 h after transfection and before G418 selection. Cells were fixed with 2% paraformaldehyde, without permeabilization, then stained with DAPI. Blue images show DAPI; matching field numbers identify the same field across channels. Exposure was held constant within each channel across groups, and blank calibration was performed. Fixation duration, numerical exposure settings and the complete acquisition log were not supplied."
+  },
+  {
+    "page": "experiments",
+    "kind": "prose",
+    "before": "Zboray et al. used FuGene HD into HEK293 stable lines [2] . That is not substituted for the AeroSense transfection specification above.",
+    "after": "The reference study used FuGene HD in HEK293 stable lines [2] . AeroSense retains its own delivery specification and sample record."
+  },
+  {
+    "page": "parts",
+    "kind": "prose",
+    "before": "Documentation and analysis data",
+    "after": "Data availability"
+  },
+  {
+    "page": "parts",
+    "kind": "prose",
+    "before": "Select a block to highlight its path and update the explanation below. Backbone features (CMV, BGH poly(A)) are pcDNA3.1(+) annotations, not registered AeroSense parts.",
+    "after": "Select a block to trace its expression pathway. CMV and BGH poly(A) are shared pcDNA3.1(+) backbone features; the catalogue identifies the registered AeroSense parts."
+  },
+  {
+    "page": "parts",
+    "kind": "prose",
+    "before": "Select a protein in the diagram to highlight its translation product. The schematic shows topology, not atomic structure, subunit stoichiometry or measured activity.",
+    "after": "Select a protein to highlight its translation product. The diagram represents the designed topology; structural and functional evidence is documented separately."
+  },
+  {
+    "page": "contribution",
+    "kind": "prose",
+    "before": "Reuse the P2 kinetic pilot",
+    "after": "Reuse the kinetic odor assays"
+  },
+  {
+    "page": "contribution",
+    "kind": "wording",
+    "before": "P2",
+    "after": "Test 1",
+    "count": 5
+  },
+  {
+    "page": "contribution",
+    "kind": "prose",
+    "before": "Current scope",
+    "after": "Discussion · reuse scope"
+  },
+  {
+    "page": "contribution",
+    "kind": "prose",
+    "before": "What the next team can reuse",
+    "after": "Conclusion"
+  },
+  {
+    "page": "contribution",
+    "kind": "prose",
+    "before": "AeroSense documents a path from engineered olfactory receptors through weak-signal measurement and structured data to computational odor decoding.",
+    "after": "AeroSense provides reusable biological designs, weak-signal measurement methods and structured odor-decoding resources. Teams can adopt one layer and trace its inputs, analysis and evidence independently."
+  },
+  {
+    "page": "results",
+    "kind": "prose",
+    "before": "VUAA1 is an established Orco agonist used in heterologous receptor assays. Here we report VUAA1-associated fluorescence; these measurements alone do not identify its mechanism. [2] [3]",
+    "after": "VUAA1 is an established Orco agonist used in heterologous receptor assays. [2] [3]"
+  },
+  {
+    "page": "results",
+    "kind": "prose",
+    "before": "The control comparisons use separate wells. They expose background dependence but do not correct unknown acquisition gain or differences in cell state. Test 1 also lacks a matched DMSO vehicle control. Positive and negative differences are not activation calls; replicated, vehicle-matched measurements are needed to separate ligand effects from these factors.",
+    "after": "Control comparisons use separate single wells and describe fluorescence patterns rather than receptor-specific activation. Test 2 includes a DMSO reference; Test 1 lacks a matched vehicle control. Unrecorded gain, cell-state variation and dilution-only concentration records limit interpretation. Vehicle-matched tests at documented doses in independent cultures are needed to separate these effects."
+  },
+  {
+    "page": "results",
+    "kind": "consolidated",
+    "text": "These are differences between separate control wells, expressed in percentage points. They describe the observed fluorescence pattern without establishing receptor specificity. The Test 2 DMSO control strengthens the comparison, but unknown acquisition gain and one well per condition still limit interpretation.",
+    "reason": "Merged with the adjacent control-comparison limitation; metrics remain defined in captions and supplement."
+  },
+  {
+    "page": "results",
+    "kind": "prose",
+    "before": "Test 2 concentrations are reported as dilution factors because stock concentrations were not supplied. Repeated time points describe each well’s trajectory; biological replication requires independent cultures.",
+    "after": "Stock concentrations were not supplied for Test 2. Repeated time points describe within-well trajectories and do not provide independent biological replication."
+  },
+  {
+    "page": "results",
+    "kind": "prose",
+    "before": "The odor assays provide time-resolved evidence of VUAA1-associated fluorescence. In Test 2, F0-subtracted VUAA1 changes are +36.67 pp for Or35a + ORCO, +17.52 pp for Or85b + ORCO, +29.46 pp for Or98a + ORCO, and +18.69 pp for ORCO only, compared with −0.11 pp in untransfected cells. The control maps and retained raw records make these observations inspectable; independent replication is still needed to assess reproducibility and receptor specificity.",
+    "after": "The odor assays provide time-resolved evidence of VUAA1-associated fluorescence. In Test 2, F0-subtracted VUAA1 changes are +36.67 pp for Or35a + ORCO, +17.52 pp for Or85b + ORCO, +29.46 pp for Or98a + ORCO, and +18.69 pp for ORCO only, compared with −0.11 pp in untransfected cells. The control maps and retained raw records make these observations inspectable."
+  },
+  {
+    "page": "measurement",
+    "kind": "prose",
+    "before": "The numerator is the number of eligible DAPI-connected objects whose reporter score exceeds a channel-specific blank threshold. The denominator is all objects passing the same geometric and background rules. An accepted object is not guaranteed to represent exactly one cell; excluded aggregates can contain many cells. Neither fluorescent pixel area nor this selected-object fraction estimates the fraction of all live cells transfected.",
+    "after": "The selected-object fraction divides reporter-positive DAPI-connected objects by all objects passing the same geometric and background rules. A channel-specific blank threshold defines positivity. This denominator describes resolvable objects, not all cells in the culture."
+  },
+  {
+    "page": "measurement",
+    "kind": "prose",
+    "before": "The untransfected blank estimates image background for threshold setting. The Orco-only condition contains the green reporter module without the mCherry sensing cassette; it is a channel-specific negative control for RED. Neither is a viability control. The original blank was used both to fit and inspect the primary threshold; its 1/170 positive-object fraction is an in-sample background summary.",
+    "after": "The untransfected blank sets the image-background threshold. The Orco-only condition contains the green reporter module without the mCherry sensing cassette, providing a channel-specific RED negative control. The primary blank’s 1/170 positive-object fraction summarizes the same fields used for calibration."
+  },
+  {
+    "page": "measurement",
+    "kind": "prose",
+    "before": "We therefore added a post-hoc leave-one-blank-field-out calculation: calibrate from the other two fields and evaluate the held field. All three splits are shown; no favorable split was selected. This checks within-batch field sensitivity, not independent-day assay specificity.",
+    "after": "We assessed threshold sensitivity by leaving out each blank field in turn: calibrate with two fields and evaluate the third. All three splits are reported."
+  },
+  {
+    "page": "measurement",
+    "kind": "prose",
+    "before": "The asymmetry identifies field 1 as influential in calibration. It also shows why the original fitted-blank fraction is not an independent error rate. A separately prepared blank on another day remains necessary. .",
+    "after": "The asymmetry identifies field 1 as influential in calibration."
+  },
+  {
+    "page": "measurement",
+    "kind": "prose",
+    "before": "These diagnostics assume independent objects, although objects within a field share exposure, density and preparation, and fields from one culture are biological pseudoreplicates. The primary blank also set the threshold. The nominal tests therefore quantify object-level differences, not biological significance or equivalence between treatments.",
+    "after": "The nominal object-level tests assume independence. Discussion addresses clustering, shared preparation and threshold-estimation uncertainty."
+  },
+  {
+    "page": "measurement",
+    "kind": "prose",
+    "before": "",
+    "after": "Objects in one field share exposure, density and preparation; fields from one culture are not independent biological replicates. The fitted blank and field-holdout results describe within-batch threshold behavior, not independent-day specificity. Fisher tests and Wilson intervals therefore quantify nominal object-level contrasts and counting uncertainty, without accounting for clustering, segmentation error or threshold estimation. A separately prepared blank is needed to assess specificity."
+  },
+  {
+    "page": "measurement",
+    "kind": "prose",
+    "before": "The analyzed material is one transfection batch. Additional fields improve spatial coverage within that batch but do not add independent biological replication.",
+    "after": "The image set represents one transfection batch without a live/dead stain. Additional fields improve spatial coverage but do not establish viability, whole-culture transfection efficiency, reproducibility or receptor function."
+  },
+  {
+    "page": "measurement",
+    "kind": "consolidated",
+    "text": "The supplied image set has no independent biological repeat or live/dead stain. These limits apply to population and viability claims, while the analysis remains reproducible at the selected-object level.",
+    "reason": "Consolidated into the single-batch scope paragraph."
+  },
+  {
+    "page": "measurement",
+    "kind": "consolidated",
+    "text": "The selected-object fraction does not estimate whole-culture transfection efficiency, biological reproducibility or receptor function.",
+    "reason": "Consolidated into the single-batch scope paragraph."
+  },
+  {
+    "page": "measurement",
+    "kind": "prose",
+    "before": "Test 1 adds acquired baseline, buffer and nominal VUAA1 time courses. The time-course specification documents the measurement controls; the acquired pilot is analyzed in Results. time-course specification",
+    "after": "Test 1 extends the analysis to baseline, buffer and VUAA1 time courses. Experiments separates acquired methods from the proposed time-course specification."
+  },
+  {
+    "page": "measurement",
+    "kind": "prose",
+    "before": "Inspect the disagreement plot · .",
+    "after": "Inspect the disagreement plot ."
+  },
+  {
+    "page": "measurement",
+    "kind": "wording",
+    "before": "P2: original",
+    "after": "Test 1: original",
+    "count": 1
+  },
+  {
+    "page": "design",
+    "kind": "prose",
+    "before": "",
+    "after": "The sequence-check record is distinct from raw Sanger chromatograms, localization measurements and replicated VOC-response data. The available evidence does not include those validation layers. Schematics explain the architecture and are not sequence or structural measurements."
+  },
+  {
+    "page": "design",
+    "kind": "prose",
+    "before": "The cassette feature record and receptor notes provide accessible counterparts to the interactive diagrams. Parts links the component inventory and Registry records; Experiments documents the workflow; Engineering records the vector and reporter revisions. The verification table above reports the source record’s sequence checks. This page does not supply raw Sanger chromatograms, a localization assay or a replicated VOC-response dataset; biological images and available analysis files are indexed on Results . Schematics are explanatory drawings and should not be used as sequence or structural measurements.",
+    "after": "The cassette feature record and receptor notes accompany the interactive diagrams. Parts indexes components and Registry records; Experiments documents methods; Engineering records design iterations. Biological images and analysis files are indexed in Results · Data availability ."
+  },
+  {
+    "page": "contribution",
+    "kind": "move",
+    "from_section": "released-contribution",
+    "to_section": "contribution-data-availability",
+    "text": "The control-comparison files include aggregate inputs, an executable script, source hashes and output tables. The protocol record distinguishes executed procedures from assay specifications. Control-comparison code — GitLab · Data availability Protocol record — GitLab"
+  },
+  {
+    "page": "contribution",
+    "kind": "consolidated",
+    "text": "Control-comparison code — GitLab",
+    "reason": "Duplicate self-link; canonical resource links already in the same section."
+  },
+  {
+    "page": "contribution",
+    "kind": "consolidated",
+    "text": "Data availability",
+    "reason": "Duplicate self-link; canonical resource links already in the same section."
+  },
+  {
+    "page": "contribution",
+    "kind": "consolidated",
+    "text": "Protocol record — GitLab",
+    "reason": "Duplicate self-link; canonical resource links already in the same section."
+  },
+  {
+    "page": "contribution",
+    "kind": "consolidated",
+    "text": "Microscopy analysis code — GitLab",
+    "reason": "Opening-section download buttons consolidated in Data availability."
+  },
+  {
+    "page": "contribution",
+    "kind": "consolidated",
+    "text": "Data availability",
+    "reason": "Opening-section download buttons consolidated in Data availability."
+  },
+  {
+    "page": "contribution",
+    "kind": "consolidated",
+    "text": "Test 1 code and method — GitLab",
+    "reason": "Opening-section download buttons consolidated in Data availability."
+  },
+  {
+    "page": "contribution",
+    "kind": "consolidated",
+    "text": "Data availability",
+    "reason": "Opening-section download buttons consolidated in Data availability."
+  },
+  {
+    "page": "contribution",
+    "kind": "consolidated",
+    "text": "Each AeroSense layer has its own design record, methods and reuse materials. Teams can reuse an individual layer and trace its evidence without rebuilding the entire project.",
+    "reason": "Duplicate conclusion merged into the preceding paragraph."
+  },
+  {
+    "page": "contribution",
+    "kind": "prose",
+    "before": "The control-comparison files include aggregate inputs, an executable script, source hashes and output tables. The protocol record distinguishes executed procedures from assay specifications. ·",
+    "after": "The control-comparison package contains aggregate inputs, executable analysis, source hashes and output tables. The protocol record distinguishes executed procedures from assay specifications."
+  },
+  {
+    "page": "parts",
+    "kind": "wording",
+    "before": "exploratory P2 measurements",
+    "after": "the two exploratory odor tests",
+    "count": 1
+  },
+  {
+    "page": "parts",
+    "kind": "wording",
+    "before": "P2 well summary",
+    "after": "Test 1 well summary",
+    "count": 1
+  },
+  {
+    "page": "parts",
+    "kind": "wording",
+    "before": "P2 control contrasts",
+    "after": "Test 1 control contrasts",
+    "count": 1
+  }
+]

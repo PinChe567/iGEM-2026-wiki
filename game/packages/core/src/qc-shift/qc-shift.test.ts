@@ -42,10 +42,8 @@ const FORBIDDEN = [
 function collectCopy(): string[] {
   const blobs = [
     QC_SHIFT_DISCLAIMER.en,
-    QC_SHIFT_DISCLAIMER['zh-Hant'],
     QC_SHIFT_SCREENING_NOTE.en,
-    QC_SHIFT_SCREENING_NOTE['zh-Hant'],
-    ...Object.values(QC_SHIFT_EXPLANATIONS).flatMap((row) => [row.en, row['zh-Hant']]),
+    ...Object.values(QC_SHIFT_EXPLANATIONS).flatMap((row) => [row.en]),
   ];
   return blobs;
 }
@@ -421,7 +419,7 @@ describe('qc-shift storage', () => {
   it('parses corrupt and empty payloads', () => {
     expect(parseQcShiftStoredJson(null).storageVersion).toBe(1);
     expect(parseQcShiftStoredJson('{not json').playedSeeds).toEqual([]);
-    expect(migrateQcShiftStoredState({ locale: 'fr', bestByPreset: { x: 3 } }).locale).toBe('zh-Hant');
+    expect(migrateQcShiftStoredState({ locale: 'fr', bestByPreset: { x: 3 } }).locale).toBe('en');
     expect(QC_SHIFT_STORAGE_KEY).toBe('suite.qc-shift.v1');
     expect(parseQcShiftStoredJson(null).tutorialSeen).toBe(false);
     expect(migrateQcShiftStoredState({ tutorialSeen: true, designHelpChoices: ['risk'] }).tutorialSeen).toBe(true);

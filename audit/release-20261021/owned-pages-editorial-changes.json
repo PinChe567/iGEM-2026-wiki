@@ -1,0 +1,182 @@
+[
+  {
+    "page": "hardware",
+    "action": "rewrite paragraph",
+    "old": "AeroSense is a compact reader that combines four replaceable 100 µL wells, frequency-tagged blue LEDs, a filtered photodiode, ESP32 acquisition and a local phone interface. The eight-part enclosure fixes the optical geometry and separates sample gas from electronics cooling. Optical and airflow simulations guided filter selection and the inlet shelf, while assembly feedback informed the manual. Fluorescein measurements resolve four frequency channels and quantify cross-well responses. Explicit I/Q matrix correction distinguishes isolated controls, but transfer to simultaneous multi-well loading remains inconsistent; concentration recovery therefore requires further matched-control validation.",
+    "new": "AeroSense combines four replaceable 100 µL wells, frequency-tagged blue LEDs, a filtered photodiode, ESP32 acquisition and a local phone interface. An eight-part enclosure fixes the optical geometry and separates sample gas from electronics cooling. Optical and airflow simulations guided filter selection and the inlet shelf; assembly feedback informed the manual. Fluorescein measurements resolve four frequency channels, quantify cross-well responses and test calibration under isolated and simultaneous loading."
+  },
+  {
+    "page": "hardware",
+    "action": "rewrite paragraph",
+    "old": "Verification follows the measured signal: separate four frequency tags, compare simulated and measured cross-talk, apply the measured source matrix, and inspect the resulting estimates and residuals. The checks distinguish performing a correction from demonstrating reliable concentration recovery.",
+    "new": "Verification follows the measured signal from frequency separation through cross-talk comparison, multi-well additivity and concentration checks. Raw records, calibration calculations and residuals link each result to its acquisition conditions."
+  },
+  {
+    "page": "hardware",
+    "action": "rewrite paragraph",
+    "old": "Pairing matching matrix entries is appropriate for this descriptive comparison. However, the four large same-well responses strongly influence the overall r = 0.810. Restricting the calculation to the 12 off-diagonal cross-talk entries gives r = 0.257. The overall positive association therefore does not establish agreement in the detailed leakage pattern or equal response magnitudes.",
+    "new": "The overall Pearson correlation is r = 0.810 across all 16 corresponding matrix entries; the 12 off-diagonal cross-talk entries give r = 0.257."
+  },
+  {
+    "page": "hardware",
+    "action": "move paragraph",
+    "text": "The simulation is an ideal floor-layer source, while the standard emits through liquid volume and the measured response includes electronics. Printed geometry, alignment, resin optics and electrical interference could contribute to the wider experimental response, but this comparison does not isolate those causes. The result supports partial trend agreement with the design model; it does not establish a matched-condition optical validation or complete correction of arbitrary mixtures.",
+    "destination": "hardware-discussion"
+  },
+  {
+    "page": "hardware",
+    "action": "rewrite paragraph",
+    "old": "All four measured responses fall below the prediction; D3 reaches only 48.3%. This dataset therefore does not support directly applying the isolated-well proportions to subtract contributions during simultaneous loading. The comparison shows a mismatch, but does not identify its physical cause. Section 4 shows the separate per-channel calibration curves; the detailed matrix calculations remain in the supplementary analysis.",
+    "new": "All four measured responses fall below the sum of the isolated-well predictions; D3 reaches only 48.3%. This comparison tests the additivity required to use isolated-well responses for simultaneous loading."
+  },
+  {
+    "page": "hardware",
+    "action": "rewrite paragraph",
+    "old": "Low concentrations and unequal-well loadings still show deviations. These checks support per-channel calibration within the tested configurations, not a single accuracy specification for arbitrary mixtures. The matrix-unmixing estimates and their residuals remain available in the supplementary analysis.",
+    "new": "The checks resolve how calibration error changes with prepared concentration and loading pattern. Low concentrations and unequal-well loadings show the largest deviations."
+  },
+  {
+    "page": "hardware",
+    "action": "move paragraph",
+    "text": "Liquid addition may contribute to these trajectories, but this single run does not separate that effect from receptor responses or optical mixing. The separate fluorescein calibration was not applied to these cell measurements.",
+    "destination": "hardware-discussion"
+  },
+  {
+    "page": "hardware",
+    "action": "rewrite paragraph",
+    "old": "AeroSense integrates removable wells, filtered optical collection, shared-photodiode electronics and a local phone interface. Fluorescein measurements demonstrate four-frequency separation and quantify source mixing. The reproducible analysis now applies the full measured I/Q matrix and reports its residuals, including negative diagnostic estimates. The remaining loading-dependent discrepancy defines the next calibration experiment; reliable arbitrary-mixture concentration recovery has not yet been demonstrated.",
+    "new": "AeroSense integrates removable wells, filtered optical collection, shared-photodiode electronics and a local phone interface. Fluorescein measurements demonstrate four-frequency separation and quantify source mixing. The measured I/Q matrix, concentration checks and cell-containing-well traces provide a reproducible basis for selecting the next calibration and biological-control experiments."
+  },
+  {
+    "page": "hardware",
+    "action": "text",
+    "old": "on 20 October 2026",
+    "new": "in the recorded conversion snapshot"
+  },
+  {
+    "page": "hardware",
+    "action": "verification",
+    "all_original_links_retained": true,
+    "media_refs_unchanged": true,
+    "inline_svg_unchanged": true,
+    "scripts_unchanged": true,
+    "table_values_unchanged": true,
+    "ids_preserved": true,
+    "before_sha256": "84cc87c9104225860a2e1c13b3a8f084e1559598941cf03fdf2eb629264bec6a",
+    "after_sha256": "93ec81194dff6c08a206612db84831c11f5d84d64179ffcea4eb52852975acd4"
+  },
+  {
+    "page": "model",
+    "action": "text",
+    "old": "Simulate the reader before building",
+    "new": "Physical model overview"
+  },
+  {
+    "page": "model",
+    "action": "text",
+    "old": "Transport and measurement come first",
+    "new": "Transport and measurement assumptions"
+  },
+  {
+    "page": "model",
+    "action": "move paragraph",
+    "text": "The four strong same-well entries contribute substantially to this association. Comparing only the 12 cross-well entries gives Pearson r = 0.257, so the overall correlation does not establish quantitative agreement of the leakage pattern. The liquid-standard and floor-layer source conditions also differ, and the measured response includes electronic effects. .",
+    "destination": "hardware-model-discussion"
+  },
+  {
+    "page": "model",
+    "action": "rewrite paragraph",
+    "old": "The current comparison tests no filter, one or two LEE101 layers, and a constructed 500 nm OD4 longpass scenario. Unlike the earlier fixed-OD, green-equivalent-power traces, this model integrates wavelength-dependent source power, filter transmission and detector responsivity to predict photodiode current in nA . It still describes a simulated optical input, without measured electronics or cell data.",
+    "new": "The comparison tests no filter, one or two LEE101 layers, and a constructed 500 nm OD4 longpass scenario. The model integrates wavelength-dependent source power, filter transmission and detector responsivity to predict photodiode current in nA under the stated optical assumptions."
+  },
+  {
+    "page": "model",
+    "action": "move paragraph",
+    "text": "This one-factor sensitivity study is exploratory. The related weight refinement was jagged and non-monotonic, and its best fixed-seed value remains gated. The companion state-precision experiment was invalidated by a clock-scheduling error; it is not a valid precision result. Read the invalidation and exact scope · Inspect the engineering record .",
+    "destination": "aerosense-bridge"
+  },
+  {
+    "page": "model",
+    "action": "verification",
+    "all_original_links_retained": true,
+    "media_refs_unchanged": true,
+    "inline_svg_unchanged": true,
+    "scripts_unchanged": true,
+    "table_values_unchanged": true,
+    "ids_preserved": true,
+    "before_sha256": "ca5d186ee7a49aa5f4b2d2af98bd67ad5fc04fa2976b71d59d4ed8366ad3da26",
+    "after_sha256": "7451de7a0a2389cf469edba2f247660dceaf047899a237f1d5dd108ccd8a3879"
+  },
+  {
+    "page": "engineering",
+    "action": "text",
+    "old": "How to read the cycles",
+    "new": "Engineering approach"
+  },
+  {
+    "page": "engineering",
+    "action": "text",
+    "old": "16 October 2026: board diagnosis informs the next gain test",
+    "new": "Board diagnosis informs the next gain test"
+  },
+  {
+    "page": "engineering",
+    "action": "text",
+    "old": "8 October update.",
+    "new": "Earlier integration package."
+  },
+  {
+    "page": "engineering",
+    "action": "text",
+    "old": "By early August, V1 had",
+    "new": "V1 included"
+  },
+  {
+    "page": "engineering",
+    "action": "text",
+    "old": "The 2 August archive recorded",
+    "new": "The V1 archive recorded"
+  },
+  {
+    "page": "engineering",
+    "action": "text",
+    "old": "The 11 October workbook recorded",
+    "new": "The historical workbook recorded"
+  },
+  {
+    "page": "engineering",
+    "action": "text",
+    "old": " is dated 5 October 2026, 15:13",
+    "new": " records the historical quotation basis"
+  },
+  {
+    "page": "engineering",
+    "action": "text",
+    "old": "As of 16 October 2026, resistor replacement and these verification tests were pending.",
+    "new": "The diagnostic record ended with resistor replacement and verification tests proposed for the next iteration."
+  },
+  {
+    "page": "engineering",
+    "action": "move paragraph",
+    "text": "The archive contains the V2 design and verification protocol; no V3 revision is documented.",
+    "destination": "what-we-would-do-differently"
+  },
+  {
+    "page": "engineering",
+    "action": "move paragraph",
+    "text": "The DRC report names final.kicad_pcb; the retained editable file is final2.kicad_pcb. The archive does not establish that the report checks that exact saved revision.",
+    "destination": "what-we-would-do-differently"
+  },
+  {
+    "page": "engineering",
+    "action": "verification",
+    "all_original_links_retained": true,
+    "media_refs_unchanged": true,
+    "inline_svg_unchanged": true,
+    "scripts_unchanged": true,
+    "table_values_unchanged": true,
+    "ids_preserved": true,
+    "before_sha256": "491b2dba80c1213919bceb557c3a292dd3d0ee5c37288254a92e32446b01b9d9",
+    "after_sha256": "c7ed5ac34ccd6bed00a19b850fcf15898194605bc31423f2902002423701c8f7"
+  }
+]

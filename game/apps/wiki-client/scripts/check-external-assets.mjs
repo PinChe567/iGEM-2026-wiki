@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Fails if wiki-client dist contains runtime external asset loads
+ * Fails if wiki-client dist contains runtime asset loads outside official iGEM hosting
  * (script/src/import/font/css url/img). Plain https in prose and
  * ordinary <a href> citation links are allowed.
  */
@@ -61,7 +61,13 @@ const findings = [];
 
 for (const file of files) {
   const lines = fs.readFileSync(file, 'utf8').split(/\r?\n/);
-  lines.forEach((line, index) => {
+  lines.forEach((originalLine, index) => {
+    // Official byte-verified iGEM media is required by the current hosting rules.
+    // Remove only exact HTTPS static.igem.wiki URLs before checking other hosts.
+    const line = originalLine.replace(/https:\/\/[^\s"'<>`)]+/g, (url) => {
+      try { return new URL(url).hostname === 'static.igem.wiki' ? 'official-igem-asset' : url; }
+      catch { return url; }
+    });
     if (isCitationAnchorLine(line)) return;
 
     for (const re of RUNTIME_RES) {

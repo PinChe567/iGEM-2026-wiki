@@ -1,0 +1,471 @@
+[
+  {
+    "dataset_id": "01-test1",
+    "title": "Test 1 氣味篩選 / Odor screen",
+    "pages": [
+      "results",
+      "measurement"
+    ],
+    "description": "32 original instrument CSVs; 3,840 readings; filename map retained",
+    "raw": [
+      "aerosense-wiki/wetlab results/final_test/raw_renamed/"
+    ],
+    "code": [
+      "aerosense-wiki/assets/results/final-test/analyze_plate_p2.py",
+      "aerosense-wiki/assets/results/final-test/plot_plate_p2.py"
+    ],
+    "outputs": [
+      "aerosense-wiki/assets/results/final-test/derived/",
+      "aerosense-wiki/assets/results/final-test/figures/"
+    ],
+    "status": "Raw exports present; acquisition metadata incomplete",
+    "notes": "32 instrument CSVs plus one filename mapping CSV, not 33 experiments. Acquisition metadata gaps remain in 00-guide/KNOWN_GAPS.txt."
+  },
+  {
+    "dataset_id": "02-test2",
+    "title": "Test 2 氣味篩選 / Odor screen",
+    "pages": [
+      "results",
+      "measurement"
+    ],
+    "description": "12 XLSX exports; 72 wells; 1,440 readings; current endpoint-change and reference analyses",
+    "raw": [
+      "aerosense-wiki/data/odor-2026-10-21/raw/",
+      "aerosense-wiki/data/odor-2026-10-21/raw-manifest.json"
+    ],
+    "code": [
+      "aerosense-wiki/data/odor-2026-10-21/analysis/"
+    ],
+    "outputs": [
+      "aerosense-wiki/data/odor-2026-10-21/derived/",
+      "aerosense-wiki/data/odor-2026-10-21/figures/"
+    ],
+    "status": "Raw exports present; acquisition metadata incomplete",
+    "notes": "12 XLSX exports; 72 wells and 1440 readings. Biological independent replicates and unresolved acquisition/dose metadata cannot be supplied by renaming files."
+  },
+  {
+    "dataset_id": "03-complete-curves",
+    "title": "完整時間曲線 / Complete time courses",
+    "pages": [
+      "results",
+      "measurement"
+    ],
+    "description": "All 5,280 readings across Test 1 and Test 2, plus reconstructed curves and normalization diagnostics",
+    "raw": [
+      "aerosense-wiki/wetlab results/final_test/raw_renamed/",
+      "aerosense-wiki/data/odor-2026-10-21/raw/"
+    ],
+    "code": [
+      "aerosense-wiki/data/odor-complete-curves-2026-10-21/analysis/build_complete_curves.py"
+    ],
+    "outputs": [
+      "aerosense-wiki/data/odor-complete-curves-2026-10-21/derived/",
+      "aerosense-wiki/data/odor-complete-curves-2026-10-21/figures/"
+    ],
+    "status": "Inputs, code and retained outputs present",
+    "notes": ""
+  },
+  {
+    "dataset_id": "04-microscopy",
+    "title": "轉染與顯微影像 / Transfection microscopy",
+    "pages": [
+      "results",
+      "measurement"
+    ],
+    "description": "Original microscopy images, current team-confirmed transfect.xlsx, segmentation and control comparisons",
+    "raw": [
+      "aerosense-wiki/wetlab results/transfection_effeciency/"
+    ],
+    "code": [
+      "aerosense-wiki/assets/results/microscopy/analyze_microscopy.py",
+      "aerosense-wiki/assets/results/microscopy/analyze_nuclear_objects.py",
+      "aerosense-wiki/assets/results/microscopy/compare_controls.py"
+    ],
+    "outputs": [
+      "aerosense-wiki/assets/results/microscopy/"
+    ],
+    "status": "Images, workbook and analysis present; acquisition metadata incomplete",
+    "notes": "Retain original misspelling transfection_effeciency: source path is hardcoded. Display exports, one transfection batch, and missing numeric acquisition settings remain scientific limitations."
+  },
+  {
+    "dataset_id": "05-lightsheet",
+    "title": "果蠅光片影像 / Light-sheet imaging",
+    "pages": [
+      "results"
+    ],
+    "description": "TH, GH146 runs 03 and 04 each contain 696 TIFF frames; ROI traces, movies and corrected analysis",
+    "raw": [
+      "aerosense-wiki/wetlab results/description_lightsheet/raw_data/",
+      "aerosense-wiki/wetlab results/description_lightsheet/source/"
+    ],
+    "code": [
+      "reports/lightsheet-v50/plot-full-recording-dff.py",
+      "reports/lightsheet-v51/plot-comparison.py"
+    ],
+    "outputs": [
+      "aerosense-wiki/wetlab results/description_lightsheet/results/",
+      "aerosense-wiki/wetlab results/description_lightsheet/videos/"
+    ],
+    "status": "Current runs present; historical GH146 run 02 raw stack and Settings incomplete",
+    "notes": "Historical GH146 run02 lacks full TIFF series and Settings; supplied runs03/04/TH each retain 696 TIFFs."
+  },
+  {
+    "dataset_id": "06-fluorescein-calibration",
+    "title": "螢光硬體校正 / Fluorescein calibration",
+    "pages": [
+      "hardware",
+      "model"
+    ],
+    "description": "58 acquisitions, 116 paired CSV/JSON exports; unified calibration and diagnostic outputs",
+    "raw": [
+      "aerosense-wiki/hardware information/AeroSense v2/07_validation/fluorescein_2026-10-19/raw/",
+      "aerosense-wiki/hardware information/AeroSense v2/07_validation/fluorescein_2026-10-20/raw/"
+    ],
+    "code": [
+      "aerosense-wiki/resources/hardware-en/unified-calibration/analyze_unified_calibration.py"
+    ],
+    "outputs": [
+      "aerosense-wiki/resources/hardware-en/unified-calibration/"
+    ],
+    "status": "Inputs, current code and retained outputs present",
+    "notes": "58 pairs / 116 files. raw_input_manifest.csv records historical hardware_test and hardware_test2 paths; archive-root mode resolves their canonical archive locations."
+  },
+  {
+    "dataset_id": "07-optical-simulation-measurement",
+    "title": "光學模擬與量測 / Optical validation",
+    "pages": [
+      "hardware",
+      "model"
+    ],
+    "description": "Measurement-source CSV, simulation-source JSON and comparison analysis",
+    "raw": [
+      "aerosense-wiki/resources/hardware-en/optical-validation/simulation-source.json",
+      "aerosense-wiki/resources/hardware-en/optical-validation/measurement-source.csv"
+    ],
+    "code": [
+      "aerosense-wiki/resources/hardware-en/optical-validation/analyze_optical_validation.py"
+    ],
+    "outputs": [
+      "aerosense-wiki/resources/hardware-en/optical-validation/"
+    ],
+    "status": "Inputs, current code and retained outputs present",
+    "notes": ""
+  },
+  {
+    "dataset_id": "08-living-cell-hardware",
+    "title": "硬體活細胞量測 / Living-cell hardware",
+    "pages": [
+      "hardware"
+    ],
+    "description": "26 records with 52 original exports; separate record 19 revision; time-series and late-window summaries",
+    "raw": [
+      "aerosense-wiki/data/hardware-test3-2026-10-21/raw/",
+      "aerosense-wiki/data/hardware-test3-2026-10-21/revisions/"
+    ],
+    "code": [
+      "aerosense-wiki/data/hardware-test3-2026-10-21/analyze_hardware_test3.py"
+    ],
+    "outputs": [
+      "aerosense-wiki/data/hardware-test3-2026-10-21/"
+    ],
+    "status": "Original exports present; replacement record provenance incomplete",
+    "notes": "52 immutable firmware exports retained; selected record19 replacement and original scenario separate. Missing new acquisition JSON/timestamp and unresolved provenance conflict remain."
+  },
+  {
+    "dataset_id": "09-hardware-wetlab-patterns",
+    "title": "硬體與濕實驗圖樣比較 / Pattern comparison",
+    "pages": [
+      "hardware",
+      "results"
+    ],
+    "description": "Reference-pattern comparisons, source hashes and independent numerical verification",
+    "raw": [
+      "aerosense-wiki/data/hardware-test3-2026-10-21/",
+      "aerosense-wiki/data/odor-2026-10-21/"
+    ],
+    "code": [
+      "aerosense-wiki/data/hardware-wetlab-pattern-comparison-2026-10-21/analyze_patterns.py",
+      "aerosense-wiki/data/hardware-wetlab-pattern-comparison-2026-10-21/verify_patterns.py"
+    ],
+    "outputs": [
+      "aerosense-wiki/data/hardware-wetlab-pattern-comparison-2026-10-21/"
+    ],
+    "status": "Inputs, code and retained outputs present; descriptive comparison",
+    "notes": "Source package is a diagnostic comparison; it does not establish cross-platform biological validation."
+  },
+  {
+    "dataset_id": "10-hardware-design-and-physics",
+    "title": "硬體設計、CAD 與物理模擬 / Design and simulations",
+    "pages": [
+      "hardware",
+      "model"
+    ],
+    "description": "CAD, print files, BOM, firmware, simulation sources and hardware figure sources",
+    "raw": [
+      "aerosense-wiki/hardware information/AeroSense v2/01_print/",
+      "aerosense-wiki/hardware information/AeroSense v2/02_simulation/",
+      "aerosense-wiki/hardware information/AeroSense v2/09_engineering_sources/"
+    ],
+    "code": [
+      "aerosense-wiki/hardware information/AeroSense v2/02_simulation/",
+      "hardware-visuals/source/",
+      "scripts/",
+      "reports/hardware-story-v38/optics/"
+    ],
+    "outputs": [
+      "hardware-visuals/outputs/",
+      "aerosense-wiki/hardware information/AeroSense v2/02_simulation/"
+    ],
+    "status": "Supplied design, source and simulation materials present",
+    "notes": ""
+  },
+  {
+    "dataset_id": "11-receptor-engineering",
+    "title": "受體工程與分子模型 / Receptor engineering",
+    "pages": [
+      "model"
+    ],
+    "description": "Benchmark inputs, fixed folds, predictions, scripts, environments and processed MD outputs",
+    "raw": [
+      "receptor-engineering/data/"
+    ],
+    "code": [
+      "receptor-engineering/scripts/",
+      "receptor-engineering/environments/",
+      "receptor-engineering/vendor/"
+    ],
+    "outputs": [
+      "receptor-engineering/results/",
+      "aerosense-wiki/bioinformatic_results/"
+    ],
+    "status": "Partial end-to-end reproducibility; selected original inputs and weights absent",
+    "notes": "Full MD trajectories/checkpoints/topologies, third-party weights, original Gaussian logs/spectra and selected platform binaries remain incomplete per handover. Preserve interruption state and code revisions."
+  },
+  {
+    "dataset_id": "12-odor-decoder",
+    "title": "嗅覺解碼模型 / Odor decoder",
+    "pages": [
+      "model"
+    ],
+    "description": "Current UCI/DoOR model manuscript, earlier decoder records and separate feature-table/augmentation sources",
+    "raw": [
+      "aerosense-wiki/data/notion-model-2026-10-21/README.md",
+      "aerosense-wiki/data/notion-model-2026-10-21/sources/model-source.md",
+      "aerosense-wiki/resources/model/odor-decoder-record.html",
+      "aerosense-wiki/assets/notion/model-v2/"
+    ],
+    "code": [
+      "aerosense-wiki/reproduction-source/eNose-feature-igem/"
+    ],
+    "outputs": [
+      "aerosense-wiki/reproduction-source/eNose-feature-igem/analysis/"
+    ],
+    "status": "Partial; matching Brian2 training, checkpoints and preprocessing package absent",
+    "notes": "The current UCI/DoOR manuscript and figure sources are preserved. Matching Brian2 training code, checkpoints, complete feature/response exports, seeds and fold identifiers are not supplied. Earlier KT/decoder records and eNose feature-table tools are separate historical evidence."
+  },
+  {
+    "dataset_id": "13-education",
+    "title": "教育教材與評量 / Education",
+    "pages": [
+      "education",
+      "engineering"
+    ],
+    "description": "Published teaching PDFs, original teaching slides and an early n=28 reported survey aggregate",
+    "raw": [
+      "aerosense-wiki/resources/education/source/",
+      "aerosense-wiki/assets/education/early-survey-summary.csv"
+    ],
+    "code": [],
+    "outputs": [
+      "reproduction-source/gitlab-publication-review-20261021/docs/aerosense/education/",
+      "aerosense-wiki/assets/education/"
+    ],
+    "status": "Teaching documents present; participant-level assessment data not found",
+    "notes": "The early aggregate is not the later 300-person survey and is not a row-level export. Workshop n=15 underlying evaluation records were not found."
+  },
+  {
+    "dataset_id": "14-human-practices",
+    "title": "利害關係人與使用者回饋 / Human Practices",
+    "pages": [
+      "human-practices"
+    ],
+    "description": "Integrated Human Practices and FITI reports, field documentation, anonymized public usability materials",
+    "raw": [
+      "aerosense-wiki/assets/human-practices/"
+    ],
+    "code": [],
+    "outputs": [
+      "reproduction-source/gitlab-publication-review-20261021/docs/aerosense/human-practices/",
+      "reproduction-source/gitlab-publication-review-20261021/docs/aerosense/hardware/usability/"
+    ],
+    "status": "Public reports and supporting materials present",
+    "notes": "Reports and photographs are supporting documentation; they are not a participant-level interview dataset. Anonymized public derivatives and original feedback files in historical source folders both remain; this review has not cleared every original for public deposit."
+  },
+  {
+    "dataset_id": "15-entrepreneurship",
+    "title": "創業計畫與財務假設 / Entrepreneurship",
+    "pages": [
+      "entrepreneurship"
+    ],
+    "description": "Business plan, editable financial spreadsheet, PDF preview and implementation guidance",
+    "raw": [
+      "reproduction-source/gitlab-publication-review-20261021/docs/aerosense/entrepreneurship/financial-plan.xlsx"
+    ],
+    "code": [],
+    "outputs": [
+      "aerosense-wiki/resources/entrepreneurship/",
+      "reproduction-source/gitlab-publication-review-20261021/docs/aerosense/entrepreneurship/"
+    ],
+    "status": "Referenced documents and editable financial model present",
+    "notes": "Financial projections are assumptions, not realized sales or validated market demand."
+  },
+  {
+    "dataset_id": "16-sustainability",
+    "title": "永續情境與估算 / Sustainability",
+    "pages": [
+      "sustainability"
+    ],
+    "description": "Unfilled impact-assessment input and equation template",
+    "raw": [
+      "aerosense-wiki/assets/sustainability/impact-model-inputs.csv"
+    ],
+    "code": [],
+    "outputs": [
+      "aerosense-wiki/assets/sustainability/"
+    ],
+    "status": "Scenario-input template present; measured inputs not provided",
+    "notes": "The supplied CSV identifies inputs as not measured/provided. It is an assessment template, not measured field impact or a complete life-cycle inventory."
+  },
+  {
+    "dataset_id": "17-parts",
+    "title": "元件、質體與登錄 / Parts and plasmids",
+    "pages": [
+      "parts",
+      "contribution"
+    ],
+    "description": "Registry-related tables, plasmid diagrams and source evidence",
+    "raw": [
+      "reproduction-source/gitlab-publication-review-20261021/docs/aerosense/parts/",
+      "aerosense-wiki/plasmid/"
+    ],
+    "code": [],
+    "outputs": [
+      "aerosense-wiki/assets/parts/",
+      "reproduction-source/software-source-before-migration-20261021/docs/aerosense/parts/",
+      "reproduction-source/backend-engineering-registry-publication-20261021/sources/docs/aerosense/parts/",
+      "reproduction-source/registry-publication-footer-cleanup-20261021/sources/docs/aerosense/parts/"
+    ],
+    "status": "Supplied tables, diagrams and registry evidence present",
+    "notes": "A complete construct sequence export in FASTA/GenBank/SnapGene format was not found in this archive."
+  },
+  {
+    "dataset_id": "18-protocols",
+    "title": "實驗方法與膠圖 / Protocols and gel evidence",
+    "pages": [
+      "experiments",
+      "results"
+    ],
+    "description": "Archived experimental methods, cloning images and electrophoresis originals",
+    "raw": [
+      "aerosense-wiki/wetlab results/DNA_electrophoresis/",
+      "aerosense-wiki/wetlab results/cloning/"
+    ],
+    "code": [],
+    "outputs": [
+      "aerosense-wiki/assets/experiments/",
+      "reproduction-source/gitlab-publication-review-20261021/docs/aerosense/wetlab/"
+    ],
+    "status": "Supplied methods and images present",
+    "notes": ""
+  },
+  {
+    "dataset_id": "19-engineering",
+    "title": "工程變更與來源證據 / Engineering evidence",
+    "pages": [
+      "engineering",
+      "hardware"
+    ],
+    "description": "CAD source mappings, historical iteration figures and engineering evidence guide",
+    "raw": [
+      "aerosense-wiki/data/engineering-source-evidence-2026-10-21/"
+    ],
+    "code": [],
+    "outputs": [
+      "aerosense-wiki/data/engineering-source-evidence-2026-10-21/engineering-evidence-guide.pdf"
+    ],
+    "status": "Current evidence guide and source mappings present",
+    "notes": ""
+  },
+  {
+    "dataset_id": "20-reuse",
+    "title": "可重用範本 / Reuse templates",
+    "pages": [
+      "contribution"
+    ],
+    "description": "Measurement and stakeholder-decision CSV templates with schema and instructions",
+    "raw": [
+      "aerosense-wiki/assets/contribution/templates/"
+    ],
+    "code": [],
+    "outputs": [],
+    "status": "Templates and schema present",
+    "notes": "Blank example templates are not collected experimental measurements."
+  },
+  {
+    "dataset_id": "21-anatomy",
+    "title": "參考神經解剖 / Reference neuroanatomy",
+    "pages": [
+      "description",
+      "model"
+    ],
+    "description": "MaleCNS reference geometry, plotting sources and attribution",
+    "raw": [
+      "aerosense-wiki/assets/description/neuroanatomy/malecns/"
+    ],
+    "code": [],
+    "outputs": [
+      "aerosense-wiki/assets/description/neuroanatomy/malecns/"
+    ],
+    "status": "Supplied third-party reference geometry and attribution present",
+    "notes": "Literature reference anatomy; not the team’s imaged light-sheet specimen."
+  },
+  {
+    "dataset_id": "22-software-history",
+    "title": "軟體來源與發布對照 / Software source preservation",
+    "pages": [
+      "software",
+      "engineering",
+      "hardware"
+    ],
+    "description": "Preserved software source revisions and canonical source mappings",
+    "raw": [],
+    "code": [
+      "reproduction-source/hardware-odor-backend-20261021/SOURCE-MAPPING.json",
+      "reproduction-source/"
+    ],
+    "outputs": [],
+    "status": "Mapped source revisions present",
+    "notes": "Publication snapshots are sparse, distinct revisions. They are not multiple interchangeable complete standalone projects."
+  },
+  {
+    "dataset_id": "23-model-figures",
+    "title": "模型原稿與圖表來源 / Model manuscripts and figures",
+    "pages": [
+      "model",
+      "engineering"
+    ],
+    "description": "Captured Model and Engineering manuscripts, editable Markdown, extraction helper and scientific figure assets",
+    "raw": [
+      "aerosense-wiki/data/notion-model-2026-10-21/sources/model-blocks.json",
+      "aerosense-wiki/data/notion-model-2026-10-21/sources/engineering-blocks.json"
+    ],
+    "code": [
+      "aerosense-wiki/data/notion-model-2026-10-21/sources/extract_notion_source.py"
+    ],
+    "outputs": [
+      "aerosense-wiki/data/notion-model-2026-10-21/"
+    ],
+    "status": "Manuscripts, figure assets and extraction source present",
+    "notes": "The helper recreates manuscript files, not model scores. Model-training inputs, fitted preprocessing and checkpoints are separate missing items."
+  }
+]

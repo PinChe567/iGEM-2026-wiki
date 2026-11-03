@@ -6,10 +6,6 @@
       details.forEach(function (detail) { detail.open = button.dataset.reExpand === 'true'; });
     });
   });
-  // Preserve the research cycle when switching languages.
-  document.querySelectorAll('[data-re-language]').forEach(function (link) {
-    link.addEventListener('click', function () { link.hash = window.location.hash; });
-  });
   var lightbox = document.querySelector('.re-lightbox');
   if (lightbox && lightbox.showModal) {
     var scale = lightbox.querySelector('input');

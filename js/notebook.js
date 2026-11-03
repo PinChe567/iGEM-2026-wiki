@@ -902,6 +902,11 @@
 
   function statusClass(ev) {
     if (ev.isOfficial || eventStream(ev) === "igem") return "igem";
+    var confirmed = window.AerosenseNotebook && window.AerosenseNotebook.META.completionConfirmedThrough;
+    if (confirmed && ev.startDate) {
+      if ((ev.endDate || ev.startDate) <= confirmed) return "completed";
+      if (ev.startDate > confirmed && (ev.status === "planned" || ev.status === "ongoing")) return "planned";
+    }
     return STATUS_LABEL[ev.status] ? ev.status : "needs-update";
   }
 
@@ -1304,7 +1309,7 @@
               if (evidenceFilesLinked) return;
               evidenceFilesLinked = true;
               var filesLink = makeEl("a", null, "Data availability");
-              filesLink.href = "#notebook-data-availability";
+              filesLink.href = "results.html#data-availability";
               li.appendChild(filesLink);
               evList.appendChild(li);
               return;
@@ -1358,7 +1363,7 @@
             if (relatedFilesLinked) return;
             relatedFilesLinked = true;
             var filesLink = makeEl("a", null, "Data availability");
-            filesLink.href = "#notebook-data-availability";
+            filesLink.href = "results.html#data-availability";
             li.appendChild(filesLink);
           }
           linkList.appendChild(li);
@@ -1517,19 +1522,6 @@
     });
 
     dialog.addEventListener("click", function (event) {
-      var filesLink = event.target.closest && event.target.closest('a[href="#notebook-data-availability"]');
-      if (filesLink) {
-        event.preventDefault();
-        closeDrawer();
-        var destination = document.getElementById("notebook-data-availability");
-        if (destination) {
-          history.replaceState(history.state, "", "#notebook-data-availability");
-          destination.tabIndex = -1;
-          destination.focus({preventScroll: true});
-          destination.scrollIntoView({block: "start"});
-        }
-        return;
-      }
       if (event.target === dialog) closeDrawer();
     });
 
@@ -1613,7 +1605,10 @@
 
     function occurrenceStatus(ev, date) {
       var confirmed = window.AerosenseNotebook && window.AerosenseNotebook.META.completionConfirmedThrough;
-      if (!ev.isOfficial && ev.status === "planned" && confirmed && keyFromDate(date) <= confirmed) return "completed";
+      if (!ev.isOfficial && confirmed) {
+        if (keyFromDate(date) <= confirmed) return "completed";
+        if (ev.status === "planned" || ev.status === "ongoing") return "planned";
+      }
       return statusClass(ev);
     }
 

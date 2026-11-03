@@ -1,0 +1,175 @@
+[
+  {
+    "archive": "zenodo-release/reproduction-source/gitlab-publication-review-20261021/code/aerosense/aerosense-source.zip",
+    "sha256": "6a45c452c6f5b3816fc4125950db9914656403b141d033d7bff48824dc380414",
+    "readme_license_records": [
+      {
+        "member": "02_simulation/airflow/README.md",
+        "bytes": 11329,
+        "sha256": "379e35f484597f410755e150e94de56065133b85378dda3ac8ce3cad8033af1d",
+        "license_lines": [
+          "Open the [airflow movie](videos/airflow_comparison.mp4). Read the figures and limitations below before interpreting moving markers as sample delivery.",
+          "- `videos/`: one MP4. Interactive HTML, compiled executables, repeated reports, log files and movie screenshots are omitted.",
+          "## Limitations and scientific records",
+          "No turbulence, aerosols, evaporation, sterility, adsorption, dissolved transport, cell protection or odor uniformity is established. All wells share a gas path. Low gas momentum is not measured cell shear. The printed surface and port geometry are approximated on stair-step grids. Material compatibility and external plumbing require physical verification."
+        ]
+      },
+      {
+        "member": "02_simulation/membrane/README.md",
+        "bytes": 6162,
+        "sha256": "96d4f52553090003f1acb66fd1b2519237b43543db4ab3c5987089fb82a41318",
+        "license_lines": [
+          "Nominal properties are assumptions: liquid D=1e-9 m²/s and liquid/gas K=10; PDMS D=1e-10 m²/s and PDMS/gas K=100. No pair is assigned to a named VOC or PDMS formulation. There are 243 membrane conditions, 108 mixing/feed conditions and 25 interface-resistance cases. Seventy-four t90 results are censored at seven days. Blank CSV cells do not mean zero time. Seven days is a numerical horizon, not a permitted incubation time."
+        ]
+      },
+      {
+        "member": "02_simulation/optics/README.md",
+        "bytes": 15153,
+        "sha256": "d83d721dfaafb2c1cac2434a9e3ef54fe0bcff25b64ca8a3386e1c2be39b9c08",
+        "license_lines": [
+          "- `videos/` contains two MP4 files. Duplicate GIF, PDF, HTML and QA images are omitted.",
+          "The longpass result is a **scenario**, not a prediction guaranteed by the manufacturer's band averages. Its assumed curve transmits 0.01% through 482.7 nm. It rises logarithmically to 50% at 500 nm, then linearly to 90% at 517.7 nm. A 90% plateau follows. Cut-on, transition shape, blocking and plateau sensitivity produce 0.0104–9.36% remaining LED current and 71.8–90.3% remaining proxy green current. These ranges are scenario sensitivity, not confidence intervals or guaranteed bounds.",
+          "The geometry model is a rectangular approximation of the opaque carrier and clear flat wells. It uses Fresnel reflection/refraction, absorption, optional scattering, a black-wall model and an equal-area PD proxy. It is not a surface-mesh ray trace. It omits real surface roughness, scratches, print gaps, filter angle effects, polarization, filter back-reflection and mounting tolerances.",
+          "The [volume-standard matrix](results/volume_standard_LED_by_well_fraction.csv) and [its summary](code/data/volume_standard_summary.json) use uniform fluorescent liquid. The cell model uses a thin floor layer. A fluorescein sodium test therefore cannot be interpreted as the same spatial calibration as adherent GCaMP cells. The 100 µL liquid volume is a model reference, not a validated working volume or leakage limit."
+        ]
+      },
+      {
+        "member": "03_software/README.md",
+        "bytes": 18636,
+        "sha256": "84a825a5c458fa7118d68716a531620b31ebbb7b1a125c76795f98d218611c84",
+        "license_lines": [
+          "**Current revision: 2026-10-13-ui-schedule1.** The main controls provide single or interval measurements, calibration, start, pause/resume, deletion and history. LED selection, on-time and notes are in Advanced settings. Defaults are single measurement, all four LEDs, 25% on-time and a fixed 2 s block. The public bring-up lock still permits only All off until board checks pass.",
+          "**Update both firmware and LittleFS (`uploadfs`).** Existing private settings are preserved. This is not an ADC timing repair: the supplied timing1 record still failed after one sample, with `adc_read_too_long` and a 273 µs read window. The 4 kHz rate, 8000 samples, 50 µs start/jitter limits and 200 µs read limit remain unchanged. Resolve reported U2 heating before another powered test.",
+          "Preserve the Wiki root LICENSE and deployment settings. Uploading source does not update the ESP32. After firmware changes, rebuild, flash, and check the board. Record the source revision used for each experiment.",
+          "## Known limits",
+          "This package has no recorded physical-board acceptance. `BOARD_VALIDATED=false` permits only all-LEDs-off acquisition. Enable LEDs only after electrical power, ADC timing and single-LED waveforms pass bench checks. A user supplied a failed physical acquisition. This revision has not been flashed or validated on the board.",
+          "Wiki 的根 LICENSE 與網站部署設定保持原樣。GitLab 上保存程式不會讓 ESP32 自動更新。每次更改韌體仍須編譯、燒錄及檢查。軟體更新後，記下提交版本以追蹤實驗使用的程式。",
+          "The archive contains device software, three simulation models, required numerical inputs, CSV results, and validation analysis. It excludes private settings, vendor drawings, generated media, saved numerical fields, caches, and binaries. This keeps the file below the GitLab 10 MB limit. Read the archive's root README for fresh solver commands before plotting. Full replay can be expensive. The local delivery retains all saved numerical fields for fast plotting. The internal manifest lists file hashes. Preserve the full directory structure after extraction. The upload location is `code/aerosense` in the team GitLab repository."
+        ]
+      },
+      {
+        "member": "07_validation/README.md",
+        "bytes": 3418,
+        "sha256": "96976bc05d88c1944945d8d80d1aff5e05af6fc63a4735e914cfaff5fb72c92a",
+        "license_lines": [
+          "The plan and questionnaire specify a 5–10-minute trial. The developer prepares empty wells and DEMO. Tasks cover identification, connection, Start, Stop, and CSV export. Mark omitted tasks as untested or not applicable. Keep completed responses separate from the blank form."
+        ]
+      },
+      {
+        "member": "README.md",
+        "bytes": 2914,
+        "sha256": "9d3395553c98f7eb25fb3943c9da92f0448d2a37b85e7be5af4a8291d8f4949b",
+        "license_lines": [
+          "Generated numerical fields are omitted to fit the GitLab 10 MB file limit.",
+          "databases, build binaries, and tool caches are omitted.",
+          "The Wiki repository license remains unchanged. Dependencies retain their",
+          "own licenses. Source references remain in the model README files."
+        ]
+      }
+    ]
+  },
+  {
+    "archive": "zenodo-release/aerosense-wiki/assets/receptor-engineering-v13/molecular-features/benchmark-data.zip",
+    "sha256": "ab8e6125a1e291fdaa051110927205fcc92fc8b2f636f758332717e2af881d5d",
+    "readme_license_records": []
+  },
+  {
+    "archive": "zenodo-release/reproduction-source/gitlab-publication-review-20261021/code/aerosense/reproducibility-packages/hardware/crosstalk-calibration.zip",
+    "sha256": "bf6efa647934a9c4ae05b49a8a221f5f0757e42fc0636a6c27b6a423ecde96f5",
+    "readme_license_records": [
+      {
+        "member": "crosstalk-calibration/README.md",
+        "bytes": 14725,
+        "sha256": "148a06cf58f063d5004aa2cf410958d13ee8de189271928b8ec40edd56a91c87",
+        "license_lines": [
+          "- Calibration set B supplies uniform 1, 5 and 10 µM (12 means, nine acquisitions), all omitted from the isolated-source matrix training."
+        ]
+      }
+    ]
+  },
+  {
+    "archive": "zenodo-release/reproduction-source/gitlab-publication-review-20261021/code/aerosense/reproducibility-packages/hardware/fluorescein-analysis.zip",
+    "sha256": "8289c2e717bb01f714fc47299a0e9a3f41e164e9c9cb31deddedd42c92a83f00",
+    "readme_license_records": [
+      {
+        "member": "new25_qc/README.md",
+        "bytes": 4334,
+        "sha256": "735e8a4b7fcb51fa9125780c3fff2bbe04c215f42ac097e732f3134e2c9aa772",
+        "license_lines": [
+          "Keep both 25C acquisitions as raw data and QC evidence. The original series has an objective between-read state change in D3, so it can be omitted from a primary candidate calibration with an explicit retrospective QC flag and retained in a sensitivity fit. The earlier acquisition is repeatable but lacks a matching water/anchor reference and has an incompatible later-water baseline; do not substitute it directly into the later calibration or invent a gain/offset to force agreement. The physical cause of the state difference is not identified by these files. The data do not establish that 2.5 µM is intrinsically below the instrument's detection limit."
+        ]
+      },
+      {
+        "member": "README.md",
+        "bytes": 9781,
+        "sha256": "9ebf95a90ba7958699f4ea6d8700c8965f39a4e673e3c69b188547f17ae67cc1",
+        "license_lines": [
+          "The linear limit applies as k approaches zero. Channel-specific a, b and k are",
+          "blanks before a lower reportable limit can be established."
+        ]
+      }
+    ]
+  },
+  {
+    "archive": "zenodo-release/reproduction-source/gitlab-publication-review-20261021/code/aerosense/reproducibility-packages/hardware/fluorescein-raw-records.zip",
+    "sha256": "7ee1ce2dc3bef0518229cbe1b8e226b9e6956c930b201f6c254d0774c1f57129",
+    "readme_license_records": []
+  },
+  {
+    "archive": "zenodo-release/reproduction-source/gitlab-publication-review-20261021/code/aerosense/reproducibility-packages/hardware/hardware-diagnostics.zip",
+    "sha256": "de0b5eedce3069617a403c092ff1ee654cd31491ee8b9fd2755cbeb1051ab169",
+    "readme_license_records": []
+  },
+  {
+    "archive": "zenodo-release/reproduction-source/gitlab-publication-review-20261021/code/aerosense/reproducibility-packages/hardware/session-comparison.zip",
+    "sha256": "f3d506c7e26d5269edc7e74028245828e017fa969778f6e5d48c36a626ceeaf8",
+    "readme_license_records": [
+      {
+        "member": "session-comparison/README.md",
+        "bytes": 9088,
+        "sha256": "dba9335d781174a862edb94af7da05347830c5794ef6f6f4046873ab7eefac7a",
+        "license_lines": [
+          "The displayed percentages describe normalized response patterns, not percentages of total emitted fluorescence. Off-diagonal measured signals combine the actual optical path and electronic readout; an optical-only model cannot uniquely assign their causes. Measured off-diagonal responses are larger than modeled, so the two models have not quantitatively validated general cross-talk removal.",
+          "- `summary.json`: counts, separate metrics, raw I/Q reconstruction error and analysis limitations."
+        ]
+      }
+    ]
+  },
+  {
+    "archive": "zenodo-release/reproduction-source/gitlab-publication-review-20261021/code/aerosense/reproducibility-packages/hardware/unified-calibration.zip",
+    "sha256": "424a267e0e870e3d395b76957235aa3f4c4ae98bf49dae569dcce38e5267d302",
+    "readme_license_records": [
+      {
+        "member": "unified-calibration/README.md",
+        "bytes": 15212,
+        "sha256": "dee710129c0493a7bcaacd51154c038874969491394d7a5f9b06d19acd2482cb",
+        "license_lines": [
+          "A stronger alternative jointly fits all standard levels with one curve shape and a separate offset/gain for each set. Every tested concentration is then omitted from **both** sets and all transfer/phase estimation before prediction. The 20 genuinely interpolated channel/concentration predictions are compared separately from four set-A 10 µM endpoint extrapolations:",
+          "- 12 set-B whole-concentration holdouts from nine acquisitions. All reads at the held uniform concentration are omitted from its curve.",
+          "The original 2.5 µM D3 readings are unstable (about 30% technical amplitude CV). The additional 2.5 µM recordings are stable but precede the matching water baseline and yield negative blank-subtracted signals in D3/D4. All six original/additional recordings remain in the raw manifest and `qc_sensitivity.csv`; all-original and replacement sensitivity fits are also retained for every candidate family. These exploratory exclusions cannot establish a general detection limit.",
+          "- `summary.json`: selected methods, counts, metrics and limitations."
+        ]
+      }
+    ]
+  },
+  {
+    "archive": "zenodo-release/aerosense-wiki/wetlab results/description_lightsheet/raw_data/GH146/03/RoiSet.zip",
+    "sha256": "d4bac659e4ad326bf25ea3de33dfbaea9a80d1c8efa5d0811b7b3298f1a2ed59",
+    "readme_license_records": []
+  },
+  {
+    "archive": "zenodo-release/aerosense-wiki/wetlab results/description_lightsheet/raw_data/GH146/04/RoiSet.zip",
+    "sha256": "168587b619d79e38e7afd071348dde05d4c1bc14514aacd4f13ae334e98f4789",
+    "readme_license_records": []
+  },
+  {
+    "archive": "zenodo-release/aerosense-wiki/wetlab results/description_lightsheet/raw_data/TH/20260924.zip",
+    "sha256": "eeaaa2b692cf9f568ae994bd70a81d764dd0e483d9ae9290f0e2bbf4b1316fa5",
+    "readme_license_records": []
+  },
+  {
+    "archive": "zenodo-release/aerosense-wiki/wetlab results/description_lightsheet/raw_data/TH/RoiSet.zip",
+    "sha256": "c680ba64234ac31b6b6387b362edbe3ec75f971c1fc366f73c9940c8babc5c6e",
+    "readme_license_records": []
+  }
+]

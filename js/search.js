@@ -11,6 +11,54 @@
    */
   var SEARCH_INDEX = [
     {
+        "pageTitle": "Model · Odor decoding",
+        "section": "UCI gas sensing and sparse neural encoding",
+        "excerpt": "Training-set PCA and quantile bins encode gas-sensor measurements into projection-neuron activity for the PN–KC–MBON network.",
+        "keywords": "UCI 270 PCA quantile 400 PN 2000 KC 6 MBON spiking neural network",
+        "url": "model.html",
+        "anchor": "decoder-v3-encoding"
+    },
+    {
+        "pageTitle": "Model · Odor decoding",
+        "section": "DoOR chemical-family classification",
+        "excerpt": "Compare continuous, binned and spiking-network representations across 91 odorants, ten receptors and five chemical families.",
+        "keywords": "DoOR 91 odorants receptor chemical family macro F1 logistic quantile",
+        "url": "model.html",
+        "anchor": "decoder-v3-door-results"
+    },
+    {
+        "pageTitle": "Engineering · Odor decoding",
+        "section": "Model design, build, test and learn",
+        "excerpt": "Three engineering cycles examine sparse odor encoding, network readout and adaptation from gas sensors to receptor-response data.",
+        "keywords": "model engineering DBTL UCI DoOR PN KC MBON",
+        "url": "engineering.html",
+        "anchor": "group-model"
+    },
+    {
+        "pageTitle": "Results",
+        "section": "Odor testing · Test 1 and Test 2",
+        "excerpt": "Compare time courses and control-referenced response maps across ten OR + ORCO conditions, ORCO-only cells and untransfected cells.",
+        "keywords": "odor testing Test 1 Test 2 VUAA1 F0 disturbance heatmap Figures 11 12 13        ",
+        "url": "results.html",
+        "anchor": "kinetic-pilot"
+    },
+    {
+        "pageTitle": "Results",
+        "section": "Figure 14 · VUAA1-referenced responses",
+        "excerpt": "Each construct uses its own DMSO and VUAA1 controls to scale the Test 2 response map, with DMSO at 0 and VUAA1 at 1.",
+        "keywords": "VUAA1 positive control normalization reference heatmap Test 2 Figure 14      ",
+        "url": "results.html",
+        "anchor": "fig-vuaa1-reference"
+    },
+    {
+        "pageTitle": "Hardware",
+        "section": "Figure 18 · Living-cell integration",
+        "excerpt": "Four wells compare cells-plus-medium and VUAA1 time courses, normalized to each trace's first reading, with a late-window contrast.",
+        "keywords": "Figure 18 VUAA1 Or35a Or85b Or98a ORCO D1 D2 D3 D4 time fluorescence normalization          ",
+        "url": "hardware.html",
+        "anchor": "reader-integrated-demo"
+    },
+    {
     "pageTitle": "Engineering",
     "section": "Hardware Cycle 6 · Photodiode amplifier gain",
     "excerpt": "Three illumination conditions gave ADC code 32767 and approximately 3.15 V at the ADC input. iST proposed lower TIA gain; saturation remains a working explanation pending resistor replacement and verification.",
@@ -45,7 +93,7 @@
     {
         "pageTitle": "Hardware",
         "section": "System evidence",
-        "excerpt": "96 software checks passed. Board acquisitions returned 8,000 samples per run, but invariant ADC codes did not demonstrate a light-dependent response.",
+        "excerpt": "58 fluorescein acquisitions support four-channel frequency separation, measured cross-talk and additivity comparisons, and concentration checks against prepared standards.",
         "keywords": "verification software tests ADC SPI acquisition diagnostic 驗證 軟體 測試 電路板 擷取 診斷",
         "url": "hardware.html",
         "anchor": "hardware-verification"
@@ -493,8 +541,8 @@
     {
         "pageTitle": "Contribution",
         "section": "Released resources",
-        "excerpt": "Download endpoint-image and P2 kinetic analysis packages, hardware source files, metadata contracts and reusable recording templates.",
-        "keywords": "contribution reuse reproducibility hub future teams documentation only",
+        "excerpt": "Find endpoint-image and Test 1/Test 2 kinetic analyses, reader source files, metadata contracts and reusable recording templates.",
+        "keywords": "contribution reuse reproducibility hub future teams source data",
         "url": "contribution.html",
         "anchor": "main"
     },
@@ -517,7 +565,7 @@
     {
         "pageTitle": "Contribution",
         "section": "Weak-fluorescence hardware package",
-        "excerpt": "ESP32-standalone reader documentation: photodiode, TIA, ADC, FDM and digital lock-in. Reproduction files not released. Raspberry Pi is a retired iteration.",
+        "excerpt": "Reuse the assembled four-channel reader's CAD, firmware, manuals and analysis of 58 fluorescein acquisitions, including measured cross-talk and calibration checks.",
         "keywords": "hardware TIA ADC ESP32 LMP7721 ADS8866 FDM DLIA photodiode contribution",
         "url": "contribution.html",
         "anchor": "pkg-hardware"
@@ -525,7 +573,7 @@
     {
         "pageTitle": "Contribution",
         "section": "Measurement and data contract",
-        "excerpt": "Shared experimental, hardware and model-ready metadata fields. Example datasets and data_dictionary.csv are not released.",
+        "excerpt": "A blank CSV, JSON Schema and instructions define sample identity, calibration, quality control and raw/processed signal fields for shared records.",
         "keywords": "data contract metadata schema wet lab hardware model QC",
         "url": "contribution.html",
         "anchor": "pkg-data"
@@ -541,7 +589,7 @@
     {
         "pageTitle": "Contribution",
         "section": "Human-practices-to-engineering traceability",
-        "excerpt": "Reusable traceability method: Stakeholder → Observation → Insight → Design decision → Evidence needed → Re-evaluation. Example input-to-consequence mappings. Template file not released.",
+        "excerpt": "A reusable blank template connects stakeholder observations, insights, design decisions, supporting evidence and re-evaluation.",
         "keywords": "human practices traceability stakeholder design contribution",
         "url": "contribution.html",
         "anchor": "pkg-hp"
@@ -806,14 +854,14 @@
         "pageTitle": "Safety & Security",
         "section": "Biological materials",
         "excerpt": "Named cloning and sensing materials include E. coli DH5α and HEK293. The team has confirmed HEK293 for all wet-lab experiments; cell-stock and institutional records remain separate documentation.",
-        "keywords": "HEK293 HEK293 biological materials chassis containment Drosophila DH5α",
+        "keywords": "HEK293 HEK293 biological materials chassis containment Drosophila DH5 ",
         "url": "safety-and-security.html",
         "anchor": "biological-materials"
     },
     {
         "pageTitle": "Safety & Security",
         "section": "Chemical safety",
-        "excerpt": "Concentrated VOC stocks, VUAA1, and DMSO are the higher exposure risk. An SDS pack is not published. Assay concentrations are a specified method, not a completed record.",
+        "excerpt": "Chemical handling covers concentrated VOC stocks, VUAA1 and DMSO, with source-specific safety review, ventilation, protective equipment and waste management.",
         "keywords": "VOC chemical VUAA1 DMSO SDS handling fume hood",
         "url": "safety-and-security.html",
         "anchor": "chemical-voc"
@@ -1022,7 +1070,7 @@
         "pageTitle": "Experiments",
         "section": "Molecular cloning",
         "excerpt": "Colony photographs document plate growth. The method links colony identity to plasmid preparation; yields, gel lane maps and linked sequence reads are absent from the supplied archive.",
-        "keywords": "pcDNA3.1 GenScript DH5α T7 BGH GGGGS plasmids Ampicillin cloning EXP-AS-01",
+        "keywords": "pcDNA3.1 GenScript DH5  T7 BGH GGGGS plasmids Ampicillin cloning EXP-AS-01",
         "url": "experiments.html",
         "anchor": "molecular-cloning"
     },
@@ -1070,7 +1118,7 @@
         "pageTitle": "Experiments",
         "section": "Two-round assay specification",
         "excerpt": "The assay diagram specifies 20 µL buffer plus 7 µL vehicle, then 9 µL of 4× VOC: 36 µL total, with the stock diluted to 1×.",
-        "keywords": "two-round injection 20 µL 7 µL 9 µL 36 µL 4× vehicle VOC figure 3 Zboray",
+        "keywords": "two-round injection 20 µL 7 µL 9 µL 36 µL 4  vehicle VOC figure 3 Zboray",
         "url": "experiments.html",
         "anchor": "fig-two-round"
     },
@@ -1141,7 +1189,7 @@
     {
         "pageTitle": "Results",
         "section": "Fluorescence data and downloads",
-        "excerpt": "Download the P2 archive of 32 exports and 3,840 readings, plus endpoint-image inputs, analysis scripts, source hashes and object-level tables.",
+        "excerpt": "Find the acquisition record (32 exports, 3,840 readings), published analysis tables and source code; raw inputs remain in the prepared research archive.",
         "keywords": "P2 VUAA1 3840 32 exports kinetics microscopy DAPI scripts hashes downloads 螢光 時間序列 資料 下載",
         "url": "results.html",
         "anchor": "data-availability"

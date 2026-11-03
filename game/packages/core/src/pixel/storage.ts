@@ -20,7 +20,7 @@ export type PixelStoredState = {
 
 export const DEFAULT_PIXEL_STORED_STATE: PixelStoredState = {
   storageVersion: PIXEL_STORAGE_VERSION,
-  locale: 'zh-Hant',
+  locale: 'en',
   muted: false,
   reducedEffects: false,
   highContrast: false,
@@ -37,7 +37,7 @@ export function migratePixelStoredState(raw: unknown): PixelStoredState {
   const data = raw as Record<string, unknown>;
 
   // Legacy / corrupt payloads must not crash.
-  const locale = data.locale === 'en' || data.locale === 'zh-Hant' ? data.locale : 'zh-Hant';
+  const locale = data.locale === 'en' || data.locale === 'zh-Hant' ? data.locale : 'en';
   const muted = Boolean(data.muted);
   const reducedEffects = Boolean(data.reducedEffects);
   const highContrast = Boolean(data.highContrast);

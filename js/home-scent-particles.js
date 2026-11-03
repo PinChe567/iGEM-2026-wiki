@@ -99,7 +99,7 @@
   return `rgba(${tintChannel(a[0],b[0],paper[0],p,q)},${tintChannel(a[1],b[1],paper[1],p,q)},${tintChannel(a[2],b[2],paper[2],p,q)},${alpha})`;
  }
  // Orthographic depth projection and Fibonacci directions adapted from
- // thinking-orbs (Jakub Antalik, MIT). See assets/licenses/thinking-orbs.txt.
+ // thinking-orbs (Jakub Antalik, MIT). See https://gitlab.igem.org/2026/software/nthu/aerosense/-/blob/main/code/aerosense/visualization/aerosense-wiki/assets/licenses/thinking-orbs.txt.
  // Each readable silhouette holds before dissolving into a rotating sphere
  // and resolving into the next shape. The illustrations are conceptual.
  const sequence=['fly','brain','neuron','cell','banana'];

@@ -8,6 +8,7 @@
   const yaw = document.getElementById('yaw');
   const tilt = document.getElementById('tilt');
   const info = document.getElementById('selected-result');
+  const tr = value => window.AeroSenseI18n?.t(value) || value;
   let projected = [], selected = cfg.selected || 0, pointer = null;
   const ranges = cfg.axes.map(a => {
     const vals = cfg.rows.map(r => Number(r[a.key])).filter(Number.isFinite);
@@ -34,7 +35,7 @@
       const end=[-1,-1,-1];end[i]=1.15;const p=project(end,w,h);
       ctx.strokeStyle='#536e63';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(origin[0],origin[1]);ctx.lineTo(p[0],p[1]);ctx.stroke();
       ctx.fillStyle='#244135';ctx.textAlign=p[0]>w*.75?'right':p[0]<w*.25?'left':'center';
-      ctx.fillText(axis.label,Math.max(8,Math.min(w-8,p[0])),Math.max(16,Math.min(h-8,p[1]+(i===2?-12:20))));
+      ctx.fillText(tr(axis.label),Math.max(8,Math.min(w-8,p[0])),Math.max(16,Math.min(h-8,p[1]+(i===2?-12:20))));
       for(let t=0;t<=4;t++){
         const tick=[-1,-1,-1];tick[i]=-1+t*.5;const q=project(tick,w,h);
         ctx.fillStyle='#64776e';ctx.textAlign='left';ctx.fillText(fmt(ranges[i][0]+(ranges[i][1]-ranges[i][0])*t/4),q[0]+5,q[1]+(i===2?0:12));
@@ -48,7 +49,7 @@
       ctx.beginPath();ctx.arc(p[0],p[1],i===selected?8:5,0,Math.PI*2);
       ctx.fillStyle=i===selected?'#ce571b':`hsl(${164-level*100} 42% ${42+level*12}%)`;ctx.fill();
       ctx.strokeStyle=i===selected?'#3c2d19':'#fff';ctx.lineWidth=i===selected?2:1;ctx.stroke();
-      if(i===selected){ctx.fillStyle='#243b31';ctx.textAlign='center';ctx.fillText('Selected case',p[0],p[1]-14);}
+      if(i===selected){ctx.fillStyle='#243b31';ctx.textAlign='center';ctx.fillText(tr('Selected case'),p[0],p[1]-14);}
     });
   }
   function choose(i) {
@@ -77,4 +78,5 @@
   });
   canvas.addEventListener('pointercancel',()=>pointer=null);
   new ResizeObserver(draw).observe(canvas);choose(selected);
+  document.addEventListener('aerosense:languagechange', draw);
 })();

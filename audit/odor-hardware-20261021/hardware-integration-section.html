@@ -1,0 +1,46 @@
+<section class="section-block hw-result-chapter" id="reader-integrated-demo">
+<span class="section-eyebrow">Biology · Hardware · Measured data</span>
+<h2 class="reading-heading--chapter">Living-cell integration</h2>
+<p class="hw-result-lead">The assembled reader recorded four cell-containing wells before and after VUAA1 addition. The traces reveal a post-addition transient and baseline drift; they do not yet establish a receptor-specific calcium response.</p>
+<p>We placed Or35a + ORCO in D1, Or85b + ORCO in D2, Or98a + ORCO in D3, and ORCO only in D4. These labels identify the intended wells. Each plotted channel is a frequency component measured by the shared photodiode, so its amplitude can include light from more than one well.</p>
+<ol aria-label="Living-cell measurement sequence" class="hw-cell-sequence">
+<li><strong>Cells + medium</strong><span>Three initial readings: Blank01–03.</span></li>
+<li><strong>Pre-addition series</strong><span>Ten readings at nominal 6 s intervals.</span></li>
+<li><strong>Add VUAA1</strong><span>1:100 dilution, followed by ten readings at nominal 6 s intervals.</span></li>
+<li><strong>Final readings</strong><span>Three additional acquisitions after the post-addition series.</span></li>
+</ol>
+<p>The device clock shows that the two ten-record series span 79.43 s and 69.19 s between their first and last midpoints. The last pre-addition and first post-addition records are 144.96 s apart; the exact addition time within this interval was not recorded. We therefore plot actual acquisition time rather than assigning an assumed response time after dosing.</p>
+<figure class="hw-v2-fig hw-cell-figure" data-static-figure-number="18" id="reader-cell-integration-traces">
+<a href="assets/hardware-test3/hardware-test3-traces.svg" target="_blank" rel="noopener"><picture><source media="(max-width: 640px)" srcset="assets/hardware-test3/hardware-test3-traces-mobile.svg"/><img src="assets/hardware-test3/hardware-test3-traces.svg" width="1200" height="790" loading="lazy" decoding="async" alt="Four measured channel traces before and after VUAA1. D2 and D3 decrease sharply at the first post-addition reading and recover; D1 remains lower and D4 shows a transient excursion."/></picture></a>
+<figcaption><strong class="media-caption__label">Figure 18. </strong>All 26 acquisitions from one device run. Each point represents the raw peak Fourier amplitude from a two-second, 8,000-sample recording. Dotted lines show the ten-record pre-addition mean. The shaded interval contains the unlogged VUAA1 addition; gaps between stages are left unconnected. Vertical scales differ between channels.</figcaption>
+</figure>
+<h3 class="reading-heading--topic">A transient followed by partial recovery</h3>
+<p>D2 and D3 initially decreased after addition and then recovered toward their pre-addition levels. D4 showed an initial rise, then a decrease and recovery. Relative to the mean of the ten recent pre-addition records, the final three readings averaged −5.02% for D1, −3.82% for D2, −0.29% for D3 and +0.01% for D4. These are changes in measured electrical amplitude, not fluorescence ΔF/F₀.</p>
+<div aria-label="Living-cell integration endpoint summary" class="table-scroll" role="region" tabindex="0">
+<table class="hw-v2-table hw-cell-table">
+<caption>One run, four intended wells. Stage means in mV; final change uses the recent pre-addition mean.</caption>
+<thead><tr><th scope="col">Readout / intended well</th><th scope="col">Initial blank<br/>(3 records)</th><th scope="col">Recent blank<br/>(10 records)</th><th scope="col">Final<br/>(3 records)</th><th scope="col">Final change</th></tr></thead>
+<tbody>
+<tr><th scope="row">D1 · Or35a + ORCO</th><td>15.547</td><td>15.138</td><td>14.379</td><td>−5.02%</td></tr>
+<tr><th scope="row">D2 · Or85b + ORCO</th><td>27.740</td><td>27.097</td><td>26.061</td><td>−3.82%</td></tr>
+<tr><th scope="row">D3 · Or98a + ORCO</th><td>76.549</td><td>72.496</td><td>72.288</td><td>−0.29%</td></tr>
+<tr><th scope="row">D4 · ORCO only</th><td>28.304</td><td>27.549</td><td>27.551</td><td>+0.01%</td></tr>
+</tbody></table></div>
+<p>The baseline had already fallen between the initial readings and the recent pre-addition series. Using Blank01–03 as the denominator instead gives final changes of −7.52%, −6.05%, −5.57% and −2.66%. Showing both references makes this sensitivity visible and prevents a drifting baseline from being mistaken for a biological response.</p>
+<figure class="hw-v2-fig hw-cell-figure" data-static-figure-number="19" id="reader-cell-integration-endpoints">
+<a href="assets/hardware-test3/hardware-test3-endpoints.svg" target="_blank" rel="noopener"><picture><source media="(max-width: 640px)" srcset="assets/hardware-test3/hardware-test3-endpoints-mobile.svg"/><img src="assets/hardware-test3/hardware-test3-endpoints.svg" width="1150" height="540" loading="lazy" decoding="async" alt="Final three readings normalized to the early baseline or to the recent pre-addition baseline. The D3 and D4 decreases become near-zero when the recent baseline is used."/></picture></a>
+<figcaption><strong class="media-caption__label">Figure 19. </strong>Baseline sensitivity of the final readings. Each dot is one repeated acquisition; horizontal marks show the mean. Percent change is 100 × (final amplitude / mean baseline amplitude − 1). These points are repeated measurements of the same wells, not independent biological replicates.</figcaption>
+</figure>
+<div class="hw-cell-interpretation">
+<h3 class="reading-heading--topic">What the integrated test establishes</h3>
+<p>The device acquired cell-containing-well signals across all four channels before and after dosing. All 26 raw recordings passed the exported acquisition checks, with no ADC rail samples, and recalculation from the raw samples reproduced the saved amplitudes.</p>
+<p>The biological interpretation remains unresolved. This run lacks a matched vehicle-addition control and independent biological repeats, while the baseline drifts and the optical channels are not unmixed. The next test should log the addition event, establish a stable baseline, include vehicle-only handling controls, match cell loading, and repeat the experiment independently before assigning the signal changes to receptor activation.</p>
+</div>
+<details class="hw-v2-disclose hw-cell-methods" id="reader-cell-integration-methods">
+<summary>Readout definition, controls and data record</summary>
+<div class="hw-v2-disclose__body">
+<p>The four channels use 41, 67, 89 and 113 Hz excitation, 25% LED duty, and 8,000 ADC samples at 4 kHz per acquisition. Raw amplitudes are √(I² + Q²), reported in mV peak. The saved browser correction subtracts an earlier blank I/Q vector and then takes its nonnegative magnitude; that magnitude cannot indicate whether a signal increased or decreased. A phase reference and valid living-baseline normalization were unavailable, so the analysis uses raw amplitudes without optical unmixing or concentration conversion.</p>
+<p>ORCO only is retained as a comparator. The 1:100 VUAA1 dilution is operator supplied; stock molarity, exact final solvent fraction and addition volume were not recorded in this batch. Serial acquisitions describe within-run variation and do not provide biological replication or a significance test.</p>
+<p>The local research package preserves 26 JSON reports, 26 raw CSV files, a SHA-256 source manifest, the reproducible calculation, full-precision summaries and the figures. This new batch is prepared for the next research-data release; it is not represented as already available in the linked public record.</p>
+</div></details>
+</section>

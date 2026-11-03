@@ -713,6 +713,37 @@ body.signal-atlas{--content-title-bleed:16px}
 
 /* Use each existing chapter or grid-column width instead of several competing
    character measures. Do not alter the enclosing article, TOC or sticky track. */
+body.signal-atlas:not(.page-home) :is(.page-article,.model-track-panel,.lm-article,.learn-section,.members-section,.glossary-entry,.ds-page-brief){
+ --content-reading:100%;--measure:100%;--reading-max:100%;--ds-reading:100%;
+}
+body.signal-atlas:not(.page-home) :is(.component-narrow,.figure-narrow,.callout-narrow){
+ --content-reading:72ch;--measure:72ch;--reading-max:72ch;--ds-reading:72ch;
+}
+body.signal-atlas:not(.page-home) :is(.notion-event__copy,.editorial-spread__intro){
+ max-width:none;
+}
+/* Nested chapters and dynamically rendered lessons use the same prose bounds.
+   Limit only the text's maximum size: auto widths, grid columns, list indents,
+   card padding and deliberately compact visual components stay authored. */
+@layer prose-width {
+ body.signal-atlas:not(.page-home) :is(.page-article,.model-track-panel,.lm-article,.learn-section,.members-section,.glossary-entry,.ds-page-brief)
+ :is(p,dd,ul:not([class]),ol:not([class])):not(:where(
+  nav *,button *,summary *,[role="button"] *,[role="tablist"] *,[role="menu"] *,
+  table *,[aria-hidden="true"],[aria-hidden="true"] *,
+  .page-toc *,.toc *,.breadcrumb *,.pdf-reader__toolbar *,
+  .page-hero *,.hero *,.members-intro *,.learn-hero *,.lm-hero *,
+  .hw-product-tour *,.hw-showcase *,.eng-gears *,.eng-gear-train *,
+  .flight *,.ent-gantt-note,.hp-banana-tools *,
+  .component-narrow,.component-narrow *,.figure-narrow *,.callout-narrow *,
+  .sr-only,.visually-hidden,[role="status"],[aria-live],
+  [data-text-align="preserve"],[data-text-align="preserve"] *,
+  [class*="kicker"],[class*="eyebrow"],[class*="__label"],[class*="-label"],
+  [class*="__value"],[class*="__number"],[class*="__meta"],[class*="__tag"]
+ )){
+  max-width:none!important;
+  max-inline-size:none!important;
+ }
+}
 body.signal-atlas:not(.page-home) :is(.page-article,.model-track-panel) > :is(section,.section-block) > :is(p,ul,ol):not(.ref-list):not(.references-list),
 body.signal-atlas:not(.page-home) .page-article .section-block > p,
 body.signal-atlas.page-human-practices main > .hp-section > p,

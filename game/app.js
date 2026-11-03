@@ -1,32 +1,32 @@
 const ODORS = [
-  { id: 'banana', name: '香蕉', en: 'Banana', vector: [1, .1, .1, .45, .05] },
-  { id: 'lemon', name: '檸檬', en: 'Lemon', vector: [1, .05, .9, .05, .08] },
-  { id: 'rose', name: '玫瑰', en: 'Rose', vector: [.15, 1, .12, .2, .02] },
-  { id: 'coffee', name: '咖啡', en: 'Coffee', vector: [.02, .02, .08, 1, .35] },
-  { id: 'mint', name: '薄荷', en: 'Mint', vector: [.08, .25, 1, .02, .08] },
-  { id: 'strawberry', name: '草莓', en: 'Strawberry', vector: [1, .4, .12, .25, .02] },
-  { id: 'chocolate', name: '巧克力', en: 'Chocolate', vector: [.1, .05, .02, 1, .15] },
-  { id: 'lavender', name: '薰衣草', en: 'Lavender', vector: [.05, 1, .45, .18, .02] },
-  { id: 'orange', name: '柳橙', en: 'Orange', vector: [1, .08, .75, .12, .05] },
-  { id: 'cinnamon', name: '肉桂', en: 'Cinnamon', vector: [.06, .12, .04, 1, .4] },
-  { id: 'apple', name: '蘋果', en: 'Apple', vector: [1, .15, .42, .15, .04] },
-  { id: 'vanilla', name: '香草', en: 'Vanilla', vector: [.18, .7, .05, .75, .02] },
-  { id: 'bread', name: '麵包', en: 'Bread', vector: [.02, .02, .08, .85, .65] },
-  { id: 'pine', name: '松木', en: 'Pine', vector: [.02, .15, .88, .3, .18] },
-  { id: 'popcorn', name: '爆米花', en: 'Popcorn', vector: [.04, .02, .04, .78, .72] },
-  { id: 'peach', name: '水蜜桃', en: 'Peach', vector: [1, .38, .18, .22, .02] },
-  { id: 'garlic', name: '大蒜', en: 'Garlic', vector: [.02, .01, .1, .12, 1] },
-  { id: 'ocean', name: '海洋', en: 'Ocean', vector: [.02, .02, 1, .02, .58] },
-  { id: 'honey', name: '蜂蜜', en: 'Honey', vector: [.35, .35, .06, .9, .03] },
-  { id: 'smoke', name: '營火', en: 'Campfire', vector: [.01, .01, .12, 1, .75] },
+  { id: 'banana', name: 'Banana', en: 'Banana', vector: [1, .1, .1, .45, .05] },
+  { id: 'lemon', name: 'Lemon', en: 'Lemon', vector: [1, .05, .9, .05, .08] },
+  { id: 'rose', name: 'Rose', en: 'Rose', vector: [.15, 1, .12, .2, .02] },
+  { id: 'coffee', name: 'Coffee', en: 'Coffee', vector: [.02, .02, .08, 1, .35] },
+  { id: 'mint', name: 'Mint', en: 'Mint', vector: [.08, .25, 1, .02, .08] },
+  { id: 'strawberry', name: 'Strawberry', en: 'Strawberry', vector: [1, .4, .12, .25, .02] },
+  { id: 'chocolate', name: 'Chocolate', en: 'Chocolate', vector: [.1, .05, .02, 1, .15] },
+  { id: 'lavender', name: 'Lavender', en: 'Lavender', vector: [.05, 1, .45, .18, .02] },
+  { id: 'orange', name: 'Orange', en: 'Orange', vector: [1, .08, .75, .12, .05] },
+  { id: 'cinnamon', name: 'Cinnamon', en: 'Cinnamon', vector: [.06, .12, .04, 1, .4] },
+  { id: 'apple', name: 'Apple', en: 'Apple', vector: [1, .15, .42, .15, .04] },
+  { id: 'vanilla', name: 'Vanilla', en: 'Vanilla', vector: [.18, .7, .05, .75, .02] },
+  { id: 'bread', name: 'Bread', en: 'Bread', vector: [.02, .02, .08, .85, .65] },
+  { id: 'pine', name: 'Pine', en: 'Pine', vector: [.02, .15, .88, .3, .18] },
+  { id: 'popcorn', name: 'Popcorn', en: 'Popcorn', vector: [.04, .02, .04, .78, .72] },
+  { id: 'peach', name: 'Peach', en: 'Peach', vector: [1, .38, .18, .22, .02] },
+  { id: 'garlic', name: 'Garlic', en: 'Garlic', vector: [.02, .01, .1, .12, 1] },
+  { id: 'ocean', name: 'Ocean', en: 'Ocean', vector: [.02, .02, 1, .02, .58] },
+  { id: 'honey', name: 'Honey', en: 'Honey', vector: [.35, .35, .06, .9, .03] },
+  { id: 'smoke', name: 'Campfire', en: 'Campfire', vector: [.01, .01, .12, 1, .75] },
 ];
 
 const LEVELS = [
-  { size: 3, name: '感知初醒' },
-  { size: 4, name: '氣味輪廓' },
-  { size: 5, name: '模式交會' },
-  { size: 6, name: '嗅覺迷宮' },
-  { size: 7, name: '神經星圖' },
+  { size: 3, name: 'First impressions' },
+  { size: 4, name: 'Odor outlines' },
+  { size: 5, name: 'Pattern intersections' },
+  { size: 6, name: 'Odor maze' },
+  { size: 7, name: 'Neural constellation' },
 ];
 
 const ACTIVATIONS = [1, 5, 10, 15, 20];
@@ -172,12 +172,12 @@ function smellVisual(odor, className = '') {
   return `<div class="smell-visual ${className}" style="${visualStyle(index)}" role="img" aria-label="${odor.name}"></div>`;
 }
 
-function matrixMarkup(pattern, size, noise = new Set(), label = '氣味 LED 編碼') {
+function matrixMarkup(pattern, size, noise = new Set(), label = 'Odor LED pattern') {
   const cells = pattern.map((on, index) => {
     const type = noise.has(index) ? 'noise-cell' : on ? 'on' : '';
     return `<i class="led-cell ${type}"></i>`;
   }).join('');
-  return `<div class="led-matrix" style="--size:${size}" role="img" aria-label="${size} 乘 ${size} ${label}">${cells}</div>`;
+  return `<div class="led-matrix" style="--size:${size}" role="img" aria-label="${size} by ${size} ${label}">${cells}</div>`;
 }
 
 function renderControls() {
@@ -188,7 +188,7 @@ function renderControls() {
   `).join('');
 
   els.activationPicker.innerHTML = ACTIVATIONS.map(value => `
-    <button class="activation-button ${state.activation === value ? 'active' : ''}" data-activation="${value}" type="button" aria-label="${value}% 干擾活化">${value}%</button>
+    <button class="activation-button ${state.activation === value ? 'active' : ''}" data-activation="${value}" type="button" aria-label="${value}% Noise activation">${value}%</button>
   `).join('');
 
   const level = LEVELS[state.level];
@@ -211,9 +211,9 @@ function renderReady() {
       <div class="ready-copy">
         <span class="section-label">LEVEL 0${state.level + 1} · READY</span>
         <h3>${level.size} × ${level.size} ${level.name}</h3>
-        <p>本關會從完整的 20 種氣味圖鑑中隨機抽出 6 種。相近的氣味會共享更多亮點，但每一種仍有自己的細微特徵。</p>
-        <div class="ready-tip"><b>i</b><span>建議先開啟氣味圖鑑，點選圖片比較編碼，再開始 10 題挑戰。</span></div>
-        <button class="primary-button" id="startButton" type="button">隨機抽選並預習 6 種 <span class="arrow">→</span></button>
+        <p>This level selects 6 odors from the full atlas of 20. Similar odors share more active cells, but each retains distinct features.</p>
+        <div class="ready-tip"><b>i</b><span>Explore the atlas and compare patterns before starting the 10-question challenge.</span></div>
+        <button class="primary-button" id="startButton" type="button">Select and study 6 odors <span class="arrow">→</span></button>
       </div>
     </div>
   `;
@@ -241,15 +241,15 @@ function renderStudy() {
       <div class="study-topline">
         <div>
           <span class="section-label">SCENT PREVIEW</span>
-          <h3>測驗前，先記住每個氣味</h3>
+          <h3>Study each odor before the quiz</h3>
         </div>
         <span class="question-count">${String(state.studyIndex + 1).padStart(2, '0')} / ${String(pool.length).padStart(2, '0')}</span>
       </div>
 
-      <div class="study-progress" aria-label="氣味預習進度">
+      <div class="study-progress" aria-label="Odor study progress">
         ${pool.map((item, index) => `
           <button class="study-dot ${index === state.studyIndex ? 'active' : ''} ${index <= state.studyFurthest && index !== state.studyIndex ? 'viewed' : ''}"
-            data-study-index="${index}" type="button" aria-label="查看${item.name}" ${index > state.studyFurthest ? 'disabled' : ''}></button>
+            data-study-index="${index}" type="button" aria-label="View ${item.name}" ${index > state.studyFurthest ? 'disabled' : ''}></button>
         `).join('')}
       </div>
 
@@ -260,16 +260,16 @@ function renderStudy() {
           <div class="study-name"><h4>${odor.name}</h4><span>${odor.en}</span></div>
         </div>
         <div class="study-code">
-          ${matrixMarkup(odorPattern(odor, level.size), level.size, new Set(), `${odor.name}的基礎編碼`)}
-          <div><b>${level.size} × ${level.size} 基礎編碼</b><span>綠色亮點屬於氣味本身；正式測驗中可能加入紫色干擾。</span></div>
+          ${matrixMarkup(odorPattern(odor, level.size), level.size, new Set(), `Base pattern of ${odor.name}`)}
+          <div><b>${level.size} × ${level.size} Base pattern</b><span>Green lights form the odor pattern; the quiz may add purple noise.</span></div>
         </div>
       </div>
 
       <div class="study-actions">
-        <button class="secondary-button" id="studyPrev" type="button" ${isFirst ? 'disabled' : ''}>← 上一個</button>
-        <span>${isLast ? '已看到最後一種氣味' : `還有 ${pool.length - state.studyIndex - 1} 種氣味`}</span>
+        <button class="secondary-button" id="studyPrev" type="button" ${isFirst ? 'disabled' : ''}>← Previous</button>
+        <span>${isLast ? 'You have reached the last odor' : `${pool.length - state.studyIndex - 1} odors remaining`}</span>
         <button class="primary-button" id="studyNext" type="button">
-          ${isLast ? '全部看完，確認開始' : '記住了，下一個'} <span class="arrow">→</span>
+          ${isLast ? 'Start the quiz' : 'Next odor'} <span class="arrow">→</span>
         </button>
       </div>
     </div>
@@ -341,8 +341,8 @@ function renderQuiz() {
         <div class="question-visual">${matrixMarkup(encoded.base, level.size, encoded.noise)}</div>
         <div class="question-panel">
           <span class="section-label">IDENTIFY THE SCENT</span>
-          <h3>這組編碼是哪個氣味？</h3>
-          <p>選出最符合這組 LED 模式的氣味圖片</p>
+          <h3>Which odor does this pattern represent?</h3>
+          <p>Choose the odor image that best matches this LED pattern.</p>
           <div class="options-grid">
             ${question.options.map(odor => `
               <button class="option-card" data-odor="${odor.id}" type="button">
@@ -390,10 +390,10 @@ function answerQuestion(event) {
   feedback.classList.remove('hidden');
   feedback.innerHTML = `
     <div class="feedback-copy ${correct ? '' : 'wrong'}">
-      <strong>${correct ? '辨識正確！' : `正確答案是「${question.answer.name}」`}</strong>
-      <span>${question.answer.name}與${nearest.name}的特徵較接近，因此會共享較多亮點。</span>
+      <strong>${correct ? 'Correct!' : `The correct answer is ${question.answer.name}`}</strong>
+      <span>${question.answer.name} and ${nearest.name} share similar features and therefore more active cells.</span>
     </div>
-    <button class="next-button" id="nextButton" type="button">${state.round === 9 ? '看結果' : '下一題'} →</button>
+    <button class="next-button" id="nextButton" type="button">${state.round === 9 ? 'View results' : 'Next question'} →</button>
   `;
   document.querySelector('#nextButton').addEventListener('click', nextQuestion);
 }
@@ -419,20 +419,20 @@ function renderResult() {
     <div class="result-state">
       <div class="result-score">
         <div class="score-ring" style="--score-angle:${correct * 36}deg"><div><strong>${state.score}</strong><span>FINAL SCORE</span></div></div>
-        <span class="result-badge ${passed ? '' : 'fail'}">${perfect ? '✦ 完美辨識' : passed ? '✓ 挑戰通過' : '再試一次'}</span>
+        <span class="result-badge ${passed ? '' : 'fail'}">${perfect ? '✦ Perfect recognition' : passed ? '✓ Challenge passed' : 'Try again'}</span>
       </div>
       <div class="result-copy">
         <span class="section-label">LEVEL 0${state.level + 1} · COMPLETE</span>
-        <h3>${perfect ? '你的嗅覺地圖很清晰！' : passed ? '成功讀懂氣味編碼！' : '已經很接近了！'}</h3>
-        <p>${perfect ? '十題全數辨識正確，這是本關最高分。' : passed ? '你已達到 60% 過關標準，可以前往下一個矩陣尺寸。' : '先到圖鑑比較相似氣味的共同亮點，再挑戰一次。'}</p>
+        <h3>${perfect ? 'A clear odor map!' : passed ? 'You decoded the odor patterns!' : 'Almost there!'}</h3>
+        <p>${perfect ? 'You identified all ten odors correctly and earned the top score.' : passed ? 'You reached the 60% pass mark and can move to the next matrix size.' : 'Compare shared active cells in the atlas, then try again.'}</p>
         <div class="result-metrics">
-          <div><strong>${correct}</strong><span>答對題數</span></div>
-          <div><strong>${state.activation}%</strong><span>干擾活化</span></div>
-          <div><strong>${level.size}×${level.size}</strong><span>矩陣尺寸</span></div>
+          <div><strong>${correct}</strong><span>Correct answers</span></div>
+          <div><strong>${state.activation}%</strong><span>Noise activation</span></div>
+          <div><strong>${level.size}×${level.size}</strong><span>Matrix size</span></div>
         </div>
         <div class="result-actions">
-          <button class="secondary-button" id="retryButton" type="button">重新挑戰</button>
-          ${passed && state.level < LEVELS.length - 1 ? '<button class="primary-button" id="nextLevelButton" type="button">下一大關 <span class="arrow">→</span></button>' : '<button class="primary-button" id="viewAtlasResult" type="button">複習圖鑑</button>'}
+          <button class="secondary-button" id="retryButton" type="button">Replay</button>
+          ${passed && state.level < LEVELS.length - 1 ? '<button class="primary-button" id="nextLevelButton" type="button">Next level <span class="arrow">→</span></button>' : '<button class="primary-button" id="viewAtlasResult" type="button">Review the atlas</button>'}
         </div>
       </div>
     </div>
@@ -458,8 +458,8 @@ function renderAtlas(selected = null) {
   els.atlasGrid.innerHTML = pool.map((odor, index) => {
     const detail = selected === odor.id ? `
       <div class="atlas-detail">
-        ${matrixMarkup(odorPattern(odor, level.size), level.size, new Set(), `${odor.name}的基礎編碼`)}
-        <div><span class="section-label">BASE PATTERN</span><h3>${odor.name} · ${odor.en}</h3><p>這是 ${level.size} × ${level.size} 模式下的固定基礎編碼。挑戰中的紫色亮點是額外干擾，不屬於原始氣味。</p></div>
+        ${matrixMarkup(odorPattern(odor, level.size), level.size, new Set(), `Base pattern of ${odor.name}`)}
+        <div><span class="section-label">BASE PATTERN</span><h3>${odor.name}</h3><p>This is the fixed base pattern in the ${level.size} × ${level.size} matrix. Purple lights in the challenge are added noise, not part of the original odor.</p></div>
       </div>` : '';
     return `
       <button class="atlas-item" data-atlas-odor="${odor.id}" type="button">
@@ -525,7 +525,7 @@ document.querySelectorAll('dialog').forEach(dialog => {
 els.soundButton.addEventListener('click', () => {
   state.muted = !state.muted;
   els.soundButton.classList.toggle('muted', state.muted);
-  els.soundButton.setAttribute('aria-label', state.muted ? '開啟音效' : '關閉音效');
+  els.soundButton.setAttribute('aria-label', state.muted ? 'Enable sound' : 'Disable sound');
   if (!state.muted) playTone(520, .08);
 });
 

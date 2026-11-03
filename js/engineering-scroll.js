@@ -295,7 +295,7 @@
     window.addEventListener('resize',()=>{readers.forEach(measure);schedule();});
     reduced.addEventListener('change',()=>{readers.forEach(measure);schedule();});
     const readingToggle=document.querySelector('[data-eng-reading-toggle]');
-    function setPlainReading(plain,persist=false) {
+    function setPlainReading(plain) {
       const focused=document.activeElement;
       document.documentElement.classList.toggle('eng-reading-plain',plain);
       readers.forEach(reader=>{
@@ -317,13 +317,14 @@
         readingToggle.setAttribute('aria-label',plain?'Return to guided engineering reading':'Expand all engineering cycles and stages');
       }
       document.querySelectorAll('[data-eng-receptor-record]').forEach(detail=>{detail.open=plain;});
-      if(persist){try{localStorage.setItem('aerosense-engineering-reading',plain?'plain':'guided');}catch(_){} }
       if(focused===readingToggle)readingToggle.focus({preventScroll:true});
       schedule();
     }
-    let preferred='';try{preferred=localStorage.getItem('aerosense-engineering-reading')||'';}catch(_){}
-    setPlainReading(preferred==='plain');
-    readingToggle?.addEventListener('click',()=>setPlainReading(!document.documentElement.classList.contains('eng-reading-plain'),true));
+    // Every visit starts in the guided gear layout. Expand all is temporary;
+    // an earlier review session must not silently disable the interactive reader.
+    try{localStorage.removeItem('aerosense-engineering-reading');}catch(_){}
+    setPlainReading(false);
+    readingToggle?.addEventListener('click',()=>setPlainReading(!document.documentElement.classList.contains('eng-reading-plain')));
     let loaded=document.readyState==='complete',fontsReady=!document.fonts?.ready,initialQueued=false;
     function finishInitialNavigation(){
       if(!loaded||!fontsReady||initialQueued)return;

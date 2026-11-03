@@ -19,7 +19,7 @@ describe('content catalog', () => {
     const legacy = toLegacyOdors();
     expect(legacy[0]).toEqual({
       id: 'banana',
-      name: '\u9999\u8549',
+      name: '香蕉',
       en: 'Banana',
       vector: [1, 0.1, 0.1, 0.45, 0.05],
     });
@@ -27,6 +27,5 @@ describe('content catalog', () => {
 
   it('exposes model disclaimer', () => {
     expect(contentCatalog.modelDisclaimer.en).toMatch(/virtual-receptor/i);
-    expect(contentCatalog.modelDisclaimer['zh-Hant'].length).toBeGreaterThan(10);
   });
 });

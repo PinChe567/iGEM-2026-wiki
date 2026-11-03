@@ -115,7 +115,8 @@
   // Initial hidden→visible changes can arrive together; use the newest entry.
   const observer=new IntersectionObserver(entries=>{state.visible=entries[entries.length-1].isIntersecting;if(!state.visible)cancel();else{draw();schedule();}},{threshold:.05});observer.observe(canvas);
   new ResizeObserver(()=>{draw();schedule();}).observe(canvas);
-  new MutationObserver(()=>{if(root.closest('[hidden]'))cancel();else{draw();schedule();}}).observe(root.closest('[data-model-panel]'),{attributes:true,attributeFilter:['hidden']});
+  const modelPanel=root.closest('[data-model-panel]');
+  if(modelPanel)new MutationObserver(()=>{if(root.closest('[hidden]'))cancel();else{draw();schedule();}}).observe(modelPanel,{attributes:true,attributeFilter:['hidden']});
   document.addEventListener('visibilitychange',()=>{if(document.hidden)cancel();else schedule();});
   motion.addEventListener('change',()=>{if(motion.matches){state.playing=false;cancel();sync();draw();}});
   root.querySelectorAll('[data-neural-controls]').forEach(e=>e.hidden=false);

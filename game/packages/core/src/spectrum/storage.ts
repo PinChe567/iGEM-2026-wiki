@@ -24,7 +24,7 @@ export type SpectrumStoredState = {
 
 export const DEFAULT_SPECTRUM_STORED_STATE: SpectrumStoredState = {
   storageVersion: SPECTRUM_STORAGE_VERSION,
-  locale: 'zh-Hant',
+  locale: 'en',
   reducedMotion: false,
   highContrast: false,
   tutorialSeen: false,
@@ -42,7 +42,7 @@ export function migrateSpectrumStoredState(raw: unknown): SpectrumStoredState {
     };
   }
   const data = raw as Record<string, unknown>;
-  const locale = data.locale === 'en' || data.locale === 'zh-Hant' ? data.locale : 'zh-Hant';
+  const locale = data.locale === 'en' || data.locale === 'zh-Hant' ? data.locale : 'en';
   const playedSeeds = Array.isArray(data.playedSeeds)
     ? data.playedSeeds.filter((s): s is string => typeof s === 'string').slice(-200)
     : [];

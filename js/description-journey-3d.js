@@ -1291,7 +1291,7 @@ function loadGltf(url) {
       const name = /^Batch_label(?:\.?\d+)?$/.test(obj.name) ? "Batch_label" : obj.name;
       if (!obj.isMesh || !englishExhibitLabels.has(name)) return;
       if (!exhibitLabelVisibility.has(obj)) exhibitLabelVisibility.set(obj, obj.visible);
-      obj.visible = chinese ? false : exhibitLabelVisibility.get(obj);
+      obj.visible = exhibitLabelVisibility.get(obj);
     });
   }
 

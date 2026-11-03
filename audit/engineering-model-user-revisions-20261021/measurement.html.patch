@@ -1,0 +1,18 @@
+--- measurement.html (before)
++++ measurement.html (after)
+@@ -348,12 +348,12 @@
+ <ul><li><a href="https://gitlab.igem.org/2026/software/nthu/aerosense/-/tree/main/code/aerosense/wetlab/aerosense-wiki/assets/results/microscopy">Microscopy segmentation and control-analysis source</a> · <a href="https://static.igem.wiki/teams/6460/wiki/downloads/7762fd12ac0b-nuclear-object-parameters.json">Measured segmentation parameters · JSON</a></li><li><a href="https://gitlab.igem.org/2026/software/nthu/aerosense/-/tree/main/code/aerosense/wetlab/aerosense-wiki/assets/results/final-test">Test 1 analysis source</a> · <a href="https://gitlab.igem.org/2026/software/nthu/aerosense/-/tree/main/code/aerosense/wetlab/aerosense-wiki/data/odor-2026-10-21/analysis">Test 2 correction and VUAA1-reference source</a></li><li><a href="https://gitlab.igem.org/2026/software/nthu/aerosense/-/tree/main/code/aerosense/hardware/07_validation/reproduction-source">Instrument calibration source</a> · <a href="https://gitlab.igem.org/2026/software/nthu/aerosense/-/tree/main/code/aerosense/wetlab/reports/lightsheet-v51">Light-sheet plotting source</a></li><li><a href="results.html#data-availability">Wet-lab data and reports</a> · <a href="hardware.html#hardware-data-availability">Hardware data and reports</a> · <a href="model.html#model-data-availability">Model data and reports</a></li><li><a href="https://gitlab.igem.org/2026/software/nthu/aerosense/-/blob/main/docs/aerosense/archive-status.md">Full research archive: publication status</a></li></ul></section>
+ <section class="section-block" data-reveal="" id="supplementary">
+ <h2 class="reading-heading--chapter">Supplementary methods</h2>
+-<h3 id="odor-complete-curves-method">Complete odor curves with a fixed reference denominator</h3>
++<details class="supplementary-data__group"><summary id="odor-complete-curves-method">Complete odor curves with a fixed reference denominator</summary><div class="supplementary-data__body">
+ <p>For stimulus s and construct c, subtract the measured 48 s F0 endpoint change from every F1 point, then subtract DMSO at the same local acquisition time. Divide by the fixed VUAA1-minus-DMSO endpoint difference at 168 s. The final point equals Results Figure 14; VUAA1 equals 1 at that endpoint by definition. F0 is a constant correction, not an extrapolated trace; initial offsets remain. Test 1 retains its four raw stages.</p>
+ <p class="measurement-equation">Ss,c(t) = 100 × [F1s,c(t)/F1s,c(0) − 1] − δF0s,c;  Ns,c(t) = [Ss,c(t) − SDMSO,c(t)] / [SVUAA1,c(168) − SDMSO,c(168)]</p>
+-<h3 id="control-statistics">Nominal object-count uncertainty</h3>
++</div></details><details class="supplementary-data__group"><summary id="control-statistics">Nominal object-count uncertainty</summary><div class="supplementary-data__body">
+ <p>Fisher tests use [[positive, eligible − positive], [blank-positive, blank-eligible − blank-positive]] with the greater alternative. Holm adjustment orders p-values, multiplies by the remaining test count, applies the cumulative maximum and caps at 1. Wilson intervals use z = 1.96 and the eligible object count.</p>
+-<p><a href="#ref-6">Fisher exact test implementation [6]</a></p></section>
++<p><a href="#ref-6">Fisher exact test implementation [6]</a></p></div></details></section>
+ </article>
+ </main>
+ <nav aria-label="Page" class="page-turn">

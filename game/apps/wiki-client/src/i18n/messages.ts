@@ -1121,7 +1121,7 @@ export const messages: Record<Locale, MessageTree> = {
       homeAria: 'Back to suite home',
       footerMark: 'ODOR PIXEL SUITE \u00b7 2026',
       footerTagline: 'A scent is not a single point \u2014 it is a connected map.',
-      langZh: 'ZH',
+      langZh: '繁中',
       langEn: 'EN',
       langSwitchAria: 'Switch language',
       skipToMain: 'Skip to main content',

@@ -23,7 +23,6 @@ export type AssetCredit = {
   creditStatus: CreditStatus;
   sourceStatus: SourceStatus;
   creditText: {
-    'zh-Hant': string;
     en: string;
   };
 };

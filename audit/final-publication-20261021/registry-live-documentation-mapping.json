@@ -1,0 +1,1300 @@
+{
+  "checked_at_utc": "2026-10-21T06:13:18.498412+00:00",
+  "status": "PARTIAL READ-ONLY SNAPSHOT. Stop API calls during root UI writes; root resolves remaining IDs from current official UI.",
+  "authenticated_account_evidence": "Root UI confirmed Ijung Chen and Opted in; public record authors independently matched by UUID.",
+  "live_pages": [
+    {
+      "page_key": "collection",
+      "api_url": "https://api.registry.igem.org/v1/collections/40067138-a3dd-4e5b-b8a4-50b097ee0156/documentation",
+      "response_sha256": "bafd86d6062b115232d3288246756bbb5cca7255cbc6dc56cc370f62262ab5e5",
+      "total": 4,
+      "records": [
+        {
+          "uuid": "9b41d99f-4866-4c49-b818-2b0669a5c9e7",
+          "title": "Two-component architecture: one shared reporter, ten interchangeable sensing modules",
+          "type": "design",
+          "created": "2026-10-17T12:22:52.610Z",
+          "value": "Insect odorant receptors are **not GPCRs**. A tuning receptor and the obligate co-receptor Orco\nassemble into a heteromeric **ligand-gated cation channel**; odorant binding opens the pore\ndirectly, with no second messenger in between. Orco also chaperones the tuning receptor to the\nplasma membrane — without it the tuning receptor stays in the ER.\n\nTwo consequences shape this collection:\n\n1. **The read-out can be shared.** Every tuning receptor needs the same Orco, and the channel\n   conducts Ca²⁺, so one calcium-indicator–Orco fusion serves as the read-out for all of them. That\n   is `BBa_26E11Z80`, the only part in the collection carrying a reporter.\n2. **Specificity is the only interchangeable layer.** The ten sensing modules differ from each other\n   in nothing but the tuning receptor CDS. Swapping one for another changes what the cell detects\n   and leaves the read-out, the optics, the calculation and the controls untouched.\n\nA working sensor is always **two co-transfected parts**: one sensing module plus `BBa_26E11Z80`.\nNeither is a device alone.\n\n### Collection-wide design decisions\n\n| Decision | Applies to | Rationale |\n|---|---|---|\n| **Codon-optimised for human expression** | all 11 receptor CDSs, incl. Orco | Zboray *et al.* (2023) used **wild-type** OR sequences and identified translation as a likely bottleneck, writing that \"functional OR protein expression can be improved by codon optimization of OR genes instead of using wild type sequences\". This collection takes that route; it is the largest deliberate difference from that study. |\n| **EMCV IRES + mCherry** on every sensing module | the 10 modules | One transcript, two separate proteins. mCherry is translated cap-independently, so red fluorescence reports that the transcript reached the cytoplasm **even when the receptor is non-functional** — the case that is otherwise undiagnosable. A 2A peptide was rejected because it leaves a residual peptide on the receptor. |\n| **GCCACC Kozak** on every ORF | all composites | strong mammalian initiation |\n| **No promoter, no polyA** | all parts | portable coding parts; the host vector sets expression level and induction. Every part here needs a promoter and terminator from its host vector. |\n| **Receptors supplied both as bare CDS and as a module** | 10 + 10 parts | the bare CDS (e.g. `BBa_26VGDFA1`) for teams assembling into their own context; the module (e.g. `BBa_26ZAGFK0`) as a ready bicistronic unit |\n\nThe geometry of the reporter fusion — why the indicator is at the **N**-terminus, why the linker is\nthe length it is — is intrinsic to `BBa_26E11Z80` and documented there. The inverted membrane\ntopology that forces it is documented on `BBa_26LWIKBQ` (DmOrco CDS).\n\n### Where the sequences come from\n\nNothing here was cloned from an organism, evolved, or computationally designed. The eleven receptor\ncoding sequences are the **native *Drosophila melanogaster* protein sequences back-translated with\nhuman codon usage** and synthesised; each encodes a protein identical to its FlyBase reference.\n\n| part | receptor | FlyBase gene | transcript | RefSeq protein | aa |\n|---|---|---|---|---|---|\n| `BBa_26LWIKBQ` | Orco | FBgn0037324 | FBtr0078794 | NP_524235 | 486 |\n| `BBa_26VGDFA1` | Or7a | FBgn0030016 | FBtr0071186 | NP_511081 | 413 |\n| `BBa_26HTXB02` | Or19a | FBgn0041626 | FBtr0070029 | NP_525013 | 387 |\n| `BBa_26AIIWHV` | Or22a | FBgn0026398 | FBtr0077873 | NP_523453 | 397 |\n| `BBa_26HJ1RUT` | Or35a | FBgn0028946 | FBtr0080781 | NP_723916 | 409 |\n| `BBa_26UHN7NT` | Or42a | FBgn0033041 | FBtr0086052 | NP_523622 | 406 |\n| `BBa_26OJ8HGO` | Or59b | FBgn0034865 | FBtr0072021 | NP_523822 | 398 |\n| `BBa_26XXP4K7` | Or67a | FBgn0036009 | FBtr0076375 | NP_524005 | 407 |\n| `BBa_26ACVV3R` | Or67b | FBgn0036019 | FBtr0076420 | NP_524007 | 421 |\n| `BBa_26DVVZIA` | Or85b | FBgn0037590 | FBtr0081900 | NP_524279 | 390 |\n| `BBa_26DG1NPK` | Or98a | FBgn0039551 | FBtr0085226 | NP_524536 | 397 |\n\nThe non-receptor components:\n\n| part | origin |\n|---|---|\n| `BBa_26QHYP02` GCaMP6f | derived from Addgene **#40755**; indicator described by Chen *et al.* (2013) |\n| `BBa_26E21OEQ` (GGGGS)₃ linker | fully synthetic; the three repeats use **diversified synonymous codons** so the DNA carries no tandem repeat, which is a common cause of synthesis failure and polymerase slippage |\n| `BBa_262WP16P` RSET leader | the N-terminal leader of the **pRSET** vector series (Invitrogen) |\n| EMCV IRES (inside the 10 modules) | encephalomyocarditis virus internal ribosome entry site, wild-type |\n| mCherry (inside the 10 modules) | Shaner *et al.* (2004) |\n\nAll constructs were **synthesised by GenScript** and delivered in an IP-free version of the\npcDNA3.1(+) backbone.\n\n### The odorant panel that was actually tested, and what was known about it\n\nSix compounds plus the Orco agonist were tested. Two of the six were lost to the gain\nfault (collection *Experiment* entry). This is what the literature says about each of them **for the\nreceptors in this collection** — responses reported for receptors not in this collection are not\nrelevant and are excluded:\n\n| compound | class | published response on a receptor in **this** collection |\n|---|---|---|\n| **VUAA1**, 50 µM | synthetic Orco agonist | activates every Orco-containing line; the positive control for the whole platform (Jones *et al.* 2011) |\n| **isopentyl acetate** *(lost to gain fault)* | ester | **Or98a, 0.31** VUAA1-normalised at 100 µM — the strongest published match in the panel |\n| **2-heptanone** | methyl ketone | **Or85b, 0.55** at 100 µM — Or85b's reference ligand, EC₅₀ **68.9 µM**; also Or98a 0.11 |\n| **3-octanol** | secondary alcohol | Or98a, 0.13 at 100 µM |\n| **benzaldehyde** | aromatic aldehyde | **none.** Reported for Or49b (0.23) and Or10a (0.17), neither of which is in this collection |\n| **ethyl propionate** *(lost to gain fault)* | ester | **none reported** |\n| **valeric acid** | carboxylic acid | **none reported.** No carboxylic acid appears anywhere in the responsive ligand set of Zboray *et al.* (2023), for any of their seven lines |\n\nThree consequences follow, and all three are uncomfortable:\n\n1. **Only two of the eleven receptors in this collection had any published reason to respond to this\n   panel** — Or85b and Or98a. For the other nine the panel was a blind screen.\n2. **The one compound with the strongest published match, isopentyl acetate on Or98a, is one of the\n   two that the gain fault destroyed.** The loss was not two arbitrary compounds; it was the\n   best-predicted odorant × receptor combination on the plate.\n3. **The panel was dosed by a dilution factor inherited from fly work, and the resulting molar\n   concentrations are unknown.** The supplied stock's concentration was never recorded, so none of\n   these published EC₅₀ values can be compared against what was actually delivered. See the\n   *Experiment* entry.\n\nThe reasoning that led to this particular set of six is not recorded in this documentation; a future\nteam should choose by EC₅₀ and by the receptors actually in hand.\n\n### Parts in this collection\n\n**Read-out (1)** — `BBa_26E11Z80` GCaMP6f-(GGGGS)₃-DmOrco, 2,862 bp\n\n**Sensing modules (10)**, all `<OR>-IRES-mCherry` —\n`BBa_26ZAGFK0` Or7a · `BBa_2629NIWH` Or19a · `BBa_26WOX4B1` Or22a · `BBa_26LLF3LM` Or35a ·\n`BBa_26Q1Q094` Or42a · `BBa_26Y7CI2H` Or59b · `BBa_265G8CE1` Or67a · `BBa_269VSDDR` Or67b ·\n`BBa_26K1TU11` Or85b · `BBa_26TZLBMJ` Or98a\n\n**Tuning receptor CDSs (10)** —\n`BBa_26VGDFA1` Or7a · `BBa_26HTXB02` Or19a · `BBa_26AIIWHV` Or22a · `BBa_26HJ1RUT` Or35a ·\n`BBa_26UHN7NT` Or42a · `BBa_26OJ8HGO` Or59b · `BBa_26XXP4K7` Or67a · `BBa_26ACVV3R` Or67b ·\n`BBa_26DVVZIA` Or85b · `BBa_26DG1NPK` Or98a\n\n**Components of the read-out fusion (4)** —\n`BBa_26LWIKBQ` DmOrco CDS · `BBa_26QHYP02` GCaMP6f · `BBa_26E21OEQ` (GGGGS)₃ linker ·\n`BBa_262WP16P` RSET leader\n\n### References\n\n1. Zboray K, Mohamed Mahmoud M, Pató A, *et al.* Stable cell lines expressing *Drosophila* odorant receptors for the detection of plant pathogen-related volatile organic compounds. *Sci Rep* **13**, 21757 (2023). https://doi.org/10.1038/s41598-023-47455-4\n2. Jones PL, Pask GM, Rinker DC, Zwiebel LJ. Functional agonism of insect odorant receptor ion channels. *PNAS* **108**, 8821–8825 (2011).\n3. Chen T-W, Wardill TJ, Sun Y, *et al.* Ultrasensitive fluorescent proteins for imaging neuronal activity. *Nature* **499**, 295–300 (2013).\n4. Shaner NC, Campbell RE, Steinbach PA, *et al.* Improved monomeric red, orange and yellow fluorescent proteins derived from *Discosoma* sp. red fluorescent protein. *Nat Biotechnol* **22**, 1567–1572 (2004).\n5. FlyBase — https://flybase.org/ (accessions in the table above)\n6. DoOR 2.0 — Database of Odorant Responses. http://neuro.uni-konstanz.de/DoOR/",
+          "lastEditedBy": "Ijung Chen",
+          "authorUUID": "c24b0a06-7fb2-4092-8980-3730248873a1",
+          "organisationUUID": "88a3f607-8c20-4c4d-bb91-452d2a1df41c",
+          "organisation": {
+            "uuid": "88a3f607-8c20-4c4d-bb91-452d2a1df41c",
+            "name": "NTHU (2026)",
+            "type": "igem-team",
+            "link": "https://teams.igem.org/6460",
+            "archivedAt": null,
+            "audit": {
+              "created": "2026-07-02T08:04:24.518Z",
+              "updated": "2026-07-02T08:04:24.518Z"
+            }
+          },
+          "updated": "2026-10-18T06:53:56.695Z",
+          "body_sha256": "c485aaa37afd664b3859bf0845fc7cbc19fd4289996276ea00bd1e54e0f2129b"
+        },
+        {
+          "uuid": "21581629-83ba-424a-9e65-45ea771a8bef",
+          "title": "Plate-reader calcium assay: conditions, two-round addition, calculation, gain QC",
+          "type": "experiment",
+          "created": "2026-10-17T12:31:15.372Z",
+          "value": "Every number in this collection comes from **one experiment, run on 2026-10-10**: a single 96-well\nplate, one well per condition.\n\n### Chassis and transfection\n\n| | |\n|---|---|\n| Cells | HEK293, uncoated 96-well black-wall clear-bottom plate (GREINER 96 F-BOTTOM) |\n| Transfection | **transient co-transfection** of one sensing module + `BBa_26E11Z80` |\n| On-plate controls | column 11 = `BBa_26E11Z80` alone (no tuning receptor); column 12 = **untransfected** HEK293 |\n\n### Reader\n\n| | |\n|---|---|\n| Instrument | BMG LABTECH **CLARIOstar Plus**, SMART Control / MARS |\n| Mode | fluorescence intensity, plate mode, kinetic, **bottom optic** |\n| Optics | Ex **482-16** / Dichroic **LP 504** / Em **530-40** |\n| Focal height | **−4.1 mm** |\n| Flashes per well per cycle | 20 |\n| Settling time | 0.5 s |\n| Cycle time | **12 s** (instrument minimum for this layout: 10 s) |\n| Enhanced dynamic range | **off**; full scale 260,000 RFU |\n| Temperature control | **off** (ambient) |\n| Shaking | none |\n\n### Assay buffer\n\n140 mM NaCl · 5 mM KCl · **2 mM CaCl₂** · 1 mM MgCl₂ · 5 mM HEPES-Na · 20 mM glucose, pH 7.3.\nRecipe after Zboray *et al.* (2023). The Ca²⁺ is load-bearing: that study abolished the Orco-agonist response in\nCa²⁺-free buffer and in Ca²⁺-free buffer with EGTA, which is what establishes that the fluorescence\nrise reports **extracellular** Ca²⁺ entering through the channel.\n\n### The two-round addition — and why it matters more than it looks\n\n| step | action | read | cycles | volume in well |\n|---|---|---|---|---|\n| 1 | plate the cells in assay buffer | **F0a** — baseline | 5 | 100 µL |\n| 2 | **+ 50 µL plain assay buffer** — *round 1, the vehicle control* | **blank** | 15 | 150 µL |\n| 3 | — | **F0b** — new baseline | 5 | 150 µL |\n| 4 | **+ 50 µL compound at 4× final** — *round 2, the ligand* | **test** | 15 | 200 µL |\n\nVolume goes 100 → 150 → 200 µL; compounds are added at 4× so they end at 1× in 200 µL.\nVUAA1: 200 µM in the added 50 µL → **50 µM final**.\n\n### Odorant concentrations are not known — the most serious limitation of this experiment\n\nThe odorants were supplied as aqueous solutions by another laboratory, whose stated practice was to\ndilute those solutions **10,000-fold** for *Drosophila* odorant testing. That same 10,000-fold\ndilution was applied here. **The concentration of the supplied solutions was not recorded, so the\nmolar concentration of every odorant in the well is unknown and cannot be reconstructed.**\n\nTwo consequences, both of which limit what any part page in this collection may claim:\n\n1. **No odorant result can be placed on a dose axis.** Nothing in this collection may be described\n   as under- or over-dosed, and no value may be compared against a published EC₅₀. Where an earlier\n   draft of this documentation explained a null result by saying the dose was below the EC₅₀, that\n   explanation was unfounded and has been removed.\n2. **A dilution factor does not transfer between a fly assay and a cell assay.** In *Drosophila*\n   work an odorant is diluted in oil or water and the animal is exposed to the **headspace above the\n   liquid** — the stimulus is the vapour, which is orders of magnitude more dilute than the liquid\n   it evaporated from. Here the cells sit **in the liquid** and meet the liquid concentration\n   directly. The same \"1:10,000\" therefore denotes two different stimuli, and the convention was\n   carried across formats without that being noticed.\n\n**What a repeat requires before anything else:** the supplied stock's concentration in g/L or mol/L,\nor odorants weighed out and dissolved to a known molarity, so that each receptor can be dosed in µM\naround its own published EC₅₀.\n\nEvery well therefore carries **its own vehicle control in the same well** — round 1 is an identical\n50 µL addition and plate transfer with no ligand. That is the strength of the design and also its\nweakness: because the reported value is round 2 minus round 1, **anything that happens to the well\nduring round 1 is subtracted out of round 2 with the opposite sign.** A well that loses baseline\nfluorescence in round 1 produces a large positive ΔF_corr with no ligand effect whatsoever. This\ncaught three wells on this plate; see the *Characterisation* entry.\n\n**Pipetting:** an 8-channel pipette against a 12-column plate means two passes — columns 1–8, then\n9–12, in the same fixed order every time. The resulting time offset is identical in both rounds and\ncancels in the correction.\n\n### Calculation\n\n| quantity | definition |\n|---|---|\n| **F0** | mean of the 5 baseline cycles of that round |\n| **F_MAX** | maximum of the 3-cycle moving average — a single-point maximum is positively biased |\n| **ΔF_blank** | ( F_MAX(round 1) − F0a ) / F0a |\n| **ΔF_test** | ( F_MAX(round 2) − F0b ) / F0b |\n| **ΔF_corr** | ΔF_test − ΔF_blank |\n| **ΔF_norm** | ΔF_corr ÷ ΔF_corr(VUAA1, same column) — reported but unusable, see *Discussion* |\n\nEvery part page reports **all three** of ΔF_blank, ΔF_test and ΔF_corr, never ΔF_corr alone.\n\n### Gain QC — why two compounds are missing from every table\n\nDetector gain on this instrument is **not stored in the protocol**; it is set in the Start\nMeasurement dialog and is lost whenever the protocol is edited. It was not held constant across all\n32 reads of this session.\n\nΔF is a ratio **within one well**, so a different gain in a different row is harmless. But the `F0`\nread and the response read it is divided by **must share a gain**. To test that without assuming it,\nthe untransfected wells (column 12), which should not respond to anything, were used as an absolute\nyardstick:\n\n| row | compound | median col-12 F0a | round 1 / F0a | round 2 / F0b | verdict |\n|---|---|---|---|---|---|\n| A | VUAA1 | 1610 | 0.998 | 0.951 | valid |\n| **B** | **ethyl propionate** | 1408 | **1.348** | **1.366** | **discarded** — both pairs mismatched |\n| **C** | **isopentyl acetate** | 551 | **3.117** | 1.017 | **discarded** — round 1 pair mismatched |\n| D | 3-octanol | 2182 | 0.999 | 1.034 | valid |\n| E | benzaldehyde | 1946 | 1.002 | 1.049 | valid |\n| F | 2-heptanone | 2437 | 1.012 | 1.055 | valid |\n| G | valeric acid | 1731 | 1.011 | 1.074 | valid |\n| H | Control (buffer) | 18726 | 0.950 | 0.951 | valid (internally consistent; absolute gain ~10× the others, which does not affect a within-well ratio) |\n\n**Two of eight compounds — ethyl propionate and isopentyl acetate — produced no usable data at all.**\nThis was the largest single loss in the experiment.\n\n**Fix for anyone repeating this:** run gain adjustment once, **write the number down**, then type\nthat value manually into every subsequent read and leave `Gain Adjustment` unchecked for the rest of\nthe session.\n\n### References\n\n1. Zboray K, Mohamed Mahmoud M, Pató A, *et al.* Stable cell lines expressing *Drosophila* odorant receptors for the detection of plant pathogen-related volatile organic compounds. *Sci Rep* **13**, 21757 (2023). https://doi.org/10.1038/s41598-023-47455-4\n2. BMG LABTECH SMART Control Software Manual Part II (0430F0049A, 2022-09-09) — §3.4 Data Output, §6.5 Plate Identification, §6.6 Sample IDs.",
+          "lastEditedBy": "Ijung Chen",
+          "authorUUID": "c24b0a06-7fb2-4092-8980-3730248873a1",
+          "organisationUUID": "88a3f607-8c20-4c4d-bb91-452d2a1df41c",
+          "organisation": {
+            "uuid": "88a3f607-8c20-4c4d-bb91-452d2a1df41c",
+            "name": "NTHU (2026)",
+            "type": "igem-team",
+            "link": "https://teams.igem.org/6460",
+            "archivedAt": null,
+            "audit": {
+              "created": "2026-07-02T08:04:24.518Z",
+              "updated": "2026-07-02T08:04:24.518Z"
+            }
+          },
+          "updated": "2026-10-18T06:51:53.883Z",
+          "body_sha256": "02970a857e2f381db553353e6be311fffd3e3dfb89ef24258ef55a94a683c467"
+        },
+        {
+          "uuid": "9dfa1d46-443b-491e-b31d-f454c65f55ec",
+          "title": "Four measured acceptance criteria, and the buffer-only well that satisfies three",
+          "type": "characterisation",
+          "created": "2026-10-17T12:34:24.415Z",
+          "value": "Before any per-part number can be read, two things had to be established: that the read-out works,\nand how large a signal this plate produces **with nothing added**.\n\n### 1. The read-out works\n\n`BBa_26E11Z80` with no tuning receptor responded to 50 µM VUAA1 (ΔF\\_corr +0.2148, ligand round\n+0.1186, gradual) while untransfected cells in the same row gave +0.0041. The full data, kinetics,\ncontrols and caveats are intrinsic to that part and are documented on `BBa_26E11Z80`.\n\n### 2. Four acceptance criteria, all measured — none assumed\n\nThe untransfected wells (column 12: same additions, same handling, no receptor, every valid row)\ngive the noise of each quantity directly. Taking 3 SD of each:\n\n| # | criterion                         | bound         | measured from                                                                                                                                                                                                         |               |                                                                     |\n| - | --------------------------------- | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ------------------------------------------------------------------- |\n| 1 | ΔF\\_corr ≥ **0.134**              | 3 × SD 0.0448 | untransfected ΔF\\_corr, n \\= 6                                                                                                                                                                                        |               |                                                                     |\n| 2 | ΔF\\_test ≥ **0.089**              | 3 × SD 0.0296 | untransfected ΔF\\_test, n \\= 6 — *the ligand round must itself rise*                                                                                                                                                  |               |                                                                     |\n| 3 |                                   | ΔF\\_blank     | ≤ **0.060**                                                                                                                                                                                                           | 3 × SD 0.0200 | untransfected ΔF\\_blank, n \\= 6 — *the vehicle round must be quiet* |\n| 4 | frac\\_at\\_first\\_read \\< **0.60** | —             | shape: the fraction of the total rise already present at the first post-addition cycle. Near 1.0 means the change was complete before the plate finished re-inserting — an optical or physical step, not Ca²⁺ influx. |               |                                                                     |\n\n**Criterion 3 is the one that is easy to forget and it changed several readings on this plate.**\nBecause ΔF\\_corr \\= round 2 − round 1, a well that *loses* baseline in round 1 reports a large\npositive ΔF\\_corr with no ligand effect at all. Three wells did exactly that.\n\n### 3. Every condition over 0.134, decomposed\n\n| compound                  | cell line | ΔF\\_blank  | ΔF\\_test   | ΔF\\_corr   | frac | criteria failed                                  |\n| ------------------------- | --------- | ---------- | ---------- | ---------- | ---- | ------------------------------------------------ |\n| **Control (buffer only)** | **Or35a** | −0.096     | **+0.353** | **+0.449** | 0.16 | 3 only                                           |\n| Control (buffer only)     | Or42a     | **−0.301** | +0.014     | +0.315     | —    | 2 and 3 — 95 % of the value is the vehicle round |\n| valeric acid              | Or35a     | −0.117     | +0.177     | +0.295     | 0.87 | 3 and 4                                          |\n| **valeric acid**          | **Or85b** | −0.013     | +0.204     | +0.217     | 0.59 | **none**                                         |\n| VUAA1 50 µM               | ORCO only | −0.096     | +0.119     | +0.215     | 0.06 | 3 only                                           |\n| 2-heptanone               | ORCO only | +0.025     | +0.210     | +0.186     | 0.83 | 4                                                |\n| 2-heptanone               | Or7a      | **−0.164** | +0.020     | +0.184     | —    | 2 and 3 — 89 % of the value is the vehicle round |\n| valeric acid              | ORCO only | +0.040     | +0.197     | +0.158     | 0.77 | 4                                                |\n| benzaldehyde              | ORCO only | +0.027     | +0.165     | +0.138     | 0.90 | 4                                                |\n| **VUAA1 50 µM**           | **Or35a** | +0.040     | +0.178     | +0.137     | 0.49 | **none**                                         |\n\n### 4. The result that sets the ceiling on everything else\n\nRow H received **plain assay buffer in both rounds**. Every well in it should read zero. The Or35a\nwell instead rose **+0.353 in round 2**, gradually, peaking at 96 s, giving ΔF\\_corr **+0.449** — the\nlargest value on the plate, from a well that never saw a ligand. It satisfies criteria 1, 2 and 4\nand fails only 3, and it fails 3 only narrowly (−0.096 against a −0.060 bound).\n\n![Two line charts of fluorescence change over time for all 12 columns of the buffer-only row. In round 2, with only assay buffer added, the Or35a trace rises above the 0.134 threshold to +0.35; in round 1 the Or42a trace sits 30 % below its own baseline. The other ten columns stay within ±0.1.](https://registry.igem.wiki/documentation/9dfa1d46-443b-491e-b31d-f454c65f55ec/7fd45191845ab3fe49775a76fe355123055b9f553f63860d4e9f01b4aa63e0f9.avif \"Buffer-only row, both rounds — the plate’s false positives\")\n\n*Row H, all 12 columns, both rounds, raw fluorescence as (F − F₀)/F₀ against time. Left: round 1.\nRight: round 2 — also plain buffer. Or35a (blue) rises past the threshold in round 2 with no ligand\npresent. Or42a (orange) does the opposite: it loses 30 % of its baseline at the round-1 addition and\nnever recovers, which the subtraction then converts into a spurious +0.315. The ten grey traces are\nthe other columns, all within ±0.1.*\n\n**This is the most important single result on the plate.** A buffer-only well produced a larger,\nbetter-shaped signal than any odorant did. At n \\= 1, the four criteria are **necessary but not\nsufficient**, and no odorant response on this plate is distinguishable from the plate's own noise,\nhowever good it looks. Two conditions pass all four criteria — valeric acid × Or85b (+0.217) and\nVUAA1 × Or35a (+0.137) — and both are smaller than +0.449. They are documented on their part pages\nas **conditions to repeat, not as hits**.\n\n### 5. Full plate-level dataset, ΔF\\_corr\n\nRows \\= compound, columns \\= tuning receptor co-transfected with `BBa_26E11Z80`.\n**Bold** \\= above 0.134. Blank rows: discarded by the gain QC. Each part page carries its own column\ndecomposed into ΔF\\_blank / ΔF\\_test / ΔF\\_corr with its signal curves.\n\n| compound             | Or7a       | Or19a  | Or22a  | Or35a      | Or42a      | Or59b  | Or67a  | Or67b  | Or85b      | Or98a  | ORCO only  | untransf. |\n| -------------------- | ---------- | ------ | ------ | ---------- | ---------- | ------ | ------ | ------ | ---------- | ------ | ---------- | --------- |\n| VUAA1 50 µM          | −0.055     | +0.023 | +0.049 | **+0.137** | −0.026     | −0.037 | −0.001 | +0.000 | +0.024     | −0.020 | **+0.215** | +0.004    |\n| ethyl propionate     | —          | —      | —      | —          | —          | —      | —      | —      | —          | —      | —          | —         |\n| isopentyl acetate    | —          | —      | —      | —          | —          | —      | —      | —      | —          | —      | —          | —         |\n| 3-octanol            | +0.096     | +0.010 | −0.009 | +0.013     | −0.005     | +0.026 | +0.029 | +0.019 | +0.021     | +0.010 | +0.073     | +0.028    |\n| benzaldehyde         | +0.120     | +0.027 | +0.036 | +0.045     | +0.068     | +0.048 | −0.014 | +0.040 | +0.023     | +0.037 | **+0.138** | +0.074    |\n| 2-heptanone          | **+0.184** | +0.036 | +0.032 | +0.065     | +0.057     | +0.036 | +0.033 | +0.038 | −0.006     | +0.017 | **+0.186** | +0.042    |\n| valeric acid         | −0.028     | +0.012 | −0.017 | **+0.295** | −0.006     | +0.003 | +0.010 | +0.000 | **+0.217** | +0.002 | **+0.158** | −0.010    |\n| **Control (buffer)** | −0.031     | +0.056 | +0.127 | **+0.449** | **+0.315** | +0.065 | −0.134 | −0.085 | +0.060     | −0.016 | −0.017     | −0.055    |",
+          "lastEditedBy": "Ijung Chen",
+          "authorUUID": "c24b0a06-7fb2-4092-8980-3730248873a1",
+          "organisationUUID": "88a3f607-8c20-4c4d-bb91-452d2a1df41c",
+          "organisation": {
+            "uuid": "88a3f607-8c20-4c4d-bb91-452d2a1df41c",
+            "name": "NTHU (2026)",
+            "type": "igem-team",
+            "link": "https://teams.igem.org/6460",
+            "archivedAt": null,
+            "audit": {
+              "created": "2026-07-02T08:04:24.518Z",
+              "updated": "2026-07-02T08:04:24.518Z"
+            }
+          },
+          "updated": "2026-10-17T12:54:41.818Z",
+          "body_sha256": "89b4f81f990ec7adb2ca27e3f6f06c6853093f920590f004d55ba8b9196db39d"
+        },
+        {
+          "uuid": "4f3d54a7-b581-419a-b1fb-8a8cd91725d2",
+          "title": "What this plate establishes, what it does not, and the seven changes the next run needs",
+          "type": "discussion",
+          "created": "2026-10-17T12:35:31.426Z",
+          "value": "### Established\n\n**One thing.** The reporter fusion `BBa_26E11Z80` is expressed, reaches the plasma membrane, and\ngates Ca²⁺ in response to an Orco agonist, in transiently transfected HEK293. That makes the\nplatform real. The caveats on the magnitude are on that part's page.\n\n### Not established\n\n**No odorant response was demonstrated for any of the ten tuning receptors.** Not \"the receptors do\nnot work\" — the experiment could not have detected it if they did. Four reasons, each sufficient\nalone:\n\n**1. Expression, not ligand choice, is the limiting factor.** VUAA1 acts on **Orco** and bypasses\nthe tuning receptor, so all eleven Orco-containing columns should have responded. Only two did:\nORCO-only (+0.215) and Or35a (+0.137). **Nine of eleven Orco-containing wells failed their own\npositive control.** Whatever the tuning receptors would have done to an odorant, this plate was not\nin a state to see it. Zboray *et al.* (2023) reported the same pattern in several of their lines and attributed it to\ntranslation and ER-export bottlenecks.\n\n**2. The delivered dose is unknown, so no null result can be interpreted.** The odorants came as\nstock solutions of unrecorded concentration, diluted 10,000-fold by a convention borrowed from\n*Drosophila* experiments in which the animal samples the vapour rather than the liquid (see the\n*Experiment* entry). Against that, Zboray *et al.* (2023) report EC₅₀ = 68.9 µM for 2-heptanone on Or85b and reach a\nVUAA1-normalised 0.55 only at 100 µM, and Or98a's reference ligand (6-methyl-5-hepten-2-one,\nEC₅₀ 2.06 µM) was not on the plate at all. Whether this experiment landed above, below or near those\nvalues cannot be determined from the records.\n\n**3. The vehicle round is not inert, and the correction amplifies that.** Three wells moved more\nthan ±0.060 during round 1; in two of them the vehicle round supplied 89 % and 95 % of the reported\nΔF_corr. Mechanically this looks like cell loss or a bubble at the moment of addition — consistent\nwith an uncoated plate and a 2.5 h session — not like receptor behaviour.\n\n**4. The odorant working solutions appear to differ physically from the assay buffer.** The\nORCO-only column has no tuning receptor and no odorant specificity. It nevertheless moved in **every**\nodorant row and not in the buffer row, and all three of those movements are step-shaped\n(frac 0.77–0.90):\n\n| row | ORCO-only ΔF_test | frac |\n|---|---|---|\n| VUAA1 | +0.119 | 0.06 |\n| 3-octanol | +0.121 | — |\n| benzaldehyde | +0.165 | 0.90 |\n| 2-heptanone | +0.210 | 0.83 |\n| valeric acid | +0.197 | 0.77 |\n| **Control (buffer)** | **−0.004** | — |\n\n\"Steps for every odorant solution, flat for plain buffer\" is the signature of a property of the\nsolutions — refractive index, temperature, residual solvent, pH — not of receptor activation.\nGCaMP6f's chromophore has a pKa near 7.1–7.2, so a small pH difference in a working solution is by\nitself enough to shift fluorescence.\n\nAdd the buffer-only well that reached +0.449 (see *Characterisation*), and the honest summary is:\n**this plate validated the read-out and measured its own noise floor. It did not test odorant\nspecificity.**\n\n### A note on ΔF_norm\n\nΔF_norm (ΔF_corr ÷ the same column's VUAA1 value) is in the dataset but is **not usable for this\nplate**: nine of eleven VUAA1 denominators are at or below the noise floor, so the quotient is a\nratio of two noise values. It becomes meaningful only once every column passes its VUAA1 control.\n\n### The seven changes the next run needs, in order\n\n1. **Fix the gain manually.** Adjust once, record the value, type it in for every read, leave\n   `Gain Adjustment` unchecked. This cost two of eight compounds.\n2. **Poly-D-lysine–coated plates.** Cells detached progressively on the uncoated plate over a 2.5 h\n   session. This is the most likely source of both the 0.045 noise floor and the three round-1\n   baseline collapses.\n3. **Add a mock-odorant control row** — the identical dilution series and handling with no odorant\n   in it. This directly tests reason 4. If the ORCO-only column steps in that row too, the\n   odorant-row signals are solution artefacts and the question is settled.\n4. **Establish the dose before anything else.** Get the stock concentration in g/L or mol/L from the\n   supplier, or weigh the odorants out. Then dose Or85b with 2-heptanone and Or98a with\n   6-methyl-5-hepten-2-one as dose series bracketing their EC₅₀, **in µM**. Until the dose is a\n   number, every odorant result in this collection is uninterpretable, whichever way it came out.\n5. **Keep total time in assay buffer under ~40 minutes**, even if that means four rows per plate\n   instead of eight. This session ran 2.5 h.\n6. **Raise expression, then re-test.** Zboray *et al.* (2023) induced with **1 µg/mL doxycycline, 48–72 h** before\n   measurement and used selected stable clones; ours was a transient mixed population. Their\n   responses were **1.24–4.62**, i.e. 6–21× ours.\n7. **Blot before measuring again.** Every construct carries a detection handle — `BBa_262WP16P`,\n   with His₆ and Xpress epitopes — and no blot has been run. An anti-His or anti-Xpress blot answers\n   \"was the protein made?\" directly and splits the nine failing columns into a translation problem\n   and a trafficking problem. It is the most informative next experiment and needs no plate reader.\n\n### Replication status\n\n**n = 1 for everything in this collection.** One well per condition, one plate, one day\n(2026-10-10). No value here should be used as a reference figure.\n\n### References\n\n1. Zboray K, Mohamed Mahmoud M, Pató A, *et al.* Stable cell lines expressing *Drosophila* odorant receptors for the detection of plant pathogen-related volatile organic compounds. *Sci Rep* **13**, 21757 (2023). https://doi.org/10.1038/s41598-023-47455-4\n2. Chen T-W, Wardill TJ, Sun Y, *et al.* Ultrasensitive fluorescent proteins for imaging neuronal activity. *Nature* **499**, 295–300 (2013).",
+          "lastEditedBy": "Ijung Chen",
+          "authorUUID": "c24b0a06-7fb2-4092-8980-3730248873a1",
+          "organisationUUID": "88a3f607-8c20-4c4d-bb91-452d2a1df41c",
+          "organisation": {
+            "uuid": "88a3f607-8c20-4c4d-bb91-452d2a1df41c",
+            "name": "NTHU (2026)",
+            "type": "igem-team",
+            "link": "https://teams.igem.org/6460",
+            "archivedAt": null,
+            "audit": {
+              "created": "2026-07-02T08:04:24.518Z",
+              "updated": "2026-07-02T08:04:24.518Z"
+            }
+          },
+          "updated": "2026-10-18T06:56:30.079Z",
+          "body_sha256": "36376d4ba3638bfd5e8483ff1a76f45976efa77658131d0bd5b94595101fe8cb"
+        }
+      ]
+    },
+    {
+      "page_key": "BBa_2629NIWH",
+      "api_url": "https://api.registry.igem.org/v1/parts/fda1f490-e3eb-4eb1-a98c-13d96a3d0424/documentation",
+      "response_sha256": "37804c502f903e616cfee53b7ac84fca821732f63f7110ed13b50398973f199e",
+      "total": 3,
+      "records": [
+        {
+          "uuid": "a042d3d8-1f83-4b12-a490-1158618793cb",
+          "title": "Why Or19a, and what is already known about it",
+          "type": "design",
+          "created": "2026-10-17T12:58:56.199Z",
+          "value": "This module supplies one thing to the platform: **the ligand specificity of Or19a**. The pore, the\ntrafficking and the read-out all come from `BBa_26E11Z80`; the collection's *Design* entry covers\nthat split and the collection-wide choices (codon optimisation, the IRES-mCherry arrangement, the\nKozak, the absence of a promoter).\n\n### Prior art for this receptor\n\nCloned from *D. melanogaster* Canton S and expressed as a stable HEK293 line by Zboray *et al.* (2023), where it was\n**one of the four non-responsive lines** — again despite strong DoOR predictions. Wild-type sequence\nin that study; codon-optimised here.\n\n### What the odorant panel offered this receptor\n\n**None of the six compounds tested has a published response for this receptor.** Zboray *et al.* (2023) either\ndid not test it or obtained no response, and the compounds that did respond in that study did so on\nreceptors that are not in this collection. Whether DoOR 2.0 predicts a response to any of the six is\n**[TO FILL: check DoOR 2.0 for 3-octanol, benzaldehyde, 2-heptanone, valeric acid, isopentyl\nacetate, ethyl propionate]**. The panel was, for this receptor, a blind screen.\n\nThe panel as a whole, and why it is weaker than it should be, is in the collection's *Design* entry.\n\n### Source\n\nThe receptor coding sequence is `BBa_26HTXB02` — FlyBase accession, protein length and synthesis route are on\nthat part's page. The module adds an EMCV IRES and mCherry (Shaner *et al.* 2004) around it; the\nwhole construct was synthesised by GenScript in an IP-free pcDNA3.1(+) backbone.\n\n### Use\n\nCo-transfect with **`BBa_26E11Z80`**. Neither part is a sensor alone. For Or19a in your own expression\ncontext, use the bare CDS `BBa_26HTXB02` instead.\n\nmCherry from the IRES is the diagnostic that matters for this part specifically: red cells with no\ncalcium response localise the fault **downstream of transcription** — translation, folding or\ntrafficking — which is exactly the failure mode seen on this plate.\n\n### Reference\n\nZboray K, Mohamed Mahmoud M, Pató A, *et al.* Stable cell lines expressing *Drosophila* odorant receptors for the detection of plant pathogen-related volatile organic compounds. *Sci Rep* **13**, 21757 (2023). https://doi.org/10.1038/s41598-023-47455-4",
+          "lastEditedBy": "Ijung Chen",
+          "authorUUID": "c24b0a06-7fb2-4092-8980-3730248873a1",
+          "organisationUUID": "88a3f607-8c20-4c4d-bb91-452d2a1df41c",
+          "organisation": {
+            "uuid": "88a3f607-8c20-4c4d-bb91-452d2a1df41c",
+            "name": "NTHU (2026)",
+            "type": "igem-team",
+            "link": "https://teams.igem.org/6460",
+            "archivedAt": null,
+            "audit": {
+              "created": "2026-07-02T08:04:24.518Z",
+              "updated": "2026-07-02T08:04:24.518Z"
+            }
+          },
+          "updated": "2026-10-17T12:58:56.199Z",
+          "body_sha256": "ffb963c19eace1d3e6b0887275cd14b01750582069ed75ba98338816c267f9da"
+        },
+        {
+          "uuid": "c4c13ebb-dc0f-4d1a-b9c2-addcb177728e",
+          "title": "Or19a module: both measurement rounds for all six testable compounds",
+          "type": "characterisation",
+          "created": "2026-10-17T13:00:32.801Z",
+          "value": "Transiently co-transfected into HEK293 with `BBa_26E11Z80`, **one well per condition**, 2026-10-10. Thresholds: ΔF\\_corr ≥ 0.134, ΔF\\_test ≥ 0.089, |ΔF\\_blank| ≤ 0.060, frac < 0.60 — all four\nmeasured on this plate's untransfected wells and defined in the collection documentation (*Drosophila odorant receptor calcium-reporter platform*), together with the full conditions.\n\n| compound                             | final conc. | ΔF\\_blank | ΔF\\_test | **ΔF\\_corr**  | reading                                                                                                                                 |\n| ------------------------------------ | ----------- | --------- | -------- | ------------- | --------------------------------------------------------------------------------------------------------------------------------------- |\n| VUAA1                                | 50 µM       | -0.0701   | -0.0474  | **+0.0227**   | below the 0.134 threshold — no response detected                                                                                        |\n| 3-octanol                            | 1:10,000    | +0.0193   | +0.0287  | **+0.0095**   | below the 0.134 threshold — no response detected                                                                                        |\n| benzaldehyde                         | 1:10,000    | +0.0063   | +0.0328  | **+0.0265**   | below the 0.134 threshold — no response detected                                                                                        |\n| 2-heptanone                          | 1:10,000    | +0.0088   | +0.0448  | **+0.0360**   | below the 0.134 threshold — no response detected                                                                                        |\n| valeric acid                         | 1:10,000    | +0.0198   | +0.0314  | **+0.0116**   | below the 0.134 threshold — no response detected                                                                                        |\n| Control (buffer only)                | —           | -0.0715   | -0.0154  | **+0.0561**   | below the 0.134 threshold — no response detected                                                                                        |\n| ethyl propionate · isopentyl acetate | 1:10,000    | —         | —        | not evaluable | gain changed between the baseline and response reads in those two rows; both discarded by the QC in the collection's *Experiment* entry |\n\n*Both measurement rounds for this well, raw fluorescence expressed as (F − F₀)/F₀ against time after the 50 µL addition. **Left:** round 1, plain assay buffer — the vehicle control for every trace on the right. **Right:** round 2, the compound. The quoted ΔF\\_corr is the right-hand peak minus the left-hand peak, so a trace that sags on the left inflates it.*\n\n**Positive control for this column.** VUAA1 at 50 µM acts on Orco and does not require Or19a, so it\ntests whether this well was expressing at all. It **failed**: ΔF\\_corr +0.0227, below the 0.134 threshold. Every odorant reading above has to be read in that light.\n\nPlate-level context — the buffer-only control row, the decomposition of every above-threshold\ncondition, and the full 6 × 12 matrix — is in the collection's *Characterisation* entry.![Two line charts for the Or19a well. All six traces in both rounds stay between −0.08 and +0.05; nothing crosses the detection threshold.](https://registry.igem.wiki/documentation/c4c13ebb-dc0f-4d1a-b9c2-addcb177728e/c60e68a48a35352a97fa5c17774156e67836687ada2c5b9d2ace8b424ec820d6.avif \"Or19a — both measurement rounds, six compounds\")\n",
+          "lastEditedBy": "Ijung Chen",
+          "authorUUID": "c24b0a06-7fb2-4092-8980-3730248873a1",
+          "organisationUUID": "88a3f607-8c20-4c4d-bb91-452d2a1df41c",
+          "organisation": {
+            "uuid": "88a3f607-8c20-4c4d-bb91-452d2a1df41c",
+            "name": "NTHU (2026)",
+            "type": "igem-team",
+            "link": "https://teams.igem.org/6460",
+            "archivedAt": null,
+            "audit": {
+              "created": "2026-07-02T08:04:24.518Z",
+              "updated": "2026-07-02T08:04:24.518Z"
+            }
+          },
+          "updated": "2026-10-17T13:00:32.801Z",
+          "body_sha256": "dd94cba819af0ac9df6f6cd4d1ee79af7554823d1caaadb24d335531368cec0a"
+        },
+        {
+          "uuid": "a9dee00e-af7d-4a1e-bdd6-841b4202df9e",
+          "title": "What the experiment does and does not establish for Or19a",
+          "type": "discussion",
+          "created": "2026-10-17T13:01:20.118Z",
+          "value": "Nothing in this column crossed the threshold, in either round: ΔF_test spans −0.015 to +0.049 and\nΔF_blank stays inside ±0.072. VUAA1 gave +0.0227, so the well failed its own positive control.\n\nThis is **not** evidence about Or19a. The non-response of the wild-type line in Zboray *et al.* (2023) remains the only\npublished functional datum, and the codon-optimisation hypothesis is untested for this receptor.\n\n### Replication status\n\n**n = 1.** One well per condition, one plate, one day. Two further compounds (ethyl propionate,\nisopentyl acetate) were lost to the gain fault documented in the collection's *Experiment* entry.\nNothing here constrains the receptor itself — only this construct, in this chassis, at these\nconcentrations, on this plate.\n\n### Reference\n\nZboray K, Mohamed Mahmoud M, Pató A, *et al.* Stable cell lines expressing *Drosophila* odorant receptors for the detection of plant pathogen-related volatile organic compounds. *Sci Rep* **13**, 21757 (2023). https://doi.org/10.1038/s41598-023-47455-4",
+          "lastEditedBy": "Ijung Chen",
+          "authorUUID": "c24b0a06-7fb2-4092-8980-3730248873a1",
+          "organisationUUID": "88a3f607-8c20-4c4d-bb91-452d2a1df41c",
+          "organisation": {
+            "uuid": "88a3f607-8c20-4c4d-bb91-452d2a1df41c",
+            "name": "NTHU (2026)",
+            "type": "igem-team",
+            "link": "https://teams.igem.org/6460",
+            "archivedAt": null,
+            "audit": {
+              "created": "2026-07-02T08:04:24.518Z",
+              "updated": "2026-07-02T08:04:24.518Z"
+            }
+          },
+          "updated": "2026-10-17T13:01:20.118Z",
+          "body_sha256": "7987880d72e39d1b84823f96c599b776344dbd7446a41158235e3efe4a1cec41"
+        }
+      ]
+    },
+    {
+      "page_key": "BBa_262WP16P",
+      "api_url": "https://api.registry.igem.org/v1/parts/9155f618-c8bb-4437-a7ce-e4d991bddba5/documentation",
+      "response_sha256": "f20c055a1de63f247b56f3208f93caadb23c6aa47dc50b2d55517503cee4d4d9",
+      "total": 1,
+      "records": [
+        {
+          "uuid": "f53043ec-9881-4c94-b1c2-104bd4917417",
+          "title": "An inert epitope handle for a fusion that has no other tag — and the experiment it exists for",
+          "type": "design",
+          "created": "2026-10-17T13:49:26.358Z",
+          "value": "### What it is for\n\nThe reporter fusion in this collection carries no fluorescent tag on the protein (GCaMP6f is dim\nuntil Ca²⁺ arrives) and no epitope tag. When such a construct gives no calcium response, the first\nquestion is **\"was the protein made at all?\"** — and without a handle that question is unanswerable.\n\nThis leader makes it answerable by Western blot or immunostaining, via anti-His or anti-Xpress.\n\n### Why it can be left in during functional assays\n\nIn mammalian cells this leader is **functionally inert**: it is not a signal peptide, it targets the\nprotein nowhere, and it is not cleaved. The enterokinase site allows removal if a tag-free protein is\never wanted, but nothing in this collection requires that.\n\n### Placement\n\nN-terminal to GCaMP6f, i.e. at the **cytoplasmic** end of the fusion (Orco's N-terminus is\nintracellular — see `BBa_26LWIKBQ`), where it cannot interfere with membrane insertion.\n\n### Source\n\nThe N-terminal leader of the **pRSET** vector series (Invitrogen / Thermo Fisher). Synthetic as\nsupplied here; no source organism. It carries no sequence of our own design.\n\n### Characterisation status, stated plainly\n\n- **Evidence it does no harm:** the fusion carrying it is functional — `BBa_26E11Z80`, ΔF_corr\n  +0.2148 and a gradual +0.1186 ligand round to 50 µM VUAA1 — so the leader does not prevent\n  folding, trafficking or channel function.\n- **It has never been used for its actual purpose.** No anti-His or anti-Xpress blot has been run on\n  any construct in this collection, so there is no blot image on this page.\n\nThat omission matters: nine of eleven Orco-containing wells failed their VUAA1 positive\ncontrol and we cannot currently say whether the protein was absent, mislocalised, or present and\ninactive. **This blot is the single most informative next experiment in the project**, it needs no\nplate reader, and this part is what makes it possible.\n\n### Reference\n\n1. Zboray K, Mohamed Mahmoud M, Pató A, *et al.* Stable cell lines expressing *Drosophila* odorant receptors for the detection of plant pathogen-related volatile organic compounds. *Sci Rep* **13**, 21757 (2023). https://doi.org/10.1038/s41598-023-47455-4",
+          "lastEditedBy": "Ijung Chen",
+          "authorUUID": "c24b0a06-7fb2-4092-8980-3730248873a1",
+          "organisationUUID": "88a3f607-8c20-4c4d-bb91-452d2a1df41c",
+          "organisation": {
+            "uuid": "88a3f607-8c20-4c4d-bb91-452d2a1df41c",
+            "name": "NTHU (2026)",
+            "type": "igem-team",
+            "link": "https://teams.igem.org/6460",
+            "archivedAt": null,
+            "audit": {
+              "created": "2026-07-02T08:04:24.518Z",
+              "updated": "2026-07-02T08:04:24.518Z"
+            }
+          },
+          "updated": "2026-10-17T13:49:26.358Z",
+          "body_sha256": "cfae213b9382032b442a2ce2ba09cce9f0aaa7aef7f678303c814a0d733adf6f"
+        }
+      ]
+    },
+    {
+      "page_key": "BBa_265G8CE1",
+      "api_url": "https://api.registry.igem.org/v1/parts/f567500c-7ff1-405a-8d83-4b5203ce885c/documentation",
+      "response_sha256": "a226ff1548396caf8ec4db7cccf8f6da4502924082b7a6138f50bab839224842",
+      "total": 3,
+      "records": [
+        {
+          "uuid": "1f911d28-d16c-453a-8bad-162198dc9260",
+          "title": "Why Or67a, and what is already known about it",
+          "type": "design",
+          "created": "2026-10-17T13:10:27.221Z",
+          "value": "This module supplies one thing to the platform: **the ligand specificity of Or67a**. The pore, the\ntrafficking and the read-out all come from `BBa_26E11Z80`; the collection's *Design* entry covers\nthat split and the collection-wide choices (codon optimisation, the IRES-mCherry arrangement, the\nKozak, the absence of a promoter).\n\n### Prior art for this receptor\n\nNo characterisation of Or67a in a mammalian heterologous system is known to us; it was not among\nthe 12 receptors examined by Zboray *et al.* (2023). **[TO FILL: strongest predicted ligands from DoOR 2.0]**\n\n### What the odorant panel offered this receptor\n\n**None of the six compounds tested has a published response for this receptor.** Zboray *et al.* (2023) either\ndid not test it or obtained no response, and the compounds that did respond in that study did so on\nreceptors that are not in this collection. Whether DoOR 2.0 predicts a response to any of the six is\n**[TO FILL: check DoOR 2.0 for 3-octanol, benzaldehyde, 2-heptanone, valeric acid, isopentyl\nacetate, ethyl propionate]**. The panel was, for this receptor, a blind screen.\n\nThe panel as a whole, and why it is weaker than it should be, is in the collection's *Design* entry.\n\n### Source\n\nThe receptor coding sequence is `BBa_26XXP4K7` — FlyBase accession, protein length and synthesis route are on\nthat part's page. The module adds an EMCV IRES and mCherry (Shaner *et al.* 2004) around it; the\nwhole construct was synthesised by GenScript in an IP-free pcDNA3.1(+) backbone.\n\n### Use\n\nCo-transfect with **`BBa_26E11Z80`**. Neither part is a sensor alone. For Or67a in your own expression\ncontext, use the bare CDS `BBa_26XXP4K7` instead.\n\nmCherry from the IRES is the diagnostic that matters for this part specifically: red cells with no\ncalcium response localise the fault **downstream of transcription** — translation, folding or\ntrafficking — which is exactly the failure mode seen on this plate.\n\n### Reference\n\nZboray K, Mohamed Mahmoud M, Pató A, *et al.* Stable cell lines expressing *Drosophila* odorant receptors for the detection of plant pathogen-related volatile organic compounds. *Sci Rep* **13**, 21757 (2023). https://doi.org/10.1038/s41598-023-47455-4",
+          "lastEditedBy": "Ijung Chen",
+          "authorUUID": "c24b0a06-7fb2-4092-8980-3730248873a1",
+          "organisationUUID": "88a3f607-8c20-4c4d-bb91-452d2a1df41c",
+          "organisation": {
+            "uuid": "88a3f607-8c20-4c4d-bb91-452d2a1df41c",
+            "name": "NTHU (2026)",
+            "type": "igem-team",
+            "link": "https://teams.igem.org/6460",
+            "archivedAt": null,
+            "audit": {
+              "created": "2026-07-02T08:04:24.518Z",
+              "updated": "2026-07-02T08:04:24.518Z"
+            }
+          },
+          "updated": "2026-10-17T13:10:27.221Z",
+          "body_sha256": "70fa79a896d0937c332b58bf5e232ba623ba97474ee7d471cc7c418a826ab671"
+        },
+        {
+          "uuid": "52d9b648-2c3a-4efd-854d-37c1c5038aa5",
+          "title": "Or67a module: both measurement rounds for all six testable compounds",
+          "type": "characterisation",
+          "created": "2026-10-17T13:11:43.840Z",
+          "value": "Transiently co-transfected into HEK293 with `BBa_26E11Z80`, **one well per condition**, 2026-10-10. Thresholds: ΔF\\_corr ≥ 0.134, ΔF\\_test ≥ 0.089, |ΔF\\_blank| ≤ 0.060, frac < 0.60 — all four\nmeasured on this plate's untransfected wells and defined in the collection documentation (*Drosophila odorant receptor calcium-reporter platform*), together with the full conditions.\n\n| compound                             | final conc. | ΔF\\_blank | ΔF\\_test | **ΔF\\_corr**  | reading                                                                                                                                 |\n| ------------------------------------ | ----------- | --------- | -------- | ------------- | --------------------------------------------------------------------------------------------------------------------------------------- |\n| VUAA1                                | 50 µM       | +0.0110   | +0.0100  | **-0.0010**   | below the 0.134 threshold — no response detected                                                                                        |\n| 3-octanol                            | 1:10,000    | +0.0115   | +0.0409  | **+0.0294**   | below the 0.134 threshold — no response detected                                                                                        |\n| benzaldehyde                         | 1:10,000    | +0.0354   | +0.0218  | **-0.0135**   | below the 0.134 threshold — no response detected                                                                                        |\n| 2-heptanone                          | 1:10,000    | -0.0079   | +0.0251  | **+0.0330**   | below the 0.134 threshold — no response detected                                                                                        |\n| valeric acid                         | 1:10,000    | +0.0140   | +0.0243  | **+0.0103**   | below the 0.134 threshold — no response detected                                                                                        |\n| Control (buffer only)                | —           | +0.0207   | -0.1134  | **-0.1341**   | below the 0.134 threshold — no response detected                                                                                        |\n| ethyl propionate · isopentyl acetate | 1:10,000    | —         | —        | not evaluable | gain changed between the baseline and response reads in those two rows; both discarded by the QC in the collection's *Experiment* entry |\n\n*Both measurement rounds for this well, raw fluorescence expressed as (F − F₀)/F₀ against time after the 50 µL addition. **Left:** round 1, plain assay buffer — the vehicle control for every trace on the right. **Right:** round 2, the compound. The quoted ΔF\\_corr is the right-hand peak minus the left-hand peak, so a trace that sags on the left inflates it.*\n\n**Positive control for this column.** VUAA1 at 50 µM acts on Orco and does not require Or67a, so it\ntests whether this well was expressing at all. It **failed**: ΔF\\_corr -0.0010, below the 0.134 threshold. Every odorant reading above has to be read in that light.\n\nPlate-level context — the buffer-only control row, the decomposition of every above-threshold\ncondition, and the full 6 × 12 matrix — is in the collection's *Characterisation* entry.![Two line charts for the Or67a well. The buffer-only trace in round 2 falls to −0.11, the largest negative excursion in the experiment; no trace rises above the threshold.](https://registry.igem.wiki/documentation/52d9b648-2c3a-4efd-854d-37c1c5038aa5/9965ae0c84f67d07de39d8a89172aa2058492ec85600c6acac4323833f1fc745.avif \"Or67a — both measurement rounds, six compounds\")\n",
+          "lastEditedBy": "Ijung Chen",
+          "authorUUID": "c24b0a06-7fb2-4092-8980-3730248873a1",
+          "organisationUUID": "88a3f607-8c20-4c4d-bb91-452d2a1df41c",
+          "organisation": {
+            "uuid": "88a3f607-8c20-4c4d-bb91-452d2a1df41c",
+            "name": "NTHU (2026)",
+            "type": "igem-team",
+            "link": "https://teams.igem.org/6460",
+            "archivedAt": null,
+            "audit": {
+              "created": "2026-07-02T08:04:24.518Z",
+              "updated": "2026-07-02T08:04:24.518Z"
+            }
+          },
+          "updated": "2026-10-17T13:11:43.840Z",
+          "body_sha256": "a01a3a3643b8d7e8dcd372f061c25b29af3414a065780d14e42ab5fa0934ecde"
+        },
+        {
+          "uuid": "511eb6ad-0833-48a6-9d15-bfb213157833",
+          "title": "What the experiment does and does not establish for Or67a",
+          "type": "discussion",
+          "created": "2026-10-17T13:12:16.884Z",
+          "value": "Nothing crossed the threshold and VUAA1 gave −0.0010 — the well failed its own positive control.\n\nThis column produced the plate's largest *negative* excursions: buffer-only ΔF_corr **−0.1341**,\ndriven by a round-2 trace that fell to −0.1134 with nothing added. A −0.134 in a well with nothing\nin it is the same magnitude as the detection threshold with the opposite sign. Mechanically this\nlooks like progressive cell loss or a focus change during the session rather than any receptor\nbehaviour, and it is a second argument for coated plates.\n\n### Replication status\n\n**n = 1.** One well per condition, one plate, one day. Two further compounds (ethyl propionate,\nisopentyl acetate) were lost to the gain fault documented in the collection's *Experiment* entry.\nNothing here constrains the receptor itself — only this construct, in this chassis, at these\nconcentrations, on this plate.\n\n### Reference\n\nZboray K, Mohamed Mahmoud M, Pató A, *et al.* Stable cell lines expressing *Drosophila* odorant receptors for the detection of plant pathogen-related volatile organic compounds. *Sci Rep* **13**, 21757 (2023). https://doi.org/10.1038/s41598-023-47455-4",
+          "lastEditedBy": "Ijung Chen",
+          "authorUUID": "c24b0a06-7fb2-4092-8980-3730248873a1",
+          "organisationUUID": "88a3f607-8c20-4c4d-bb91-452d2a1df41c",
+          "organisation": {
+            "uuid": "88a3f607-8c20-4c4d-bb91-452d2a1df41c",
+            "name": "NTHU (2026)",
+            "type": "igem-team",
+            "link": "https://teams.igem.org/6460",
+            "archivedAt": null,
+            "audit": {
+              "created": "2026-07-02T08:04:24.518Z",
+              "updated": "2026-07-02T08:04:24.518Z"
+            }
+          },
+          "updated": "2026-10-17T13:12:16.884Z",
+          "body_sha256": "62ff51fa9bd10d2bd8cb27374b1f4ceff8bc19efadd1b102af780783d4bcfe36"
+        }
+      ]
+    }
+  ],
+  "mapping": [
+    {
+      "entry_key": "collection:design:1",
+      "page_key": "collection",
+      "type": "Design",
+      "type_ordinal": 1,
+      "action": "update_existing",
+      "remote_entry_id": "9b41d99f-4866-4c49-b818-2b0669a5c9e7",
+      "old_title": "Two-component architecture: one shared reporter, ten interchangeable sensing modules",
+      "old_body_sha256": "c485aaa37afd664b3859bf0845fc7cbc19fd4289996276ea00bd1e54e0f2129b",
+      "old_body_markdown": "Insect odorant receptors are **not GPCRs**. A tuning receptor and the obligate co-receptor Orco\nassemble into a heteromeric **ligand-gated cation channel**; odorant binding opens the pore\ndirectly, with no second messenger in between. Orco also chaperones the tuning receptor to the\nplasma membrane — without it the tuning receptor stays in the ER.\n\nTwo consequences shape this collection:\n\n1. **The read-out can be shared.** Every tuning receptor needs the same Orco, and the channel\n   conducts Ca²⁺, so one calcium-indicator–Orco fusion serves as the read-out for all of them. That\n   is `BBa_26E11Z80`, the only part in the collection carrying a reporter.\n2. **Specificity is the only interchangeable layer.** The ten sensing modules differ from each other\n   in nothing but the tuning receptor CDS. Swapping one for another changes what the cell detects\n   and leaves the read-out, the optics, the calculation and the controls untouched.\n\nA working sensor is always **two co-transfected parts**: one sensing module plus `BBa_26E11Z80`.\nNeither is a device alone.\n\n### Collection-wide design decisions\n\n| Decision | Applies to | Rationale |\n|---|---|---|\n| **Codon-optimised for human expression** | all 11 receptor CDSs, incl. Orco | Zboray *et al.* (2023) used **wild-type** OR sequences and identified translation as a likely bottleneck, writing that \"functional OR protein expression can be improved by codon optimization of OR genes instead of using wild type sequences\". This collection takes that route; it is the largest deliberate difference from that study. |\n| **EMCV IRES + mCherry** on every sensing module | the 10 modules | One transcript, two separate proteins. mCherry is translated cap-independently, so red fluorescence reports that the transcript reached the cytoplasm **even when the receptor is non-functional** — the case that is otherwise undiagnosable. A 2A peptide was rejected because it leaves a residual peptide on the receptor. |\n| **GCCACC Kozak** on every ORF | all composites | strong mammalian initiation |\n| **No promoter, no polyA** | all parts | portable coding parts; the host vector sets expression level and induction. Every part here needs a promoter and terminator from its host vector. |\n| **Receptors supplied both as bare CDS and as a module** | 10 + 10 parts | the bare CDS (e.g. `BBa_26VGDFA1`) for teams assembling into their own context; the module (e.g. `BBa_26ZAGFK0`) as a ready bicistronic unit |\n\nThe geometry of the reporter fusion — why the indicator is at the **N**-terminus, why the linker is\nthe length it is — is intrinsic to `BBa_26E11Z80` and documented there. The inverted membrane\ntopology that forces it is documented on `BBa_26LWIKBQ` (DmOrco CDS).\n\n### Where the sequences come from\n\nNothing here was cloned from an organism, evolved, or computationally designed. The eleven receptor\ncoding sequences are the **native *Drosophila melanogaster* protein sequences back-translated with\nhuman codon usage** and synthesised; each encodes a protein identical to its FlyBase reference.\n\n| part | receptor | FlyBase gene | transcript | RefSeq protein | aa |\n|---|---|---|---|---|---|\n| `BBa_26LWIKBQ` | Orco | FBgn0037324 | FBtr0078794 | NP_524235 | 486 |\n| `BBa_26VGDFA1` | Or7a | FBgn0030016 | FBtr0071186 | NP_511081 | 413 |\n| `BBa_26HTXB02` | Or19a | FBgn0041626 | FBtr0070029 | NP_525013 | 387 |\n| `BBa_26AIIWHV` | Or22a | FBgn0026398 | FBtr0077873 | NP_523453 | 397 |\n| `BBa_26HJ1RUT` | Or35a | FBgn0028946 | FBtr0080781 | NP_723916 | 409 |\n| `BBa_26UHN7NT` | Or42a | FBgn0033041 | FBtr0086052 | NP_523622 | 406 |\n| `BBa_26OJ8HGO` | Or59b | FBgn0034865 | FBtr0072021 | NP_523822 | 398 |\n| `BBa_26XXP4K7` | Or67a | FBgn0036009 | FBtr0076375 | NP_524005 | 407 |\n| `BBa_26ACVV3R` | Or67b | FBgn0036019 | FBtr0076420 | NP_524007 | 421 |\n| `BBa_26DVVZIA` | Or85b | FBgn0037590 | FBtr0081900 | NP_524279 | 390 |\n| `BBa_26DG1NPK` | Or98a | FBgn0039551 | FBtr0085226 | NP_524536 | 397 |\n\nThe non-receptor components:\n\n| part | origin |\n|---|---|\n| `BBa_26QHYP02` GCaMP6f | derived from Addgene **#40755**; indicator described by Chen *et al.* (2013) |\n| `BBa_26E21OEQ` (GGGGS)₃ linker | fully synthetic; the three repeats use **diversified synonymous codons** so the DNA carries no tandem repeat, which is a common cause of synthesis failure and polymerase slippage |\n| `BBa_262WP16P` RSET leader | the N-terminal leader of the **pRSET** vector series (Invitrogen) |\n| EMCV IRES (inside the 10 modules) | encephalomyocarditis virus internal ribosome entry site, wild-type |\n| mCherry (inside the 10 modules) | Shaner *et al.* (2004) |\n\nAll constructs were **synthesised by GenScript** and delivered in an IP-free version of the\npcDNA3.1(+) backbone.\n\n### The odorant panel that was actually tested, and what was known about it\n\nSix compounds plus the Orco agonist were tested. Two of the six were lost to the gain\nfault (collection *Experiment* entry). This is what the literature says about each of them **for the\nreceptors in this collection** — responses reported for receptors not in this collection are not\nrelevant and are excluded:\n\n| compound | class | published response on a receptor in **this** collection |\n|---|---|---|\n| **VUAA1**, 50 µM | synthetic Orco agonist | activates every Orco-containing line; the positive control for the whole platform (Jones *et al.* 2011) |\n| **isopentyl acetate** *(lost to gain fault)* | ester | **Or98a, 0.31** VUAA1-normalised at 100 µM — the strongest published match in the panel |\n| **2-heptanone** | methyl ketone | **Or85b, 0.55** at 100 µM — Or85b's reference ligand, EC₅₀ **68.9 µM**; also Or98a 0.11 |\n| **3-octanol** | secondary alcohol | Or98a, 0.13 at 100 µM |\n| **benzaldehyde** | aromatic aldehyde | **none.** Reported for Or49b (0.23) and Or10a (0.17), neither of which is in this collection |\n| **ethyl propionate** *(lost to gain fault)* | ester | **none reported** |\n| **valeric acid** | carboxylic acid | **none reported.** No carboxylic acid appears anywhere in the responsive ligand set of Zboray *et al.* (2023), for any of their seven lines |\n\nThree consequences follow, and all three are uncomfortable:\n\n1. **Only two of the eleven receptors in this collection had any published reason to respond to this\n   panel** — Or85b and Or98a. For the other nine the panel was a blind screen.\n2. **The one compound with the strongest published match, isopentyl acetate on Or98a, is one of the\n   two that the gain fault destroyed.** The loss was not two arbitrary compounds; it was the\n   best-predicted odorant × receptor combination on the plate.\n3. **The panel was dosed by a dilution factor inherited from fly work, and the resulting molar\n   concentrations are unknown.** The supplied stock's concentration was never recorded, so none of\n   these published EC₅₀ values can be compared against what was actually delivered. See the\n   *Experiment* entry.\n\nThe reasoning that led to this particular set of six is not recorded in this documentation; a future\nteam should choose by EC₅₀ and by the receptors actually in hand.\n\n### Parts in this collection\n\n**Read-out (1)** — `BBa_26E11Z80` GCaMP6f-(GGGGS)₃-DmOrco, 2,862 bp\n\n**Sensing modules (10)**, all `<OR>-IRES-mCherry` —\n`BBa_26ZAGFK0` Or7a · `BBa_2629NIWH` Or19a · `BBa_26WOX4B1` Or22a · `BBa_26LLF3LM` Or35a ·\n`BBa_26Q1Q094` Or42a · `BBa_26Y7CI2H` Or59b · `BBa_265G8CE1` Or67a · `BBa_269VSDDR` Or67b ·\n`BBa_26K1TU11` Or85b · `BBa_26TZLBMJ` Or98a\n\n**Tuning receptor CDSs (10)** —\n`BBa_26VGDFA1` Or7a · `BBa_26HTXB02` Or19a · `BBa_26AIIWHV` Or22a · `BBa_26HJ1RUT` Or35a ·\n`BBa_26UHN7NT` Or42a · `BBa_26OJ8HGO` Or59b · `BBa_26XXP4K7` Or67a · `BBa_26ACVV3R` Or67b ·\n`BBa_26DVVZIA` Or85b · `BBa_26DG1NPK` Or98a\n\n**Components of the read-out fusion (4)** —\n`BBa_26LWIKBQ` DmOrco CDS · `BBa_26QHYP02` GCaMP6f · `BBa_26E21OEQ` (GGGGS)₃ linker ·\n`BBa_262WP16P` RSET leader\n\n### References\n\n1. Zboray K, Mohamed Mahmoud M, Pató A, *et al.* Stable cell lines expressing *Drosophila* odorant receptors for the detection of plant pathogen-related volatile organic compounds. *Sci Rep* **13**, 21757 (2023). https://doi.org/10.1038/s41598-023-47455-4\n2. Jones PL, Pask GM, Rinker DC, Zwiebel LJ. Functional agonism of insect odorant receptor ion channels. *PNAS* **108**, 8821–8825 (2011).\n3. Chen T-W, Wardill TJ, Sun Y, *et al.* Ultrasensitive fluorescent proteins for imaging neuronal activity. *Nature* **499**, 295–300 (2013).\n4. Shaner NC, Campbell RE, Steinbach PA, *et al.* Improved monomeric red, orange and yellow fluorescent proteins derived from *Discosoma* sp. red fluorescent protein. *Nat Biotechnol* **22**, 1567–1572 (2004).\n5. FlyBase — https://flybase.org/ (accessions in the table above)\n6. DoOR 2.0 — Database of Odorant Responses. http://neuro.uni-konstanz.de/DoOR/",
+      "new_title": "A modular receptor–reporter architecture for exploring cellular odor sensing",
+      "new_body_sha256": "a971d795e56243abb2c0540960558ea7fb9c253b1459a7bde9aeb83d928865fa",
+      "url": "https://registry.igem.org/collections/40067138-a3dd-4e5b-b8a4-50b097ee0156",
+      "modify_url": "https://registry.igem.org/collections/40067138-a3dd-4e5b-b8a4-50b097ee0156/documentation/9b41d99f-4866-4c49-b818-2b0669a5c9e7/modify",
+      "author_verified": true,
+      "source": "Anonymous read-only official API; current records, not GitLab baseline."
+    },
+    {
+      "entry_key": "collection:experiment:1",
+      "page_key": "collection",
+      "type": "Experiment",
+      "type_ordinal": 1,
+      "action": "update_existing",
+      "remote_entry_id": "21581629-83ba-424a-9e65-45ea771a8bef",
+      "old_title": "Plate-reader calcium assay: conditions, two-round addition, calculation, gain QC",
+      "old_body_sha256": "02970a857e2f381db553353e6be311fffd3e3dfb89ef24258ef55a94a683c467",
+      "old_body_markdown": "Every number in this collection comes from **one experiment, run on 2026-10-10**: a single 96-well\nplate, one well per condition.\n\n### Chassis and transfection\n\n| | |\n|---|---|\n| Cells | HEK293, uncoated 96-well black-wall clear-bottom plate (GREINER 96 F-BOTTOM) |\n| Transfection | **transient co-transfection** of one sensing module + `BBa_26E11Z80` |\n| On-plate controls | column 11 = `BBa_26E11Z80` alone (no tuning receptor); column 12 = **untransfected** HEK293 |\n\n### Reader\n\n| | |\n|---|---|\n| Instrument | BMG LABTECH **CLARIOstar Plus**, SMART Control / MARS |\n| Mode | fluorescence intensity, plate mode, kinetic, **bottom optic** |\n| Optics | Ex **482-16** / Dichroic **LP 504** / Em **530-40** |\n| Focal height | **−4.1 mm** |\n| Flashes per well per cycle | 20 |\n| Settling time | 0.5 s |\n| Cycle time | **12 s** (instrument minimum for this layout: 10 s) |\n| Enhanced dynamic range | **off**; full scale 260,000 RFU |\n| Temperature control | **off** (ambient) |\n| Shaking | none |\n\n### Assay buffer\n\n140 mM NaCl · 5 mM KCl · **2 mM CaCl₂** · 1 mM MgCl₂ · 5 mM HEPES-Na · 20 mM glucose, pH 7.3.\nRecipe after Zboray *et al.* (2023). The Ca²⁺ is load-bearing: that study abolished the Orco-agonist response in\nCa²⁺-free buffer and in Ca²⁺-free buffer with EGTA, which is what establishes that the fluorescence\nrise reports **extracellular** Ca²⁺ entering through the channel.\n\n### The two-round addition — and why it matters more than it looks\n\n| step | action | read | cycles | volume in well |\n|---|---|---|---|---|\n| 1 | plate the cells in assay buffer | **F0a** — baseline | 5 | 100 µL |\n| 2 | **+ 50 µL plain assay buffer** — *round 1, the vehicle control* | **blank** | 15 | 150 µL |\n| 3 | — | **F0b** — new baseline | 5 | 150 µL |\n| 4 | **+ 50 µL compound at 4× final** — *round 2, the ligand* | **test** | 15 | 200 µL |\n\nVolume goes 100 → 150 → 200 µL; compounds are added at 4× so they end at 1× in 200 µL.\nVUAA1: 200 µM in the added 50 µL → **50 µM final**.\n\n### Odorant concentrations are not known — the most serious limitation of this experiment\n\nThe odorants were supplied as aqueous solutions by another laboratory, whose stated practice was to\ndilute those solutions **10,000-fold** for *Drosophila* odorant testing. That same 10,000-fold\ndilution was applied here. **The concentration of the supplied solutions was not recorded, so the\nmolar concentration of every odorant in the well is unknown and cannot be reconstructed.**\n\nTwo consequences, both of which limit what any part page in this collection may claim:\n\n1. **No odorant result can be placed on a dose axis.** Nothing in this collection may be described\n   as under- or over-dosed, and no value may be compared against a published EC₅₀. Where an earlier\n   draft of this documentation explained a null result by saying the dose was below the EC₅₀, that\n   explanation was unfounded and has been removed.\n2. **A dilution factor does not transfer between a fly assay and a cell assay.** In *Drosophila*\n   work an odorant is diluted in oil or water and the animal is exposed to the **headspace above the\n   liquid** — the stimulus is the vapour, which is orders of magnitude more dilute than the liquid\n   it evaporated from. Here the cells sit **in the liquid** and meet the liquid concentration\n   directly. The same \"1:10,000\" therefore denotes two different stimuli, and the convention was\n   carried across formats without that being noticed.\n\n**What a repeat requires before anything else:** the supplied stock's concentration in g/L or mol/L,\nor odorants weighed out and dissolved to a known molarity, so that each receptor can be dosed in µM\naround its own published EC₅₀.\n\nEvery well therefore carries **its own vehicle control in the same well** — round 1 is an identical\n50 µL addition and plate transfer with no ligand. That is the strength of the design and also its\nweakness: because the reported value is round 2 minus round 1, **anything that happens to the well\nduring round 1 is subtracted out of round 2 with the opposite sign.** A well that loses baseline\nfluorescence in round 1 produces a large positive ΔF_corr with no ligand effect whatsoever. This\ncaught three wells on this plate; see the *Characterisation* entry.\n\n**Pipetting:** an 8-channel pipette against a 12-column plate means two passes — columns 1–8, then\n9–12, in the same fixed order every time. The resulting time offset is identical in both rounds and\ncancels in the correction.\n\n### Calculation\n\n| quantity | definition |\n|---|---|\n| **F0** | mean of the 5 baseline cycles of that round |\n| **F_MAX** | maximum of the 3-cycle moving average — a single-point maximum is positively biased |\n| **ΔF_blank** | ( F_MAX(round 1) − F0a ) / F0a |\n| **ΔF_test** | ( F_MAX(round 2) − F0b ) / F0b |\n| **ΔF_corr** | ΔF_test − ΔF_blank |\n| **ΔF_norm** | ΔF_corr ÷ ΔF_corr(VUAA1, same column) — reported but unusable, see *Discussion* |\n\nEvery part page reports **all three** of ΔF_blank, ΔF_test and ΔF_corr, never ΔF_corr alone.\n\n### Gain QC — why two compounds are missing from every table\n\nDetector gain on this instrument is **not stored in the protocol**; it is set in the Start\nMeasurement dialog and is lost whenever the protocol is edited. It was not held constant across all\n32 reads of this session.\n\nΔF is a ratio **within one well**, so a different gain in a different row is harmless. But the `F0`\nread and the response read it is divided by **must share a gain**. To test that without assuming it,\nthe untransfected wells (column 12), which should not respond to anything, were used as an absolute\nyardstick:\n\n| row | compound | median col-12 F0a | round 1 / F0a | round 2 / F0b | verdict |\n|---|---|---|---|---|---|\n| A | VUAA1 | 1610 | 0.998 | 0.951 | valid |\n| **B** | **ethyl propionate** | 1408 | **1.348** | **1.366** | **discarded** — both pairs mismatched |\n| **C** | **isopentyl acetate** | 551 | **3.117** | 1.017 | **discarded** — round 1 pair mismatched |\n| D | 3-octanol | 2182 | 0.999 | 1.034 | valid |\n| E | benzaldehyde | 1946 | 1.002 | 1.049 | valid |\n| F | 2-heptanone | 2437 | 1.012 | 1.055 | valid |\n| G | valeric acid | 1731 | 1.011 | 1.074 | valid |\n| H | Control (buffer) | 18726 | 0.950 | 0.951 | valid (internally consistent; absolute gain ~10× the others, which does not affect a within-well ratio) |\n\n**Two of eight compounds — ethyl propionate and isopentyl acetate — produced no usable data at all.**\nThis was the largest single loss in the experiment.\n\n**Fix for anyone repeating this:** run gain adjustment once, **write the number down**, then type\nthat value manually into every subsequent read and leave `Gain Adjustment` unchecked for the rest of\nthe session.\n\n### References\n\n1. Zboray K, Mohamed Mahmoud M, Pató A, *et al.* Stable cell lines expressing *Drosophila* odorant receptors for the detection of plant pathogen-related volatile organic compounds. *Sci Rep* **13**, 21757 (2023). https://doi.org/10.1038/s41598-023-47455-4\n2. BMG LABTECH SMART Control Software Manual Part II (0430F0049A, 2022-09-09) — §3.4 Data Output, §6.5 Plate Identification, §6.6 Sample IDs.",
+      "new_title": "Evidence provenance, paired fluorescence measurements and control contrasts",
+      "new_body_sha256": "3061db4aa74b4f2d45f77b7c598df5fc566d0f094056688d2fcbefd31bf07a3e",
+      "url": "https://registry.igem.org/collections/40067138-a3dd-4e5b-b8a4-50b097ee0156",
+      "modify_url": "https://registry.igem.org/collections/40067138-a3dd-4e5b-b8a4-50b097ee0156/documentation/21581629-83ba-424a-9e65-45ea771a8bef/modify",
+      "author_verified": true,
+      "source": "Anonymous read-only official API; current records, not GitLab baseline."
+    },
+    {
+      "entry_key": "collection:characterisation:1",
+      "page_key": "collection",
+      "type": "Characterisation",
+      "type_ordinal": 1,
+      "action": "update_existing",
+      "remote_entry_id": "9dfa1d46-443b-491e-b31d-f454c65f55ec",
+      "old_title": "Four measured acceptance criteria, and the buffer-only well that satisfies three",
+      "old_body_sha256": "89b4f81f990ec7adb2ca27e3f6f06c6853093f920590f004d55ba8b9196db39d",
+      "old_body_markdown": "Before any per-part number can be read, two things had to be established: that the read-out works,\nand how large a signal this plate produces **with nothing added**.\n\n### 1. The read-out works\n\n`BBa_26E11Z80` with no tuning receptor responded to 50 µM VUAA1 (ΔF\\_corr +0.2148, ligand round\n+0.1186, gradual) while untransfected cells in the same row gave +0.0041. The full data, kinetics,\ncontrols and caveats are intrinsic to that part and are documented on `BBa_26E11Z80`.\n\n### 2. Four acceptance criteria, all measured — none assumed\n\nThe untransfected wells (column 12: same additions, same handling, no receptor, every valid row)\ngive the noise of each quantity directly. Taking 3 SD of each:\n\n| # | criterion                         | bound         | measured from                                                                                                                                                                                                         |               |                                                                     |\n| - | --------------------------------- | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ------------------------------------------------------------------- |\n| 1 | ΔF\\_corr ≥ **0.134**              | 3 × SD 0.0448 | untransfected ΔF\\_corr, n \\= 6                                                                                                                                                                                        |               |                                                                     |\n| 2 | ΔF\\_test ≥ **0.089**              | 3 × SD 0.0296 | untransfected ΔF\\_test, n \\= 6 — *the ligand round must itself rise*                                                                                                                                                  |               |                                                                     |\n| 3 |                                   | ΔF\\_blank     | ≤ **0.060**                                                                                                                                                                                                           | 3 × SD 0.0200 | untransfected ΔF\\_blank, n \\= 6 — *the vehicle round must be quiet* |\n| 4 | frac\\_at\\_first\\_read \\< **0.60** | —             | shape: the fraction of the total rise already present at the first post-addition cycle. Near 1.0 means the change was complete before the plate finished re-inserting — an optical or physical step, not Ca²⁺ influx. |               |                                                                     |\n\n**Criterion 3 is the one that is easy to forget and it changed several readings on this plate.**\nBecause ΔF\\_corr \\= round 2 − round 1, a well that *loses* baseline in round 1 reports a large\npositive ΔF\\_corr with no ligand effect at all. Three wells did exactly that.\n\n### 3. Every condition over 0.134, decomposed\n\n| compound                  | cell line | ΔF\\_blank  | ΔF\\_test   | ΔF\\_corr   | frac | criteria failed                                  |\n| ------------------------- | --------- | ---------- | ---------- | ---------- | ---- | ------------------------------------------------ |\n| **Control (buffer only)** | **Or35a** | −0.096     | **+0.353** | **+0.449** | 0.16 | 3 only                                           |\n| Control (buffer only)     | Or42a     | **−0.301** | +0.014     | +0.315     | —    | 2 and 3 — 95 % of the value is the vehicle round |\n| valeric acid              | Or35a     | −0.117     | +0.177     | +0.295     | 0.87 | 3 and 4                                          |\n| **valeric acid**          | **Or85b** | −0.013     | +0.204     | +0.217     | 0.59 | **none**                                         |\n| VUAA1 50 µM               | ORCO only | −0.096     | +0.119     | +0.215     | 0.06 | 3 only                                           |\n| 2-heptanone               | ORCO only | +0.025     | +0.210     | +0.186     | 0.83 | 4                                                |\n| 2-heptanone               | Or7a      | **−0.164** | +0.020     | +0.184     | —    | 2 and 3 — 89 % of the value is the vehicle round |\n| valeric acid              | ORCO only | +0.040     | +0.197     | +0.158     | 0.77 | 4                                                |\n| benzaldehyde              | ORCO only | +0.027     | +0.165     | +0.138     | 0.90 | 4                                                |\n| **VUAA1 50 µM**           | **Or35a** | +0.040     | +0.178     | +0.137     | 0.49 | **none**                                         |\n\n### 4. The result that sets the ceiling on everything else\n\nRow H received **plain assay buffer in both rounds**. Every well in it should read zero. The Or35a\nwell instead rose **+0.353 in round 2**, gradually, peaking at 96 s, giving ΔF\\_corr **+0.449** — the\nlargest value on the plate, from a well that never saw a ligand. It satisfies criteria 1, 2 and 4\nand fails only 3, and it fails 3 only narrowly (−0.096 against a −0.060 bound).\n\n![Two line charts of fluorescence change over time for all 12 columns of the buffer-only row. In round 2, with only assay buffer added, the Or35a trace rises above the 0.134 threshold to +0.35; in round 1 the Or42a trace sits 30 % below its own baseline. The other ten columns stay within ±0.1.](https://registry.igem.wiki/documentation/9dfa1d46-443b-491e-b31d-f454c65f55ec/7fd45191845ab3fe49775a76fe355123055b9f553f63860d4e9f01b4aa63e0f9.avif \"Buffer-only row, both rounds — the plate’s false positives\")\n\n*Row H, all 12 columns, both rounds, raw fluorescence as (F − F₀)/F₀ against time. Left: round 1.\nRight: round 2 — also plain buffer. Or35a (blue) rises past the threshold in round 2 with no ligand\npresent. Or42a (orange) does the opposite: it loses 30 % of its baseline at the round-1 addition and\nnever recovers, which the subtraction then converts into a spurious +0.315. The ten grey traces are\nthe other columns, all within ±0.1.*\n\n**This is the most important single result on the plate.** A buffer-only well produced a larger,\nbetter-shaped signal than any odorant did. At n \\= 1, the four criteria are **necessary but not\nsufficient**, and no odorant response on this plate is distinguishable from the plate's own noise,\nhowever good it looks. Two conditions pass all four criteria — valeric acid × Or85b (+0.217) and\nVUAA1 × Or35a (+0.137) — and both are smaller than +0.449. They are documented on their part pages\nas **conditions to repeat, not as hits**.\n\n### 5. Full plate-level dataset, ΔF\\_corr\n\nRows \\= compound, columns \\= tuning receptor co-transfected with `BBa_26E11Z80`.\n**Bold** \\= above 0.134. Blank rows: discarded by the gain QC. Each part page carries its own column\ndecomposed into ΔF\\_blank / ΔF\\_test / ΔF\\_corr with its signal curves.\n\n| compound             | Or7a       | Or19a  | Or22a  | Or35a      | Or42a      | Or59b  | Or67a  | Or67b  | Or85b      | Or98a  | ORCO only  | untransf. |\n| -------------------- | ---------- | ------ | ------ | ---------- | ---------- | ------ | ------ | ------ | ---------- | ------ | ---------- | --------- |\n| VUAA1 50 µM          | −0.055     | +0.023 | +0.049 | **+0.137** | −0.026     | −0.037 | −0.001 | +0.000 | +0.024     | −0.020 | **+0.215** | +0.004    |\n| ethyl propionate     | —          | —      | —      | —          | —          | —      | —      | —      | —          | —      | —          | —         |\n| isopentyl acetate    | —          | —      | —      | —          | —          | —      | —      | —      | —          | —      | —          | —         |\n| 3-octanol            | +0.096     | +0.010 | −0.009 | +0.013     | −0.005     | +0.026 | +0.029 | +0.019 | +0.021     | +0.010 | +0.073     | +0.028    |\n| benzaldehyde         | +0.120     | +0.027 | +0.036 | +0.045     | +0.068     | +0.048 | −0.014 | +0.040 | +0.023     | +0.037 | **+0.138** | +0.074    |\n| 2-heptanone          | **+0.184** | +0.036 | +0.032 | +0.065     | +0.057     | +0.036 | +0.033 | +0.038 | −0.006     | +0.017 | **+0.186** | +0.042    |\n| valeric acid         | −0.028     | +0.012 | −0.017 | **+0.295** | −0.006     | +0.003 | +0.010 | +0.000 | **+0.217** | +0.002 | **+0.158** | −0.010    |\n| **Control (buffer)** | −0.031     | +0.056 | +0.127 | **+0.449** | **+0.315** | +0.065 | −0.134 | −0.085 | +0.060     | −0.016 | −0.017     | −0.055    |",
+      "new_title": "Retained paired-round assay measurements and the effect of between-well controls",
+      "new_body_sha256": "2a6f65a88202a1f108526c943ede3301b611963bfdddc2275f3c36fe581c3980",
+      "url": "https://registry.igem.org/collections/40067138-a3dd-4e5b-b8a4-50b097ee0156",
+      "modify_url": "https://registry.igem.org/collections/40067138-a3dd-4e5b-b8a4-50b097ee0156/documentation/9dfa1d46-443b-491e-b31d-f454c65f55ec/modify",
+      "author_verified": true,
+      "source": "Anonymous read-only official API; current records, not GitLab baseline."
+    },
+    {
+      "entry_key": "collection:discussion:1",
+      "page_key": "collection",
+      "type": "Discussion",
+      "type_ordinal": 1,
+      "action": "update_existing",
+      "remote_entry_id": "4f3d54a7-b581-419a-b1fb-8a8cd91725d2",
+      "old_title": "What this plate establishes, what it does not, and the seven changes the next run needs",
+      "old_body_sha256": "36376d4ba3638bfd5e8483ff1a76f45976efa77658131d0bd5b94595101fe8cb",
+      "old_body_markdown": "### Established\n\n**One thing.** The reporter fusion `BBa_26E11Z80` is expressed, reaches the plasma membrane, and\ngates Ca²⁺ in response to an Orco agonist, in transiently transfected HEK293. That makes the\nplatform real. The caveats on the magnitude are on that part's page.\n\n### Not established\n\n**No odorant response was demonstrated for any of the ten tuning receptors.** Not \"the receptors do\nnot work\" — the experiment could not have detected it if they did. Four reasons, each sufficient\nalone:\n\n**1. Expression, not ligand choice, is the limiting factor.** VUAA1 acts on **Orco** and bypasses\nthe tuning receptor, so all eleven Orco-containing columns should have responded. Only two did:\nORCO-only (+0.215) and Or35a (+0.137). **Nine of eleven Orco-containing wells failed their own\npositive control.** Whatever the tuning receptors would have done to an odorant, this plate was not\nin a state to see it. Zboray *et al.* (2023) reported the same pattern in several of their lines and attributed it to\ntranslation and ER-export bottlenecks.\n\n**2. The delivered dose is unknown, so no null result can be interpreted.** The odorants came as\nstock solutions of unrecorded concentration, diluted 10,000-fold by a convention borrowed from\n*Drosophila* experiments in which the animal samples the vapour rather than the liquid (see the\n*Experiment* entry). Against that, Zboray *et al.* (2023) report EC₅₀ = 68.9 µM for 2-heptanone on Or85b and reach a\nVUAA1-normalised 0.55 only at 100 µM, and Or98a's reference ligand (6-methyl-5-hepten-2-one,\nEC₅₀ 2.06 µM) was not on the plate at all. Whether this experiment landed above, below or near those\nvalues cannot be determined from the records.\n\n**3. The vehicle round is not inert, and the correction amplifies that.** Three wells moved more\nthan ±0.060 during round 1; in two of them the vehicle round supplied 89 % and 95 % of the reported\nΔF_corr. Mechanically this looks like cell loss or a bubble at the moment of addition — consistent\nwith an uncoated plate and a 2.5 h session — not like receptor behaviour.\n\n**4. The odorant working solutions appear to differ physically from the assay buffer.** The\nORCO-only column has no tuning receptor and no odorant specificity. It nevertheless moved in **every**\nodorant row and not in the buffer row, and all three of those movements are step-shaped\n(frac 0.77–0.90):\n\n| row | ORCO-only ΔF_test | frac |\n|---|---|---|\n| VUAA1 | +0.119 | 0.06 |\n| 3-octanol | +0.121 | — |\n| benzaldehyde | +0.165 | 0.90 |\n| 2-heptanone | +0.210 | 0.83 |\n| valeric acid | +0.197 | 0.77 |\n| **Control (buffer)** | **−0.004** | — |\n\n\"Steps for every odorant solution, flat for plain buffer\" is the signature of a property of the\nsolutions — refractive index, temperature, residual solvent, pH — not of receptor activation.\nGCaMP6f's chromophore has a pKa near 7.1–7.2, so a small pH difference in a working solution is by\nitself enough to shift fluorescence.\n\nAdd the buffer-only well that reached +0.449 (see *Characterisation*), and the honest summary is:\n**this plate validated the read-out and measured its own noise floor. It did not test odorant\nspecificity.**\n\n### A note on ΔF_norm\n\nΔF_norm (ΔF_corr ÷ the same column's VUAA1 value) is in the dataset but is **not usable for this\nplate**: nine of eleven VUAA1 denominators are at or below the noise floor, so the quotient is a\nratio of two noise values. It becomes meaningful only once every column passes its VUAA1 control.\n\n### The seven changes the next run needs, in order\n\n1. **Fix the gain manually.** Adjust once, record the value, type it in for every read, leave\n   `Gain Adjustment` unchecked. This cost two of eight compounds.\n2. **Poly-D-lysine–coated plates.** Cells detached progressively on the uncoated plate over a 2.5 h\n   session. This is the most likely source of both the 0.045 noise floor and the three round-1\n   baseline collapses.\n3. **Add a mock-odorant control row** — the identical dilution series and handling with no odorant\n   in it. This directly tests reason 4. If the ORCO-only column steps in that row too, the\n   odorant-row signals are solution artefacts and the question is settled.\n4. **Establish the dose before anything else.** Get the stock concentration in g/L or mol/L from the\n   supplier, or weigh the odorants out. Then dose Or85b with 2-heptanone and Or98a with\n   6-methyl-5-hepten-2-one as dose series bracketing their EC₅₀, **in µM**. Until the dose is a\n   number, every odorant result in this collection is uninterpretable, whichever way it came out.\n5. **Keep total time in assay buffer under ~40 minutes**, even if that means four rows per plate\n   instead of eight. This session ran 2.5 h.\n6. **Raise expression, then re-test.** Zboray *et al.* (2023) induced with **1 µg/mL doxycycline, 48–72 h** before\n   measurement and used selected stable clones; ours was a transient mixed population. Their\n   responses were **1.24–4.62**, i.e. 6–21× ours.\n7. **Blot before measuring again.** Every construct carries a detection handle — `BBa_262WP16P`,\n   with His₆ and Xpress epitopes — and no blot has been run. An anti-His or anti-Xpress blot answers\n   \"was the protein made?\" directly and splits the nine failing columns into a translation problem\n   and a trafficking problem. It is the most informative next experiment and needs no plate reader.\n\n### Replication status\n\n**n = 1 for everything in this collection.** One well per condition, one plate, one day\n(2026-10-10). No value here should be used as a reference figure.\n\n### References\n\n1. Zboray K, Mohamed Mahmoud M, Pató A, *et al.* Stable cell lines expressing *Drosophila* odorant receptors for the detection of plant pathogen-related volatile organic compounds. *Sci Rep* **13**, 21757 (2023). https://doi.org/10.1038/s41598-023-47455-4\n2. Chen T-W, Wardill TJ, Sun Y, *et al.* Ultrasensitive fluorescent proteins for imaging neuronal activity. *Nature* **499**, 295–300 (2013).",
+      "new_title": "What another team can reuse and what must be validated next",
+      "new_body_sha256": "b589084e028b76c7b068ca7895b27abc294662b70d2dd90e6bd3824223287662",
+      "url": "https://registry.igem.org/collections/40067138-a3dd-4e5b-b8a4-50b097ee0156",
+      "modify_url": "https://registry.igem.org/collections/40067138-a3dd-4e5b-b8a4-50b097ee0156/documentation/4f3d54a7-b581-419a-b1fb-8a8cd91725d2/modify",
+      "author_verified": true,
+      "source": "Anonymous read-only official API; current records, not GitLab baseline."
+    },
+    {
+      "entry_key": "collection:experiment:2",
+      "page_key": "collection",
+      "type": "Experiment",
+      "type_ordinal": 2,
+      "action": "create_if_absent",
+      "remote_entry_id": null,
+      "old_title": null,
+      "old_body_sha256": null,
+      "old_body_markdown": null,
+      "new_title": "Test 2 odor assay layout and within-stage drift correction",
+      "new_body_sha256": "2a9d56d0592f87f7bccbc6e09da1ed54b213a43edbc7ca1646ceea943d7ac03d",
+      "url": "https://registry.igem.org/collections/40067138-a3dd-4e5b-b8a4-50b097ee0156",
+      "modify_url": null,
+      "author_verified": false,
+      "source": "Anonymous read-only official API; current records, not GitLab baseline."
+    },
+    {
+      "entry_key": "collection:characterisation:2",
+      "page_key": "collection",
+      "type": "Characterisation",
+      "type_ordinal": 2,
+      "action": "create_if_absent",
+      "remote_entry_id": null,
+      "old_title": null,
+      "old_body_sha256": null,
+      "old_body_markdown": null,
+      "new_title": "Test 2 complete odor panel after baseline-stage disturbance subtraction",
+      "new_body_sha256": "5491b2361d6ffb75a2d85fc5b87a775a3b76301004c6c826ed1e1b913d16cd50",
+      "url": "https://registry.igem.org/collections/40067138-a3dd-4e5b-b8a4-50b097ee0156",
+      "modify_url": null,
+      "author_verified": false,
+      "source": "Anonymous read-only official API; current records, not GitLab baseline."
+    },
+    {
+      "entry_key": "collection:discussion:2",
+      "page_key": "collection",
+      "type": "Discussion",
+      "type_ordinal": 2,
+      "action": "create_if_absent",
+      "remote_entry_id": null,
+      "old_title": null,
+      "old_body_sha256": null,
+      "old_body_markdown": null,
+      "new_title": "Using the drift-adjusted profiles for the next experiment",
+      "new_body_sha256": "fcafe6706801e43aeb7408d4487edb594b3063e3f2f3dcad517ad4ab6409ff4b",
+      "url": "https://registry.igem.org/collections/40067138-a3dd-4e5b-b8a4-50b097ee0156",
+      "modify_url": null,
+      "author_verified": false,
+      "source": "Anonymous read-only official API; current records, not GitLab baseline."
+    },
+    {
+      "entry_key": "BBa_2629NIWH:design:1",
+      "page_key": "BBa_2629NIWH",
+      "type": "Design",
+      "type_ordinal": 1,
+      "action": "update_existing",
+      "remote_entry_id": "a042d3d8-1f83-4b12-a490-1158618793cb",
+      "old_title": "Why Or19a, and what is already known about it",
+      "old_body_sha256": "ffb963c19eace1d3e6b0887275cd14b01750582069ed75ba98338816c267f9da",
+      "old_body_markdown": "This module supplies one thing to the platform: **the ligand specificity of Or19a**. The pore, the\ntrafficking and the read-out all come from `BBa_26E11Z80`; the collection's *Design* entry covers\nthat split and the collection-wide choices (codon optimisation, the IRES-mCherry arrangement, the\nKozak, the absence of a promoter).\n\n### Prior art for this receptor\n\nCloned from *D. melanogaster* Canton S and expressed as a stable HEK293 line by Zboray *et al.* (2023), where it was\n**one of the four non-responsive lines** — again despite strong DoOR predictions. Wild-type sequence\nin that study; codon-optimised here.\n\n### What the odorant panel offered this receptor\n\n**None of the six compounds tested has a published response for this receptor.** Zboray *et al.* (2023) either\ndid not test it or obtained no response, and the compounds that did respond in that study did so on\nreceptors that are not in this collection. Whether DoOR 2.0 predicts a response to any of the six is\n**[TO FILL: check DoOR 2.0 for 3-octanol, benzaldehyde, 2-heptanone, valeric acid, isopentyl\nacetate, ethyl propionate]**. The panel was, for this receptor, a blind screen.\n\nThe panel as a whole, and why it is weaker than it should be, is in the collection's *Design* entry.\n\n### Source\n\nThe receptor coding sequence is `BBa_26HTXB02` — FlyBase accession, protein length and synthesis route are on\nthat part's page. The module adds an EMCV IRES and mCherry (Shaner *et al.* 2004) around it; the\nwhole construct was synthesised by GenScript in an IP-free pcDNA3.1(+) backbone.\n\n### Use\n\nCo-transfect with **`BBa_26E11Z80`**. Neither part is a sensor alone. For Or19a in your own expression\ncontext, use the bare CDS `BBa_26HTXB02` instead.\n\nmCherry from the IRES is the diagnostic that matters for this part specifically: red cells with no\ncalcium response localise the fault **downstream of transcription** — translation, folding or\ntrafficking — which is exactly the failure mode seen on this plate.\n\n### Reference\n\nZboray K, Mohamed Mahmoud M, Pató A, *et al.* Stable cell lines expressing *Drosophila* odorant receptors for the detection of plant pathogen-related volatile organic compounds. *Sci Rep* **13**, 21757 (2023). https://doi.org/10.1038/s41598-023-47455-4",
+      "new_title": "Or19a expression module with an independent fluorescent marker",
+      "new_body_sha256": "d3a13671a13adfb454eb9f28436cc8088476812f086134ade9d333b33ce1c36b",
+      "url": "https://registry.igem.org/parts/bba-2629niwh",
+      "modify_url": "https://registry.igem.org/parts/bba-2629niwh/documentation/a042d3d8-1f83-4b12-a490-1158618793cb/modify",
+      "author_verified": true,
+      "source": "Anonymous read-only official API; current records, not GitLab baseline."
+    },
+    {
+      "entry_key": "BBa_2629NIWH:experiment:1",
+      "page_key": "BBa_2629NIWH",
+      "type": "Experiment",
+      "type_ordinal": 1,
+      "action": "create_if_absent",
+      "remote_entry_id": null,
+      "old_title": null,
+      "old_body_sha256": null,
+      "old_body_markdown": null,
+      "new_title": "Or19a construction record and assay correspondence",
+      "new_body_sha256": "142a9afe011a66576445c94cc7da0fb5c898009905f3631d0fc80e21284870e5",
+      "url": "https://registry.igem.org/parts/bba-2629niwh",
+      "modify_url": null,
+      "author_verified": false,
+      "source": "Anonymous read-only official API; current records, not GitLab baseline."
+    },
+    {
+      "entry_key": "BBa_2629NIWH:characterisation:1",
+      "page_key": "BBa_2629NIWH",
+      "type": "Characterisation",
+      "type_ordinal": 1,
+      "action": "update_existing",
+      "remote_entry_id": "c4c13ebb-dc0f-4d1a-b9c2-addcb177728e",
+      "old_title": "Or19a module: both measurement rounds for all six testable compounds",
+      "old_body_sha256": "dd94cba819af0ac9df6f6cd4d1ee79af7554823d1caaadb24d335531368cec0a",
+      "old_body_markdown": "Transiently co-transfected into HEK293 with `BBa_26E11Z80`, **one well per condition**, 2026-10-10. Thresholds: ΔF\\_corr ≥ 0.134, ΔF\\_test ≥ 0.089, |ΔF\\_blank| ≤ 0.060, frac < 0.60 — all four\nmeasured on this plate's untransfected wells and defined in the collection documentation (*Drosophila odorant receptor calcium-reporter platform*), together with the full conditions.\n\n| compound                             | final conc. | ΔF\\_blank | ΔF\\_test | **ΔF\\_corr**  | reading                                                                                                                                 |\n| ------------------------------------ | ----------- | --------- | -------- | ------------- | --------------------------------------------------------------------------------------------------------------------------------------- |\n| VUAA1                                | 50 µM       | -0.0701   | -0.0474  | **+0.0227**   | below the 0.134 threshold — no response detected                                                                                        |\n| 3-octanol                            | 1:10,000    | +0.0193   | +0.0287  | **+0.0095**   | below the 0.134 threshold — no response detected                                                                                        |\n| benzaldehyde                         | 1:10,000    | +0.0063   | +0.0328  | **+0.0265**   | below the 0.134 threshold — no response detected                                                                                        |\n| 2-heptanone                          | 1:10,000    | +0.0088   | +0.0448  | **+0.0360**   | below the 0.134 threshold — no response detected                                                                                        |\n| valeric acid                         | 1:10,000    | +0.0198   | +0.0314  | **+0.0116**   | below the 0.134 threshold — no response detected                                                                                        |\n| Control (buffer only)                | —           | -0.0715   | -0.0154  | **+0.0561**   | below the 0.134 threshold — no response detected                                                                                        |\n| ethyl propionate · isopentyl acetate | 1:10,000    | —         | —        | not evaluable | gain changed between the baseline and response reads in those two rows; both discarded by the QC in the collection's *Experiment* entry |\n\n*Both measurement rounds for this well, raw fluorescence expressed as (F − F₀)/F₀ against time after the 50 µL addition. **Left:** round 1, plain assay buffer — the vehicle control for every trace on the right. **Right:** round 2, the compound. The quoted ΔF\\_corr is the right-hand peak minus the left-hand peak, so a trace that sags on the left inflates it.*\n\n**Positive control for this column.** VUAA1 at 50 µM acts on Orco and does not require Or19a, so it\ntests whether this well was expressing at all. It **failed**: ΔF\\_corr +0.0227, below the 0.134 threshold. Every odorant reading above has to be read in that light.\n\nPlate-level context — the buffer-only control row, the decomposition of every above-threshold\ncondition, and the full 6 × 12 matrix — is in the collection's *Characterisation* entry.![Two line charts for the Or19a well. All six traces in both rounds stay between −0.08 and +0.05; nothing crosses the detection threshold.](https://registry.igem.wiki/documentation/c4c13ebb-dc0f-4d1a-b9c2-addcb177728e/c60e68a48a35352a97fa5c17774156e67836687ada2c5b9d2ace8b424ec820d6.avif \"Or19a — both measurement rounds, six compounds\")\n",
+      "new_title": "Or19a condition: endpoint fluorescence and exploratory paired-round assay control contrasts",
+      "new_body_sha256": "00de0ec8dd510a1d71c09f6a398e08176207005563bbc99500663fe3b5eb7515",
+      "url": "https://registry.igem.org/parts/bba-2629niwh",
+      "modify_url": "https://registry.igem.org/parts/bba-2629niwh/documentation/c4c13ebb-dc0f-4d1a-b9c2-addcb177728e/modify",
+      "author_verified": true,
+      "source": "Anonymous read-only official API; current records, not GitLab baseline."
+    },
+    {
+      "entry_key": "BBa_2629NIWH:discussion:1",
+      "page_key": "BBa_2629NIWH",
+      "type": "Discussion",
+      "type_ordinal": 1,
+      "action": "update_existing",
+      "remote_entry_id": "a9dee00e-af7d-4a1e-bdd6-841b4202df9e",
+      "old_title": "What the experiment does and does not establish for Or19a",
+      "old_body_sha256": "7987880d72e39d1b84823f96c599b776344dbd7446a41158235e3efe4a1cec41",
+      "old_body_markdown": "Nothing in this column crossed the threshold, in either round: ΔF_test spans −0.015 to +0.049 and\nΔF_blank stays inside ±0.072. VUAA1 gave +0.0227, so the well failed its own positive control.\n\nThis is **not** evidence about Or19a. The non-response of the wild-type line in Zboray *et al.* (2023) remains the only\npublished functional datum, and the codon-optimisation hypothesis is untested for this receptor.\n\n### Replication status\n\n**n = 1.** One well per condition, one plate, one day. Two further compounds (ethyl propionate,\nisopentyl acetate) were lost to the gain fault documented in the collection's *Experiment* entry.\nNothing here constrains the receptor itself — only this construct, in this chassis, at these\nconcentrations, on this plate.\n\n### Reference\n\nZboray K, Mohamed Mahmoud M, Pató A, *et al.* Stable cell lines expressing *Drosophila* odorant receptors for the detection of plant pathogen-related volatile organic compounds. *Sci Rep* **13**, 21757 (2023). https://doi.org/10.1038/s41598-023-47455-4",
+      "new_title": "Interpretation and next validation for the Or19a condition",
+      "new_body_sha256": "433fcf3615a1607d1ae45a93bdd97ad4f26ad7bf8a5a75a552bbdac9f2a7c2e1",
+      "url": "https://registry.igem.org/parts/bba-2629niwh",
+      "modify_url": "https://registry.igem.org/parts/bba-2629niwh/documentation/a9dee00e-af7d-4a1e-bdd6-841b4202df9e/modify",
+      "author_verified": true,
+      "source": "Anonymous read-only official API; current records, not GitLab baseline."
+    },
+    {
+      "entry_key": "BBa_2629NIWH:characterisation:2",
+      "page_key": "BBa_2629NIWH",
+      "type": "Characterisation",
+      "type_ordinal": 2,
+      "action": "create_if_absent",
+      "remote_entry_id": null,
+      "old_title": null,
+      "old_body_sha256": null,
+      "old_body_markdown": null,
+      "new_title": "Or19a: Test 2 fluorescence dynamics with baseline-drift subtraction",
+      "new_body_sha256": "9567a79433b47e2a3a1d67bb5f403aae5e54dfdb6d9c7e1e760b46195facd308",
+      "url": "https://registry.igem.org/parts/bba-2629niwh",
+      "modify_url": null,
+      "author_verified": false,
+      "source": "Anonymous read-only official API; current records, not GitLab baseline."
+    },
+    {
+      "entry_key": "BBa_262WP16P:design:1",
+      "page_key": "BBa_262WP16P",
+      "type": "Design",
+      "type_ordinal": 1,
+      "action": "update_existing",
+      "remote_entry_id": "f53043ec-9881-4c94-b1c2-104bd4917417",
+      "old_title": "An inert epitope handle for a fusion that has no other tag — and the experiment it exists for",
+      "old_body_sha256": "cfae213b9382032b442a2ce2ba09cce9f0aaa7aef7f678303c814a0d733adf6f",
+      "old_body_markdown": "### What it is for\n\nThe reporter fusion in this collection carries no fluorescent tag on the protein (GCaMP6f is dim\nuntil Ca²⁺ arrives) and no epitope tag. When such a construct gives no calcium response, the first\nquestion is **\"was the protein made at all?\"** — and without a handle that question is unanswerable.\n\nThis leader makes it answerable by Western blot or immunostaining, via anti-His or anti-Xpress.\n\n### Why it can be left in during functional assays\n\nIn mammalian cells this leader is **functionally inert**: it is not a signal peptide, it targets the\nprotein nowhere, and it is not cleaved. The enterokinase site allows removal if a tag-free protein is\never wanted, but nothing in this collection requires that.\n\n### Placement\n\nN-terminal to GCaMP6f, i.e. at the **cytoplasmic** end of the fusion (Orco's N-terminus is\nintracellular — see `BBa_26LWIKBQ`), where it cannot interfere with membrane insertion.\n\n### Source\n\nThe N-terminal leader of the **pRSET** vector series (Invitrogen / Thermo Fisher). Synthetic as\nsupplied here; no source organism. It carries no sequence of our own design.\n\n### Characterisation status, stated plainly\n\n- **Evidence it does no harm:** the fusion carrying it is functional — `BBa_26E11Z80`, ΔF_corr\n  +0.2148 and a gradual +0.1186 ligand round to 50 µM VUAA1 — so the leader does not prevent\n  folding, trafficking or channel function.\n- **It has never been used for its actual purpose.** No anti-His or anti-Xpress blot has been run on\n  any construct in this collection, so there is no blot image on this page.\n\nThat omission matters: nine of eleven Orco-containing wells failed their VUAA1 positive\ncontrol and we cannot currently say whether the protein was absent, mislocalised, or present and\ninactive. **This blot is the single most informative next experiment in the project**, it needs no\nplate reader, and this part is what makes it possible.\n\n### Reference\n\n1. Zboray K, Mohamed Mahmoud M, Pató A, *et al.* Stable cell lines expressing *Drosophila* odorant receptors for the detection of plant pathogen-related volatile organic compounds. *Sci Rep* **13**, 21757 (2023). https://doi.org/10.1038/s41598-023-47455-4",
+      "new_title": "An N-terminal detection handle for the reporter fusion",
+      "new_body_sha256": "2140ca318739f7f15920f52bfa060591ca421ef78894b4636f220d6b4d9d03e4",
+      "url": "https://registry.igem.org/parts/bba-262wp16p",
+      "modify_url": "https://registry.igem.org/parts/bba-262wp16p/documentation/f53043ec-9881-4c94-b1c2-104bd4917417/modify",
+      "author_verified": true,
+      "source": "Anonymous read-only official API; current records, not GitLab baseline."
+    },
+    {
+      "entry_key": "BBa_265G8CE1:design:1",
+      "page_key": "BBa_265G8CE1",
+      "type": "Design",
+      "type_ordinal": 1,
+      "action": "update_existing",
+      "remote_entry_id": "1f911d28-d16c-453a-8bad-162198dc9260",
+      "old_title": "Why Or67a, and what is already known about it",
+      "old_body_sha256": "70fa79a896d0937c332b58bf5e232ba623ba97474ee7d471cc7c418a826ab671",
+      "old_body_markdown": "This module supplies one thing to the platform: **the ligand specificity of Or67a**. The pore, the\ntrafficking and the read-out all come from `BBa_26E11Z80`; the collection's *Design* entry covers\nthat split and the collection-wide choices (codon optimisation, the IRES-mCherry arrangement, the\nKozak, the absence of a promoter).\n\n### Prior art for this receptor\n\nNo characterisation of Or67a in a mammalian heterologous system is known to us; it was not among\nthe 12 receptors examined by Zboray *et al.* (2023). **[TO FILL: strongest predicted ligands from DoOR 2.0]**\n\n### What the odorant panel offered this receptor\n\n**None of the six compounds tested has a published response for this receptor.** Zboray *et al.* (2023) either\ndid not test it or obtained no response, and the compounds that did respond in that study did so on\nreceptors that are not in this collection. Whether DoOR 2.0 predicts a response to any of the six is\n**[TO FILL: check DoOR 2.0 for 3-octanol, benzaldehyde, 2-heptanone, valeric acid, isopentyl\nacetate, ethyl propionate]**. The panel was, for this receptor, a blind screen.\n\nThe panel as a whole, and why it is weaker than it should be, is in the collection's *Design* entry.\n\n### Source\n\nThe receptor coding sequence is `BBa_26XXP4K7` — FlyBase accession, protein length and synthesis route are on\nthat part's page. The module adds an EMCV IRES and mCherry (Shaner *et al.* 2004) around it; the\nwhole construct was synthesised by GenScript in an IP-free pcDNA3.1(+) backbone.\n\n### Use\n\nCo-transfect with **`BBa_26E11Z80`**. Neither part is a sensor alone. For Or67a in your own expression\ncontext, use the bare CDS `BBa_26XXP4K7` instead.\n\nmCherry from the IRES is the diagnostic that matters for this part specifically: red cells with no\ncalcium response localise the fault **downstream of transcription** — translation, folding or\ntrafficking — which is exactly the failure mode seen on this plate.\n\n### Reference\n\nZboray K, Mohamed Mahmoud M, Pató A, *et al.* Stable cell lines expressing *Drosophila* odorant receptors for the detection of plant pathogen-related volatile organic compounds. *Sci Rep* **13**, 21757 (2023). https://doi.org/10.1038/s41598-023-47455-4",
+      "new_title": "Or67a expression module with an independent fluorescent marker",
+      "new_body_sha256": "fd95997e82c2d1e299053471a66a9ea9146f58b14366754a674d3898a340d8de",
+      "url": "https://registry.igem.org/parts/bba-265g8ce1",
+      "modify_url": "https://registry.igem.org/parts/bba-265g8ce1/documentation/1f911d28-d16c-453a-8bad-162198dc9260/modify",
+      "author_verified": true,
+      "source": "Anonymous read-only official API; current records, not GitLab baseline."
+    },
+    {
+      "entry_key": "BBa_265G8CE1:experiment:1",
+      "page_key": "BBa_265G8CE1",
+      "type": "Experiment",
+      "type_ordinal": 1,
+      "action": "create_if_absent",
+      "remote_entry_id": null,
+      "old_title": null,
+      "old_body_sha256": null,
+      "old_body_markdown": null,
+      "new_title": "Or67a construction record and assay correspondence",
+      "new_body_sha256": "88e5f3a847cd003554d7e6f0afad8ae9465b96954f33d46270c20ddbae5d96b2",
+      "url": "https://registry.igem.org/parts/bba-265g8ce1",
+      "modify_url": null,
+      "author_verified": false,
+      "source": "Anonymous read-only official API; current records, not GitLab baseline."
+    },
+    {
+      "entry_key": "BBa_265G8CE1:characterisation:1",
+      "page_key": "BBa_265G8CE1",
+      "type": "Characterisation",
+      "type_ordinal": 1,
+      "action": "update_existing",
+      "remote_entry_id": "52d9b648-2c3a-4efd-854d-37c1c5038aa5",
+      "old_title": "Or67a module: both measurement rounds for all six testable compounds",
+      "old_body_sha256": "a01a3a3643b8d7e8dcd372f061c25b29af3414a065780d14e42ab5fa0934ecde",
+      "old_body_markdown": "Transiently co-transfected into HEK293 with `BBa_26E11Z80`, **one well per condition**, 2026-10-10. Thresholds: ΔF\\_corr ≥ 0.134, ΔF\\_test ≥ 0.089, |ΔF\\_blank| ≤ 0.060, frac < 0.60 — all four\nmeasured on this plate's untransfected wells and defined in the collection documentation (*Drosophila odorant receptor calcium-reporter platform*), together with the full conditions.\n\n| compound                             | final conc. | ΔF\\_blank | ΔF\\_test | **ΔF\\_corr**  | reading                                                                                                                                 |\n| ------------------------------------ | ----------- | --------- | -------- | ------------- | --------------------------------------------------------------------------------------------------------------------------------------- |\n| VUAA1                                | 50 µM       | +0.0110   | +0.0100  | **-0.0010**   | below the 0.134 threshold — no response detected                                                                                        |\n| 3-octanol                            | 1:10,000    | +0.0115   | +0.0409  | **+0.0294**   | below the 0.134 threshold — no response detected                                                                                        |\n| benzaldehyde                         | 1:10,000    | +0.0354   | +0.0218  | **-0.0135**   | below the 0.134 threshold — no response detected                                                                                        |\n| 2-heptanone                          | 1:10,000    | -0.0079   | +0.0251  | **+0.0330**   | below the 0.134 threshold — no response detected                                                                                        |\n| valeric acid                         | 1:10,000    | +0.0140   | +0.0243  | **+0.0103**   | below the 0.134 threshold — no response detected                                                                                        |\n| Control (buffer only)                | —           | +0.0207   | -0.1134  | **-0.1341**   | below the 0.134 threshold — no response detected                                                                                        |\n| ethyl propionate · isopentyl acetate | 1:10,000    | —         | —        | not evaluable | gain changed between the baseline and response reads in those two rows; both discarded by the QC in the collection's *Experiment* entry |\n\n*Both measurement rounds for this well, raw fluorescence expressed as (F − F₀)/F₀ against time after the 50 µL addition. **Left:** round 1, plain assay buffer — the vehicle control for every trace on the right. **Right:** round 2, the compound. The quoted ΔF\\_corr is the right-hand peak minus the left-hand peak, so a trace that sags on the left inflates it.*\n\n**Positive control for this column.** VUAA1 at 50 µM acts on Orco and does not require Or67a, so it\ntests whether this well was expressing at all. It **failed**: ΔF\\_corr -0.0010, below the 0.134 threshold. Every odorant reading above has to be read in that light.\n\nPlate-level context — the buffer-only control row, the decomposition of every above-threshold\ncondition, and the full 6 × 12 matrix — is in the collection's *Characterisation* entry.![Two line charts for the Or67a well. The buffer-only trace in round 2 falls to −0.11, the largest negative excursion in the experiment; no trace rises above the threshold.](https://registry.igem.wiki/documentation/52d9b648-2c3a-4efd-854d-37c1c5038aa5/9965ae0c84f67d07de39d8a89172aa2058492ec85600c6acac4323833f1fc745.avif \"Or67a — both measurement rounds, six compounds\")\n",
+      "new_title": "Or67a condition: endpoint fluorescence and exploratory paired-round assay control contrasts",
+      "new_body_sha256": "d10c87ebabd3adb3fa8cbc1540ce6d79c7f2766ca67b934486071939db4bdf42",
+      "url": "https://registry.igem.org/parts/bba-265g8ce1",
+      "modify_url": "https://registry.igem.org/parts/bba-265g8ce1/documentation/52d9b648-2c3a-4efd-854d-37c1c5038aa5/modify",
+      "author_verified": true,
+      "source": "Anonymous read-only official API; current records, not GitLab baseline."
+    },
+    {
+      "entry_key": "BBa_265G8CE1:discussion:1",
+      "page_key": "BBa_265G8CE1",
+      "type": "Discussion",
+      "type_ordinal": 1,
+      "action": "update_existing",
+      "remote_entry_id": "511eb6ad-0833-48a6-9d15-bfb213157833",
+      "old_title": "What the experiment does and does not establish for Or67a",
+      "old_body_sha256": "62ff51fa9bd10d2bd8cb27374b1f4ceff8bc19efadd1b102af780783d4bcfe36",
+      "old_body_markdown": "Nothing crossed the threshold and VUAA1 gave −0.0010 — the well failed its own positive control.\n\nThis column produced the plate's largest *negative* excursions: buffer-only ΔF_corr **−0.1341**,\ndriven by a round-2 trace that fell to −0.1134 with nothing added. A −0.134 in a well with nothing\nin it is the same magnitude as the detection threshold with the opposite sign. Mechanically this\nlooks like progressive cell loss or a focus change during the session rather than any receptor\nbehaviour, and it is a second argument for coated plates.\n\n### Replication status\n\n**n = 1.** One well per condition, one plate, one day. Two further compounds (ethyl propionate,\nisopentyl acetate) were lost to the gain fault documented in the collection's *Experiment* entry.\nNothing here constrains the receptor itself — only this construct, in this chassis, at these\nconcentrations, on this plate.\n\n### Reference\n\nZboray K, Mohamed Mahmoud M, Pató A, *et al.* Stable cell lines expressing *Drosophila* odorant receptors for the detection of plant pathogen-related volatile organic compounds. *Sci Rep* **13**, 21757 (2023). https://doi.org/10.1038/s41598-023-47455-4",
+      "new_title": "Interpretation and next validation for the Or67a condition",
+      "new_body_sha256": "f88008cb62dacf3c2beb56553493f5a562e41f3f1171ea6640b04cd270fbbaff",
+      "url": "https://registry.igem.org/parts/bba-265g8ce1",
+      "modify_url": "https://registry.igem.org/parts/bba-265g8ce1/documentation/511eb6ad-0833-48a6-9d15-bfb213157833/modify",
+      "author_verified": true,
+      "source": "Anonymous read-only official API; current records, not GitLab baseline."
+    },
+    {
+      "entry_key": "BBa_265G8CE1:characterisation:2",
+      "page_key": "BBa_265G8CE1",
+      "type": "Characterisation",
+      "type_ordinal": 2,
+      "action": "create_if_absent",
+      "remote_entry_id": null,
+      "old_title": null,
+      "old_body_sha256": null,
+      "old_body_markdown": null,
+      "new_title": "Or67a: Test 2 fluorescence dynamics with baseline-drift subtraction",
+      "new_body_sha256": "9c8b1e550f854f1907e95d322fe52ca5f259e17fc0e2ebbb12539e084dd86111",
+      "url": "https://registry.igem.org/parts/bba-265g8ce1",
+      "modify_url": null,
+      "author_verified": false,
+      "source": "Anonymous read-only official API; current records, not GitLab baseline."
+    },
+    {
+      "entry_key": "BBa_26LLF3LM:design:1",
+      "page_key": "BBa_26LLF3LM",
+      "type": "Design",
+      "type_ordinal": 1,
+      "action": "update_existing",
+      "remote_entry_id": "89c578d6-1dcf-4c19-be19-4cc2fc84c858",
+      "old_title": "Why Or35a, and what is already known about it",
+      "old_body_sha256": "f6193ac1c9ad5083825902cc81e5af79caa2909795e70d645044514039196b29",
+      "old_body_markdown": null,
+      "new_title": "Or35a expression module with an independent fluorescent marker",
+      "new_body_sha256": "53c967da08b1bd8c9603f8736474c6035f7e637bc8969403fcc53794e3a38bb6",
+      "url": "https://registry.igem.org/parts/bba-26llf3lm",
+      "modify_url": "https://registry.igem.org/parts/bba-26llf3lm/documentation/89c578d6-1dcf-4c19-be19-4cc2fc84c858/modify",
+      "author_verified": true,
+      "source": "Exact IDs/types/titles observed in successful anonymous public API read; full returned bodies were displayed but not persisted for this page."
+    },
+    {
+      "entry_key": "BBa_26LLF3LM:experiment:1",
+      "page_key": "BBa_26LLF3LM",
+      "type": "Experiment",
+      "type_ordinal": 1,
+      "action": "create_if_absent",
+      "remote_entry_id": null,
+      "old_title": null,
+      "old_body_sha256": null,
+      "old_body_markdown": null,
+      "new_title": "Or35a construction record and assay correspondence",
+      "new_body_sha256": "9847812842e2108491e6544da60ec42d66767787c632fbf8393805959c35fc7f",
+      "url": "https://registry.igem.org/parts/bba-26llf3lm",
+      "modify_url": null,
+      "author_verified": false,
+      "source": "Exact IDs/types/titles observed in successful anonymous public API read; full returned bodies were displayed but not persisted for this page."
+    },
+    {
+      "entry_key": "BBa_26LLF3LM:characterisation:1",
+      "page_key": "BBa_26LLF3LM",
+      "type": "Characterisation",
+      "type_ordinal": 1,
+      "action": "update_existing",
+      "remote_entry_id": "c09e424a-254d-42f7-9b0b-b8ba0e48659e",
+      "old_title": "Or35a module: both measurement rounds for all six testable compounds",
+      "old_body_sha256": null,
+      "old_body_markdown": null,
+      "new_title": "Or35a condition: endpoint fluorescence and exploratory paired-round assay control contrasts",
+      "new_body_sha256": "d914b94ad5de8a46433b65f86c725cdd6632fae385275e8464efd7cdc7f3aa6f",
+      "url": "https://registry.igem.org/parts/bba-26llf3lm",
+      "modify_url": "https://registry.igem.org/parts/bba-26llf3lm/documentation/c09e424a-254d-42f7-9b0b-b8ba0e48659e/modify",
+      "author_verified": true,
+      "source": "Exact IDs/types/titles observed in successful anonymous public API read; full returned bodies were displayed but not persisted for this page."
+    },
+    {
+      "entry_key": "BBa_26LLF3LM:discussion:1",
+      "page_key": "BBa_26LLF3LM",
+      "type": "Discussion",
+      "type_ordinal": 1,
+      "action": "update_existing",
+      "remote_entry_id": "87720abd-f0ff-450c-a6e1-8c80643f0269",
+      "old_title": "What the experiment does and does not establish for Or35a",
+      "old_body_sha256": null,
+      "old_body_markdown": null,
+      "new_title": "Interpretation and next validation for the Or35a condition",
+      "new_body_sha256": "7f790508a8a9888d52387b5c3840a3d740b29641efd12c367ca78a228ef106ef",
+      "url": "https://registry.igem.org/parts/bba-26llf3lm",
+      "modify_url": "https://registry.igem.org/parts/bba-26llf3lm/documentation/87720abd-f0ff-450c-a6e1-8c80643f0269/modify",
+      "author_verified": true,
+      "source": "Exact IDs/types/titles observed in successful anonymous public API read; full returned bodies were displayed but not persisted for this page."
+    },
+    {
+      "entry_key": "BBa_26LLF3LM:characterisation:2",
+      "page_key": "BBa_26LLF3LM",
+      "type": "Characterisation",
+      "type_ordinal": 2,
+      "action": "create_if_absent",
+      "remote_entry_id": null,
+      "old_title": null,
+      "old_body_sha256": null,
+      "old_body_markdown": null,
+      "new_title": "Or35a: Test 2 fluorescence dynamics with baseline-drift subtraction",
+      "new_body_sha256": "63db0b637dfe8e4c6b5cb65510954ed5c44de21aa7280ab217d1164507d7c577",
+      "url": "https://registry.igem.org/parts/bba-26llf3lm",
+      "modify_url": null,
+      "author_verified": false,
+      "source": "Exact IDs/types/titles observed in successful anonymous public API read; full returned bodies were displayed but not persisted for this page."
+    }
+  ],
+  "counts": {
+    "update_existing": 14,
+    "create_if_absent": 9,
+    "resolve_in_UI": 53
+  },
+  "conflicts": [
+    {
+      "page_key": "BBa_269VSDDR",
+      "url": "https://api.registry.igem.org/v1/parts/None/documentation",
+      "error": "HTTP Error 400: Bad Request"
+    },
+    {
+      "page_key": "BBa_26ACVV3R",
+      "url": "https://api.registry.igem.org/v1/parts/None/documentation",
+      "error": "HTTP Error 400: Bad Request"
+    },
+    {
+      "page_key": "BBa_26AIIWHV",
+      "url": "https://api.registry.igem.org/v1/parts/None/documentation",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "page_key": "BBa_26DG1NPK",
+      "url": "https://api.registry.igem.org/v1/parts/7b39bfb0-3c8f-459c-8d26-ddc4141edad6/documentation",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "page_key": "BBa_26DVVZIA",
+      "url": "https://api.registry.igem.org/v1/parts/3eaca9a9-1d87-446b-8d0f-388e5684ee25/documentation",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "page_key": "BBa_26E11Z80",
+      "url": "https://api.registry.igem.org/v1/parts/None/documentation",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "page_key": "BBa_26E21OEQ",
+      "url": "https://api.registry.igem.org/v1/parts/None/documentation",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "page_key": "BBa_26HJ1RUT",
+      "url": "https://api.registry.igem.org/v1/parts/None/documentation",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "page_key": "BBa_26HTXB02",
+      "url": "https://api.registry.igem.org/v1/parts/None/documentation",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "page_key": "BBa_26K1TU11",
+      "url": "https://api.registry.igem.org/v1/parts/None/documentation",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "page_key": "BBa_26LLF3LM",
+      "url": "https://api.registry.igem.org/v1/parts/None/documentation",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "page_key": "BBa_26LWIKBQ",
+      "url": "https://api.registry.igem.org/v1/parts/None/documentation",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "page_key": "BBa_26OJ8HGO",
+      "url": "https://api.registry.igem.org/v1/parts/None/documentation",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "page_key": "BBa_26Q1Q094",
+      "url": "https://api.registry.igem.org/v1/parts/None/documentation",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "page_key": "BBa_26QHYP02",
+      "url": "https://api.registry.igem.org/v1/parts/None/documentation",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "page_key": "BBa_26TZLBMJ",
+      "url": "https://api.registry.igem.org/v1/parts/None/documentation",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "page_key": "BBa_26UHN7NT",
+      "url": "https://api.registry.igem.org/v1/parts/None/documentation",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "page_key": "BBa_26VGDFA1",
+      "url": "https://api.registry.igem.org/v1/parts/None/documentation",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "page_key": "BBa_26WOX4B1",
+      "url": "https://api.registry.igem.org/v1/parts/None/documentation",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "page_key": "BBa_26XXP4K7",
+      "url": "https://api.registry.igem.org/v1/parts/None/documentation",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "page_key": "BBa_26Y7CI2H",
+      "url": "https://api.registry.igem.org/v1/parts/None/documentation",
+      "error": "HTTP Error 429: Too Many Requests"
+    },
+    {
+      "page_key": "BBa_26ZAGFK0",
+      "url": "https://api.registry.igem.org/v1/parts/None/documentation",
+      "error": "HTTP Error 429: Too Many Requests"
+    }
+  ],
+  "mapped_entries": 23,
+  "live_existing_records": 11,
+  "rules": [
+    "Never use the older GitLab baseline to skip an update.",
+    "Update the exact existing UUID/type; preserve other authors.",
+    "Before creating, refresh the page to ensure no matching new entry was already saved.",
+    "If the current UI differs from this snapshot, compare title/type/content and refresh the mapping before writing."
+  ],
+  "pending_ui_resolution": [
+    {
+      "entry_key": "BBa_269VSDDR:design:1",
+      "page_key": "BBa_269VSDDR",
+      "type": "Design",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_269VSDDR:experiment:1",
+      "page_key": "BBa_269VSDDR",
+      "type": "Experiment",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_269VSDDR:characterisation:1",
+      "page_key": "BBa_269VSDDR",
+      "type": "Characterisation",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_269VSDDR:discussion:1",
+      "page_key": "BBa_269VSDDR",
+      "type": "Discussion",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_269VSDDR:characterisation:2",
+      "page_key": "BBa_269VSDDR",
+      "type": "Characterisation",
+      "type_ordinal": 2,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26ACVV3R:design:1",
+      "page_key": "BBa_26ACVV3R",
+      "type": "Design",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26AIIWHV:design:1",
+      "page_key": "BBa_26AIIWHV",
+      "type": "Design",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26DG1NPK:design:1",
+      "page_key": "BBa_26DG1NPK",
+      "type": "Design",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26DVVZIA:design:1",
+      "page_key": "BBa_26DVVZIA",
+      "type": "Design",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26E11Z80:design:1",
+      "page_key": "BBa_26E11Z80",
+      "type": "Design",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26E11Z80:experiment:1",
+      "page_key": "BBa_26E11Z80",
+      "type": "Experiment",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26E11Z80:characterisation:1",
+      "page_key": "BBa_26E11Z80",
+      "type": "Characterisation",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26E11Z80:discussion:1",
+      "page_key": "BBa_26E11Z80",
+      "type": "Discussion",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26E11Z80:characterisation:2",
+      "page_key": "BBa_26E11Z80",
+      "type": "Characterisation",
+      "type_ordinal": 2,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26E21OEQ:design:1",
+      "page_key": "BBa_26E21OEQ",
+      "type": "Design",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26HJ1RUT:design:1",
+      "page_key": "BBa_26HJ1RUT",
+      "type": "Design",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26HTXB02:design:1",
+      "page_key": "BBa_26HTXB02",
+      "type": "Design",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26K1TU11:design:1",
+      "page_key": "BBa_26K1TU11",
+      "type": "Design",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26K1TU11:experiment:1",
+      "page_key": "BBa_26K1TU11",
+      "type": "Experiment",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26K1TU11:characterisation:1",
+      "page_key": "BBa_26K1TU11",
+      "type": "Characterisation",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26K1TU11:discussion:1",
+      "page_key": "BBa_26K1TU11",
+      "type": "Discussion",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26K1TU11:characterisation:2",
+      "page_key": "BBa_26K1TU11",
+      "type": "Characterisation",
+      "type_ordinal": 2,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26LWIKBQ:design:1",
+      "page_key": "BBa_26LWIKBQ",
+      "type": "Design",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26OJ8HGO:design:1",
+      "page_key": "BBa_26OJ8HGO",
+      "type": "Design",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26Q1Q094:design:1",
+      "page_key": "BBa_26Q1Q094",
+      "type": "Design",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26Q1Q094:experiment:1",
+      "page_key": "BBa_26Q1Q094",
+      "type": "Experiment",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26Q1Q094:characterisation:1",
+      "page_key": "BBa_26Q1Q094",
+      "type": "Characterisation",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26Q1Q094:discussion:1",
+      "page_key": "BBa_26Q1Q094",
+      "type": "Discussion",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26Q1Q094:characterisation:2",
+      "page_key": "BBa_26Q1Q094",
+      "type": "Characterisation",
+      "type_ordinal": 2,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26QHYP02:design:1",
+      "page_key": "BBa_26QHYP02",
+      "type": "Design",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26TZLBMJ:design:1",
+      "page_key": "BBa_26TZLBMJ",
+      "type": "Design",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26TZLBMJ:experiment:1",
+      "page_key": "BBa_26TZLBMJ",
+      "type": "Experiment",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26TZLBMJ:characterisation:1",
+      "page_key": "BBa_26TZLBMJ",
+      "type": "Characterisation",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26TZLBMJ:discussion:1",
+      "page_key": "BBa_26TZLBMJ",
+      "type": "Discussion",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26TZLBMJ:characterisation:2",
+      "page_key": "BBa_26TZLBMJ",
+      "type": "Characterisation",
+      "type_ordinal": 2,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26UHN7NT:design:1",
+      "page_key": "BBa_26UHN7NT",
+      "type": "Design",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26VGDFA1:design:1",
+      "page_key": "BBa_26VGDFA1",
+      "type": "Design",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26WOX4B1:design:1",
+      "page_key": "BBa_26WOX4B1",
+      "type": "Design",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26WOX4B1:experiment:1",
+      "page_key": "BBa_26WOX4B1",
+      "type": "Experiment",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26WOX4B1:characterisation:1",
+      "page_key": "BBa_26WOX4B1",
+      "type": "Characterisation",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26WOX4B1:discussion:1",
+      "page_key": "BBa_26WOX4B1",
+      "type": "Discussion",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26WOX4B1:characterisation:2",
+      "page_key": "BBa_26WOX4B1",
+      "type": "Characterisation",
+      "type_ordinal": 2,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26XXP4K7:design:1",
+      "page_key": "BBa_26XXP4K7",
+      "type": "Design",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26Y7CI2H:design:1",
+      "page_key": "BBa_26Y7CI2H",
+      "type": "Design",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26Y7CI2H:experiment:1",
+      "page_key": "BBa_26Y7CI2H",
+      "type": "Experiment",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26Y7CI2H:characterisation:1",
+      "page_key": "BBa_26Y7CI2H",
+      "type": "Characterisation",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26Y7CI2H:discussion:1",
+      "page_key": "BBa_26Y7CI2H",
+      "type": "Discussion",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26Y7CI2H:characterisation:2",
+      "page_key": "BBa_26Y7CI2H",
+      "type": "Characterisation",
+      "type_ordinal": 2,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26ZAGFK0:design:1",
+      "page_key": "BBa_26ZAGFK0",
+      "type": "Design",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26ZAGFK0:experiment:1",
+      "page_key": "BBa_26ZAGFK0",
+      "type": "Experiment",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26ZAGFK0:characterisation:1",
+      "page_key": "BBa_26ZAGFK0",
+      "type": "Characterisation",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26ZAGFK0:discussion:1",
+      "page_key": "BBa_26ZAGFK0",
+      "type": "Discussion",
+      "type_ordinal": 1,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    },
+    {
+      "entry_key": "BBa_26ZAGFK0:characterisation:2",
+      "page_key": "BBa_26ZAGFK0",
+      "type": "Characterisation",
+      "type_ordinal": 2,
+      "action": "resolve_in_UI",
+      "remote_entry_id": null,
+      "reason": "No successful current API snapshot for this page; do not infer newness from the older local baseline."
+    }
+  ],
+  "or35a_design_save_check": {
+    "observed_title": "Why Or35a, and what is already known about it",
+    "observed_updated": "2026-10-17T13:18:10.175Z",
+    "desired_match": false,
+    "meaning": "Root save attempt had not persisted at the independent read; no write completion inferred."
+  },
+  "expected_full_scope_from_root_UI": {
+    "update_existing": 51,
+    "create_if_absent": 25,
+    "verification": "Expected only; actual IDs and duplicate checks must decide each action."
+  }
+}

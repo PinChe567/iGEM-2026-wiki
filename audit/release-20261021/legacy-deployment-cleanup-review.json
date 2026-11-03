@@ -1,0 +1,43 @@
+{
+  "status": "Final source refresh completed; the two hash-verified obsolete Flask deployment files were removed. CLAUDE.md was preserved and its missing policy-file reference replaced with explicit source/provenance guidance.",
+  "keep": [
+    "LICENSE",
+    ".git/",
+    "README.md",
+    "CLAUDE.md",
+    "site/publication-files.json"
+  ],
+  "absent": [
+    "repository-root publication-files.json"
+  ],
+  "later_generated_cleanup": [
+    "public/ (own locally generated build output)",
+    "site/game/node_modules/ (fresh npm-ci install)",
+    "site/game/apps/wiki-client/dist/ (regenerable game output)",
+    "site/css/design-system.css",
+    "site/css/home.bundle.css",
+    "site/js/home.bundle.js",
+    "site/js/i18n-*-v19.js"
+  ],
+  "later_cleanup_condition": "Only after build QA and successful official pipeline, as instructed by release owner. Never remove editable game/apps/wiki-client/public/ source.",
+  "removed": [
+    {
+      "path": "app.py",
+      "sha256": "afcb33750d113a6108093d372bd2c307c8f284a9e2a29b453cc4dba2f4d85514",
+      "bytes": 876,
+      "reason": "Only used by obsolete Flask template deployment; current CI uses site/ source build and Python standard library."
+    },
+    {
+      "path": "dependencies.txt",
+      "sha256": "646399932c387c046de017b378b391ed9e5f0a3f72e0c7e567bcae4772a7bb35",
+      "bytes": 525,
+      "reason": "Only used by obsolete Flask template deployment; current CI uses site/ source build and Python standard library."
+    }
+  ],
+  "final_output": "gitlab/nthu/public",
+  "preserved_generated_snapshots": [
+    "gitlab/nthu/.build-check/initial-public/",
+    "gitlab/nthu/.build-check/final-public/"
+  ],
+  "generated_snapshots_status": "Ignored; final audit reports/screenshots retained outside GitLab. Release owner may clean exact generated snapshot directories after final publication verification."
+}

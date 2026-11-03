@@ -1,12 +1,4 @@
 import type { AdventureRoomId } from '@suite/core/labyrinth';
-import crateRaw from '../assets/crate.svg?raw';
-import sackRaw from '../assets/sack.svg?raw';
-import vineRaw from '../assets/vine.svg?raw';
-import panelRaw from '../assets/panel.svg?raw';
-import chestClosedRaw from '../assets/chest-closed.svg?raw';
-import chestOpenRaw from '../assets/chest-open.svg?raw';
-import sporelingRaw from '../assets/sporeling.svg?raw';
-import playerRaw from '../assets/player.svg?raw';
 
 export const LIME = '#cde76d';
 export const PURPLE = '#9b7dff';
@@ -70,10 +62,6 @@ export const WING: Record<AdventureRoomId, WingPalette> = {
 
 const images: Record<string, HTMLImageElement> = {};
 
-function dataUrl(raw: string): string {
-  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(raw)}`;
-}
-
 function load(url: string): HTMLImageElement {
   let img = images[url];
   if (!img) {
@@ -94,14 +82,14 @@ export function stamp(ctx: CanvasRenderingContext2D, url: string, x: number, y: 
 }
 
 export const PROP_URL = {
-  crate: dataUrl(crateRaw),
-  sack: dataUrl(sackRaw),
-  vine: dataUrl(vineRaw),
-  panel: dataUrl(panelRaw),
-  chestClosed: dataUrl(chestClosedRaw),
-  chestOpen: dataUrl(chestOpenRaw),
-  sporeling: dataUrl(sporelingRaw),
-  player: dataUrl(playerRaw),
+  crate: "https://static.igem.wiki/teams/6460/wiki/education/696fed41f18e-crate.svg",
+  sack: "https://static.igem.wiki/teams/6460/wiki/education/2f4cb0cfe8b5-sack.svg",
+  vine: "https://static.igem.wiki/teams/6460/wiki/education/9b4ae16b9523-vine.svg",
+  panel: "https://static.igem.wiki/teams/6460/wiki/education/c159da6e81e3-panel.svg",
+  chestClosed: "https://static.igem.wiki/teams/6460/wiki/education/c517fbfaedd0-chest-closed.svg",
+  chestOpen: "https://static.igem.wiki/teams/6460/wiki/education/3b5d326b3830-chest-open.svg",
+  sporeling: "https://static.igem.wiki/teams/6460/wiki/education/be390b74b336-sporeling.svg",
+  player: "https://static.igem.wiki/teams/6460/wiki/education/e830e54fe7b4-player.svg",
 };
 
 export function hash2(x: number, y: number): number {

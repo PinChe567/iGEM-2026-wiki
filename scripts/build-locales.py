@@ -72,6 +72,23 @@ def main():
             ) + ");\n"
             target.write_text(text, encoding="utf-8", newline="")
         catalogs += 1
+    # The GitHub copy has current-page translations layered over the retained
+    # historical catalogs. Keep the generated file reproducible and offline.
+    updates = read_json(LOCALES / "github-updates.zh-Hant.json")
+    if not all(isinstance(k, str) and isinstance(v, str) and v.strip()
+               for k, v in updates.items()):
+        raise ValueError("GitHub translations must be nonempty strings.")
+    target = SITE / "js/i18n-github-updates.js"
+    if args.check:
+        if not target.is_file() or existing(target) != updates:
+            raise ValueError("Runtime/source translation mismatch: github-updates")
+    else:
+        target.write_text(
+            '/* Generated from locales/github-updates.zh-Hant.json. */\n'
+            '(window.AeroSenseTranslations ||= []).push(' + json.dumps(
+                updates, ensure_ascii=False, separators=(",", ":")) + ');\n',
+            encoding="utf-8", newline="")
+    catalogs += 1
     print(json.dumps({"catalogs": catalogs, "checked": args.check,
                       "written": not args.check}))
 

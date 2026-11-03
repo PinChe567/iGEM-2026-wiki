@@ -27,7 +27,7 @@ export type QcShiftStoredState = {
 
 export const DEFAULT_QC_SHIFT_STORED_STATE: QcShiftStoredState = {
   storageVersion: QC_SHIFT_STORAGE_VERSION,
-  locale: 'zh-Hant',
+  locale: 'en',
   playedSeeds: [],
   tutorialSeen: false,
   designHelpChoices: [],
@@ -70,7 +70,7 @@ export function migrateQcShiftStoredState(raw: unknown): QcShiftStoredState {
     return { ...DEFAULT_QC_SHIFT_STORED_STATE, playedSeeds: [], bestByPreset: {} };
   }
   const data = raw as Record<string, unknown>;
-  const locale = data.locale === 'en' || data.locale === 'zh-Hant' ? data.locale : 'zh-Hant';
+  const locale = data.locale === 'en' || data.locale === 'zh-Hant' ? data.locale : 'en';
   const playedSeeds = Array.isArray(data.playedSeeds)
     ? data.playedSeeds.filter((s): s is string => typeof s === 'string').slice(-200)
     : [];

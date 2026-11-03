@@ -67,27 +67,26 @@ describe('wiki content catalogs stay empty until team fills them', () => {
       assertEducationActivity(activity);
       expect(activity.status).toBe('in-progress');
       expect(activity.results.en).toBe('');
-      expect(activity.results['zh-Hant']).toBe('');
       expect(activity.evaluationMethod).toBe('pre-post');
       expect(activity.whatChangedAfterFeedback.en).toBe('');
     }
     expect(() =>
       assertEducationActivity({
         id: 'x',
-        title: { en: 'X', 'zh-Hant': '' },
+        title: { 'zh-Hant': '', en: 'X',  },
         status: 'completed',
-        audienceAndNeeds: { en: '', 'zh-Hant': '' },
-        learningObjectives: { en: '', 'zh-Hant': '' },
-        coDesignAdaptation: { en: '', 'zh-Hant': '' },
-        materials: { en: '', 'zh-Hant': '' },
-        activity: { en: '', 'zh-Hant': '' },
-        safetyInclusivityAccessibility: { en: '', 'zh-Hant': '' },
+        audienceAndNeeds: { 'zh-Hant': '', en: '',  },
+        learningObjectives: { 'zh-Hant': '', en: '',  },
+        coDesignAdaptation: { 'zh-Hant': '', en: '',  },
+        materials: { 'zh-Hant': '', en: '',  },
+        activity: { 'zh-Hant': '', en: '',  },
+        safetyInclusivityAccessibility: { 'zh-Hant': '', en: '',  },
         evaluationMethod: 'pre-post',
-        evaluationNotes: { en: '', 'zh-Hant': '' },
-        results: { en: '', 'zh-Hant': '' },
-        whatChangedAfterFeedback: { en: '', 'zh-Hant': '' },
+        evaluationNotes: { 'zh-Hant': '', en: '',  },
+        results: { 'zh-Hant': '', en: '',  },
+        whatChangedAfterFeedback: { 'zh-Hant': '', en: '',  },
         reusableDownloads: [],
-        license: { en: '', 'zh-Hant': '' },
+        license: { 'zh-Hant': '', en: '',  },
       }),
     ).toThrow(/results/);
   });

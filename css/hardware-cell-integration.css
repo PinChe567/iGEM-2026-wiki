@@ -1,0 +1,57 @@
+/* Scoped presentation for the measured living-cell integration run. */
+#reader-integrated-demo .hw-cell-sequence {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.8rem;
+  padding: 0;
+  margin: 1.8rem 0;
+  list-style: none;
+  counter-reset: cell-stage;
+}
+#reader-integrated-demo .hw-cell-sequence li {
+  padding: 1rem 1rem 1.1rem;
+  border: 1px solid #cbdce6;
+  border-radius: 12px;
+  background: #f1f7fa;
+  counter-increment: cell-stage;
+}
+#reader-integrated-demo .hw-cell-sequence li::before {
+  content: "0" counter(cell-stage);
+  display: block;
+  color: #116a98;
+  font-size: 0.75rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.4rem;
+}
+#reader-integrated-demo .hw-cell-sequence strong,
+#reader-integrated-demo .hw-cell-sequence span { display: block; }
+#reader-integrated-demo .hw-cell-sequence span {
+  margin-top: 0.4rem;
+  font-size: 0.87rem;
+  line-height: 1.55;
+  color: #425c6d;
+}
+#reader-integrated-demo .hw-cell-figure img { width: 100%; height: auto; max-height: none; }
+#reader-integrated-demo p,
+#reader-integrated-demo figcaption { text-align: left !important; }
+#reader-integrated-demo .hw-cell-figure { margin: 2rem 0; }
+#reader-integrated-demo .hw-cell-interpretation {
+  padding: 1.3rem 1.5rem;
+  margin: 1.8rem 0;
+  border-left: 4px solid #116a98;
+  background: #f1f7fa;
+}
+#reader-integrated-demo .hw-cell-interpretation p:last-child { margin-bottom: 0; }
+#reader-integrated-demo .hw-cell-table { font-variant-numeric: tabular-nums; }
+#reader-integrated-demo .hw-cell-table td { white-space: nowrap; }
+#reader-integrated-demo .hw-cell-table th:first-child { min-width: 10rem; }
+#reader-integrated-demo .hw-cell-methods { margin-top: 1.8rem; }
+#reader-integrated-demo .hw-cell-figure picture { display: block; }
+@media (max-width: 760px) {
+  #reader-integrated-demo .hw-cell-sequence { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #reader-integrated-demo .hw-cell-interpretation { padding: 1rem; }
+}
+@media (max-width: 410px) {
+  #reader-integrated-demo .hw-cell-sequence { grid-template-columns: 1fr; }
+}

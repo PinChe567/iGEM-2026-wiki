@@ -1,0 +1,178 @@
+{
+  "schema": "aerosense-p2-reference-1",
+  "receptorOrder": [
+    "Or22a",
+    "Or35a",
+    "Or85b",
+    "Or98a"
+  ],
+  "source": {
+    "relativePath": "wiki/eNose-feature-igem/analysis/06_odorant_receptor_dF_corr.csv",
+    "sha256": "1509f308f365ca7f70c967fa8a004380cb48a8a4da004c4b845bace0eb65b2d1",
+    "bytes": 779,
+    "assay": "P2 2026-10-10; HEK cell GCaMP6f-ORCO plate-reader fluorescence",
+    "featureDefinition": "dF_corr = (max 3-cycle moving average(test) - mean F0b)/mean F0b - (max 3-cycle moving average(blank) - mean F0a)/mean F0a",
+    "independentReplicatesPerOdorReceptor": 1,
+    "validatedForIdentification": false
+  },
+  "odors": [
+    {
+      "compound": "3-octanol",
+      "role": "odorant",
+      "values": [
+        -0.0094,
+        0.013,
+        0.0212,
+        0.0103
+      ],
+      "status": "ok"
+    },
+    {
+      "compound": "benzaldehyde",
+      "role": "odorant",
+      "values": [
+        0.036,
+        0.0453,
+        0.0227,
+        0.0368
+      ],
+      "status": "ok"
+    },
+    {
+      "compound": "2-heptanone",
+      "role": "odorant",
+      "values": [
+        0.032,
+        0.0648,
+        -0.0063,
+        0.0169
+      ],
+      "status": "ok"
+    },
+    {
+      "compound": "valeric acid",
+      "role": "odorant",
+      "values": [
+        -0.017,
+        0.2946,
+        0.2167,
+        0.0022
+      ],
+      "status": "ok"
+    }
+  ],
+  "controls": [
+    {
+      "compound": "VUAA1",
+      "role": "positive_control",
+      "values": [
+        0.0485,
+        0.1373,
+        0.0243,
+        -0.0198
+      ],
+      "status": "ok"
+    },
+    {
+      "compound": "Control",
+      "role": "negative_control",
+      "values": [
+        0.1267,
+        0.4486,
+        0.06,
+        -0.0159
+      ],
+      "status": "ok"
+    }
+  ],
+  "excluded": [
+    {
+      "compound": "ethyl propionate",
+      "reason": "invalid_gain_changed"
+    },
+    {
+      "compound": "isopentyl acetate",
+      "reason": "invalid_blank_gain_changed"
+    }
+  ],
+  "literatureReference": {
+    "schema": "door-four-receptor-reference-1",
+    "source": "DoOR consensus response matrix; normalized literature responses, not HEK293 calcium fluorescence",
+    "accessDate": "2026-10-21",
+    "receptorOrder": [
+      "Or22a",
+      "Or35a",
+      "Or85b",
+      "Or98a"
+    ],
+    "respondingUnits": [
+      "Or22a+b",
+      "Or35a",
+      "Or85b",
+      "Or98a"
+    ],
+    "odors": [
+      {
+        "compound": "3-octanol",
+        "role": "odorant",
+        "values": [
+          0.337,
+          0.434,
+          0.676,
+          0.592
+        ],
+        "sources": [
+          "https://neuro.uni-konstanz.de/DoOR/content/odorant.php?odorant=NMRPBPVERJPACX-UHFFFAOYSA-N"
+        ]
+      },
+      {
+        "compound": "benzaldehyde",
+        "role": "odorant",
+        "values": [
+          0.098,
+          0.227,
+          0.07,
+          0.128
+        ],
+        "sources": [
+          "https://neuro.uni-konstanz.de/DoOR/content/odorant.php?odorant=HUMNYLRZRPPJDN-UHFFFAOYSA-N"
+        ]
+      },
+      {
+        "compound": "2-heptanone",
+        "role": "odorant",
+        "values": [
+          0.262,
+          0.323,
+          0.648,
+          0.623
+        ],
+        "sources": [
+          "https://neuro.uni-konstanz.de/DoOR/content/odorant.php?odorant=CATSNJVOTSVZJV-UHFFFAOYSA-N"
+        ]
+      },
+      {
+        "compound": "valeric acid",
+        "role": "odorant",
+        "values": [
+          0.07,
+          0.097,
+          0.04,
+          -0.012
+        ],
+        "sources": [
+          "https://neuro.uni-konstanz.de/DoOR/content/receptor.php?OR=Or22a",
+          "https://neuro.uni-konstanz.de/DoOR/content/receptor.php?OR=Or35a",
+          "https://neuro.uni-konstanz.de/DoOR/content/receptor.php?OR=Or85b",
+          "https://neuro.uni-konstanz.de/DoOR/content/receptor.php?OR=Or98a"
+        ]
+      }
+    ],
+    "warnings": [
+      "Or22a_reference_is_Or22a_plus_Or22b_responding_unit_not_isolated_HEK_Or22a",
+      "literature_consensus_and_hardware_calcium_responses_are_different_assays",
+      "3_octanol_and_2_heptanone_have_nearly_collinear_four_receptor_patterns",
+      "literature_similarity_is_not_a_validated_identification"
+    ]
+  }
+}

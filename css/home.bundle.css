@@ -6533,6 +6533,12 @@ main details.pdf-preview>summary::after{content:'+';font-size:1.4rem;line-height
 main details.pdf-preview[open]>summary::after{content:'−';}
 main details.pdf-preview .pdf-preview__badge{margin-left:auto;}
 
+/* Team-requested consistent article alignment; controls and numeric tables keep their own layout. */
+body main :is(article,.prose,.page-article) :is(p,figcaption) { text-align:justify; text-justify:inter-word; hyphens:auto; }
+body main :is(article,.prose,.page-article), body main .section-block { min-width:0; }
+body main :is(p,li,figcaption) { overflow-wrap:break-word; }
+body main .media-reference { font-weight:700; }
+
 
 /* Source: css/home-after.css */
 /* Homepage editorial sections after the cinematic opening — index.html only. */
@@ -10499,6 +10505,10 @@ body dfn.term:focus-visible {outline:2px solid currentColor;outline-offset:4px;b
 .audit-resource-links { display:flex;gap:1rem;flex-wrap:wrap;margin-block:1.25rem; }
 .audit-resource-links a { padding:.75rem 1rem;background:#e8eedb;border-bottom:2px solid #416342;border-radius:.2rem; }
 .audit-scope { border-left:3px solid #587b5c;padding:.6rem 1rem;background:#f0f3e7; }
+.data-availability-disclosure { margin-block:1rem; border-top:1px solid #cad3ca; border-bottom:1px solid #cad3ca; padding:.85rem 0; }
+.data-availability-disclosure > summary { cursor:pointer; font-weight:600; color:var(--v-accent,#365446); padding:.3rem 0; }
+.data-availability-disclosure > summary:focus-visible { outline:2px solid currentColor; outline-offset:5px; }
+.data-availability-disclosure[open] > summary { margin-bottom:1rem; }
 .audit-home-evidence { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2rem;max-width:1200px;margin:2.5rem auto 0;padding-inline:1.5rem;position:relative;z-index:2; }
 .audit-home-evidence a { display:flex;flex-direction:column;gap:.55rem;text-decoration:none;border-top:1px solid #819577;padding-block:1rem;color:#21432d; }
 .audit-home-evidence strong { font-size:clamp(1.15rem,2vw,1.8rem);font-weight:600; }
@@ -11236,6 +11246,37 @@ body.signal-atlas{--content-title-bleed:16px}
 
 /* Use each existing chapter or grid-column width instead of several competing
    character measures. Do not alter the enclosing article, TOC or sticky track. */
+body.signal-atlas:not(.page-home) :is(.page-article,.model-track-panel,.lm-article,.learn-section,.members-section,.glossary-entry,.ds-page-brief){
+ --content-reading:100%;--measure:100%;--reading-max:100%;--ds-reading:100%;
+}
+body.signal-atlas:not(.page-home) :is(.component-narrow,.figure-narrow,.callout-narrow){
+ --content-reading:72ch;--measure:72ch;--reading-max:72ch;--ds-reading:72ch;
+}
+body.signal-atlas:not(.page-home) :is(.notion-event__copy,.editorial-spread__intro){
+ max-width:none;
+}
+/* Nested chapters and dynamically rendered lessons use the same prose bounds.
+   Limit only the text's maximum size: auto widths, grid columns, list indents,
+   card padding and deliberately compact visual components stay authored. */
+@layer prose-width {
+ body.signal-atlas:not(.page-home) :is(.page-article,.model-track-panel,.lm-article,.learn-section,.members-section,.glossary-entry,.ds-page-brief)
+ :is(p,dd,ul:not([class]),ol:not([class])):not(:where(
+  nav *,button *,summary *,[role="button"] *,[role="tablist"] *,[role="menu"] *,
+  table *,[aria-hidden="true"],[aria-hidden="true"] *,
+  .page-toc *,.toc *,.breadcrumb *,.pdf-reader__toolbar *,
+  .page-hero *,.hero *,.members-intro *,.learn-hero *,.lm-hero *,
+  .hw-product-tour *,.hw-showcase *,.eng-gears *,.eng-gear-train *,
+  .flight *,.ent-gantt-note,.hp-banana-tools *,
+  .component-narrow,.component-narrow *,.figure-narrow *,.callout-narrow *,
+  .sr-only,.visually-hidden,[role="status"],[aria-live],
+  [data-text-align="preserve"],[data-text-align="preserve"] *,
+  [class*="kicker"],[class*="eyebrow"],[class*="__label"],[class*="-label"],
+  [class*="__value"],[class*="__number"],[class*="__meta"],[class*="__tag"]
+ )){
+  max-width:none!important;
+  max-inline-size:none!important;
+ }
+}
 body.signal-atlas:not(.page-home) :is(.page-article,.model-track-panel) > :is(section,.section-block) > :is(p,ul,ol):not(.ref-list):not(.references-list),
 body.signal-atlas:not(.page-home) .page-article .section-block > p,
 body.signal-atlas.page-human-practices main > .hp-section > p,
@@ -12588,37 +12629,22 @@ body.signal-atlas.page-home.home-edition-2026.home-atlas-edition .home-fieldwork
  body.signal-atlas.page-home.home-edition-2026.home-atlas-edition .home-sensing-continuum>#experience{background:linear-gradient(var(--home-forest) calc(100% - 150px),#a0b098)!important}
  body.signal-atlas.page-home.home-edition-2026.home-atlas-edition #experience .home-xp--signal{background:linear-gradient(#edf0e8 0,#e4eae3 calc(100% - 430px),var(--home-dusk) calc(100% - 200px),var(--home-forest) 100%)}
 }
-
-
-/* Source: css/language-v19.css */
-/* A compact language control follows the current page palette. */
-.language-toggle {
-  display:inline-flex;align-items:center;justify-content:center;gap:.35rem;
-  width:78px;min-width:78px;min-height:44px;margin:0;padding:.45rem .55rem;
-  color:var(--v-ink,#284635);background:var(--v-paper,#f8f7ec);
-  border:1px solid var(--v-rule,#adbca5);border-radius:0;
-  box-shadow:2px 2px 0 color-mix(in srgb,var(--v-ink,#284635) 15%,transparent);
-  font:600 .82rem/1.2 "Segoe UI","Microsoft JhengHei",sans-serif;letter-spacing:0;
-  white-space:nowrap;cursor:pointer;flex-shrink:0;
+/* Quiet paper cards echo the illustrated laboratory behind this evidence row. */
+body.signal-atlas.page-home.home-edition-2026.home-atlas-edition .audit-home-evidence>a{
+ background:rgba(250,248,239,.92)!important;border:1px solid rgba(107,119,94,.42)!important;
+ border-radius:5px!important;clip-path:none;box-shadow:0 3px 12px rgba(71,75,57,.06)!important;
+ color:#3d5142;transition:background .2s,border-color .2s,transform .2s;
 }
-.language-toggle svg {width:18px;height:18px;flex:none;}
-.language-toggle:hover {background:var(--v-soft,#e8edde);}
-.language-toggle:focus-visible {outline:3px solid var(--v-accent,#57764a);outline-offset:4px;}
-.language-toggle:disabled {cursor:wait;opacity:.65;}
-.page-home .home-menu .language-toggle {position:static;color:#f7f7e9;background:#234839;border-color:#9fbc99;box-shadow:none;}
-html[lang="zh-Hant"] body {--font-body:"Segoe UI","Microsoft JhengHei","PingFang TC",sans-serif;word-break:normal;line-break:strict;}
-html[lang="zh-Hant"] :is(h1,h2,h3,h4,h5,h6) {font-family:"Segoe UI","Microsoft JhengHei","PingFang TC",sans-serif;letter-spacing:.015em;}
-html[lang="zh-Hant"] :is(p,li,dd,figcaption,caption) {hyphens:none;word-break:normal;}
-@media(max-width:600px) {
-  body:not(.page-home) .language-toggle {width:62px;min-width:62px;gap:.2rem;padding-inline:.3rem;}
-  body:not(.page-home) .language-toggle svg {width:15px;height:15px;}
+body.signal-atlas.page-home.home-edition-2026.home-atlas-edition .audit-home-evidence>a::before{display:none}
+body.signal-atlas.page-home.home-edition-2026.home-atlas-edition .audit-home-evidence>a::after{
+ content:"↗";width:auto;height:auto;background:none;clip-path:none;opacity:.55;color:#6d795f;font-size:1rem;
 }
-@media(max-width:380px) {
-  body:not(.page-home) .site-header .brand__text {display:none;}
-  body:not(.page-home) .site-header .brand {flex:1 1 auto;}
+body.signal-atlas.page-home.home-edition-2026.home-atlas-edition .audit-home-evidence>a:hover{
+ background:rgba(255,253,246,.98)!important;border-color:rgba(107,119,94,.7)!important;transform:translateY(-2px);
 }
-@media(scripting:none) {.language-toggle {display:none!important;}}
-@media print {.language-toggle {display:none!important;}}
+body.signal-atlas.page-home.home-edition-2026.home-atlas-edition .audit-home-evidence>a:focus-visible{outline-offset:4px}
+body.signal-atlas.page-home.home-edition-2026.home-atlas-edition .audit-home-evidence .home-evidence-pixel{opacity:.85;filter:saturate(.65)}
+@media(prefers-reduced-motion:reduce){body.signal-atlas.page-home.home-edition-2026.home-atlas-edition .audit-home-evidence>a:hover{transform:none}}
 
 
 /* Source: css/home-cut-paper-v22.css */
@@ -12630,18 +12656,7 @@ body.signal-atlas.page-home.home-edition-2026.home-atlas-edition {
   --home-cut-coral:#efb9a7;
   --home-cut-violet:#d7c9eb;
 }
-
-/* Language stays alongside the existing menu tools. */
-.page-home .home-menu__language {display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 .page-home .home-menu .header-tools {align-items:center;gap:16px;}
-.page-home .home-menu .language-toggle {
-  min-height:48px;border:1px solid #b8d0aa;border-radius:0;box-shadow:none;
-  background:#2c5140;color:#fffbea;display:inline-flex;align-items:center;justify-content:center;gap:9px;
-  font:600 .85rem/1.2 "Segoe UI","Microsoft JhengHei",sans-serif;cursor:pointer;
-}
-.page-home .home-menu .language-toggle {width:78px;min-width:78px;padding:12px;}
-.page-home .home-menu .language-toggle:hover {background:#41684c;}
-.page-home .home-menu .language-toggle:focus-visible {outline:3px solid #f5d59b;outline-offset:4px;}
 
 /* The opening title rests on clear paper, framed by large clipped color planes. */
 body.signal-atlas.page-home.home-edition-2026.home-atlas-edition .home-wordmark__atmosphere {
@@ -12723,10 +12738,8 @@ body.signal-atlas.page-home.home-edition-2026.home-atlas-edition .home-supporter
   body.signal-atlas.page-home.home-edition-2026.home-atlas-edition .home-fieldwork__desk::before {width:72%;height:38%;top:0;}
   body.signal-atlas.page-home.home-edition-2026.home-atlas-edition .home-supporters::before {width:25%;height:70%;}
   body.signal-atlas.page-home.home-edition-2026.home-atlas-edition .home-supporters::after {width:15%;height:90px;}
-  .page-home .home-menu__language {gap:10px;}
 }
 @media print {
-  .page-home .home-menu__language {display:none;}
   body.signal-atlas.page-home.home-edition-2026.home-atlas-edition :is(#intro,.research-stage,.home-fieldwork__desk,.home-supporters)::before,
   body.signal-atlas.page-home.home-edition-2026.home-atlas-edition :is(#intro,.research-stage,.home-supporters)::after {display:none;}
 }
@@ -12877,4 +12890,52 @@ body.page-home #home-film .asc-cta.is-docked [data-asc-use] .asc-product-label {
  body.page-home #home-film .asc-cta__note {top:-22%;width:156px;max-width:156px;font-size:11px;}
  body.page-home #home-film [data-asc-use] .asc-product-label {font-size:12px;padding:9px 12px;}
 }
+
+
+/* Source: css/github-language.css */
+/* GitHub copy only. Shared by every wiki page and the standalone viewers. */
+.wiki-language-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .45rem;
+  min-height: 44px;
+  min-width: 88px;
+  padding: .45rem .75rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  color: #18392f;
+  background: #fffdf5;
+  font: 600 13px/1.25 system-ui, -apple-system, "Microsoft JhengHei", sans-serif;
+  letter-spacing: .025em;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.wiki-language-toggle__divider { opacity: .35; }
+.wiki-language-toggle:hover { background: #e7efdf; }
+.wiki-language-toggle:focus-visible { outline: 3px solid #b3522d; outline-offset: 4px; }
+.wiki-language-toggle:disabled { display: none; }
+.page-home > .wiki-language-toggle,
+.wiki-language-floating {
+  position: fixed;
+  top: max(16px, env(safe-area-inset-top));
+  right: max(18px, env(safe-area-inset-right));
+  z-index: 1100;
+}
+.page-home > .wiki-language-toggle { right: max(104px, calc(env(safe-area-inset-right) + 90px)); }
+.header-tools { flex-wrap: nowrap; }
+html:lang(zh-Hant) body { font-family: "Microsoft JhengHei", "PingFang TC", system-ui, sans-serif; }
+html:lang(zh-Hant) :is(h1,h2,h3,h4,p,li,td,th,button,label) { word-break: normal; overflow-wrap: break-word; }
+html:lang(zh-Hant) :is(.page-title,.hero__title) { letter-spacing: .02em; }
+@media (max-width: 768px) {
+  .page-home > .wiki-language-toggle {
+    top: max(82px, calc(env(safe-area-inset-top) + 70px));
+    right: max(18px, env(safe-area-inset-right));
+  }
+}
+@media (max-width: 480px) {
+  .wiki-language-toggle { min-width: 78px; padding: .4rem .6rem; font-size: 12px; }
+  .header-tools { gap: .35rem; }
+}
+@media print { .wiki-language-toggle,.wiki-language-floating { display: none !important; } }
 

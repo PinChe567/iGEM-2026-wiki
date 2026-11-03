@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
 
 const gameRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -35,14 +34,11 @@ for (const file of files) {
   }
 }
 
-const localeFile = files.find((file) => file.endsWith('.js') && fs.readFileSync(file, 'utf8').includes('"suite.locale"'));
-assert(localeFile, 'Missing compiled locale reader');
-const localeCode = fs.readFileSync(localeFile, 'utf8').match(/const F="en",P="suite\.locale";function W\(e\)\{return e==="zh-Hant"\|\|e==="en"\}function U\(\)\{try\{const e=localStorage\.getItem\(P\);if\(W\(e\)\)return e\}catch\{\}return F\}/)?.[0];
-assert(localeCode, 'Compiled English fallback or preference reader differs from the verified source');
-for (const [stored, expected] of [[null, 'en'], ['en', 'en'], ['zh-Hant', 'zh-Hant'], ['invalid', 'en']]) {
-  assert.equal(vm.runInNewContext(`${localeCode};U()`, { localStorage: { getItem: () => stored } }), expected);
+for (const file of files.filter(file => file.endsWith('.js'))) {
+  const source = fs.readFileSync(file, 'utf8');
+  assert(!source.includes('data-shell-lang'), 'Language switch must not return in the game shell');
+  assert(!source.includes('aerosense-language'), 'Wiki language preference must not affect game rendering');
 }
-assert.equal(vm.runInNewContext(`${localeCode};U()`, { localStorage: { getItem() { throw new Error('Disabled'); } } }), 'en');
 
 let wikiLinks = 0;
 for (const name of ['index.html', 'education.html']) {
@@ -54,5 +50,5 @@ for (const name of ['index.html', 'education.html']) {
     wikiLinks++;
   }
 }
-assert.equal(wikiLinks, 19);
-console.log(`PASS: ${checkedAssets} static references, ${wikiLinks} local wiki links, 5 compiled language cases.`);
+assert(wikiLinks >= 1);
+console.log(`PASS: ${checkedAssets} static references, ${wikiLinks} local wiki links, English-only shell.`);

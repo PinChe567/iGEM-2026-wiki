@@ -6,11 +6,15 @@ import { mountShell, shellMain } from '../../../src/shell/mount';
 import { paintValidator } from './validator';
 
 if (!import.meta.env.DEV) {
-  document.title = 'Not available';
-  const app = document.querySelector('#app');
-  if (app) {
-    app.innerHTML =
-      '<main style="padding:2rem;font-family:system-ui"><p>Labyrinth map validator is dev-only.</p><p><a href="../../index.html">Back to hub</a></p></main>';
+  const appRoot = document.querySelector('#app');
+  if (appRoot instanceof HTMLElement) {
+    const shell = mountShell(appRoot, { homeHref: '../../index.html', showSuiteControls: false, onLocaleChange: () => paintNotice() });
+    function paintNotice(): void {
+      const zh = shell.getLocale() === 'zh-Hant';
+      document.title = zh ? '暫不提供' : 'Not available';
+      shellMain(appRoot as HTMLElement).innerHTML = `<p>${zh ? '迷宮地圖驗證器僅供開發模式使用。' : 'Labyrinth map validator is dev-only.'}</p><p><a href="../../index.html">${zh ? '返回遊戲首頁' : 'Back to hub'}</a></p>`;
+    }
+    paintNotice();
   }
 } else {
   const appNode = document.querySelector('#app');

@@ -4,7 +4,7 @@ test.describe('AeroSense Scentbound Labyrinth wiki smoke', () => {
   test('ready screen matches Game 1 chrome and starts the maze', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 720 });
     await page.goto('./games/labyrinth/index.html');
-    await page.locator('.lang-switch [data-locale="en"]').click();
+    await expect(page.locator('[data-locale]')).toHaveCount(0);
     await expect(page.getByTestId('scentbound-shell')).toBeVisible();
     await expect(page.locator('#introEyebrow')).toContainText(/GAME 02/i);
     await expect(page.getByTestId('ready')).toBeVisible();
@@ -25,7 +25,7 @@ test.describe('AeroSense Scentbound Labyrinth wiki smoke', () => {
 
   test('How to Play shows four control cards', async ({ page }) => {
     await page.goto('./games/labyrinth/index.html');
-    await page.locator('.lang-switch [data-locale="en"]').click();
+    await expect(page.locator('[data-locale]')).toHaveCount(0);
     await page.locator('#guideButton').click();
     await expect(page.getByTestId('how-cards')).toBeVisible();
     await expect(page.getByTestId('how-cards')).toContainText('WASD');
@@ -37,7 +37,7 @@ test.describe('AeroSense Scentbound Labyrinth wiki smoke', () => {
   test('mobile viewport does not overflow and shows touch controls', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('./games/labyrinth/index.html');
-    await page.locator('.lang-switch [data-locale="en"]').click();
+    await expect(page.locator('[data-locale]')).toHaveCount(0);
     await page.getByTestId('start-adventure').click();
     await expect(page.getByTestId('maze-play')).toBeVisible();
     await expect(page.locator('[data-joystick]')).toBeVisible();
@@ -54,7 +54,7 @@ test.describe('AeroSense Scentbound Labyrinth wiki smoke', () => {
   test('repeated hints become an explicit next-step instruction', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 720 });
     await page.goto('./games/labyrinth/index.html');
-    await page.locator('.lang-switch [data-locale="en"]').click();
+    await expect(page.locator('[data-locale]')).toHaveCount(0);
     await page.getByTestId('level-junior').click();
     await page.getByTestId('start-adventure').click();
     await expect(page.getByTestId('maze-play')).toBeVisible();
@@ -72,7 +72,7 @@ test.describe('AeroSense Scentbound Labyrinth wiki smoke', () => {
 
   test('hub links to Game 2 Scentbound on the preserved route', async ({ page }) => {
     await page.goto('./index.html');
-    await page.locator('.lang-switch [data-locale="en"]').click();
+    await expect(page.locator('[data-locale]')).toHaveCount(0);
     await expect(page.getByTestId('card-labyrinth')).toContainText(/Scentbound/i);
     await page.locator('a[data-game="labyrinth"]').click();
     await expect(page).toHaveURL(/\/games\/labyrinth(\/index\.html)?\/?$/);

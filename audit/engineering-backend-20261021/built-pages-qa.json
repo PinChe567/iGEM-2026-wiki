@@ -1,0 +1,469 @@
+{
+  "passed": true,
+  "served_root": "C:\\Users\\user\\Desktop\\大學的東西\\iGEM\\lolab 1th\\wiki\\gitlab\\nthu\\.build-check\\engineering-backend-new-public",
+  "real_official_cdn": true,
+  "no_route_interceptions": true,
+  "records": [
+    {
+      "width": 1440,
+      "slug": "engineering",
+      "language": "en",
+      "overflow": false,
+      "base": "http://127.0.0.1:53531/nthu/engineering.html",
+      "text": "Dry Lab · HardwareCycle 6 Investigating a fixed amplifier output\nWhy did changing the illumination leave both the analog voltage and ADC code unchanged?Lower-gain retest reported; input-node fault unresolved\nHardware · Cycle 6 / 6 · Design← PreviousNext step →Skip cycles ↓DBTLRDesign · 1 / 5DesignWeak fluorescence requires gain, but the photodiode also receives blue excitation and ambient light.BuildThe circuit uses a VEMD5060X01 photodiode and an LMP7721 transimpedance amplifier (TIA). The feedback resistor, R27, is 100 MΩ. Within the linear operating range, an input current of 1 nA produces an output change of approximately 0.1 V.TestAfter installing the firmware, we compared three illumination conditions and separately measured the ADC input node with a multimeter.Table 2. ADC readout and input-node voltageIllumination conditionADC codeMultimeter voltage (V)LEDs offADC code32767Multimeter voltage (V)≈ 3.15All LEDs on; photodiode coveredADC code32767Multimeter voltage (V)≈ 3.15One LED on; photodiode exposedADC code32767Multimeter voltage (V)≈ 3.15We did not observe the expected response to changes in illumination. The fixed digital code alone did not prove saturation. The measured analog voltage was also inconsistent with the digital reading under the intended 2.5 V ADC reference.LearnWe shared the circuit information and test results with iST, our PCB manufacturing partner. Their assessment was that excessive TIA gain could cause the output to saturate near its upper limit. They proposed changing R27 and testing different resistance values.iST subsequently reported replacing the TIA feedback resistance from 100 MΩ to 10 kΩ without eliminating output saturation. They then observed that the inverting input was shorted to ground and were still investigating the cause.Figure 9. The partner’s follow-up reports persistent saturation after changing feedback resistance from 100 MΩ to 10 kΩ, followed by an observed short from the TIA inverting input to ground. The record ends with the cause still under investigation.The gain explanation remains unconfirmed because photodiode current was not measured. iST confirmed that pre-delivery checks covered power supplies, not ADC function or the complete photodiode path.RedesignThe follow-up changed the next step from gain selection to locating the reported input-to-ground short. After resolving that connection, the same dark, covered-detector and illuminated-detector checks should be repeated.We will compare digital readings with measured analog voltage, check ADC input margin and repeatable light dependence, then compare a blank with a fluorescent standard.The supplied record does not document a completed repair or a successful post-repair optical test.\nDecision carried forwardPower-supply checks alone do not validate the optical measurement system. The next design must account for the total photodiode current, including fluorescence, excitation leakage and ambient light.Related page / linkCircuit and gain calculations · Physical assembly photographs",
+      "labels": [
+        "Figure 1.",
+        "Figure 2.",
+        "Figure 3.",
+        "Figure 4.",
+        "Figure 5.",
+        "Figure 6.",
+        "Figure 7.",
+        "Figure 8.",
+        "Figure 9."
+      ],
+      "captions": [
+        "Figure 5. The reviewed power design moved the user switch from the 5 V output path to the TPS61023 enable logic. Battery undervoltage control and the switch jointly drive EN; this redraw isolates that design change.",
+        "Figure 7. Historical STL geometry: body, service tray, hinged lid and one of four wells. Each part is independently framed; dimensions are bounding extents in the CAD workflow’s millimetre convention. These views do not reconstruct assembly alignment.",
+        "Figure 8. The optional two-piece cap exposes the internal geometry for cleaning and curing. It replaces the one-piece cap with an upper and lower print; the source specifies longer thumbscrews and an additional silicone ring.",
+        "Figure 9. The partner’s follow-up reports persistent saturation after changing feedback resistance from 100 MΩ to 10 kΩ, followed by an observed short from the TIA inverting input to ground. The record ends with the cause still under investigation."
+      ],
+      "newLinks": [
+        {
+          "text": "Open PDF",
+          "href": "https://static.igem.wiki/teams/6460/wiki/downloads/engineering-evidence-guide.pdf"
+        },
+        {
+          "text": "Download PDF",
+          "href": "https://static.igem.wiki/teams/6460/wiki/downloads/engineering-evidence-guide.pdf"
+        }
+      ],
+      "fragmentRouting": true,
+      "figures": [
+        {
+          "id": "engineering-power-control",
+          "label": "Figure 5.",
+          "src": "https://static.igem.wiki/teams/6460/wiki/downloads/power-control.svg",
+          "width": 859.640625
+        },
+        {
+          "id": "engineering-historical-cad",
+          "label": "Figure 7.",
+          "src": "https://static.igem.wiki/teams/6460/wiki/downloads/historical-cad.webp",
+          "width": 859.640625
+        },
+        {
+          "id": "engineering-cap-iteration",
+          "label": "Figure 8.",
+          "src": "https://static.igem.wiki/teams/6460/wiki/downloads/cap-iteration.webp",
+          "width": 859.640625
+        },
+        {
+          "id": "engineering-tia-diagnostic",
+          "label": "Figure 9.",
+          "src": "https://static.igem.wiki/teams/6460/wiki/downloads/tia-diagnostic.svg",
+          "width": 859.640625
+        }
+      ],
+      "errors": [],
+      "localFailures": []
+    },
+    {
+      "width": 1440,
+      "slug": "engineering",
+      "language": "zh-Hant",
+      "overflow": false,
+      "base": "http://127.0.0.1:53531/nthu/engineering.html",
+      "text": "乾實驗 · 硬體第 6 輪 調查放大器固定輸出的原因\n為何改變照明後，類比電壓與 ADC 讀值都沒有變化？已回報降低增益後的重測；輸入節點故障尚未解決\n硬體 · Cycle 6 / 6 · 設計← 上一步下一步 →跳過循環 ↓DBTLR設計 · 1 / 5設計微弱螢光需要放大，但光電二極體也會接收藍色激發光與環境光。建構電路採用 VEMD5060X01 光電二極體及 LMP7721 轉阻放大器（TIA），回授電阻 R27 為 100 MΩ。在線性工作範圍內，1 nA 的輸入電流約對應 0.1 V 的輸出變化。測試安裝韌體後，我們比較三種照明條件，並另以萬用電表量測 ADC 輸入節點。表 2. ADC 讀值與輸入節點電壓照明條件ADC 讀值萬用電表電壓（V）LED 關閉ADC 讀值32767萬用電表電壓（V）≈ 3.15所有 LED 開啟；光電二極體遮蔽ADC 讀值32767萬用電表電壓（V）≈ 3.15單顆 LED 開啟；光電二極體露出ADC 讀值32767萬用電表電壓（V）≈ 3.15改變照明時，未觀察到預期的訊號變化。僅憑固定的數位讀值，無法證明放大器飽和；以原設計的 2.5 V ADC 參考電壓判斷，實測類比電壓也與數位讀值不一致。學習我們將電路資訊與測試結果交給 PCB 製造合作夥伴 iST。其評估認為，過高的 TIA 增益可能使輸出在接近上限處飽和，並建議更換 R27、測試不同阻值。iST 隨後回報將 TIA 回授電阻由 100 MΩ 改為 10 kΩ，仍未消除輸出飽和。接著量得反相輸入對地短路，當時仍在調查原因。圖 9. 合作夥伴的後續紀錄指出，回授電阻由 100 MΩ 改為 10 kΩ 後仍持續飽和，隨後量得 TIA 反相輸入對地短路。該紀錄結束時仍在調查原因。由於尚未量測光電流，增益過高的解釋仍未確認。iST 確認交付前僅檢查電源，未驗證 ADC 功能或完整光電二極體路徑。重新設計後續紀錄使下一步由選擇增益轉為找出所回報的輸入對地短路。解決該連接問題後，應重複相同的暗場、遮蔽偵測器與照明偵測器檢查。我們將比較數位讀值與實測類比電壓，檢查 ADC 輸入餘裕及可重現的光照變化，再比較空白與螢光標準品。提供的紀錄未記載完成修復或修復後成功的光學測試。\n延續的決策電源檢查通過，不代表光學量測系統已獲驗證。下一輪設計必須納入總光電流，包括螢光、激發光漏入及環境光。相關頁面／連結電路與增益計算 · 實體組裝照片",
+      "labels": [
+        "圖 1.",
+        "圖 2.",
+        "圖 3.",
+        "圖 4.",
+        "圖 5.",
+        "圖 6.",
+        "圖 7.",
+        "圖 8.",
+        "圖 9."
+      ],
+      "captions": [
+        "圖 5. 審查後的供電設計將使用者開關由 5 V 輸出路徑移至 TPS61023 啟用邏輯。電池欠壓控制與開關共同控制 EN；此重繪圖只呈現這項設計變更。",
+        "圖 7. 歷史 STL 幾何：主體、維修托盤、鉸接上蓋，以及四個樣本槽之一。各零件獨立取景；尺寸為依既有 CAD 毫米慣例計算的外框範圍。這些視圖不推定組裝對位。",
+        "圖 8. 選配的雙件上蓋讓內部幾何可接近，以便清潔與固化。上、下兩件列印件取代原本的一體式上蓋；來源另指定較長的手轉螺絲與額外矽膠環。",
+        "圖 9. 合作夥伴的後續紀錄指出，回授電阻由 100 MΩ 改為 10 kΩ 後仍持續飽和，隨後量得 TIA 反相輸入對地短路。該紀錄結束時仍在調查原因。"
+      ],
+      "newLinks": [
+        {
+          "text": "另開 PDF",
+          "href": "https://static.igem.wiki/teams/6460/wiki/downloads/engineering-evidence-guide.pdf"
+        },
+        {
+          "text": "下載 PDF",
+          "href": "https://static.igem.wiki/teams/6460/wiki/downloads/engineering-evidence-guide.pdf"
+        }
+      ],
+      "fragmentRouting": true,
+      "figures": [
+        {
+          "id": "engineering-power-control",
+          "label": "Figure 5.",
+          "src": "https://static.igem.wiki/teams/6460/wiki/downloads/power-control.svg",
+          "width": 859.640625
+        },
+        {
+          "id": "engineering-historical-cad",
+          "label": "Figure 7.",
+          "src": "https://static.igem.wiki/teams/6460/wiki/downloads/historical-cad.webp",
+          "width": 859.640625
+        },
+        {
+          "id": "engineering-cap-iteration",
+          "label": "Figure 8.",
+          "src": "https://static.igem.wiki/teams/6460/wiki/downloads/cap-iteration.webp",
+          "width": 859.640625
+        },
+        {
+          "id": "engineering-tia-diagnostic",
+          "label": "Figure 9.",
+          "src": "https://static.igem.wiki/teams/6460/wiki/downloads/tia-diagnostic.svg",
+          "width": 859.640625
+        }
+      ],
+      "errors": [],
+      "localFailures": []
+    },
+    {
+      "width": 1440,
+      "slug": "hardware",
+      "language": "en",
+      "overflow": false,
+      "base": "http://127.0.0.1:53531/nthu/hardware.html",
+      "text": "Reference-pattern analysisA local analysis backend connects the acquisition interface to four-receptor reference-pattern comparison. It reconstructs ΔF/F₀ time courses from saved measurements and calibration records, then displays separate correlation-based similarity scores for laboratory and DoOR reference patterns.",
+      "labels": [
+        "Figure 1.",
+        "Figure 2.",
+        "Figure 3.",
+        "Figure 4.",
+        "Figure 5.",
+        "Figure 6.",
+        "Figure 7.",
+        "Figure 8.",
+        "Figure 9.",
+        "Figure 10.",
+        "Figure 11.",
+        "Figure 12.",
+        "Figure 13.",
+        "Figure 14.",
+        "Figure 15.",
+        "Figure 16.",
+        "Figure 17.",
+        "Figure 18.",
+        "Figure 19.",
+        "Figure 20.",
+        "Figure S1.",
+        "Figure S2.",
+        "Figure S3.",
+        "Figure S4.",
+        "Figure 21.",
+        "Figure 22."
+      ],
+      "captions": [],
+      "newLinks": [
+        {
+          "text": "Four-receptor reference patterns · JSON",
+          "href": "https://static.igem.wiki/teams/6460/wiki/downloads/odor-reference.json"
+        },
+        {
+          "text": "Local backend setup and reference analysis · GitLab",
+          "href": "https://gitlab.igem.org/2026/software/nthu/aerosense/-/raw/main/code/aerosense/hardware/03_software/PUBLICATION_GUIDE.md"
+        }
+      ],
+      "fragmentRouting": true,
+      "figures": [],
+      "errors": [],
+      "localFailures": []
+    },
+    {
+      "width": 1440,
+      "slug": "hardware",
+      "language": "zh-Hant",
+      "overflow": false,
+      "base": "http://127.0.0.1:53531/nthu/hardware.html",
+      "text": "參照模式分析本機分析後端將量測介面接到四受器的參照模式比較。它從儲存的量測與校正紀錄重建 ΔF/F₀ 動態曲線，再分別顯示與實驗室及 DoOR 參照模式的相關性相似度分數。",
+      "labels": [
+        "圖 1.",
+        "圖 2.",
+        "圖 3.",
+        "圖 4.",
+        "圖 5.",
+        "圖 6.",
+        "圖 7.",
+        "圖 8.",
+        "圖 9.",
+        "圖 10.",
+        "圖 11.",
+        "圖 12.",
+        "圖 13.",
+        "圖 14。",
+        "圖 15。",
+        "圖 16。",
+        "圖 17。",
+        "圖 18。",
+        "圖 19.",
+        "圖 20.",
+        "Figure S1.",
+        "Figure S2.",
+        "Figure S3.",
+        "Figure S4.",
+        "圖 21.",
+        "圖 22."
+      ],
+      "captions": [],
+      "newLinks": [
+        {
+          "text": "四受器參照模式 · JSON",
+          "href": "https://static.igem.wiki/teams/6460/wiki/downloads/odor-reference.json"
+        },
+        {
+          "text": "本機後端設定與參照分析 · GitLab",
+          "href": "https://gitlab.igem.org/2026/software/nthu/aerosense/-/raw/main/code/aerosense/hardware/03_software/PUBLICATION_GUIDE.md"
+        }
+      ],
+      "fragmentRouting": true,
+      "figures": [],
+      "errors": [],
+      "localFailures": []
+    },
+    {
+      "width": 390,
+      "slug": "engineering",
+      "language": "en",
+      "overflow": false,
+      "base": "http://127.0.0.1:53531/nthu/engineering.html",
+      "text": "Dry Lab · HardwareCycle 6 Investigating a fixed amplifier output\nWhy did changing the illumination leave both the analog voltage and ADC code unchanged?Lower-gain retest reported; input-node fault unresolved\nHardware · Cycle 6 / 6 · Design← PreviousNext step →Skip cycles ↓DBTLRDesign · 1 / 5DesignWeak fluorescence requires gain, but the photodiode also receives blue excitation and ambient light.BuildThe circuit uses a VEMD5060X01 photodiode and an LMP7721 transimpedance amplifier (TIA). The feedback resistor, R27, is 100 MΩ. Within the linear operating range, an input current of 1 nA produces an output change of approximately 0.1 V.TestAfter installing the firmware, we compared three illumination conditions and separately measured the ADC input node with a multimeter.Table 2. ADC readout and input-node voltageIllumination conditionADC codeMultimeter voltage (V)LEDs offADC code32767Multimeter voltage (V)≈ 3.15All LEDs on; photodiode coveredADC code32767Multimeter voltage (V)≈ 3.15One LED on; photodiode exposedADC code32767Multimeter voltage (V)≈ 3.15We did not observe the expected response to changes in illumination. The fixed digital code alone did not prove saturation. The measured analog voltage was also inconsistent with the digital reading under the intended 2.5 V ADC reference.LearnWe shared the circuit information and test results with iST, our PCB manufacturing partner. Their assessment was that excessive TIA gain could cause the output to saturate near its upper limit. They proposed changing R27 and testing different resistance values.iST subsequently reported replacing the TIA feedback resistance from 100 MΩ to 10 kΩ without eliminating output saturation. They then observed that the inverting input was shorted to ground and were still investigating the cause.Figure 9. The partner’s follow-up reports persistent saturation after changing feedback resistance from 100 MΩ to 10 kΩ, followed by an observed short from the TIA inverting input to ground. The record ends with the cause still under investigation.The gain explanation remains unconfirmed because photodiode current was not measured. iST confirmed that pre-delivery checks covered power supplies, not ADC function or the complete photodiode path.RedesignThe follow-up changed the next step from gain selection to locating the reported input-to-ground short. After resolving that connection, the same dark, covered-detector and illuminated-detector checks should be repeated.We will compare digital readings with measured analog voltage, check ADC input margin and repeatable light dependence, then compare a blank with a fluorescent standard.The supplied record does not document a completed repair or a successful post-repair optical test.\nDecision carried forwardPower-supply checks alone do not validate the optical measurement system. The next design must account for the total photodiode current, including fluorescence, excitation leakage and ambient light.Related page / linkCircuit and gain calculations · Physical assembly photographs",
+      "labels": [
+        "Figure 1.",
+        "Figure 2.",
+        "Figure 3.",
+        "Figure 4.",
+        "Figure 5.",
+        "Figure 6.",
+        "Figure 7.",
+        "Figure 8.",
+        "Figure 9."
+      ],
+      "captions": [
+        "Figure 5. The reviewed power design moved the user switch from the 5 V output path to the TPS61023 enable logic. Battery undervoltage control and the switch jointly drive EN; this redraw isolates that design change.",
+        "Figure 7. Historical STL geometry: body, service tray, hinged lid and one of four wells. Each part is independently framed; dimensions are bounding extents in the CAD workflow’s millimetre convention. These views do not reconstruct assembly alignment.",
+        "Figure 8. The optional two-piece cap exposes the internal geometry for cleaning and curing. It replaces the one-piece cap with an upper and lower print; the source specifies longer thumbscrews and an additional silicone ring.",
+        "Figure 9. The partner’s follow-up reports persistent saturation after changing feedback resistance from 100 MΩ to 10 kΩ, followed by an observed short from the TIA inverting input to ground. The record ends with the cause still under investigation."
+      ],
+      "newLinks": [
+        {
+          "text": "Open PDF",
+          "href": "https://static.igem.wiki/teams/6460/wiki/downloads/engineering-evidence-guide.pdf"
+        },
+        {
+          "text": "Download PDF",
+          "href": "https://static.igem.wiki/teams/6460/wiki/downloads/engineering-evidence-guide.pdf"
+        }
+      ],
+      "fragmentRouting": true,
+      "figures": [
+        {
+          "id": "engineering-power-control",
+          "label": "Figure 5.",
+          "src": "https://static.igem.wiki/teams/6460/wiki/downloads/power-control.svg",
+          "width": 265.21875
+        },
+        {
+          "id": "engineering-historical-cad",
+          "label": "Figure 7.",
+          "src": "https://static.igem.wiki/teams/6460/wiki/downloads/historical-cad-mobile.webp",
+          "width": 265.21875
+        },
+        {
+          "id": "engineering-cap-iteration",
+          "label": "Figure 8.",
+          "src": "https://static.igem.wiki/teams/6460/wiki/downloads/cap-iteration-mobile.webp",
+          "width": 265.21875
+        },
+        {
+          "id": "engineering-tia-diagnostic",
+          "label": "Figure 9.",
+          "src": "https://static.igem.wiki/teams/6460/wiki/downloads/tia-diagnostic-mobile.svg",
+          "width": 265.21875
+        }
+      ],
+      "errors": [],
+      "localFailures": []
+    },
+    {
+      "width": 390,
+      "slug": "engineering",
+      "language": "zh-Hant",
+      "overflow": false,
+      "base": "http://127.0.0.1:53531/nthu/engineering.html",
+      "text": "乾實驗 · 硬體第 6 輪 調查放大器固定輸出的原因\n為何改變照明後，類比電壓與 ADC 讀值都沒有變化？已回報降低增益後的重測；輸入節點故障尚未解決\n硬體 · Cycle 6 / 6 · 設計← 上一步下一步 →跳過循環 ↓DBTLR設計 · 1 / 5設計微弱螢光需要放大，但光電二極體也會接收藍色激發光與環境光。建構電路採用 VEMD5060X01 光電二極體及 LMP7721 轉阻放大器（TIA），回授電阻 R27 為 100 MΩ。在線性工作範圍內，1 nA 的輸入電流約對應 0.1 V 的輸出變化。測試安裝韌體後，我們比較三種照明條件，並另以萬用電表量測 ADC 輸入節點。表 2. ADC 讀值與輸入節點電壓照明條件ADC 讀值萬用電表電壓（V）LED 關閉ADC 讀值32767萬用電表電壓（V）≈ 3.15所有 LED 開啟；光電二極體遮蔽ADC 讀值32767萬用電表電壓（V）≈ 3.15單顆 LED 開啟；光電二極體露出ADC 讀值32767萬用電表電壓（V）≈ 3.15改變照明時，未觀察到預期的訊號變化。僅憑固定的數位讀值，無法證明放大器飽和；以原設計的 2.5 V ADC 參考電壓判斷，實測類比電壓也與數位讀值不一致。學習我們將電路資訊與測試結果交給 PCB 製造合作夥伴 iST。其評估認為，過高的 TIA 增益可能使輸出在接近上限處飽和，並建議更換 R27、測試不同阻值。iST 隨後回報將 TIA 回授電阻由 100 MΩ 改為 10 kΩ，仍未消除輸出飽和。接著量得反相輸入對地短路，當時仍在調查原因。圖 9. 合作夥伴的後續紀錄指出，回授電阻由 100 MΩ 改為 10 kΩ 後仍持續飽和，隨後量得 TIA 反相輸入對地短路。該紀錄結束時仍在調查原因。由於尚未量測光電流，增益過高的解釋仍未確認。iST 確認交付前僅檢查電源，未驗證 ADC 功能或完整光電二極體路徑。重新設計後續紀錄使下一步由選擇增益轉為找出所回報的輸入對地短路。解決該連接問題後，應重複相同的暗場、遮蔽偵測器與照明偵測器檢查。我們將比較數位讀值與實測類比電壓，檢查 ADC 輸入餘裕及可重現的光照變化，再比較空白與螢光標準品。提供的紀錄未記載完成修復或修復後成功的光學測試。\n延續的決策電源檢查通過，不代表光學量測系統已獲驗證。下一輪設計必須納入總光電流，包括螢光、激發光漏入及環境光。相關頁面／連結電路與增益計算 · 實體組裝照片",
+      "labels": [
+        "圖 1.",
+        "圖 2.",
+        "圖 3.",
+        "圖 4.",
+        "圖 5.",
+        "圖 6.",
+        "圖 7.",
+        "圖 8.",
+        "圖 9."
+      ],
+      "captions": [
+        "圖 5. 審查後的供電設計將使用者開關由 5 V 輸出路徑移至 TPS61023 啟用邏輯。電池欠壓控制與開關共同控制 EN；此重繪圖只呈現這項設計變更。",
+        "圖 7. 歷史 STL 幾何：主體、維修托盤、鉸接上蓋，以及四個樣本槽之一。各零件獨立取景；尺寸為依既有 CAD 毫米慣例計算的外框範圍。這些視圖不推定組裝對位。",
+        "圖 8. 選配的雙件上蓋讓內部幾何可接近，以便清潔與固化。上、下兩件列印件取代原本的一體式上蓋；來源另指定較長的手轉螺絲與額外矽膠環。",
+        "圖 9. 合作夥伴的後續紀錄指出，回授電阻由 100 MΩ 改為 10 kΩ 後仍持續飽和，隨後量得 TIA 反相輸入對地短路。該紀錄結束時仍在調查原因。"
+      ],
+      "newLinks": [
+        {
+          "text": "另開 PDF",
+          "href": "https://static.igem.wiki/teams/6460/wiki/downloads/engineering-evidence-guide.pdf"
+        },
+        {
+          "text": "下載 PDF",
+          "href": "https://static.igem.wiki/teams/6460/wiki/downloads/engineering-evidence-guide.pdf"
+        }
+      ],
+      "fragmentRouting": true,
+      "figures": [
+        {
+          "id": "engineering-power-control",
+          "label": "Figure 5.",
+          "src": "https://static.igem.wiki/teams/6460/wiki/downloads/power-control.svg",
+          "width": 265.21875
+        },
+        {
+          "id": "engineering-historical-cad",
+          "label": "Figure 7.",
+          "src": "https://static.igem.wiki/teams/6460/wiki/downloads/historical-cad-mobile.webp",
+          "width": 265.21875
+        },
+        {
+          "id": "engineering-cap-iteration",
+          "label": "Figure 8.",
+          "src": "https://static.igem.wiki/teams/6460/wiki/downloads/cap-iteration-mobile.webp",
+          "width": 265.21875
+        },
+        {
+          "id": "engineering-tia-diagnostic",
+          "label": "Figure 9.",
+          "src": "https://static.igem.wiki/teams/6460/wiki/downloads/tia-diagnostic-mobile.svg",
+          "width": 265.21875
+        }
+      ],
+      "errors": [],
+      "localFailures": []
+    },
+    {
+      "width": 390,
+      "slug": "hardware",
+      "language": "en",
+      "overflow": false,
+      "base": "http://127.0.0.1:53531/nthu/hardware.html",
+      "text": "Reference-pattern analysisA local analysis backend connects the acquisition interface to four-receptor reference-pattern comparison. It reconstructs ΔF/F₀ time courses from saved measurements and calibration records, then displays separate correlation-based similarity scores for laboratory and DoOR reference patterns.",
+      "labels": [
+        "Figure 1.",
+        "Figure 2.",
+        "Figure 3.",
+        "Figure 4.",
+        "Figure 5.",
+        "Figure 6.",
+        "Figure 7.",
+        "Figure 8.",
+        "Figure 9.",
+        "Figure 10.",
+        "Figure 11.",
+        "Figure 12.",
+        "Figure 13.",
+        "Figure 14.",
+        "Figure 15.",
+        "Figure 16.",
+        "Figure 17.",
+        "Figure 18.",
+        "Figure 19.",
+        "Figure 20.",
+        "Figure S1.",
+        "Figure S2.",
+        "Figure S3.",
+        "Figure S4.",
+        "Figure 21.",
+        "Figure 22."
+      ],
+      "captions": [],
+      "newLinks": [
+        {
+          "text": "Four-receptor reference patterns · JSON",
+          "href": "https://static.igem.wiki/teams/6460/wiki/downloads/odor-reference.json"
+        },
+        {
+          "text": "Local backend setup and reference analysis · GitLab",
+          "href": "https://gitlab.igem.org/2026/software/nthu/aerosense/-/raw/main/code/aerosense/hardware/03_software/PUBLICATION_GUIDE.md"
+        }
+      ],
+      "fragmentRouting": true,
+      "figures": [],
+      "errors": [],
+      "localFailures": []
+    },
+    {
+      "width": 390,
+      "slug": "hardware",
+      "language": "zh-Hant",
+      "overflow": false,
+      "base": "http://127.0.0.1:53531/nthu/hardware.html",
+      "text": "參照模式分析本機分析後端將量測介面接到四受器的參照模式比較。它從儲存的量測與校正紀錄重建 ΔF/F₀ 動態曲線，再分別顯示與實驗室及 DoOR 參照模式的相關性相似度分數。",
+      "labels": [
+        "圖 1.",
+        "圖 2.",
+        "圖 3.",
+        "圖 4.",
+        "圖 5.",
+        "圖 6.",
+        "圖 7.",
+        "圖 8.",
+        "圖 9.",
+        "圖 10.",
+        "圖 11.",
+        "圖 12.",
+        "圖 13.",
+        "圖 14。",
+        "圖 15。",
+        "圖 16。",
+        "圖 17。",
+        "圖 18。",
+        "圖 19.",
+        "圖 20.",
+        "Figure S1.",
+        "Figure S2.",
+        "Figure S3.",
+        "Figure S4.",
+        "圖 21.",
+        "圖 22."
+      ],
+      "captions": [],
+      "newLinks": [
+        {
+          "text": "四受器參照模式 · JSON",
+          "href": "https://static.igem.wiki/teams/6460/wiki/downloads/odor-reference.json"
+        },
+        {
+          "text": "本機後端設定與參照分析 · GitLab",
+          "href": "https://gitlab.igem.org/2026/software/nthu/aerosense/-/raw/main/code/aerosense/hardware/03_software/PUBLICATION_GUIDE.md"
+        }
+      ],
+      "fragmentRouting": true,
+      "figures": [],
+      "errors": [],
+      "localFailures": []
+    }
+  ],
+  "failures": []
+}

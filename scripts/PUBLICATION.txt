@@ -21,7 +21,6 @@ Read-only local checks
 ----------------------
   python scripts/ci-build.py --check
   python scripts/build-publication.py --check
-  python scripts/build-locales.py --check
 
 The first checks source/build prerequisites, the root npm lockfile, bundle
 inputs, build-script syntax and in-memory directory routes. It does not install
@@ -31,7 +30,7 @@ These checks do not establish a successful clean CI build or official hosting.
 
 Source that a future official checkout must retain
 -------------------------------------------------
-Keep all editable root HTML, CSS, JavaScript, templates, locales, design_system
+Keep all editable root HTML, CSS, JavaScript, templates, design_system
 style layers, game TypeScript/workspace sources, game/package.json,
 game/package-lock.json, home-bundle-sources.json, the scripts directory and
 igem-upload/verified-official-urls.json. Keep linked runtime/source resources.
@@ -50,7 +49,6 @@ Do not commit generated output as the official website source:
   css/design-system.css
   css/home.bundle.css
   js/home.bundle.js
-  js/i18n-*-v19.js
   publication-files.json
   igem-upload/publication/all-assets-inventory.json
   audit/*.json
@@ -69,7 +67,7 @@ preserving any required official runner configuration. It invokes:
 
 The entry point performs these steps in order:
   1. npm ci from the committed game lockfile, then npm run build:wiki.
-  2. Rebuild translation catalogs from locale JSON and explicit shared overlays;
+  2. Validate the English source pages and shared interface;
      rebuild css/design-system.css from design_system/styles/.
   3. Refresh local dependency hashes and rebuild the homepage bundles from
      home-bundle-sources.json; retain the editable source pages.
@@ -108,17 +106,10 @@ before describing the full data package as published. Never copy the complete
 research package into public/. Identified participant originals are excluded
 from the website; only approved anonymized derivatives may be used.
 
-Remaining release verification
--------------------------------
-The local locked npm installation succeeded (174 packages), and the game build
-passed TypeScript checking, Vite compilation (168 modules) and the education
-document-copy step. All 30 browser translation catalogs were rebuilt from their
-editable JSON sources and passed dictionary comparison. Source preflight and
-in-memory route preparation pass without creating a public/ copy.
-
-The complete entry point has not run in an official GitLab CI job. Official CI
-Lint, runner/image availability, extensionless routing on
-https://2026.igem.wiki/nthu, anonymous downloads, video approval/playback and the
-final submitted forms still need verification at the later publication step.
-The local build ran under Node.js 24; the proposed CI image uses Node.js 22 and
-must be verified on the official runner. A local audit is not deployment.
+English-only source workflow
+----------------------------
+The public interface and educational game use English only. Locale catalogs,
+language controls and the translation build are retired. Game unit/type checks,
+source preflight and a local publication check should precede any user-authorized
+synchronization. Original research metadata and source-language documents remain
+unaltered. A local build is not deployment verification.

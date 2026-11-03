@@ -55,6 +55,11 @@ function add(raw,from,kind,strict=false){
  // (e.g. a KiCad report, LICENSE or source file), not only known media suffixes.
  if(!strict&&!allowed.test(r.file))return;
  const key=relative(r.file);
+ // Bundled game navigation strings are relative to the displayed game HTML,
+ // not to dist/assets/*.js. Resolving ../../index.html from the bundle file
+ // would incorrectly publish the uncompiled Vite entry and its TypeScript.
+ // The compiled dist/index.html is already inventoried from actual page links.
+ if(kind==='literal-reference' && source.startsWith('game/apps/wiki-client/dist/assets/') && key==='game/apps/wiki-client/index.html')return;
  if(!fileMap.has(key)){fileMap.set(key,{path:key,file:r.file,kinds:new Set(),referenced_by:new Set()});queue.push(r.file);}
  const f=fileMap.get(key);f.kinds.add(kind);f.referenced_by.add(source);
 }
@@ -111,6 +116,21 @@ async function main(){
  const entries=fs.readdirSync(site).filter(f=>f.endsWith('.html')).sort();
  for(const name of entries)add(name,fromPath('index.html'),'entry-page',true);
  drain();
+ // Game routes and lazy chunks are built as a unit. Some navigation URLs are
+ // assembled at runtime, so include the complete playable build in this copy.
+ const gameBuild=fromPath('game/apps/wiki-client/dist');
+ const gameFiles=[];
+ function collectGameFiles(directory){
+  for(const entry of fs.readdirSync(directory,{withFileTypes:true})){
+   const full=path.join(directory,entry.name);
+   if(entry.isDirectory())collectGameFiles(full);
+   else if(entry.isFile())gameFiles.push(relative(full));
+  }
+ }
+ if(fs.existsSync(gameBuild)){
+  collectGameFiles(gameBuild);
+  family('educational-game-build','learning-platform.html',gameFiles.sort());
+ }
  // Home videos run exclusively through official embeds. The eight original
  // MP4/WebM files are retained for evaluation, not runtime dependencies.
  family('homepage-official-video-embeds','index.html',[
@@ -123,10 +143,12 @@ async function main(){
  family('microscopy-all-fields-and-views','results.html',microscopy);
  family('pcb-four-layout-views','hardware.html',['TOP','BTM'].flatMap(side=>['','_Etch'].map(etch=>'hardware information/pcb v2/PCB_'+side+etch+'.png')));
  family('schematic-pages','hardware.html',[1,2].map(n=>'fig/hardware/schematics/reader-schematic-'+n+'.png'));
- family('pcb-flow-responsive-bilingual','hardware.html',['wide','stacked'].flatMap(layout=>['en','zh-Hant'].map(language=>'assets/hardware/pcb-flow-v32/pcb-flow-'+layout+'-'+language+'.svg')));
- family('optical-spectra-bilingual','hardware.html',['en','zh-Hant'].flatMap(language=>['svg','png'].map(extension=>'assets/hardware/optics-v38/spectral-alignment-'+language+'.'+extension)));
+ family('pcb-flow-responsive-English','hardware.html',['wide','stacked'].flatMap(layout=>['en'].map(language=>'assets/hardware/pcb-flow-v32/pcb-flow-'+layout+'-'+language+'.svg')));
+ family('optical-spectra-English','hardware.html',['en'].flatMap(language=>['svg','png'].map(extension=>'assets/hardware/optics-v38/spectral-alignment-'+language+'.'+extension)));
  family('product-story-current-pcb-drawings','hardware.html',['top','bottom'].map(side=>'assets/hardware/product-story/pcb-'+side+'-0911.png'));
- if(fileMap.has('js/pdf-reader.js')) family('inline-pdf-renderer','hardware.html',['js/vendor/pdfjs-6.4.299/pdf.mjs','js/vendor/pdfjs-6.4.299/pdf.worker.mjs','js/vendor/pdfjs-6.4.299/LICENSE']);
+ // The reader imports the byte-verified JavaScript modules from iGEM's CDN.
+ // Only the unchanged Apache notice remains a local publication dependency.
+ if(fileMap.has('js/pdf-reader.js')) family('inline-pdf-renderer-license','hardware.html',['js/vendor/pdfjs-6.4.299/LICENSE']);
  // STL names in the viewer are GLB part identifiers. Original print files are kept only in the Zenodo package.
  drain();
  const prior=new Map();const old=path.join(out,'all-assets-inventory.json');if(fs.existsSync(old)){for(const a of JSON.parse(fs.readFileSync(old,'utf8')).assets||[])if(a.official_url)prior.set(a.sha256,a.official_url);}

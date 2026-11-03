@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+const site=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
+const file=path.join(site,'../gitlab/nthu/ci/refresh-local-hashes.mjs');
+const source=fs.readFileSync(file,'utf8');
+const marker="const site=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../site');";
+if(!source.includes(marker))throw new Error('Review the shared hash updater before using a changed recipe.');
+const adapted=source.replace(marker,`const site=${JSON.stringify(site)};`);
+await import('data:text/javascript;base64,'+Buffer.from(adapted).toString('base64'));

@@ -48,10 +48,9 @@ describe('labyrinth content roles', () => {
     expect([...used].sort().join('')).toBe(ALL_GATE_IDS.join(''));
   });
 
-  it('includes bilingual science limits', () => {
+  it('includes English science limits', () => {
     expect(labyrinthContentCatalog.scienceLimits.length).toBeGreaterThanOrEqual(2);
     for (const note of labyrinthContentCatalog.scienceLimits) {
-      expect(note.title['zh-Hant'].length).toBeGreaterThan(2);
       expect(note.title.en.length).toBeGreaterThan(2);
       expect(note.body.en.length).toBeGreaterThan(10);
     }
